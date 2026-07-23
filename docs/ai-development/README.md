@@ -8,7 +8,8 @@
 OpenLIMS/
 ├─ docs/
 │  ├─ AI原生第三方产品检测LIMS产品需求文档.md   # 产品叙述来源，只读
-│  └─ ai-development/                          # 本操作手册
+│  ├─ ai-development/                          # 本操作手册
+│  └─ decision-packets/                        # 人工联合评审包和数据采集模板
 ├─ spec/
 │  ├─ specgen.json                             # 编译器配置和治理策略
 │  ├─ source-baseline.json                     # 已审阅 PRD 来源指纹
@@ -60,6 +61,9 @@ python -m tools.specgen check
 # 检查某张任务卡是否可交给 AI
 python -m tools.specgen ready --story ATC-REC-003@0.1.0
 
+# 只读检查评审记录、对象哈希和技术锁是否闭合（当前预期 BLOCKED）
+python -m tools.specgen review-status --change-set CHANGE-PLT-NEXT-VERSIONS-001
+
 # 自动化测试
 python -m unittest discover -s tests -p "test_*.py" -v
 ```
@@ -75,9 +79,30 @@ python -m unittest discover -s tests -p "test_*.py" -v
 - [07 发布、Seal 与历史治理](07-release-and-history.md)
 - [08 故障排查](08-troubleshooting.md)
 - [09 推行清单](09-rollout-checklist.md)
+- [Release 1 决策冲刺评审包](../decision-packets/REL-R1-DECISION-SPRINT-001.md)
+- [ED-001 技术栈与工程仓库候选方案](../decision-packets/ED-001-TECH-STACK-CANDIDATE.md)
+- [ATC-PLT-000 工程骨架联合评审说明](../decision-packets/ATC-PLT-000-ENGINEERING-SKELETON-REVIEW.md)
+- [ATC-PLT-000 联合评审与依赖裁剪审批包](../decision-packets/ATC-PLT-000-JOINT-APPROVAL-PACKET.md)
+- [ATC-PLT-000 下一Major版本精确变更集](../decision-packets/ATC-PLT-000-NEXT-VERSION-CHANGESET.md)
+- [ATC-PLT-000 生成任务卡](../../generated/spec/tasks/ATC-PLT-000__v0.1.0.md)
+- [ATC-PLT-000 下一Major生成任务卡](../../generated/spec/tasks/ATC-PLT-000__v1.0.0.md)
+
+## Release 1 当前决策输入
+
+- 用户已接受“3岁及以上常规硬质塑胶非电动玩具”的候选资格/排除边界，仍待责任角色正式批准和真实订单验证；
+- 用户已接受 `R1.0中国内销 → 后续欧盟 → 后续美国`，中国内销Requirements Profile仍待形成和批准；
+- 用户已选择分析化学为Release 1唯一主技术包，物理机械后移；方法/QC/仪器证据和正式批准仍未闭合；
+- 微生物/生物已明确排除 Release 1；
+- 容量已规范为日均 500 订单，峰值、对象倍率、并发和附件增长仍待采集；
+- 广东华瑾及测试中心按虚拟沙箱场景处理，不能作为真实付费灯塔或生产上线证据；
+- 技术栈无硬性限制，`ED-001@1.0.0`中的`.NET 10 + Vue 3 + PostgreSQL 18`仍是`PENDING_REVIEW_FOR_ENGINEERING_SKELETON_ONLY`，15项精确版本锁均待核验。
+- 工程骨架规格 `ATC-PLT-000@0.1.0` 与收窄后的 `ATC-PLT-000@1.0.0` 评审投影均为 `proposed/blocked`；新版只依赖工程、安全、审计、NFR和部署验收草案，不再夹带`OD-020/OD-025`业务/生产批准。
+- 本轮新增的15个`1.0.0`规格仅供评审、影响分析和生成预览，不存在新`approved/decided/ready`对象，也不授权实现任何检测业务或工程骨架。
+
+决策包目录同时提供容量、方法、场景、玩具资格、分析化学取样映射、分析化学QC、市场协议、责任角色和平台联合评审记录九份 CSV 模板。所有业务/生产证据必须标记 `SYNTHETIC`、`REAL_DEIDENTIFIED` 或 `VERIFIED_PRODUCTION`，不得混用；评审记录还必须包含受控身份、授权范围、对象哈希、时间和签名/批准引用。
 
 ## 当前样例边界
 
-首批精化的是“收样—身份—隔离—异常—放行”纵向切片。它用 37 个规格版本、6 张 AI Task Card 和候选发布基线演示完整机制，但不是完整 Release 1 backlog，也不是生产批准。
+当前共有 59 个规格版本和 14 张 AI Task Card：旧`0.1.0`与新`1.0.0`各包含1张`ATC-PLT-000`工程骨架草案及6张“收样—身份—隔离—异常—放行”纵向切片任务。它们用于演示版本并存、依赖裁剪和同步机制，但不是完整 Release 1 backlog，也不是生产批准。
 
-其余 PRD 条目仍被扫描和监控：当前来源清单包含 384 个带 ID 条目。未精化条目不会被自动解释为接口或代码，以免 AI 在缺少业务决策时猜测。
+其余 PRD 条目仍被扫描和监控：当前来源清单包含 389 个带 ID 条目。未精化条目不会被自动解释为接口或代码，以免 AI 在缺少业务决策时猜测。

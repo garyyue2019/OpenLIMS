@@ -8,6 +8,7 @@
 python -m tools.specgen validate
 python -m tools.specgen source-status
 python -m tools.specgen impact
+python -m tools.specgen review-status --change-set CHANGE-PLT-NEXT-VERSIONS-001
 python -m tools.specgen generate
 python -m tools.specgen check
 python -m unittest discover -s tests -p "test_*.py"

@@ -1,0 +1,49 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "SEC-AUD-001",
+  "version": "1.0.0",
+  "status": "in_review",
+  "title": "受控命令的审计意图、失败尝试与追加账本",
+  "summary": "受控业务事实、模块本地audit_pending和Outbox在同一事务原子提交；拒绝、无权限和回滚尝试走独立追加路径，中央账本可幂等最终汇聚且敏感正文不得进入审计。",
+  "owners": ["质量负责人", "安全负责人", "审计负责人", "架构负责人", "运维负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "SEC-AUD-001"}],
+  "depends_on": [],
+  "affects": ["audit", "all-domain-commands", "outbox", "failure-handling", "observability", "privacy"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "ENABLED", "condition": "所有受控命令、拒绝尝试、权限失败、回滚尝试、下载、导出、扫描、标签重印、AI运行和接口重放"},
+  "invariants": [
+    "成功受控命令必须在同一数据库事务中原子写入业务事实、module-local audit_pending和module-local Outbox，任一写入失败则整个命令回滚",
+    "被拒绝、无权限、并发冲突和业务事务回滚尝试使用独立受控追加路径记录，不依赖已回滚事务中的audit_pending",
+    "中央审计账本可由幂等消费者最终汇聚，但不得丢失原始审计意图、失败尝试或其关联ID",
+    "中央账本和失败尝试记录均为追加式，普通管理员不得修改或删除",
+    "审计意图写入路径不可用时，受控命令保持失败并触发告警，不得先完成业务再静默补审计",
+    "运行日志、Trace或指标不得冒充受控审计事件",
+    "密码、令牌、Secret、未脱敏敏感正文、完整原始文件内容和不必要个人信息不得写入审计或日志",
+    "重试、重放和恢复保留原失败证据，并以新的尝试ID关联原命令和原审计意图"
+  ],
+  "transactional_success_path": {
+    "atomic_writes": ["业务事实", "module-local audit_pending", "module-local Outbox"],
+    "commit_rule": "三者全部成功才提交；任何一项失败均回滚。",
+    "central_ledger": "Outbox消费者以稳定审计事件ID幂等追加到中央账本，允许最终汇聚但不允许覆盖。"
+  },
+  "rejected_and_rolled_back_path": {
+    "covered_attempts": ["认证后无权限", "规则拒绝", "并发冲突", "业务校验失败", "事务回滚", "接口重放被拒绝"],
+    "append_rule": "在原业务事务之外通过受控最小追加端口记录尝试结果，端口失败必须告警且不得把尝试伪装为已记录。",
+    "minimum_linkage": ["attemptId", "correlationId", "actorRef", "deploymentGroupRef", "commandType", "targetRef或安全摘要", "decisionCode", "occurredAt", "originalAttemptRef"]
+  },
+  "sensitive_content_policy": {
+    "allowed": ["稳定ID", "动作类型", "规则或权限决策码", "前后业务版本", "安全字段差异摘要", "哈希与对象引用"],
+    "forbidden": ["密码", "访问令牌", "刷新令牌", "私钥", "连接字符串", "未脱敏申请资料正文", "完整原始附件或仪器文件"],
+    "redaction_rule": "脱敏发生在审计事件构造前；不得先写入再异步清理。"
+  },
+  "failure_control": [
+    "audit_pending写入失败导致业务事务失败",
+    "Outbox写入失败导致业务事务失败",
+    "中央汇聚失败保留Outbox原记录、失败次数、错误分类和下一次重试时间",
+    "超过受控重试策略后进入可分派告警，禁止删除或改写原失败证据"
+  ],
+  "review_state": "PENDING_REVIEW_RECORDS"
+}

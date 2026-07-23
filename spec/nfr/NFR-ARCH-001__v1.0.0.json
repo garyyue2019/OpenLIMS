@@ -1,0 +1,35 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "nfr",
+  "id": "NFR-ARCH-001",
+  "version": "1.0.0",
+  "status": "in_review",
+  "title": "模块化单体边界强制门禁",
+  "summary": "模块化单体必须同时通过代码依赖与数据库权限门禁，模块私表零越权访问且代码、契约和事件依赖图循环依赖为零。",
+  "owners": ["架构负责人", "工程负责人", "数据库负责人", "QA负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "NFR-ARCH-001"}],
+  "depends_on": ["ED-002@1.0.0"],
+  "affects": ["architecture", "module-boundaries", "database-permissions", "contracts", "ci"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "ENABLED", "condition": "所有平台骨架、模块、公共契约、数据库迁移与CI变更"},
+  "target": "模块私有表零越权访问；代码、契约和事件依赖图循环依赖为零",
+  "measures": [
+    {"name": "private_table_cross_module_access", "target": 0, "unit": "detected_accesses"},
+    {"name": "code_dependency_cycles", "target": 0, "unit": "cycles"},
+    {"name": "contract_dependency_cycles", "target": 0, "unit": "cycles"},
+    {"name": "event_dependency_cycles", "target": 0, "unit": "cycles"},
+    {"name": "cross_module_infrastructure_references", "target": 0, "unit": "references"}
+  ],
+  "enforcement": [
+    "CI静态架构测试禁止模块引用其他模块Infrastructure、EF实体、DbContext或迁移程序集",
+    "集成测试使用真实PostgreSQL角色验证跨Schema私表读取和写入均失败",
+    "同步协作只允许版本化公共端口，异步协作只允许Outbox和版本化事件",
+    "依赖图检查同时覆盖代码、公共契约和事件Schema，任一循环均阻断",
+    "Dapper、原生SQL、后台Worker和迁移工具不得成为绕过模块边界的例外",
+    "测试夹具模块不得进入生产Host引用闭包或生产迁移清单"
+  ],
+  "failure_policy": "任一目标非零时CI和发布候选均失败；不得通过关闭规则、排除程序集、扩大数据库权限或删除失败记录放行。",
+  "review_state": "PENDING_REVIEW_RECORDS"
+}

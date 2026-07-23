@@ -1,6 +1,6 @@
 # GENERATED FILE — DO NOT EDIT. openlims-specgen@0.1.0
 # Source: ATC-REC-003@0.1.0
-# Spec-Fingerprint: 3102bb7bcc5122e838285d269f059e7bc831d355bb29967fe9f7ed4453b372dd
+# Spec-Fingerprint: 98da53ec10f99c5bc56f5afe064e3874df1d88ca5220c9f6d99111876faf505c
 Feature: ATC-REC-003 身份评估前实施统一隔离门禁
   身份未确认、被隔离、待定、拒收或安全封存的实物不能因页面遗漏、接口调用或并发竞争进入实验室执行。
 

@@ -1,0 +1,59 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "acceptance",
+  "id": "AC-DEPLOY-001",
+  "version": "1.0.0",
+  "status": "in_review",
+  "title": "集团间独立数据平面真实交叉访问验收",
+  "summary": "使用两套真实隔离的验证环境，对数据库、Bucket、IdP、遥测和备份凭据执行交叉访问，并验证集团乙令牌访问集团甲Host在数据访问前被拒绝；仅比较配置字符串不构成通过证据。",
+  "owners": ["架构负责人", "安全负责人", "运维负责人", "QA负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "AC-DEPLOY-001"}],
+  "depends_on": ["OD-002@1.0.0", "SEC-DEPLOY-001@1.0.0"],
+  "affects": ["deployment-test", "runtime-security-test", "identity-test", "telemetry-test", "disaster-recovery", "infrastructure-evidence"],
+  "change_class": "major",
+  "scenario": {
+    "given": [
+      "集团甲和集团乙分别部署独立OpenLIMS Host，并绑定不同OrganizationGroup",
+      "两套环境分别具有可实际连接的数据库、对象存储Bucket、IdP、日志/指标/Trace入口和备份恢复资源",
+      "为数据库、Bucket、IdP、遥测查询和恢复流程准备按集团签发的真实验证凭据与合成数据",
+      "验证环境不包含生产Secret、生产数据或共享SaaS多租户数据平面"
+    ],
+    "when": [
+      "使用集团甲数据库凭据连接集团乙数据库，并反向交叉执行",
+      "使用集团甲对象存储凭据读取或列举集团乙Bucket，并反向交叉执行",
+      "使用集团乙用户令牌、服务令牌或issuer/audience组合访问集团甲Host的数据端点",
+      "使用集团甲遥测凭据查询集团乙日志、指标或Trace，并反向交叉执行",
+      "尝试使用集团甲备份、WAL、对象副本、密钥或恢复凭据恢复到集团乙环境，并反向交叉执行"
+    ],
+    "then": [
+      "所有数据库、Bucket、遥测和恢复交叉访问均由资源、账号、网络或密钥边界拒绝，未读取任何对方合成数据",
+      "集团乙令牌访问集团甲Host在创建业务数据访问前失败，稳定错误、Trace和不含令牌正文的审计尝试可关联",
+      "跨集团备份恢复在校验或执行步骤被阻断，目标环境保持未变且失败证据被追加保存",
+      "基础设施清单、访问日志、资源策略、数据库会话、对象请求、遥测查询和恢复记录共同证明不存在共享数据平面",
+      "任一交叉访问成功、在数据访问后才拒绝、证据缺失或仅比较配置字符串均视为验收失败和发布阻断"
+    ]
+  },
+  "automation": [
+    "真实数据库凭据双向交叉连接和查询测试",
+    "真实Bucket凭据双向列举、读取与写入拒绝测试",
+    "集团乙令牌访问集团甲Host的数据访问前拒绝测试",
+    "日志、指标和Trace查询凭据双向交叉访问测试",
+    "跨集团备份、WAL、对象副本和密钥恢复阻断演练",
+    "资源与账号边界证据采集及脱敏完整性校验"
+  ],
+  "evidence_requirements": [
+    "每次尝试的环境ID、集团绑定、凭据类别、目标资源、开始结束时间、稳定结果码和correlationId",
+    "数据访问前拒绝的调用顺序或Trace证据，不接受只展示最终HTTP状态",
+    "数据库审计、对象存储访问日志、IdP验证日志、遥测查询日志和恢复作业记录",
+    "合成哨兵数据未被对方读取或修改的前后哈希",
+    "失败测试原记录只追加保留，修复后重跑使用新的attemptId关联原失败"
+  ],
+  "prohibited_shortcuts": [
+    "仅比较连接字符串、Bucket名称、issuer、环境变量或配置文件文本",
+    "使用Mock替代真实数据库、对象存储、IdP、遥测查询和恢复入口",
+    "在应用读取对方数据后再由UI或客户端过滤",
+    "删除交叉访问成功或恢复污染的失败证据"
+  ],
+  "review_state": "PENDING_REVIEW_RECORDS"
+}

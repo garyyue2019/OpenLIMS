@@ -15,6 +15,43 @@
   "decision_state": "open",
   "options": ["内核加正交扩展平面", "行业垂直模块", "客户隔离扩展"],
   "decision": null,
+  "evidence_refs": [
+    "docs/decision-packets/REL-R1-DECISION-SPRINT-001.md",
+    "docs/decision-packets/templates/release1-method-inventory.csv",
+    "docs/decision-packets/templates/release1-analytical-sample-map.csv",
+    "docs/decision-packets/templates/release1-analytical-chemistry-qc-inventory.csv"
+  ],
+  "intake_snapshot": {
+    "candidate_industry_packs": ["电子电器", "食品接触材料", "玩具婴童产品", "纺织品", "汽车零配件"],
+    "release1_industry_direction": "玩具婴童产品（具体产品类别待OD-001批准）",
+    "mapped_existing_technical_packs": ["物理机械", "分析化学"],
+    "release1_primary_technical_pack_selection": "分析化学（用户明确选择，待正式责任角色批准）",
+    "deferred_technical_pack": "物理机械",
+    "release1_excluded_capability": "微生物/生物",
+    "status": "PARTIALLY_NORMALIZED_NOT_APPROVED"
+  },
+  "microbiology_candidate_review": {
+    "release1_role": "EXCLUDED_FROM_RELEASE_1_CONFIRMED_BY_USER",
+    "future_role": "SEPARATE_PRODUCT_DECISION_REQUIRED_BEFORE_ANY_PRODUCTION_ENABLEMENT",
+    "not_clinical_scope": "仅可评审产品微生物检测，不得扩展到人体、临床、患者或生物样本库",
+    "required_boundaries_if_reopened": ["适用产品和样本", "培养与时间点模型", "培养基/批次/QC", "设备与人员资格", "结果结构与采用", "生物安全与废弃物", "原始证据与保留", "独立契约和测试样例"],
+    "prohibited_shortcut": "不得把微生物静默并入分析化学、物理机械或玩具行业包"
+  },
+  "release1_pack_boundary_candidate": {
+    "status": "USER_CONFIRMED_CANDIDATE_NOT_FORMALLY_APPROVED",
+    "industry_pack": "玩具婴童产品",
+    "primary_technical_pack": "分析化学",
+    "deferred_pack": "物理机械",
+    "cross_pack_handoff": "分析化学消费经批准的初始部件/材料/颜色和可接触性依据但不执行物理使用滥用试验；后续物理包产生新暴露部件时发布版本化范围影响，受影响化学任务必须重新评审、重新取样或阻断",
+    "core_dependency_rule": "平台内核不得反向依赖玩具行业包；行业包和技术包只能通过版本化公共契约组合"
+  },
+  "analytical_chemistry_minimum_contract": {
+    "status": "DRAFT_REQUIRES_METHOD_QC_AND_INSTRUMENT_EVIDENCE",
+    "scope_inputs": ["中国内销Requirements Profile", "玩具产品/年龄决定", "部件/材料/颜色和可接触性依据", "分析物/项目与方法版本", "最低取样量/合并/复测/留样规则"],
+    "execution_objects": ["SamplingDecision", "PreparationBatch", "PreparedAliquot", "AnalyticalBatch", "InstrumentRun", "QCGroup", "RawDataArtifact", "ParsedObservation", "ResultAdoption"],
+    "mandatory_controls": ["校准与有效范围", "空白/加标/平行/标准物质等方法QC", "LOD/LOQ/限定符/单位/稀释与舍入", "批次QC失败影响传播", "原文件哈希和解析器版本", "唯一采用结果与重制备/重运行谱系"],
+    "report_boundary": "仅对批准的中国内销已测分析化学范围负责，不得输出物理机械通过、全面法规合规或认证结论"
+  },
   "blocking_scope": ["模块接口", "包版本", "迁移策略", "契约测试"],
-  "exit_criteria": ["模块职责矩阵批准", "版本兼容策略批准", "禁止侵入规则可测试"]
+  "exit_criteria": ["用户确认的唯一产品类别、中国内销首发和分析化学主技术包获责任角色正式批准", "内核、玩具行业包、分析化学包及物理机械后移/转交边界获批准", "分析化学最小契约、方法/QC/仪器映射和报告边界获批准", "模块职责和数据库所有权矩阵批准", "包版本与兼容策略批准", "微生物/生物Release 1排除项进入适用性和回归门禁", "禁止侵入、禁止latest和跨包转交规则可测试"]
 }

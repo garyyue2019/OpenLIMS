@@ -1,6 +1,6 @@
 # GENERATED FILE — DO NOT EDIT. openlims-specgen@0.1.0
 # Source: ATC-REC-005@0.1.0
-# Spec-Fingerprint: a108abc80862e3cda924401759885ec1ddaa680be6e7d2d42871500cc7e9ff47
+# Spec-Fingerprint: 0cbee64dcc5595dfe1f7ea0405f09d696489b7c60b74079d30e55b0ed0cdba00
 Feature: ATC-REC-005 处理收样异常并执行授权决定
   收样异常有明确责任方、证据、影响和授权决定；系统不会为了推进订单而静默缩小范围、延长有效期或默认接受风险。
 

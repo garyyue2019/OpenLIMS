@@ -63,6 +63,26 @@ PRD 语义变化，但当前结构化规格与旧 lock 相同。应先：
 
 不要让 AI 自行关闭阻塞项。当前样例预期全部 BLOCKED。
 
+## `review-status` 返回 BLOCKED
+
+这是评审证据尚未闭合的正常门禁。文本输出会逐条列出角色记录和技术锁；JSON输出可供工作台解析：
+
+```powershell
+python -m tools.specgen review-status `
+  --change-set CHANGE-PLT-NEXT-VERSIONS-001 `
+  --json
+```
+
+常见阻塞包括：
+
+- 角色记录仍为`PENDING/DRAFT`；
+- 身份、授权范围、授权证据、时间或签名缺失；
+- `ACCEPT_WITH_CONDITIONS`尚未转化为条件闭合后的明确`ACCEPT`证据；
+- 存在`REJECT`、`ABSTAIN`或阻塞性反对意见；
+- 技术锁缺少精确版本、`VERIFIED`状态或实际证据引用。
+
+退出码`2`表示输入本身无效，例如正文被修改但SHA侧车/记录未同步、同一角色槽有多条活动记录、CSV缺列或时间没有时区。修复证据源，不能放宽门禁或删除失败记录。
+
 ## `seal` 被拒绝
 
 可能是：

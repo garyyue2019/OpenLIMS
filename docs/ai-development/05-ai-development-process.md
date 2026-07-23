@@ -71,9 +71,11 @@ technical/quality owner approved
 
 开始前：
 1. 阅读 AGENTS.md。
-2. 运行 specgen validate/source-status/ready。
+2. 运行 specgen validate/source-status/ready；若任务受change-set评审控制，同时运行`review-status --change-set <ID>`。
 3. 阅读生成任务卡和所有固定依赖。
 4. 检查工作区现有修改并保护用户改动。
+
+`review-status`返回`EVIDENCE_READY`只证明评审输入和技术锁字段完整；AI仍不得据此原地把`proposed/in_review`改成`approved/ready`，必须由受控流程创建符合SemVer和历史规则的后继版本。
 
 执行约束：
 - 只修改任务卡 allowed_paths。

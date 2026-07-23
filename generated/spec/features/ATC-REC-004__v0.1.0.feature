@@ -1,6 +1,6 @@
 # GENERATED FILE — DO NOT EDIT. openlims-specgen@0.1.0
 # Source: ATC-REC-004@0.1.0
-# Spec-Fingerprint: 5a9566ef366a7649ff87664fdef706d9863974b7085c7c68187ec426a61cc7cb
+# Spec-Fingerprint: a26dc988872baf92a91daf93215d2a9e90ef38e0069c6c307f1d45b44c378a34
 Feature: ATC-REC-004 记录身份证据并形成匹配或冲突结论
   实验室可以证明收到的究竟是什么、依据是什么以及与委托是否一致；身份冲突不会被操作员无依据地改成一致。
 

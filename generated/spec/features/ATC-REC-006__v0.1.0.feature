@@ -1,6 +1,6 @@
 # GENERATED FILE — DO NOT EDIT. openlims-specgen@0.1.0
 # Source: ATC-REC-006@0.1.0
-# Spec-Fingerprint: ad0c4e4db8854b5a743b731bfbe231494c5d6e6081a4276ea6c8c2f71b00377d
+# Spec-Fingerprint: d385a6cf535d42ad537f39868e4ecf4760a320d5e3d079498b90afe5406c008e
 Feature: ATC-REC-006 受控解除隔离并发布执行资格
   只有身份、异常和限制均满足批准规则的实物才获得明确执行资格；在制下游工作固定引用该资格版本，后续变化通过撤销或新决定传播。
 

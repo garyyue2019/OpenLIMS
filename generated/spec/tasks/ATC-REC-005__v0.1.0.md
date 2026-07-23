@@ -20,8 +20,8 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | 负责人角色 | 质量产品负责人, 实验室负责人, EHS负责人, QA负责人 |
 | 影响模块 | exception, receiving, identity, scope-change, authorization, audit, automated-test |
 | 来源 | PRD-MAIN#OD-002, PRD-MAIN#OPS-EXC-001, PRD-MAIN#OPS-EXC-002, PRD-MAIN#OD-005 |
-| 固定依赖 | ATC-REC-004@0.1.0, OD-002@1.0.0, OPS-EXC-001@0.1.0, OPS-EXC-002@0.1.0, OD-005@0.1.0, SEC-AUTH-001@0.1.0, SEC-AUD-001@0.1.0 |
-| 规格指纹 | `a108abc80862e3cda924401759885ec1ddaa680be6e7d2d42871500cc7e9ff47` |
+| 固定依赖 | ATC-PLT-000@0.1.0, ATC-REC-004@0.1.0, OD-002@1.0.0, OPS-EXC-001@0.1.0, OPS-EXC-002@0.1.0, OD-005@0.1.0, SEC-AUTH-001@0.1.0, SEC-AUD-001@0.1.0 |
+| 规格指纹 | `0cbee64dcc5595dfe1f7ea0405f09d696489b7c60b74079d30e55b0ed0cdba00` |
 
 ## 业务结果
 

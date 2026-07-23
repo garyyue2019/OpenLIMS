@@ -20,8 +20,8 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | 负责人角色 | 收样产品负责人, 质量负责人, 相关下游模块负责人, QA负责人 |
 | 影响模块 | receiving, disassembly, sample-preparation, task-allocation, authorization, audit, automated-test |
 | 来源 | PRD-MAIN#OPS-RECEIPT-003, PRD-MAIN#OD-002, PRD-MAIN#ORG-STRUCT-001, PRD-MAIN#OPS-IDENTITY-003, PRD-MAIN#AC-REC-001, PRD-MAIN#SEC-AUD-001 |
-| 固定依赖 | ATC-REC-001@0.1.0, OD-002@1.0.0, ORG-STRUCT-001@0.1.0, OPS-RECEIPT-003@0.1.0, OPS-IDENTITY-003@0.1.0, AC-REC-001@0.1.0, SEC-AUTH-001@0.1.0, SEC-AUD-001@0.1.0, OD-005@0.1.0, NFR-ARCH-001@0.1.0 |
-| 规格指纹 | `3102bb7bcc5122e838285d269f059e7bc831d355bb29967fe9f7ed4453b372dd` |
+| 固定依赖 | ATC-PLT-000@0.1.0, ATC-REC-001@0.1.0, OD-002@1.0.0, ORG-STRUCT-001@0.1.0, OPS-RECEIPT-003@0.1.0, OPS-IDENTITY-003@0.1.0, AC-REC-001@0.1.0, SEC-AUTH-001@0.1.0, SEC-AUD-001@0.1.0, OD-005@0.1.0, NFR-ARCH-001@0.1.0 |
+| 规格指纹 | `98da53ec10f99c5bc56f5afe064e3874df1d88ca5220c9f6d99111876faf505c` |
 
 ## 业务结果
 

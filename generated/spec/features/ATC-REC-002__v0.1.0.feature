@@ -1,6 +1,6 @@
 # GENERATED FILE — DO NOT EDIT. openlims-specgen@0.1.0
 # Source: ATC-REC-002@0.1.0
-# Spec-Fingerprint: d7b86a278ed8f2c8ca040d9e6f7a4be4310753476f19c2d9153b917f6f09d3db
+# Spec-Fingerprint: 01083113a16c88a273fa4a1d5e96a0a7b1326ff05068d28f2dacf29b35e29a4b
 Feature: ATC-REC-002 生成、打印并校验包装和实物标识
   收样员能可靠区分包装和实物并通过扫码定位正确对象；标签重印不会创造新身份，也不会绕过授权或审计。
 

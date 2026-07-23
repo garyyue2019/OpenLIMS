@@ -15,6 +15,54 @@
   "decision_state": "open",
   "options": ["集团单站点独享部署", "集团多站点集中式独享部署", "集团多站点分区或边缘节点与中心协同的独享部署"],
   "decision": null,
+  "evidence_refs": [
+    "docs/decision-packets/REL-R1-DECISION-SPRINT-001.md",
+    "docs/decision-packets/templates/release1-volume-baseline.csv",
+    "docs/decision-packets/templates/release1-toy-scope-eligibility.csv",
+    "docs/decision-packets/templates/release1-analytical-sample-map.csv",
+    "docs/decision-packets/templates/release1-analytical-chemistry-qc-inventory.csv"
+  ],
+  "capacity_intake": {
+    "recorded_on": "2026-07-23",
+    "raw_input": "预计日均500单",
+    "normalized_value": "500订单/日",
+    "unit": "ORDER",
+    "statistical_scope": "DAILY_AVERAGE",
+    "business_scope": "UNKNOWN_GROUP_TOTAL_OR_RELEASE1_SLICE",
+    "source_evidence_class": "SELF_REPORTED_UNVERIFIED",
+    "candidate_first_site": "广东华瑾检测有限公司测试中心（虚拟场景站点）",
+    "production_site_status": "NOT_IDENTIFIED",
+    "status": "PARTIALLY_NORMALIZED_NOT_APPROVED"
+  },
+  "provisional_test_envelope": {
+    "status": "CANDIDATE_NOT_APPROVED",
+    "topology": "单集团、单实验室、集中式独享部署的虚拟工程场景；保留多法人多实验室领域能力；真实生产拓扑待批准",
+    "load_levels": ["日均500订单的工程基线包络", "补齐对象倍率和峰值后的1倍批准基线", "批准基线的2倍初始压力包络"],
+    "method_profiles": [
+      "玩具分析化学收样/材料颜色拆分/取样/制备批/分析批/QC/仪器原文件主负载",
+      "物理机械后续契约影响模拟（非Release 1生产负载）"
+    ],
+    "explicit_exclusions": ["物理机械Release 1生产负载", "微生物/生物Release 1生产负载", "把日均500直接当作峰值或容量承诺"]
+  },
+  "required_capacity_metrics": [
+    "订单、送检项、包装、收到实物、范围行、任务、运行、结果各自的平均/P95/历史最大日",
+    "峰值小时占比、并发用户、扫码设备、移动端、仪器和接口连接数",
+    "每订单和每实物的对象倍率、QC倍率、复测倍率和批量大小",
+    "每订单部件/材料/颜色数、取样份数、制备份/分析份数、分析物结果数和允许合并倍率",
+    "每方法制备批与分析批p50/p95大小、校准/QC进样比例、重制备/重运行率和仪器队列峰值",
+    "照片、视频、PDF、谱图和仪器原始文件的平均/最大尺寸与日增长",
+    "现存迁移数据量、保留期限、三年增长率和旺季倍数",
+    "当前及三年内法人、实验室、城市站点和站点网络条件",
+    "维护窗口、7×24流程、RPO/RTO责任和恢复演练范围",
+    "容量证据的来源期间、evidence_class、provenance_ref和usage_approval_ref"
+  ],
   "blocking_scope": ["性能验收", "备份恢复", "基础设施即代码", "监控告警"],
-  "exit_criteria": ["数据规模量化", "并发模型批准", "集团内站点拓扑和恢复责任批准", "部署设计通过 OD-002 与 AC-DEPLOY-001 隔离评审"]
+  "exit_criteria": [
+    "日均500订单的真实统计范围、来源期间、集团总量/玩具切片占比和使用批准确认",
+    "P95日、历史峰值日、峰值小时及每订单对象倍率量化",
+    "并发用户、扫码设备、仪器连接、批量和附件增长模型批准",
+    "真实生产站点、集团内拓扑、维护窗口和恢复责任批准",
+    "性能、可用性、RPO和RTO目标获业务/质量/运维批准并通过代表性演练",
+    "部署设计通过OD-002与AC-DEPLOY-001隔离评审；虚拟场景站点不得满足生产批准条件"
+  ]
 }

@@ -13,6 +13,7 @@ from .errors import ConfigurationError, DriftError, SpecgenError, ValidationErro
 from .graph import reverse_dependencies, source_ref_index
 from .history import create_seal, gate_against_seal, verify_history
 from .loader import DEFAULT_CONFIG, find_project_root
+from .review import evaluate_review_gate
 from .util import atomic_write_text, dump_json, resolve_within
 
 
@@ -268,6 +269,50 @@ def command_ready(args: argparse.Namespace) -> int:
     return EXIT_BLOCKED if blocked else 0
 
 
+def command_review_status(args: argparse.Namespace) -> int:
+    state = _load(args)
+    state.require_valid()
+    result = evaluate_review_gate(state.config.root, args.change_set)
+    payload = result.to_payload()
+    if args.json:
+        print(json.dumps(payload, ensure_ascii=False, sort_keys=True, indent=2))
+    else:
+        label = "REVIEW EVIDENCE READY" if result.ready else "REVIEW BLOCKED"
+        print(f"{label} {result.change_set_id}")
+        print(
+            f"SUBJECT {result.subject_ref} {result.subject_hash} "
+            f"({result.subject_path})"
+        )
+        records = result.review_summary
+        print(
+            "RECORDS "
+            f"active={records['active_records']} "
+            f"accepted={records['verified_acceptances']} "
+            f"required={records['required_role_slots']} "
+            f"superseded={records['superseded_records']}"
+        )
+        locks = result.version_lock_summary
+        print(
+            "VERSION LOCKS "
+            f"verified={locks['verified']} total={locks['total']} "
+            f"linked_specs={locks['linked_specs']}"
+        )
+        if result.blockers:
+            print("BLOCKERS:")
+            for blocker in result.blockers:
+                missing = blocker.get("missing_fields")
+                missing_text = f" missing={missing}" if missing else ""
+                print(
+                    f"  - {blocker['code']} {blocker['ref']}: "
+                    f"{blocker['message']}{missing_text}"
+                )
+        print(
+            "注意：此命令只验证评审输入和技术锁证据完整性；"
+            "不会批准规格、提升Story状态或授权实施。"
+        )
+    return 0 if result.ready else EXIT_BLOCKED
+
+
 def command_explain(args: argparse.Namespace) -> int:
     state = _load(args)
     state.require_valid()
@@ -473,6 +518,14 @@ def build_parser() -> argparse.ArgumentParser:
     ready_parser = sub.add_parser("ready", help="检查 Story 是否具备交给 AI 开发的条件")
     ready_parser.add_argument("--story", help="版本固定键，例如 R1-REC-003@0.1.0")
     ready_parser.set_defaults(handler=command_ready)
+
+    review_parser = sub.add_parser(
+        "review-status",
+        help="只读检查change-set评审记录、对象哈希和关联技术锁是否闭合",
+    )
+    review_parser.add_argument("--change-set", required=True, help="稳定change-set ID")
+    review_parser.add_argument("--json", action="store_true")
+    review_parser.set_defaults(handler=command_review_status)
 
     explain_parser = sub.add_parser("explain", help="解释一个规格的来源、依赖和反向影响")
     explain_parser.add_argument("key")

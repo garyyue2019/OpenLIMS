@@ -1,0 +1,92 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "decision",
+  "id": "ED-002",
+  "version": "1.0.0",
+  "status": "proposed",
+  "title": "模块化单体代码与持久化边界基线",
+  "summary": "待评审的通用工程边界：规定Host、building-blocks、模块代码、PostgreSQL Schema、公共端口、Outbox事件和测试夹具的所有权，不选择真实业务模块或检测业务包。",
+  "owners": ["架构负责人", "工程负责人", "数据库负责人", "QA负责人"],
+  "source_refs": [],
+  "depends_on": ["OD-002@1.0.0"],
+  "affects": ["architecture", "host", "building-blocks", "module-boundaries", "database", "migrations", "contracts", "outbox", "architecture-tests"],
+  "change_class": "major",
+  "decision_state": "open",
+  "options": [
+    "按本草案建立模块化单体代码和持久化边界",
+    "提交具有同等隔离、事务、升级和可测试证据的替代边界设计"
+  ],
+  "decision": "待评审：平台骨架候选采用模块化单体，Host只组合模块，building-blocks只保存技术原语；每个未来业务模块独立拥有代码分层、PostgreSQL Schema、DbContext和迁移历史。评审闭合前不授权创建真实业务模块。",
+  "evidence_refs": [
+    "docs/decision-packets/ATC-PLT-000-NEXT-VERSION-CHANGESET.md",
+    "docs/decision-packets/ATC-PLT-000-NEXT-VERSION-CHANGESET.sha256",
+    "docs/decision-packets/review-records/CHANGE-PLT-NEXT-VERSIONS-001__draft.csv"
+  ],
+  "evidence_state": {
+    "change_set": "DRAFT_NOT_SIGNED",
+    "review_roster": "PENDING",
+    "verified_review_record_refs": [],
+    "implementation_authorized": false
+  },
+  "host_boundary": [
+    "Host只负责进程启动、配置、依赖组合、协议入口和生命周期，不拥有任何检测业务状态机",
+    "API Host和Worker Host只能依赖模块公共注册入口与版本化Contracts，不得引用模块Infrastructure实现类型",
+    "生产Host不得引用测试夹具模块、合成业务实现或测试数据装载器"
+  ],
+  "building_blocks_boundary": [
+    "building-blocks只保存ID、时间、结果、错误、关联ID、幂等键和事务抽象等技术原语",
+    "building-blocks不得保存领域实体、业务状态、方法规则、权限策略、EF实体或跨模块共享业务服务",
+    "任何进入building-blocks的依赖必须通过架构测试证明不产生领域反向依赖"
+  ],
+  "module_code_boundary": {
+    "required_layers": ["Domain", "Application", "Infrastructure", "Contracts"],
+    "ownership": "每个未来业务模块独立拥有其分层代码、写模型、公共契约和实现适配器。",
+    "forbidden_references": [
+      "其他模块的Infrastructure程序集或命名空间",
+      "其他模块的EF实体、DbContext、迁移类或私有表映射",
+      "由多个模块共同修改的领域实体或业务状态机",
+      "通过反射、服务定位器或共享SQL绕过公共契约"
+    ]
+  },
+  "persistence_boundary": [
+    "每个模块使用独立PostgreSQL Schema、DbContext和只追加的迁移历史",
+    "模块写模型只能由所属模块修改，禁止跨模块写表、外键级共享所有权和直接数据库级联写入",
+    "跨模块读取只能使用版本化公共读取端口、事件构建的本地投影或经评审的公开只读投影",
+    "生产迁移是独立受控步骤，应用启动时不得自动执行迁移",
+    "数据库角色和架构测试必须共同证明私表零越权，不能只依赖代码约定"
+  ],
+  "collaboration_boundary": {
+    "synchronous": "只调用所属模块发布的版本化公共端口；调用方不得获知实现或持久化模型。",
+    "asynchronous": "只通过事务Outbox发布版本化事件；消费者以Inbox或等价幂等记录处理。",
+    "contract_versioning": "公共端口、DTO和事件Schema使用显式版本，禁止latest、缺省版本或运行时选择最新版。",
+    "cycle_policy": "代码、契约和事件依赖图均不得出现循环依赖。"
+  },
+  "pack_boundary": [
+    "本决策只规定Pack使用编译期注册并由requirements lock固定精确版本，不选择任何具体Pack",
+    "Pack只能依赖平台公共契约，平台内核和通用模块不得反向依赖行业或技术Pack",
+    "禁止运行时动态插件发现、latest解析或由运行中对象推断Pack版本"
+  ],
+  "fixture_module_policy": [
+    "平台骨架只能创建最小测试夹具模块，用于证明代码引用、Schema、公共端口、Outbox、Inbox和迁移边界",
+    "测试夹具不得使用真实玩具、化学、物理机械、微生物、方法、QC、仪器或报告术语冒充业务实现",
+    "夹具程序集和迁移不得被生产Host、生产镜像或生产迁移清单引用"
+  ],
+  "explicit_exclusions": [
+    "真实业务模块清单及其最终所有权",
+    "玩具、分析化学、物理机械和微生物的领域与技术边界",
+    "方法、QC、仪器、报告、样品或检测结果业务语义",
+    "生产迁移、生产数据和上线拓扑"
+  ],
+  "verification_gates": [
+    "架构测试对跨模块Infrastructure、EF实体和DbContext引用判定失败",
+    "数据库权限测试对跨Schema私表访问判定失败",
+    "依赖图和事件契约图的循环依赖数量为零",
+    "测试夹具不进入生产Host引用闭包或生产迁移清单",
+    "公共端口和事件依赖均绑定精确版本"
+  ],
+  "approval_blockers": [
+    "变更集评审清单仍为PENDING且没有已核验评审记录",
+    "本文件仅为机器草案，不能作为工程骨架实施授权"
+  ]
+}

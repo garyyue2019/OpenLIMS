@@ -20,8 +20,8 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | 负责人角色 | 收样产品负责人, 移动与条码负责人, QA负责人 |
 | 影响模块 | receiving, identifier, barcode, mobile, audit, automated-test |
 | 来源 | PRD-MAIN#OPS-RECEIPT-002, PRD-MAIN#OD-002, PRD-MAIN#ORG-STRUCT-001, PRD-MAIN#SEC-AUD-001, PRD-MAIN#OD-031 |
-| 固定依赖 | ATC-REC-001@0.1.0, OD-002@1.0.0, ORG-STRUCT-001@0.1.0, OPS-RECEIPT-002@0.1.0, OD-009@0.1.0, OD-031@0.1.0, SEC-AUTH-001@0.1.0, SEC-AUD-001@0.1.0 |
-| 规格指纹 | `d7b86a278ed8f2c8ca040d9e6f7a4be4310753476f19c2d9153b917f6f09d3db` |
+| 固定依赖 | ATC-PLT-000@0.1.0, ATC-REC-001@0.1.0, OD-002@1.0.0, ORG-STRUCT-001@0.1.0, OPS-RECEIPT-002@0.1.0, OD-009@0.1.0, OD-031@0.1.0, SEC-AUTH-001@0.1.0, SEC-AUD-001@0.1.0 |
+| 规格指纹 | `01083113a16c88a273fa4a1d5e96a0a7b1326ff05068d28f2dacf29b35e29a4b` |
 
 ## 业务结果
 

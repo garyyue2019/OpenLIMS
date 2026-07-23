@@ -13,8 +13,135 @@
   "affects": ["repository", "backend", "frontend", "database", "ci", "deployment"],
   "change_class": "major",
   "decision_state": "open",
-  "options": ["待架构团队提出并通过ADR评审"],
+  "options": [
+    ".NET 10 + Vue 3 + PostgreSQL模块化单体（推荐候选）",
+    "Java 25/Spring Boot 4 + Vue或React + PostgreSQL",
+    "客户既有企业平台栈，经能力、许可、部署和长期维护评审后复用"
+  ],
   "decision": null,
-  "blocking_scope": ["业务代码目录", "API实现", "数据库迁移", "前端页面", "应用测试命令"],
-  "exit_criteria": ["技术栈ADR批准", "可运行模块化单体骨架", "CI和本地测试命令通过", "示例模块证明私有表隔离", "基础设施设计证明符合 OD-002 单集团独立部署且不包含共享 SaaS 多租户数据平面"]
+  "evidence_refs": [
+    "docs/decision-packets/REL-R1-DECISION-SPRINT-001.md",
+    "docs/decision-packets/ED-001-TECH-STACK-CANDIDATE.md"
+  ],
+  "intake_snapshot": {
+    "technology_constraints_input": "无硬性限制，由你提出推荐方案。",
+    "interpretation": "允许架构团队提出候选技术栈，不代表任何技术选项已获批准",
+    "deployment_context": "集团多机构；每个集团单独部署及独立数据平面；当前主体和实验室仅为虚拟工程场景",
+    "capacity_context": "日均500订单；真实范围、峰值、并发、对象倍率和附件增长仍未知",
+    "status": "INPUT_RECEIVED_CANDIDATE_NOT_APPROVED"
+  },
+  "candidate_stack": {
+    "status": "CANDIDATE_NOT_APPROVED",
+    "backend": ".NET 10 LTS / ASP.NET Core 10",
+    "data_access": "EF Core 10 + Npgsql 10；复杂只读模型按批准边界使用Dapper",
+    "database": "PostgreSQL 18.x并固定受支持补丁版本",
+    "frontend": "Vue 3.5 / TypeScript 5.9 / Vite 7 / Ant Design Vue 4 / Pinia 3 / Vue Router 4",
+    "node_toolchain": "Node.js 24 LTS / pnpm 10",
+    "api": "REST / OpenAPI 3.1 / JSON Schema 2020-12 / RFC 9457 Problem Details",
+    "identity": "OIDC/OAuth 2.1；Keycloak 26.x为参考IdP，可替换为经批准的企业身份源",
+    "object_storage": "S3兼容公共端口；开发MinIO；生产采用单集团独享且通过许可、保留、备份和支持评审的实现",
+    "async": "PostgreSQL事务发件箱、Inbox幂等表和后台Worker；Release 1不强制独立消息中间件",
+    "cache": "Release 1不引入分布式缓存；只允许非权威、版本化、短TTL进程内缓存",
+    "search": "PostgreSQL索引、pg_trgm和有限全文检索；OpenSearch与向量检索后续独立决策",
+    "deployment": "Linux OCI容器；开发Docker Compose；生产专用Linux VM、私有云或单集团独享托管；不默认Kubernetes",
+    "observability": "OpenTelemetry / Prometheus / Grafana / Loki；按证据选择Tempo；每集团独立接收端、存储、查询入口、告警通道和凭据，不共享遥测数据平面",
+    "backend_testing": "xUnit 3 / Testcontainers / ArchUnitNET / k6",
+    "frontend_testing": "Vitest / Testing Library / Playwright / axe",
+    "ci_supply_chain": "GitHub Actions、锁定依赖、SAST/SCA、镜像扫描、SBOM和不可变构建"
+  },
+  "version_pinning_policy": {
+    "dotnet": ["global.json", "Directory.Packages.props", "packages.lock.json"],
+    "frontend": ["package.json engines", "pnpm-lock.yaml"],
+    "containers": ["不可变镜像digest", "受控基础镜像清单"],
+    "rule": "不得只声明最新版；补丁升级也必须经过自动化回归和受控合并"
+  },
+  "modular_monolith_candidate": {
+    "solution_root": "OpenLIMS.slnx",
+    "host_projects": ["src/host/api", "src/host/worker"],
+    "core_modules": ["organization", "access", "party", "knowledge", "test-scope", "receiving", "labeling", "exception", "sample-management", "lab-execution", "quality-results", "reporting", "evidence", "audit", "integration"],
+    "industry_pack": "src/packs/industry/toys",
+    "technical_packs": ["src/packs/technical/physical-mechanical", "src/packs/technical/analytical-chemistry"],
+    "supporting_roots": ["contracts", "apps/web", "tests", "deploy", "scripts"],
+    "boundary_rules": [
+      "每个模块独立Domain、Application、Infrastructure、Contracts、数据库Schema、DbContext和迁移历史",
+      "模块不得引用其他模块Infrastructure、EF实体或私有表",
+      "跨模块同步只允许调用版本化公共端口，异步只允许事务发件箱和版本化事件",
+      "Shared Kernel只保存ID、时间和结果类型等技术原语，不得保存领域实体、权限规则或EF模型",
+      "行业包和技术包只能依赖公共契约，平台内核不得反向依赖玩具包",
+      "Pack采用编译期注册并由requirements lock固定版本，不使用运行时动态插件或latest解析",
+      "OrganizationGroupId由受保护部署配置和受信身份上下文建立，客户端DTO不得选择集团"
+    ]
+  },
+  "data_and_infrastructure_candidate": {
+    "system_of_record": "PostgreSQL保存业务事实",
+    "large_evidence": "对象存储保存图片、PDF、仪器原文件、谱图和大附件；关系库只保存引用、SHA-256、大小、类型、版本、保留状态和密钥标识",
+    "download_security": "对象级授权通过后短时签发URL，禁止公开永久URL",
+    "group_isolation": "不同集团不得共享数据库、Bucket、凭据、密钥、IdP运行实例、缓存、检索索引或备份凭据；可以复用同一构建镜像",
+    "database_migration": "生产迁移使用独立一次性受控步骤，应用启动时不得自动迁移",
+    "backup_candidate": "pgBackRest加WAL归档；RPO/RTO必须由恢复演练证明",
+    "ai_boundary": "AI通过版本化IAiGateway接入；Release 1不默认引入Python微服务、向量数据库或跨集团模型缓存"
+  },
+  "audit_and_outbox_candidate": {
+    "status": "REQUIRES_QUALITY_APPROVAL",
+    "transactional_scope": "业务事务同时写业务数据、module-local audit_pending和module-local outbox；任一写入失败则事务回滚",
+    "central_ledger": "幂等消费者将审计意图汇聚到中央追加式audit.event",
+    "semantic_boundary": "审计意图与业务事务原子提交，中央审计账本最终一致",
+    "alternative_if_immediate_visibility_required": "使用受控数据库追加端口或存储过程，不允许模块直接写审计私表"
+  },
+  "environment_profiles": {
+    "local": "Docker Compose启动PostgreSQL、Keycloak和MinIO；只使用合成或已批准脱敏种子",
+    "ci": "Testcontainers启动真实依赖；确定性测试数据；不依赖开发机Compose",
+    "validation": "复用生产OCI镜像和独立数据平面；使用代表性体量、TLS、备份恢复及IdP联调",
+    "production": "每集团独享运行与数据平面；外部Secret/KMS；关闭调试；完整告警与恢复演练"
+  },
+  "deferred_technologies": {
+    "not_default_for_release1": ["Kubernetes", "Kafka或RabbitMQ", "Redis", "OpenSearch", "向量数据库", "独立Python AI微服务"],
+    "reconsideration_evidence": [
+      "批准的吞吐、恢复、搜索质量或多消费者需求证明当前候选不足",
+      "客户已有成熟平台、专职运维团队和长期支持责任",
+      "独立ADR给出故障、升级、备份、监控和回滚证据"
+    ]
+  },
+  "candidate_verification_commands": {
+    "status": "PLANNED_NOT_EXECUTABLE_UNTIL_ENGINEERING_SKELETON_EXISTS",
+    "restore": "dotnet restore OpenLIMS.slnx --locked-mode",
+    "build": "dotnet build OpenLIMS.slnx -c Release --no-restore /warnaserror",
+    "backend_test": "dotnet test OpenLIMS.slnx -c Release --no-build",
+    "frontend_install": "pnpm -C apps/web install --frozen-lockfile",
+    "frontend_verify": ["pnpm -C apps/web lint", "pnpm -C apps/web typecheck", "pnpm -C apps/web test:unit", "pnpm -C apps/web build"],
+    "architecture_test": "dotnet test tests/architecture/OpenLims.Architecture.Tests/OpenLims.Architecture.Tests.csproj -c Release",
+    "stable_task_entrypoints": ["pwsh -NoProfile -File scripts/verify.ps1 -Profile task -Module receiving", "pwsh -NoProfile -File scripts/verify.ps1 -Profile architecture", "pwsh -NoProfile -File scripts/verify.ps1 -Profile contracts"]
+  },
+  "required_inputs": [
+    "团队真实的.NET、Vue和PostgreSQL开发及运维能力",
+    "部署在本地机房、私有云还是单集团独享托管环境",
+    "现有身份源、单点登录、多因素认证和目录服务",
+    "生产对象存储、许可、WORM、保留、备份和升级责任",
+    "浏览器、移动设备、条码打印与扫码设备约束",
+    "仪器接入网络、安全分区、原始文件大小和外部系统集成约束",
+    "日均500订单对应的峰值、并发、每单样品/项目/任务倍率和附件增长",
+    "RPO、RTO、可用性目标、责任方和排除项",
+    "审计账本采用最终汇聚还是要求业务事务内立即中央可见",
+    "PostgreSQL中文检索是否满足真实场景",
+    "Keycloak、MinIO或替代产品的许可、支持、升级和退出责任"
+  ],
+  "engineering_skeleton_task": {
+    "required": true,
+    "candidate_id": "ATC-PLT-000",
+    "task_ref": "ATC-PLT-000@0.1.0",
+    "review_ref": "docs/decision-packets/ATC-PLT-000-ENGINEERING-SKELETON-REVIEW.md",
+    "reason": "现有收样任务卡allowed_paths不允许创建解决方案根、Host、公共工程基线、CI和部署目录，不能在ATC-REC-001中顺手搭骨架",
+    "status": "SPEC_CREATED_PROPOSED_BLOCKED"
+  },
+  "blocking_scope": ["业务代码目录", "API实现", "数据库迁移", "前端页面", "应用测试命令", "工程骨架任务"],
+  "exit_criteria": [
+    "技术栈ADR由架构、工程、安全和运维负责人批准",
+    "部署环境、团队能力、身份源、对象存储、支持责任和容量输入完成评审",
+    "独立工程骨架任务批准且allowed_paths覆盖真实根目录、Host、CI、测试和部署文件",
+    "可运行模块化单体骨架及真实锁文件创建完成",
+    "真实测试命令替换TECH_STACK和MODULE_BOUNDARY占位符，脚本不得静默降低门禁",
+    "CI和本地测试命令通过，示例模块证明私有表、Schema、端口和依赖隔离",
+    "基础设施设计证明符合OD-002单集团独立部署且不包含共享SaaS多租户数据平面",
+    "版本升级、备份恢复、SBOM、密钥和依赖供应链策略获批准"
+  ]
 }

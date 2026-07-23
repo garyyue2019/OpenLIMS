@@ -1,0 +1,48 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "SEC-DEPLOY-001",
+  "version": "1.0.0",
+  "status": "in_review",
+  "title": "集团间独立运行、数据、遥测与恢复平面",
+  "summary": "每个检测集团使用独立运行、数据、身份、遥测和备份恢复边界；跨集团凭据或令牌必须在任何数据访问前被拒绝，不提供共享SaaS多租户数据平面。",
+  "owners": ["架构负责人", "安全负责人", "运维负责人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "OD-002"},
+    {"document": "PRD-MAIN", "item": "SEC-DEPLOY-001"}
+  ],
+  "depends_on": ["OD-002@1.0.0"],
+  "affects": ["deployment", "runtime", "identity", "database", "object-storage", "secrets", "messaging", "search", "ai-runtime", "telemetry", "backup-recovery"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "ENABLED", "condition": "所有生产环境、生产数据恢复环境及用于证明集团隔离的验证环境"},
+  "invariants": [
+    "一个运行部署只绑定一个OrganizationGroup，集团标识来自受保护部署配置和受信身份上下文",
+    "不同集团不共享应用运行时、数据库实例或逻辑库、对象存储命名空间与访问凭据、密钥、消息队列、检索或向量索引、AI会话或缓存",
+    "不同集团的日志、指标和Trace使用独立接收端、存储、查询入口、访问凭据和告警通道，不允许跨集团查询",
+    "跨集团签发的访问令牌、服务凭据、对象引用或网络身份必须在数据库、对象存储、检索、AI和遥测数据访问前拒绝",
+    "客户端业务命令、DTO、查询参数和Header不得选择或覆盖OrganizationGroupId",
+    "云托管仅允许单集团独享环境，不得退化为共享数据平面的行级租户过滤",
+    "备份、WAL、对象副本、密钥和恢复凭据按集团独立，备份不得恢复到其他集团运行环境",
+    "同一不可变构建制品可以由多个集团部署，但配置、凭据、运行、数据、遥测和恢复责任不能共享"
+  ],
+  "pre_data_access_rejection": {
+    "inputs": ["OIDC issuer与audience", "服务身份", "部署绑定集团", "网络入口", "资源凭据"],
+    "rule": "任一可信输入与部署绑定集团不一致时，在创建业务DbContext、对象存储请求、搜索请求、AI请求或遥测查询之前拒绝。",
+    "failure_semantics": "返回稳定安全错误并记录不含令牌正文的审计尝试；禁止回退为客户端集团过滤。"
+  },
+  "telemetry_isolation": [
+    "日志、指标和Trace的接收、队列、存储、索引、查询、看板、告警与导出凭据均按集团独立",
+    "关联ID不得成为跨集团查询授权或数据拼接手段",
+    "运行日志不得承担受控审计账本职责，也不得保存密码、令牌或未脱敏敏感正文"
+  ],
+  "required_evidence": [
+    "逐集团运行与数据资源清单",
+    "数据库、Bucket、IdP、遥测和备份凭据的真实交叉访问失败记录",
+    "集团乙令牌访问集团甲Host在数据访问前被拒绝的Trace与审计证据",
+    "跨集团备份恢复被策略和执行步骤共同阻断的演练证据",
+    "证明隔离不是仅比较配置字符串的基础设施与运行时证据"
+  ],
+  "review_state": "PENDING_REVIEW_RECORDS"
+}

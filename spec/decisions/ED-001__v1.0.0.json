@@ -1,0 +1,102 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "decision",
+  "id": "ED-001",
+  "version": "1.0.0",
+  "status": "proposed",
+  "title": "工程技术栈、仓库与版本锁基线",
+  "summary": "待责任角色评审的工程骨架候选：收窄到开发、CI和非生产工程验证所需的技术栈、仓库结构、公共端口、供应链与版本锁，不决定生产产品、容量或检测业务语义。",
+  "owners": ["架构负责人", "工程负责人", "安全负责人", "运维负责人"],
+  "source_refs": [],
+  "depends_on": ["OD-002@1.0.0", "ED-002@1.0.0"],
+  "affects": ["repository", "backend", "frontend", "database", "ci", "non-production-deployment", "supply-chain"],
+  "change_class": "major",
+  "decision_state": "open",
+  "options": [
+    ".NET 10、Vue 3、PostgreSQL模块化单体工程候选",
+    "经同一能力、许可、隔离、供应链和长期维护门禁评审的替代工程栈"
+  ],
+  "decision": "待评审：候选仅用于创建工程骨架、开发环境、CI和非生产验证；在评审记录及精确版本锁闭合前，不形成实施授权，也不选择生产IdP、生产对象存储、生产拓扑或任何检测业务包。",
+  "evidence_refs": [
+    "docs/decision-packets/ATC-PLT-000-NEXT-VERSION-CHANGESET.md",
+    "docs/decision-packets/ATC-PLT-000-NEXT-VERSION-CHANGESET.sha256",
+    "docs/decision-packets/review-records/CHANGE-PLT-NEXT-VERSIONS-001__draft.csv",
+    "docs/decision-packets/ED-001-TECH-STACK-CANDIDATE.md"
+  ],
+  "evidence_state": {
+    "change_set": "DRAFT_NOT_SIGNED",
+    "review_roster": "PENDING",
+    "verified_review_record_refs": [],
+    "implementation_authorized": false
+  },
+  "candidate_stack": {
+    "status": "PENDING_REVIEW_FOR_ENGINEERING_SKELETON_ONLY",
+    "backend": ".NET 10 / ASP.NET Core 10候选系列",
+    "data_access": "EF Core 10与Npgsql 10候选系列；复杂只读模型只能在公共读取边界内使用Dapper",
+    "database": "PostgreSQL 18候选系列；补丁版本与OCI digest待核验",
+    "frontend": "Vue 3.5、TypeScript 5.9、Vite 7与Ant Design Vue 4候选系列",
+    "node_toolchain": "Node.js 24 LTS与pnpm 10候选系列",
+    "api": "REST、OpenAPI 3.1、JSON Schema 2020-12与RFC 9457 Problem Details",
+    "identity_port": "OIDC/OAuth公共端口；Keycloak仅为本地和CI参考实现，不选择生产IdP",
+    "object_storage_port": "S3兼容公共端口；MinIO仅为本地和CI参考实现，不选择生产对象存储产品",
+    "async": "PostgreSQL事务Outbox、Inbox幂等记录与后台Worker；不默认引入独立消息中间件",
+    "deployment": "Linux OCI容器用于开发、CI与非生产工程验证；生产拓扑不在本决策范围",
+    "observability": "OpenTelemetry、Prometheus、Grafana与Loki候选；每集团独立遥测接收、存储、查询入口、告警通道和凭据",
+    "testing": "xUnit、Testcontainers、ArchUnitNET、Vitest、Testing Library、Playwright、axe与k6候选",
+    "ci_supply_chain": "GitHub Actions、锁定依赖、SAST/SCA、镜像扫描、SBOM与不可变构建"
+  },
+  "engineering_scope": {
+    "included": [
+      "解决方案和前后端工程骨架",
+      "开发、CI与非生产验证所需的合成依赖",
+      "OIDC和S3公共端口及本地参考实现",
+      "PostgreSQL Outbox、Inbox与通用Worker骨架",
+      "Linux OCI构建、GitHub Actions和供应链门禁",
+      "每集团独立数据平面和遥测边界的工程验证"
+    ],
+    "excluded": [
+      "真实订单容量、并发、SLA、可用性、RPO、RTO与生产拓扑",
+      "生产IdP、生产对象存储、WORM、KMS、Secret产品与厂商选择",
+      "任何行业包、技术包、方法、QC、仪器、报告或实验室业务语义",
+      "生产数据库迁移、生产数据、生产Secret与上线授权"
+    ]
+  },
+  "version_locks": [
+    {"lock_id": "PIN-DOTNET-SDK", "candidate_series": ".NET 10", "exact_value": null, "required_evidence": "global.json完整SDK版本和rollForward策略", "status": "PENDING_VERIFICATION"},
+    {"lock_id": "PIN-ASPNET-RUNTIME", "candidate_series": "ASP.NET Core 10", "exact_value": null, "required_evidence": "完整运行时版本和基础镜像digest", "status": "PENDING_VERIFICATION"},
+    {"lock_id": "PIN-EFCORE", "candidate_series": "EF Core 10", "exact_value": null, "required_evidence": "完整NuGet版本", "status": "PENDING_VERIFICATION"},
+    {"lock_id": "PIN-NPGSQL", "candidate_series": "Npgsql 10", "exact_value": null, "required_evidence": "完整NuGet版本", "status": "PENDING_VERIFICATION"},
+    {"lock_id": "PIN-POSTGRES", "candidate_series": "PostgreSQL 18", "exact_value": null, "required_evidence": "完整补丁版本和OCI digest", "status": "PENDING_VERIFICATION"},
+    {"lock_id": "PIN-NODE", "candidate_series": "Node.js 24 LTS", "exact_value": null, "required_evidence": "完整版本和基础镜像digest", "status": "PENDING_VERIFICATION"},
+    {"lock_id": "PIN-PNPM", "candidate_series": "pnpm 10", "exact_value": null, "required_evidence": "完整版本及Corepack和校验策略", "status": "PENDING_VERIFICATION"},
+    {"lock_id": "PIN-VUE", "candidate_series": "Vue 3.5", "exact_value": null, "required_evidence": "完整包版本", "status": "PENDING_VERIFICATION"},
+    {"lock_id": "PIN-TYPESCRIPT", "candidate_series": "TypeScript 5.9", "exact_value": null, "required_evidence": "完整包版本", "status": "PENDING_VERIFICATION"},
+    {"lock_id": "PIN-VITE", "candidate_series": "Vite 7", "exact_value": null, "required_evidence": "完整包版本", "status": "PENDING_VERIFICATION"},
+    {"lock_id": "PIN-ANTDV", "candidate_series": "Ant Design Vue 4", "exact_value": null, "required_evidence": "完整包版本", "status": "PENDING_VERIFICATION"},
+    {"lock_id": "PIN-KEYCLOAK-DEV", "candidate_series": "Keycloak 26", "exact_value": null, "required_evidence": "完整开发镜像digest", "status": "PENDING_VERIFICATION"},
+    {"lock_id": "PIN-MINIO-DEV", "candidate_series": "MinIO参考实现", "exact_value": null, "required_evidence": "完整开发镜像digest和许可核验引用", "status": "PENDING_VERIFICATION"},
+    {"lock_id": "PIN-GITHUB-ACTIONS", "candidate_series": "GitHub Actions", "exact_value": null, "required_evidence": "每个Action的commit SHA", "status": "PENDING_VERIFICATION"},
+    {"lock_id": "PIN-SBOM-SCANNERS", "candidate_series": "待选", "exact_value": null, "required_evidence": "工具版本、规则包版本和阻断阈值", "status": "PENDING_VERIFICATION"}
+  ],
+  "version_lifecycle": {
+    "upgrade_policy": "补丁、框架、数据库、Node、容器基础镜像和CI Action升级均通过受控变更、锁文件、兼容性测试和可回滚制品进入，不允许latest或范围解析。",
+    "exit_policy": "替换技术或供应商前必须证明数据导出、契约兼容、并行验证、回滚窗口、许可终止和历史制品可重建。",
+    "long_term_owners": {
+      "application_and_packages": ["工程负责人", "架构负责人"],
+      "database_and_runtime": ["工程负责人", "运维负责人"],
+      "identity_object_storage_and_secrets": ["安全负责人", "运维负责人"],
+      "supply_chain_and_vulnerabilities": ["工程负责人", "安全负责人"]
+    }
+  },
+  "isolation_constraints": [
+    "不同集团不共享数据库、Bucket、凭据、密钥、IdP运行实例、缓存、检索索引、遥测数据平面或备份凭据",
+    "OrganizationGroupId来自受保护部署配置和受信身份上下文，客户端DTO不得选择或覆盖",
+    "同一不可变构建制品可以复用，但运行、数据、遥测、Secret和恢复边界必须按集团独立"
+  ],
+  "approval_blockers": [
+    "全部精确版本锁仍为PENDING_VERIFICATION",
+    "变更集评审清单仍为PENDING且没有已核验评审记录",
+    "本文件仅为机器草案，不能作为工程骨架实施授权"
+  ]
+}

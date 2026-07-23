@@ -19,6 +19,7 @@
     {"document": "PRD-MAIN", "item": "OD-031"}
   ],
   "depends_on": [
+    "ATC-PLT-000@0.1.0",
     "ATC-REC-001@0.1.0",
     "OD-002@1.0.0",
     "ORG-STRUCT-001@0.1.0",

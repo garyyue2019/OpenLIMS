@@ -20,8 +20,8 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | 负责人角色 | 收样产品负责人, 质量负责人, 实验室运营负责人, QA负责人 |
 | 影响模块 | receiving, identity, exception, outbox, lab-execution, audit, automated-test |
 | 来源 | PRD-MAIN#OD-002, PRD-MAIN#OPS-RECEIPT-003, PRD-MAIN#OPS-IDENTITY-003, PRD-MAIN#RULE-026 |
-| 固定依赖 | ATC-REC-003@0.1.0, OD-002@1.0.0, ATC-REC-004@0.1.0, ATC-REC-005@0.1.0, OPS-RECEIPT-003@0.1.0, OPS-IDENTITY-003@0.1.0, RULE-004@0.1.0, RULE-026@0.1.0, NFR-ARCH-002@0.1.0, OD-005@0.1.0 |
-| 规格指纹 | `ad0c4e4db8854b5a743b731bfbe231494c5d6e6081a4276ea6c8c2f71b00377d` |
+| 固定依赖 | ATC-PLT-000@0.1.0, ATC-REC-003@0.1.0, OD-002@1.0.0, ATC-REC-004@0.1.0, ATC-REC-005@0.1.0, OPS-RECEIPT-003@0.1.0, OPS-IDENTITY-003@0.1.0, RULE-004@0.1.0, RULE-026@0.1.0, NFR-ARCH-002@0.1.0, OD-005@0.1.0 |
+| 规格指纹 | `d385a6cf535d42ad537f39868e4ecf4760a320d5e3d079498b90afe5406c008e` |
 
 ## 业务结果
 

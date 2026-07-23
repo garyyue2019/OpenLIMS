@@ -11,20 +11,33 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | 逻辑 ID | 版本 | 状态 | 文件 |
 |---|---|---|---|
 | `AC-DEPLOY-001` | `0.1.0` | `in_review` | `spec/acceptance/AC-DEPLOY-001__v0.1.0.json` |
+| `AC-DEPLOY-001` | `1.0.0` | `in_review` | `spec/acceptance/AC-DEPLOY-001__v1.0.0.json` |
 | `AC-ID-001` | `0.1.0` | `in_review` | `spec/acceptance/AC-ID-001__v0.1.0.json` |
 | `AC-REC-001` | `0.1.0` | `in_review` | `spec/acceptance/AC-REC-001__v0.1.0.json` |
 | `AC-SEC-001` | `0.1.0` | `in_review` | `spec/acceptance/AC-SEC-001__v0.1.0.json` |
+| `ATC-PLT-000` | `0.1.0` | `proposed` | `spec/stories/ATC-PLT-000__v0.1.0.json` |
+| `ATC-PLT-000` | `1.0.0` | `proposed` | `spec/stories/ATC-PLT-000__v1.0.0.json` |
 | `ATC-REC-001` | `0.1.0` | `proposed` | `spec/stories/ATC-REC-001__v0.1.0.json` |
+| `ATC-REC-001` | `1.0.0` | `proposed` | `spec/stories/ATC-REC-001__v1.0.0.json` |
 | `ATC-REC-002` | `0.1.0` | `proposed` | `spec/stories/ATC-REC-002__v0.1.0.json` |
+| `ATC-REC-002` | `1.0.0` | `proposed` | `spec/stories/ATC-REC-002__v1.0.0.json` |
 | `ATC-REC-003` | `0.1.0` | `proposed` | `spec/stories/ATC-REC-003__v0.1.0.json` |
+| `ATC-REC-003` | `1.0.0` | `proposed` | `spec/stories/ATC-REC-003__v1.0.0.json` |
 | `ATC-REC-004` | `0.1.0` | `proposed` | `spec/stories/ATC-REC-004__v0.1.0.json` |
+| `ATC-REC-004` | `1.0.0` | `proposed` | `spec/stories/ATC-REC-004__v1.0.0.json` |
 | `ATC-REC-005` | `0.1.0` | `proposed` | `spec/stories/ATC-REC-005__v0.1.0.json` |
+| `ATC-REC-005` | `1.0.0` | `proposed` | `spec/stories/ATC-REC-005__v1.0.0.json` |
 | `ATC-REC-006` | `0.1.0` | `proposed` | `spec/stories/ATC-REC-006__v0.1.0.json` |
+| `ATC-REC-006` | `1.0.0` | `proposed` | `spec/stories/ATC-REC-006__v1.0.0.json` |
 | `BUS-PROD-003` | `0.1.0` | `in_review` | `spec/requirements/BUS-PROD-003__v0.1.0.json` |
 | `BUS-REQ-003` | `0.1.0` | `in_review` | `spec/requirements/BUS-REQ-003__v0.1.0.json` |
 | `ED-001` | `0.1.0` | `proposed` | `spec/decisions/ED-001__v0.1.0.json` |
+| `ED-001` | `1.0.0` | `proposed` | `spec/decisions/ED-001__v1.0.0.json` |
+| `ED-002` | `1.0.0` | `proposed` | `spec/decisions/ED-002__v1.0.0.json` |
 | `NFR-ARCH-001` | `0.1.0` | `in_review` | `spec/nfr/NFR-ARCH-001__v0.1.0.json` |
+| `NFR-ARCH-001` | `1.0.0` | `in_review` | `spec/nfr/NFR-ARCH-001__v1.0.0.json` |
 | `NFR-ARCH-002` | `0.1.0` | `in_review` | `spec/nfr/NFR-ARCH-002__v0.1.0.json` |
+| `NFR-ARCH-002` | `1.0.0` | `in_review` | `spec/nfr/NFR-ARCH-002__v1.0.0.json` |
 | `OD-001` | `0.1.0` | `proposed` | `spec/decisions/OD-001__v0.1.0.json` |
 | `OD-002` | `1.0.0` | `approved` | `spec/decisions/OD-002__v1.0.0.json` |
 | `OD-005` | `0.1.0` | `proposed` | `spec/decisions/OD-005__v0.1.0.json` |
@@ -48,8 +61,11 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `ORG-COLLAB-001` | `0.1.0` | `in_review` | `spec/requirements/ORG-COLLAB-001__v0.1.0.json` |
 | `ORG-STRUCT-001` | `0.1.0` | `in_review` | `spec/requirements/ORG-STRUCT-001__v0.1.0.json` |
 | `REL-R1-RECEIVING-PILOT` | `0.1.0` | `proposed` | `spec/releases/REL-R1-RECEIVING-PILOT__v0.1.0.json` |
+| `REL-R1-RECEIVING-PILOT` | `1.0.0` | `proposed` | `spec/releases/REL-R1-RECEIVING-PILOT__v1.0.0.json` |
 | `RULE-004` | `0.1.0` | `in_review` | `spec/rules/RULE-004__v0.1.0.json` |
 | `RULE-026` | `0.1.0` | `in_review` | `spec/rules/RULE-026__v0.1.0.json` |
 | `SEC-AUD-001` | `0.1.0` | `in_review` | `spec/requirements/SEC-AUD-001__v0.1.0.json` |
+| `SEC-AUD-001` | `1.0.0` | `in_review` | `spec/requirements/SEC-AUD-001__v1.0.0.json` |
 | `SEC-AUTH-001` | `0.1.0` | `in_review` | `spec/requirements/SEC-AUTH-001__v0.1.0.json` |
 | `SEC-DEPLOY-001` | `0.1.0` | `in_review` | `spec/requirements/SEC-DEPLOY-001__v0.1.0.json` |
+| `SEC-DEPLOY-001` | `1.0.0` | `in_review` | `spec/requirements/SEC-DEPLOY-001__v1.0.0.json` |

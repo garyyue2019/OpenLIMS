@@ -88,6 +88,37 @@ python -m tools.specgen ready --story ATC-REC-003@0.1.0
 
 检查 Story 状态、readiness、来源漂移、依赖状态和 Decision 是否关闭。当前示例预期返回 BLOCKED。
 
+## `review-status`
+
+```powershell
+python -m tools.specgen review-status `
+  --change-set CHANGE-PLT-NEXT-VERSIONS-001
+
+# 供自动化处理的稳定JSON结构
+python -m tools.specgen review-status `
+  --change-set CHANGE-PLT-NEXT-VERSIONS-001 `
+  --json
+```
+
+该命令完全只读，按change-set约定发现评审CSV，验证所有记录绑定同一`subject_ref/subject_hash`，再用SHA-256侧车校验变更集正文。随后扫描引用该变更集的规格，检查其中的版本锁。
+
+单个角色槽只有同时满足以下条件才闭合：
+
+- `decision=ACCEPT`；
+- `record_status=VERIFIED`；
+- 受控身份、授权范围、授权证据、评审证据、带时区评审时间和签名/批准引用均非空；
+- `conditions`和`blocking_objections`均为空。
+
+`PENDING`、`REJECT`、`ABSTAIN`和`ACCEPT_WITH_CONDITIONS`都继续阻断。条件完成后必须形成新的明确`ACCEPT`证据，不能把“条件接受”自动解释为已批准。
+
+版本锁只有在`exact_value`非空、`status=VERIFIED`且锁项含非空`evidence_refs`时闭合。
+
+退出码：
+
+- `0`：评审输入和技术锁证据完整，仅表示`EVIDENCE_READY`；仍不等于规格已批准或任务可实施；
+- `4`：文件结构合法，但存在待定、条件、拒绝、弃权、缺字段或未核验锁；
+- `2`：CSV结构、活动角色槽、对象哈希、SHA侧车、时间格式或锁结构无效。
+
 ## `explain`
 
 ```powershell

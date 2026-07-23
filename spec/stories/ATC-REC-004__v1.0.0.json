@@ -1,0 +1,140 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "story",
+  "id": "ATC-REC-004",
+  "version": "1.0.0",
+  "status": "proposed",
+  "target_release": "REL-R1-RECEIVING-PILOT@1.0.0",
+  "epic_id": "EP-RECEIVING",
+  "feature_id": "FEAT-REC-IDENTITY",
+  "title": "记录身份证据并形成匹配或冲突结论",
+  "summary": "身份评估员分别记录客户声明、实验室观察和受控匹配结论；错配时自动创建异常并保持隔离。",
+  "owners": ["身份评估产品负责人", "质量负责人", "QA负责人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "OD-002"},
+    {"document": "PRD-MAIN", "item": "OPS-IDENTITY-001"},
+    {"document": "PRD-MAIN", "item": "OPS-IDENTITY-002"},
+    {"document": "PRD-MAIN", "item": "AC-ID-001"}
+  ],
+  "depends_on": [
+    "ATC-PLT-000@1.0.0",
+    "ATC-REC-001@1.0.0",
+    "OD-002@1.0.0",
+    "OPS-IDENTITY-001@0.1.0",
+    "OPS-IDENTITY-002@0.1.0",
+    "OPS-EXC-001@0.1.0",
+    "OPS-EXC-002@0.1.0",
+    "AC-ID-001@0.1.0",
+    "OD-005@0.1.0",
+    "OD-009@0.1.0",
+    "SEC-AUTH-001@0.1.0",
+    "SEC-AUD-001@1.0.0"
+  ],
+  "affects": ["identity", "receiving", "exception", "evidence", "authorization", "audit", "automated-test"],
+  "change_class": "major",
+  "body": {
+    "readiness": "blocked",
+    "business_outcome": "实验室可以证明收到的究竟是什么、依据是什么以及与委托是否一致；身份冲突不会被操作员无依据地改成一致。",
+    "actor": "具有相应产品类别和实验室授权的身份评估员",
+    "preconditions": [
+      "实物已登记并处于 QUARANTINED 或 IDENTITY_ASSESSING",
+      "客户原始声明和委托快照可读取但不可被身份评估覆盖",
+      "OD-009 已定义识别粒度和所需证据",
+      "OD-005 已定义错配、待定、条件接收和安全封存的授权路径"
+    ],
+    "trigger": "身份评估员打开隔离实物，记录标签、外观、型号、批次、照片等观察并提交匹配结论",
+    "happy_path": [
+      "固定当前客户声明和委托快照版本",
+      "追加 LaboratoryIdentityObservation 和不可变附件引用",
+      "根据批准字段形成 MATCHED、MISMATCHED 或 INDETERMINATE 候选",
+      "评估员提交理由和证据，系统校验其能力型授权",
+      "MATCHED 结论建立实际 SubmissionItem/ProductVariant/Feature 映射",
+      "MISMATCHED 或 INDETERMINATE 自动创建异常并保持隔离",
+      "所有结论版本、规则、证据和批准路径写入审计"
+    ],
+    "failure_paths": [
+      "必需观察字段或照片缺失时不能提交结论",
+      "声明和观察冲突时禁止提交 MATCHED，除非有受控更正或授权证据",
+      "存在多个可能归属且未消歧时结论必须为 INDETERMINATE",
+      "无产品类别或实验室授权时拒绝",
+      "对象版本变化时拒绝旧表单提交并要求重新比对",
+      "任何异常不得自动触发条件接收或范围缩减"
+    ],
+    "invariants": [
+      "CustomerDeclaredIdentity、LaboratoryObservation、IdentityDecision 独立保存",
+      "更正通过新版本表达，不覆盖原始观察和结论",
+      "身份映射只包含实际收到对象，不表达代表性",
+      "错配和待定保持隔离",
+      "决定引用明确的委托、产品版本、规则版本和证据哈希"
+    ],
+    "data_contract": {
+      "observation": ["receivedItemId", "expectedItemVersion", "observedLabels", "observedModel", "observedBatch", "appearance", "attachmentHashes", "observedAt"],
+      "decision": ["observationVersion", "declarationSnapshotVersion", "outcome", "reasonCode", "rationale", "actualIdentityMappings", "ruleSetVersion"],
+      "outcomeEnum": ["MATCHED", "MISMATCHED", "INDETERMINATE"],
+      "mapping": ["submissionItemId", "productVariantVersion", "featureNodeVersions", "scopeOfIdentity", "evidenceRefs"]
+    },
+    "api_contract": {
+      "operations": ["POST /api/v1/received-items/{id}/identity-observations", "POST /api/v1/received-items/{id}/identity-decisions"],
+      "success": ["201 IdentityObservation", "200 IdentityDecisionResult"],
+      "errors": ["IDENTITY_EVIDENCE_INCOMPLETE", "IDENTITY_CONFLICT_REQUIRES_EXCEPTION", "IDENTITY_AMBIGUOUS", "AUTHORIZATION_DENIED", "EXPECTED_VERSION_CONFLICT"]
+    },
+    "state_transitions": [
+      "QUARANTINED -> IDENTITY_ASSESSING 在首次受控观察开始时发生",
+      "MATCHED 结论不直接解除隔离；后续放行动作由 OD-005 和 ATC-REC-006 控制",
+      "MISMATCHED -> AWAITING_CUSTOMER 或其他受控状态只能由授权决定触发",
+      "INDETERMINATE 保持阻断"
+    ],
+    "permissions": [
+      "要求 receiving.identity.evaluate 能力和产品类别范围",
+      "评估员不得修改客户原始声明",
+      "收样员默认不能批准技术身份例外",
+      "跨客户和跨实验室对象过滤在服务端执行"
+    ],
+    "audit": [
+      "记录观察创建、结论提交、版本冲突和异常创建",
+      "审计包含原声明版本、观察版本、结论、规则、责任人和证据哈希",
+      "附件下载单独审计",
+      "历史结论不可删除"
+    ],
+    "ui_states": [
+      "三栏明确区分客户声明、实验室观察和最终结论",
+      "差异字段逐项高亮但不自动选择结论",
+      "证据缺失显示阻断清单",
+      "错配时显示将创建异常且保持隔离",
+      "并发冲突保留草稿但要求重新载入最新对象",
+      "历史版本只读可比较"
+    ],
+    "observability": [
+      "指标 identity_assessment_total 按结论和产品类别聚合",
+      "指标 identity_assessment_wait_duration_seconds 区分客户等待和内部等待",
+      "异常创建失败触发高优先级告警并回滚结论提交",
+      "结构化日志携带 receipt、receivedItem 和 exception correlationId"
+    ],
+    "test_cases": [
+      {"id": "TC-REC-004-01", "title": "身份一致", "type": "positive", "given": ["声明型号与实物标签和观察一致", "证据完整"], "when": ["授权评估员提交MATCHED"], "then": ["保存三层记录", "建立实际身份映射", "对象仍等待受控放行"]},
+      {"id": "TC-REC-004-02", "title": "身份错配", "type": "negative", "given": ["合同型号A", "观察型号C"], "when": ["提交不一致结论"], "then": ["创建身份冲突异常", "禁止正常接收", "保留声明和观察"]},
+      {"id": "TC-REC-004-03", "title": "多义归属", "type": "boundary", "given": ["实物可能对应两个委托项且证据不足"], "when": ["尝试选择其中一个为MATCHED"], "then": ["拒绝无依据匹配", "保存INDETERMINATE并阻断"]},
+      {"id": "TC-REC-004-04", "title": "未授权评估", "type": "security", "given": ["用户没有该产品类别身份评估授权"], "when": ["提交观察或结论"], "then": ["服务端拒绝", "不产生结论", "记录审计"]},
+      {"id": "TC-REC-004-05", "title": "并发更改", "type": "concurrency", "given": ["用户打开版本3", "另一人先提交版本4"], "when": ["用户提交旧版本结论"], "then": ["返回EXPECTED_VERSION_CONFLICT", "不得覆盖版本4"]},
+      {"id": "TC-REC-004-06", "title": "异常事务原子性", "type": "recovery", "given": ["错配结论需要创建异常", "异常持久化模拟失败"], "when": ["提交错配"], "then": ["结论和状态均回滚", "重试后只创建一个异常"]}
+    ],
+    "non_goals": [
+      "不由 AI 自动做最终身份结论",
+      "不在本卡解除隔离",
+      "不把身份映射当作代表性覆盖",
+      "不实现客户补资料门户",
+      "不决定 OD-005 或 OD-009"
+    ],
+    "allowed_paths": ["src/modules/receiving/identity/**", "src/modules/exception/public-contracts/**", "contracts/receiving/identity/**", "apps/web/receiving/identity/**", "tests/receiving/identity/**"],
+    "verification_commands": ["python -m tools.specgen check", "TECH_STACK_TEST_COMMAND_REQUIRED_BY_ED-001", "IDENTITY_CONTRACT_TEST_REQUIRED", "TENANT_ISOLATION_TEST_REQUIRED"],
+    "definition_of_done": [
+      "三层事实的数据、API和页面清晰分离",
+      "AC-ID-001 正向与反向场景自动化",
+      "错配异常和结论事务原子",
+      "权限、并发、历史不可变和附件审计测试通过",
+      "实际身份映射不包含覆盖语义",
+      "需求—设计—测试—证据追踪完整"
+    ]
+  }
+}

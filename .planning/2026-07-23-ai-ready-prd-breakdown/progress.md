@@ -1,5 +1,228 @@
 # Progress Log
 
+## 2026-07-23 受控提交与 GitHub 发布
+
+### Phase 39: 受控提交与 GitHub 发布
+- **Status:** in_progress
+- 用户明确要求“提交并发布”；本轮授权将当前完整交付提交到现有Git仓库并推送GitHub，不解释为任何评审项ACCEPT、技术锁VERIFIED或规格状态提升。
+- 已完整重读planning-with-files技能、活动计划、进度、发现并运行session-catchup；确认本次应接续既有未提交工作区而非重复实现。
+- 前置门禁通过：59个规格/389个来源有效，source current，impact为空；`ATC-PLT-000@1.0.0`继续按设计BLOCKED/exit 4，列出自身状态和7项未批准平台依赖。
+- Git发布目标确认：当前分支`main`，上游`origin/main`，远端为`https://github.com/garyyue2019/OpenLIMS.git`；当前完整工作区包含规格、评审材料、生成物、specgen Review Status实现、测试和规划记录。
+- AGENTS.md完整终审通过：严格校验59个规格/389个来源、source current、history passed、generate `written=0/unchanged=46`、check passed、40项测试全绿。
+- 第二次generate仍为`written=0/unchanged=46`；impact归零，compileall和`git diff --check`无输出。
+- 预期阻断复核正确：Review Status为33个PENDING角色槽、15个未核验技术锁、48个阻塞项并返回exit 4；平台Story Ready同样返回exit 4。两者证明发布没有伪造审批。
+- 下一步暂存完整交付、创建提交、推送`main`到`origin/main`并检查GitHub Actions。
+
+## 2026-07-23 联合评审启动
+
+### Phase 36: 联合评审发起与明确选择收集
+- **Status:** in_progress
+- 用户同意按建议顺序推进；本轮把该指令解释为启动联合评审流程，不解释为任何评审项ACCEPT或任何责任角色授权。
+- 已完整重读planning-with-files技能、活动计划、进度、发现并运行session-catchup；工作区保留既有未提交变更。
+- 按AGENTS.md重新运行前置门禁：59个规格/389个来源有效，source current，impact为空。
+- `ATC-PLT-000@1.0.0`继续按设计BLOCKED/exit 4，阻塞为Story自身状态及7项未批准平台依赖。
+- 新增Phase 36—38，顺序固定为：收集发起人身份/角色/8项明确选择，闭合33个角色槽和15项版本锁，再创建批准后继版本并运行Ready。
+- 用户已逐项确认RV-PLT-001至005、007至008为接受，并为RV-PLT-006选择方案A；该组输入已记录为发起人方案方向，不等于责任角色正式批准。
+- 已确定持久化边界：只更新联合评审包及其自身SHA侧车，不修改正式签署变更集或33条PENDING评审记录；新增契约断言固定“用户已选方向但身份/角色批准未闭合”。
+- 已将8项选择写入联合评审包的`USER_CONFIRMED_PENDING_CONTROLLED_IDENTITY_AND_ROLE_APPROVAL`区段，并更新该包SHA为`2d21eedcc480e6bc4914907d19925fd381fd30bab66b5a564e54f694dc1e4f90`；正式变更集SHA仍为`45864605ef17d55f7f3ccc55736e3bfb4750ff000d77dc42062526f4a472b211`。
+- 聚焦契约测试、SHA复核和`git diff --check`通过；真实Review Status继续按预期返回`active=33/accepted=0`、`locks=0/15`、exit 4，证明发起人选择没有被误记为正式批准。
+- AGENTS.md完整门禁通过：严格校验59个规格/389个来源、source current、history passed、两次generate均`written=0/unchanged=46`、check passed、40项测试全绿。
+- Phase 36的方案选择收集已完成；当前仍需用户提供受控身份引用、可代表的角色槽和授权依据。缺失这些输入前不修改评审CSV或规格批准状态。
+
+## 2026-07-23 人工评审输入机器门禁
+
+### Phase 33: 人工评审输入门禁设计
+- **Status:** in_progress
+- 用户要求进入下一步；当前不能代填33个角色槽或15项技术锁，因此本轮只实现确定性只读评审状态门禁，不提升任何规格或评审状态。
+- 已完整重读planning-with-files技能、活动计划、进度、发现和session-catchup；工作区保留上一阶段未提交内容。
+- 按AGENTS.md完成前置门禁：59个规格/389个来源有效，source current，impact为空；`ATC-PLT-000@1.0.0`继续因自身状态及7项未批准平台依赖BLOCKED/exit 4。
+- 新增Phase 33—35：先定义评审记录和版本锁判定，再实现Review Status CLI及测试，最后执行完整门禁并交付责任人填写工作流。
+- CLI复核确认可复用`EXIT_BLOCKED=4`：合法但PENDING的评审返回4，哈希/CSV/字段结构无效返回2，全部闭合才返回0；命令必须保持只读并与Story Ready分离。
+- Phase 33完成：只允许`ACCEPT+VERIFIED+完整受控证据`关闭角色槽；条件接受、拒绝、弃权、待定和所有缺字段继续阻断。版本锁还必须具备精确值、VERIFIED状态和锁项证据引用。
+- Phase 34开始：实现独立只读`review-status --change-set ... [--json]`，按约定发现CSV、匹配正文SHA侧车并扫描关联规格版本锁。
+- 已实现`tools/specgen/review.py`和CLI子命令：结构错误exit 2，证据未闭合exit 4，全部输入闭合exit 0；文本和JSON输出均确定排序。
+- 当前真实命令准确报告`active=33/accepted=0/required=33`、`version locks verified=0/total=15`以及48条阻塞，且提示不会批准规格或授权实施。
+- 新增8项Review Gate单元测试及1项真实仓库契约测试，覆盖PENDING、完整ACCEPT、条件接受、REJECT、ABSTAIN、缺身份签名、无时区时间、正文篡改、重复活动角色槽、版本锁和无写入；完整40项测试全绿。
+- 首次批量更新操作手册的补丁因故障排查文档上下文不匹配整体未应用；拆分后已更新根README、AI开发README、CLI参考、AI流程、故障排查和工程骨架评审说明。
+- Phase 34完成，Phase 35开始执行当前真实BLOCKED核验和AGENTS.md完整门禁。
+- AGENTS.md完整终审通过：严格校验59个规格/389个来源、source current、history passed、generate written=0/unchanged=46、check passed、40项测试全绿；第二次generate仍written=0。
+- 当前真实Review Status保持`REVIEW BLOCKED/exit 4`：33个角色槽全部PENDING、15个技术锁全部未核验、共48个阻塞项；命令前后评审CSV、变更集、侧车和ED-001字节不变。
+- 补充检查通过：impact归零、compileall和git diff --check无输出，`review-status --help`可用；未修改任何规格状态、评审结论或生成目录。
+- Phase 35完成。责任人现在可以填写受控评审证据和锁值，每次运行Review Status获得确定性缺口；EVIDENCE_READY后仍需人工受控创建批准后继版本并再跑Story Ready。
+
+## 2026-07-23 下一Major机器草案
+
+### Phase 30: 下一Major机器草案建模与契约复核
+- **Status:** in_progress
+- 用户再次要求“继续”；结合上一轮明确说明，本轮授权范围收敛为创建下一Major版本的`proposed/in_review/blocked`机器草案，不代表任何评审项ACCEPT，也不允许产生`approved/decided/ready`状态。
+- 已完整重读planning-with-files技能、活动计划、进度、发现和session-catchup；工作区保留前序未提交变更，未覆盖或回退用户文件。
+- session-catchup确认上一轮只完成精确变更集、SHA侧车和33条PENDING工作清单，15个目标机器版本尚未创建。
+- 按AGENTS.md完成前置门禁：validate通过44个规格/389个来源，source current，impact为空；`ATC-PLT-000@0.1.0`继续因自身状态及8项未批准依赖BLOCKED。
+- 本轮新增Phase 30—32：先复核Schema和0.1.0契约，再创建15个1.0.0未批准草案并同步评审工作台，最后仅经specgen生成并跑完整门禁。
+- 首次规划文件行数统计命令因PowerShell在`foreach`后直接接管道而解析失败；已改为先累积结果再输出，无文件被修改。
+- 首次读取哈希侧车时误用`.md.sha256`文件名导致只读路径错误；文件清单确认实际命名省略`.md`，后续按真实路径读取，未修改任何文件。
+- 规格目录复核确认SEC新版必须继续放在`spec/requirements/`；契约测试当前精确固定7张旧任务/11个Feature，新旧版本并存后的目标应为14/19。
+- 三组并行规格起草完成：7个平台决策/安全/NFR/验收草案、平台Story与Release、6张REC Story，共15个新`1.0.0`文件；没有修改任何旧版本或generated目录。
+- 严格校验通过59个规格/389个来源，source current；impact仅列15个新增Major草案，无changed/removed/source drift。
+- 主代理逐项核对状态和依赖：ED-001/002为proposed/open，5个SEC/NFR/AC为in_review，7个Story均proposed/blocked，Release为proposed；不存在新approved/decided/ready。
+- 新版ATC-PLT精确依赖8项平台链且平台链无OD-020/OD-025直接或传递依赖；新版Release的44个selected_specs继续保留OD-020/OD-025，六张REC均升级target_release、平台和前置REC引用。
+- 首次批量更新变更集与联合包的补丁因5.4节上下文不精确整体未应用；已拆分为小补丁成功更新，未发生部分写入。
+- Phase 30完成，Phase 31继续同步评审工作台哈希、README和契约测试。
+- Phase 31完成：变更集、联合包、工程评审说明、ED-001候选ADR和README均区分“机器草案存在”与“受控批准”；两个SHA侧车及33条PENDING清单已同步新变更集哈希。
+- 新增1.0.0契约覆盖15项精确对象集合、无虚假批准、平台依赖闭包、15项待核验锁、非生产包络、Release门禁保留、REC机械升级和旧0.1.0契约保留；三项聚焦测试通过。
+- Phase 32开始：下一步仅通过specgen刷新派生目录并执行二次幂等与完整仓库门禁。
+- 首次generate由specgen写入24项、保持22项、删除0项；新增新版AC Feature、7个Story Feature、7张任务Markdown和新版Release lock，并刷新索引、追踪与锁文件。
+- 第二次generate为`written=0/unchanged=46/removed=0`，证明新旧版本并存的派生目录确定且未被人工编辑。
+- 31项自动化测试全部通过；下一步按AGENTS.md原顺序执行最终六道门禁并补充Ready、impact、计数、编译和差异检查。
+- AGENTS.md最终六道门禁按原顺序通过：严格校验59个规格/389个来源、source current、history passed、generate written=0/unchanged=46、check passed、31项测试全绿；随后第二次generate再次written=0。
+- 补充终审通过：impact归零，compileall和git diff --check无输出；生成目录精确为14张任务Markdown、19个Feature和46个受管文件。
+- `ATC-PLT-000@1.0.0`按设计返回BLOCKED/exit 4，只列自身状态和7项未批准平台依赖；`ATC-REC-001@1.0.0`同样BLOCKED/exit 4，并保留全部真实业务依赖阻塞。
+- 首次把预期非零的Ready和其他检查放入同一并行批次导致批次提前返回；已拆开执行并显式保留`READY_EXIT=4`，没有改动或绕过门禁。
+- Phase 32完成：当前交付为可评审、可生成、可追踪的未批准机器草案，不包含应用代码、生产迁移、Secret、提交或推送。
+
+## 2026-07-23 ATC-PLT-000 下一版本签署工作台
+
+### Phase 27: 下一Major版本精确变更集设计
+- **Status:** in_progress
+- 用户再次要求继续；本轮不把该指令解释为8项ACCEPT或审计OPTION_A，而是创建可签署的精确版本变更集和逐角色PENDING清单。
+- 已重新读取planning-with-files技能并完整恢复计划、进度、发现及会话追赶记录；工作区仍保留前序未提交变更。
+- 按AGENTS.md完成前置门禁：44个规格、389个来源有效，source current，impact为空；ATC-PLT-000仍因自身状态和8项依赖BLOCKED。
+- 计划新增Phase 27—29：先锁定Major版本映射和字段级差异，再创建哈希变更集/PENDING清单与契约测试，最后跑完整门禁。
+- 已读取当前Release完整depends_on/selected_specs，确认下一Major版本需替换ED、平台任务、六张REC以及安全/NFR/AC版本，同时继续保留OD-020/OD-025作为Release生产/业务门禁。
+- 首次批量读取REC文件时PowerShell 5.1未按预期解析FileInfo全路径，产生6个只读路径错误；已固定后续必须使用`$path.FullName`，无文件被修改。
+- 修正读取后取得六张REC完整依赖：下一Major版本除target_release和ATC-PLT外，还必须同步ED-001、SEC-DEPLOY、SEC-AUD、NFR-ARCH以及REC间前置版本；其他业务依赖保持0.1.0和BLOCKED。
+- Phase 27完成：精确变更集覆盖8个批准平台对象、1个proposed Release和6个proposed/blocked REC，共15个新版本；明确旧0.1.0保留、OD-020/025留在Release、平台链不再依赖它们。
+- 已创建`ATC-PLT-000-NEXT-VERSION-CHANGESET.md`，逐字段固定ED-001收窄、ED-002新边界、SEC/NFR/AC语义、ATC依赖、Release选择、REC替换、15项版本锁、应用顺序与失败回滚。
+- 已创建变更集SHA-256侧车，并更新上游审批包链接及其哈希；两个Markdown侧车均与实际字节匹配。
+- 已创建33行逐评审项逐角色工作清单：RV-PLT-001..008分别需要3/4/3/4/4/5/4/6个角色记录；全部decision=PENDING、record_status=DRAFT，身份、授权、时间和签名字段均为空。
+- 已新增契约测试，固定15个计划版本、变更集哈希、33条唯一记录、角色矩阵、PENDING/DRAFT状态和敏感批准字段不得预填。
+- Phase 28完成：严格规格校验通过，15项仓库契约测试全部通过；变更集、哈希、链接、33行清单和角色矩阵一致。
+- Phase 29开始：运行AGENTS.md完整门禁、Ready、impact、编译和差异检查。
+- 完整终审通过：严格校验44个规格/389个来源、source current、history passed、generate written=0/unchanged=30、check passed、30项测试全绿。
+- Ready仍按设计返回BLOCKED（exit 4），impact为空，compileall和git diff --check通过；本轮没有修改任何机器规格状态或生成文件。
+- 最终变更集SHA-256为`2153c2a6ddc5d857e019d9ac824fa2bb7ec2f176ba73bf09bd8703880594f9ff`；工作清单33行全部PENDING，等待8类受控角色槽填写。
+- Phase 29完成。下一步只有两类合法动作：责任人填写身份/授权/结论/时间/签名，或发起人明确拒绝/修订评审项；仍未提交、未推送、未实施应用代码。
+
+## 2026-07-23 ATC-PLT-000 联合评审准备
+
+### Phase 24: 联合评审输入与依赖裁剪复核
+- **Status:** in_progress
+- 用户要求继续下一步；本轮将把平台任务推进到可由责任人正式评审的材料状态，不实施工程骨架，也不替产品、架构、安全、运维、质量或QA伪造批准。
+- 已重新读取planning-with-files技能并完整恢复活动计划、进度和发现记录；工作区保留前序未提交变更。
+- 按AGENTS.md完成前置门禁：44个规格、389个来源有效，来源无漂移，impact为空；ATC-PLT-000继续因自身状态及8项未批准依赖诚实BLOCKED。
+- 计划新增Phase 24—26：先复核依赖是否过宽，再创建聚焦评审包、签署模板和契约测试，最后执行全门禁并交付最小人工回复格式。
+- 首次阻塞规格汇总命令因PowerShell管道位置错误未执行；已改为先构造行集合再输出，未修改任何文件。
+- 依赖复核确认：ED-001直接依赖OD-020和OD-025；两者都依赖OD-001，因此纯工程空壳被真实灯塔、生产容量、分析化学方法/QC/仪器和报告边界传递阻塞。
+- NFR-ARCH-001也直接依赖OD-025，使得仅验证模块化单体私表边界仍需等待完整业务Pack决策；该耦合不符合ATC-PLT-000“不实现业务模块”的非目标。
+- 候选裁剪方向：新增独立工程决策分别承载“工程目录/模块/Schema边界”和“非生产验证环境/合成负载包络”，ATC与NFR只依赖这些工程决策；OD-020/OD-025继续作为Release 1生产与业务包门禁，不被提前批准。
+- 并行只读复核确认同一结论，并进一步指出ED-001当前仍夹带生产IdP/S3、WORM/KMS、容量/RPO/RTO等输入，且系列版本尚未细化到patch/digest，即使形式批准也不足以满足任务前置。
+- Phase 24完成：推荐保留ED-001稳定ID但创建收窄的新Major版本；新增通用模块边界Decision；新版任务移除OD-020/OD-025直接依赖；新版NFR链改依赖通用工程边界；Release仍保留OD-020/OD-025。
+- 已创建`ATC-PLT-000-JOINT-APPROVAL-PACKET.md`，包含8个评审项目、推荐/替代结论、责任角色、证据要求、版本迁移计划和发起人最小回复格式，状态明确为DRAFT/NOT APPROVED/DO NOT IMPLEMENT。
+- 已创建空白受控评审CSV模板，要求对象引用/哈希、角色槽、受控身份、授权证据、结论、条件、反对意见、时间和签名引用；模板不预填任何批准行。
+- 已更新工程骨架评审说明、ED-001 ADR和AI开发README导航，并新增契约测试防止评审包丢失草案标记、评审项目或必填证据字段。
+- Phase 25完成：严格规格校验通过；14项仓库契约测试全部通过，包括本地Markdown链接、草案状态、8个评审项目、允许结论集合和空白评审模板必填字段。
+- Phase 26开始：按AGENTS.md运行完整来源、历史、生成幂等、check、全部测试、Ready和差异门禁。
+- 完整终审通过：严格校验44个规格/389个来源、source current、history passed、generate written=0/unchanged=30、check passed、29项测试全绿。
+- ATC-PLT-000继续按设计返回BLOCKED（exit 4），现有依赖与评审包的“当前0.1.0不能直接批准”结论一致；本轮未绕过或降低任何门禁。
+- 最终impact为空；compileall和git diff --check通过。新增内容仅为评审材料、空白证据模板、导航和契约测试；未修改机器规格状态、未创建应用代码、未提交或推送。
+- Phase 26完成；下一步必须由发起人先确认8项方案选择，再由各责任角色提交受控评审记录，之后才能创建新的Major规格版本链。
+- 为联合评审包新增SHA-256侧车并加入自动校验；评审记录可绑定固定正文哈希，包内容一旦变化就必须更新哈希并重新收集签署，旧批准不能静默沿用。
+
+## 2026-07-23 ATC-PLT-000 工程骨架任务卡
+
+### Phase 21: 任务边界与依赖设计
+- **Status:** in_progress
+- 用户明确授权创建ATC-PLT-000完整AI任务卡。
+- 本轮只创建规格、依赖、评审材料和生成任务卡，不实施.NET/Vue/PostgreSQL应用骨架。
+- 已重新读取planning-with-files技能并恢复活动计划；工作区仍包含前序未提交决策冲刺变更。
+- 按AGENTS.md完成validate、source-status、impact：43个规格、389个来源有效，来源无漂移，影响图为空。
+- ATC-PLT-000将保持proposed/blocked；ED-001、模块边界、部署、安全和运维批准未完成前不得交给AI编码。
+- 新增Phase 21—23的首个多文件补丁因progress.md顶部空行上下文不匹配而整体未应用；已改为分文件精确补丁，无业务文件受影响。
+- 已复核ATC-REC-001/003、Story校验与渲染器、Release基线、六张Story依赖及仓库任务数量测试；无需修改生成器即可产生完整任务卡和feature。
+- 只读检索命令将Windows不支持的`tests/test_*.py`作为rg路径参数，产生一次os error 123；所需测试区段已由Get-Content成功读取，后续使用目录加`-g`而不重复该命令。
+- 前置门禁再次通过：44个规格、389个来源有效，来源无漂移；impact准确列出新增ATC-PLT-000以及Release和六张收样任务的直接影响；ready按预期BLOCKED。
+- Phase 21完成：任务边界固定为Host/公共技术端口/开发依赖/CI/测试夹具，明确禁止业务模块、Pack、spec和generated路径；补齐正向、反向、边界、权限、并发、恢复、审计、供应链和跨平台测试。
+- 已新增ATC-PLT-000规格和人工评审说明，Release及六张ATC-REC均精确依赖`ATC-PLT-000@0.1.0`。
+- ED-001已从“任务尚未创建”同步为`SPEC_CREATED_PROPOSED_BLOCKED`并记录精确任务/评审引用；配套ADR和AI开发README已同步导航、状态和44/7计数。
+- 契约测试已调整为7张任务/11个feature，并新增平台骨架状态、依赖、反向依赖、Release选择、路径禁区、无占位命令、跨平台入口和完整测试族断言。
+- Windows PowerShell 5.1不支持`ConvertFrom-Json -Depth`，首次只读摘要失败；改为无`-Depth`读取后成功，未造成文件修改。
+- 三路只读审计进一步发现并已修复：并发测试缺口、Windows/Linux Profile不对称、客户端集团覆盖结果不唯一、隔离测试只比较配置、规格全门禁命令缺失和unit测试路径缺失。
+- 客户端集团覆盖现固定为HTTP 400/`PLT.GROUP_CONTEXT_OVERRIDE_FORBIDDEN`；跨集团令牌固定为HTTP 403/`AUTH.ORGANIZATION_GROUP_MISMATCH`，不再给实现代理“拒绝或忽略”的二义选择。
+- 集团隔离证据扩展为交叉数据库、Bucket、IdP、遥测凭据、跨集团令牌和跨集团备份恢复实际失败；日志/指标/Trace接收、存储、查询、告警和凭据也固定为每集团独立。
+- Phase 22完成；严格校验通过44个规格和389个来源条目，Phase 23开始生成与终审。
+- 生成前impact准确列出新增平台任务、ED-001、Release和六张收样任务的直接影响；首次generate由工具写入23个、保持7个、删除0个受管文件。
+- 第二次generate为`written=0/unchanged=30/removed=0`，平台任务Markdown和Gherkin均已由生成器落地，幂等同步门禁通过。
+- 首轮check通过；28项测试中26项通过、2项文字契约断言失败。已定位为“按OrganizationGroup独立”未直接出现“每个集团”，以及“不再重新引入”未使用标准禁止词；已收紧Story原文，未降低测试门禁。
+- 修正后首次generate写入7个受管文件，第二次为`written=0/unchanged=30`；check和28项测试全部通过。
+- 按AGENTS.md原顺序完成最终门禁：严格校验44个规格/389个来源、source current、history passed、generate written=0、check passed、28项测试全绿。
+- Ready门禁诚实阻断：ATC-PLT-000因自身proposed/blocked及ED-001、OD-020、OD-025、SEC/NFR/AC草案依赖返回exit 4；ATC-REC-001新增明确的ATC-PLT-000平台阻塞并同样返回exit 4。
+- 最终impact为空；compileall和git diff --check通过。工作区保留未提交变更，未创建提交、未推送GitHub，也未实施任何src/modules、src/packs或检测业务代码。
+- Phase 23完成，ATC-PLT-000机器规格、人工评审说明、Release/Story依赖、生成任务卡、Gherkin、追踪/锁和契约测试已形成闭环。
+
+## 2026-07-23 Release 1 分析化学首发确认
+
+### Phase 18: 分析化学首发选择吸收与影响复核
+- **Status:** in_progress
+- 用户接受“3岁及以上常规硬质塑胶非电动玩具”的资格/排除边界。
+- 用户接受“R1.0中国内销，后续欧盟，再后续美国”的市场版本顺序。
+- 用户否决物理机械先行，明确选择分析化学作为Release 1唯一主技术包，物理机械后移。
+- 已重新读取planning-with-files技能并恢复活动计划；工作区仍保留上一轮尚未提交的决策冲刺变更。
+- 按AGENTS.md完成前置validate、source-status、impact：43个规格、389个来源条目有效，来源无漂移，影响图为空。
+- 本轮会把三项选择记录为用户明确确认，但不会由AI将OD-001/OD-025直接标成approved/decided；真实方法、QC、仪器、灯塔和责任角色证据仍是正式批准门禁。
+- 新增Phase 18—20的首个多文件补丁因progress.md上下文少一个空行而未应用；已读取当前内容并改为精确分文件补丁，无业务文件受影响。
+- 完成物理机械残留扫描，已定位四项草案规格、两份评审说明和契约测试中的全部首发语义位置；生成目录未直接扫描修改，将由specgen统一刷新。
+- 已读取三项核心Decision、决策包关键区段、现有模板和契约测试；确定需要新增GS-TOY-CHEM-001、分析化学QC/取样映射模板及用户选择快照。
+- Phase 18完成：三项用户选择已建模为USER_CONFIRMED但PENDING_FORMAL_ROLE_APPROVAL；分析化学黄金闭环、跨包边界和完整影响范围已复核。
+- Phase 19完成：OD-001/020/025、决策包、README和技术ADR已切换为分析化学先行；新增材料颜色取样映射与QC清单，方法模板扩充；契约测试固定选择且继续断言Decision未批准。
+- 中间严格校验通过：43个规格、389个来源条目有效；3个直接Decision变化、22个传递影响对象均符合预期。旧GS-TOY-PHY、物理机械首发和分析化学后移措辞仅在负向测试断言中保留。
+- Phase 20启动：生成器刷新后执行幂等和完整终审门禁。
+- specgen按3项Decision变化刷新5个派生文件、保持23个不变；第二次generate为written=0/unchanged=28，check通过，未直接编辑generated/spec。
+- 完整终审通过：严格校验43个规格/389个来源、source current、history passed、generate written=0、check passed、27项测试全绿；compileall和git diff --check通过。
+- ATC-REC-001仍按预期BLOCKED，仅列真实未批准依赖；用户选择没有被误用来绕过组织、部署、收样、授权、审计和架构门禁。最终impact归零。
+- 最终文件审计确认：分析化学首发语义分布一致；物理机械仅作为后移包、R1排除或范围影响边界；新增两份分析化学模板已纳入证据引用与测试。
+- Phase 20完成。本轮仍保留为未提交工作区变更；用户未要求本轮提交或推送。
+
+## 2026-07-23 Release 1 用户确认吸收
+
+### Phase 15: 用户确认吸收与范围收敛
+- **Status:** in_progress
+- 用户确认广东华瑾检测有限公司为虚拟主体，其测试中心隶属于该虚拟法人；四类关键业务角色已有人但尚未提供可记录的责任人标识。
+- 用户拒绝纺织首发，最近 3—6 个月订单最多且方法最集中的是玩具检测；目标市场同时列出中国内销、欧盟、美国，主技术包同时列出物理机械、分析化学。
+- 用户明确微生物/生物不进入首个切片，容量口径为日均 500 订单，技术栈无硬性限制并授权提出推荐方案。
+- 已恢复活动计划和未同步上下文；当前工作区包含上一轮决策冲刺的未提交草案及生成器派生变更。
+- 按 AGENTS.md 完成前置门禁：43 个规格、389 个来源条目有效；来源无漂移；影响图为空。
+- 本轮将只把用户明确事实写实，把“三市场”和“双技术包”保留为待收敛选择，不直接批准 OD-001 或 ED-001。
+- 已核对现有决策包和四项草案规格：纺织默认候选、未知容量口径、微生物候选和未提供技术约束均需按最新输入修订；所有对象当前保持 proposed/open，状态边界正确。
+- 已确认规格 Schema 可承载详细候选技术栈；Story 的占位验证命令暂不替换，必须等真实工程骨架和命令存在后再消除。
+- 已复核 PRD 的玩具领域规则和仓库契约测试结构；计划用契约测试固定用户已确认事实与“未批准”边界，防止后续生成/编辑回退到纺织默认或虚假灯塔。
+- 玩具最小切片和虚拟灯塔治理两路只读复核完成：形成窄化资格规则、三市场/双技术包的诚实边界、合成/脱敏/生产证据分级和 role slot 记录方案。
+- 技术栈只读复核完成：推荐候选为.NET 10、Vue 3、PostgreSQL 18模块化单体，并明确不默认引入Kubernetes、Kafka、Redis、OpenSearch或独立Python AI服务。
+- Phase 15完成；OD-001、OD-020、OD-025和ED-001已按最新输入更新但保持proposed/open；三份采集模板已增加证据分类字段，并新增玩具资格、市场协议和责任角色模板。
+- Phase 16启动：正在重写联合评审包和技术栈候选ADR，随后增加防止虚假批准和语义回退的契约测试。
+- Phase 16完成：决策冲刺包已整体改为玩具工作候选；新增详细ED-001技术栈ADR、三份治理模板和两条仓库契约测试；AI开发README已同步当前边界。
+- 中间严格校验通过：43个规格、389个来源条目有效。影响分析准确识别4个直接变化决策和22个传递影响对象，均为预期major草案变化；PRD来源无漂移。
+- Phase 17启动：下一步只通过specgen生成器刷新generated/spec，然后执行完整门禁和二次幂等验证。
+- 生成器按4项决策草案变化刷新5个派生文件、保持23个不变、未删除文件；第二次generate为written=0/unchanged=28，check通过，证明生成目录未被人工编辑且幂等。
+- 完整终审链通过：严格校验43个规格/389个来源、source current、history passed、generate written=0、check passed、27项测试全部通过；compileall和git diff --check通过。
+- ATC-REC-001按预期保持BLOCKED：阻塞只来自Story状态及ED-001、组织、部署、识别、收样、授权、审计和架构等真实未批准依赖；OD-001/020/025未被Story直接误列为绕过项。最终impact归零。
+- 最终审计增强：本地Markdown链接检查扩展到决策包，模板断言改为必要集合而非禁止未来扩展；完整门禁再次通过，27项测试全绿，generate仍为written=0。
+- Phase 17完成。本轮文件保留为未提交工作区变更；未经用户本轮明确要求，未创建提交或推送GitHub。
+
+## 2026-07-23 Release 1 决策冲刺输入
+
+### Phase 12: Release 1 决策输入审查
+- **Status:** in_progress
+- 已接收行业、五类产品、三类方法、灯塔机构、首个实验室、500/日容量提示和脱敏资料可用性。
+- 前置 validate、source-status、impact 全部通过，工作区与 origin/main 同步且干净。
+- 已识别四个不能自行代填的关键缺口：唯一首发产品切片、真实目标市场/客户协议、首个法人、500/日口径；技术栈限制为空，需作为 ED-001 的开放输入而不是默认批准。
+- 完成试点范围与容量两路只读复核：两者均确认当前只能形成候选和采集问卷，OD-001/OD-020 必须继续保持 proposed/open。
+- 识别“微生物/生物”尚不属于现有六类技术包，需经 OD-025 单独评审，不能自动纳入首个生产切片。
+- 完成 ATC-REC-001 依赖闭包复核：除已批准 OD-002 外，仍有 14 个依赖对象及 Story 本身需要按层级评审，不能批量改状态绕过 UNKNOWN 和开放 Decision。
+- 已创建 Release 1 决策冲刺评审包，以及容量、方法和场景三份 CSV 采集模板；文件明确标记 DRAFT/NOT APPROVED。
+- 已把用户输入和未决问题写入 OD-001、OD-020、OD-025、ED-001 草案；四项继续保持 proposed/open，未伪造批准。
+- 生成器刷新 5 个派生文件、23 个保持不变，check 通过；ATC-REC-001 继续按预期 BLOCKED，仅列出真实未批准依赖。
+- 最终严格校验、来源状态、历史链、二次生成幂等、check、25 个自动化测试和 compileall 全部通过；最终 impact 归零。
+
 ## Session: 2026-07-23
 
 ### Session continuation: 需求编译与同步控制实现

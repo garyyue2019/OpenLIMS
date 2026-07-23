@@ -1,0 +1,1 @@
+review_record_id,change_set_id,subject_ref,subject_hash,review_item_id,role_slot,reviewer_identity_ref,authority_scope,authority_evidence_ref,decision,conditions,blocking_objections,evidence_refs,reviewed_at,signature_or_approval_ref,record_status,notes

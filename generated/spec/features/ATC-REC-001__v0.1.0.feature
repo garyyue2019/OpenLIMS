@@ -1,6 +1,6 @@
 # GENERATED FILE — DO NOT EDIT. openlims-specgen@0.1.0
 # Source: ATC-REC-001@0.1.0
-# Spec-Fingerprint: 071aeb85adf1e36257baab4700efc2c7d38bf001a8c99597e2d29153cf412d57
+# Spec-Fingerprint: 9b8952decd3e145d3532baa8b5db716d563faba29728bc9d7f61ef3879cb53bf
 Feature: ATC-REC-001 登记到货批、包装单元和收到实物
   收样员可以一次登记一笔到货，明确其包装单元和实际收到的实物；后续身份、谱系和检测不再依赖含义混乱的单一 Sample 记录。
 

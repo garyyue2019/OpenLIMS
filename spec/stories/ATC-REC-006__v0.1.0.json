@@ -18,6 +18,7 @@
     {"document": "PRD-MAIN", "item": "RULE-026"}
   ],
   "depends_on": [
+    "ATC-PLT-000@0.1.0",
     "ATC-REC-003@0.1.0",
     "OD-002@1.0.0",
     "ATC-REC-004@0.1.0",

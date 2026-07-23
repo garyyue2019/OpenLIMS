@@ -13,8 +13,205 @@
   "affects": ["release-governance", "all-release-1-modules"],
   "change_class": "major",
   "decision_state": "open",
-  "options": ["纺织常规成衣", "纺织常规面料", "按付费灯塔客户重新评分后的替代切片"],
+  "options": [
+    "玩具婴童产品 × 3岁及以上常规硬质塑胶非电动玩具 × 中国内销 × 分析化学",
+    "按真实订单Top产品分类重新定义的单一玩具切片",
+    "由真实重复订单和同一客户协议版本证明的多市场单一协议切片"
+  ],
   "decision": null,
-  "blocking_scope": ["Release 1 发布基线", "真实仪器与接口范围", "黄金场景和容量基线"],
-  "exit_criteria": ["书面评分完成", "付费客户与关键用户投入确认", "3至6个月闭环可行性批准"]
+  "evidence_refs": [
+    "docs/decision-packets/REL-R1-DECISION-SPRINT-001.md",
+    "docs/decision-packets/templates/release1-method-inventory.csv",
+    "docs/decision-packets/templates/release1-scenario-inventory.csv",
+    "docs/decision-packets/templates/release1-toy-scope-eligibility.csv",
+    "docs/decision-packets/templates/release1-analytical-sample-map.csv",
+    "docs/decision-packets/templates/release1-analytical-chemistry-qc-inventory.csv",
+    "docs/decision-packets/templates/release1-market-protocol-inventory.csv",
+    "docs/decision-packets/templates/release1-stakeholder-roster.csv"
+  ],
+  "intake_snapshot": {
+    "recorded_on": "2026-07-23",
+    "product_domain": "产品检测行业",
+    "candidate_industry_packs": ["电子电器", "食品接触材料", "玩具婴童产品", "纺织品", "汽车零配件"],
+    "release1_industry_direction": "玩具婴童产品",
+    "direction_basis": "用户拒绝纺织首发，并说明最近3至6个月玩具检测订单最多且方法最集中；尚待脱敏历史资料验证",
+    "buyer_or_deployment_organization_type": "第三方产品检测机构",
+    "target_market_candidates": ["中国内销", "欧盟", "美国"],
+    "candidate_technical_packs": ["物理机械", "分析化学"],
+    "release1_excluded_technical_capabilities": ["微生物/生物"],
+    "lighthouse_organization_reference": "广东华瑾检测有限公司（虚拟名称，仅作场景占位）",
+    "legal_entity_reference": "广东华瑾检测有限公司（虚拟法人场景；真实首个法人未核验）",
+    "laboratory_reference": "广东华瑾检测有限公司测试中心（仅在虚拟场景中隶属虚拟法人）",
+    "capacity_input": "日均500订单（真实范围、来源周期、峰值和试点占比未确认）",
+    "technology_constraints": "NONE_HARD_CONSTRAINTS_USER_CONFIRMED",
+    "anonymized_history_available": true,
+    "stakeholder_assignment": "业务、实验室、质量和关键用户角色均已有人选，但身份、权限、投入和批准证据未提供",
+    "review_state": "PARTIALLY_NORMALIZED_NOT_APPROVED"
+  },
+  "scope_choice_confirmation": {
+    "recorded_on": "2026-07-23",
+    "record_type": "USER_CONFIRMED_DIRECTION_PENDING_FORMAL_ROLE_APPROVAL",
+    "product_eligibility": {
+      "value": "3岁及以上常规硬质塑胶非电动玩具及既定资格/排除边界",
+      "user_response": "ACCEPTED",
+      "formal_approval_state": "PENDING_ROLE_APPROVAL"
+    },
+    "market_sequence": {
+      "value": ["R1.0 中国内销", "后续欧盟版本增量", "后续美国版本增量"],
+      "user_response": "ACCEPTED",
+      "formal_approval_state": "PENDING_ROLE_APPROVAL"
+    },
+    "primary_technical_pack": {
+      "value": "分析化学",
+      "user_response": "SELECTED_REPLACING_PHYSICAL_MECHANICAL_RECOMMENDATION",
+      "formal_approval_state": "PENDING_ROLE_APPROVAL"
+    },
+    "deferred_technical_pack": "物理机械",
+    "decision_effect": "用于冻结证据采集和草案范围；在真实方法、QC、仪器、灯塔和责任角色批准前不得生产启用"
+  },
+  "lighthouse_context": {
+    "display_name": "广东华瑾检测有限公司",
+    "identity_classification": "VIRTUAL_UNCLASSIFIED",
+    "current_evidence_treatment": "SYNTHETIC_SANDBOX_ONLY",
+    "legal_name_verification": "NOT_VERIFIED",
+    "paying_lighthouse_evidence": "NOT_PROVIDED",
+    "production_deployment_group_evidence": "NOT_PROVIDED",
+    "laboratory_display_name": "广东华瑾检测有限公司测试中心",
+    "laboratory_relationship": "SUBORDINATE_IN_VIRTUAL_SCENARIO_ONLY",
+    "legal_accreditation_or_production_effect": "NONE",
+    "clarification_required": "确认该虚拟名称是纯虚构，还是存在受控映射和使用授权的真实机构脱敏化名"
+  },
+  "stakeholder_slots": [
+    {
+      "slot_id": "R1-BUSINESS-OWNER",
+      "role": "业务负责人",
+      "assignment_state": "ASSIGNEE_EXISTS_IDENTITY_NOT_RECORDED",
+      "assignee_ref": "PENDING_CONTROLLED_ROSTER",
+      "authority_state": "UNVERIFIED",
+      "time_commitment": "NOT_PROVIDED",
+      "approval_evidence_ref": null
+    },
+    {
+      "slot_id": "R1-LAB-OWNER",
+      "role": "实验室负责人",
+      "assignment_state": "ASSIGNEE_EXISTS_IDENTITY_NOT_RECORDED",
+      "assignee_ref": "PENDING_CONTROLLED_ROSTER",
+      "authority_state": "UNVERIFIED",
+      "time_commitment": "NOT_PROVIDED",
+      "approval_evidence_ref": null
+    },
+    {
+      "slot_id": "R1-QUALITY-OWNER",
+      "role": "质量负责人",
+      "assignment_state": "ASSIGNEE_EXISTS_IDENTITY_NOT_RECORDED",
+      "assignee_ref": "PENDING_CONTROLLED_ROSTER",
+      "authority_state": "UNVERIFIED",
+      "time_commitment": "NOT_PROVIDED",
+      "approval_evidence_ref": null
+    },
+    {
+      "slot_id": "R1-KEY-USER-LEAD",
+      "role": "关键用户负责人",
+      "assignment_state": "ASSIGNEE_EXISTS_IDENTITY_NOT_RECORDED",
+      "assignee_ref": "PENDING_CONTROLLED_ROSTER",
+      "authority_state": "UNVERIFIED",
+      "time_commitment": "NOT_PROVIDED",
+      "approval_evidence_ref": null
+    }
+  ],
+  "evidence_policy": {
+    "SYNTHETIC": "仅用于沙箱种子、组织/权限夹具、演示和工程压测，不得用于付费灯塔、正式验收或上线批准",
+    "REAL_DEIDENTIFIED": "仅在具备受控映射、来源、期间、哈希和使用批准时用于真实订单、方法、容量和黄金场景证据",
+    "VERIFIED_PRODUCTION": "用于生产主体、正式UAT、SLA、恢复责任和上线批准；仍必须由授权人员批准"
+  },
+  "candidate_slices": [
+    {
+      "name": "用户确认方向的玩具分析化学最小工作候选",
+      "scope": "玩具婴童产品 × 3岁及以上常规硬质塑胶非电动玩具 × 中国内销 × 分析化学 × 真实重复订单Pareto最小分析物/方法配置集 × 虚拟工程沙箱站点",
+      "status": "USER_CONFIRMED_CANDIDATE_NOT_FORMALLY_APPROVED",
+      "eligibility_rules": [
+        "实验室批准的AgeGradeDecision不低于3岁",
+        "主要构造为常规硬质塑胶且为单一受控产品分类",
+        "无电池、电气、电子或遥控功能",
+        "无磁体、弹射、乘骑/承重、水上、充气或大型活动功能",
+        "非毛绒或纺织主体，且不属于化学实验、化妆品或食品接触玩法"
+      ],
+      "analytical_scope_entry_requirements": [
+        "每个ScopeLine精确绑定中国内销要求Profile、方法版本、分析物/项目、材料颜色范围、结果单位、限值/判定和报告模板",
+        "部件/材料/颜色和初始可接触性依据由授权人员批准，不能由AI或分析化学执行自动推断",
+        "每个项目具备最低取样量、复测预留、留样和允许合并规则",
+        "制备方法、分析批模板、QC计划、仪器/原始文件映射、LOD/LOQ与限定符规则均为受控版本"
+      ],
+      "initial_exclusions": [
+        "3岁以下或年龄决定未批准",
+        "电动、电池、电子、遥控、磁体、弹射、乘骑、承重、水上、充气和大型活动玩具",
+        "毛绒/纺织主体及木制、金属主体等不同构造类别",
+        "化学实验、化妆品或食品接触玩法等功能性产品类别；这不等同于排除普通玩具材料的分析化学检测",
+        "物理机械、燃烧、电气/EMC/RF和微生物生产流程",
+        "欧盟和美国生产配置，除非另行批准真实协议版本",
+        "多型号代表性覆盖、跨行业包组合、AI图片BOM和全面法规/认证结论",
+        "其他四行业生产能力"
+      ]
+    },
+    {
+      "name": "真实Top玩具类别替代候选",
+      "scope": "如果最高频真实订单不符合推荐资格规则，使用实验室受控产品分类代码、年龄、主要材质和特殊危险特征定义一个同等粒度的替代切片",
+      "status": "CANDIDATE_NOT_APPROVED",
+      "initial_exclusions": ["所有玩具同时上线", "多个主技术包同时作为首发", "没有受控资格和排除规则的常规玩具自由文本"]
+    }
+  ],
+  "market_governance": {
+    "route_level_markets": ["中国内销", "欧盟", "美国"],
+    "selected_sequence": ["R1.0 中国内销", "后续欧盟版本增量", "后续美国版本增量"],
+    "selection_state": "USER_CONFIRMED_PENDING_FORMAL_ROLE_APPROVAL",
+    "multi_market_exception": "只有真实重复订单确实引用同一个经批准客户协议ID@version时，才可评审一个多市场协议候选；必须保留三个独立Requirements Profile、适用性决定、方法映射和报告披露",
+    "prohibited_shortcut": "不得新造虚拟三市场协议以绕过唯一切片门禁"
+  },
+  "technical_pack_governance": {
+    "route_level_candidates": ["物理机械", "分析化学"],
+    "selected_release1_primary": "分析化学",
+    "deferred_candidate": "物理机械",
+    "selection_state": "USER_CONFIRMED_PENDING_FORMAL_ROLE_APPROVAL",
+    "handoff_rule": "分析化学只消费经批准的部件/材料/颜色和可接触性依据，不执行物理使用滥用试验；后续物理试验若产生新暴露部件，必须创建新版可接触性和化学范围影响，受影响化学任务在重新取样/评审前阻断",
+    "microbiology_role": "OUT_OF_RELEASE_1"
+  },
+  "golden_scenario_candidate": {
+    "id": "GS-TOY-CHEM-001",
+    "status": "DRAFT_SYNTHETIC_NOT_ACCEPTANCE_EVIDENCE",
+    "summary": "单一型号和变体的候选玩具完成年龄决定、要求快照、部件/材料/颜色和初始可接触性批准、范围矩阵、最低取样量、到样隔离、取样与留样、制备批、分析批、QC、仪器原文件映射、计算、结果采用、签发、计费事实和全链审计",
+    "minimum_execution_chain": [
+      "批准的SubmissionItem/ReceivedItem到部件、材料、颜色和取样份映射",
+      "称量/切割/粉碎/消解或提取/稀释等版本化制备记录与PreparationBatch",
+      "校准、空白、加标、平行、标准物质或方法要求的其他QC与AnalyticalBatch/InstrumentRun",
+      "原文件哈希、解析器版本、样品/QC/分析物映射、单位、LOD/LOQ、限定符和计算来源",
+      "QC通过后唯一结果采用；QC失败冻结整个受影响批次并按批准策略重新制备或新运行"
+    ],
+    "report_boundary": "仅声明中国内销要求Profile下实际执行的分析物/项目、材料颜色范围、方法版本、结果/限定符及已测化学范围；不得提升为全面玩具安全合规、认证或物理机械通过结论",
+    "required_exception_scenarios": [
+      "部件/材料/颜色或年龄决定变化时版本化并重算项目、取样量、已制备份和报告影响",
+      "最低取样量不足或代表性/合并依据未批准时保持隔离并阻断制备，不得静默减少项目或替换材料颜色",
+      "QC失败时冻结整个受影响分析批结果，禁止只重跑不利样品或覆盖原始运行",
+      "仪器文件样品/QC/分析物映射冲突、重复或解析版本不匹配时隔离导入且不生成可采用结果",
+      "物理后新暴露部件没有新版化学范围和重新取样决定时阻断受影响化学结论"
+    ]
+  },
+  "unresolved_questions": [
+    "中国内销真实订单Pareto分析物/项目、方法标准、版本、材料颜色范围和报告模板是什么",
+    "各方法最低取样量、允许合并、复测预留、留样、制备步骤、LOD/LOQ和结果限定符规则是什么",
+    "制备批/分析批、校准、空白、加标、平行、标准物质、批次大小和QC失败影响策略是什么",
+    "首类真实仪器、原始文件格式、字段映射、解析器验证集和人工降级流程是什么",
+    "虚拟华瑾是纯虚构还是存在受控映射的真实机构脱敏化名",
+    "真实付费灯塔、生产部署集团、法人和实验室的受控证据是什么",
+    "四个角色槽的受控身份、批准权限、每周投入、替代人和正式承诺是什么"
+  ],
+  "blocking_scope": ["Release 1 发布基线", "真实仪器与接口范围", "黄金场景和容量基线", "付费灯塔资格与生产上线主体"],
+  "exit_criteria": [
+    "脱敏真实订单完成玩具产品分类、年龄、材料颜色、分析物/项目和方法Pareto书面评分",
+    "用户确认的产品资格、中国内销首发和分析化学主技术包获产品/实验室/质量责任角色正式批准",
+    "分析化学方法、取样、制备批、分析批、QC、仪器映射、LOD/LOQ、采用和报告边界获批准",
+    "真实部署集团、法人和实验室通过受控证据核验；虚拟场景关系不得满足该条件",
+    "四个角色槽的身份、权限、投入和批准证据完成受控登记",
+    "20个真实常规和10个真实异常场景完成证据评审",
+    "3至6个月闭环可行性、付费或等效立项承诺及停止条件获批准"
+  ]
 }

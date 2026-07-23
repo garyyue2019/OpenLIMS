@@ -1,0 +1,673 @@
+{
+  "_generated": {
+    "do_not_edit": true,
+    "generator": "openlims-specgen@0.1.0"
+  },
+  "baseline_fingerprint": "711f02b3bdf70370bb8c7305b35c2addd5e129e0403fd75d8279d823c33d5b9d",
+  "release": "REL-R1-RECEIVING-PILOT@1.0.0",
+  "runtime_resolution": "pinned_only",
+  "selected_specs": {
+    "AC-DEPLOY-001@1.0.0": {
+      "fingerprint": "d09e3a7d43b1382ff12b1647157b7f44739d13b07e145ac254f9c443b9af2f74",
+      "kind": "acceptance",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-DEPLOY-001",
+          "source_fingerprint": "fb46f635b59d966f95aabe2385c0d7a387a55a57c964cb2d3aaf371f57c0f8b8"
+        }
+      ],
+      "status": "in_review"
+    },
+    "AC-ID-001@0.1.0": {
+      "fingerprint": "a56a740130e68e3e26f1faad1a4b4141503968e5a8485bb94b6084565a227d70",
+      "kind": "acceptance",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-ID-001",
+          "source_fingerprint": "dd8a93c8071ea0853e2c8aba028dd66161921ff5e40dfe65482386108a74cc35"
+        }
+      ],
+      "status": "in_review"
+    },
+    "AC-REC-001@0.1.0": {
+      "fingerprint": "8e184359a694ee3fc02456e7df953eecfeff67ee8513e05e727855a1f65816e7",
+      "kind": "acceptance",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-REC-001",
+          "source_fingerprint": "8f4060da7e31c38cd465032f764298fe9bed0ee06b450bbea3ccd03a71eb91da"
+        }
+      ],
+      "status": "in_review"
+    },
+    "AC-SEC-001@0.1.0": {
+      "fingerprint": "e762dae769c4ace3605cf0488a14788a88592bc9cc5b5cdce0c505786fb935bb",
+      "kind": "acceptance",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-SEC-001",
+          "source_fingerprint": "7f1ff95a65eb1d1fcc23e6d55d3f8acfb9c70c794c7bd7a1a0512b1ab1fee267"
+        }
+      ],
+      "status": "in_review"
+    },
+    "ATC-PLT-000@1.0.0": {
+      "fingerprint": "f45a6ee6de5f3a58d10e30dda8cc30c1227c57275025d8c251651b03de48be8d",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-002",
+          "source_fingerprint": "871512ce3d1bf4d0019290174ad63426313fe8a1f1fb4f36191b08cd827b2207"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "SEC-DEPLOY-001",
+          "source_fingerprint": "c16fdea96ddb5b659a3504e6a8cbb2cf6d25fa9de71dabbf7c4202155a496cc9"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "SEC-AUD-001",
+          "source_fingerprint": "79bb14cf6bf64595ee7888ceba58bc8d33c85449aee4f66e8672727780ee5e2d"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "NFR-ARCH-001",
+          "source_fingerprint": "c1f16ba3b49bdf2879a580eb6caddf958dde26164bf5598fa43d2cb5c80873f2"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "NFR-ARCH-002",
+          "source_fingerprint": "9627fe3f9bad217b2ca596ced3168152e6bbd5b8c686dd9a7bf7f3e14bc98354"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-DEPLOY-001",
+          "source_fingerprint": "fb46f635b59d966f95aabe2385c0d7a387a55a57c964cb2d3aaf371f57c0f8b8"
+        }
+      ],
+      "status": "proposed"
+    },
+    "ATC-REC-001@1.0.0": {
+      "fingerprint": "2c78ba34a872d4c47244463c685d87e67f18b4fb30c1b0f18d4b6b7b896ab845",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-RECEIPT-001",
+          "source_fingerprint": "7c5ac0cbc8b80f7778fdc3240ffd9bd7633839bacefe88c4896b3ebc05cad965"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-002",
+          "source_fingerprint": "871512ce3d1bf4d0019290174ad63426313fe8a1f1fb4f36191b08cd827b2207"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "ORG-STRUCT-001",
+          "source_fingerprint": "75db94de48ebe025a2783449abea7404fa95b6ae89656e1740df8a3b08c4fcd6"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "SEC-AUTH-001",
+          "source_fingerprint": "cf10f589589e19290348efd37262215aa95c68c54880a6fd1fd085bff84ba435"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "SEC-AUD-001",
+          "source_fingerprint": "79bb14cf6bf64595ee7888ceba58bc8d33c85449aee4f66e8672727780ee5e2d"
+        }
+      ],
+      "status": "proposed"
+    },
+    "ATC-REC-002@1.0.0": {
+      "fingerprint": "3d08c534ec6475cf2e7c44aab0b60e0851af64aacc6622a30f174a58bdfaf350",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-RECEIPT-002",
+          "source_fingerprint": "5d23e65500b33f3b281878f7ddcb2400a6b44748d2509ed551723a9a6422a96f"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-002",
+          "source_fingerprint": "871512ce3d1bf4d0019290174ad63426313fe8a1f1fb4f36191b08cd827b2207"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "ORG-STRUCT-001",
+          "source_fingerprint": "75db94de48ebe025a2783449abea7404fa95b6ae89656e1740df8a3b08c4fcd6"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "SEC-AUD-001",
+          "source_fingerprint": "79bb14cf6bf64595ee7888ceba58bc8d33c85449aee4f66e8672727780ee5e2d"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-031",
+          "source_fingerprint": "b9bc81a6032f13243296caeab9647a00118b59f86b75ac90379ed2296ea69fcc"
+        }
+      ],
+      "status": "proposed"
+    },
+    "ATC-REC-003@1.0.0": {
+      "fingerprint": "cb41b44b7f3b0c843a981bcccdf25373cf3ac53d94f6f2269b8c3ffaedba895b",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-RECEIPT-003",
+          "source_fingerprint": "389923bc1881370792e1984f9e1bf9f994f3341583475592c9b903bedb3b12e8"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-002",
+          "source_fingerprint": "871512ce3d1bf4d0019290174ad63426313fe8a1f1fb4f36191b08cd827b2207"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "ORG-STRUCT-001",
+          "source_fingerprint": "75db94de48ebe025a2783449abea7404fa95b6ae89656e1740df8a3b08c4fcd6"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-IDENTITY-003",
+          "source_fingerprint": "d601328d0279f11d9750c7ca7efba283114d28b738fd2d153f9fc5fbefc0833a"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-REC-001",
+          "source_fingerprint": "8f4060da7e31c38cd465032f764298fe9bed0ee06b450bbea3ccd03a71eb91da"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "SEC-AUD-001",
+          "source_fingerprint": "79bb14cf6bf64595ee7888ceba58bc8d33c85449aee4f66e8672727780ee5e2d"
+        }
+      ],
+      "status": "proposed"
+    },
+    "ATC-REC-004@1.0.0": {
+      "fingerprint": "8b686110ac21fadea29341ac61345d31642298c9f3952204889ee2a144d35ce6",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-002",
+          "source_fingerprint": "871512ce3d1bf4d0019290174ad63426313fe8a1f1fb4f36191b08cd827b2207"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-IDENTITY-001",
+          "source_fingerprint": "1186729cc44cf6f13e74ac666fc09f3001f90bc5ce1bfdbfb577f6e61fded98f"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-IDENTITY-002",
+          "source_fingerprint": "54f7c368e0c5d2e9bfef8fad15204a6a693a6fbd3bda1c59b63df3c094b736c0"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-ID-001",
+          "source_fingerprint": "dd8a93c8071ea0853e2c8aba028dd66161921ff5e40dfe65482386108a74cc35"
+        }
+      ],
+      "status": "proposed"
+    },
+    "ATC-REC-005@1.0.0": {
+      "fingerprint": "285d13528f6dff343969777081d1d9aa522c4074251f85bd47765036e1261fd1",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-002",
+          "source_fingerprint": "871512ce3d1bf4d0019290174ad63426313fe8a1f1fb4f36191b08cd827b2207"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-EXC-001",
+          "source_fingerprint": "1c1c6246aba17a34a02fa4476440b5417ac555722513596cadcd37ed9d5a68cf"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-EXC-002",
+          "source_fingerprint": "c5071e98bf82d792a49254dc336117ae0353e602a934e69fc58a806ef335f3fe"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-005",
+          "source_fingerprint": "3afac312d7469744944316782d09e856c66730c394ad5029f946123bdcd5aa83"
+        }
+      ],
+      "status": "proposed"
+    },
+    "ATC-REC-006@1.0.0": {
+      "fingerprint": "e40cd4a7c1073fda02134f1af36ec196046e9a1a96acc9fb52f7d58d847abd43",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-002",
+          "source_fingerprint": "871512ce3d1bf4d0019290174ad63426313fe8a1f1fb4f36191b08cd827b2207"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-RECEIPT-003",
+          "source_fingerprint": "389923bc1881370792e1984f9e1bf9f994f3341583475592c9b903bedb3b12e8"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-IDENTITY-003",
+          "source_fingerprint": "d601328d0279f11d9750c7ca7efba283114d28b738fd2d153f9fc5fbefc0833a"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "RULE-026",
+          "source_fingerprint": "138639c246ce3e8fe979512d64e89d518bcf416fd7ecb5ca6616e7ddc556b121"
+        }
+      ],
+      "status": "proposed"
+    },
+    "BUS-PROD-003@0.1.0": {
+      "fingerprint": "faf2128cf61269dfc43dd642b3658c751f2a4499e4d859c6a7df801791b36ae4",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "BUS-PROD-003",
+          "source_fingerprint": "a041a9f9409bb4a35cb261e1c71a08027dae6e3aa7a164686062a2840eacaf69"
+        }
+      ],
+      "status": "in_review"
+    },
+    "BUS-REQ-003@0.1.0": {
+      "fingerprint": "344c1c5fe26c3fbf58f79ae912fdbb5cc0b911659aca306c179cba2540e47fd1",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "BUS-REQ-003",
+          "source_fingerprint": "b25305f7c4995ae01cdf259084e2fea5f3e8309c6c172c4a9090de21fd64119a"
+        }
+      ],
+      "status": "in_review"
+    },
+    "ED-001@1.0.0": {
+      "fingerprint": "0bb0bcc2f0061d4b897e8d1e8f1a42e0707299c6be2cf1ee4305a3600c05f7e9",
+      "kind": "decision",
+      "source_refs": [],
+      "status": "proposed"
+    },
+    "ED-002@1.0.0": {
+      "fingerprint": "2bca4c8f643c44dd0881a90ac9a43acc091cad615acd1c9d1ee213618397bc90",
+      "kind": "decision",
+      "source_refs": [],
+      "status": "proposed"
+    },
+    "NFR-ARCH-001@1.0.0": {
+      "fingerprint": "29fe5808e5f0f4262e39b5d7bdcdd5745a0253c44e074a91a8e73d13690aebdc",
+      "kind": "nfr",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "NFR-ARCH-001",
+          "source_fingerprint": "c1f16ba3b49bdf2879a580eb6caddf958dde26164bf5598fa43d2cb5c80873f2"
+        }
+      ],
+      "status": "in_review"
+    },
+    "NFR-ARCH-002@1.0.0": {
+      "fingerprint": "6ec21b4b80136347bd8a027cb5f19d8ff5281b1a8e854e2e09ac3d5322572d04",
+      "kind": "nfr",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "NFR-ARCH-002",
+          "source_fingerprint": "9627fe3f9bad217b2ca596ced3168152e6bbd5b8c686dd9a7bf7f3e14bc98354"
+        }
+      ],
+      "status": "in_review"
+    },
+    "OD-001@0.1.0": {
+      "fingerprint": "b6858d2f1d5b8e5338686df56fe6b4ffc4a94a93b754d1c72dc70790d196f5bd",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-001",
+          "source_fingerprint": "47f6cb0447b1e1a6e9a9d5b85ac92e055bede7856505c2fbbd330e2d888f4b3e"
+        }
+      ],
+      "status": "proposed"
+    },
+    "OD-002@1.0.0": {
+      "fingerprint": "81a2d96fb09e7650923ec3d3d41d5e2ba3bd29610a9395b9eb7bea2a0f1661eb",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-002",
+          "source_fingerprint": "871512ce3d1bf4d0019290174ad63426313fe8a1f1fb4f36191b08cd827b2207"
+        }
+      ],
+      "status": "approved"
+    },
+    "OD-005@0.1.0": {
+      "fingerprint": "10daafe00d405cd61c4dbd76c2dee272797a6b5e715788995d2ed74f6117c232",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-005",
+          "source_fingerprint": "3afac312d7469744944316782d09e856c66730c394ad5029f946123bdcd5aa83"
+        }
+      ],
+      "status": "proposed"
+    },
+    "OD-009@0.1.0": {
+      "fingerprint": "962080700bba41441ec16015605eaa2a2c0714942cbcfcf0a2f0bc4abd629b8d",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-009",
+          "source_fingerprint": "34b3188b79c0e362e82833dfa41a70174e5028d226016385ddc76901e1964ac7"
+        }
+      ],
+      "status": "proposed"
+    },
+    "OD-020@0.1.0": {
+      "fingerprint": "aec2558b472f5b1d2fa39341bd41e70fcee07988a838b3cc034ea6da4e0ef2d9",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-020",
+          "source_fingerprint": "2d7a81a873678e640b2eeb54866dbdc2d1d0475c460188bbefaebcf987e42402"
+        }
+      ],
+      "status": "proposed"
+    },
+    "OD-025@0.1.0": {
+      "fingerprint": "d29f5f9dc805fd2348ba9663a03280fbbdbaaf3635e5190b28eb917e9dc36f16",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-025",
+          "source_fingerprint": "4560bd80b4b4a04f8d951025237f962a5d73fa899b338c06ffc66c1952985535"
+        }
+      ],
+      "status": "proposed"
+    },
+    "OD-027@0.1.0": {
+      "fingerprint": "3b8ac36dfd16d5bb7b4f55999684bab7346def2aa1c163def3ed5f04172870fa",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-027",
+          "source_fingerprint": "eb18a5b0d1428c2a736482c1234855f9a1fb7940f0903d5998b6a61685bd08f5"
+        }
+      ],
+      "status": "proposed"
+    },
+    "OD-029@0.1.0": {
+      "fingerprint": "85e197b51ea70faa46294dcbfa020fc623c8f98ebc9d6997c9ed581dfafc4843",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-029",
+          "source_fingerprint": "fcd51de1b1bd263119ceb86f45a59d766730784adc2167d883fd3d1f80e53ace"
+        }
+      ],
+      "status": "proposed"
+    },
+    "OD-030@0.1.0": {
+      "fingerprint": "03dbc6d00f5857449a0c8de147d602f530d76e3a598228f4f088c12dae2cfb64",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-030",
+          "source_fingerprint": "9e114c6bc26b6bbdcefde2f3427acaaf9cc7ba9855d8196f5be7b116cb96c321"
+        }
+      ],
+      "status": "proposed"
+    },
+    "OD-031@0.1.0": {
+      "fingerprint": "3626d4882314f075da4e7050ed45fe6b006818cfb737b6febb8a7cfee6f8fd95",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-031",
+          "source_fingerprint": "b9bc81a6032f13243296caeab9647a00118b59f86b75ac90379ed2296ea69fcc"
+        }
+      ],
+      "status": "proposed"
+    },
+    "OD-032@0.1.0": {
+      "fingerprint": "0664721d0fb0a33e88972ef2c6b1df72204e7d58e673bd6fbb0606f6984ad19d",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-032",
+          "source_fingerprint": "e276ce596f45807ac804b22f0159514255b24f383a0e15822dcdcebcec9deb88"
+        }
+      ],
+      "status": "proposed"
+    },
+    "OD-034@0.1.0": {
+      "fingerprint": "d9645e91b6778f65d064bf23aa4b2418f3828cb02ef3f19bd2e4e37b75dc1a40",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-034",
+          "source_fingerprint": "812972e2a3d8b8546103613a65ac214bbdb3d4d2f4f973fb258adedad0744309"
+        }
+      ],
+      "status": "proposed"
+    },
+    "OPS-EXC-001@0.1.0": {
+      "fingerprint": "84fdb3643f7eb1cd7bf99773264133e9261b02c03a94dfec5ab93d63e8e93fd8",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-EXC-001",
+          "source_fingerprint": "1c1c6246aba17a34a02fa4476440b5417ac555722513596cadcd37ed9d5a68cf"
+        }
+      ],
+      "status": "in_review"
+    },
+    "OPS-EXC-002@0.1.0": {
+      "fingerprint": "8cf1d2cd7b5930ba2688263bc4c181accdfd4364e48b08fb31b75586f5781da6",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-EXC-002",
+          "source_fingerprint": "c5071e98bf82d792a49254dc336117ae0353e602a934e69fc58a806ef335f3fe"
+        }
+      ],
+      "status": "in_review"
+    },
+    "OPS-IDENTITY-001@0.1.0": {
+      "fingerprint": "0a417c32d1859c6612ca7144c728cc75b172e5a5d32761a1ac52c470d675aaf1",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-IDENTITY-001",
+          "source_fingerprint": "1186729cc44cf6f13e74ac666fc09f3001f90bc5ce1bfdbfb577f6e61fded98f"
+        }
+      ],
+      "status": "in_review"
+    },
+    "OPS-IDENTITY-002@0.1.0": {
+      "fingerprint": "b00534b8eb9a1750dcc75d2e2b178a5183564042f2d6653a9befa31e67687b18",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-IDENTITY-002",
+          "source_fingerprint": "54f7c368e0c5d2e9bfef8fad15204a6a693a6fbd3bda1c59b63df3c094b736c0"
+        }
+      ],
+      "status": "in_review"
+    },
+    "OPS-IDENTITY-003@0.1.0": {
+      "fingerprint": "7eb34bdf50c2f079f08852332d0acac9deddde9b5ae1bed7ae5de680d5d98483",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-IDENTITY-003",
+          "source_fingerprint": "d601328d0279f11d9750c7ca7efba283114d28b738fd2d153f9fc5fbefc0833a"
+        }
+      ],
+      "status": "in_review"
+    },
+    "OPS-RECEIPT-001@0.1.0": {
+      "fingerprint": "7fc24d0d2a7dca6f19298c33402e26323fc44580d83ef4d8ef12f4786f4b1d47",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-RECEIPT-001",
+          "source_fingerprint": "7c5ac0cbc8b80f7778fdc3240ffd9bd7633839bacefe88c4896b3ebc05cad965"
+        }
+      ],
+      "status": "in_review"
+    },
+    "OPS-RECEIPT-002@0.1.0": {
+      "fingerprint": "c226b56a7fbf8c9482ed45241088b21060298375060084f60f082d2abbde846d",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-RECEIPT-002",
+          "source_fingerprint": "5d23e65500b33f3b281878f7ddcb2400a6b44748d2509ed551723a9a6422a96f"
+        }
+      ],
+      "status": "in_review"
+    },
+    "OPS-RECEIPT-003@0.1.0": {
+      "fingerprint": "3e4f6d543a544d2a8fafdd05742ac16706acf2335091458c239d533ab88908b7",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-RECEIPT-003",
+          "source_fingerprint": "389923bc1881370792e1984f9e1bf9f994f3341583475592c9b903bedb3b12e8"
+        }
+      ],
+      "status": "in_review"
+    },
+    "ORG-COLLAB-001@0.1.0": {
+      "fingerprint": "be0c4ffabc11bf56c4cfe5eb0e90140094de49f3a4685faf2924e105ff47b8e1",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "ORG-COLLAB-001",
+          "source_fingerprint": "5b09595bea9c6fc7389343ac598999fb9be1190b5f0a8591e74598b2ff708efc"
+        }
+      ],
+      "status": "in_review"
+    },
+    "ORG-STRUCT-001@0.1.0": {
+      "fingerprint": "433e35c3fb9057b943355fcdace4a4c70be3cf78d0d9a9136b5ea8f55d5393d0",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-002",
+          "source_fingerprint": "871512ce3d1bf4d0019290174ad63426313fe8a1f1fb4f36191b08cd827b2207"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "ORG-STRUCT-001",
+          "source_fingerprint": "75db94de48ebe025a2783449abea7404fa95b6ae89656e1740df8a3b08c4fcd6"
+        }
+      ],
+      "status": "in_review"
+    },
+    "RULE-004@0.1.0": {
+      "fingerprint": "cb054b8410192f0763901e17288c00261684821100e6d097f3ac9f2c3d77ea5d",
+      "kind": "rule",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "RULE-004",
+          "source_fingerprint": "bb3ad11883c364b8ba0b841124b6cc027289e54dae143572ed548d26b6f9f17b"
+        }
+      ],
+      "status": "in_review"
+    },
+    "RULE-026@0.1.0": {
+      "fingerprint": "cfaf997d49a1c94038e0e8fc07a08a206c8861db29eae1462237d5873e2ad1ad",
+      "kind": "rule",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "RULE-026",
+          "source_fingerprint": "138639c246ce3e8fe979512d64e89d518bcf416fd7ecb5ca6616e7ddc556b121"
+        }
+      ],
+      "status": "in_review"
+    },
+    "SEC-AUD-001@1.0.0": {
+      "fingerprint": "aea4087c5303123af6090bb660552fc5952b7e96115b5f155ab01c59b3027237",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "SEC-AUD-001",
+          "source_fingerprint": "79bb14cf6bf64595ee7888ceba58bc8d33c85449aee4f66e8672727780ee5e2d"
+        }
+      ],
+      "status": "in_review"
+    },
+    "SEC-AUTH-001@0.1.0": {
+      "fingerprint": "9f69be78d53d464ceb7e990b8e9e3afb023c9460c43d3f729d0383959f6fcd76",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "SEC-AUTH-001",
+          "source_fingerprint": "cf10f589589e19290348efd37262215aa95c68c54880a6fd1fd085bff84ba435"
+        }
+      ],
+      "status": "in_review"
+    },
+    "SEC-DEPLOY-001@1.0.0": {
+      "fingerprint": "2a581330d9a2c74ea18293ba59bbf812b48b1beb74d5b6cf162d7832a94e4720",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-002",
+          "source_fingerprint": "871512ce3d1bf4d0019290174ad63426313fe8a1f1fb4f36191b08cd827b2207"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "SEC-DEPLOY-001",
+          "source_fingerprint": "c16fdea96ddb5b659a3504e6a8cbb2cf6d25fa9de71dabbf7c4202155a496cc9"
+        }
+      ],
+      "status": "in_review"
+    }
+  },
+  "status": "proposed"
+}

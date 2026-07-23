@@ -1,0 +1,50 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "nfr",
+  "id": "NFR-ARCH-002",
+  "version": "1.0.0",
+  "status": "in_review",
+  "title": "事务Outbox、Inbox与并发恢复语义",
+  "summary": "跨模块事件通过事务Outbox发布，消费者以Inbox幂等记录和并发领取协议处理；崩溃、重试或两个Worker竞争时，业务可见副作用至多一次且原失败证据可追溯。",
+  "owners": ["架构负责人", "工程负责人", "运维负责人", "QA负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "NFR-ARCH-002"}],
+  "depends_on": ["NFR-ARCH-001@1.0.0", "SEC-AUD-001@1.0.0"],
+  "affects": ["outbox", "inbox", "workers", "integration", "concurrency", "reliability", "recovery", "audit", "observability"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "ENABLED", "condition": "所有跨模块异步事件、Outbox发布器和幂等消费者"},
+  "target": "事件不丢失；两个Worker并发领取、进程崩溃、超时与重试后，同一消息的业务可见副作用至多一次，Inbox和原失败证据完整保留",
+  "outbox_invariants": [
+    "业务事实、audit_pending和Outbox消息在同一模块本地数据库事务提交",
+    "Outbox消息具有稳定messageId、事件类型、Schema版本、聚合标识、发生时间、关联ID和要求锁引用",
+    "发布失败保留原消息、尝试次数、错误分类和下次重试时间，不得删除后重建为新消息掩盖失败",
+    "发布成功标记与外部发送结果使用可恢复协议，崩溃窗口允许重复投递但不允许消息丢失"
+  ],
+  "inbox_invariants": [
+    "消费者以consumerId和messageId的唯一组合建立Inbox记录",
+    "Inbox状态至少区分claimed、processing、succeeded与failed，并保留原始首次接收和每次尝试证据",
+    "业务副作用与Inbox成功状态在同一消费者本地事务提交，或使用能证明等价原子性的受控机制",
+    "已成功消息再次送达时返回已处理结果，不重新执行可见副作用"
+  ],
+  "concurrent_claim_semantics": [
+    "两个Worker同时领取同一消息时，只允许一个获得有效处理租约或数据库原子领取权",
+    "失去租约、版本不匹配或唯一键冲突的Worker在执行任何业务可见副作用前停止",
+    "租约超时后的重新领取必须检查Inbox和业务幂等键，不能仅依赖内存锁",
+    "竞争、超时和重新领取均记录Worker、attemptId、时间、结果和关联ID"
+  ],
+  "recovery_semantics": [
+    "在领取后处理前、业务写入中、业务提交后确认前和发布确认前分别注入崩溃并验证恢复",
+    "重试保留原messageId、原失败分类、原attemptId链和Inbox记录，不覆盖为最后一次成功状态而丢失历史",
+    "不可重试失败进入可分派告警或死信等价状态，但原Outbox、Inbox与审计证据只能追加",
+    "人工恢复命令使用新attemptId并引用原失败，不得删除失败行或重置历史计数"
+  ],
+  "measures": [
+    {"name": "lost_messages_after_recovery", "target": 0, "unit": "messages"},
+    {"name": "duplicate_visible_side_effects", "target": 0, "unit": "side_effects"},
+    {"name": "successful_messages_without_inbox_evidence", "target": 0, "unit": "messages"},
+    {"name": "retries_without_original_failure_link", "target": 0, "unit": "attempts"}
+  ],
+  "failure_policy": "任一丢失、重复可见副作用、缺失Inbox或原失败证据均阻断发布；不得通过清空Outbox、Inbox或失败历史恢复绿色。",
+  "review_state": "PENDING_REVIEW_RECORDS"
+}

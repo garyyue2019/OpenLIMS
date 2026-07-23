@@ -1,0 +1,1 @@
+record_date,scope_level,industry_pack,product_category,target_market_or_protocol,metric,unit,average_per_workday,p95_per_workday,historical_max_per_day,peak_hour_value,source_system,source_period_start,source_period_end,evidence_class,provenance_ref,evidence_ref,usage_approval_ref,review_role_slot,review_status,notes

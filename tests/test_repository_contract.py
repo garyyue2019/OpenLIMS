@@ -1,7 +1,10 @@
 from __future__ import annotations
 
 import json
+import os
 import re
+import subprocess
+import sys
 import unittest
 from pathlib import Path
 
@@ -18,6 +21,21 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertEqual([], state.validation.errors)
         self.assertEqual((), state.source_drifts)
         self.assertEqual([], check(state))
+
+    def test_cli_output_is_utf8_when_windows_locale_is_not(self) -> None:
+        env = os.environ.copy()
+        env["PYTHONUTF8"] = "0"
+        env["PYTHONIOENCODING"] = "cp1252"
+        result = subprocess.run(
+            [sys.executable, "-m", "tools.specgen", "validate", "--strict-warnings"],
+            cwd=ROOT,
+            env=env,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=False,
+        )
+        self.assertEqual(0, result.returncode, result.stderr.decode("utf-8", errors="replace"))
+        self.assertIn("个规格版本", result.stdout.decode("utf-8"))
 
     def test_expected_bootstrap_artifacts_exist(self) -> None:
         tasks = sorted((ROOT / "generated" / "spec" / "tasks").glob("*.md"))

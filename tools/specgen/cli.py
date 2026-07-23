@@ -21,6 +21,15 @@ EXIT_DRIFT = 3
 EXIT_BLOCKED = 4
 
 
+def _configure_utf8_stdio() -> None:
+    """Make deterministic CLI output independent of the Windows system locale."""
+    for stream_name in ("stdout", "stderr"):
+        stream = getattr(sys, stream_name, None)
+        reconfigure = getattr(stream, "reconfigure", None)
+        if callable(reconfigure):
+            reconfigure(encoding="utf-8", errors="backslashreplace")
+
+
 def _root_from_args(args: argparse.Namespace) -> Path:
     if args.root:
         return Path(args.root).resolve()
@@ -501,6 +510,7 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: list[str] | None = None) -> int:
+    _configure_utf8_stdio()
     parser = build_parser()
     args = parser.parse_args(argv)
     try:

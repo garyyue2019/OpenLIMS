@@ -4,7 +4,7 @@
 基于现有 OpenLIMS PRD，形成并实际交付一套可运行、可追踪、可增量同步的 AI 开发规格与需求编译工具链。
 
 ## Current Phase
-In Progress: 受控提交与 GitHub 发布
+In Progress: 联合评审发起与明确选择收集
 
 ## Phases
 
@@ -235,8 +235,8 @@ In Progress: 受控提交与 GitHub 发布
 ### Phase 39: 受控提交与 GitHub 发布
 - [x] 恢复活动计划，核对规格/来源/影响/Story Ready前置门禁及Git目标
 - [x] 执行AGENTS.md完整终审、二次幂等生成、评审阻断核验和差异检查
-- [ ] 暂存完整交付、创建提交、推送`main`到`origin/main`并核对远端CI
-- **Status:** in_progress
+- [x] 暂存完整交付、创建提交、推送`main`到`origin/main`并核对远端CI
+- **Status:** complete
 
 ## Decisions Made
 | Decision | Rationale |

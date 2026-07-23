@@ -1,0 +1,20 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "decision",
+  "id": "OD-029",
+  "version": "0.1.0",
+  "status": "proposed",
+  "title": "认可范围数据粒度与签发门禁",
+  "summary": "确定站点、方法、版本、产品或基质、参数或量程、有效期和签字人的认可范围权威数据。",
+  "owners": ["质量负责人", "法务负责人", "授权签字人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "OD-029"}],
+  "depends_on": ["OD-001@0.1.0"],
+  "affects": ["accreditation", "result-review", "reporting", "signature"],
+  "change_class": "major",
+  "decision_state": "open",
+  "options": ["方法级", "参数量程级", "完整行级多维范围"],
+  "decision": null,
+  "blocking_scope": ["行级认可计算", "混合范围报告", "签字授权"],
+  "exit_criteria": ["权威来源确认", "混合报告样例批准", "历史有效期验证"]
+}

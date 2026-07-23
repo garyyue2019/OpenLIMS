@@ -1,0 +1,52 @@
+name: Specification governance
+
+on:
+  pull_request:
+    paths:
+      - "docs/AI原生第三方产品检测LIMS产品需求文档.md"
+      - "spec/**"
+      - "generated/spec/**"
+      - "tools/specgen/**"
+      - "tests/**"
+      - "scripts/spec.*"
+      - ".github/workflows/spec-governance.yml"
+  push:
+    branches: [main]
+    paths:
+      - "docs/AI原生第三方产品检测LIMS产品需求文档.md"
+      - "spec/**"
+      - "generated/spec/**"
+      - "tools/specgen/**"
+      - "tests/**"
+
+permissions:
+  contents: read
+
+jobs:
+  deterministic-specification-gate:
+    runs-on: windows-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Validate structured specifications
+        run: python -m tools.specgen validate --strict-warnings
+
+      - name: Reject unreviewed PRD source drift
+        run: python -m tools.specgen source-status
+
+      - name: Verify sealed history
+        run: python -m tools.specgen verify-history
+
+      - name: Check generated artifacts without writing
+        run: python -m tools.specgen check
+
+      - name: Run specification compiler tests
+        run: python -m unittest discover -s tests -p "test_*.py" -v
+
+      - name: Compile Python modules
+        run: python -m compileall -q tools/specgen tests

@@ -1,0 +1,18 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "OPS-EXC-001",
+  "version": "0.1.0",
+  "status": "in_review",
+  "title": "收样异常分类建档",
+  "summary": "数量不足、超温、破损、污染、标签冲突和超时必须形成独立异常，引用对象、证据和当前影响。",
+  "owners": ["收样负责人", "质量负责人", "EHS负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "OPS-EXC-001"}],
+  "depends_on": ["OPS-RECEIPT-001@0.1.0", "OPS-IDENTITY-001@0.1.0"],
+  "affects": ["exception", "receiving", "identity", "evidence", "workflow"],
+  "change_class": "minor",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "UNKNOWN", "condition": "收样异常分类、严重度和责任方字典批准后启用"},
+  "invariants": ["异常不得通过修改原始到货数据消除", "关闭异常保留决定和证据", "危险属性异常默认安全封存"]
+}

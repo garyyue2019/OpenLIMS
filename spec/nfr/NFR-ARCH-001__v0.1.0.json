@@ -1,0 +1,18 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "nfr",
+  "id": "NFR-ARCH-001",
+  "version": "0.1.0",
+  "status": "in_review",
+  "title": "首期模块化单体",
+  "summary": "首期应用采用模块化单体；模块不得直接访问其他模块私有表，CI 中循环依赖必须为零。",
+  "owners": ["架构负责人", "工程负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "NFR-ARCH-001"}],
+  "depends_on": ["OD-025@0.1.0"],
+  "affects": ["architecture", "module-boundaries", "ci"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "UNKNOWN", "condition": "OD-025 模块与扩展边界批准后启用"},
+  "target": "模块私有表零越权访问；CI 循环依赖为零"
+}

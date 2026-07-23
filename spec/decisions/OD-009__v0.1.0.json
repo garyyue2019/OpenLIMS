@@ -1,0 +1,20 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "decision",
+  "id": "OD-009",
+  "version": "0.1.0",
+  "status": "proposed",
+  "title": "收到实物唯一识别粒度",
+  "summary": "确定按件、序列号、包装单元或同质组建立 ReceivedItem 的规则及拆组条件。",
+  "owners": ["收样负责人", "技术负责人", "质量负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "OD-009"}],
+  "depends_on": [],
+  "affects": ["receiving", "identifier", "barcode", "lineage"],
+  "change_class": "major",
+  "decision_state": "open",
+  "options": ["逐件", "序列号", "同质组", "按产品和风险配置"],
+  "decision": null,
+  "blocking_scope": ["ReceivedItem 聚合边界", "编号生成", "标签模板", "数量与谱系"],
+  "exit_criteria": ["试点产品识别规则批准", "拆组和合组规则批准", "标签与扫描粒度确认"]
+}

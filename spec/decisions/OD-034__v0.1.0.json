@@ -1,0 +1,20 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "decision",
+  "id": "OD-034",
+  "version": "0.1.0",
+  "status": "proposed",
+  "title": "检测结论层级与全面合规引用边界",
+  "summary": "冻结单项符合、已测范围符合的行业化语义、批准权限和外部全面法规评估或证书引用方式。",
+  "owners": ["法规负责人", "技术负责人", "质量负责人", "法务负责人", "授权签字人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "OD-034"}],
+  "depends_on": ["OD-001@0.1.0", "OD-029@0.1.0"],
+  "affects": ["conformity", "reporting", "external-compliance-reference"],
+  "change_class": "major",
+  "decision_state": "open",
+  "options": ["单项结论", "限定已测范围结论", "外部全面评估引用"],
+  "decision": null,
+  "blocking_scope": ["ConformityDecision", "报告声明", "签发门禁", "未覆盖项披露"],
+  "exit_criteria": ["行业措辞批准", "权限批准", "报告样例和反向场景批准"]
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "OPS-IDENTITY-003",
+  "version": "0.1.0",
+  "status": "in_review",
+  "title": "身份异常对象禁止进入制样和检测",
+  "summary": "未匹配、身份待定、隔离、拒收或安全封存对象不得被制样、拆解或分配检测。",
+  "owners": ["质量负责人", "身份评估员", "领域负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "OPS-IDENTITY-003"}],
+  "depends_on": ["OPS-RECEIPT-003@0.1.0", "OPS-IDENTITY-001@0.1.0", "OPS-IDENTITY-002@0.1.0", "OD-005@0.1.0"],
+  "affects": ["identity", "sample-preparation", "task-allocation", "authorization", "audit"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "UNKNOWN", "condition": "OD-005 的状态与允许动作矩阵批准后启用"},
+  "invariants": ["所有下游入口使用同一批准门禁契约", "拒绝操作无业务副作用", "并发状态变化使用期望版本校验"]
+}

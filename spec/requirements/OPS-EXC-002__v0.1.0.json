@@ -1,0 +1,18 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "OPS-EXC-002",
+  "version": "0.1.0",
+  "status": "in_review",
+  "title": "异常不得自动降低范围或默认条件接收",
+  "summary": "任何异常都不能静默降低检测范围、延长有效期或形成条件接收，必须由授权决定显式处理。",
+  "owners": ["质量负责人", "技术负责人", "客户合同负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "OPS-EXC-002"}],
+  "depends_on": ["OPS-EXC-001@0.1.0", "OD-005@0.1.0"],
+  "affects": ["exception", "scope-change", "conditional-acceptance", "authorization", "audit"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "UNKNOWN", "condition": "OD-005 批准异常审批矩阵后启用"},
+  "invariants": ["没有授权决定时保持阻断", "范围变化只能通过受控变更单", "客户等待与内部等待分别计时"]
+}

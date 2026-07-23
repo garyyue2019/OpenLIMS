@@ -1,0 +1,21 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "acceptance",
+  "id": "AC-SEC-001",
+  "version": "0.1.0",
+  "status": "in_review",
+  "title": "集团内多维越权防护",
+  "summary": "同一集团内未获授权的法人、实验室或客户对象不可被列表、搜索、导出、附件或 AI 查询泄露。",
+  "owners": ["安全负责人", "质量负责人", "QA负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "AC-SEC-001"}],
+  "depends_on": ["OD-002@1.0.0", "ORG-STRUCT-001@0.1.0", "SEC-AUTH-001@0.1.0"],
+  "affects": ["authorization", "search", "export", "object-storage", "ai-retrieval", "automated-test"],
+  "change_class": "major",
+  "scenario": {
+    "given": ["用户只获得法人甲、实验室甲和客户甲授权", "同一集团内存在未授权的法人乙、实验室乙或客户乙对象"],
+    "when": ["用户通过列表、搜索、导出、对象存储链接或 AI 查询尝试访问未授权对象"],
+    "then": ["系统不返回未授权数据且不泄露对象是否存在", "系统记录安全审计", "存在明确跨机构授权时也只返回授权范围内的最小数据"]
+  },
+  "automation": ["跨法人拒绝测试", "跨实验室拒绝与显式授权测试", "跨客户拒绝测试", "对象存储授权测试", "搜索与AI检索过滤测试"]
+}

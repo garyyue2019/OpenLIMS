@@ -1,0 +1,20 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "decision",
+  "id": "OD-030",
+  "version": "0.1.0",
+  "status": "proposed",
+  "title": "各方法族最小执行记录与外部系统边界",
+  "summary": "冻结制备批、分析批、QC、原始数据以及 ELN/CDS 的权威边界和首期最小记录集。",
+  "owners": ["实验室负责人", "技术负责人", "质量负责人", "架构负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "OD-030"}],
+  "depends_on": ["OD-001@0.1.0"],
+  "affects": ["execution", "batch", "qc", "raw-data", "instrument-integration"],
+  "change_class": "major",
+  "decision_state": "open",
+  "options": ["LIMS最小记录加外部引用", "方法族内置执行", "按技术包分别决定"],
+  "decision": null,
+  "blocking_scope": ["执行数据模型", "仪器适配器", "结果复核", "原始数据保留"],
+  "exit_criteria": ["首期方法族确定", "逐字段权威边界批准", "验证数据集可用"]
+}

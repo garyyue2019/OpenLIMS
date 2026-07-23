@@ -1,0 +1,20 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "decision",
+  "id": "OD-031",
+  "version": "0.1.0",
+  "status": "proposed",
+  "title": "首期条码、移动流程和仪器接口清单",
+  "summary": "按数据量、人工工时、错误风险和可验证性选定首期条码操作与至少一类真实高频仪器或文件接口。",
+  "owners": ["实验室运营", "IT负责人", "产品负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "OD-031"}],
+  "depends_on": ["OD-001@0.1.0", "OD-009@0.1.0", "OD-030@0.1.0"],
+  "affects": ["barcode", "mobile", "instrument-integration", "validation-data"],
+  "change_class": "major",
+  "decision_state": "open",
+  "options": ["扫码收样与流转", "CSV文件接口", "首类仪器解析器"],
+  "decision": null,
+  "blocking_scope": ["标签协议", "移动端范围", "适配器契约", "接口验收"] ,
+  "exit_criteria": ["真实文件样本可用", "字段映射批准", "异常与重放策略批准"]
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "SEC-AUD-001",
+  "version": "0.1.0",
+  "status": "in_review",
+  "title": "受控操作追加式审计事件",
+  "summary": "新增、修改、状态转换、批准、下载、导出、扫描、标签重印、AI运行和接口重放均生成不可由普通管理员修改的审计事件。",
+  "owners": ["质量负责人", "安全负责人", "审计负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "SEC-AUD-001"}],
+  "depends_on": [],
+  "affects": ["audit", "all-domain-commands", "observability"],
+  "change_class": "minor",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "UNKNOWN", "condition": "审计事件最小字段和保留策略批准后启用"},
+  "invariants": ["审计事件追加写入", "失败阻断也记录", "不得记录密码、令牌或未脱敏敏感正文"]
+}

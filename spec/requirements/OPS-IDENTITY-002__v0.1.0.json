@@ -1,0 +1,18 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "OPS-IDENTITY-002",
+  "version": "0.1.0",
+  "status": "in_review",
+  "title": "实物身份映射到实际送检项与受试配置",
+  "summary": "可检测实物必须关联实际送检项、变体或特征和配置；不得借身份映射代表未收到型号，歧义必须阻断。",
+  "owners": ["身份评估员", "技术负责人", "领域负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "OPS-IDENTITY-002"}],
+  "depends_on": ["OPS-IDENTITY-001@0.1.0", "OD-009@0.1.0"],
+  "affects": ["identity", "submission", "product-variant", "configuration", "task-allocation"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "UNKNOWN", "condition": "试点产品身份粒度和配置轴批准后启用"},
+  "invariants": ["身份映射只表达实际存在范围", "任务使用由 TestObjectAllocation 表达", "代表性由 CoverageDecision 表达"]
+}

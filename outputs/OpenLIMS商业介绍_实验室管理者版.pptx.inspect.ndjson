@@ -1,0 +1,662 @@
+{"kind":"deck","id":"pr/925t1v","name":"Deck"}
+{"kind":"layout","layoutId":"a3021987-1ba4-435c-9e53-e7cb709dab73","name":"Master","type":"master"}
+{"kind":"layout","layoutId":"5554edcb-2db7-4704-b874-63fbbb83a1fa","name":"Title Slide","type":"title"}
+{"kind":"slide","id":"sl/h79av1","slide":1,"title":"AI 原生 · 第三方产品检测","textShapes":17}
+{"kind":"shape","id":"sh/w7ux0fip","slide":1,"bbox":[960,0,320,320]}
+{"kind":"shape","id":"sh/v6lgrah4","slide":1,"bbox":[0,480,240,240]}
+{"kind":"shape","id":"sh/a5cfyp0j","slide":1,"bbox":[960,0,320,320]}
+{"kind":"shape","id":"sh/5wnyx4z6","slide":1,"bbox":[1060,0,220,220]}
+{"kind":"shape","id":"sh/kbux4zil","slide":1,"bbox":[64,52,238,32]}
+{"kind":"textbox","id":"sh/jalgvuhg","slide":1,"text":"AI 原生 · 第三方产品检测","textPreview":"AI 原生 · 第三方产品检测","textChars":15,"textLines":1,"bbox":[64,53,238,30]}
+{"kind":"textbox","id":"sh/i9cf2p0v","slide":1,"text":"OpenLIMS","textPreview":"OpenLIMS","textChars":8,"textLines":1,"bbox":[64,110,520,52]}
+{"kind":"textbox","id":"sh/1gjel0z2","slide":1,"text":"把检测交付变成\n可预测、可复制、可审计的经营能力","textPreview":"把检测交付变成 | 可预测、可复制、可审计的经营能力","textChars":24,"textLines":2,"bbox":[64,176,870,190]}
+{"kind":"textbox","id":"sh/0faxsvih","slide":1,"text":"不是“样品登记系统”，而是连接商业承诺、检测生产、质量证据与经营结果的操作系统。","textPreview":"不是“样品登记系统”，而是连接商业承诺、检测生产、质量证据与经营结果的操作系统。","textChars":40,"textLines":1,"bbox":[68,392,870,64]}
+{"kind":"shape","id":"sh/i5832toj","slide":1,"bbox":[120,536,760,0]}
+{"kind":"shape","id":"sh/3qh4bypo","slide":1,"bbox":[110,526,20,20]}
+{"kind":"textbox","id":"sh/4rql4j69","slide":1,"text":"承诺","textPreview":"承诺","textChars":2,"textLines":1,"bbox":[84,560,92,30]}
+{"kind":"textbox","id":"sh/5szmdo7u","slide":1,"text":"报价与范围","textPreview":"报价与范围","textChars":5,"textLines":1,"bbox":[64,594,132,24]}
+{"kind":"shape","id":"sh/qt8n6tof","slide":1,"bbox":[350,526,20,20]}
+{"kind":"textbox","id":"sh/ruh4fy50","slide":1,"text":"样品","textPreview":"样品","textChars":2,"textLines":1,"bbox":[324,560,92,30]}
+{"kind":"textbox","id":"sh/svq5836l","slide":1,"text":"身份与代表性","textPreview":"身份与代表性","textChars":6,"textLines":1,"bbox":[304,594,132,24]}
+{"kind":"shape","id":"sh/dwzmh8n6","slide":1,"bbox":[590,526,20,20]}
+{"kind":"textbox","id":"sh/exsnadob","slide":1,"text":"执行","textPreview":"执行","textChars":2,"textLines":1,"bbox":[564,560,92,30]}
+{"kind":"textbox","id":"sh/fy14ji5w","slide":1,"text":"资源与证据","textPreview":"资源与证据","textChars":5,"textLines":1,"bbox":[544,594,132,24]}
+{"kind":"shape","id":"sh/b2147il4","slide":1,"bbox":[830,526,20,20]}
+{"kind":"textbox","id":"sh/a1s3yd4j","slide":1,"text":"报告","textPreview":"报告","textChars":2,"textLines":1,"bbox":[804,560,92,30]}
+{"kind":"textbox","id":"sh/xo3m9s3a","slide":1,"text":"复核与签发","textPreview":"复核与签发","textChars":5,"textLines":1,"bbox":[784,594,132,24]}
+{"kind":"shape","id":"sh/cnal0nmp","slide":1,"bbox":[982,158,218,360]}
+{"kind":"textbox","id":"sh/ny1k3yl8","slide":1,"text":"4","textPreview":"4","textChars":1,"textLines":1,"bbox":[1024,206,132,88]}
+{"kind":"textbox","id":"sh/2xs3ut4n","slide":1,"text":"个经营结果","textPreview":"个经营结果","textChars":5,"textLines":1,"bbox":[1020,292,140,32]}
+{"kind":"shape","id":"sh/p0j2583y","slide":1,"bbox":[1028,346,126,0]}
+{"kind":"textbox","id":"sh/ozalw3md","slide":1,"text":"赢单\n提产\n降错\n控险","textPreview":"赢单 | 提产 | 降错 | 控险","textChars":11,"textLines":4,"bbox":[1020,366,140,120]}
+{"kind":"textbox","id":"sh/fuhkzylw","slide":1,"text":"适用于电子电器 · 食品接触材料 · 玩具婴童 · 纺织品 · 汽车零件","textPreview":"适用于电子电器 · 食品接触材料 · 玩具婴童 · 纺织品 · 汽车零件","textChars":36,"textLines":1,"bbox":[64,650,920,24]}
+{"kind":"textbox","id":"sh/et83qt4b","slide":1,"text":"2026","textPreview":"2026","textChars":4,"textLines":1,"bbox":[1148,650,68,24]}
+{"kind":"notes","id":"nt/h79av1","slide":1,"text":""}
+{"kind":"slide","id":"sl/ni53nv","slide":2,"title":"经营挑战","textShapes":39}
+{"kind":"shape","id":"sh/x8j6l4jy","slide":2,"bbox":[1000,0,280,280]}
+{"kind":"shape","id":"sh/a5s7qp07","slide":2,"bbox":[0,520,200,200]}
+{"kind":"shape","id":"sh/v61ozu1s","slide":2,"bbox":[64,40,124,28]}
+{"kind":"textbox","id":"sh/kbupwzi9","slide":2,"text":"经营挑战","textPreview":"经营挑战","textChars":4,"textLines":1,"bbox":[64,41,124,26]}
+{"kind":"textbox","id":"sh/5w3qp4zu","slide":2,"text":"实验室增长的瓶颈，往往是订单在部门之间失真","textPreview":"实验室增长的瓶颈，往往是订单在部门之间失真","textChars":21,"textLines":1,"bbox":[64,78,1152,66]}
+{"kind":"textbox","id":"sh/i9s7up03","slide":2,"text":"设备能力可能足够，但跨部门交接仍在制造等待、返工与不可见风险。","textPreview":"设备能力可能足够，但跨部门交接仍在制造等待、返工与不可见风险。","textChars":31,"textLines":1,"bbox":[66,145,1040,28]}
+{"kind":"shape","id":"sh/ja18nuho","slide":2,"bbox":[64,675,1152,0]}
+{"kind":"textbox","id":"sh/szup0jil","slide":2,"text":"OPENLIMS  /  MANAGEMENT BRIEF","textPreview":"OPENLIMS  /  MANAGEMENT BRIEF","textChars":29,"textLines":1,"bbox":[64,685,330,18]}
+{"kind":"textbox","id":"sh/t03qtozq","slide":2,"text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[1160,683,56,20]}
+{"kind":"shape","id":"sh/xcjmhczm","slide":2,"bbox":[64,208,177,202]}
+{"kind":"textbox","id":"sh/wba587yh","slide":2,"text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[82,226,48,26]}
+{"kind":"textbox","id":"sh/ba14f2hw","slide":2,"text":"销售","textPreview":"销售","textChars":2,"textLines":1,"bbox":[82,264,141,38]}
+{"kind":"shape","id":"sh/a9sn6xgb","slide":2,"bbox":[82,314,141,0]}
+{"kind":"shape","id":"sh/lgjmlczy","slide":2,"bbox":[82,339,8,8]}
+{"kind":"textbox","id":"sh/kfa5cryd","slide":2,"text":"资料不完整","textPreview":"资料不完整","textChars":5,"textLines":1,"bbox":[100,332,125,30]}
+{"kind":"shape","id":"sh/je14jmhs","slide":2,"bbox":[82,377,8,8]}
+{"kind":"textbox","id":"sh/ydsnahg7","slide":2,"text":"反复补问","textPreview":"反复补问","textChars":4,"textLines":1,"bbox":[100,370,125,30]}
+{"kind":"shape","id":"sh/1kzm9szu","slide":2,"bbox":[259,208,177,202]}
+{"kind":"textbox","id":"sh/0jq50ny9","slide":2,"text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[277,226,48,26]}
+{"kind":"textbox","id":"sh/s3u5wnq5","slide":2,"text":"技术","textPreview":"技术","textChars":2,"textLines":1,"bbox":[277,264,141,38]}
+{"kind":"shape","id":"sh/to3mps7a","slide":2,"bbox":[277,314,141,0]}
+{"kind":"shape","id":"sh/61snud8z","slide":2,"bbox":[277,339,8,8]}
+{"kind":"textbox","id":"sh/r214nipk","slide":2,"text":"范围不清","textPreview":"范围不清","textChars":4,"textLines":1,"bbox":[295,332,125,30]}
+{"kind":"shape","id":"sh/gru50761","slide":2,"bbox":[277,377,8,8]}
+{"kind":"textbox","id":"sh/1s36tc7m","slide":2,"text":"版本分散","textPreview":"版本分散","textChars":4,"textLines":1,"bbox":[295,370,125,30]}
+{"kind":"shape","id":"sh/epcnyxov","slide":2,"bbox":[454,208,177,202]}
+{"kind":"textbox","id":"sh/fql4r2pg","slide":2,"text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[472,226,48,26]}
+{"kind":"textbox","id":"sh/ove5476x","slide":2,"text":"收样","textPreview":"收样","textChars":2,"textLines":1,"bbox":[472,264,141,38]}
+{"kind":"shape","id":"sh/pwn6xc7i","slide":2,"bbox":[472,314,141,0]}
+{"kind":"shape","id":"sh/j29gjadw","slide":2,"bbox":[472,339,8,8]}
+{"kind":"textbox","id":"sh/y10za5wb","slide":2,"text":"身份冲突","textPreview":"身份冲突","textChars":4,"textLines":1,"bbox":[490,332,125,30]}
+{"kind":"shape","id":"sh/l4rylkv2","slide":2,"bbox":[472,377,8,8]}
+{"kind":"textbox","id":"sh/k3ihcfuh","slide":2,"text":"样品不足","textPreview":"样品不足","textChars":4,"textLines":1,"bbox":[490,370,125,30]}
+{"kind":"shape","id":"sh/bypgfqd0","slide":2,"bbox":[649,208,177,202]}
+{"kind":"textbox","id":"sh/axgz6lwf","slide":2,"text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[667,226,48,26]}
+{"kind":"textbox","id":"sh/x0ryh0v6","slide":2,"text":"检测","textPreview":"检测","textChars":2,"textLines":1,"bbox":[667,264,141,38]}
+{"kind":"shape","id":"sh/wzyh8vel","slide":2,"bbox":[667,314,141,0]}
+{"kind":"shape","id":"sh/vut0rud4","slide":2,"bbox":[667,339,8,8]}
+{"kind":"textbox","id":"sh/utkzipcj","slide":2,"text":"排程等待","textPreview":"排程等待","textChars":4,"textLines":1,"bbox":[685,332,125,30]}
+{"kind":"shape","id":"sh/2h036ts3","slide":2,"bbox":[667,377,8,8]}
+{"kind":"textbox","id":"sh/329kfe9o","slide":2,"text":"重复录入","textPreview":"重复录入","textChars":4,"textLines":1,"bbox":[685,370,125,30]}
+{"kind":"shape","id":"sh/43il8jat","slide":2,"bbox":[844,208,177,202]}
+{"kind":"textbox","id":"sh/p4r2hore","slide":2,"text":"05","textPreview":"05","textChars":2,"textLines":1,"bbox":[862,226,48,26]}
+{"kind":"textbox","id":"sh/udg329sr","slide":2,"text":"质量","textPreview":"质量","textChars":2,"textLines":1,"bbox":[862,264,141,38]}
+{"kind":"shape","id":"sh/fe9kbe9c","slide":2,"bbox":[862,314,141,0]}
+{"kind":"shape","id":"sh/gfil4jax","slide":2,"bbox":[862,339,8,8]}
+{"kind":"textbox","id":"sh/hgr2dori","slide":2,"text":"证据缺口","textPreview":"证据缺口","textChars":4,"textLines":1,"bbox":[880,332,125,30]}
+{"kind":"shape","id":"sh/e9k3edsb","slide":2,"bbox":[862,377,8,8]}
+{"kind":"textbox","id":"sh/zatkny9g","slide":2,"text":"异常升级晚","textPreview":"异常升级晚","textChars":5,"textLines":1,"bbox":[880,370,125,30]}
+{"kind":"shape","id":"sh/94v6dcby","slide":2,"bbox":[1039,208,177,202]}
+{"kind":"textbox","id":"sh/83m547ud","slide":2,"text":"06","textPreview":"06","textChars":2,"textLines":1,"bbox":[1057,226,48,26]}
+{"kind":"textbox","id":"sh/n2dob2ts","slide":2,"text":"报告","textPreview":"报告","textChars":2,"textLines":1,"bbox":[1057,264,141,38]}
+{"kind":"shape","id":"sh/m14n2xc7","slide":2,"bbox":[1057,314,141,0]}
+{"kind":"shape","id":"sh/10v69sbm","slide":2,"bbox":[1057,339,8,8]}
+{"kind":"textbox","id":"sh/0zm50nu1","slide":2,"text":"复核返工","textPreview":"复核返工","textChars":4,"textLines":1,"bbox":[1075,332,125,30]}
+{"kind":"shape","id":"sh/zyd47itw","slide":2,"bbox":[1057,377,8,8]}
+{"kind":"textbox","id":"sh/ex4nydcb","slide":2,"text":"交付延期","textPreview":"交付延期","textChars":4,"textLines":1,"bbox":[1075,370,125,30]}
+{"kind":"shape","id":"sh/5wz6lwb6","slide":2,"bbox":[241,309,18,0]}
+{"kind":"shape","id":"sh/kv65cral","slide":2,"bbox":[243,286,16,16]}
+{"kind":"textbox","id":"sh/4zepovih","slide":2,"text":"!","textPreview":"!","textChars":1,"textLines":1,"bbox":[243,285,16,17]}
+{"kind":"shape","id":"sh/507qh0j2","slide":2,"bbox":[436,309,18,0]}
+{"kind":"shape","id":"sh/idw7ml0r","slide":2,"bbox":[438,286,16,16]}
+{"kind":"textbox","id":"sh/3y58fq1c","slide":2,"text":"!","textPreview":"!","textChars":1,"textLines":1,"bbox":[438,285,16,17]}
+{"kind":"shape","id":"sh/gbepkbil","slide":2,"bbox":[631,309,18,0]}
+{"kind":"shape","id":"sh/hcnqdgj6","slide":2,"bbox":[633,286,16,16]}
+{"kind":"textbox","id":"sh/u9w7il0f","slide":2,"text":"!","textPreview":"!","textChars":1,"textLines":1,"bbox":[633,285,16,17]}
+{"kind":"shape","id":"sh/va58bq10","slide":2,"bbox":[826,309,18,0]}
+{"kind":"shape","id":"sh/87upgbip","slide":2,"bbox":[828,286,16,16]}
+{"kind":"textbox","id":"sh/t83q9gju","slide":2,"text":"!","textPreview":"!","textChars":1,"textLines":1,"bbox":[828,285,16,17]}
+{"kind":"shape","id":"sh/b2l8j6lw","slide":2,"bbox":[1021,309,18,0]}
+{"kind":"shape","id":"sh/a1srq14b","slide":2,"bbox":[1023,286,16,16]}
+{"kind":"textbox","id":"sh/x43qlg32","slide":2,"text":"!","textPreview":"!","textChars":1,"textLines":1,"bbox":[1023,285,16,17]}
+{"kind":"shape","id":"sh/w3u9sbmh","slide":2,"bbox":[64,452,1152,158]}
+{"kind":"textbox","id":"sh/j6l8n6ls","slide":2,"text":"管理层通常在最后一刻才看到问题","textPreview":"管理层通常在最后一刻才看到问题","textChars":15,"textLines":1,"bbox":[92,476,430,38]}
+{"kind":"textbox","id":"sh/y5crul47","slide":2,"text":"等待不可见","textPreview":"等待不可见","textChars":5,"textLines":1,"bbox":[662,474,150,32]}
+{"kind":"textbox","id":"sh/l83qpg3y","slide":2,"text":"返工发生太晚","textPreview":"返工发生太晚","textChars":6,"textLines":1,"bbox":[846,474,166,32]}
+{"kind":"textbox","id":"sh/k7u9wbmd","slide":2,"text":"责任难下钻","textPreview":"责任难下钻","textChars":5,"textLines":1,"bbox":[1042,474,138,32]}
+{"kind":"shape","id":"sh/7a58rql4","slide":2,"bbox":[622,486,0,90]}
+{"kind":"textbox","id":"sh/69wryl4j","slide":2,"text":"真正的问题不是某个岗位不努力，而是整条链缺少一份共同、受控、可追踪的业务基线。","textPreview":"真正的问题不是某个岗位不努力，而是整条链缺少一份共同、受控、可追踪的业务基线。","textChars":39,"textLines":1,"bbox":[92,532,1030,48]}
+{"kind":"notes","id":"nt/ni53nv","slide":2,"text":""}
+{"kind":"slide","id":"sl/z8j84k","slide":3,"title":"价值泄漏","textShapes":24}
+{"kind":"shape","id":"sh/xc7ytwzu","slide":3,"bbox":[960,0,320,320]}
+{"kind":"shape","id":"sh/a9gzih0j","slide":3,"bbox":[0,480,240,240]}
+{"kind":"shape","id":"sh/vapgrmh4","slide":3,"bbox":[960,0,320,320]}
+{"kind":"shape","id":"sh/kfyhoril","slide":3,"bbox":[1060,0,220,220]}
+{"kind":"shape","id":"sh/5gryxwz6","slide":3,"bbox":[64,40,124,28]}
+{"kind":"textbox","id":"sh/idgzm10f","slide":3,"text":"价值泄漏","textPreview":"价值泄漏","textChars":4,"textLines":1,"bbox":[64,41,124,26]}
+{"kind":"textbox","id":"sh/jepgv6h0","slide":3,"text":"一笔业务在报价、开工、检测、签发四次发生价值泄漏","textPreview":"一笔业务在报价、开工、检测、签发四次发生价值泄漏","textChars":24,"textLines":1,"bbox":[64,78,1152,66]}
+{"kind":"textbox","id":"sh/0jexc7ih","slide":3,"text":"利润、交期与客户信任，往往不是在一次大事故中损失，而是在多个小断点中持续流失。","textPreview":"利润、交期与客户信任，往往不是在一次大事故中损失，而是在多个小断点中持续流失。","textChars":39,"textLines":1,"bbox":[66,145,1040,28]}
+{"kind":"shape","id":"sh/lknylczm","slide":3,"bbox":[64,675,1152,0]}
+{"kind":"textbox","id":"sh/t4z2pk3a","slide":3,"text":"OPENLIMS  /  MANAGEMENT BRIEF","textPreview":"OPENLIMS  /  MANAGEMENT BRIEF","textChars":29,"textLines":1,"bbox":[64,685,330,18]}
+{"kind":"textbox","id":"sh/83q1wfmp","slide":3,"text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[1160,683,56,20]}
+{"kind":"shape","id":"sh/72hknal4","slide":3,"bbox":[122,280,996,260]}
+{"kind":"shape","id":"sh/618jup4j","slide":3,"bbox":[122,270,996,260]}
+{"kind":"textbox","id":"sh/h8j2t436","slide":3,"text":"商业价值","textPreview":"商业价值","textChars":4,"textLines":1,"bbox":[74,204,160,30]}
+{"kind":"textbox","id":"sh/g7al0zm1","slide":3,"text":"客户交付","textPreview":"客户交付","textChars":4,"textLines":1,"bbox":[1036,570,150,30]}
+{"kind":"shape","id":"sh/v61krulg","slide":3,"bbox":[84,240,230,132]}
+{"kind":"textbox","id":"sh/u5sjyp4v","slide":3,"text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[102,256,42,28]}
+{"kind":"textbox","id":"sh/5w32x43i","slide":3,"text":"报价","textPreview":"报价","textChars":2,"textLines":1,"bbox":[102,285,92,34]}
+{"kind":"textbox","id":"sh/4val4zmx","slide":3,"text":"丢单 / 低估成本\n事后增项","textPreview":"丢单 / 低估成本 | 事后增项","textChars":14,"textLines":2,"bbox":[189,282,108,72]}
+{"kind":"shape","id":"sh/or2dg7y5","slide":3,"bbox":[176,352,32,32]}
+{"kind":"textbox","id":"sh/9sbepcfq","slide":3,"text":"↓","textPreview":"↓","textChars":1,"textLines":1,"bbox":[176,351,32,32]}
+{"kind":"shape","id":"sh/2pkvexgf","slide":3,"bbox":[368,312,230,132]}
+{"kind":"textbox","id":"sh/nqtwn2x0","slide":3,"text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[386,328,42,28]}
+{"kind":"textbox","id":"sh/wfmdkryh","slide":3,"text":"开工","textPreview":"开工","textChars":2,"textLines":1,"bbox":[386,357,92,34]}
+{"kind":"textbox","id":"sh/xgvetwf2","slide":3,"text":"缺样 / 错样\n配件与工装未到","textPreview":"缺样 / 错样 | 配件与工装未到","textChars":15,"textLines":2,"bbox":[473,354,108,72]}
+{"kind":"shape","id":"sh/ad4vihgb","slide":3,"bbox":[460,424,32,32]}
+{"kind":"textbox","id":"sh/bedwrmxw","slide":3,"text":"↓","textPreview":"↓","textChars":1,"textLines":1,"bbox":[460,423,32,32]}
+{"kind":"shape","id":"sh/sjid8nyd","slide":3,"bbox":[652,384,230,132]}
+{"kind":"textbox","id":"sh/dkruhsfi","slide":3,"text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[670,400,42,28]}
+{"kind":"textbox","id":"sh/vehgnqh0","slide":3,"text":"检测","textPreview":"检测","textChars":2,"textLines":1,"bbox":[670,429,92,34]}
+{"kind":"textbox","id":"sh/ud8zul0v","slide":3,"text":"设备人员等待\n排程与前置冲突","textPreview":"设备人员等待 | 排程与前置冲突","textChars":14,"textLines":2,"bbox":[757,426,108,72]}
+{"kind":"shape","id":"sh/hgzyp0z6","slide":3,"bbox":[744,496,32,32]}
+{"kind":"textbox","id":"sh/gfqhwvil","slide":3,"text":"↓","textPreview":"↓","textChars":1,"textLines":1,"bbox":[744,495,32,32]}
+{"kind":"shape","id":"sh/7axgjqh4","slide":3,"bbox":[936,456,230,132]}
+{"kind":"textbox","id":"sh/69ofql0j","slide":3,"text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[954,472,42,28]}
+{"kind":"textbox","id":"sh/tcfylgza","slide":3,"text":"签发","textPreview":"签发","textChars":2,"textLines":1,"bbox":[954,501,92,34]}
+{"kind":"textbox","id":"sh/8b6xsvip","slide":3,"text":"报告返工\n回款与口碑延迟","textPreview":"报告返工 | 回款与口碑延迟","textChars":12,"textLines":2,"bbox":[1041,498,108,72]}
+{"kind":"shape","id":"sh/jmxgf6h8","slide":3,"bbox":[1028,568,32,32]}
+{"kind":"textbox","id":"sh/ylofm10n","slide":3,"text":"↓","textPreview":"↓","textChars":1,"textLines":1,"bbox":[1028,567,32,32]}
+{"kind":"shape","id":"sh/et8jq9w7","slide":3,"bbox":[84,594,1112,48]}
+{"kind":"textbox","id":"sh/zuhkjeds","slide":3,"text":"价值泄漏不是单点错误，而是跨部门链路缺少共同基线。","textPreview":"价值泄漏不是单点错误，而是跨部门链路缺少共同基线。","textChars":25,"textLines":1,"bbox":[104,602,1072,30]}
+{"kind":"notes","id":"nt/z8j84k","slide":3,"text":""}
+{"kind":"slide","id":"sl/u1hsmx","slide":4,"title":"行业适配","textShapes":25}
+{"kind":"shape","id":"sh/4ridc7eh","slide":4,"bbox":[1000,0,280,280]}
+{"kind":"shape","id":"sh/jq9w32xw","slide":4,"bbox":[0,520,200,200]}
+{"kind":"shape","id":"sh/ip0vaxwb","slide":4,"bbox":[64,40,124,28]}
+{"kind":"textbox","id":"sh/hore1sfq","slide":4,"text":"行业适配","textPreview":"行业适配","textChars":4,"textLines":1,"bbox":[64,41,124,26]}
+{"kind":"textbox","id":"sh/w3id87e5","slide":4,"text":"五类检测不同，但老板管理的是同一条交付主线","textPreview":"五类检测不同，但老板管理的是同一条交付主线","textChars":21,"textLines":1,"bbox":[64,78,1152,66]}
+{"kind":"textbox","id":"sh/v29wz2xk","slide":4,"text":"行业语义必须被尊重；经营控制无需重复建设。","textPreview":"行业语义必须被尊重；经营控制无需重复建设。","textChars":21,"textLines":1,"bbox":[66,145,1040,28]}
+{"kind":"shape","id":"sh/u10v6xwf","slide":4,"bbox":[64,675,1152,0]}
+{"kind":"textbox","id":"sh/1kvedwvu","slide":4,"text":"OPENLIMS  /  MANAGEMENT BRIEF","textPreview":"OPENLIMS  /  MANAGEMENT BRIEF","textChars":29,"textLines":1,"bbox":[64,685,330,18]}
+{"kind":"textbox","id":"sh/gjmxkrep","slide":4,"text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[1160,683,56,20]}
+{"kind":"shape","id":"sh/yd83u5of","slide":4,"bbox":[64,194,208,130]}
+{"kind":"textbox","id":"sh/jyh43apk","slide":4,"text":"电子电器","textPreview":"电子电器","textChars":4,"textLines":1,"bbox":[82,214,172,32]}
+{"kind":"textbox","id":"sh/kzqlwf65","slide":4,"text":"配置 · 模式\n扫描 / 最差点","textPreview":"配置 · 模式 | 扫描 / 最差点","textChars":16,"textLines":2,"bbox":[80,258,176,48]}
+{"kind":"shape","id":"sh/l0zm5k7q","slide":4,"bbox":[296,194,208,130]}
+{"kind":"textbox","id":"sh/a9o3q5o3","slide":4,"text":"食品接触","textPreview":"食品接触","textChars":4,"textLines":1,"bbox":[314,214,172,32]}
+{"kind":"textbox","id":"sh/bahkzqpo","slide":4,"text":"迁移暴露 · 迁移液\n分析份 / 分析批","textPreview":"迁移暴露 · 迁移液 | 分析份 / 分析批","textChars":20,"textLines":2,"bbox":[312,258,176,48]}
+{"kind":"shape","id":"sh/wbqlsv69","slide":4,"bbox":[528,194,208,130]}
+{"kind":"textbox","id":"sh/xczm107u","slide":4,"text":"玩具婴童","textPreview":"玩具婴童","textChars":4,"textLines":1,"bbox":[546,214,172,32]}
+{"kind":"textbox","id":"sh/u5s32po7","slide":4,"text":"年龄 · 可接触性\n测试单元 / 破坏顺序","textPreview":"年龄 · 可接触性 | 测试单元 / 破坏顺序","textChars":21,"textLines":2,"bbox":[544,258,176,48]}
+{"kind":"shape","id":"sh/v614bups","slide":4,"bbox":[760,194,208,130]}
+{"kind":"textbox","id":"sh/rat03m5k","slide":4,"text":"纺织品","textPreview":"纺织品","textChars":3,"textLines":1,"bbox":[778,214,172,32]}
+{"kind":"textbox","id":"sh/q9kjuh4z","slide":4,"text":"款色 · 裁样\n调湿洗涤 / 高吞吐","textPreview":"款色 · 裁样 | 调湿洗涤 / 高吞吐","textChars":18,"textLines":2,"bbox":[776,258,176,48]}
+{"kind":"shape","id":"sh/dcvi5wna","slide":4,"bbox":[992,194,208,130]}
+{"kind":"textbox","id":"sh/cbm1wrmp","slide":4,"text":"汽车零件","textPreview":"汽车零件","textChars":4,"textLines":1,"bbox":[1010,214,172,32]}
+{"kind":"textbox","id":"sh/zed07m5g","slide":4,"text":"DVP&R · 样件组\n版本 / 长周期资源","textPreview":"DVP&R · 样件组 | 版本 / 长周期资源","textChars":22,"textLines":2,"bbox":[1008,258,176,48]}
+{"kind":"shape","id":"sh/ed4jy14v","slide":4,"bbox":[108,392,1064,136]}
+{"kind":"shape","id":"sh/1gvi9wnm","slide":4,"bbox":[168,324,472,68]}
+{"kind":"shape","id":"sh/0fm10rm1","slide":4,"bbox":[400,324,240,68]}
+{"kind":"shape","id":"sh/nix0b65c","slide":4,"bbox":[632,324,8,68]}
+{"kind":"shape","id":"sh/mh4j2147","slide":4,"bbox":[640,324,224,68]}
+{"kind":"shape","id":"sh/k76hsb25","slide":4,"bbox":[640,324,456,68]}
+{"kind":"shape","id":"sh/l8filgjq","slide":4,"bbox":[174,426,40,40]}
+{"kind":"textbox","id":"sh/ylozq1kz","slide":4,"text":"委托","textPreview":"委托","textChars":2,"textLines":1,"bbox":[140,474,108,28]}
+{"kind":"shape","id":"sh/j6x0j61k","slide":4,"bbox":[218,446,166,0]}
+{"kind":"shape","id":"sh/wj6hob29","slide":4,"bbox":[388,426,40,40]}
+{"kind":"textbox","id":"sh/xkfihwje","slide":4,"text":"范围","textPreview":"范围","textChars":2,"textLines":1,"bbox":[354,474,108,28]}
+{"kind":"shape","id":"sh/ah4zm1k3","slide":4,"bbox":[432,446,166,0]}
+{"kind":"shape","id":"sh/bix0f61o","slide":4,"bbox":[602,426,40,40]}
+{"kind":"textbox","id":"sh/ofmhkr2x","slide":4,"text":"样品","textPreview":"样品","textChars":2,"textLines":1,"bbox":[568,474,108,28]}
+{"kind":"shape","id":"sh/9gvydwji","slide":4,"bbox":[646,446,166,0]}
+{"kind":"shape","id":"sh/dkbelsza","slide":4,"bbox":[816,426,40,40]}
+{"kind":"textbox","id":"sh/cj2xsnip","slide":4,"text":"执行","textPreview":"执行","textChars":2,"textLines":1,"bbox":[782,474,108,28]}
+{"kind":"shape","id":"sh/ri9wjih4","slide":4,"bbox":[860,446,166,0]}
+{"kind":"shape","id":"sh/qh0fqd0j","slide":4,"bbox":[1030,426,40,40]}
+{"kind":"textbox","id":"sh/1obepsz6","slide":4,"text":"报告","textPreview":"报告","textChars":2,"textLines":1,"bbox":[996,474,108,28]}
+{"kind":"textbox","id":"sh/0n2xw7i1","slide":4,"text":"同一条经营主线","textPreview":"同一条经营主线","textChars":7,"textLines":1,"bbox":[456,356,368,30]}
+{"kind":"shape","id":"sh/zmtwn2hg","slide":4,"bbox":[104,566,246,42]}
+{"kind":"textbox","id":"sh/elkfux0v","slide":4,"text":"承诺范围正确","textPreview":"承诺范围正确","textChars":6,"textLines":1,"bbox":[104,567,246,40]}
+{"kind":"shape","id":"sh/hsred8j2","slide":4,"bbox":[390,566,246,42]}
+{"kind":"textbox","id":"sh/gridk3ih","slide":4,"text":"生产执行可控","textPreview":"生产执行可控","textChars":6,"textLines":1,"bbox":[390,567,246,40]}
+{"kind":"shape","id":"sh/6xwbu9gf","slide":4,"bbox":[676,566,246,42]}
+{"kind":"textbox","id":"sh/7y5cnex0","slide":4,"text":"报告证据可信","textPreview":"报告证据可信","textChars":6,"textLines":1,"bbox":[676,567,246,40]}
+{"kind":"shape","id":"sh/8zytwjyl","slide":4,"bbox":[962,566,246,42]}
+{"kind":"textbox","id":"sh/t07upof6","slide":4,"text":"经营结果可见","textPreview":"经营结果可见","textChars":6,"textLines":1,"bbox":[962,567,246,40]}
+{"kind":"notes","id":"nt/u1hsmx","slide":4,"text":""}
+{"kind":"slide","id":"sl/0dl3ty","slide":5,"title":"核心机制","textShapes":22}
+{"kind":"shape","id":"sh/snedc3eh","slide":5,"bbox":[960,0,320,320]}
+{"kind":"shape","id":"sh/rmlcjydw","slide":5,"bbox":[0,480,240,240]}
+{"kind":"shape","id":"sh/6lcvatwb","slide":5,"bbox":[960,0,320,320]}
+{"kind":"shape","id":"sh/5k3uhofq","slide":5,"bbox":[1060,0,220,220]}
+{"kind":"shape","id":"sh/4jud83e5","slide":5,"bbox":[64,40,124,28]}
+{"kind":"textbox","id":"sh/jilcfyx0","slide":5,"text":"核心机制","textPreview":"核心机制","textChars":4,"textLines":1,"bbox":[64,41,124,26]}
+{"kind":"textbox","id":"sh/ihcv6twf","slide":5,"text":"用受控检测范围锁定承诺、成本、样品和报告","textPreview":"用受控检测范围锁定承诺、成本、样品和报告","textChars":20,"textLines":1,"bbox":[64,78,1152,66]}
+{"kind":"textbox","id":"sh/hg3udofu","slide":5,"text":"TestScopeMatrix 是正式报价与检测执行的版本化业务基线，也是 OpenLIMS 的核心差异化。","textPreview":"TestScopeMatrix 是正式报价与检测执行的版本化业务基线，也是 OpenLIMS 的核心差异化。","textChars":54,"textLines":1,"bbox":[66,145,1040,28]}
+{"kind":"shape","id":"sh/wvad4je9","slide":5,"bbox":[64,675,1152,0]}
+{"kind":"textbox","id":"sh/2dozy18r","slide":5,"text":"OPENLIMS  /  MANAGEMENT BRIEF","textPreview":"OPENLIMS  /  MANAGEMENT BRIEF","textChars":29,"textLines":1,"bbox":[64,685,330,18]}
+{"kind":"textbox","id":"sh/nexgr6pc","slide":5,"text":"05","textPreview":"05","textChars":2,"textLines":1,"bbox":[1160,683,56,20]}
+{"kind":"shape","id":"sh/oz6h0rqh","slide":5,"bbox":[455,196,370,270]}
+{"kind":"shape","id":"sh/p0fitw72","slide":5,"bbox":[484,232,312,182]}
+{"kind":"textbox","id":"sh/e94zuh8f","slide":5,"text":"受控检测范围","textPreview":"受控检测范围","textChars":6,"textLines":1,"bbox":[516,260,248,38]}
+{"kind":"textbox","id":"sh/faxgnmp0","slide":5,"text":"TestScopeMatrix","textPreview":"TestScopeMatrix","textChars":15,"textLines":1,"bbox":[512,304,256,42]}
+{"kind":"textbox","id":"sh/0b6hwrql","slide":5,"text":"逐行锁定 · 版本化 · 可批准 · 可追踪","textPreview":"逐行锁定 · 版本化 · 可批准 · 可追踪","textChars":22,"textLines":1,"bbox":[508,358,264,24]}
+{"kind":"textbox","id":"sh/1cfypw76","slide":5,"text":"客户承诺","textPreview":"客户承诺","textChars":4,"textLines":1,"bbox":[94,204,220,30]}
+{"kind":"textbox","id":"sh/q54zqh8j","slide":5,"text":"实验室执行","textPreview":"实验室执行","textChars":5,"textLines":1,"bbox":[966,204,220,30]}
+{"kind":"shape","id":"sh/r6dgjmp4","slide":5,"bbox":[72,250,264,60]}
+{"kind":"textbox","id":"sh/vatwri5w","slide":5,"text":"目标市场 / 客户协议","textPreview":"目标市场 / 客户协议","textChars":11,"textLines":1,"bbox":[88,260,232,40]}
+{"kind":"shape","id":"sh/u90vidob","slide":5,"bbox":[944,250,264,60]}
+{"kind":"textbox","id":"sh/hcbet8nm","slide":5,"text":"方法版本 / 工作中心","textPreview":"方法版本 / 工作中心","textChars":11,"textLines":1,"bbox":[960,260,232,40]}
+{"kind":"shape","id":"sh/gb2dk36h","slide":5,"bbox":[72,338,264,60]}
+{"kind":"textbox","id":"sh/3etwvi5s","slide":5,"text":"要求条款 / 评价模式","textPreview":"要求条款 / 评价模式","textChars":11,"textLines":1,"bbox":[88,348,232,40]}
+{"kind":"shape","id":"sh/idkfmdo7","slide":5,"bbox":[944,338,264,60]}
+{"kind":"textbox","id":"sh/5gbexsny","slide":5,"text":"样品需求 / 代表性","textPreview":"样品需求 / 代表性","textChars":10,"textLines":1,"bbox":[960,348,232,40]}
+{"kind":"shape","id":"sh/4f2xon6d","slide":5,"bbox":[72,426,264,60]}
+{"kind":"textbox","id":"sh/zipwjypo","slide":5,"text":"正式报价 / 承诺 TAT","textPreview":"正式报价 / 承诺 TAT","textChars":13,"textLines":1,"bbox":[88,436,232,40]}
+{"kind":"shape","id":"sh/yhgvqto3","slide":5,"bbox":[944,426,264,60]}
+{"kind":"textbox","id":"sh/onetkzm1","slide":5,"text":"报告位置 / 判定规则","textPreview":"报告位置 / 判定规则","textChars":11,"textLines":1,"bbox":[960,436,232,40]}
+{"kind":"shape","id":"sh/ponatk36","slide":5,"bbox":[336,280,148,43]}
+{"kind":"shape","id":"sh/2lwbip4v","slide":5,"bbox":[796,280,148,43]}
+{"kind":"shape","id":"sh/nm5sru5g","slide":5,"bbox":[336,323,148,45]}
+{"kind":"shape","id":"sh/0zutgfmp","slide":5,"bbox":[796,323,148,45]}
+{"kind":"shape","id":"sh/1knapkna","slide":5,"bbox":[336,323,148,133]}
+{"kind":"shape","id":"sh/excbe54j","slide":5,"bbox":[796,323,148,133]}
+{"kind":"shape","id":"sh/fylsna54","slide":5,"bbox":[282,516,124,58]}
+{"kind":"textbox","id":"sh/kvytsjm9","slide":5,"text":"价格","textPreview":"价格","textChars":2,"textLines":1,"bbox":[290,527,108,34]}
+{"kind":"shape","id":"sh/lg7u143e","slide":5,"bbox":[344,414,296,102]}
+{"kind":"shape","id":"sh/hozyxczu","slide":5,"bbox":[428,516,124,58]}
+{"kind":"textbox","id":"sh/wnqh47y9","slide":5,"text":"交期","textPreview":"交期","textChars":2,"textLines":1,"bbox":[436,527,108,34]}
+{"kind":"shape","id":"sh/vmxgv2ho","slide":5,"bbox":[490,414,150,102]}
+{"kind":"shape","id":"sh/uloz2xg3","slide":5,"bbox":[574,516,124,58]}
+{"kind":"textbox","id":"sh/5szi1cfq","slide":5,"text":"样品","textPreview":"样品","textChars":2,"textLines":1,"bbox":[582,527,108,34]}
+{"kind":"shape","id":"sh/4rqh8ry5","slide":5,"bbox":[636,414,4,102]}
+{"kind":"shape","id":"sh/jqh0zmx0","slide":5,"bbox":[720,516,124,58]}
+{"kind":"textbox","id":"sh/ip8z6hgf","slide":5,"text":"在制任务","textPreview":"在制任务","textChars":4,"textLines":1,"bbox":[728,527,108,34]}
+{"kind":"shape","id":"sh/tgji5wf2","slide":5,"bbox":[640,414,142,102]}
+{"kind":"shape","id":"sh/sfahcryh","slide":5,"bbox":[866,516,124,58]}
+{"kind":"textbox","id":"sh/q1kv6twz","slide":5,"text":"报告","textPreview":"报告","textChars":2,"textLines":1,"bbox":[874,527,108,34]}
+{"kind":"shape","id":"sh/b2twzyxk","slide":5,"bbox":[640,414,288,102]}
+{"kind":"shape","id":"sh/c32x83e5","slide":5,"bbox":[420,603,440,34]}
+{"kind":"textbox","id":"sh/d4ve18fa","slide":5,"text":"一次变更，自动识别全部下游影响","textPreview":"一次变更，自动识别全部下游影响","textChars":15,"textLines":1,"bbox":[420,604,440,32]}
+{"kind":"notes","id":"nt/0dl3ty","slide":5,"text":""}
+{"kind":"slide","id":"sl/r03ay9","slide":6,"title":"经营价值","textShapes":20}
+{"kind":"shape","id":"sh/qlgjelgj","slide":6,"bbox":[1000,0,280,280]}
+{"kind":"shape","id":"sh/do7i9gza","slide":6,"bbox":[0,520,200,200]}
+{"kind":"shape","id":"sh/sny1gvyp","slide":6,"bbox":[64,40,124,28]}
+{"kind":"textbox","id":"sh/3yp036h8","slide":6,"text":"经营价值","textPreview":"经营价值","textChars":4,"textLines":1,"bbox":[64,41,124,26]}
+{"kind":"textbox","id":"sh/ixgja1gn","slide":6,"text":"四个经营结果形成增长飞轮：赢单、提产、降错、控险","textPreview":"四个经营结果形成增长飞轮：赢单、提产、降错、控险","textChars":24,"textLines":1,"bbox":[64,78,1152,66]}
+{"kind":"textbox","id":"sh/5k7i5gzy","slide":6,"text":"功能只有转化为经营结果，才值得管理层投资。","textPreview":"功能只有转化为经营结果，才值得管理层投资。","textChars":21,"textLines":1,"bbox":[66,145,1040,28]}
+{"kind":"shape","id":"sh/4zy1cbyd","slide":6,"bbox":[64,675,1152,0]}
+{"kind":"textbox","id":"sh/vu50z6hw","slide":6,"text":"OPENLIMS  /  MANAGEMENT BRIEF","textPreview":"OPENLIMS  /  MANAGEMENT BRIEF","textChars":29,"textLines":1,"bbox":[64,685,330,18]}
+{"kind":"textbox","id":"sh/utwz61gb","slide":6,"text":"06","textPreview":"06","textChars":2,"textLines":1,"bbox":[1160,683,56,20]}
+{"kind":"shape","id":"sh/kzuxc3yh","slide":6,"bbox":[500,274,280,206]}
+{"kind":"textbox","id":"sh/l03y58f2","slide":6,"text":"稳定增长","textPreview":"稳定增长","textChars":4,"textLines":1,"bbox":[540,312,200,48]}
+{"kind":"textbox","id":"sh/yxcfatgb","slide":6,"text":"更高客户信任\n更强复制能力","textPreview":"更高客户信任 | 更强复制能力","textChars":13,"textLines":2,"bbox":[555,370,170,58]}
+{"kind":"shape","id":"sh/zylg3yxw","slide":6,"bbox":[170,196,266,148]}
+{"kind":"textbox","id":"sh/cvux83y5","slide":6,"text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[190,214,42,24]}
+{"kind":"textbox","id":"sh/xw3y18fq","slide":6,"text":"赢单","textPreview":"赢单","textChars":2,"textLines":1,"bbox":[190,242,92,40]}
+{"kind":"textbox","id":"sh/atsf6tgf","slide":6,"text":"缩短技术评估\n保护报价正确率","textPreview":"缩短技术评估 | 保护报价正确率","textChars":14,"textLines":2,"bbox":[282,238,136,72]}
+{"kind":"shape","id":"sh/bulgzyxk","slide":6,"bbox":[844,196,266,148]}
+{"kind":"textbox","id":"sh/wreh4nep","slide":6,"text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[864,214,42,24]}
+{"kind":"textbox","id":"sh/hsnydsfu","slide":6,"text":"提产","textPreview":"提产","textChars":2,"textLines":1,"bbox":[864,242,92,40]}
+{"kind":"textbox","id":"sh/583yxs7e","slide":6,"text":"减少等待与重复录入\n释放人机产能","textPreview":"减少等待与重复录入 | 释放人机产能","textChars":16,"textLines":2,"bbox":[956,238,136,72]}
+{"kind":"shape","id":"sh/47axon6t","slide":6,"bbox":[844,458,266,148]}
+{"kind":"textbox","id":"sh/361gvip8","slide":6,"text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[864,476,42,24]}
+{"kind":"textbox","id":"sh/ilsfmdon","slide":6,"text":"降错","textPreview":"降错","textChars":2,"textLines":1,"bbox":[864,504,92,40]}
+{"kind":"textbox","id":"sh/hkjyt872","slide":6,"text":"身份、范围、版本\n与结果来源一致","textPreview":"身份、范围、版本 | 与结果来源一致","textChars":16,"textLines":2,"bbox":[956,500,136,72]}
+{"kind":"shape","id":"sh/gjaxkn6h","slide":6,"bbox":[170,458,266,148]}
+{"kind":"textbox","id":"sh/vi1gripw","slide":6,"text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[190,476,42,24]}
+{"kind":"textbox","id":"sh/uhsfid8r","slide":6,"text":"控险","textPreview":"控险","textChars":2,"textLines":1,"bbox":[190,504,92,40]}
+{"kind":"textbox","id":"sh/tgjyp876","slide":6,"text":"认可、QC、授权\n进入签发门禁","textPreview":"认可、QC、授权 | 进入签发门禁","textChars":15,"textLines":2,"bbox":[282,500,136,72]}
+{"kind":"shape","id":"sh/8fqxg3ql","slide":6,"bbox":[436,262,408,8]}
+{"kind":"shape","id":"sh/ylovq94j","slide":6,"bbox":[977,344,0,114]}
+{"kind":"shape","id":"sh/jmxcze5o","slide":6,"bbox":[436,532,408,0]}
+{"kind":"shape","id":"sh/kn6dsjm9","slide":6,"bbox":[303,344,0,114]}
+{"kind":"shape","id":"sh/lozu14nu","slide":6,"bbox":[436,270,105.01,34.17]}
+{"kind":"shape","id":"sh/ahovmpo7","slide":6,"bbox":[738.99,270,105.01,34.17]}
+{"kind":"shape","id":"sh/bixcvu5s","slide":6,"bbox":[738.99,449.83,105.01,82.17]}
+{"kind":"shape","id":"sh/wj6doz6d","slide":6,"bbox":[436,449.83,105.01,82.17]}
+{"kind":"shape","id":"sh/xkfux4ny","slide":6,"bbox":[314,618,652,36]}
+{"kind":"textbox","id":"sh/mt4vipob","slide":6,"text":"更快准确报价 → 一次正确开工 → 稳定交付 → 客户续单","textPreview":"更快准确报价 → 一次正确开工 → 稳定交付 → 客户续单","textChars":29,"textLines":1,"bbox":[314,619,652,34]}
+{"kind":"notes","id":"nt/r03ay9","slide":6,"text":""}
+{"kind":"slide","id":"sl/rn5gd1","slide":7,"title":"经营驾驶舱","textShapes":24}
+{"kind":"shape","id":"sh/nmhkvadk","slide":7,"bbox":[960,0,320,320]}
+{"kind":"shape","id":"sh/onalofu5","slide":7,"bbox":[0,480,240,240]}
+{"kind":"shape","id":"sh/poj2x0vq","slide":7,"bbox":[960,0,320,320]}
+{"kind":"shape","id":"sh/aps3q5cb","slide":7,"bbox":[1060,0,220,220]}
+{"kind":"shape","id":"sh/bq1kzadg","slide":7,"bbox":[64,40,124,28]}
+{"kind":"textbox","id":"sh/wralsfu1","slide":7,"text":"经营驾驶舱","textPreview":"经营驾驶舱","textChars":5,"textLines":1,"bbox":[64,41,124,26]}
+{"kind":"textbox","id":"sh/xsj21kvm","slide":7,"text":"OTIF-R 统一销售承诺、产能与质量","textPreview":"OTIF-R 统一销售承诺、产能与质量","textChars":19,"textLines":1,"bbox":[64,78,1152,66]}
+{"kind":"textbox","id":"sh/qtojelcr","slide":7,"text":"从月底解释延期，转向在制预警、原因分解与责任闭环。","textPreview":"从月底解释延期，转向在制预警、原因分解与责任闭环。","textChars":25,"textLines":1,"bbox":[66,145,1040,28]}
+{"kind":"shape","id":"sh/ruxknqdc","slide":7,"bbox":[64,675,1152,0]}
+{"kind":"textbox","id":"sh/f6tg3ud0","slide":7,"text":"OPENLIMS  /  MANAGEMENT BRIEF","textPreview":"OPENLIMS  /  MANAGEMENT BRIEF","textChars":29,"textLines":1,"bbox":[64,685,330,18]}
+{"kind":"textbox","id":"sh/e50zupwf","slide":7,"text":"07","textPreview":"07","textChars":2,"textLines":1,"bbox":[1160,683,56,20]}
+{"kind":"shape","id":"sh/1sby54v6","slide":7,"bbox":[468,214,344,258]}
+{"kind":"textbox","id":"sh/072hwzel","slide":7,"text":"OTIF-R","textPreview":"OTIF-R","textChars":6,"textLines":1,"bbox":[520,266,240,64]}
+{"kind":"textbox","id":"sh/r29gzuxo","slide":7,"text":"按期 · 完整 · 一次正确","textPreview":"按期 · 完整 · 一次正确","textChars":14,"textLines":1,"bbox":[518,342,244,32]}
+{"kind":"textbox","id":"sh/610zqpwj","slide":7,"text":"同一张经营表","textPreview":"同一张经营表","textChars":6,"textLines":1,"bbox":[548,392,184,24]}
+{"kind":"shape","id":"sh/t4ry1kvu","slide":7,"bbox":[92,224,204,104]}
+{"kind":"textbox","id":"sh/s3ihsfe9","slide":7,"text":"交期","textPreview":"交期","textChars":2,"textLines":1,"bbox":[110,240,168,32]}
+{"kind":"textbox","id":"sh/jy9gvaxs","slide":7,"text":"承诺 TAT / 逾期","textPreview":"承诺 TAT / 逾期","textChars":11,"textLines":1,"bbox":[108,280,172,26]}
+{"kind":"shape","id":"sh/ixgfm5w7","slide":7,"bbox":[296,276,172,67]}
+{"kind":"shape","id":"sh/m9gze5gz","slide":7,"bbox":[92,404,204,104]}
+{"kind":"textbox","id":"sh/7ap07ahk","slide":7,"text":"范围完整","textPreview":"范围完整","textChars":4,"textLines":1,"bbox":[110,420,168,32]}
+{"kind":"textbox","id":"sh/8vyhgfy5","slide":7,"text":"漏项 / 变更","textPreview":"漏项 / 变更","textChars":7,"textLines":1,"bbox":[108,460,172,26]}
+{"kind":"shape","id":"sh/9w7i9kzq","slide":7,"bbox":[296,343,172,113]}
+{"kind":"shape","id":"sh/uxgzipgb","slide":7,"bbox":[984,224,204,104]}
+{"kind":"textbox","id":"sh/vy90bahw","slide":7,"text":"一次正确","textPreview":"一次正确","textChars":4,"textLines":1,"bbox":[1002,240,168,32]}
+{"kind":"textbox","id":"sh/wzihkfyh","slide":7,"text":"首次通过 / 更正","textPreview":"首次通过 / 更正","textChars":9,"textLines":1,"bbox":[1000,280,172,26]}
+{"kind":"shape","id":"sh/h0ridkzm","slide":7,"bbox":[812,276,172,67]}
+{"kind":"shape","id":"sh/i10zmpg7","slide":7,"bbox":[984,404,204,104]}
+{"kind":"textbox","id":"sh/j290fuhs","slide":7,"text":"产能","textPreview":"产能","textChars":2,"textLines":1,"bbox":[1002,420,168,32]}
+{"kind":"textbox","id":"sh/d8vu1sn6","slide":7,"text":"设备 / 人员 / 场地","textPreview":"设备 / 人员 / 场地","textChars":12,"textLines":1,"bbox":[1000,460,172,26]}
+{"kind":"shape","id":"sh/c7mtsnml","slide":7,"bbox":[812,343,172,113]}
+{"kind":"shape","id":"sh/r6dszi50","slide":7,"bbox":[500,522,280,104]}
+{"kind":"textbox","id":"sh/q54bqd4v","slide":7,"text":"异常","textPreview":"异常","textChars":2,"textLines":1,"bbox":[518,538,244,32]}
+{"kind":"textbox","id":"sh/1wfu5sni","slide":7,"text":"阻断 / 升级 / 关闭","textPreview":"阻断 / 升级 / 关闭","textChars":12,"textLines":1,"bbox":[516,578,248,26]}
+{"kind":"shape","id":"sh/0b6twnmx","slide":7,"bbox":[640,472,0,50]}
+{"kind":"textbox","id":"sh/zadc3i5c","slide":7,"text":"等待原因必须可分解","textPreview":"等待原因必须可分解","textChars":9,"textLines":1,"bbox":[880,540,260,28]}
+{"kind":"shape","id":"sh/e94bud4r","slide":7,"bbox":[844,578,150,30]}
+{"kind":"textbox","id":"sh/90fu9cne","slide":7,"text":"客户等待","textPreview":"客户等待","textChars":4,"textLines":1,"bbox":[844,579,150,28]}
+{"kind":"shape","id":"sh/oz6t07mt","slide":7,"bbox":[1008,578,150,30]}
+{"kind":"textbox","id":"sh/kvaxsb61","slide":7,"text":"内部等待","textPreview":"内部等待","textChars":4,"textLines":1,"bbox":[1008,579,150,28]}
+{"kind":"shape","id":"sh/lwje1g7m","slide":7,"bbox":[844,618,150,30]}
+{"kind":"textbox","id":"sh/yt8vq1ov","slide":7,"text":"系统时间","textPreview":"系统时间","textChars":4,"textLines":1,"bbox":[844,619,150,28]}
+{"kind":"shape","id":"sh/ju1wz6pg","slide":7,"bbox":[1008,618,150,30]}
+{"kind":"textbox","id":"sh/wrqdor65","slide":7,"text":"外部接口","textPreview":"外部接口","textChars":4,"textLines":1,"bbox":[1008,619,150,28]}
+{"kind":"textbox","id":"sh/xszexw7q","slide":7,"text":"北极星指标不是一张总分表，而是可以下钻到订单、任务、资源和责任人的管理机制。","textPreview":"北极星指标不是一张总分表，而是可以下钻到订单、任务、资源和责任人的管理机制。","textChars":38,"textLines":1,"bbox":[84,610,650,40]}
+{"kind":"notes","id":"nt/rn5gd1","slide":7,"text":""}
+{"kind":"slide","id":"sl/344pf4","slide":8,"title":"质量与合规","textShapes":22}
+{"kind":"shape","id":"sh/l0ra9cz2","slide":8,"bbox":[1000,0,280,280]}
+{"kind":"shape","id":"sh/yx0rexgb","slide":8,"bbox":[0,520,200,200]}
+{"kind":"shape","id":"sh/zy9872hw","slide":8,"bbox":[64,40,124,28]}
+{"kind":"textbox","id":"sh/cvi9cnyl","slide":8,"text":"质量与合规","textPreview":"质量与合规","textChars":5,"textLines":1,"bbox":[64,41,124,26]}
+{"kind":"textbox","id":"sh/xwrq5szq","slide":8,"text":"合规成为日常门禁，而不是审计前补材料","textPreview":"合规成为日常门禁，而不是审计前补材料","textChars":18,"textLines":1,"bbox":[64,78,1152,66]}
+{"kind":"textbox","id":"sh/a90raxgf","slide":8,"text":"每个报告结果都能沿证据链回放；任何关键门禁失败，系统阻断签发。","textPreview":"每个报告结果都能沿证据链回放；任何关键门禁失败，系统阻断签发。","textChars":31,"textLines":1,"bbox":[66,145,1040,28]}
+{"kind":"shape","id":"sh/bu983ih0","slide":8,"bbox":[64,675,1152,0]}
+{"kind":"textbox","id":"sh/o7y98ny9","slide":8,"text":"OPENLIMS  /  MANAGEMENT BRIEF","textPreview":"OPENLIMS  /  MANAGEMENT BRIEF","textChars":29,"textLines":1,"bbox":[64,685,330,18]}
+{"kind":"textbox","id":"sh/p87q1szu","slide":8,"text":"08","textPreview":"08","textChars":2,"textLines":1,"bbox":[1160,683,56,20]}
+{"kind":"shape","id":"sh/tw3mp8vq","slide":8,"bbox":[110,336,1050,0]}
+{"kind":"shape","id":"sh/svu5g3e5","slide":8,"bbox":[110,336,1050,0]}
+{"kind":"shape","id":"sh/rul4nidk","slide":8,"bbox":[72,302,138,70]}
+{"kind":"textbox","id":"sh/6tcnedwf","slide":8,"text":"要求","textPreview":"要求","textChars":2,"textLines":1,"bbox":[82,319,118,36]}
+{"kind":"shape","id":"sh/5sjml8vu","slide":8,"bbox":[279,302,138,70]}
+{"kind":"textbox","id":"sh/4ra5c3e9","slide":8,"text":"样品","textPreview":"样品","textChars":2,"textLines":1,"bbox":[289,319,118,36]}
+{"kind":"shape","id":"sh/jq14jydo","slide":8,"bbox":[486,302,138,70]}
+{"kind":"textbox","id":"sh/i5snatw3","slide":8,"text":"方法","textPreview":"方法","textChars":2,"textLines":1,"bbox":[496,319,118,36]}
+{"kind":"shape","id":"sh/h4jmhovi","slide":8,"bbox":[693,302,168,70]}
+{"kind":"textbox","id":"sh/w3a58jex","slide":8,"text":"原始证据","textPreview":"原始证据","textChars":4,"textLines":1,"bbox":[703,319,148,36]}
+{"kind":"shape","id":"sh/87e5o3mt","slide":8,"bbox":[900,302,168,70]}
+{"kind":"textbox","id":"sh/98nmxo3e","slide":8,"text":"采用结果","textPreview":"采用结果","textChars":4,"textLines":1,"bbox":[910,319,148,36]}
+{"kind":"shape","id":"sh/mlcnmt43","slide":8,"bbox":[1107,302,138,70]}
+{"kind":"textbox","id":"sh/n6l4vyl8","slide":8,"text":"报告","textPreview":"报告","textChars":2,"textLines":1,"bbox":[1117,319,118,36]}
+{"kind":"shape","id":"sh/0ju5kjmx","slide":8,"bbox":[226,414,54,54]}
+{"kind":"textbox","id":"sh/lk3mto3i","slide":8,"text":"✓","textPreview":"✓","textChars":1,"textLines":1,"bbox":[226,414,54,54]}
+{"kind":"textbox","id":"sh/yhcni94r","slide":8,"text":"身份匹配","textPreview":"身份匹配","textChars":4,"textLines":1,"bbox":[190,478,126,28]}
+{"kind":"shape","id":"sh/zil4relc","slide":8,"bbox":[253,370,0,44]}
+{"kind":"shape","id":"sh/kfy5wnm1","slide":8,"bbox":[433,414,54,54]}
+{"kind":"textbox","id":"sh/5g76583m","slide":8,"text":"✓","textPreview":"✓","textChars":1,"textLines":1,"bbox":[433,414,54,54]}
+{"kind":"textbox","id":"sh/fa98vm5o","slide":8,"text":"QC 通过","textPreview":"QC 通过","textChars":5,"textLines":1,"bbox":[397,478,126,28]}
+{"kind":"shape","id":"sh/u907mho3","slide":8,"bbox":[460,370,0,44]}
+{"kind":"shape","id":"sh/hwrqxcnu","slide":8,"bbox":[640,414,54,54]}
+{"kind":"textbox","id":"sh/gvipor69","slide":8,"text":"✓","textPreview":"✓","textChars":1,"textLines":1,"bbox":[640,414,54,54]}
+{"kind":"textbox","id":"sh/3yt8zm50","slide":8,"text":"规则有效","textPreview":"规则有效","textChars":4,"textLines":1,"bbox":[604,478,126,28]}
+{"kind":"shape","id":"sh/2x0rqhof","slide":8,"bbox":[667,370,0,44]}
+{"kind":"shape","id":"sh/p0bq1wnq","slide":8,"bbox":[847,414,54,54]}
+{"kind":"textbox","id":"sh/oz29sr6l","slide":8,"text":"✓","textPreview":"✓","textChars":1,"textLines":1,"bbox":[847,414,54,54]}
+{"kind":"textbox","id":"sh/j2p8n25g","slide":8,"text":"授权签发","textPreview":"授权签发","textChars":4,"textLines":1,"bbox":[811,478,126,28]}
+{"kind":"shape","id":"sh/i1g7exob","slide":8,"bbox":[874,370,0,44]}
+{"kind":"shape","id":"sh/ax4zqh03","slide":8,"bbox":[64,544,1152,82]}
+{"kind":"textbox","id":"sh/vydgzmho","slide":8,"text":"可回放","textPreview":"可回放","textChars":3,"textLines":1,"bbox":[88,562,122,38]}
+{"kind":"textbox","id":"sh/wzmhsri9","slide":8,"text":"要求选择快照 → 范围行 → 实物/试样 → 方法版本 → 原始证据 → 采用结果 → 适用规则","textPreview":"要求选择快照 → 范围行 → 实物/试样 → 方法版本 → 原始证据 → 采用结果 → 适用规则","textChars":48,"textLines":1,"bbox":[220,558,880,44]}
+{"kind":"shape","id":"sh/x0vilwzu","slide":8,"bbox":[908,604,278,30]}
+{"kind":"textbox","id":"sh/i14zu10f","slide":8,"text":"失败即阻断 · 全程留痕 · 异常升级","textPreview":"失败即阻断 · 全程留痕 · 异常升级","textChars":19,"textLines":1,"bbox":[908,605,278,28]}
+{"kind":"notes","id":"nt/344pf4","slide":8,"text":""}
+{"kind":"slide","id":"sl/e0w7ny","slide":9,"title":"AI 治理","textShapes":28}
+{"kind":"shape","id":"sh/kvupgjqp","slide":9,"bbox":[960,0,320,320]}
+{"kind":"shape","id":"sh/zul87ep4","slide":9,"bbox":[0,480,240,240]}
+{"kind":"shape","id":"sh/ytc7e98j","slide":9,"bbox":[960,0,320,320]}
+{"kind":"shape","id":"sh/xsjq547e","slide":9,"bbox":[1060,0,220,220]}
+{"kind":"shape","id":"sh/crapczqt","slide":9,"bbox":[64,40,124,28]}
+{"kind":"textbox","id":"sh/b6183up8","slide":9,"text":"AI 治理","textPreview":"AI 治理","textChars":5,"textLines":1,"bbox":[64,41,124,26]}
+{"kind":"textbox","id":"sh/a5s7ap8n","slide":9,"text":"AI 节省认知劳动，不接管质量责任","textPreview":"AI 节省认知劳动，不接管质量责任","textChars":17,"textLines":1,"bbox":[64,78,1152,66]}
+{"kind":"textbox","id":"sh/p4j61472","slide":9,"text":"把效率交给 AI，把确定性留给规则，把判断与签发留给授权人员。","textPreview":"把效率交给 AI，把确定性留给规则，把判断与签发留给授权人员。","textChars":31,"textLines":1,"bbox":[66,145,1040,28]}
+{"kind":"shape","id":"sh/o3ap8zqh","slide":9,"bbox":[64,675,1152,0]}
+{"kind":"textbox","id":"sh/y1c7uxgn","slide":9,"text":"OPENLIMS  /  MANAGEMENT BRIEF","textPreview":"OPENLIMS  /  MANAGEMENT BRIEF","textChars":29,"textLines":1,"bbox":[64,685,330,18]}
+{"kind":"textbox","id":"sh/z25832h8","slide":9,"text":"09","textPreview":"09","textChars":2,"textLines":1,"bbox":[1160,683,56,20]}
+{"kind":"shape","id":"sh/k3epw7yt","slide":9,"bbox":[72,206,330,346]}
+{"kind":"textbox","id":"sh/l4nq5cze","slide":9,"text":"AI 协助","textPreview":"AI 协助","textChars":5,"textLines":1,"bbox":[100,236,274,42]}
+{"kind":"textbox","id":"sh/adc7qxgr","slide":9,"text":"提高信息处理效率","textPreview":"提高信息处理效率","textChars":8,"textLines":1,"bbox":[100,284,274,28]}
+{"kind":"shape","id":"sh/belozihc","slide":9,"bbox":[100,326,274,0]}
+{"kind":"shape","id":"sh/czupsnyx","slide":9,"bbox":[104,355,8,8]}
+{"kind":"textbox","id":"sh/x0361sz2","slide":9,"text":"资料提取","textPreview":"资料提取","textChars":4,"textLines":1,"bbox":[122,348,250,32]}
+{"kind":"shape","id":"sh/29s7mdgf","slide":9,"bbox":[104,402,8,8]}
+{"kind":"textbox","id":"sh/nalovih0","slide":9,"text":"缺口提示","textPreview":"缺口提示","textChars":4,"textLines":1,"bbox":[122,395,250,32]}
+{"kind":"shape","id":"sh/reh43exs","slide":9,"bbox":[104,449,8,8]}
+{"kind":"textbox","id":"sh/qd83u9w7","slide":9,"text":"套餐候选","textPreview":"套餐候选","textChars":4,"textLines":1,"bbox":[122,442,250,32]}
+{"kind":"shape","id":"sh/dgzm5ofy","slide":9,"bbox":[104,496,8,8]}
+{"kind":"textbox","id":"sh/sfq5wjed","slide":9,"text":"一致性检查","textPreview":"一致性检查","textChars":5,"textLines":1,"bbox":[122,489,250,32]}
+{"kind":"shape","id":"sh/fih47yx4","slide":9,"bbox":[476,206,330,346]}
+{"kind":"textbox","id":"sh/eh8nytwj","slide":9,"text":"确定性规则","textPreview":"确定性规则","textChars":5,"textLines":1,"bbox":[504,236,274,42]}
+{"kind":"textbox","id":"sh/1kjm9ofu","slide":9,"text":"执行可重复控制","textPreview":"执行可重复控制","textChars":7,"textLines":1,"bbox":[504,284,274,28]}
+{"kind":"shape","id":"sh/0ja50jep","slide":9,"bbox":[504,326,274,0]}
+{"kind":"shape","id":"sh/vmx4vuxk","slide":9,"bbox":[508,355,8,8]}
+{"kind":"textbox","id":"sh/ulo3mpgz","slide":9,"text":"计算与换算","textPreview":"计算与换算","textChars":5,"textLines":1,"bbox":[526,348,250,32]}
+{"kind":"shape","id":"sh/kr21wvux","slide":9,"bbox":[508,402,8,8]}
+{"kind":"textbox","id":"sh/lsv2p0vi","slide":9,"text":"单位控制","textPreview":"单位控制","textChars":4,"textLines":1,"bbox":[526,395,250,32]}
+{"kind":"shape","id":"sh/ypkjulcr","slide":9,"bbox":[508,449,8,8]}
+{"kind":"textbox","id":"sh/zqt0nqdc","slide":9,"text":"限值比较","textPreview":"限值比较","textChars":4,"textLines":1,"bbox":[526,442,250,32]}
+{"kind":"shape","id":"sh/cn21sbe1","slide":9,"bbox":[508,496,8,8]}
+{"kind":"textbox","id":"sh/xobilgvm","slide":9,"text":"生产关口","textPreview":"生产关口","textChars":4,"textLines":1,"bbox":[526,489,250,32]}
+{"kind":"shape","id":"sh/alkjqlwv","slide":9,"bbox":[878,206,330,346]}
+{"kind":"textbox","id":"sh/bmt0jqdg","slide":9,"text":"授权人员","textPreview":"授权人员","textChars":4,"textLines":1,"bbox":[906,236,274,42]}
+{"kind":"textbox","id":"sh/gj614fu5","slide":9,"text":"承担质量责任","textPreview":"承担质量责任","textChars":6,"textLines":1,"bbox":[906,284,274,28]}
+{"kind":"shape","id":"sh/hkf2xkvq","slide":9,"bbox":[906,326,274,0]}
+{"kind":"shape","id":"sh/d47ypcb2","slide":9,"bbox":[910,355,8,8]}
+{"kind":"textbox","id":"sh/s3yxw7uh","slide":9,"text":"适用性","textPreview":"适用性","textChars":3,"textLines":1,"bbox":[928,348,250,32]}
+{"kind":"shape","id":"sh/r2pgn2tw","slide":9,"bbox":[910,402,8,8]}
+{"kind":"textbox","id":"sh/q1gfuxcr","slide":9,"text":"代表性","textPreview":"代表性","textChars":3,"textLines":1,"bbox":[928,395,250,32]}
+{"kind":"shape","id":"sh/1s7ytcbe","slide":9,"bbox":[910,449,8,8]}
+{"kind":"textbox","id":"sh/0ryh0rat","slide":9,"text":"异常处置","textPreview":"异常处置","textChars":4,"textLines":1,"bbox":[928,442,250,32]}
+{"kind":"shape","id":"sh/fqpgrmt8","slide":9,"bbox":[910,496,8,8]}
+{"kind":"textbox","id":"sh/e5gzyhcn","slide":9,"text":"复核与签发","textPreview":"复核与签发","textChars":5,"textLines":1,"bbox":[928,489,250,32]}
+{"kind":"shape","id":"sh/pwryxwba","slide":9,"bbox":[402,379,74,0]}
+{"kind":"shape","id":"sh/ovih4rap","slide":9,"bbox":[806,379,72,0]}
+{"kind":"shape","id":"sh/mpsn2pov","slide":9,"bbox":[842,192,0,376]}
+{"kind":"shape","id":"sh/7q14bu5g","slide":9,"bbox":[790,172,104,28]}
+{"kind":"textbox","id":"sh/8ra54z61","slide":9,"text":"责任边界","textPreview":"责任边界","textChars":4,"textLines":1,"bbox":[790,173,104,26]}
+{"kind":"shape","id":"sh/9sjmd4nm","slide":9,"bbox":[72,586,1136,56]}
+{"kind":"textbox","id":"sh/utsn69o7","slide":9,"text":"可审计","textPreview":"可审计","textChars":3,"textLines":1,"bbox":[132,600,160,28]}
+{"kind":"textbox","id":"sh/vu14fe5s","slide":9,"text":"可关闭","textPreview":"可关闭","textChars":3,"textLines":1,"bbox":[350,600,160,28]}
+{"kind":"textbox","id":"sh/wva58jmd","slide":9,"text":"可降级","textPreview":"可降级","textChars":3,"textLines":1,"bbox":[568,600,160,28]}
+{"kind":"textbox","id":"sh/hw3mh4ni","slide":9,"text":"AI 不可用，核心生产仍能继续","textPreview":"AI 不可用，核心生产仍能继续","textChars":15,"textLines":1,"bbox":[770,600,354,28]}
+{"kind":"notes","id":"nt/e0w7ny","slide":9,"text":""}
+{"kind":"slide","id":"sl/2s0oc8","slide":10,"title":"产品架构","textShapes":27}
+{"kind":"shape","id":"sh/pcb29ovu","slide":10,"bbox":[1000,0,280,280]}
+{"kind":"shape","id":"sh/i9k3ytcj","slide":10,"bbox":[0,520,200,200]}
+{"kind":"shape","id":"sh/3atk7yd4","slide":10,"bbox":[64,40,124,28]}
+{"kind":"textbox","id":"sh/czml43ul","slide":10,"text":"产品架构","textPreview":"产品架构","textChars":4,"textLines":1,"bbox":[64,41,124,26]}
+{"kind":"textbox","id":"sh/d0vmd8v6","slide":10,"text":"平台内核 + 行业包 × 技术包 + 客户覆盖层","textPreview":"平台内核 + 行业包 × 技术包 + 客户覆盖层","textChars":24,"textLines":1,"bbox":[64,78,1152,66]}
+{"kind":"textbox","id":"sh/qd432tcf","slide":10,"text":"同一平台复用核心控制；按真实业务切片组合，而不是为每个行业重做一套 LIMS。","textPreview":"同一平台复用核心控制；按真实业务切片组合，而不是为每个行业重做一套 LIMS。","textChars":39,"textLines":1,"bbox":[66,145,1040,28]}
+{"kind":"shape","id":"sh/redkbyd0","slide":10,"bbox":[64,675,1152,0]}
+{"kind":"textbox","id":"sh/83ilsjuh","slide":10,"text":"OPENLIMS  /  MANAGEMENT BRIEF","textPreview":"OPENLIMS  /  MANAGEMENT BRIEF","textChars":29,"textLines":1,"bbox":[64,685,330,18]}
+{"kind":"textbox","id":"sh/t4r214vm","slide":10,"text":"10","textPreview":"10","textChars":2,"textLines":1,"bbox":[1160,683,56,20]}
+{"kind":"shape","id":"sh/50725wz2","slide":10,"bbox":[64,186,890,102]}
+{"kind":"textbox","id":"sh/kzy1wrih","slide":10,"text":"客户覆盖层","textPreview":"客户覆盖层","textChars":5,"textLines":1,"bbox":[92,208,178,34]}
+{"kind":"textbox","id":"sh/jypk3mhw","slide":10,"text":"客户协议 · 套餐 · 价格 · SLA · 报告模板","textPreview":"客户协议 · 套餐 · 价格 · SLA · 报告模板","textChars":27,"textLines":1,"bbox":[292,207,620,38]}
+{"kind":"textbox","id":"sh/ixgjuh0b","slide":10,"text":"只在批准覆盖点配置，不修改核心状态机与技术算法","textPreview":"只在批准覆盖点配置，不修改核心状态机与技术算法","textChars":23,"textLines":1,"bbox":[292,249,620,24]}
+{"kind":"shape","id":"sh/t4r29wzy","slide":10,"bbox":[64,314,890,184]}
+{"kind":"textbox","id":"sh/s3i10rid","slide":10,"text":"正交扩展平面","textPreview":"正交扩展平面","textChars":6,"textLines":1,"bbox":[92,334,196,32]}
+{"kind":"shape","id":"sh/729k76hs","slide":10,"bbox":[92,382,356,88]}
+{"kind":"textbox","id":"sh/610jy10n","slide":10,"text":"行业规则包","textPreview":"行业规则包","textChars":5,"textLines":1,"bbox":[112,397,132,28]}
+{"kind":"textbox","id":"sh/hsr2dgza","slide":10,"text":"电子 · 食品接触 · 玩具 · 纺织 · 汽车","textPreview":"电子 · 食品接触 · 玩具 · 纺织 · 汽车","textChars":24,"textLines":1,"bbox":[112,431,316,24]}
+{"kind":"textbox","id":"sh/gri14byp","slide":10,"text":"×","textPreview":"×","textChars":1,"textLines":1,"bbox":[462,398,52,52]}
+{"kind":"shape","id":"sh/0bql0f6l","slide":10,"bbox":[526,382,398,88]}
+{"kind":"textbox","id":"sh/1wzm9k76","slide":10,"text":"检测技术包","textPreview":"检测技术包","textChars":5,"textLines":1,"bbox":[546,397,132,28]}
+{"kind":"textbox","id":"sh/e983y5ov","slide":10,"text":"分析化学 · 物理机械 · 安全 · EMC/RF · 环境可靠性","textPreview":"分析化学 · 物理机械 · 安全 · EMC/RF · 环境可靠性","textChars":33,"textLines":1,"bbox":[546,431,350,24]}
+{"kind":"shape","id":"sh/fah47ap0","slide":10,"bbox":[64,524,890,108]}
+{"kind":"textbox","id":"sh/ozal4z6x","slide":10,"text":"平台内核","textPreview":"平台内核","textChars":4,"textLines":1,"bbox":[92,550,154,34]}
+{"kind":"textbox","id":"sh/p0jmd47i","slide":10,"text":"委托 · 样品 · 任务 · 结果 · 报告 · 权限 · 审计","textPreview":"委托 · 样品 · 任务 · 结果 · 报告 · 权限 · 审计","textChars":32,"textLines":1,"bbox":[268,550,646,38]}
+{"kind":"textbox","id":"sh/2xs32por","slide":10,"text":"统一状态、统一证据、统一授权、统一追溯","textPreview":"统一状态、统一证据、统一授权、统一追溯","textChars":19,"textLines":1,"bbox":[268,594,646,22]}
+{"kind":"shape","id":"sh/ny14bupc","slide":10,"bbox":[986,186,230,446]}
+{"kind":"textbox","id":"sh/436lsv6d","slide":10,"text":"组合原则","textPreview":"组合原则","textChars":4,"textLines":1,"bbox":[1014,216,174,34]}
+{"kind":"shape","id":"sh/54fm107y","slide":10,"bbox":[1014,266,174,0]}
+{"kind":"textbox","id":"sh/7apgn2ds","slide":10,"text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[1016,294,44,28]}
+{"kind":"textbox","id":"sh/69gfuxc7","slide":10,"text":"按小切片售卖","textPreview":"按小切片售卖","textChars":6,"textLines":1,"bbox":[1064,291,126,36]}
+{"kind":"textbox","id":"sh/tw7ypcvy","slide":10,"text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[1016,364,44,28]}
+{"kind":"textbox","id":"sh/sbyxw7ud","slide":10,"text":"按版本组合","textPreview":"按版本组合","textChars":5,"textLines":1,"bbox":[1064,361,126,36]}
+{"kind":"textbox","id":"sh/j65gjidw","slide":10,"text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[1016,434,44,28]}
+{"kind":"textbox","id":"sh/y5wfqdcb","slide":10,"text":"核心契约稳定","textPreview":"核心契约稳定","textChars":6,"textLines":1,"bbox":[1064,431,126,36]}
+{"kind":"textbox","id":"sh/58nylsvm","slide":10,"text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[1016,504,44,28]}
+{"kind":"textbox","id":"sh/k7exsnuh","slide":10,"text":"客户配置不侵入","textPreview":"客户配置不侵入","textChars":7,"textLines":1,"bbox":[1064,501,126,36]}
+{"kind":"shape","id":"sh/b25wfidk","slide":10,"bbox":[1008,574,186,36]}
+{"kind":"textbox","id":"sh/a1cfmdcz","slide":10,"text":"一个内核，多个可售业务切片","textPreview":"一个内核，多个可售业务切片","textChars":13,"textLines":1,"bbox":[1008,575,186,34]}
+{"kind":"notes","id":"nt/2s0oc8","slide":10,"text":""}
+{"kind":"slide","id":"sl/sqy6gg","slide":11,"title":"实施路径","textShapes":27}
+{"kind":"shape","id":"sh/doripwb6","slide":11,"bbox":[1000,0,280,280]}
+{"kind":"shape","id":"sh/q10jehsv","slide":11,"bbox":[0,520,200,200]}
+{"kind":"shape","id":"sh/b290nmt0","slide":11,"bbox":[64,40,124,28]}
+{"kind":"textbox","id":"sh/0ri1krax","slide":11,"text":"实施路径","textPreview":"实施路径","textChars":4,"textLines":1,"bbox":[64,41,124,26]}
+{"kind":"textbox","id":"sh/lsritwbi","slide":11,"text":"先验证一条真实灯塔链，再复制扩展","textPreview":"先验证一条真实灯塔链，再复制扩展","textChars":16,"textLines":1,"bbox":[64,78,1152,66]}
+{"kind":"textbox","id":"sh/yp0ji1sr","slide":11,"text":"降低上线风险的关键不是做更多功能，而是让一条真实业务链先闭环。","textPreview":"降低上线风险的关键不是做更多功能，而是让一条真实业务链先闭环。","textChars":31,"textLines":1,"bbox":[66,145,1040,28]}
+{"kind":"shape","id":"sh/zq90r6tc","slide":11,"bbox":[64,675,1152,0]}
+{"kind":"textbox","id":"sh/8v21obat","slide":11,"text":"OPENLIMS  /  MANAGEMENT BRIEF","textPreview":"OPENLIMS  /  MANAGEMENT BRIEF","textChars":29,"textLines":1,"bbox":[64,685,330,18]}
+{"kind":"textbox","id":"sh/9wb2xgre","slide":11,"text":"11","textPreview":"11","textChars":2,"textLines":1,"bbox":[1160,683,56,20]}
+{"kind":"shape","id":"sh/p0n2pgj6","slide":11,"bbox":[64,392,196,190]}
+{"kind":"textbox","id":"sh/oze1gv2l","slide":11,"text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[82,408,42,34]}
+{"kind":"textbox","id":"sh/3ylknq1g","slide":11,"text":"选择切片","textPreview":"选择切片","textChars":4,"textLines":1,"bbox":[82,446,160,36]}
+{"kind":"textbox","id":"sh/2xcjelkv","slide":11,"text":"唯一站点、客户/品牌协议、产品类别、市场版本、主技术包","textPreview":"唯一站点、客户/品牌协议、产品类别、市场版本、主技术包","textChars":27,"textLines":1,"bbox":[82,488,160,80]}
+{"kind":"shape","id":"sh/d4n2t0ji","slide":11,"bbox":[278,378,208,204]}
+{"kind":"textbox","id":"sh/c3e1kv2x","slide":11,"text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[296,394,42,34]}
+{"kind":"textbox","id":"sh/b25krq1c","slide":11,"text":"冻结基线","textPreview":"冻结基线","textChars":4,"textLines":1,"bbox":[296,432,172,36]}
+{"kind":"textbox","id":"sh/q1wjilkr","slide":11,"text":"用最近 3—6 个月真实订单\n定义现状与成功门槛","textPreview":"用最近 3—6 个月真实订单 | 定义现状与成功门槛","textChars":24,"textLines":2,"bbox":[296,474,172,94]}
+{"kind":"shape","id":"sh/t832hwjy","slide":11,"bbox":[504,364,220,218]}
+{"kind":"textbox","id":"sh/s7a18r2d","slide":11,"text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[522,380,42,34]}
+{"kind":"textbox","id":"sh/kre1oba9","slide":11,"text":"配置与对账","textPreview":"配置与对账","textChars":5,"textLines":1,"bbox":[522,418,184,36]}
+{"kind":"textbox","id":"sh/5cn2xgru","slide":11,"text":"主数据、规则、样品、方法、报告逐项验证","textPreview":"主数据、规则、样品、方法、报告逐项验证","textChars":19,"textLines":1,"bbox":[522,460,184,108]}
+{"kind":"shape","id":"sh/ipwjm1sj","slide":11,"bbox":[742,350,232,232]}
+{"kind":"textbox","id":"sh/jq5kv694","slide":11,"text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[760,366,42,34]}
+{"kind":"textbox","id":"sh/sfylsbal","slide":11,"text":"影子运行","textPreview":"影子运行","textChars":4,"textLines":1,"bbox":[760,404,196,36]}
+{"kind":"textbox","id":"sh/tg721gr6","slide":11,"text":"与现行流程并跑，比较结果、交期和异常","textPreview":"与现行流程并跑，比较结果、交期和异常","textChars":18,"textLines":1,"bbox":[760,446,196,122]}
+{"kind":"shape","id":"sh/6dgjq1sf","slide":11,"bbox":[992,336,244,246]}
+{"kind":"textbox","id":"sh/7epkz690","slide":11,"text":"05","textPreview":"05","textChars":2,"textLines":1,"bbox":[1010,352,42,34]}
+{"kind":"textbox","id":"sh/gjylwvah","slide":11,"text":"小流量切换","textPreview":"小流量切换","textChars":5,"textLines":1,"bbox":[1010,390,208,36]}
+{"kind":"textbox","id":"sh/hkr250r2","slide":11,"text":"受控上线，满足退出条件\n后再复制扩量","textPreview":"受控上线，满足退出条件 | 后再复制扩量","textChars":18,"textLines":2,"bbox":[1010,432,208,136]}
+{"kind":"shape","id":"sh/ret4vut4","slide":11,"bbox":[260,480,18,7]}
+{"kind":"shape","id":"sh/qdkn2pcz","slide":11,"bbox":[486,473,18,7]}
+{"kind":"shape","id":"sh/dgbmxkba","slide":11,"bbox":[724,466,18,7]}
+{"kind":"shape","id":"sh/cf254zup","slide":11,"bbox":[974,459,18,7]}
+{"kind":"shape","id":"sh/3a94rat8","slide":11,"bbox":[64,188,490,130]}
+{"kind":"textbox","id":"sh/290ny5cn","slide":11,"text":"真实证据包","textPreview":"真实证据包","textChars":5,"textLines":1,"bbox":[90,210,160,32]}
+{"kind":"textbox","id":"sh/pcbmtkbe","slide":11,"text":"最近 3—6 个月订单","textPreview":"最近 3—6 个月订单","textChars":11,"textLines":1,"bbox":[90,260,170,26]}
+{"kind":"textbox","id":"sh/4bi50fut","slide":11,"text":"≥20 个常规场景","textPreview":"≥20 个常规场景","textChars":9,"textLines":1,"bbox":[272,260,148,26]}
+{"kind":"textbox","id":"sh/n6do3etc","slide":11,"text":"≥10 个异常场景","textPreview":"≥10 个异常场景","textChars":9,"textLines":1,"bbox":[412,260,122,26]}
+{"kind":"shape","id":"sh/m54na9cr","slide":11,"bbox":[584,188,632,130]}
+{"kind":"textbox","id":"sh/atkryt8b","slide":11,"text":"首发范围口径","textPreview":"首发范围口径","textChars":6,"textLines":1,"bbox":[610,210,170,32]}
+{"kind":"textbox","id":"sh/vet8rypw","slide":11,"text":"一个站点 · 一个付费灯塔客户或品牌协议 · 一个产品类别 · 一个市场/协议版本 · 一个主技术包","textPreview":"一个站点 · 一个付费灯塔客户或品牌协议 · 一个产品类别 · 一个市场/协议版本 · 一个主技术包","textChars":50,"textLines":1,"bbox":[610,252,572,42]}
+{"kind":"textbox","id":"sh/wf2903q1","slide":11,"text":"方法数量不预设，以真实订单 Pareto 最小方法集为准","textPreview":"方法数量不预设，以真实订单 Pareto 最小方法集为准","textChars":28,"textLines":1,"bbox":[688,626,512,24]}
+{"kind":"notes","id":"nt/sqy6gg","slide":11,"text":""}
+{"kind":"slide","id":"sl/dfp1pm","slide":12,"title":"系统边界","textShapes":19}
+{"kind":"shape","id":"sh/orqls76h","slide":12,"bbox":[1000,0,280,280]}
+{"kind":"shape","id":"sh/nqhkj2pc","slide":12,"bbox":[0,520,200,200]}
+{"kind":"shape","id":"sh/2p83qxor","slide":12,"bbox":[64,40,124,28]}
+{"kind":"textbox","id":"sh/1oz2hs76","slide":12,"text":"系统边界","textPreview":"系统边界","textChars":4,"textLines":1,"bbox":[64,41,124,26]}
+{"kind":"textbox","id":"sh/0nqlo76l","slide":12,"text":"聚焦 LIMS 核心，不重复替代企业系统","textPreview":"聚焦 LIMS 核心，不重复替代企业系统","textChars":20,"textLines":1,"bbox":[64,78,1152,66]}
+{"kind":"textbox","id":"sh/fmhkf2p0","slide":12,"text":"边界清晰意味着投入更小、上线更快、组织阻力更低。","textPreview":"边界清晰意味着投入更小、上线更快、组织阻力更低。","textChars":24,"textLines":1,"bbox":[66,145,1040,28]}
+{"kind":"shape","id":"sh/el83mxof","slide":12,"bbox":[64,675,1152,0]}
+{"kind":"textbox","id":"sh/dkf2ds7u","slide":12,"text":"OPENLIMS  /  MANAGEMENT BRIEF","textPreview":"OPENLIMS  /  MANAGEMENT BRIEF","textChars":29,"textLines":1,"bbox":[64,685,330,18]}
+{"kind":"textbox","id":"sh/sj6lknq9","slide":12,"text":"12","textPreview":"12","textChars":2,"textLines":1,"bbox":[1160,683,56,20]}
+{"kind":"shape","id":"sh/u18nupgb","slide":12,"bbox":[454,218,372,294]}
+{"kind":"textbox","id":"sh/v2h4nuxw","slide":12,"text":"OpenLIMS 主责","textPreview":"OpenLIMS 主责","textChars":11,"textLines":1,"bbox":[516,260,248,38]}
+{"kind":"textbox","id":"sh/w3q5wzyh","slide":12,"text":"报价范围 · 样品 · 任务\n结果 · 报告 · 计费事实","textPreview":"报价范围 · 样品 · 任务 | 结果 · 报告 · 计费事实","textChars":29,"textLines":2,"bbox":[506,320,268,82]}
+{"kind":"shape","id":"sh/h4zmp4fm","slide":12,"bbox":[548,430,184,34]}
+{"kind":"textbox","id":"sh/mdonq5gz","slide":12,"text":"受控检测闭环","textPreview":"受控检测闭环","textChars":6,"textLines":1,"bbox":[548,431,184,32]}
+{"kind":"shape","id":"sh/7ex4jaxk","slide":12,"bbox":[82,216,250,122]}
+{"kind":"textbox","id":"sh/8f65sfy5","slide":12,"text":"ERP / 税票平台","textPreview":"ERP / 税票平台","textChars":10,"textLines":1,"bbox":[102,234,210,32]}
+{"kind":"textbox","id":"sh/90zmlkfq","slide":12,"text":"财务权威记录\n法定发票与总账","textPreview":"财务权威记录 | 法定发票与总账","textChars":14,"textLines":2,"bbox":[102,274,210,48]}
+{"kind":"shape","id":"sh/y9o3m5g3","slide":12,"bbox":[332,277,122,88]}
+{"kind":"shape","id":"sh/zax4faxo","slide":12,"bbox":[948,216,250,122]}
+{"kind":"textbox","id":"sh/3etkn6dg","slide":12,"text":"PLM / PDM","textPreview":"PLM / PDM","textChars":9,"textLines":1,"bbox":[968,234,210,32]}
+{"kind":"textbox","id":"sh/2dkje1wv","slide":12,"text":"工程 BOM\n图纸主版本","textPreview":"工程 BOM | 图纸主版本","textChars":12,"textLines":2,"bbox":[968,274,210,48]}
+{"kind":"shape","id":"sh/pgb2pgvm","slide":12,"bbox":[826,277,122,88]}
+{"kind":"shape","id":"sh/of21gbe1","slide":12,"bbox":[82,408,250,122]}
+{"kind":"textbox","id":"sh/bidkr6dc","slide":12,"text":"仪器 / CDS / DAQ","textPreview":"仪器 / CDS / DAQ","textChars":14,"textLines":1,"bbox":[102,426,210,32]}
+{"kind":"textbox","id":"sh/ah4ji1wr","slide":12,"text":"设备控制\n高频原生数据","textPreview":"设备控制 | 高频原生数据","textChars":11,"textLines":2,"bbox":[102,466,210,48]}
+{"kind":"shape","id":"sh/xkv2tgvi","slide":12,"bbox":[332,365,122,104]}
+{"kind":"shape","id":"sh/cjm1kbex","slide":12,"bbox":[948,408,250,122]}
+{"kind":"textbox","id":"sh/rm90fmd8","slide":12,"text":"外部权威流程","textPreview":"外部权威流程","textChars":6,"textLines":1,"bbox":[968,426,210,32]}
+{"kind":"textbox","id":"sh/6l0j6hwn","slide":12,"text":"全面评估 / 声明\n认证或证书","textPreview":"全面评估 / 声明 | 认证或证书","textChars":15,"textLines":2,"bbox":[968,466,210,48]}
+{"kind":"shape","id":"sh/wryhgnul","slide":12,"bbox":[826,365,122,104]}
+{"kind":"shape","id":"sh/hs7ypsb6","slide":12,"bbox":[64,574,1152,62]}
+{"kind":"textbox","id":"sh/upwzedcf","slide":12,"text":"首期不建设","textPreview":"首期不建设","textChars":5,"textLines":1,"bbox":[88,589,138,30]}
+{"kind":"textbox","id":"sh/vqpgnit0","slide":12,"text":"总账 · 通用 ELN · 完整 QMS · PLM · 高级 APS","textPreview":"总账 · 通用 ELN · 完整 QMS · PLM · 高级 APS","textChars":35,"textLines":1,"bbox":[230,587,542,32]}
+{"kind":"shape","id":"sh/8nehc3u9","slide":12,"bbox":[910,590,274,32]}
+{"kind":"textbox","id":"sh/9onyl8bu","slide":12,"text":"接口按试点批准条件启用","textPreview":"接口按试点批准条件启用","textChars":11,"textLines":1,"bbox":[910,591,274,30]}
+{"kind":"notes","id":"nt/dfp1pm","slide":12,"text":""}
+{"kind":"slide","id":"sl/yi9274","slide":13,"title":"试点成效","textShapes":27}
+{"kind":"shape","id":"sh/gzm54neh","slide":13,"bbox":[960,0,320,320]}
+{"kind":"shape","id":"sh/fydovidw","slide":13,"bbox":[0,480,240,240]}
+{"kind":"shape","id":"sh/uxkn2dwb","slide":13,"bbox":[960,0,320,320]}
+{"kind":"shape","id":"sh/pov61svy","slide":13,"bbox":[1060,0,220,220]}
+{"kind":"shape","id":"sh/43mp8ned","slide":13,"bbox":[64,40,124,28]}
+{"kind":"textbox","id":"sh/32doz2ds","slide":13,"text":"试点成效","textPreview":"试点成效","textChars":4,"textLines":1,"bbox":[64,41,124,26]}
+{"kind":"textbox","id":"sh/214n6xw7","slide":13,"text":"用冻结基线后的可验证改善说话","textPreview":"用冻结基线后的可验证改善说话","textChars":14,"textLines":1,"bbox":[64,78,1152,66]}
+{"kind":"textbox","id":"sh/dsf65cvu","slide":13,"text":"以下均为试点目标，不代表既有业绩；最终门槛在基线冻结后共同批准。","textPreview":"以下均为试点目标，不代表既有业绩；最终门槛在基线冻结后共同批准。","textChars":32,"textLines":1,"bbox":[66,145,1040,28]}
+{"kind":"shape","id":"sh/cr6pc7ep","slide":13,"bbox":[64,675,1152,0]}
+{"kind":"textbox","id":"sh/2583ilwz","slide":13,"text":"OPENLIMS  /  MANAGEMENT BRIEF","textPreview":"OPENLIMS  /  MANAGEMENT BRIEF","textChars":29,"textLines":1,"bbox":[64,685,330,18]}
+{"kind":"textbox","id":"sh/36hkb6dk","slide":13,"text":"13","textPreview":"13","textChars":2,"textLines":1,"bbox":[1160,683,56,20]}
+{"kind":"shape","id":"sh/o7qlkbe5","slide":13,"bbox":[64,178,270,34]}
+{"kind":"textbox","id":"sh/p8zmdgvq","slide":13,"text":"试点目标｜冻结基线后验证","textPreview":"试点目标｜冻结基线后验证","textChars":12,"textLines":1,"bbox":[64,179,270,32]}
+{"kind":"textbox","id":"sh/q9s3mlcb","slide":13,"text":"效率改善","textPreview":"效率改善","textChars":4,"textLines":1,"bbox":[64,232,520,34]}
+{"kind":"textbox","id":"sh/ba14fqdw","slide":13,"text":"质量护栏","textPreview":"质量护栏","textChars":4,"textLines":1,"bbox":[688,232,520,34]}
+{"kind":"shape","id":"sh/cbalovuh","slide":13,"bbox":[630,220,0,388]}
+{"kind":"textbox","id":"sh/dwjmh0v2","slide":13,"text":"≥30%","textPreview":"≥30%","textChars":4,"textLines":1,"bbox":[66,284,170,62]}
+{"kind":"textbox","id":"sh/6do3ahw7","slide":13,"text":"高频询价技术评估时间下降","textPreview":"高频询价技术评估时间下降","textChars":12,"textLines":1,"bbox":[236,286,356,32]}
+{"kind":"textbox","id":"sh/rexk3mdc","slide":13,"text":"首次报价正确率不得下降","textPreview":"首次报价正确率不得下降","textChars":11,"textLines":1,"bbox":[236,326,356,24]}
+{"kind":"shape","id":"sh/vid0bit4","slide":13,"bbox":[66,366,526,0]}
+{"kind":"textbox","id":"sh/ahkzixcz","slide":13,"text":"≥30%","textPreview":"≥30%","textChars":4,"textLines":1,"bbox":[66,388,170,62]}
+{"kind":"textbox","id":"sh/xkvidsba","slide":13,"text":"内部范围 / 样品错误变更率下降","textPreview":"内部范围 / 样品错误变更率下降","textChars":16,"textLines":1,"bbox":[236,390,356,32]}
+{"kind":"textbox","id":"sh/wjmhknup","slide":13,"text":"以正式报价后变更为口径","textPreview":"以正式报价后变更为口径","textChars":11,"textLines":1,"bbox":[236,430,356,24]}
+{"kind":"shape","id":"sh/net07it8","slide":13,"bbox":[66,470,526,0]}
+{"kind":"textbox","id":"sh/mdkzedcn","slide":13,"text":"≥30%","textPreview":"≥30%","textChars":4,"textLines":1,"bbox":[66,492,170,62]}
+{"kind":"textbox","id":"sh/9gbi9sbe","slide":13,"text":"复核完成至提交签发时间下降","textPreview":"复核完成至提交签发时间下降","textChars":13,"textLines":1,"bbox":[236,494,356,32]}
+{"kind":"textbox","id":"sh/8f2hgnut","slide":13,"text":"内部错误更正率不得上升","textPreview":"内部错误更正率不得上升","textChars":11,"textLines":1,"bbox":[236,534,356,24]}
+{"kind":"textbox","id":"sh/7ax0j2tc","slide":13,"text":"100%","textPreview":"100%","textChars":4,"textLines":1,"bbox":[690,284,170,62]}
+{"kind":"textbox","id":"sh/694jqhcr","slide":13,"text":"已签发结果追溯完整率","textPreview":"已签发结果追溯完整率","textChars":10,"textLines":1,"bbox":[860,286,340,32]}
+{"kind":"textbox","id":"sh/ovyxkza9","slide":13,"text":"要求到报告无歧义回放","textPreview":"要求到报告无歧义回放","textChars":10,"textLines":1,"bbox":[860,326,340,28]}
+{"kind":"shape","id":"sh/pw7ed4ru","slide":13,"bbox":[690,366,510,0]}
+{"kind":"textbox","id":"sh/2tgfi9sj","slide":13,"text":"100%","textPreview":"100%","textChars":4,"textLines":1,"bbox":[690,388,170,62]}
+{"kind":"textbox","id":"sh/3upwbe94","slide":13,"text":"AI 运行可审计率","textPreview":"AI 运行可审计率","textChars":9,"textLines":1,"bbox":[860,390,340,32]}
+{"kind":"textbox","id":"sh/cjixojal","slide":13,"text":"AI 越权事件为零","textPreview":"AI 越权事件为零","textChars":9,"textLines":1,"bbox":[860,430,340,28]}
+{"kind":"shape","id":"sh/dkryhor6","slide":13,"bbox":[690,470,510,0]}
+{"kind":"textbox","id":"sh/qhgfm9sf","slide":13,"text":"0","textPreview":"0","textChars":1,"textLines":1,"bbox":[690,492,170,62]}
+{"kind":"textbox","id":"sh/bipgfe90","slide":13,"text":"系统允许的关键违规事件","textPreview":"系统允许的关键违规事件","textChars":11,"textLines":1,"bbox":[860,494,340,32]}
+{"kind":"textbox","id":"sh/0nixsjah","slide":13,"text":"错样 / 无批准覆盖 / 过期规则 / 超授权签发","textPreview":"错样 / 无批准覆盖 / 过期规则 / 超授权签发","textChars":25,"textLines":1,"bbox":[860,534,340,28]}
+{"kind":"shape","id":"sh/lorylor2","slide":13,"bbox":[64,610,1152,36]}
+{"kind":"textbox","id":"sh/lkz6lkr6","slide":13,"text":"基线、口径、数据来源与例外必须在试点启动前冻结，改善结果由双方共同复核。","textPreview":"基线、口径、数据来源与例外必须在试点启动前冻结，改善结果由双方共同复核。","textChars":36,"textLines":1,"bbox":[84,617,1112,22]}
+{"kind":"notes","id":"nt/yi9274","slide":13,"text":""}
+{"kind":"slide","id":"sl/o6ygy1","slide":14,"title":"管理层决策","textShapes":21}
+{"kind":"shape","id":"sh/3mtcfaxg","slide":14,"bbox":[960,0,320,320]}
+{"kind":"shape","id":"sh/on2t8fy1","slide":14,"bbox":[0,480,240,240]}
+{"kind":"shape","id":"sh/povuhkfm","slide":14,"bbox":[960,0,320,320]}
+{"kind":"shape","id":"sh/qp4bapg7","slide":14,"bbox":[1060,0,220,220]}
+{"kind":"shape","id":"sh/bqdcjuxs","slide":14,"bbox":[64,48,124,30]}
+{"kind":"textbox","id":"sh/crmdczyx","slide":14,"text":"管理层决策","textPreview":"管理层决策","textChars":5,"textLines":1,"bbox":[64,49,124,28]}
+{"kind":"textbox","id":"sh/xsvul4fi","slide":14,"text":"现在需要批准的不是大项目，\n而是一个受控灯塔试点","textPreview":"现在需要批准的不是大项目， | 而是一个受控灯塔试点","textChars":24,"textLines":2,"bbox":[64,98,920,116]}
+{"kind":"textbox","id":"sh/yt4vepg3","slide":14,"text":"四项决定足以启动联合评审，也足以在证据不足时做出 No-Go。","textPreview":"四项决定足以启动联合评审，也足以在证据不足时做出 No-Go。","textChars":31,"textLines":1,"bbox":[66,224,760,34]}
+{"kind":"shape","id":"sh/zudcnuxo","slide":14,"bbox":[72,310,238,146]}
+{"kind":"textbox","id":"sh/7ylcz6dw","slide":14,"text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[90,326,42,24]}
+{"kind":"textbox","id":"sh/6dsb6lwr","slide":14,"text":"唯一试点切片","textPreview":"唯一试点切片","textChars":6,"textLines":1,"bbox":[90,358,202,32]}
+{"kind":"textbox","id":"sh/t03u1gv2","slide":14,"text":"站点 · 客户/品牌协议\n产品类别 · 市场版本 · 主技术包","textPreview":"站点 · 客户/品牌协议 | 产品类别 · 市场版本 · 主技术包","textChars":31,"textLines":2,"bbox":[90,398,202,42]}
+{"kind":"shape","id":"sh/szut8beh","slide":14,"bbox":[338,310,238,146]}
+{"kind":"textbox","id":"sh/ja1sv6d0","slide":14,"text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[356,326,42,24]}
+{"kind":"textbox","id":"sh/i9sb21wf","slide":14,"text":"真实业务基线","textPreview":"真实业务基线","textChars":6,"textLines":1,"bbox":[356,358,202,32]}
+{"kind":"textbox","id":"sh/5cjaxgv6","slide":14,"text":"订单 · 报价 · 样品\n原始证据 · 报告 · 异常","textPreview":"订单 · 报价 · 样品 | 原始证据 · 报告 · 异常","textChars":27,"textLines":2,"bbox":[356,398,202,42]}
+{"kind":"shape","id":"sh/kbat4bel","slide":14,"bbox":[72,488,238,146]}
+{"kind":"textbox","id":"sh/365c7qd4","slide":14,"text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[90,504,42,24]}
+{"kind":"textbox","id":"sh/25cbe5wz","slide":14,"text":"共同负责人","textPreview":"共同负责人","textChars":5,"textLines":1,"bbox":[90,536,202,32]}
+{"kind":"textbox","id":"sh/y1gf69g7","slide":14,"text":"业务 · 实验室技术\n质量 · IT / 架构","textPreview":"业务 · 实验室技术 | 质量 · IT / 架构","textChars":23,"textLines":2,"bbox":[90,576,202,42]}
+{"kind":"shape","id":"sh/z2pwfuxc","slide":14,"bbox":[338,488,238,146]}
+{"kind":"textbox","id":"sh/03yx8zyx","slide":14,"text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[356,504,42,24]}
+{"kind":"textbox","id":"sh/lo7eh4fi","slide":14,"text":"成功与退出门槛","textPreview":"成功与退出门槛","textChars":7,"textLines":1,"bbox":[356,536,202,32]}
+{"kind":"textbox","id":"sh/mp0fa9g3","slide":14,"text":"OTIF-R · 效率 · 错误率\n追溯 · 上线退出条件","textPreview":"OTIF-R · 效率 · 错误率 | 追溯 · 上线退出条件","textChars":29,"textLines":2,"bbox":[356,576,202,42]}
+{"kind":"shape","id":"sh/nq9wjexo","slide":14,"bbox":[744,284,392,302]}
+{"kind":"textbox","id":"sh/8rixcjy9","slide":14,"text":"灯塔试点","textPreview":"灯塔试点","textChars":4,"textLines":1,"bbox":[816,344,248,44]}
+{"kind":"textbox","id":"sh/9srelofu","slide":14,"text":"GO / NO-GO","textPreview":"GO / NO-GO","textChars":10,"textLines":1,"bbox":[794,405,292,66]}
+{"kind":"textbox","id":"sh/2twvy5gz","slide":14,"text":"基于证据批准，而非基于想象承诺","textPreview":"基于证据批准，而非基于想象承诺","textChars":15,"textLines":1,"bbox":[816,490,248,38]}
+{"kind":"shape","id":"sh/3u5w7ax4","slide":14,"bbox":[310,383,434,52]}
+{"kind":"shape","id":"sh/50vqtc3y","slide":14,"bbox":[576,383,168,52]}
+{"kind":"shape","id":"sh/4zmp07md","slide":14,"bbox":[310,435,434,126]}
+{"kind":"shape","id":"sh/jyd8r2l8","slide":14,"bbox":[576,435,168,126]}
+{"kind":"shape","id":"sh/ix47yx4n","slide":14,"bbox":[764,608,352,42]}
+{"kind":"textbox","id":"sh/t4fqxw3a","slide":14,"text":"批准进入联合评审与试点立项","textPreview":"批准进入联合评审与试点立项","textChars":13,"textLines":1,"bbox":[764,609,352,40]}
+{"kind":"textbox","id":"sh/s3694rmp","slide":14,"text":"OpenLIMS  ·  让每一份承诺都能被正确执行、完整证明、按期交付","textPreview":"OpenLIMS  ·  让每一份承诺都能被正确执行、完整证明、按期交付","textChars":36,"textLines":1,"bbox":[64,670,920,24]}
+{"kind":"textbox","id":"sh/r2x8vml4","slide":14,"text":"14","textPreview":"14","textChars":2,"textLines":1,"bbox":[1168,670,48,24]}
+{"kind":"notes","id":"nt/o6ygy1","slide":14,"text":""}

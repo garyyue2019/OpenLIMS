@@ -1,0 +1,18 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "SEC-AUTH-001",
+  "version": "0.1.0",
+  "status": "in_review",
+  "title": "服务端多维授权校验",
+  "summary": "所有受控操作必须绑定服务端建立的集团上下文，并同时校验角色、对象、客户、法人、实验室、金额和授权有效期。",
+  "owners": ["安全负责人", "架构负责人", "业务能力所有者"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "SEC-AUTH-001"}],
+  "depends_on": ["OD-002@1.0.0", "ORG-STRUCT-001@0.1.0", "OD-032@0.1.0"],
+  "affects": ["authorization", "all-domain-commands", "organization-scope", "audit"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "UNKNOWN", "condition": "OD-032 多方角色和数据权限模型批准后启用"},
+  "invariants": ["前端隐藏不是授权", "默认拒绝", "集团上下文由部署与受信身份绑定且客户端不得覆盖", "未授权法人、实验室、客户或对象的不存在与无权限响应不得泄露敏感差异", "跨机构协作必须依赖明确授权而非隐式集团全局权限"]
+}

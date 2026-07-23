@@ -1,0 +1,18 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-REQ-003",
+  "version": "0.1.0",
+  "status": "in_review",
+  "title": "要求更新生成影响清单且不改写冻结委托",
+  "summary": "标准、要求或客户协议更新必须识别受影响套餐、范围、在制任务和报告模板；冻结委托继续绑定原版本，除非批准迁移。",
+  "owners": ["法规内容所有者", "质量负责人", "产品负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "BUS-REQ-003"}],
+  "depends_on": ["RULE-026@0.1.0"],
+  "affects": ["requirements", "impact-analysis", "service-order", "report-template", "migration"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "UNKNOWN", "condition": "要求版本和委托冻结基线模型批准后启用"},
+  "invariants": ["冻结委托不查询最新版", "影响清单本身版本化并可审计", "迁移必须显式批准"]
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "OPS-RECEIPT-001",
+  "version": "0.1.0",
+  "status": "in_review",
+  "title": "分别登记到货批、包装单元和收到的实物",
+  "summary": "收样模型必须区分物流到货事实、包装边界和实际可检测实物，禁止用单一 Sample 表抹平层级。",
+  "owners": ["收样负责人", "领域负责人", "质量负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "OPS-RECEIPT-001"}],
+  "depends_on": ["OD-009@0.1.0"],
+  "affects": ["receiving", "data-model", "api", "ux", "audit"],
+  "change_class": "minor",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "UNKNOWN", "condition": "Release 1 试点收样范围与 OD-009 批准后启用"},
+  "invariants": ["Receipt、Container、ReceivedItem 使用不同不可复用业务编号", "删除或关闭不得抹除到货事实"]
+}

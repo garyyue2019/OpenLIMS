@@ -1,0 +1,32 @@
+{
+  "$schema": "schema/specgen-config.schema.json",
+  "schema_version": 1,
+  "project": "OpenLIMS",
+  "spec_roots": [
+    "spec/decisions",
+    "spec/requirements",
+    "spec/rules",
+    "spec/nfr",
+    "spec/acceptance",
+    "spec/stories",
+    "spec/releases"
+  ],
+  "source_documents": [
+    {
+      "id": "PRD-MAIN",
+      "path": "docs/AI原生第三方产品检测LIMS产品需求文档.md",
+      "format": "openlims-prd-markdown"
+    }
+  ],
+  "source_baseline_path": "spec/source-baseline.json",
+  "generated_root": "generated/spec",
+  "lock_path": "generated/spec/.specgen-lock.json",
+  "governance": {
+    "unknown_applicability_policy": "block",
+    "runtime_version_resolution": "pinned_only",
+    "generated_file_policy": "replace",
+    "handwritten_code_policy": "never_overwrite",
+    "historical_migration_policy": "append_only",
+    "evidence_policy": "immutable"
+  }
+}

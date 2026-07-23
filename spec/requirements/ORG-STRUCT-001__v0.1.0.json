@@ -1,0 +1,27 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "ORG-STRUCT-001",
+  "version": "0.1.0",
+  "status": "in_review",
+  "title": "集团多机构组织层级",
+  "summary": "使用 OrganizationGroup、LegalEntity、Laboratory、Department 和 WorkCenter 表达单集团部署内的组织层级、有效期和状态。",
+  "owners": ["产品负责人", "架构负责人", "实施负责人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "OD-002"},
+    {"document": "PRD-MAIN", "item": "ORG-STRUCT-001"}
+  ],
+  "depends_on": ["OD-002@1.0.0"],
+  "affects": ["organization-model", "master-data", "authorization-context", "integration", "audit"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "ENABLED", "condition": "OD-002 已决定为集团多机构、每集团独立部署"},
+  "invariants": [
+    "一个部署只存在一个有效 OrganizationGroup",
+    "LegalEntity、Laboratory、Department 和 WorkCenter 必须直接或间接归属该 OrganizationGroup",
+    "组织关系、状态和有效期必须版本化或保留生效历史",
+    "Party、Customer 和 ClientProgram 是业务参与方，不得用作部署边界或组织集团",
+    "客户端业务命令不得提交可覆盖部署绑定的 OrganizationGroupId"
+  ]
+}

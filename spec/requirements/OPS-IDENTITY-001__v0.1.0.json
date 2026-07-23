@@ -1,0 +1,18 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "OPS-IDENTITY-001",
+  "version": "0.1.0",
+  "status": "in_review",
+  "title": "分离客户声明身份、实验室观察和匹配结论",
+  "summary": "身份评估必须保存三层事实，禁止用最终匹配结果覆盖客户原始声明或实验室观察证据。",
+  "owners": ["身份评估员", "技术负责人", "质量负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "OPS-IDENTITY-001"}],
+  "depends_on": ["OPS-RECEIPT-001@0.1.0"],
+  "affects": ["identity", "evidence", "data-model", "audit", "ux"],
+  "change_class": "minor",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "UNKNOWN", "condition": "Release 1 身份评估流程批准后启用"},
+  "invariants": ["三类记录独立版本化", "匹配结论必须引用观察证据", "历史声明和观察不可覆盖"]
+}

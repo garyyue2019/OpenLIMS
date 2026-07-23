@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openlims.local/schema/spec-object.schema.json",
+  "title": "OpenLIMS versioned specification object",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "kind",
+    "id",
+    "version",
+    "status",
+    "title",
+    "summary",
+    "owners",
+    "source_refs",
+    "depends_on",
+    "affects",
+    "change_class"
+  ],
+  "properties": {
+    "$schema": {"type": "string"},
+    "schema_version": {"const": 1},
+    "kind": {
+      "enum": [
+        "requirement",
+        "acceptance",
+        "rule",
+        "nfr",
+        "decision",
+        "story",
+        "release-baseline",
+        "lifecycle-event"
+      ]
+    },
+    "id": {"type": "string", "pattern": "^[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)+$"},
+    "version": {"type": "string", "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"},
+    "status": {"enum": ["proposed", "in_review", "approved", "deprecated", "retired"]},
+    "title": {"type": "string", "minLength": 1},
+    "summary": {"type": "string", "minLength": 1},
+    "owners": {"$ref": "#/$defs/nonEmptyStrings"},
+    "source_refs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["document", "item"],
+        "properties": {
+          "document": {"type": "string", "minLength": 1},
+          "item": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "depends_on": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/versionKey"}
+    },
+    "affects": {"$ref": "#/$defs/nonEmptyStrings"},
+    "change_class": {"enum": ["patch", "minor", "major"]},
+    "priority": {"enum": ["Must", "Should", "Could", "WontNow"]},
+    "activation": {"$ref": "#/$defs/activation"},
+    "decision_state": {"enum": ["open", "decided", "deferred", "rejected"]},
+    "scenario": {"$ref": "#/$defs/scenario"},
+    "body": {"type": "object"},
+    "target_release": {"$ref": "#/$defs/versionKey"},
+    "epic_id": {"type": "string", "pattern": "^EP-[A-Z0-9-]+$"},
+    "feature_id": {"type": "string", "pattern": "^FEAT-[A-Z0-9-]+$"},
+    "selected_specs": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/versionKey"}
+    },
+    "runtime_resolution": {"const": "pinned_only"}
+    ,
+    "breaking_change_approvals": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"kind": {"enum": ["requirement", "rule", "nfr"]}}},
+      "then": {"required": ["priority", "activation"]}
+    },
+    {
+      "if": {"properties": {"kind": {"const": "decision"}}},
+      "then": {"required": ["decision_state"]}
+    },
+    {
+      "if": {"properties": {"kind": {"const": "acceptance"}}},
+      "then": {"required": ["scenario"]}
+    },
+    {
+      "if": {"properties": {"kind": {"const": "story"}}},
+      "then": {"required": ["body", "target_release", "epic_id", "feature_id"]}
+    },
+    {
+      "if": {"properties": {"kind": {"const": "release-baseline"}}},
+      "then": {"required": ["selected_specs", "runtime_resolution"]}
+    }
+  ],
+  "$defs": {
+    "nonEmptyStrings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "versionKey": {
+      "type": "string",
+      "pattern": "^[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)+@(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+    },
+    "activation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "applicability", "condition"],
+      "properties": {
+        "mode": {"enum": ["core", "enabled_pack", "conditional", "business_ops", "release"]},
+        "applicability": {"enum": ["ENABLED", "DISABLED", "UNKNOWN"]},
+        "condition": {"type": "string", "minLength": 1}
+      }
+    },
+    "scenario": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["given", "when", "then"],
+      "properties": {
+        "given": {"$ref": "#/$defs/nonEmptyStrings"},
+        "when": {"$ref": "#/$defs/nonEmptyStrings"},
+        "then": {"$ref": "#/$defs/nonEmptyStrings"}
+      }
+    }
+  }
+}

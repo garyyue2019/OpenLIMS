@@ -1,0 +1,20 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "decision",
+  "id": "ED-001",
+  "version": "0.1.0",
+  "status": "proposed",
+  "title": "应用技术栈与工程仓库基线",
+  "summary": "在业务功能编码前冻结后端、前端、数据库、身份、对象存储、测试框架、构建和部署技术栈及模块目录。",
+  "owners": ["架构负责人", "工程负责人", "安全负责人", "运维负责人"],
+  "source_refs": [],
+  "depends_on": ["OD-002@1.0.0", "OD-020@0.1.0", "OD-025@0.1.0"],
+  "affects": ["repository", "backend", "frontend", "database", "ci", "deployment"],
+  "change_class": "major",
+  "decision_state": "open",
+  "options": ["待架构团队提出并通过ADR评审"],
+  "decision": null,
+  "blocking_scope": ["业务代码目录", "API实现", "数据库迁移", "前端页面", "应用测试命令"],
+  "exit_criteria": ["技术栈ADR批准", "可运行模块化单体骨架", "CI和本地测试命令通过", "示例模块证明私有表隔离", "基础设施设计证明符合 OD-002 单集团独立部署且不包含共享 SaaS 多租户数据平面"]
+}

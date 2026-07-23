@@ -1,0 +1,27 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "decision",
+  "id": "OD-002",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "集团多机构与单集团独立部署模式",
+  "summary": "产品采用集团多机构模式；每个生产部署及数据平面只服务一个检测集团，明确禁止共享 SaaS 多租户模式。",
+  "owners": ["产品负责人", "架构负责人", "安全负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "OD-002"}],
+  "depends_on": [],
+  "affects": ["organization-model", "deployment-boundary", "authorization", "data-platform", "ai-security", "backup-recovery"],
+  "change_class": "major",
+  "decision_state": "decided",
+  "options": ["集团单站点独享部署", "集团多站点集中式独享部署", "集团多站点分区或边缘节点与中心协同的独享部署"],
+  "decision": "一个生产部署及其数据平面只绑定一个 OrganizationGroup；集团内支持多 LegalEntity、Laboratory、Department 和 WorkCenter；送检客户不是租户；本产品不提供多个无关联集团共享运行时或数据平面的 SaaS 多租户模式，云托管也必须为单集团独享环境。",
+  "constraints": [
+    "不同集团不得共享应用运行时、数据库、对象存储、密钥、消息队列、检索或向量索引、AI 上下文或缓存、备份与恢复凭据",
+    "OrganizationGroupId 由部署配置和受信身份上下文绑定，客户端业务命令不得自行选择或覆盖",
+    "集团内访问控制继续按法人、实验室、客户、对象、角色、金额和有效期执行",
+    "本决策不批准具体云厂商、技术栈、容量、RPO、RTO 或集团内部站点拓扑"
+  ],
+  "rejected_direction": "共享 SaaS 多租户数据平面",
+  "implementation_followups": ["OD-020@0.1.0", "ED-001@0.1.0"],
+  "acceptance_evidence": ["独立基础设施清单", "独立凭据与密钥边界", "集团内多维授权测试", "集团间数据平面隔离测试", "备份恢复边界演练"]
+}

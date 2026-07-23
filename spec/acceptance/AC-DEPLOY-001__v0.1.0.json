@@ -1,0 +1,21 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "acceptance",
+  "id": "AC-DEPLOY-001",
+  "version": "0.1.0",
+  "status": "in_review",
+  "title": "集团间独立数据平面",
+  "summary": "两个检测集团的部署在运行时、数据、凭据、检索/AI 和备份恢复层面相互独立。",
+  "owners": ["架构负责人", "安全负责人", "运维负责人", "QA负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "AC-DEPLOY-001"}],
+  "depends_on": ["OD-002@1.0.0", "SEC-DEPLOY-001@0.1.0"],
+  "affects": ["deployment-test", "security-test", "disaster-recovery", "infrastructure-evidence"],
+  "change_class": "major",
+  "scenario": {
+    "given": ["集团甲和集团乙分别部署 OpenLIMS", "两套环境具有独立身份、密钥和数据资源"],
+    "when": ["使用集团甲的身份、网络入口、密钥、对象引用或检索请求尝试访问集团乙数据"],
+    "then": ["访问因不存在共享运行时、共享凭据或共享数据平面而失败", "数据库、对象存储、队列、检索/AI 和备份恢复证据证明物理或账号级独立", "隔离失败被视为发布阻断"]
+  },
+  "automation": ["基础设施策略测试", "凭据边界测试", "对象存储与检索隔离测试", "AI上下文隔离测试", "备份恢复边界演练"]
+}

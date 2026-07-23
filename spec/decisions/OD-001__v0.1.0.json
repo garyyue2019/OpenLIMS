@@ -1,0 +1,20 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "decision",
+  "id": "OD-001",
+  "version": "0.1.0",
+  "status": "proposed",
+  "title": "Release 1 唯一灯塔试点切片",
+  "summary": "冻结唯一的行业、产品类别、目标市场或客户协议、方法族、灯塔客户和黄金场景，防止首期范围继续扩张。",
+  "owners": ["产品负责人", "实验室负责人", "灯塔客户业务负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "OD-001"}],
+  "depends_on": [],
+  "affects": ["release-governance", "all-release-1-modules"],
+  "change_class": "major",
+  "decision_state": "open",
+  "options": ["纺织常规成衣", "纺织常规面料", "按付费灯塔客户重新评分后的替代切片"],
+  "decision": null,
+  "blocking_scope": ["Release 1 发布基线", "真实仪器与接口范围", "黄金场景和容量基线"],
+  "exit_criteria": ["书面评分完成", "付费客户与关键用户投入确认", "3至6个月闭环可行性批准"]
+}

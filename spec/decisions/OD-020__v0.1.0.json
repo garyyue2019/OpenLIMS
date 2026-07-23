@@ -1,0 +1,20 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "decision",
+  "id": "OD-020",
+  "version": "0.1.0",
+  "status": "proposed",
+  "title": "容量、并发与部署拓扑基线",
+  "summary": "在 OD-002 单集团独立部署边界内，冻结性能数据量、并发、附件增长、可用性、RPO、RTO 和集团内部署拓扑。",
+  "owners": ["业务负责人", "架构负责人", "运维负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "OD-020"}],
+  "depends_on": ["OD-001@0.1.0", "OD-002@1.0.0"],
+  "affects": ["architecture", "performance", "availability", "disaster-recovery"],
+  "change_class": "major",
+  "decision_state": "open",
+  "options": ["集团单站点独享部署", "集团多站点集中式独享部署", "集团多站点分区或边缘节点与中心协同的独享部署"],
+  "decision": null,
+  "blocking_scope": ["性能验收", "备份恢复", "基础设施即代码", "监控告警"],
+  "exit_criteria": ["数据规模量化", "并发模型批准", "集团内站点拓扑和恢复责任批准", "部署设计通过 OD-002 与 AC-DEPLOY-001 隔离评审"]
+}

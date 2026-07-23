@@ -1,0 +1,1125 @@
+{
+  "_generated": {
+    "do_not_edit": true,
+    "generator": "openlims-specgen@0.1.0"
+  },
+  "specs": {
+    "AC-DEPLOY-001@0.1.0": {
+      "affects": [
+        "deployment-test",
+        "security-test",
+        "disaster-recovery",
+        "infrastructure-evidence"
+      ],
+      "depends_on": [
+        "OD-002@1.0.0",
+        "SEC-DEPLOY-001@0.1.0"
+      ],
+      "fingerprint": "1a8c17fd620180e9ea7b9642adb5a256e4ea11e0f08e129e6d1eb53f71e13820",
+      "kind": "acceptance",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-DEPLOY-001"
+        }
+      ],
+      "status": "in_review",
+      "title": "集团间独立数据平面"
+    },
+    "AC-ID-001@0.1.0": {
+      "affects": [
+        "identity",
+        "exception",
+        "conditional-acceptance",
+        "audit",
+        "automated-test"
+      ],
+      "depends_on": [
+        "OPS-IDENTITY-001@0.1.0",
+        "OPS-IDENTITY-002@0.1.0",
+        "OPS-IDENTITY-003@0.1.0",
+        "OPS-EXC-001@0.1.0",
+        "OPS-EXC-002@0.1.0",
+        "OD-005@0.1.0"
+      ],
+      "fingerprint": "a56a740130e68e3e26f1faad1a4b4141503968e5a8485bb94b6084565a227d70",
+      "kind": "acceptance",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-ID-001"
+        }
+      ],
+      "status": "in_review",
+      "title": "身份错配"
+    },
+    "AC-REC-001@0.1.0": {
+      "affects": [
+        "receiving",
+        "sample-preparation",
+        "task-allocation",
+        "audit",
+        "automated-test"
+      ],
+      "depends_on": [
+        "OPS-RECEIPT-003@0.1.0",
+        "OPS-IDENTITY-003@0.1.0",
+        "SEC-AUTH-001@0.1.0",
+        "SEC-AUD-001@0.1.0"
+      ],
+      "fingerprint": "8e184359a694ee3fc02456e7df953eecfeff67ee8513e05e727855a1f65816e7",
+      "kind": "acceptance",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-REC-001"
+        }
+      ],
+      "status": "in_review",
+      "title": "隔离控制"
+    },
+    "AC-SEC-001@0.1.0": {
+      "affects": [
+        "authorization",
+        "search",
+        "export",
+        "object-storage",
+        "ai-retrieval",
+        "automated-test"
+      ],
+      "depends_on": [
+        "OD-002@1.0.0",
+        "ORG-STRUCT-001@0.1.0",
+        "SEC-AUTH-001@0.1.0"
+      ],
+      "fingerprint": "e762dae769c4ace3605cf0488a14788a88592bc9cc5b5cdce0c505786fb935bb",
+      "kind": "acceptance",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-SEC-001"
+        }
+      ],
+      "status": "in_review",
+      "title": "集团内多维越权防护"
+    },
+    "ATC-REC-001@0.1.0": {
+      "affects": [
+        "receiving",
+        "authorization",
+        "audit",
+        "receiving-ui",
+        "automated-test"
+      ],
+      "depends_on": [
+        "ED-001@0.1.0",
+        "OD-002@1.0.0",
+        "ORG-STRUCT-001@0.1.0",
+        "ORG-COLLAB-001@0.1.0",
+        "SEC-DEPLOY-001@0.1.0",
+        "OD-009@0.1.0",
+        "OPS-RECEIPT-001@0.1.0",
+        "SEC-AUTH-001@0.1.0",
+        "AC-SEC-001@0.1.0",
+        "SEC-AUD-001@0.1.0",
+        "NFR-ARCH-001@0.1.0"
+      ],
+      "fingerprint": "071aeb85adf1e36257baab4700efc2c7d38bf001a8c99597e2d29153cf412d57",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-RECEIPT-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "ORG-STRUCT-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "SEC-AUTH-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "SEC-AUD-001"
+        }
+      ],
+      "status": "proposed",
+      "title": "登记到货批、包装单元和收到实物"
+    },
+    "ATC-REC-002@0.1.0": {
+      "affects": [
+        "receiving",
+        "identifier",
+        "barcode",
+        "mobile",
+        "audit",
+        "automated-test"
+      ],
+      "depends_on": [
+        "ATC-REC-001@0.1.0",
+        "OD-002@1.0.0",
+        "ORG-STRUCT-001@0.1.0",
+        "OPS-RECEIPT-002@0.1.0",
+        "OD-009@0.1.0",
+        "OD-031@0.1.0",
+        "SEC-AUTH-001@0.1.0",
+        "SEC-AUD-001@0.1.0"
+      ],
+      "fingerprint": "d7b86a278ed8f2c8ca040d9e6f7a4be4310753476f19c2d9153b917f6f09d3db",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-RECEIPT-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "ORG-STRUCT-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "SEC-AUD-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-031"
+        }
+      ],
+      "status": "proposed",
+      "title": "生成、打印并校验包装和实物标识"
+    },
+    "ATC-REC-003@0.1.0": {
+      "affects": [
+        "receiving",
+        "disassembly",
+        "sample-preparation",
+        "task-allocation",
+        "authorization",
+        "audit",
+        "automated-test"
+      ],
+      "depends_on": [
+        "ATC-REC-001@0.1.0",
+        "OD-002@1.0.0",
+        "ORG-STRUCT-001@0.1.0",
+        "OPS-RECEIPT-003@0.1.0",
+        "OPS-IDENTITY-003@0.1.0",
+        "AC-REC-001@0.1.0",
+        "SEC-AUTH-001@0.1.0",
+        "SEC-AUD-001@0.1.0",
+        "OD-005@0.1.0",
+        "NFR-ARCH-001@0.1.0"
+      ],
+      "fingerprint": "3102bb7bcc5122e838285d269f059e7bc831d355bb29967fe9f7ed4453b372dd",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-RECEIPT-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "ORG-STRUCT-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-IDENTITY-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-REC-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "SEC-AUD-001"
+        }
+      ],
+      "status": "proposed",
+      "title": "身份评估前实施统一隔离门禁"
+    },
+    "ATC-REC-004@0.1.0": {
+      "affects": [
+        "identity",
+        "receiving",
+        "exception",
+        "evidence",
+        "authorization",
+        "audit",
+        "automated-test"
+      ],
+      "depends_on": [
+        "ATC-REC-001@0.1.0",
+        "OD-002@1.0.0",
+        "OPS-IDENTITY-001@0.1.0",
+        "OPS-IDENTITY-002@0.1.0",
+        "OPS-EXC-001@0.1.0",
+        "OPS-EXC-002@0.1.0",
+        "AC-ID-001@0.1.0",
+        "OD-005@0.1.0",
+        "OD-009@0.1.0",
+        "SEC-AUTH-001@0.1.0",
+        "SEC-AUD-001@0.1.0"
+      ],
+      "fingerprint": "5a9566ef366a7649ff87664fdef706d9863974b7085c7c68187ec426a61cc7cb",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-IDENTITY-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-IDENTITY-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-ID-001"
+        }
+      ],
+      "status": "proposed",
+      "title": "记录身份证据并形成匹配或冲突结论"
+    },
+    "ATC-REC-005@0.1.0": {
+      "affects": [
+        "exception",
+        "receiving",
+        "identity",
+        "scope-change",
+        "authorization",
+        "audit",
+        "automated-test"
+      ],
+      "depends_on": [
+        "ATC-REC-004@0.1.0",
+        "OD-002@1.0.0",
+        "OPS-EXC-001@0.1.0",
+        "OPS-EXC-002@0.1.0",
+        "OD-005@0.1.0",
+        "SEC-AUTH-001@0.1.0",
+        "SEC-AUD-001@0.1.0"
+      ],
+      "fingerprint": "a108abc80862e3cda924401759885ec1ddaa680be6e7d2d42871500cc7e9ff47",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-EXC-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-EXC-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-005"
+        }
+      ],
+      "status": "proposed",
+      "title": "处理收样异常并执行授权决定"
+    },
+    "ATC-REC-006@0.1.0": {
+      "affects": [
+        "receiving",
+        "identity",
+        "exception",
+        "outbox",
+        "lab-execution",
+        "audit",
+        "automated-test"
+      ],
+      "depends_on": [
+        "ATC-REC-003@0.1.0",
+        "OD-002@1.0.0",
+        "ATC-REC-004@0.1.0",
+        "ATC-REC-005@0.1.0",
+        "OPS-RECEIPT-003@0.1.0",
+        "OPS-IDENTITY-003@0.1.0",
+        "RULE-004@0.1.0",
+        "RULE-026@0.1.0",
+        "NFR-ARCH-002@0.1.0",
+        "OD-005@0.1.0"
+      ],
+      "fingerprint": "ad0c4e4db8854b5a743b731bfbe231494c5d6e6081a4276ea6c8c2f71b00377d",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-RECEIPT-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-IDENTITY-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "RULE-026"
+        }
+      ],
+      "status": "proposed",
+      "title": "受控解除隔离并发布执行资格"
+    },
+    "BUS-PROD-003@0.1.0": {
+      "affects": [
+        "product",
+        "product-variant",
+        "versioning",
+        "impact-analysis",
+        "evidence"
+      ],
+      "depends_on": [
+        "RULE-026@0.1.0"
+      ],
+      "fingerprint": "faf2128cf61269dfc43dd642b3658c751f2a4499e4d859c6a7df801791b36ae4",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "BUS-PROD-003"
+        }
+      ],
+      "status": "in_review",
+      "title": "被业务引用的产品版本禁止原地修改"
+    },
+    "BUS-REQ-003@0.1.0": {
+      "affects": [
+        "requirements",
+        "impact-analysis",
+        "service-order",
+        "report-template",
+        "migration"
+      ],
+      "depends_on": [
+        "RULE-026@0.1.0"
+      ],
+      "fingerprint": "344c1c5fe26c3fbf58f79ae912fdbb5cc0b911659aca306c179cba2540e47fd1",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "BUS-REQ-003"
+        }
+      ],
+      "status": "in_review",
+      "title": "要求更新生成影响清单且不改写冻结委托"
+    },
+    "ED-001@0.1.0": {
+      "affects": [
+        "repository",
+        "backend",
+        "frontend",
+        "database",
+        "ci",
+        "deployment"
+      ],
+      "depends_on": [
+        "OD-002@1.0.0",
+        "OD-020@0.1.0",
+        "OD-025@0.1.0"
+      ],
+      "fingerprint": "a4210690ac62879fecd1754363f3930408eee0948251716dd23ec819cb5889c2",
+      "kind": "decision",
+      "source_refs": [],
+      "status": "proposed",
+      "title": "应用技术栈与工程仓库基线"
+    },
+    "NFR-ARCH-001@0.1.0": {
+      "affects": [
+        "architecture",
+        "module-boundaries",
+        "ci"
+      ],
+      "depends_on": [
+        "OD-025@0.1.0"
+      ],
+      "fingerprint": "7d8902e4ce560a987e8da1e312bfecebab9511857ffd111e5ad080f7d5ee12a2",
+      "kind": "nfr",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "NFR-ARCH-001"
+        }
+      ],
+      "status": "in_review",
+      "title": "首期模块化单体"
+    },
+    "NFR-ARCH-002@0.1.0": {
+      "affects": [
+        "outbox",
+        "integration",
+        "reliability",
+        "observability"
+      ],
+      "depends_on": [
+        "NFR-ARCH-001@0.1.0"
+      ],
+      "fingerprint": "cf08fe497161d228a102825d8c961dfda0dbdc2fa1393e9406c5278d62daf9e6",
+      "kind": "nfr",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "NFR-ARCH-002"
+        }
+      ],
+      "status": "in_review",
+      "title": "事务发件箱与幂等消费者"
+    },
+    "OD-001@0.1.0": {
+      "affects": [
+        "release-governance",
+        "all-release-1-modules"
+      ],
+      "depends_on": [],
+      "fingerprint": "5fe4ffb5dcfa53c561241f4fc5123eea865c9dcfe5a2b34bba539f4c05d5672a",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-001"
+        }
+      ],
+      "status": "proposed",
+      "title": "Release 1 唯一灯塔试点切片"
+    },
+    "OD-002@1.0.0": {
+      "affects": [
+        "organization-model",
+        "deployment-boundary",
+        "authorization",
+        "data-platform",
+        "ai-security",
+        "backup-recovery"
+      ],
+      "depends_on": [],
+      "fingerprint": "81a2d96fb09e7650923ec3d3d41d5e2ba3bd29610a9395b9eb7bea2a0f1661eb",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-002"
+        }
+      ],
+      "status": "approved",
+      "title": "集团多机构与单集团独立部署模式"
+    },
+    "OD-005@0.1.0": {
+      "affects": [
+        "receiving",
+        "identity",
+        "exception",
+        "sample-preparation",
+        "task-allocation"
+      ],
+      "depends_on": [],
+      "fingerprint": "10daafe00d405cd61c4dbd76c2dee272797a6b5e715788995d2ed74f6117c232",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-005"
+        }
+      ],
+      "status": "proposed",
+      "title": "条件接收与身份异常审批矩阵"
+    },
+    "OD-009@0.1.0": {
+      "affects": [
+        "receiving",
+        "identifier",
+        "barcode",
+        "lineage"
+      ],
+      "depends_on": [],
+      "fingerprint": "962080700bba41441ec16015605eaa2a2c0714942cbcfcf0a2f0bc4abd629b8d",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-009"
+        }
+      ],
+      "status": "proposed",
+      "title": "收到实物唯一识别粒度"
+    },
+    "OD-020@0.1.0": {
+      "affects": [
+        "architecture",
+        "performance",
+        "availability",
+        "disaster-recovery"
+      ],
+      "depends_on": [
+        "OD-001@0.1.0",
+        "OD-002@1.0.0"
+      ],
+      "fingerprint": "f360f3f9b949ceaafce5cdc6b175bee4e85b7221f9aa4b6adac016fafcffda4c",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-020"
+        }
+      ],
+      "status": "proposed",
+      "title": "容量、并发与部署拓扑基线"
+    },
+    "OD-025@0.1.0": {
+      "affects": [
+        "modular-monolith",
+        "industry-packs",
+        "technical-packs",
+        "configuration"
+      ],
+      "depends_on": [
+        "OD-001@0.1.0"
+      ],
+      "fingerprint": "4823d8880043fd3490b0cb93988cfdde015055dd6af284a9005123018f6ae1c3",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-025"
+        }
+      ],
+      "status": "proposed",
+      "title": "平台内核、行业包与技术包边界"
+    },
+    "OD-027@0.1.0": {
+      "affects": [
+        "test-scope",
+        "quotation",
+        "planning",
+        "reporting"
+      ],
+      "depends_on": [
+        "OD-001@0.1.0"
+      ],
+      "fingerprint": "3b8ac36dfd16d5bb7b4f55999684bab7346def2aa1c163def3ed5f04172870fa",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-027"
+        }
+      ],
+      "status": "proposed",
+      "title": "TestScopeMatrix 范围行粒度与变更影响"
+    },
+    "OD-029@0.1.0": {
+      "affects": [
+        "accreditation",
+        "result-review",
+        "reporting",
+        "signature"
+      ],
+      "depends_on": [
+        "OD-001@0.1.0"
+      ],
+      "fingerprint": "85e197b51ea70faa46294dcbfa020fc623c8f98ebc9d6997c9ed581dfafc4843",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-029"
+        }
+      ],
+      "status": "proposed",
+      "title": "认可范围数据粒度与签发门禁"
+    },
+    "OD-030@0.1.0": {
+      "affects": [
+        "execution",
+        "batch",
+        "qc",
+        "raw-data",
+        "instrument-integration"
+      ],
+      "depends_on": [
+        "OD-001@0.1.0"
+      ],
+      "fingerprint": "03dbc6d00f5857449a0c8de147d602f530d76e3a598228f4f088c12dae2cfb64",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-030"
+        }
+      ],
+      "status": "proposed",
+      "title": "各方法族最小执行记录与外部系统边界"
+    },
+    "OD-031@0.1.0": {
+      "affects": [
+        "barcode",
+        "mobile",
+        "instrument-integration",
+        "validation-data"
+      ],
+      "depends_on": [
+        "OD-001@0.1.0",
+        "OD-009@0.1.0",
+        "OD-030@0.1.0"
+      ],
+      "fingerprint": "3626d4882314f075da4e7050ed45fe6b006818cfb737b6febb8a7cfee6f8fd95",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-031"
+        }
+      ],
+      "status": "proposed",
+      "title": "首期条码、移动流程和仪器接口清单"
+    },
+    "OD-032@0.1.0": {
+      "affects": [
+        "party",
+        "authorization",
+        "report-delivery",
+        "billing"
+      ],
+      "depends_on": [
+        "OD-001@0.1.0"
+      ],
+      "fingerprint": "0664721d0fb0a33e88972ef2c6b1df72204e7d58e673bd6fbb0606f6984ad19d",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-032"
+        }
+      ],
+      "status": "proposed",
+      "title": "多方参与角色、访问和付款权限模型"
+    },
+    "OD-034@0.1.0": {
+      "affects": [
+        "conformity",
+        "reporting",
+        "external-compliance-reference"
+      ],
+      "depends_on": [
+        "OD-001@0.1.0",
+        "OD-029@0.1.0"
+      ],
+      "fingerprint": "d9645e91b6778f65d064bf23aa4b2418f3828cb02ef3f19bd2e4e37b75dc1a40",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-034"
+        }
+      ],
+      "status": "proposed",
+      "title": "检测结论层级与全面合规引用边界"
+    },
+    "OPS-EXC-001@0.1.0": {
+      "affects": [
+        "exception",
+        "receiving",
+        "identity",
+        "evidence",
+        "workflow"
+      ],
+      "depends_on": [
+        "OPS-RECEIPT-001@0.1.0",
+        "OPS-IDENTITY-001@0.1.0"
+      ],
+      "fingerprint": "84fdb3643f7eb1cd7bf99773264133e9261b02c03a94dfec5ab93d63e8e93fd8",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-EXC-001"
+        }
+      ],
+      "status": "in_review",
+      "title": "收样异常分类建档"
+    },
+    "OPS-EXC-002@0.1.0": {
+      "affects": [
+        "exception",
+        "scope-change",
+        "conditional-acceptance",
+        "authorization",
+        "audit"
+      ],
+      "depends_on": [
+        "OPS-EXC-001@0.1.0",
+        "OD-005@0.1.0"
+      ],
+      "fingerprint": "8cf1d2cd7b5930ba2688263bc4c181accdfd4364e48b08fb31b75586f5781da6",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-EXC-002"
+        }
+      ],
+      "status": "in_review",
+      "title": "异常不得自动降低范围或默认条件接收"
+    },
+    "OPS-IDENTITY-001@0.1.0": {
+      "affects": [
+        "identity",
+        "evidence",
+        "data-model",
+        "audit",
+        "ux"
+      ],
+      "depends_on": [
+        "OPS-RECEIPT-001@0.1.0"
+      ],
+      "fingerprint": "0a417c32d1859c6612ca7144c728cc75b172e5a5d32761a1ac52c470d675aaf1",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-IDENTITY-001"
+        }
+      ],
+      "status": "in_review",
+      "title": "分离客户声明身份、实验室观察和匹配结论"
+    },
+    "OPS-IDENTITY-002@0.1.0": {
+      "affects": [
+        "identity",
+        "submission",
+        "product-variant",
+        "configuration",
+        "task-allocation"
+      ],
+      "depends_on": [
+        "OPS-IDENTITY-001@0.1.0",
+        "OD-009@0.1.0"
+      ],
+      "fingerprint": "b00534b8eb9a1750dcc75d2e2b178a5183564042f2d6653a9befa31e67687b18",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-IDENTITY-002"
+        }
+      ],
+      "status": "in_review",
+      "title": "实物身份映射到实际送检项与受试配置"
+    },
+    "OPS-IDENTITY-003@0.1.0": {
+      "affects": [
+        "identity",
+        "sample-preparation",
+        "task-allocation",
+        "authorization",
+        "audit"
+      ],
+      "depends_on": [
+        "OPS-RECEIPT-003@0.1.0",
+        "OPS-IDENTITY-001@0.1.0",
+        "OPS-IDENTITY-002@0.1.0",
+        "OD-005@0.1.0"
+      ],
+      "fingerprint": "7eb34bdf50c2f079f08852332d0acac9deddde9b5ae1bed7ae5de680d5d98483",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-IDENTITY-003"
+        }
+      ],
+      "status": "in_review",
+      "title": "身份异常对象禁止进入制样和检测"
+    },
+    "OPS-RECEIPT-001@0.1.0": {
+      "affects": [
+        "receiving",
+        "data-model",
+        "api",
+        "ux",
+        "audit"
+      ],
+      "depends_on": [
+        "OD-009@0.1.0"
+      ],
+      "fingerprint": "7fc24d0d2a7dca6f19298c33402e26323fc44580d83ef4d8ef12f4786f4b1d47",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-RECEIPT-001"
+        }
+      ],
+      "status": "in_review",
+      "title": "分别登记到货批、包装单元和收到的实物"
+    },
+    "OPS-RECEIPT-002@0.1.0": {
+      "affects": [
+        "receiving",
+        "identifier",
+        "barcode",
+        "mobile",
+        "audit"
+      ],
+      "depends_on": [
+        "OD-002@1.0.0",
+        "ORG-STRUCT-001@0.1.0",
+        "OPS-RECEIPT-001@0.1.0",
+        "OD-009@0.1.0",
+        "OD-031@0.1.0"
+      ],
+      "fingerprint": "c226b56a7fbf8c9482ed45241088b21060298375060084f60f082d2abbde846d",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-RECEIPT-002"
+        }
+      ],
+      "status": "in_review",
+      "title": "包装单元与收到实物唯一标识"
+    },
+    "OPS-RECEIPT-003@0.1.0": {
+      "affects": [
+        "receiving",
+        "identity",
+        "sample-preparation",
+        "task-allocation",
+        "audit"
+      ],
+      "depends_on": [
+        "OPS-RECEIPT-001@0.1.0",
+        "OD-005@0.1.0"
+      ],
+      "fingerprint": "3e4f6d543a544d2a8fafdd05742ac16706acf2335091458c239d533ab88908b7",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-RECEIPT-003"
+        }
+      ],
+      "status": "in_review",
+      "title": "身份评估完成前保持隔离"
+    },
+    "ORG-COLLAB-001@0.1.0": {
+      "affects": [
+        "service-order",
+        "receiving",
+        "lab-execution",
+        "reporting",
+        "billing",
+        "authorization",
+        "audit"
+      ],
+      "depends_on": [
+        "OD-002@1.0.0",
+        "ORG-STRUCT-001@0.1.0"
+      ],
+      "fingerprint": "be0c4ffabc11bf56c4cfe5eb0e90140094de49f3a4685faf2924e105ff47b8e1",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "ORG-COLLAB-001"
+        }
+      ],
+      "status": "in_review",
+      "title": "集团内跨机构协作责任分离"
+    },
+    "ORG-STRUCT-001@0.1.0": {
+      "affects": [
+        "organization-model",
+        "master-data",
+        "authorization-context",
+        "integration",
+        "audit"
+      ],
+      "depends_on": [
+        "OD-002@1.0.0"
+      ],
+      "fingerprint": "433e35c3fb9057b943355fcdace4a4c70be3cf78d0d9a9136b5ea8f55d5393d0",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "ORG-STRUCT-001"
+        }
+      ],
+      "status": "in_review",
+      "title": "集团多机构组织层级"
+    },
+    "REL-R1-RECEIVING-PILOT@0.1.0": {
+      "affects": [
+        "release-governance",
+        "requirements-lock",
+        "receiving-pilot",
+        "migration",
+        "evidence"
+      ],
+      "depends_on": [
+        "ED-001@0.1.0",
+        "OD-001@0.1.0",
+        "OD-002@1.0.0",
+        "OD-005@0.1.0",
+        "OD-009@0.1.0",
+        "ATC-REC-001@0.1.0",
+        "ATC-REC-002@0.1.0",
+        "ATC-REC-003@0.1.0",
+        "ATC-REC-004@0.1.0",
+        "ATC-REC-005@0.1.0",
+        "ATC-REC-006@0.1.0"
+      ],
+      "fingerprint": "a99ea5b7aa5849c75aaf02710baf5dd9a4763875138503404152a350abfdca3e",
+      "kind": "release-baseline",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-001"
+        }
+      ],
+      "status": "proposed",
+      "title": "Release 1 收样与身份纵向切片候选基线"
+    },
+    "RULE-004@0.1.0": {
+      "affects": [
+        "identity",
+        "task-allocation",
+        "coverage",
+        "lineage"
+      ],
+      "depends_on": [
+        "OPS-IDENTITY-002@0.1.0",
+        "OD-009@0.1.0"
+      ],
+      "fingerprint": "cb054b8410192f0763901e17288c00261684821100e6d097f3ac9f2c3d77ea5d",
+      "kind": "rule",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "RULE-004"
+        }
+      ],
+      "status": "in_review",
+      "title": "身份映射、任务使用与代表性分离"
+    },
+    "RULE-026@0.1.0": {
+      "affects": [
+        "versioning",
+        "release-baseline",
+        "configuration",
+        "migration",
+        "evidence"
+      ],
+      "depends_on": [
+        "OD-025@0.1.0"
+      ],
+      "fingerprint": "cfaf997d49a1c94038e0e8fc07a08a206c8861db29eae1462237d5873e2ad1ad",
+      "kind": "rule",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "RULE-026"
+        }
+      ],
+      "status": "in_review",
+      "title": "配置升级只影响明确生效范围"
+    },
+    "SEC-AUD-001@0.1.0": {
+      "affects": [
+        "audit",
+        "all-domain-commands",
+        "observability"
+      ],
+      "depends_on": [],
+      "fingerprint": "8aa132fc72a4ed56581ed96334e8200585c54b07581ce7f87024d2ff4aa48e7a",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "SEC-AUD-001"
+        }
+      ],
+      "status": "in_review",
+      "title": "受控操作追加式审计事件"
+    },
+    "SEC-AUTH-001@0.1.0": {
+      "affects": [
+        "authorization",
+        "all-domain-commands",
+        "organization-scope",
+        "audit"
+      ],
+      "depends_on": [
+        "OD-002@1.0.0",
+        "ORG-STRUCT-001@0.1.0",
+        "OD-032@0.1.0"
+      ],
+      "fingerprint": "9f69be78d53d464ceb7e990b8e9e3afb023c9460c43d3f729d0383959f6fcd76",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "SEC-AUTH-001"
+        }
+      ],
+      "status": "in_review",
+      "title": "服务端多维授权校验"
+    },
+    "SEC-DEPLOY-001@0.1.0": {
+      "affects": [
+        "deployment",
+        "database",
+        "object-storage",
+        "secrets",
+        "messaging",
+        "search",
+        "ai-runtime",
+        "backup-recovery"
+      ],
+      "depends_on": [
+        "OD-002@1.0.0"
+      ],
+      "fingerprint": "e02276ed1c4adf94c80a9a4efa44000e4a914d387d6d3b0a293635b0045dc92e",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "SEC-DEPLOY-001"
+        }
+      ],
+      "status": "in_review",
+      "title": "集团间独立部署与数据平面"
+    }
+  }
+}

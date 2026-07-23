@@ -1,0 +1,154 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "story",
+  "id": "ATC-REC-003",
+  "version": "0.1.0",
+  "status": "proposed",
+  "target_release": "REL-R1-RECEIVING-PILOT@0.1.0",
+  "epic_id": "EP-RECEIVING",
+  "feature_id": "FEAT-REC-QUARANTINE",
+  "title": "身份评估前实施统一隔离门禁",
+  "summary": "所有拆解、制样和检测分配入口通过版本化公共策略查询收样状态；隔离对象失败关闭并记录无副作用审计。",
+  "owners": ["收样产品负责人", "质量负责人", "相关下游模块负责人", "QA负责人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "OPS-RECEIPT-003"},
+    {"document": "PRD-MAIN", "item": "OD-002"},
+    {"document": "PRD-MAIN", "item": "ORG-STRUCT-001"},
+    {"document": "PRD-MAIN", "item": "OPS-IDENTITY-003"},
+    {"document": "PRD-MAIN", "item": "AC-REC-001"},
+    {"document": "PRD-MAIN", "item": "SEC-AUD-001"}
+  ],
+  "depends_on": [
+    "ATC-REC-001@0.1.0",
+    "OD-002@1.0.0",
+    "ORG-STRUCT-001@0.1.0",
+    "OPS-RECEIPT-003@0.1.0",
+    "OPS-IDENTITY-003@0.1.0",
+    "AC-REC-001@0.1.0",
+    "SEC-AUTH-001@0.1.0",
+    "SEC-AUD-001@0.1.0",
+    "OD-005@0.1.0",
+    "NFR-ARCH-001@0.1.0"
+  ],
+  "affects": ["receiving", "disassembly", "sample-preparation", "task-allocation", "authorization", "audit", "automated-test"],
+  "change_class": "major",
+  "body": {
+    "readiness": "blocked",
+    "business_outcome": "身份未确认、被隔离、待定、拒收或安全封存的实物不能因页面遗漏、接口调用或并发竞争进入实验室执行。",
+    "actor": "拆解员、制样员、检测计划员及调用相应命令的集成身份",
+    "preconditions": [
+      "ATC-REC-001 已交付并能查询版本化 ReceivedItem 状态",
+      "OD-005 已批准状态与允许动作矩阵，包括条件接收的精确语义",
+      "receiving 模块发布只读公共端口或版本化事件投影",
+      "拆解、制样和任务分配命令均已识别统一门禁接入点"
+    ],
+    "trigger": "任一用户或接口尝试以 ReceivedItem 或其派生上下文创建拆解、制样或 TestObjectAllocation",
+    "happy_path": [
+      "下游命令先执行自身权限校验",
+      "通过 receiving 公共端口在服务端绑定的集团上下文中查询对象的法人、实验室、客户、状态、身份决定、限制和期望版本",
+      "按 OD-005 固定版本矩阵计算 CanEnterLabExecution",
+      "只有明确 ALLOWED 才继续下游事务",
+      "门禁判断、规则版本和对象版本进入下游证据",
+      "成功后由下游模块写自身审计，不由 receiving 直接写下游私表"
+    ],
+    "failure_paths": [
+      "REGISTERED、QUARANTINED、IDENTITY_ASSESSING、AWAITING_CUSTOMER、REJECTED、SAFETY_HOLD 一律拒绝",
+      "状态或适用性未知时按 BLOCK 处理，不使用默认允许",
+      "对象版本在门禁后到提交前变化时通过乐观并发或条件写入失败",
+      "对象不存在，或调用方无权访问对应法人、实验室、客户或对象时按安全策略拒绝且不泄露差异",
+      "receiving 公共端口不可用时失败关闭，不缓存为永久允许",
+      "拒绝不创建拆解、试样、数量流水、分配或发件箱业务事件"
+    ],
+    "invariants": [
+      "统一策略返回 ALLOWED/BLOCKED/UNKNOWN，UNKNOWN 等同 BLOCKED",
+      "下游模块不得读取 receiving 私有表",
+      "门禁基于固定规则版本和对象版本，不读取 latest 配置",
+      "拒绝路径无业务副作用但有追加式阻断审计",
+      "同一对象的三个入口必须共享契约测试"
+    ],
+    "data_contract": {
+      "query": "GetLabExecutionEligibility",
+      "serverContext": ["organizationGroupId", "authenticatedSubjectId", "grantedOrganizationScopes"],
+      "input": ["laboratoryId", "receivedItemId", "requestedAction", "expectedItemVersion", "ruleSetVersion"],
+      "output": ["decision", "currentState", "identityDecisionId", "constraints", "evaluatedRuleIds", "itemVersion", "decisionVersion"],
+      "decisionEnum": ["ALLOWED", "BLOCKED", "UNKNOWN"]
+    },
+    "api_contract": {
+      "publicPort": "ReceivingEligibilityPort@v1",
+      "protectedCommands": ["CreateDisassemblyPlan", "CreatePreparation", "AllocateTestObject"],
+      "blockedError": "RECEIVED_ITEM_NOT_RELEASED",
+      "errorFields": ["code", "objectId", "currentState", "blockedAction", "ruleIds", "correlationId"],
+      "retryableErrors": ["RECEIVING_PORT_UNAVAILABLE", "EXPECTED_VERSION_CONFLICT"]
+    },
+    "state_transitions": [
+      "门禁查询本身不改变 ReceivedItem 状态",
+      "被阻断的下游命令不得改变任何业务状态",
+      "并发版本冲突要求调用方重新读取状态并重新评估，不得盲重试提交"
+    ],
+    "permissions": [
+      "下游命令权限与 receiving 对象访问权限分别校验",
+      "eligibility 端口只返回完成门禁所需最小数据",
+      "服务身份必须由部署绑定集团，并固定法人/实验室范围、用途和有效期",
+      "审计员只读，不获得执行资格"
+    ],
+    "audit": [
+      "阻断事件类型 LAB_EXECUTION_ENTRY_BLOCKED",
+      "记录对象、用户或服务身份、动作、当前状态、规则版本、规则ID、原因、期望/实际版本和 correlationId",
+      "重复相同请求可在指标层聚合，但每次受控操作尝试按政策保留",
+      "不得记录未脱敏客户正文或访问令牌"
+    ],
+    "ui_states": [
+      "隔离对象详情显示不可进入执行的明确原因和责任方",
+      "下游创建页在预检查时禁用动作，但提交时仍由服务端再次校验",
+      "并发冲突提示刷新状态，不将其显示为普通字段校验",
+      "UNKNOWN 显示为系统或配置阻断，不能显示为已允许",
+      "只有具备对应权限者可看到处理入口"
+    ],
+    "observability": [
+      "指标 lab_execution_gate_total 按动作、决策和状态聚合",
+      "指标 eligibility_port_duration_seconds 和 availability",
+      "UNKNOWN 决策与端口不可用分别告警",
+      "关联日志可从下游命令追溯至门禁查询和审计事件"
+    ],
+    "test_cases": [
+      {"id": "TC-REC-003-01", "title": "隔离状态阻断三个入口", "type": "negative", "given": ["ReceivedItem状态为QUARANTINED"], "when": ["分别尝试拆解、制样和检测分配"], "then": ["三个命令均返回RECEIVED_ITEM_NOT_RELEASED", "没有业务副作用", "各自记录阻断审计"]},
+      {"id": "TC-REC-003-02", "title": "未知状态失败关闭", "type": "boundary", "given": ["规则不认识新的状态值或适用性为UNKNOWN"], "when": ["请求进入执行"], "then": ["决策为UNKNOWN并按阻断处理", "产生配置告警"]},
+      {"id": "TC-REC-003-03", "title": "允许状态", "type": "positive", "given": ["对象处于OD-005明确允许状态", "身份决定和限制满足"], "when": ["创建下游命令"], "then": ["门禁返回ALLOWED", "下游可继续自身事务", "证据固定规则和对象版本"]},
+      {"id": "TC-REC-003-04", "title": "状态并发变化", "type": "concurrency", "given": ["预检查时对象允许", "提交前对象被安全封存"], "when": ["使用旧expectedItemVersion提交"], "then": ["条件写入失败", "不创建下游对象", "调用方必须重新评估"]},
+      {"id": "TC-REC-003-05", "title": "跨组织入口", "type": "security", "given": ["调用方无实物所属法人、实验室或客户授权"], "when": ["请求资格并提交下游命令"], "then": ["统一拒绝", "不泄露对象状态", "记录安全审计"]},
+      {"id": "TC-REC-003-06", "title": "依赖不可用", "type": "recovery", "given": ["receiving eligibility端口暂时不可用"], "when": ["创建制样"], "then": ["失败关闭且标记可重试", "不使用过期允许缓存", "恢复后重新完整校验"]}
+    ],
+    "non_goals": [
+      "不在本卡决定条件接收矩阵",
+      "不实现身份评估录入页面",
+      "不实现拆解、制样和任务分配的完整业务",
+      "不允许复制 receiving 状态到多个模块后各自解释",
+      "不以数据库触发器替代领域契约"
+    ],
+    "allowed_paths": [
+      "src/modules/receiving/public-contracts/**",
+      "src/modules/disassembly/**",
+      "src/modules/sample-preparation/**",
+      "src/modules/lab-execution/**",
+      "contracts/receiving/eligibility/**",
+      "tests/architecture/**",
+      "tests/receiving/eligibility/**"
+    ],
+    "verification_commands": [
+      "python -m tools.specgen check",
+      "TECH_STACK_TEST_COMMAND_REQUIRED_BY_ED-001",
+      "CROSS_MODULE_CONTRACT_TEST_REQUIRED",
+      "MODULE_PRIVATE_TABLE_ACCESS_CHECK_REQUIRED"
+    ],
+    "definition_of_done": [
+      "三个入口共享版本化资格端口和契约测试",
+      "阻断状态、UNKNOWN、权限、并发和恢复测试全部通过",
+      "拒绝路径经数据库断言无业务副作用",
+      "阻断审计包含 AC-REC-001 要求字段",
+      "无跨模块私表访问",
+      "OD-005 版本固定在发布基线中",
+      "需求—风险—设计—测试—证据追踪完整"
+    ]
+  }
+}

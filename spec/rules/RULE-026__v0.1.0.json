@@ -1,0 +1,18 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "rule",
+  "id": "RULE-026",
+  "version": "0.1.0",
+  "status": "in_review",
+  "title": "配置升级只影响明确生效范围",
+  "summary": "行业包或客户配置升级只作用于明确生效范围；历史和在制对象使用批准的迁移或沿用策略，禁止运行时读取最新版。",
+  "owners": ["产品负责人", "质量负责人", "架构负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "RULE-026"}],
+  "depends_on": ["OD-025@0.1.0"],
+  "affects": ["versioning", "release-baseline", "configuration", "migration", "evidence"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "UNKNOWN", "condition": "版本、兼容矩阵和迁移审批策略批准后启用"},
+  "failure_policy": "KEEP_PINNED_AND_BLOCK_UNAPPROVED_MIGRATION"
+}

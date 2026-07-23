@@ -1,0 +1,20 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "decision",
+  "id": "OD-027",
+  "version": "0.1.0",
+  "status": "proposed",
+  "title": "TestScopeMatrix 范围行粒度与变更影响",
+  "summary": "确定 ScopeLine 最小粒度、必需维度、批准岗位及报价、任务、报告的变更传播规则。",
+  "owners": ["技术负责人", "实验室运营", "产品负责人", "质量负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "OD-027"}],
+  "depends_on": ["OD-001@0.1.0"],
+  "affects": ["test-scope", "quotation", "planning", "reporting"],
+  "change_class": "major",
+  "decision_state": "open",
+  "options": ["项目级范围行", "方法选项级范围行", "对象特征乘项目级范围行"],
+  "decision": null,
+  "blocking_scope": ["TestScopeMatrix 数据契约", "正式报价", "任务生成", "报告位置"],
+  "exit_criteria": ["真实订单样例映射", "变更影响矩阵批准", "报告行追踪验证"]
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "decision",
+  "id": "OD-032",
+  "version": "0.1.0",
+  "status": "proposed",
+  "title": "多方参与角色、访问和付款权限模型",
+  "summary": "确定申请方、付款方、品牌方、工厂、报告接收方等角色的有效期、数据访问和授权关系。",
+  "owners": ["销售负责人", "客服负责人", "财务负责人", "法务负责人", "产品负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "OD-032"}],
+  "depends_on": ["OD-001@0.1.0"],
+  "affects": ["party", "authorization", "report-delivery", "billing"],
+  "change_class": "major",
+  "decision_state": "open",
+  "options": ["客户级角色", "客户项目协议级角色", "对象与有效期属性授权"],
+  "decision": null,
+  "blocking_scope": ["服务端授权", "报告下载", "付款归属", "数据隔离"],
+  "exit_criteria": ["角色样例批准", "授权有效期规则批准", "跨客户访问反向测试定义"]
+}

@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openlims.local/schema/source-baseline.schema.json",
+  "title": "OpenLIMS reviewed PRD source baseline",
+  "type": "object",
+  "required": ["schema_version", "documents"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "documents": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["path", "format", "document_hash", "acknowledgement", "items"],
+        "properties": {
+          "path": {"type": "string"},
+          "format": {"type": "string"},
+          "document_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "acknowledgement": {"$ref": "#/$defs/ack"},
+          "items": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "required": ["fingerprint", "title", "section", "kind"],
+              "properties": {
+                "fingerprint": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+                "title": {"type": "string"},
+                "section": {"type": "string"},
+                "kind": {"type": "string"},
+                "acknowledgement": {"$ref": "#/$defs/ack"}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "ack": {
+      "type": "object",
+      "required": ["status", "reviewed_by", "reviewed_on", "reason"],
+      "properties": {
+        "status": {"enum": ["bootstrap", "reviewed", "approved"]},
+        "reviewed_by": {"type": "string", "minLength": 1},
+        "reviewed_on": {"type": "string", "format": "date"},
+        "reason": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

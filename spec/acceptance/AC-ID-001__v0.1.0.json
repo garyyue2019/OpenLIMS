@@ -1,0 +1,21 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "acceptance",
+  "id": "AC-ID-001",
+  "version": "0.1.0",
+  "status": "in_review",
+  "title": "身份错配",
+  "summary": "合同要求与实物标签或观察不一致时创建异常并阻止正常接收，只有授权决定可以定义后续动作。",
+  "owners": ["身份评估员", "质量负责人", "QA负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "AC-ID-001"}],
+  "depends_on": ["OPS-IDENTITY-001@0.1.0", "OPS-IDENTITY-002@0.1.0", "OPS-IDENTITY-003@0.1.0", "OPS-EXC-001@0.1.0", "OPS-EXC-002@0.1.0", "OD-005@0.1.0"],
+  "affects": ["identity", "exception", "conditional-acceptance", "audit", "automated-test"],
+  "change_class": "major",
+  "scenario": {
+    "given": ["合同要求型号A", "实物标签和实验室观察指向型号C"],
+    "when": ["身份评估员提交不一致结论"],
+    "then": ["系统创建身份冲突异常", "系统禁止正常接收", "只有OD-005批准矩阵中的授权决定可选择后续动作", "客户声明、观察和结论均保留"]
+  },
+  "automation": ["领域规则单元测试", "API集成测试", "授权决定矩阵测试", "审计和不可变历史测试"]
+}

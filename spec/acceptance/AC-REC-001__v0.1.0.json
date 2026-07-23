@@ -1,0 +1,21 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "acceptance",
+  "id": "AC-REC-001",
+  "version": "0.1.0",
+  "status": "in_review",
+  "title": "隔离控制",
+  "summary": "身份评估未完成的实物尝试进入拆解、制样或检测分配时，服务端拒绝并留下完整阻断审计。",
+  "owners": ["质量负责人", "QA负责人", "收样负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "AC-REC-001"}],
+  "depends_on": ["OPS-RECEIPT-003@0.1.0", "OPS-IDENTITY-003@0.1.0", "SEC-AUTH-001@0.1.0", "SEC-AUD-001@0.1.0"],
+  "affects": ["receiving", "sample-preparation", "task-allocation", "audit", "automated-test"],
+  "change_class": "major",
+  "scenario": {
+    "given": ["收到的实物已登记且尚未完成身份评估", "用户已通过身份认证"],
+    "when": ["用户尝试创建拆解任务、制样记录或检测对象分配中的任一操作"],
+    "then": ["服务端拒绝操作", "业务对象和数量不发生变化", "审计事件记录对象、用户、规则、动作、当前状态、阻断原因和关联ID"]
+  },
+  "automation": ["领域规则单元测试", "API集成测试", "跨法人/实验室/客户授权测试", "集团上下文不可由客户端覆盖测试", "并发状态变化测试", "审计持久化测试"]
+}

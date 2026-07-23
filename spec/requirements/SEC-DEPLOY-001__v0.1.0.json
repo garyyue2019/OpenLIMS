@@ -1,0 +1,27 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "SEC-DEPLOY-001",
+  "version": "0.1.0",
+  "status": "in_review",
+  "title": "集团间独立部署与数据平面",
+  "summary": "每个检测集团使用独立生产部署和独立数据平面，不提供共享 SaaS 多租户隔离实现。",
+  "owners": ["架构负责人", "安全负责人", "运维负责人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "OD-002"},
+    {"document": "PRD-MAIN", "item": "SEC-DEPLOY-001"}
+  ],
+  "depends_on": ["OD-002@1.0.0"],
+  "affects": ["deployment", "database", "object-storage", "secrets", "messaging", "search", "ai-runtime", "backup-recovery"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "ENABLED", "condition": "所有生产与生产数据恢复环境"},
+  "invariants": [
+    "一个生产部署只绑定一个 OrganizationGroup",
+    "不同集团不共享数据库实例或逻辑库、对象存储命名空间与访问凭据、密钥、消息队列、检索或向量索引、AI 会话或缓存、备份与恢复凭据",
+    "云托管仅允许单集团独享环境，不得退化为共享数据平面的行级租户过滤",
+    "集团标识来自受控部署配置和受信身份，不接受客户端覆盖",
+    "备份恢复不得把一个集团的数据恢复到另一个集团的运行环境"
+  ]
+}

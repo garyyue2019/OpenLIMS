@@ -1,0 +1,18 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "nfr",
+  "id": "NFR-ARCH-002",
+  "version": "0.1.0",
+  "status": "in_review",
+  "title": "事务发件箱与幂等消费者",
+  "summary": "跨模块事件通过事务发件箱发布，消费者使用幂等键处理，故障恢复后不得丢失或重复生效。",
+  "owners": ["架构负责人", "工程负责人", "运维负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "NFR-ARCH-002"}],
+  "depends_on": ["NFR-ARCH-001@0.1.0"],
+  "affects": ["outbox", "integration", "reliability", "observability"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "UNKNOWN", "condition": "模块端口和事件所有权批准后启用"},
+  "target": "故障恢复后事件不丢失且业务副作用不重复"
+}

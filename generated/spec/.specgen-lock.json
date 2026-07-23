@@ -1,0 +1,2107 @@
+{
+  "config_fingerprint": "39f4e35ec71deadf049d7db34c44151a15b1e8785b3be01f3c10440ace4141c6",
+  "generator_version": "0.1.0",
+  "outputs": {
+    "generated/spec/OWNERSHIP.md": {
+      "owners": [
+        "AC-DEPLOY-001@0.1.0",
+        "AC-ID-001@0.1.0",
+        "AC-REC-001@0.1.0",
+        "AC-SEC-001@0.1.0",
+        "ATC-REC-001@0.1.0",
+        "ATC-REC-002@0.1.0",
+        "ATC-REC-003@0.1.0",
+        "ATC-REC-004@0.1.0",
+        "ATC-REC-005@0.1.0",
+        "ATC-REC-006@0.1.0",
+        "BUS-PROD-003@0.1.0",
+        "BUS-REQ-003@0.1.0",
+        "ED-001@0.1.0",
+        "NFR-ARCH-001@0.1.0",
+        "NFR-ARCH-002@0.1.0",
+        "OD-001@0.1.0",
+        "OD-002@1.0.0",
+        "OD-005@0.1.0",
+        "OD-009@0.1.0",
+        "OD-020@0.1.0",
+        "OD-025@0.1.0",
+        "OD-027@0.1.0",
+        "OD-029@0.1.0",
+        "OD-030@0.1.0",
+        "OD-031@0.1.0",
+        "OD-032@0.1.0",
+        "OD-034@0.1.0",
+        "OPS-EXC-001@0.1.0",
+        "OPS-EXC-002@0.1.0",
+        "OPS-IDENTITY-001@0.1.0",
+        "OPS-IDENTITY-002@0.1.0",
+        "OPS-IDENTITY-003@0.1.0",
+        "OPS-RECEIPT-001@0.1.0",
+        "OPS-RECEIPT-002@0.1.0",
+        "OPS-RECEIPT-003@0.1.0",
+        "ORG-COLLAB-001@0.1.0",
+        "ORG-STRUCT-001@0.1.0",
+        "REL-R1-RECEIVING-PILOT@0.1.0",
+        "RULE-004@0.1.0",
+        "RULE-026@0.1.0",
+        "SEC-AUD-001@0.1.0",
+        "SEC-AUTH-001@0.1.0",
+        "SEC-DEPLOY-001@0.1.0"
+      ],
+      "sha256": "fe89b45ec25254c21bd45bd6df00740301932ec2727adf41bf18cf53836c8881"
+    },
+    "generated/spec/README.md": {
+      "owners": [
+        "AC-DEPLOY-001@0.1.0",
+        "AC-ID-001@0.1.0",
+        "AC-REC-001@0.1.0",
+        "AC-SEC-001@0.1.0",
+        "ATC-REC-001@0.1.0",
+        "ATC-REC-002@0.1.0",
+        "ATC-REC-003@0.1.0",
+        "ATC-REC-004@0.1.0",
+        "ATC-REC-005@0.1.0",
+        "ATC-REC-006@0.1.0",
+        "BUS-PROD-003@0.1.0",
+        "BUS-REQ-003@0.1.0",
+        "ED-001@0.1.0",
+        "NFR-ARCH-001@0.1.0",
+        "NFR-ARCH-002@0.1.0",
+        "OD-001@0.1.0",
+        "OD-002@1.0.0",
+        "OD-005@0.1.0",
+        "OD-009@0.1.0",
+        "OD-020@0.1.0",
+        "OD-025@0.1.0",
+        "OD-027@0.1.0",
+        "OD-029@0.1.0",
+        "OD-030@0.1.0",
+        "OD-031@0.1.0",
+        "OD-032@0.1.0",
+        "OD-034@0.1.0",
+        "OPS-EXC-001@0.1.0",
+        "OPS-EXC-002@0.1.0",
+        "OPS-IDENTITY-001@0.1.0",
+        "OPS-IDENTITY-002@0.1.0",
+        "OPS-IDENTITY-003@0.1.0",
+        "OPS-RECEIPT-001@0.1.0",
+        "OPS-RECEIPT-002@0.1.0",
+        "OPS-RECEIPT-003@0.1.0",
+        "ORG-COLLAB-001@0.1.0",
+        "ORG-STRUCT-001@0.1.0",
+        "REL-R1-RECEIVING-PILOT@0.1.0",
+        "RULE-004@0.1.0",
+        "RULE-026@0.1.0",
+        "SEC-AUD-001@0.1.0",
+        "SEC-AUTH-001@0.1.0",
+        "SEC-DEPLOY-001@0.1.0"
+      ],
+      "sha256": "63c596c656a848d1c94939175c3e1d4101fe54a5eb1bc694c962a95c813cc07d"
+    },
+    "generated/spec/catalog.md": {
+      "owners": [
+        "AC-DEPLOY-001@0.1.0",
+        "AC-ID-001@0.1.0",
+        "AC-REC-001@0.1.0",
+        "AC-SEC-001@0.1.0",
+        "ATC-REC-001@0.1.0",
+        "ATC-REC-002@0.1.0",
+        "ATC-REC-003@0.1.0",
+        "ATC-REC-004@0.1.0",
+        "ATC-REC-005@0.1.0",
+        "ATC-REC-006@0.1.0",
+        "BUS-PROD-003@0.1.0",
+        "BUS-REQ-003@0.1.0",
+        "ED-001@0.1.0",
+        "NFR-ARCH-001@0.1.0",
+        "NFR-ARCH-002@0.1.0",
+        "OD-001@0.1.0",
+        "OD-002@1.0.0",
+        "OD-005@0.1.0",
+        "OD-009@0.1.0",
+        "OD-020@0.1.0",
+        "OD-025@0.1.0",
+        "OD-027@0.1.0",
+        "OD-029@0.1.0",
+        "OD-030@0.1.0",
+        "OD-031@0.1.0",
+        "OD-032@0.1.0",
+        "OD-034@0.1.0",
+        "OPS-EXC-001@0.1.0",
+        "OPS-EXC-002@0.1.0",
+        "OPS-IDENTITY-001@0.1.0",
+        "OPS-IDENTITY-002@0.1.0",
+        "OPS-IDENTITY-003@0.1.0",
+        "OPS-RECEIPT-001@0.1.0",
+        "OPS-RECEIPT-002@0.1.0",
+        "OPS-RECEIPT-003@0.1.0",
+        "ORG-COLLAB-001@0.1.0",
+        "ORG-STRUCT-001@0.1.0",
+        "REL-R1-RECEIVING-PILOT@0.1.0",
+        "RULE-004@0.1.0",
+        "RULE-026@0.1.0",
+        "SEC-AUD-001@0.1.0",
+        "SEC-AUTH-001@0.1.0",
+        "SEC-DEPLOY-001@0.1.0"
+      ],
+      "sha256": "b3403b8ec3d85345160db9daf5af59f961518afc35932749d7af5d8abede3897"
+    },
+    "generated/spec/dependency-graph.mmd": {
+      "owners": [
+        "AC-DEPLOY-001@0.1.0",
+        "AC-ID-001@0.1.0",
+        "AC-REC-001@0.1.0",
+        "AC-SEC-001@0.1.0",
+        "ATC-REC-001@0.1.0",
+        "ATC-REC-002@0.1.0",
+        "ATC-REC-003@0.1.0",
+        "ATC-REC-004@0.1.0",
+        "ATC-REC-005@0.1.0",
+        "ATC-REC-006@0.1.0",
+        "BUS-PROD-003@0.1.0",
+        "BUS-REQ-003@0.1.0",
+        "ED-001@0.1.0",
+        "NFR-ARCH-001@0.1.0",
+        "NFR-ARCH-002@0.1.0",
+        "OD-001@0.1.0",
+        "OD-002@1.0.0",
+        "OD-005@0.1.0",
+        "OD-009@0.1.0",
+        "OD-020@0.1.0",
+        "OD-025@0.1.0",
+        "OD-027@0.1.0",
+        "OD-029@0.1.0",
+        "OD-030@0.1.0",
+        "OD-031@0.1.0",
+        "OD-032@0.1.0",
+        "OD-034@0.1.0",
+        "OPS-EXC-001@0.1.0",
+        "OPS-EXC-002@0.1.0",
+        "OPS-IDENTITY-001@0.1.0",
+        "OPS-IDENTITY-002@0.1.0",
+        "OPS-IDENTITY-003@0.1.0",
+        "OPS-RECEIPT-001@0.1.0",
+        "OPS-RECEIPT-002@0.1.0",
+        "OPS-RECEIPT-003@0.1.0",
+        "ORG-COLLAB-001@0.1.0",
+        "ORG-STRUCT-001@0.1.0",
+        "REL-R1-RECEIVING-PILOT@0.1.0",
+        "RULE-004@0.1.0",
+        "RULE-026@0.1.0",
+        "SEC-AUD-001@0.1.0",
+        "SEC-AUTH-001@0.1.0",
+        "SEC-DEPLOY-001@0.1.0"
+      ],
+      "sha256": "8feef4574dad20f692b23f0fa984b26e4b0429f4be9e3c559d89853c1189de25"
+    },
+    "generated/spec/features/AC-DEPLOY-001__v0.1.0.feature": {
+      "owners": [
+        "AC-DEPLOY-001@0.1.0",
+        "OD-002@1.0.0",
+        "SEC-DEPLOY-001@0.1.0"
+      ],
+      "sha256": "1e7568895534767f3ccc668ec8b427fa094639d2323cbb92eca8cd549750f0cb"
+    },
+    "generated/spec/features/AC-ID-001__v0.1.0.feature": {
+      "owners": [
+        "AC-ID-001@0.1.0",
+        "OD-005@0.1.0",
+        "OPS-EXC-001@0.1.0",
+        "OPS-EXC-002@0.1.0",
+        "OPS-IDENTITY-001@0.1.0",
+        "OPS-IDENTITY-002@0.1.0",
+        "OPS-IDENTITY-003@0.1.0"
+      ],
+      "sha256": "5a688dcad355d66f6eba4398ae1a029a9eaee5ffb1221d73c961c7d83dc31989"
+    },
+    "generated/spec/features/AC-REC-001__v0.1.0.feature": {
+      "owners": [
+        "AC-REC-001@0.1.0",
+        "OPS-IDENTITY-003@0.1.0",
+        "OPS-RECEIPT-003@0.1.0",
+        "SEC-AUD-001@0.1.0",
+        "SEC-AUTH-001@0.1.0"
+      ],
+      "sha256": "1090e05113cfe37b0e2beeaaf1e6aefed4b71796a83f394a5196d8e99acc9fa9"
+    },
+    "generated/spec/features/AC-SEC-001__v0.1.0.feature": {
+      "owners": [
+        "AC-SEC-001@0.1.0",
+        "OD-002@1.0.0",
+        "ORG-STRUCT-001@0.1.0",
+        "SEC-AUTH-001@0.1.0"
+      ],
+      "sha256": "eed3f066ff17ba6d9ebc64747d4c81ea2d5818c3a790b5551d7b7d5983228be4"
+    },
+    "generated/spec/features/ATC-REC-001__v0.1.0.feature": {
+      "owners": [
+        "AC-SEC-001@0.1.0",
+        "ATC-REC-001@0.1.0",
+        "ED-001@0.1.0",
+        "NFR-ARCH-001@0.1.0",
+        "OD-002@1.0.0",
+        "OD-009@0.1.0",
+        "OPS-RECEIPT-001@0.1.0",
+        "ORG-COLLAB-001@0.1.0",
+        "ORG-STRUCT-001@0.1.0",
+        "SEC-AUD-001@0.1.0",
+        "SEC-AUTH-001@0.1.0",
+        "SEC-DEPLOY-001@0.1.0"
+      ],
+      "sha256": "25ecf260e397530553026b105ea04af50be0f99d25ccceef79b39bc427392a7a"
+    },
+    "generated/spec/features/ATC-REC-002__v0.1.0.feature": {
+      "owners": [
+        "ATC-REC-001@0.1.0",
+        "ATC-REC-002@0.1.0",
+        "OD-002@1.0.0",
+        "OD-009@0.1.0",
+        "OD-031@0.1.0",
+        "OPS-RECEIPT-002@0.1.0",
+        "ORG-STRUCT-001@0.1.0",
+        "SEC-AUD-001@0.1.0",
+        "SEC-AUTH-001@0.1.0"
+      ],
+      "sha256": "9a94317c971e33fbbdbc0cea19505c84d53a05233f898b14828368cb0174124c"
+    },
+    "generated/spec/features/ATC-REC-003__v0.1.0.feature": {
+      "owners": [
+        "AC-REC-001@0.1.0",
+        "ATC-REC-001@0.1.0",
+        "ATC-REC-003@0.1.0",
+        "NFR-ARCH-001@0.1.0",
+        "OD-002@1.0.0",
+        "OD-005@0.1.0",
+        "OPS-IDENTITY-003@0.1.0",
+        "OPS-RECEIPT-003@0.1.0",
+        "ORG-STRUCT-001@0.1.0",
+        "SEC-AUD-001@0.1.0",
+        "SEC-AUTH-001@0.1.0"
+      ],
+      "sha256": "3e4ac026b870efbe18cfcf1b6fa8791acf9a7df9af14c6649ff2ae926267bde0"
+    },
+    "generated/spec/features/ATC-REC-004__v0.1.0.feature": {
+      "owners": [
+        "AC-ID-001@0.1.0",
+        "ATC-REC-001@0.1.0",
+        "ATC-REC-004@0.1.0",
+        "OD-002@1.0.0",
+        "OD-005@0.1.0",
+        "OD-009@0.1.0",
+        "OPS-EXC-001@0.1.0",
+        "OPS-EXC-002@0.1.0",
+        "OPS-IDENTITY-001@0.1.0",
+        "OPS-IDENTITY-002@0.1.0",
+        "SEC-AUD-001@0.1.0",
+        "SEC-AUTH-001@0.1.0"
+      ],
+      "sha256": "a6b555401b9a436769c95b79b3dedf22f95178529d89485ad0e55ec3588bde1f"
+    },
+    "generated/spec/features/ATC-REC-005__v0.1.0.feature": {
+      "owners": [
+        "ATC-REC-004@0.1.0",
+        "ATC-REC-005@0.1.0",
+        "OD-002@1.0.0",
+        "OD-005@0.1.0",
+        "OPS-EXC-001@0.1.0",
+        "OPS-EXC-002@0.1.0",
+        "SEC-AUD-001@0.1.0",
+        "SEC-AUTH-001@0.1.0"
+      ],
+      "sha256": "e5921a1b912466094a03dc01802d8c7f418070b4719ef89d84e684ee98904bb8"
+    },
+    "generated/spec/features/ATC-REC-006__v0.1.0.feature": {
+      "owners": [
+        "ATC-REC-003@0.1.0",
+        "ATC-REC-004@0.1.0",
+        "ATC-REC-005@0.1.0",
+        "ATC-REC-006@0.1.0",
+        "NFR-ARCH-002@0.1.0",
+        "OD-002@1.0.0",
+        "OD-005@0.1.0",
+        "OPS-IDENTITY-003@0.1.0",
+        "OPS-RECEIPT-003@0.1.0",
+        "RULE-004@0.1.0",
+        "RULE-026@0.1.0"
+      ],
+      "sha256": "b721d60109415f64de591383e3db48bded981e3dfa5b039d53a2a08fab8006f4"
+    },
+    "generated/spec/lifecycle-index.md": {
+      "owners": [
+        "AC-DEPLOY-001@0.1.0",
+        "AC-ID-001@0.1.0",
+        "AC-REC-001@0.1.0",
+        "AC-SEC-001@0.1.0",
+        "ATC-REC-001@0.1.0",
+        "ATC-REC-002@0.1.0",
+        "ATC-REC-003@0.1.0",
+        "ATC-REC-004@0.1.0",
+        "ATC-REC-005@0.1.0",
+        "ATC-REC-006@0.1.0",
+        "BUS-PROD-003@0.1.0",
+        "BUS-REQ-003@0.1.0",
+        "ED-001@0.1.0",
+        "NFR-ARCH-001@0.1.0",
+        "NFR-ARCH-002@0.1.0",
+        "OD-001@0.1.0",
+        "OD-002@1.0.0",
+        "OD-005@0.1.0",
+        "OD-009@0.1.0",
+        "OD-020@0.1.0",
+        "OD-025@0.1.0",
+        "OD-027@0.1.0",
+        "OD-029@0.1.0",
+        "OD-030@0.1.0",
+        "OD-031@0.1.0",
+        "OD-032@0.1.0",
+        "OD-034@0.1.0",
+        "OPS-EXC-001@0.1.0",
+        "OPS-EXC-002@0.1.0",
+        "OPS-IDENTITY-001@0.1.0",
+        "OPS-IDENTITY-002@0.1.0",
+        "OPS-IDENTITY-003@0.1.0",
+        "OPS-RECEIPT-001@0.1.0",
+        "OPS-RECEIPT-002@0.1.0",
+        "OPS-RECEIPT-003@0.1.0",
+        "ORG-COLLAB-001@0.1.0",
+        "ORG-STRUCT-001@0.1.0",
+        "REL-R1-RECEIVING-PILOT@0.1.0",
+        "RULE-004@0.1.0",
+        "RULE-026@0.1.0",
+        "SEC-AUD-001@0.1.0",
+        "SEC-AUTH-001@0.1.0",
+        "SEC-DEPLOY-001@0.1.0"
+      ],
+      "sha256": "6237915dfc0de1378691a2ff4f60919133ed74a80be452540cec8cc26fc1c687"
+    },
+    "generated/spec/readiness-report.md": {
+      "owners": [
+        "AC-DEPLOY-001@0.1.0",
+        "AC-ID-001@0.1.0",
+        "AC-REC-001@0.1.0",
+        "AC-SEC-001@0.1.0",
+        "ATC-REC-001@0.1.0",
+        "ATC-REC-002@0.1.0",
+        "ATC-REC-003@0.1.0",
+        "ATC-REC-004@0.1.0",
+        "ATC-REC-005@0.1.0",
+        "ATC-REC-006@0.1.0",
+        "BUS-PROD-003@0.1.0",
+        "BUS-REQ-003@0.1.0",
+        "ED-001@0.1.0",
+        "NFR-ARCH-001@0.1.0",
+        "NFR-ARCH-002@0.1.0",
+        "OD-001@0.1.0",
+        "OD-002@1.0.0",
+        "OD-005@0.1.0",
+        "OD-009@0.1.0",
+        "OD-020@0.1.0",
+        "OD-025@0.1.0",
+        "OD-027@0.1.0",
+        "OD-029@0.1.0",
+        "OD-030@0.1.0",
+        "OD-031@0.1.0",
+        "OD-032@0.1.0",
+        "OD-034@0.1.0",
+        "OPS-EXC-001@0.1.0",
+        "OPS-EXC-002@0.1.0",
+        "OPS-IDENTITY-001@0.1.0",
+        "OPS-IDENTITY-002@0.1.0",
+        "OPS-IDENTITY-003@0.1.0",
+        "OPS-RECEIPT-001@0.1.0",
+        "OPS-RECEIPT-002@0.1.0",
+        "OPS-RECEIPT-003@0.1.0",
+        "ORG-COLLAB-001@0.1.0",
+        "ORG-STRUCT-001@0.1.0",
+        "REL-R1-RECEIVING-PILOT@0.1.0",
+        "RULE-004@0.1.0",
+        "RULE-026@0.1.0",
+        "SEC-AUD-001@0.1.0",
+        "SEC-AUTH-001@0.1.0",
+        "SEC-DEPLOY-001@0.1.0"
+      ],
+      "sha256": "f754ea888f5c2e80fc900d262dde14f4283580e4e07e04fa4df5f425a6d28e39"
+    },
+    "generated/spec/releases/REL-R1-RECEIVING-PILOT__v0.1.0.requirements-lock.json": {
+      "owners": [
+        "AC-DEPLOY-001@0.1.0",
+        "AC-ID-001@0.1.0",
+        "AC-REC-001@0.1.0",
+        "AC-SEC-001@0.1.0",
+        "ATC-REC-001@0.1.0",
+        "ATC-REC-002@0.1.0",
+        "ATC-REC-003@0.1.0",
+        "ATC-REC-004@0.1.0",
+        "ATC-REC-005@0.1.0",
+        "ATC-REC-006@0.1.0",
+        "BUS-PROD-003@0.1.0",
+        "BUS-REQ-003@0.1.0",
+        "ED-001@0.1.0",
+        "NFR-ARCH-001@0.1.0",
+        "NFR-ARCH-002@0.1.0",
+        "OD-001@0.1.0",
+        "OD-002@1.0.0",
+        "OD-005@0.1.0",
+        "OD-009@0.1.0",
+        "OD-020@0.1.0",
+        "OD-025@0.1.0",
+        "OD-027@0.1.0",
+        "OD-029@0.1.0",
+        "OD-030@0.1.0",
+        "OD-031@0.1.0",
+        "OD-032@0.1.0",
+        "OD-034@0.1.0",
+        "OPS-EXC-001@0.1.0",
+        "OPS-EXC-002@0.1.0",
+        "OPS-IDENTITY-001@0.1.0",
+        "OPS-IDENTITY-002@0.1.0",
+        "OPS-IDENTITY-003@0.1.0",
+        "OPS-RECEIPT-001@0.1.0",
+        "OPS-RECEIPT-002@0.1.0",
+        "OPS-RECEIPT-003@0.1.0",
+        "ORG-COLLAB-001@0.1.0",
+        "ORG-STRUCT-001@0.1.0",
+        "REL-R1-RECEIVING-PILOT@0.1.0",
+        "RULE-004@0.1.0",
+        "RULE-026@0.1.0",
+        "SEC-AUD-001@0.1.0",
+        "SEC-AUTH-001@0.1.0",
+        "SEC-DEPLOY-001@0.1.0"
+      ],
+      "sha256": "89533ade24318136d24580737d036f6b4c6e47c69a77dcdf4d4976f9d15a051d"
+    },
+    "generated/spec/source-coverage.md": {
+      "owners": [
+        "AC-DEPLOY-001@0.1.0",
+        "AC-ID-001@0.1.0",
+        "AC-REC-001@0.1.0",
+        "AC-SEC-001@0.1.0",
+        "ATC-REC-001@0.1.0",
+        "ATC-REC-002@0.1.0",
+        "ATC-REC-003@0.1.0",
+        "ATC-REC-004@0.1.0",
+        "ATC-REC-005@0.1.0",
+        "ATC-REC-006@0.1.0",
+        "BUS-PROD-003@0.1.0",
+        "BUS-REQ-003@0.1.0",
+        "ED-001@0.1.0",
+        "NFR-ARCH-001@0.1.0",
+        "NFR-ARCH-002@0.1.0",
+        "OD-001@0.1.0",
+        "OD-002@1.0.0",
+        "OD-005@0.1.0",
+        "OD-009@0.1.0",
+        "OD-020@0.1.0",
+        "OD-025@0.1.0",
+        "OD-027@0.1.0",
+        "OD-029@0.1.0",
+        "OD-030@0.1.0",
+        "OD-031@0.1.0",
+        "OD-032@0.1.0",
+        "OD-034@0.1.0",
+        "OPS-EXC-001@0.1.0",
+        "OPS-EXC-002@0.1.0",
+        "OPS-IDENTITY-001@0.1.0",
+        "OPS-IDENTITY-002@0.1.0",
+        "OPS-IDENTITY-003@0.1.0",
+        "OPS-RECEIPT-001@0.1.0",
+        "OPS-RECEIPT-002@0.1.0",
+        "OPS-RECEIPT-003@0.1.0",
+        "ORG-COLLAB-001@0.1.0",
+        "ORG-STRUCT-001@0.1.0",
+        "REL-R1-RECEIVING-PILOT@0.1.0",
+        "RULE-004@0.1.0",
+        "RULE-026@0.1.0",
+        "SEC-AUD-001@0.1.0",
+        "SEC-AUTH-001@0.1.0",
+        "SEC-DEPLOY-001@0.1.0"
+      ],
+      "sha256": "dcbd17572bf4a024d7cdd30d5245e6e2bf60e380725d943671d2e3a6e62f5175"
+    },
+    "generated/spec/source-inventory.csv": {
+      "owners": [
+        "AC-DEPLOY-001@0.1.0",
+        "AC-ID-001@0.1.0",
+        "AC-REC-001@0.1.0",
+        "AC-SEC-001@0.1.0",
+        "ATC-REC-001@0.1.0",
+        "ATC-REC-002@0.1.0",
+        "ATC-REC-003@0.1.0",
+        "ATC-REC-004@0.1.0",
+        "ATC-REC-005@0.1.0",
+        "ATC-REC-006@0.1.0",
+        "BUS-PROD-003@0.1.0",
+        "BUS-REQ-003@0.1.0",
+        "ED-001@0.1.0",
+        "NFR-ARCH-001@0.1.0",
+        "NFR-ARCH-002@0.1.0",
+        "OD-001@0.1.0",
+        "OD-002@1.0.0",
+        "OD-005@0.1.0",
+        "OD-009@0.1.0",
+        "OD-020@0.1.0",
+        "OD-025@0.1.0",
+        "OD-027@0.1.0",
+        "OD-029@0.1.0",
+        "OD-030@0.1.0",
+        "OD-031@0.1.0",
+        "OD-032@0.1.0",
+        "OD-034@0.1.0",
+        "OPS-EXC-001@0.1.0",
+        "OPS-EXC-002@0.1.0",
+        "OPS-IDENTITY-001@0.1.0",
+        "OPS-IDENTITY-002@0.1.0",
+        "OPS-IDENTITY-003@0.1.0",
+        "OPS-RECEIPT-001@0.1.0",
+        "OPS-RECEIPT-002@0.1.0",
+        "OPS-RECEIPT-003@0.1.0",
+        "ORG-COLLAB-001@0.1.0",
+        "ORG-STRUCT-001@0.1.0",
+        "REL-R1-RECEIVING-PILOT@0.1.0",
+        "RULE-004@0.1.0",
+        "RULE-026@0.1.0",
+        "SEC-AUD-001@0.1.0",
+        "SEC-AUTH-001@0.1.0",
+        "SEC-DEPLOY-001@0.1.0"
+      ],
+      "sha256": "e7608477fec4c3cd79b7b66593e156fb08ff840861e58d91479122ccee43537a"
+    },
+    "generated/spec/tasks/ATC-REC-001__v0.1.0.md": {
+      "owners": [
+        "AC-SEC-001@0.1.0",
+        "ATC-REC-001@0.1.0",
+        "ED-001@0.1.0",
+        "NFR-ARCH-001@0.1.0",
+        "OD-002@1.0.0",
+        "OD-009@0.1.0",
+        "OPS-RECEIPT-001@0.1.0",
+        "ORG-COLLAB-001@0.1.0",
+        "ORG-STRUCT-001@0.1.0",
+        "SEC-AUD-001@0.1.0",
+        "SEC-AUTH-001@0.1.0",
+        "SEC-DEPLOY-001@0.1.0"
+      ],
+      "sha256": "d3ebb9174d071ff2bb194457f4367c093404f2d850691a7ae2743d05b25d0259"
+    },
+    "generated/spec/tasks/ATC-REC-002__v0.1.0.md": {
+      "owners": [
+        "ATC-REC-001@0.1.0",
+        "ATC-REC-002@0.1.0",
+        "OD-002@1.0.0",
+        "OD-009@0.1.0",
+        "OD-031@0.1.0",
+        "OPS-RECEIPT-002@0.1.0",
+        "ORG-STRUCT-001@0.1.0",
+        "SEC-AUD-001@0.1.0",
+        "SEC-AUTH-001@0.1.0"
+      ],
+      "sha256": "445c029e88e5e6070b5b1f81ed692bf00375f0046b10ea7ff01c75498c590cb1"
+    },
+    "generated/spec/tasks/ATC-REC-003__v0.1.0.md": {
+      "owners": [
+        "AC-REC-001@0.1.0",
+        "ATC-REC-001@0.1.0",
+        "ATC-REC-003@0.1.0",
+        "NFR-ARCH-001@0.1.0",
+        "OD-002@1.0.0",
+        "OD-005@0.1.0",
+        "OPS-IDENTITY-003@0.1.0",
+        "OPS-RECEIPT-003@0.1.0",
+        "ORG-STRUCT-001@0.1.0",
+        "SEC-AUD-001@0.1.0",
+        "SEC-AUTH-001@0.1.0"
+      ],
+      "sha256": "3e44b4f4105ea0d4c93e33ec1a958df4ee12674e39607da65ea588ee681c799d"
+    },
+    "generated/spec/tasks/ATC-REC-004__v0.1.0.md": {
+      "owners": [
+        "AC-ID-001@0.1.0",
+        "ATC-REC-001@0.1.0",
+        "ATC-REC-004@0.1.0",
+        "OD-002@1.0.0",
+        "OD-005@0.1.0",
+        "OD-009@0.1.0",
+        "OPS-EXC-001@0.1.0",
+        "OPS-EXC-002@0.1.0",
+        "OPS-IDENTITY-001@0.1.0",
+        "OPS-IDENTITY-002@0.1.0",
+        "SEC-AUD-001@0.1.0",
+        "SEC-AUTH-001@0.1.0"
+      ],
+      "sha256": "159488bab56163894afcbc294ff4c4bf2a6de569f64b7a2a3201de4bddc0c31b"
+    },
+    "generated/spec/tasks/ATC-REC-005__v0.1.0.md": {
+      "owners": [
+        "ATC-REC-004@0.1.0",
+        "ATC-REC-005@0.1.0",
+        "OD-002@1.0.0",
+        "OD-005@0.1.0",
+        "OPS-EXC-001@0.1.0",
+        "OPS-EXC-002@0.1.0",
+        "SEC-AUD-001@0.1.0",
+        "SEC-AUTH-001@0.1.0"
+      ],
+      "sha256": "b2ec7cceeb5228a27ed38e8ba58a9c5cd53eb2787f11803635f7fa0d1ab4e7fb"
+    },
+    "generated/spec/tasks/ATC-REC-006__v0.1.0.md": {
+      "owners": [
+        "ATC-REC-003@0.1.0",
+        "ATC-REC-004@0.1.0",
+        "ATC-REC-005@0.1.0",
+        "ATC-REC-006@0.1.0",
+        "NFR-ARCH-002@0.1.0",
+        "OD-002@1.0.0",
+        "OD-005@0.1.0",
+        "OPS-IDENTITY-003@0.1.0",
+        "OPS-RECEIPT-003@0.1.0",
+        "RULE-004@0.1.0",
+        "RULE-026@0.1.0"
+      ],
+      "sha256": "97e1f9f0e2c6460f7945496b2075627fe07578a3c6a43c8efda280151abf66a7"
+    },
+    "generated/spec/traceability.csv": {
+      "owners": [
+        "AC-DEPLOY-001@0.1.0",
+        "AC-ID-001@0.1.0",
+        "AC-REC-001@0.1.0",
+        "AC-SEC-001@0.1.0",
+        "ATC-REC-001@0.1.0",
+        "ATC-REC-002@0.1.0",
+        "ATC-REC-003@0.1.0",
+        "ATC-REC-004@0.1.0",
+        "ATC-REC-005@0.1.0",
+        "ATC-REC-006@0.1.0",
+        "BUS-PROD-003@0.1.0",
+        "BUS-REQ-003@0.1.0",
+        "ED-001@0.1.0",
+        "NFR-ARCH-001@0.1.0",
+        "NFR-ARCH-002@0.1.0",
+        "OD-001@0.1.0",
+        "OD-002@1.0.0",
+        "OD-005@0.1.0",
+        "OD-009@0.1.0",
+        "OD-020@0.1.0",
+        "OD-025@0.1.0",
+        "OD-027@0.1.0",
+        "OD-029@0.1.0",
+        "OD-030@0.1.0",
+        "OD-031@0.1.0",
+        "OD-032@0.1.0",
+        "OD-034@0.1.0",
+        "OPS-EXC-001@0.1.0",
+        "OPS-EXC-002@0.1.0",
+        "OPS-IDENTITY-001@0.1.0",
+        "OPS-IDENTITY-002@0.1.0",
+        "OPS-IDENTITY-003@0.1.0",
+        "OPS-RECEIPT-001@0.1.0",
+        "OPS-RECEIPT-002@0.1.0",
+        "OPS-RECEIPT-003@0.1.0",
+        "ORG-COLLAB-001@0.1.0",
+        "ORG-STRUCT-001@0.1.0",
+        "REL-R1-RECEIVING-PILOT@0.1.0",
+        "RULE-004@0.1.0",
+        "RULE-026@0.1.0",
+        "SEC-AUD-001@0.1.0",
+        "SEC-AUTH-001@0.1.0",
+        "SEC-DEPLOY-001@0.1.0"
+      ],
+      "sha256": "5c70482606b17ced3ec9092ec3bd4063db97ba3b0861a60695f57d6d742a37eb"
+    },
+    "generated/spec/traceability.json": {
+      "owners": [
+        "AC-DEPLOY-001@0.1.0",
+        "AC-ID-001@0.1.0",
+        "AC-REC-001@0.1.0",
+        "AC-SEC-001@0.1.0",
+        "ATC-REC-001@0.1.0",
+        "ATC-REC-002@0.1.0",
+        "ATC-REC-003@0.1.0",
+        "ATC-REC-004@0.1.0",
+        "ATC-REC-005@0.1.0",
+        "ATC-REC-006@0.1.0",
+        "BUS-PROD-003@0.1.0",
+        "BUS-REQ-003@0.1.0",
+        "ED-001@0.1.0",
+        "NFR-ARCH-001@0.1.0",
+        "NFR-ARCH-002@0.1.0",
+        "OD-001@0.1.0",
+        "OD-002@1.0.0",
+        "OD-005@0.1.0",
+        "OD-009@0.1.0",
+        "OD-020@0.1.0",
+        "OD-025@0.1.0",
+        "OD-027@0.1.0",
+        "OD-029@0.1.0",
+        "OD-030@0.1.0",
+        "OD-031@0.1.0",
+        "OD-032@0.1.0",
+        "OD-034@0.1.0",
+        "OPS-EXC-001@0.1.0",
+        "OPS-EXC-002@0.1.0",
+        "OPS-IDENTITY-001@0.1.0",
+        "OPS-IDENTITY-002@0.1.0",
+        "OPS-IDENTITY-003@0.1.0",
+        "OPS-RECEIPT-001@0.1.0",
+        "OPS-RECEIPT-002@0.1.0",
+        "OPS-RECEIPT-003@0.1.0",
+        "ORG-COLLAB-001@0.1.0",
+        "ORG-STRUCT-001@0.1.0",
+        "REL-R1-RECEIVING-PILOT@0.1.0",
+        "RULE-004@0.1.0",
+        "RULE-026@0.1.0",
+        "SEC-AUD-001@0.1.0",
+        "SEC-AUTH-001@0.1.0",
+        "SEC-DEPLOY-001@0.1.0"
+      ],
+      "sha256": "ad37399470f830a0a6895facdc8444211384132cbc2b4368ca04a30532d78011"
+    }
+  },
+  "schema_version": 1,
+  "sources": {
+    "PRD-MAIN": {
+      "document_hash": "80bcb569367b3832b9830bf7d04464ac2c1c9ca9a0b523b77c52ea4598d93f98",
+      "items": {
+        "AC-ACC-001": "9b7be2403049c63fdf055647613828f460e721735c353a6f942a829a992f1580",
+        "AC-AI-001": "676dbda64b4c6536eb85066479998b6a011bb8a0cf7fcbfd81b0547e2b9718dd",
+        "AC-AI-002": "5074e591582962940fc63667d45787b057ded0d9b7cdb6aa00013513025f7767",
+        "AC-AI-003": "7a97051a9a9b190367ff7dcf5da8fb2b92e764f8647d377f414cff857e68f3bc",
+        "AC-ALLOC-001": "a7c076694646a1250f0223e128158209cdcdfbe48309544dd92849b3804039cc",
+        "AC-AR-001": "67c2767b800c68391ce3e922a038e6a7c8fb6b5235e361591e66a025d729e1b1",
+        "AC-AUTO-001": "b6146605fc8a267d1a4a472d1d509239861ae4a80c98d6a5b1be13b8d2fa8b42",
+        "AC-AUTO-002": "d934bb6d7c5cab3506d6fc1eabb2e6e22fb456bcf58749a804f4706b940c8fd0",
+        "AC-BATCH-001": "01cc2441ea0aa368de478813c958a4c96fa5ce726341f04f899e3ea10d111c6e",
+        "AC-BILL-001": "edba3d5f98b453afe5efd126f74962ebe1c577a35a597ffd81a19fb37b3a0890",
+        "AC-COMP-001": "52f161f5a52a7cc3c697750dae06887ca178c5e2159aadc1c20ebfb2571e37ad",
+        "AC-COMPOSE-001": "530241a9ed933edc59b3eaa0976f4357e11afaacd438df87ed6b96c02aab86ba",
+        "AC-CONF-001": "128d2b59e95b81fe87f8b2d6a5d4639e2f6d9a2bd2a2f4ee0ba9f6c1a20d446a",
+        "AC-CONFIG-001": "d22b389b5b5a54dc9ea59e92cb8e5dc5cf7704c952690f09919ec8131be63d1c",
+        "AC-CONTACT-001": "18122057126c256bb4aaed3aaaafc7de396e72fb00194dff25c5776166393114",
+        "AC-COV-001": "94d75f63bf9540747779e4eaa97c86a22d147ecd02d34869a6885abb3061a44b",
+        "AC-DEGRADE-001": "481fc709ea49d26f296906f09fbc6c191629f7032abb6f9abfc68488c832a268",
+        "AC-DEPLOY-001": "fb46f635b59d966f95aabe2385c0d7a387a55a57c964cb2d3aaf371f57c0f8b8",
+        "AC-DIS-001": "9d21005e5aca48a10614625cf3662da650336d827d38b2aaf61ba5f26928bf29",
+        "AC-ELEC-001": "cba441f0947436dbfa8d13a2ced716c39b90d74f3a9edc2ad5913d90d8bf1d18",
+        "AC-ELEC-002": "1206ea2b0c9d24b70d85e22d6fbfd2baa9cb7d27c7422804a06cf4d2a1b17ca0",
+        "AC-ELEC-003": "0d95ce84dd323cc6a0fc8be5b90aa91a5f17c1d0e85c521f235baa0e752bc752",
+        "AC-ERP-001": "3091bf63218aad3f1461c58d318c0f0f739223a9d2b31f1fe3b23aba6a4314a9",
+        "AC-ID-001": "dd8a93c8071ea0853e2c8aba028dd66161921ff5e40dfe65482386108a74cc35",
+        "AC-INV-001": "1567a481a013a3ef65236f54ee94b5cb1ce71990e321c8246ff218f419f0da2a",
+        "AC-INV-002": "64a67295924165ce9dc7e04edbd088c12f788601031f465e64d78275c284c487",
+        "AC-LIN-001": "edaa0c9cfb90e3b5ea21b563c197a8ccf09e5ef22a476a0d157b78be5ed0eba2",
+        "AC-LONGRUN-001": "37a4f4c91f8066f0486f02081dcf2b33e544ae95f1dcfd125ca62f38389d04d4",
+        "AC-PAY-001": "608904ee5fd74c97253c0abf399ac4ea50c2cadc3b0f2f3ae6f40624ef0c22d2",
+        "AC-PROD-001": "3c97f0e25d1f07effbce046584fc6453f88281b2af632413c8ab1332beb0b658",
+        "AC-QC-001": "3fb399d4e09306619dc091c62a8cf9332415c116ab435d125c5e6a86f71bb287",
+        "AC-QTY-001": "7181e6405ac3b428de292379613393cde5ccc667b848aae38b9c2e4681fd47c0",
+        "AC-QTY-002": "e0105ab2978b889b752a46a36235fa35847f99ee837ea38f68ab1b144b4c786f",
+        "AC-QUOTE-001": "b6daa626666efa3681e0b60d38b5d3beed5391d09ede99f663e4eef1d4e4e531",
+        "AC-REC-001": "8f4060da7e31c38cd465032f764298fe9bed0ee06b450bbea3ccd03a71eb91da",
+        "AC-RECOVERY-001": "c81315fef58c3cce33f0132953a72a842d30d140ba7891bbb3f2b31f2e850a75",
+        "AC-REQ-001": "9a2f1a74ecfcc58ab59dbb904063fcf8e60ed7193360425469af953b1eef2055",
+        "AC-RETEST-001": "8ef4c7c023eb8cf25f2cf837df0fba2b99bc4a79056ba322bd479ab14dc07a91",
+        "AC-RPT-001": "895c36ef837a7a548b3c15351bfbbe2a9b2845f6a0b6afd9a3c49e661b3459de",
+        "AC-RPT-002": "c53fe5580be1fb5b91e9fe5044bf77dc2c685aa2173eb78a3d8bdc1519194811",
+        "AC-SCOPE-001": "884daaf2c6b97bd4789897da9c19c98543e3fa0f96197509c7389308a48d96a4",
+        "AC-SEC-001": "7f1ff95a65eb1d1fcc23e6d55d3f8acfb9c70c794c7bd7a1a0512b1ab1fee267",
+        "AC-SEC-002": "ce6a60d3d1a43cae0b99bcb5b6b52341d79a7eeafd20253a510df048a7fa96c4",
+        "AC-STATE-001": "8aff0645546f3fd33231331914f8c8f0d4424fde518b9ab9bee1614bb77b9dd3",
+        "AC-STMT-001": "531d296b60b7a7f7b4b622cfe9efd12e9a7d2b8fc6cfdc969f3b89e02f46db7e",
+        "AC-TEXTILE-001": "654411d2f0f2787d8d9cfdb0cca8c060aaff5ad95c3b47e1a195cfd92964e218",
+        "AC-TEXTILE-002": "cd43787873dfb56b9bcc94146ec2b9f2047af8ac145d4456e603ce0d237d41cf",
+        "AC-TEXTILE-003": "c8fc9e69b9a72cca5dab0618d8a948ba225939bcb5bca11dc820a5a02218cf4a",
+        "AC-TEXTILE-004": "946abf2cf21c01b2ebd03b2a0dc6618a63b75d8d794bb205b3fc0d8a4d9aeaeb",
+        "AC-TOY-001": "326f2b335e41614fa2e027b281812ac1dc0a7329f50ea3baacb3e948d9e35c2f",
+        "AC-TOY-002": "0b2f59ece33db722429c13f5289952bbc1bb2a551bcb96c52344d9d1efe89c44",
+        "AC-TRACE-001": "038a16685546a484445437c4a3c6ce3ca5b4d9f8e3bf085169938d3450b9b4a2",
+        "AI-BOM-001": "1a02ec48f5afea9417286205f5f8c26f8ea5f6078cd4fb0f5dc39d82a27a9f78",
+        "AI-BOM-002": "682aad03e63521804f5cbdb68bbd79e910eb53657c34d52850975dda03523787",
+        "AI-BOM-003": "66c8e129bc8f82e4193624de0ce2775cc20335e0391dd17596acaca5bd567b25",
+        "AI-BOM-004": "bcfde77caaecd463627a0938fb63a87e9ae67025f51136fd8b66f0c8c85b91ce",
+        "AI-BOM-005": "57bf497010dd09bf3cabbf972fbe4af91bafea8d39d31513833f13dda643d5a3",
+        "AI-BOM-006": "29f204073257d4522af3d5cf7006fb6882b1c329bf9627c739ae2da7a2651e8c",
+        "AI-BOM-007": "670dbe4169d0c68822406d4990a02463e9b6a1f619ddb1ca5416bbb11f499f65",
+        "AI-BOM-008": "e4c946bfc67ab4d2be58ce452345cff669ac5313defd1c3ec5905b8f278246b1",
+        "AI-BOM-009": "61ea3234b3d4e84cfdd49c2150c4f0b70655f1c2f5dbf9caa0fa9c5276101da0",
+        "AI-BOM-010": "718abd4a301be8e21b768ba9f109c400827cfd3f9de07cfc831484c22ad4103b",
+        "AI-BOM-011": "744e80990a7d7a41cc26e36d25e67756f8a0e86add8e598ed3726dcb9398c2ad",
+        "AI-BOM-012": "561e271054f4b29125399532d95828a70b5ee0a17850dc0d958d7c3a4d3b2b85",
+        "AI-BOM-013": "1b4b368bbecdda754258f8de7e060df32e13056d165f482ad432929d5384d36f",
+        "AI-BOM-014": "f4c023612b5b703e8c237fff833c8dee4373825872c6a47cad647721d0844a1a",
+        "BP-001": "c98d7d54ecb7e049d78c2537a1ab9719c3f2cc2674f5a618edc032ff0b5ae583",
+        "BP-002": "aac707b16ac4e77a6844b79a582a5fccc28afa6730e5156bb2860facb7d62333",
+        "BP-003": "d75824249f8660e8b0cd61942360fc17b3f06bad20dc7279471796b1ec18c712",
+        "BP-004": "93a9cb1e86fe6b258da5efa22ab036b636b672403b8588a26c060d082f64e73d",
+        "BP-005": "e6e1934a2994795c0e69cd88ad4f531c98f76759364dc860cf350a0adbe8f75f",
+        "BP-006": "d4d3b70f3228c2194f48fb896120a8c6f9d0f6e16d90864562c943d2ed905673",
+        "BP-007": "ef8eb871c0c50c5119a7d34a260ddd4a4e5e31963054a985d20ea761cf7cec20",
+        "BP-008": "210ebbab6fbaec157ac772c945086f922f03d5f7fb10a87491d96b2a5af61310",
+        "BP-009": "327ce55d5cd6d6c58dd028c1082905ff2d5c58ef58e2c2205e3fe06975ce29b8",
+        "BP-010": "1d8b9a49e9d9191b95ce781a6365c298a16dd0a06612165e7a4a5dbcf5097ebb",
+        "BP-011": "def5e6a0cd22a425c70742e8010a50843ac10d855a820235561739cae1577d39",
+        "BP-012": "075a598290c056b54b65a1dbd6089c4f10981c29f13de6374d24d15e21b099d6",
+        "BP-013": "1d312bd62f1333a8dcdb7cf3a4f5612975d4137448c17c648168cda538f27632",
+        "BP-014": "701c772336cc0d5fa20c42d8476f927d9434c2e569027152769eeaa1d2b16c53",
+        "BP-015": "13849fd9aa5fa2f39bada2f6f611012d021c7eb227a30a84357646b177c041bc",
+        "BP-016": "7124328af516982ad22b018158cc3c736383122e2ac49ab20aabb9e176497a32",
+        "BP-017": "62377e2147866beb0d9b6bc65143968b9640e58bccb1c9e58c8f794860b4393c",
+        "BP-018": "c81bae0b8328000c5bb801b7f02c53cbb2dbb53412c30d88f9f67297ca565e1a",
+        "BP-019": "b73f6b1ad86b8f08ad15e6cee5f72260d2e2de466f0926d8f4289b81bcb23a76",
+        "BP-020": "9d918742a05a751fc1c708f02599c75c6409a3d09864617cb4c7aab235852fff",
+        "BUS-CAP-001": "50ec533080267a33bc75342ec02df8ee74d225093bc7bf2f9f9f2a04b327f169",
+        "BUS-COV-001": "5ad2b268652e60b475315e4e20a98a9ef957f0bb9a73819dfad1b71a3fd04b3d",
+        "BUS-COV-002": "a9c769aef02faccbca356c0f8abfdff27b575c5d28c70b9091ca9bbe7e6a600f",
+        "BUS-DOMAIN-001": "65b56e0f875b31e0ff086b91af8d144bac7ef264fe47757b2f432e264c0edb19",
+        "BUS-DOMAIN-002": "ccf179f8412f680394d814196a62246223de45ccb9cfc7ff960c98eef9bf43fb",
+        "BUS-METHOD-001": "d46cd44fa91e8b25b3d7da27ecbee90c549a58c4ad5b591344dd309f25b41e32",
+        "BUS-PARTY-001": "4193a9edde11ea0b2b67a68c52bac30b8b6276998764038ac85f53406c5ad964",
+        "BUS-PROD-001": "9b6af425930ba1358b2f4f8be0e78e53d6213074ddb077735feffe9f7921253a",
+        "BUS-PROD-002": "d73455211b2ef220f8f75cfb6edfc8bca9017455f7678df7f71b22e138bb6109",
+        "BUS-PROD-003": "a041a9f9409bb4a35cb261e1c71a08027dae6e3aa7a164686062a2840eacaf69",
+        "BUS-PROD-004": "64e6e9a6cf39ad7f937b4c1761170719671c1c0b1c24325edea1d5b83fa68e1a",
+        "BUS-PROD-005": "5a3106ce0f0fb48c0bf27eb46758ce44c583d7a6737bd36841037cc266c6b9fa",
+        "BUS-PROD-006": "8fad6c21ca0a14286d2f06dcecf115bcb617dc36db929629857f49ac1507f87c",
+        "BUS-PROD-007": "7a2dfa2f7ab11a9b06e6d2515bbdb95c8dc1dd6aca471b9e9301f7331cb6ecd7",
+        "BUS-QUOTE-001": "4ec566d943a67acfaa03639d5591263f5a51f40133e976ba4c7226047a051b33",
+        "BUS-QUOTE-002": "bb3218fe2a8b4ff99c5e6860c0618659f18a329d4d3ad6317582b91856a789dd",
+        "BUS-QUOTE-003": "a1777fcc02ad7d085e1ab337eafea90b3d89a52083339a7657fa7fe903a6935c",
+        "BUS-QUOTE-004": "1dd2b5ea925d69ec0e80eff7419adce2ab2ac1eb4fb31fcaec506016a8984471",
+        "BUS-QUOTE-005": "aaf7bfac32e5b7c1d92333b74e0c2ea3e8e8032db8c9aa38feae6f930f2284f4",
+        "BUS-QUOTE-006": "44d5fd376a0de97299f64dd19d8b18e6f8cc16173de4a236b9384040e73c9196",
+        "BUS-QUOTE-007": "1cfd8150eefbed41dad1390781adb825c0f2505c5112a285c4daae0006e84c4c",
+        "BUS-REQ-001": "b372e02f1038ee0c3864b19ac35632ceee3d3c259a6c25c8bce1517d3e10a136",
+        "BUS-REQ-002": "9839145ae7e2a057815ef7ee5138829699f9b5023c44179c41e692c36c9c3476",
+        "BUS-REQ-003": "b25305f7c4995ae01cdf259084e2fea5f3e8309c6c172c4a9090de21fd64119a",
+        "BUS-REQ-004": "688179ec44d7abd570632e32affd122d139e23a2350a017eebaf09e1b0e10793",
+        "BUS-SCOPE-001": "934f5ba7c567fafa7bf251a73567c6421ef577938300b12118193d49695eee41",
+        "BUS-SCOPE-002": "0aa4825ab53bf78f89f06c7ceebd4006b5c5b05f3d90418c44f970bcfcb81063",
+        "BUS-SCOPE-003": "201e85031829f77a5738a30c4d23a868feb2ffb17e60622efd2b25cbc1e17da4",
+        "EX-001": "6422675259c3b84f8ab4d72516eb9daebcdf64d61ead08945f54ff27576177a0",
+        "EX-002": "a7a2e197bc81828ef2bf79a15ec8933b2d429c9591fe72e5a46f718da4b9780e",
+        "EX-003": "aa327146c73bd2c8caa8de5fea66762b46cebbd8e0d2e6ae17532029554ff022",
+        "EX-004": "0503591b00658e865d309cde4f99af93b3a9ac79fbd6fe20a01718c1aef79223",
+        "EX-005": "77c218c7b7ea9c7d3d515456efef2747a8b897a71e9dbff2d795e1a17103a006",
+        "EX-006": "a258a3313719a2231681bec610c939cf125af4bea0be97ec119677d1fbcd471e",
+        "EX-007": "76c945ca4dfef190654b086a7199142d7907d95ffd7bca502a09effab4b4ea78",
+        "EX-008": "7eeb8cad4c7f89dca68bdd6b505feaaac6b67a05bea14b4334d2bb824b327377",
+        "EX-009": "8db7e2584f7490bce06ef02dc7d0c5623877f596e066ea245916ba304b99b72e",
+        "EX-010": "f0101b695e16c65fd22fff8f2f7c5ee2f9042f2b047fc30e4394b3800d01f3dc",
+        "EX-011": "a8566d77f5b3c046ea58f70fae306c59648d2a1a460aa59c4d7e51fdc06afcb1",
+        "EX-012": "6b669f68f6dc5b31c29c0908f3f7c75cb2bb4d144405eea2907bdb1e93fc8659",
+        "EX-013": "ffd763a4f2752b3cb15b14d7321091243bdb012ccda735b9becf93ee1699b7ec",
+        "EX-014": "aff012e3f225f2d6328c03387911f2aa0c4212a4b3732ed7e910a66dfddf6b71",
+        "FIN-ALLOC-001": "b6342cd252c8187cb331cad13d3976deeb0c416cc9d17f143ed76116de9a6f7f",
+        "FIN-ALLOC-002": "772fc8d79b5eeaa3e5c8188464b2ef9baa4ef0873332d139e7e4225797e74eb3",
+        "FIN-ALLOC-003": "43c92d2805f78da50a69f9e0f175bb5586306a7f52319a204ab93da96ea973d6",
+        "FIN-AR-001": "02d275379b6bdbcc962fa8313bc15899d45d4370540c52cbceda0a92f7a0efa6",
+        "FIN-AR-002": "38c907b861c4f816f5e6e7badf42c1df247f0aa1237888fdb07a78693a8c7fbf",
+        "FIN-AR-003": "cf3735d4516e979918f4e490e49b6220e44f27378c1ef791b4494a35c394dae8",
+        "FIN-BILL-001": "ae0c42b21c0faa4ad04c2095d714e36f57f64e64ecff9289273e5b9ae8893af2",
+        "FIN-BILL-002": "5396db3bb59794033b23133607c5949ef6779e74b8483da5569c772c046afdd9",
+        "FIN-BILL-003": "0a7757c186bbc3b4232b03479deac83705c68e148c3b021ba35476a7bc1c8bc5",
+        "FIN-BILL-004": "ad34000944f75e0f4df260c46ecec28ae01703503494d05e18d1e95a4bfc5127",
+        "FIN-BILL-005": "72e0a57e9c835787f4bb3ef200c08656f0901df17aa127426868b5c8a5127270",
+        "FIN-CREDIT-001": "bd5f3b87282abfb4cbb84e6e2ed76b83b97680f3ed6be1111f4bcc7ca335ada3",
+        "FIN-DSP-001": "e485e9deac1d2672c68ea8e1a6c478d6d403a162db90844ca128bb9a7a7df03e",
+        "FIN-DSP-002": "0edf4b1c791c3a64be1e3a9a909fa022fbcc3a79d9aa15902f98f34d024ad3d2",
+        "FIN-ERP-001": "68aff09f800207ddc8071160734076af4426061e75ddc9cfe899335942f09095",
+        "FIN-ERP-002": "07ae36214451c25625f8702c44bd40867d4946795c4fbf67b7f26e3a203294c3",
+        "FIN-ERP-003": "d184300fdcc6910c761f4339d98eaea035976cd83f96d7c773dba1e45b3506cf",
+        "FIN-INV-001": "ee1210726d8e342ec339d79f27888e65dc56a4c8b03fe592127ab7c4afe195d3",
+        "FIN-INV-002": "353c7dcfdf268ff828cb95a1e361ed75ec088cede242f9fdfe1c3ae7070334a5",
+        "FIN-INV-003": "679d8f08d8da4d2a9931487ca0887e0cafa7c7d0e6dd629d5982ee53468d5fdb",
+        "FIN-INV-004": "53aca1ca1718e3ea800c82ca7458f91b7378a0807f207833dba72e4da1ea78c6",
+        "FIN-INV-005": "20be55a984f17a49ff54870a5356f79431d469a479b435470e53ad6573c43721",
+        "FIN-INV-006": "320be60c9b1955a387fadc42e9c7e8c2ef04686bf2f8c5e6928303eadf79e6ab",
+        "FIN-PAY-001": "c279ba7ddf97e24e03421c9c96385636bf28ed5b132ed80916b5ba781291fc45",
+        "FIN-PAY-002": "b048ae997ac38bbad09fbe87fb23fea6bfc2ffd4b9db3d059cd4d3afcba03f5c",
+        "FIN-STMT-001": "fa4f3e4a709f87248efec34361c57a94445fe41a898eb76b676913ba2f568418",
+        "FIN-STMT-002": "58e969b451462069a5efeccf6053f20ef229270aa66f4cffbf25370f426323ef",
+        "FIN-STMT-003": "b93615787932cf12f2b18f9634f7d99ead080e794a8220af1db35bd7da932f9f",
+        "FIN-STMT-004": "20e4fd8c6b04039a4a91ffa58d659406bb2a7043fa8d22dc1eace47ef09c812d",
+        "GOAL-001": "1eee72f1c7758b3e9542d2bca8b3c496fb1d38ccad53139ad20f1082801aecec",
+        "GOAL-002": "6e9a92e85d0ab5dc0c9c9daccd6c4d33077fe1b68dc6bbe9d1781077f43a5149",
+        "GOAL-003": "fc471465a75e2215cf71c267c9528c7b64cbc2f072b1151adb61d47263a70705",
+        "GOAL-004": "24b1ef8240a85c5907d802385cfa2623641afda219cb69dc33bdc4bc485c3861",
+        "GOAL-005": "e7d85ec86ada438cdb03a4ae4e28cb701ec42c325edd10b675589120081ccb50",
+        "GOAL-006": "dfb78172effe69081405e3c656e0c1bcb8c0337569c99d56848e05e11fa8ca11",
+        "GOAL-007": "4850f8afcb565cdeacfaa9d5fcf5e0ba108152d445e70b087f97885344db0e74",
+        "GOAL-008": "97e4128e493d069589ee883331c57c091875afc0e10a064c2b27bff5d5ff3dca",
+        "GOAL-009": "4b492ebf4f7071cfa798aefde876a74cbe26b16f4dc6c69452391848cb026ac2",
+        "GOAL-010": "e12434807ed4f4a72f26298ab987daa64383e1c8cabcfeb2b2e6a3f6b535fbd1",
+        "INT-BANK-001": "5cdb19e3adeaac0a79683c413d6dc4151240abf0e6a80f79e49644ef1a299963",
+        "INT-CDS-001": "4fa4ae61e1d3866813291d8f9bfa359d02018c8293bd3e5cabd3ec17e0cde96e",
+        "INT-CONTRACT-001": "5758463b4b7c707d49a13a3001b713654922a14e866b1db150954944f26187c4",
+        "INT-CRM-001": "43f5c499aaa4ff08213f6305566f47549df431a526a939daa9e6dd833c1f8dfd",
+        "INT-DATA-001": "f8fb92aac8ea6f37b4bb7d110ecfd4b47f26cecf50e29acae0f4ba5a8728854a",
+        "INT-EINV-001": "e27bc4d78d1dfa216089ceac6e36a5cf5bb2d33b32b4933efe292dcbbdee33aa",
+        "INT-ERP-001": "e513a74e7a196317e3b3c9d1ed42a86e455355b34c880768d980e41bc2463bb8",
+        "INT-ESIGN-001": "2103908aa02ede16cada9a46877b29bc0e096263e04ac74cfd1628acadf16de7",
+        "INT-IDP-001": "4677f28905f08aa5d551c28d1a111ca431ea7250fd5d1e182c56f1a243f9371b",
+        "INT-INST-001": "315f2d773ad9bea9c9cdaab57c502691e7a9f71654d07f523746832b9bcd012e",
+        "INT-INST-002": "845e1da093f1ad3d6d943ff93c25e3a0af38c17184c6169823e5dab2e031e6a9",
+        "INT-KB-001": "b7a42b3f1b8809b23bc7ddcab99a3b43f232bce6bd8767d6c1e3c37bd7d3d81e",
+        "INT-NOTIFY-001": "5c21e3f7f321117998b0d4f000abf16f06cad3b371146a693d528e62ae64f7c8",
+        "INT-PLM-001": "e4691b0417178c8c48e332bc7a1d26b397e96b1224068bb1406a6eaba1d7e09c",
+        "LAB-ACC-001": "5b3e0d7d7015c4f06ca1522634b87a4c803c74ceb8ffde9a26d4040c26fb6c17",
+        "LAB-CALC-001": "5f0642f96af3fe9ca7354ce0bfbd103c46df2f15031688a00dd0e1d34d91fa9e",
+        "LAB-CONF-001": "6b3cfbcd063630d4a012de041ab9fdc6d0f22b80f4dff9babfd2b055cd260431",
+        "LAB-CONF-002": "101467aa2ad5b46d4e377b51dc0b52ed3898bc29785cdf322162ac27b8f94928",
+        "LAB-CONF-003": "4d008a36abc6bf71e7be6d9fc1face141e8c0591ee03283b29ae031d6032721f",
+        "LAB-EXEC-001": "bff07b9c92acb9c53ded5eea17570fe0ae2bcf02a473d03b4a17d1e7f7e4dac2",
+        "LAB-PROV-001": "f27bfdd39bee9641349b739e48b062f04c0dfb76aaeb9a1f1edb9ac711ef1d1b",
+        "LAB-PROV-002": "637a2cf625e267f5f904200e57b6fbf63ad0005173a8257226c83571a907bce3",
+        "LAB-QC-001": "2691f319fcaec927d9c7f46a55e2d3f580d6ebb1e9232d3ca45170f4fb65874f",
+        "LAB-QC-002": "722c3cb88f60288827b5281d707cfc47783a686fa3b6a2ab48f63fc8c5666389",
+        "LAB-QC-003": "f9167517c83b3657dc47317e9c234db0d5ee833c78fa2f0a842f5b5d206ce9fb",
+        "LAB-RAW-001": "db18978b62008a4a5d57ea019e118393f89461f4c7a2ad94976fbb1f8578544f",
+        "LAB-RAW-002": "b47214df135c16e3771fcdd58b5b33fb9bd15b68f26b8651437b9aca37ed7754",
+        "LAB-RES-001": "2e768acff2db7ca4039252da3f850b9ecd496bdef3184b8a0e7a3d33e77cf040",
+        "LAB-RES-002": "984a3e5d0ec7b3a17c20405e1d3d3e49ab06501db685c8c332af4a968d2df745",
+        "LAB-RES-003": "064e979a694c13f06fac9a05b4ef3d5de112def6a08cf4ff9056c7599397edf6",
+        "LAB-RES-004": "533114e581f0ed53b2a7f3725e2e3b8c5d24414b78a44e1cc91abb84ea1a3eb8",
+        "LAB-SUB-001": "0ad4b4bec4cb22e7259f18703c97e86bbb4fc7eacaf5d41a5caf627f283e033a",
+        "LAB-SUB-002": "f03c2972255d65ffd7417e5394090d8738bffaf3a0ec162738a0434fc480e36c",
+        "LAB-SUB-003": "b92db704780fc084063ffe34be0373be1345c4e8ac7629dd6e68fb55491f20a5",
+        "NFR-ACC-001": "6f4984a5dc750c9d4a4b18f3dad261f40e36f01c3cf1b6674ddefcbf73ac740c",
+        "NFR-ARCH-001": "c1f16ba3b49bdf2879a580eb6caddf958dde26164bf5598fa43d2cb5c80873f2",
+        "NFR-ARCH-002": "9627fe3f9bad217b2ca596ced3168152e6bbd5b8c686dd9a7bf7f3e14bc98354",
+        "NFR-AVL-001": "31dd272f6d5bcff315ab0e96b49b4936d3c9e1ea06a305f12e9354490420d313",
+        "NFR-BDR-001": "9462773df21aa4d34bc6b3c3cf2f590c09ed246b2759e089cba7f9d0017df572",
+        "NFR-BDR-002": "dd9f96c1d4a81c8fa9d6f7d3bff63a17500c969ba9312def1e13100af309bc0f",
+        "NFR-DATA-001": "811bc2c7124d45bb0a9f6c408c487bf8666105971d0972a3bacc5da9deea2582",
+        "NFR-DATA-002": "e88537738cb9544e7773a777babc56d7781c7ff796fe99e1f933b84df97ad423",
+        "NFR-DR-001": "7fab4f23e8812dd291b19ba172e362c75737b985aa220ab34d6a32c2f26b7adb",
+        "NFR-OBS-001": "b9c8c66f4c4aa618e44621c3cd64521ec5cc4ca6997333e0dc2d6f973c5776e8",
+        "NFR-PERF-001": "cfa3a94a372c768d91680b24fa8c93d77b65bc981192302add3dfb8e52072e3a",
+        "NFR-PERF-002": "75eda63bba066b1a6d585cce7f252cf8646f683e119545c5435759ae8a68afdc",
+        "NFR-PERF-003": "300b946b41c16edae21df3a7157702c859d5baa942e773719d0aa66c8ba432a9",
+        "NFR-PERF-004": "5e9285f0d31c6f0aa5939492e21d0fbb16435a7fabd1e8207ec474d6652fe70e",
+        "NFR-PERF-005": "7e8b2a438e6e9682951b5657aadd6ab4d48ecb8d791be2e7e1bf7708b77f887f",
+        "NFR-SEC-001": "f6c679a6c07ac84d3dca9814dd8088833b5da9a82e58d595858a8c40ebb0ca5d",
+        "NFR-SEC-002": "13dc0eeaf4be2570d700bed4afa4d399009c36776d1451e76397dbf2e2ffb9a5",
+        "OD-001": "47f6cb0447b1e1a6e9a9d5b85ac92e055bede7856505c2fbbd330e2d888f4b3e",
+        "OD-002": "871512ce3d1bf4d0019290174ad63426313fe8a1f1fb4f36191b08cd827b2207",
+        "OD-003": "332a2614631a727a0dac05f12453aad6e55957bd502b3ea9958d8acd71e3895e",
+        "OD-004": "c73c04c8e5e634babc68d1cbc4c7268e55c50b7f8eb54c805dd17c325ea2d0b7",
+        "OD-005": "3afac312d7469744944316782d09e856c66730c394ad5029f946123bdcd5aa83",
+        "OD-006": "93054645a68704f9647d88a711bf8c203180f32a68e5ed025ef1b0f6ca4d5dfd",
+        "OD-007": "9fa8dfe21710408de84053ba92af994e77b463b6eef44bd4354bfa39c5d90022",
+        "OD-008": "b618cbec80e9a21fbbb9c077055aa50d77ffb42fbcdebc45876799a3046d91c1",
+        "OD-009": "34b3188b79c0e362e82833dfa41a70174e5028d226016385ddc76901e1964ac7",
+        "OD-010": "58d1f16668067087e90042ff5a89ab5cfe8d78356ebda1f5f10450e22dc203d0",
+        "OD-011": "9587de5de83003b910f2539f84a98cc768fa17cbb27e03fdc2707565801d6590",
+        "OD-012": "2e1fa8ddbe587214fb7394eb0daf94eb1f96da4cd71dbf94166405f649f68b19",
+        "OD-013": "bcd2470daebc9a0784dd71e510f7bb6879bfe62bee31d17073d09d2bcbce9ca7",
+        "OD-014": "cb685ad4881b7418f39d85ef721a47285ff9fb4b86c879b27192160a6a58b286",
+        "OD-015": "bd14ca2e6ecdf12d3bdc6ca779529ae4ae46dfa0b56780b36da440a323db6a92",
+        "OD-016": "97a60674814b7fe3c1ce15502b3748db2b528bc3ba0be5bb638cd4c1a451fb69",
+        "OD-017": "659de6a86653b1a6c161398c79548eae946bffe2b618ea5d2470a196b7a3898f",
+        "OD-018": "546fac750f54437a741a134e453157b2ec13e9ed348c71acd28cbe10f9aaea05",
+        "OD-019": "f5efba0bd303e8d635e0d987c82707fbb7f04914674249c7c17c60da059a2a95",
+        "OD-020": "2d7a81a873678e640b2eeb54866dbdc2d1d0475c460188bbefaebcf987e42402",
+        "OD-021": "db7443496a85d21d0eb8563c4a4ad0bea8fb22b80d9a8bc01e4cba17a070a25e",
+        "OD-022": "1eef0f625c851cd7dbf52787fed77d9be9d148a50c58364da521f07415dcfe3d",
+        "OD-023": "48e5af3affbf3ebce4781866ab5a1f4ddde09ec3a9070928f483942388c51d9f",
+        "OD-024": "2cd619048af8cd5510c934e6266580336b562d6193c6ec5623778617892b048d",
+        "OD-025": "4560bd80b4b4a04f8d951025237f962a5d73fa899b338c06ffc66c1952985535",
+        "OD-026": "cf5f45cdb3ba889b2de89c604975d92c1e9bb2b78820b2dcee5c0b5b987c8863",
+        "OD-027": "eb18a5b0d1428c2a736482c1234855f9a1fb7940f0903d5998b6a61685bd08f5",
+        "OD-028": "555ef67a2f0c76f32dd55edafafa328854358d6b3b962882f0d33d9810beca21",
+        "OD-029": "fcd51de1b1bd263119ceb86f45a59d766730784adc2167d883fd3d1f80e53ace",
+        "OD-030": "9e114c6bc26b6bbdcefde2f3427acaaf9cc7ba9855d8196f5be7b116cb96c321",
+        "OD-031": "b9bc81a6032f13243296caeab9647a00118b59f86b75ac90379ed2296ea69fcc",
+        "OD-032": "e276ce596f45807ac804b22f0159514255b24f383a0e15822dcdcebcec9deb88",
+        "OD-033": "906e134c8a105aca68a7f4a0bc81cff920b03d38144d051becb98e49e7e87a7f",
+        "OD-034": "812972e2a3d8b8546103613a65ac214bbdb3d4d2f4f973fb258adedad0744309",
+        "OPS-ALLOC-001": "236b5718874c346d0d470ffae2132897d0fccb6c9473874d88aaa321fb77a148",
+        "OPS-ALLOC-002": "532a38744aea361d20d029638992e22422542a866dcfd8b912e57ecd689536e1",
+        "OPS-ALLOC-003": "e6c99b43b60ebec09d21531b153736a839b249f919c9c0c7723ca9d339a96187",
+        "OPS-ALLOC-004": "bc1bde0edbe8da5dd81a866d9cad1db2775880a9dd46b3e23cca90d47e5212e3",
+        "OPS-AUTO-001": "656dd6d87ce693b650b5a27a037eb24bfb8e792f2a3e80a4de22c0c402ffa241",
+        "OPS-AUTO-002": "03a3c90b7675b0f750ddd69cdca7dcffb58d33cff7291fda0d8a72ee1b9c69dd",
+        "OPS-AUTO-003": "67935936d407980e82b175e5f8d34ce1b3422e364105794c3cdee9e1662b39fe",
+        "OPS-AUTO-004": "c25c7b8b1d6054959c309b6b28c7b8bf59de354186dea07d16a32731d5dfd27a",
+        "OPS-AUTO-005": "e7f63aeee4dc9e5633737ae8356dda7a31404b54ed6e896e58b05aae9e3330c9",
+        "OPS-AUTO-006": "9eb957e04655f6be045216218280532318f44989a2048f549b26de500edd6688",
+        "OPS-BATCH-001": "706543bad1d3905cde3590f878c01bb7124104b9823c2c291b45d5ad124678e4",
+        "OPS-BATCH-002": "b7a46afbf41f5913856eeaea8f09f948a5299ff41bf3aba5050ae64da66d363c",
+        "OPS-BATCH-003": "c30f659da4d96c40a2fd6e2341e6734e1c3fa0cb8d5b7a7cabe437efeb14e84f",
+        "OPS-COMP-001": "4cce146f52ba1e9df0b3523d5505b88a7430f95207f14fe0136649608011c4ad",
+        "OPS-COMP-002": "0c9a421943bd38badbf32717c46aec03e23790faa20b337152838e1671402f39",
+        "OPS-COMP-003": "973b3cc7cf6507732b4e37bbf567ff0d9abc3a03f5736fd22fa1689a24f65b1e",
+        "OPS-CONFIG-001": "11603a9cf84c82cc156345fd8b5d110ac50d6c34697947e79a8a83a89d1c8444",
+        "OPS-CONFIG-002": "89508e082d641e89e3c2240d85017d61bd7be4ff7642e2585f1999f62f2ff8f7",
+        "OPS-CONTACT-001": "31bda899a46a870794c76569bf5ec404a4f66f4c3b746260f00057dfe76d62df",
+        "OPS-CONTACT-002": "e3519c2ea813ab14da43d161ddbe7ec404b21bcd38525c398876036df65f4734",
+        "OPS-CONTACT-003": "eda9cc44b92cca4e1324cecc9bd106352bfd44015828032244cf4291b3929758",
+        "OPS-CONTACT-004": "6e39f29ac39db456e4f7fb9e464891dbfafabfa22e961906b266c9a529cc2f35",
+        "OPS-CONTACT-005": "1b10031f4249dc15ede85d47211bcb78f37687a6ab156c90babac978577b270e",
+        "OPS-CONTACT-006": "867cbae65850de7dd9e7dcd3fb59fc77cfe5ef109029acde48126a4f65f24a1d",
+        "OPS-DIS-001": "e4b96bda221bfb12a2339b4029a6a1adad8c71aae78d230dde7dba8e872862b0",
+        "OPS-DIS-002": "305c5f1724871eaabb6d6361eeaf66641fc5c1c33202368dd9be877f8faa0bc7",
+        "OPS-DIS-003": "59ac6c85b69bb24f1b57865cd9a24929451fef8a10edf2c04febb75069472a10",
+        "OPS-DIS-004": "804fcbc3568d3ba7f78d5aa23bb3d29640ed03cb6c81438457e5706ede16b9e0",
+        "OPS-ELEC-001": "bee9e2035d692e59bb626a8054155548540a99ccf5bdb656b593a27be9623c8b",
+        "OPS-ELEC-002": "bdf035de0523ff002703a2dd0024d152ad2dbe95831e18f2a2c67cd979a8d1ca",
+        "OPS-ELEC-003": "af140fccdb04bec9ba41f1a7ef31ef7dce847c2500553f5f725c2690b8abeb58",
+        "OPS-ELEC-004": "b6e208181385cfe594061551bfe13c4e067d8b14e8cd55cc196fe579df4a2b30",
+        "OPS-ELEC-005": "aa8179a636b452e98686f75a609bbce5d743c1044550b5ea6da401dd5efc5474",
+        "OPS-EXC-001": "1c1c6246aba17a34a02fa4476440b5417ac555722513596cadcd37ed9d5a68cf",
+        "OPS-EXC-002": "c5071e98bf82d792a49254dc336117ae0353e602a934e69fc58a806ef335f3fe",
+        "OPS-GROUP-001": "d547a89da512b4e5425e61f0943609688a2886242ef2f190be64e4d1dd38d656",
+        "OPS-IDENTITY-001": "1186729cc44cf6f13e74ac666fc09f3001f90bc5ce1bfdbfb577f6e61fded98f",
+        "OPS-IDENTITY-002": "54f7c368e0c5d2e9bfef8fad15204a6a693a6fbd3bda1c59b63df3c094b736c0",
+        "OPS-IDENTITY-003": "d601328d0279f11d9750c7ca7efba283114d28b738fd2d153f9fc5fbefc0833a",
+        "OPS-LIN-001": "8c05655a152f3bfe3c3ae0040ca133ffac69fc43e6433f6974e8b097afefa478",
+        "OPS-LIN-002": "ea70768bb5f53a87f48161361f27f1bb1ab848f8c664d70c7b2860c64e8f81e6",
+        "OPS-LIN-003": "2e7d1d427b2850c804fcdf6495b5866bed5b0b8bec7b88c23be79b44eac56430",
+        "OPS-QTY-001": "705ab67a4f520766972c55056a5b3364bfc1539d8bd2a9e1bea469d44a7653c6",
+        "OPS-QTY-002": "09ba863f4ddf78cb15c33c6a499e66212335aa6313f248686c61b9d59ff9053f",
+        "OPS-QTY-003": "359f7746c28e69d08ea427d2b617a63b0230afcbf92139a03481f011b1b69f4a",
+        "OPS-QTY-004": "62e8771a4a6111ac841db861299083bbb1180b1adc148eda8e4ed84f0a87098d",
+        "OPS-RECEIPT-001": "7c5ac0cbc8b80f7778fdc3240ffd9bd7633839bacefe88c4896b3ebc05cad965",
+        "OPS-RECEIPT-002": "5d23e65500b33f3b281878f7ddcb2400a6b44748d2509ed551723a9a6422a96f",
+        "OPS-RECEIPT-003": "389923bc1881370792e1984f9e1bf9f994f3341583475592c9b903bedb3b12e8",
+        "OPS-RESRC-001": "b3de20a4e4371a5dbb96464bb9a8d659541094cd5f3a67c5f14c1c1ac4161726",
+        "OPS-STATE-001": "bbc4a593f26906bc424267d7f6cf2b41208761972c325ff3c56781451e48a68c",
+        "OPS-TEXTILE-001": "724ac50401bc20a3bdeb8ef7b556cd821483f33649474b9fbf893957578a41f0",
+        "OPS-TEXTILE-002": "c0344524379014086ec8b9492744968c1a8f620ab858ab3fe76d2d7f6bfeed77",
+        "OPS-TEXTILE-003": "4d29e9a52e12b6cae2634946302c11d9ceeea8238fbfba4200a9cf0b5dd693d2",
+        "OPS-TEXTILE-004": "de626ac9b5e178ce40799e35f98111d5c8c51f465c3cf8accb4f293fc5c1ecf1",
+        "OPS-TEXTILE-005": "fffe0a3310f7e29aad85f369b9427f3c48059f8264ebd660c5858f0d1de87652",
+        "OPS-TOY-001": "faffa70bc7e55c965adc3e1ac61ac1b13666dc78427c30533aa2e1cfe1c8ead4",
+        "OPS-TOY-002": "c746ed28dec9b412910d212b31b3e8057e3d63428c36bdebe0955b6874dc5320",
+        "OPS-TOY-003": "4d43cb0393ca940e8c129f9f7bc86625c5b3299297d6e717b9aeb13ee49bb13e",
+        "OPS-TOY-004": "321b9154e2a8eb0a5c9714461b5e51c92c11a34d6b932693ee704c3228496f5a",
+        "OPS-TOY-005": "5412fbcaff83246885136efdfab13b870c3aa8a1d23871d9fdeb17a904196858",
+        "OPS-TOY-006": "9f483f4725b5970b3367b459dad1ea58327c58e25836d8fe091b3a4666b69504",
+        "OPS-TOY-007": "cbcc5f4b7c3f592e38413b9d596c3359e8d627657aace631c5ac4dfa37889f17",
+        "ORG-COLLAB-001": "5b09595bea9c6fc7389343ac598999fb9be1190b5f0a8591e74598b2ff708efc",
+        "ORG-STRUCT-001": "75db94de48ebe025a2783449abea7404fa95b6ae89656e1740df8a3b08c4fcd6",
+        "RISK-001": "8ae9d6ecd6be0bf83d929f699df3961a3ce2af39ee7532631ceb237dcd7c1492",
+        "RISK-002": "eed595f278ee432742effad9ac6c6e14ef7ae3d606ff932ce2b83514b83341eb",
+        "RISK-003": "0db847e26c6031a292080e44b10fecaebffc78bf456b110558b9a2e64a09fdcb",
+        "RISK-004": "44920e411d12b185fa0d90dc44740613b9540d2fee481db933ac61863feaea00",
+        "RISK-005": "d7ab67181a6b66a89ffc09f0aef517377353d6e776209e70d96aa60e5e21c4ac",
+        "RISK-006": "617305ede0740e587e3efbc897107835f001bba393b4be58b99a65ab2067807a",
+        "RISK-007": "08493b91c48b7968adda6a47d2ad7903a1edfca4f89e62eb785b1f394bf27904",
+        "RISK-008": "ff0b047549df8c833e3e19f32646b6e4cfc210f7ac89c9a8604a1be8903f2dd3",
+        "RISK-009": "b906a535af68d8cd3641c52d5f55a1fc8dd3153ffb4a9e1365b618c0d4dcb1c6",
+        "RISK-010": "1a72c22efb0111dece9a3071fa26b85e898462b16355d4e6cffe08480d2a8bac",
+        "RISK-011": "832c7c22b6599c1100575c6da16065e52da5a26f55f14f149e265825a4e6d1e2",
+        "RISK-012": "0dac2127fa190c937f24bd8a6471ca291a62c567edc39e76bbd8fb0938427d31",
+        "RISK-013": "7566d80d3eef3013f9e71df25f31d8ee5f1d5067992a677b65c4037d61822f05",
+        "RISK-014": "693defcca94b0fbb973d586ce34e8eac4ddaf86b06cd22be578151f63da03a64",
+        "RISK-015": "c2cb491c8a6620607e5783fd10befe605064210feb9e9188409251809a06fdb2",
+        "RISK-016": "7ca0c3ec9c4845153b86225573bdd3f51e1ba3c309b57695bb3976d7ccf251d6",
+        "RISK-017": "4f432a933ffa2fbecb0995c4311967f55d9961b927b32a6c6fbd32769b735f57",
+        "RISK-018": "9058a5d1bc77aae288fbbdd96a88c3dca63b88fce111737c8fe8f507d9e27616",
+        "RISK-019": "51e1c12f6051d44ecc2ae00e59a86570349282e7382fedf477cbdc196444bf32",
+        "RISK-020": "1bf16e1f3c30fc5a3bc3c4613756f0e3a85fba06993b11e1c86d117ac655e2ac",
+        "RISK-021": "aa7ac2d0b0090fd223f2649df4743c117e8ca261cfa47126a9c0ae197596e915",
+        "RISK-022": "d65d23518341e8c8c11433e07f8a81368c28b01b42257d71f06640eab4d86fb4",
+        "RISK-023": "515c4583d3328b566f093533e14876af5ddb4750a5247d7ccbb9d7bc43a34a49",
+        "RISK-024": "087cf42920f67680fee9d92c38b602b68e4e803397d54937157db44f732ccb17",
+        "RPT-CLAIM-001": "399820baf9bcd3229d00623df3e84f41f3bee3ea754184c8fc8ece338d44ab9c",
+        "RPT-GATE-001": "8bde4f795440c06545729b77af4fa3c6d4aa2c3abd2547e2ba58b314713da876",
+        "RPT-GATE-002": "550ce5283de481ef11a01becdc2a1af62b233d7e5ceeed4dd02f25a677e006cc",
+        "RPT-SCOPE-001": "d1812a9e6bf49cab5eb23addb908056b1527c3d29ca6a5d3cc62970de9951a8d",
+        "RPT-SIGN-001": "2fa2718923ddc25ec9f0d081517772d85396f664891d5c53512ba97a4921630e",
+        "RPT-TRACE-001": "1e46e966e8935c7a618355752cc738cecba6b86b172349c40560a0b46ac88d45",
+        "RPT-VERS-001": "ee93aa9c97cb6522f79b5545c8581b6c9a6f59a9625917304e0e9142bff7fb03",
+        "RPT-VERS-002": "77230b8c13c59de0b11d5f73b45d4b34e2045813b163d806f0fc58c796853492",
+        "RPT-VERS-003": "c9c418b030106162ada6f0a906ac53af2f233c12b9d6b05e6829273260ffa510",
+        "RPT-VERS-004": "2695601c1db8f669b4117b95077b37c0602e3e119914539e95515f0d2e96d792",
+        "RULE-001": "0d1c4025a850250fae261c4603f1792b71873c86d6445f44a1b2d6f6683c2715",
+        "RULE-002": "a69b9da57f46e6ce9aa27725c1274bba4c304dae82db1833e8fb87485ac05ce1",
+        "RULE-003": "9a18657fe6a15936ed89ce677ef48cded4f3c8e8db5dc2c925a41b2737b37f41",
+        "RULE-004": "bb3ad11883c364b8ba0b841124b6cc027289e54dae143572ed548d26b6f9f17b",
+        "RULE-005": "1456ad437c061bb376474437ce5574d2300ceba00311f0b4bf0e3f61fe8ca388",
+        "RULE-006": "0cf659a0b7a90a444be7637fdb3fdc2cb775953daa8b0da62716de1bd56310b6",
+        "RULE-007": "a1cd55ca6b7ffa0a487110ca99a78e00eac8c688518888d85e2e297e371aa21c",
+        "RULE-008": "28cb43ccc90d98a9883532d897212af5bb79289b7609057fc91735823a3f3842",
+        "RULE-009": "f140900d36b13adca8f3dc7e5d333b381f32a50d862a6b37f6a2cd87b224d539",
+        "RULE-010": "058c5b657bccdd67b9777a6f0ea99b1eedc3101be8e544618bad28008ff781bc",
+        "RULE-011": "301e0b87321368cb4d1dcc381729a461506969753d3415ac7912b1636b8af4a9",
+        "RULE-012": "f03a90964f6b57d323b2fa6bc369a5dfdb1f6dcfbd94951373759d26c5d64b7f",
+        "RULE-013": "5a617ace9dfd679ad459807426eddc94d1c573b728e76bf7196d3978a84bba53",
+        "RULE-014": "ba3f6181972d078f0538fd28a494f7107f7a045a3a251c7d0f320f4d329cb3b9",
+        "RULE-015": "2ff0148f9eead53276cc05385c01b2a09b473ba2085ea98a82e529dfd92008e4",
+        "RULE-016": "08996c136ae8cecb52e1c81111c60fd5d108a3738f2003453b1fe1f3b4c31177",
+        "RULE-017": "6e66c8fa8427af6f45c661b7704e6d9fa656d8cf988b40d707e55b8a81bfb349",
+        "RULE-018": "5437c26624a78f5166744c0cf76019d14e54f8b38f427419e3a127905aaa893a",
+        "RULE-019": "466062b9bbea8bd6a5bb2e98b1e1d27cd3c161a3397078e754aec8fb1c6a334d",
+        "RULE-020": "3cc2167d9d0bf4a7f1885bba0f3bb194f8f5770878a08e3677315c0e3da6e4b4",
+        "RULE-021": "d6987a5db612b21d43f7ac1642295dc897eab23d1520de32d203ec5d8ce342aa",
+        "RULE-022": "b41bda4b9c6afe10de51f25748462c475677db34a127de0311dd6ba7aa56c2ee",
+        "RULE-023": "4b80d8c142b4b21aeb808e8889a7f00361cb835012a5c6181038f9796148fa18",
+        "RULE-024": "ccdf3b7fd0b3e87ff0823d583707fb92a8181d030176295001895cc3a68da430",
+        "RULE-025": "4882534471acf71ad0a7a8e849dbce05e44ba637a020eb747ee4b816e29a523e",
+        "RULE-026": "138639c246ce3e8fe979512d64e89d518bcf416fd7ecb5ca6616e7ddc556b121",
+        "SEC-AUD-001": "79bb14cf6bf64595ee7888ceba58bc8d33c85449aee4f66e8672727780ee5e2d",
+        "SEC-AUD-002": "60aff14a66c559bcf73b2b5dda0416c1aa15ff3df256ae53af25f70acb4ab871",
+        "SEC-AUD-003": "98d7f414cd12feccccb95bafd1defe5e83f3351f4ec16f0705b081ac1f884105",
+        "SEC-AUTH-001": "cf10f589589e19290348efd37262215aa95c68c54880a6fd1fd085bff84ba435",
+        "SEC-AUTH-002": "1b69329937c36da250a9a0b1a38e1e3811afd46ada5ec547e4169f8aa3498ccf",
+        "SEC-AUTH-003": "5e00ae7e00b22e1d5c4e90a9c6e210e2c4baee6bf82cce6a1c2aa01c7bc16fca",
+        "SEC-AUTH-004": "def48a0a1848c0b015bc760df1a8f9cf80ea789f559c8c0ed8a6dc49d0a9b7f4",
+        "SEC-AUTH-005": "30276f305b250159de928aa92e5ea11a03dd4445736e950b2ced986dc3f094ef",
+        "SEC-AUTH-006": "140324f6c728a82032d75d103e151f263d32e0aaa949dbb3dfd0e8f0c4aa1cd8",
+        "SEC-DEPLOY-001": "c16fdea96ddb5b659a3504e6a8cbb2cf6d25fa9de71dabbf7c4202155a496cc9",
+        "SEC-SIGN-001": "b60fb7bad706e42254348c4aa485bb60edf2476c6a13a936a223c963a87e7f92",
+        "SEC-SIGN-002": "804dcfa0d80e05b815f7075677509d2c62eb0db0389ccd68c96934fc5aa729c0"
+      },
+      "path": "docs/AI原生第三方产品检测LIMS产品需求文档.md"
+    }
+  },
+  "specs": {
+    "AC-DEPLOY-001@0.1.0": {
+      "behavior_fingerprint": "d56b48f7d4c24f58a7be0456b609503d10e4ef477b5625ce9786b3470e83a0a0",
+      "change_class": "major",
+      "depends_on": [
+        "OD-002@1.0.0",
+        "SEC-DEPLOY-001@0.1.0"
+      ],
+      "fingerprint": "1a8c17fd620180e9ea7b9642adb5a256e4ea11e0f08e129e6d1eb53f71e13820",
+      "id": "AC-DEPLOY-001",
+      "kind": "acceptance",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-DEPLOY-001"
+        }
+      ],
+      "status": "in_review",
+      "version": "0.1.0"
+    },
+    "AC-ID-001@0.1.0": {
+      "behavior_fingerprint": "ebcaf3defc59a355da15ed4f682362f7b49dc1c281bcb4e3792ce14e1f7cb023",
+      "change_class": "major",
+      "depends_on": [
+        "OPS-IDENTITY-001@0.1.0",
+        "OPS-IDENTITY-002@0.1.0",
+        "OPS-IDENTITY-003@0.1.0",
+        "OPS-EXC-001@0.1.0",
+        "OPS-EXC-002@0.1.0",
+        "OD-005@0.1.0"
+      ],
+      "fingerprint": "a56a740130e68e3e26f1faad1a4b4141503968e5a8485bb94b6084565a227d70",
+      "id": "AC-ID-001",
+      "kind": "acceptance",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-ID-001"
+        }
+      ],
+      "status": "in_review",
+      "version": "0.1.0"
+    },
+    "AC-REC-001@0.1.0": {
+      "behavior_fingerprint": "9f6e43b65b58c3814528cb879be71ea7d571cf6a8b894d53473245f1c17a1ab6",
+      "change_class": "major",
+      "depends_on": [
+        "OPS-RECEIPT-003@0.1.0",
+        "OPS-IDENTITY-003@0.1.0",
+        "SEC-AUTH-001@0.1.0",
+        "SEC-AUD-001@0.1.0"
+      ],
+      "fingerprint": "8e184359a694ee3fc02456e7df953eecfeff67ee8513e05e727855a1f65816e7",
+      "id": "AC-REC-001",
+      "kind": "acceptance",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-REC-001"
+        }
+      ],
+      "status": "in_review",
+      "version": "0.1.0"
+    },
+    "AC-SEC-001@0.1.0": {
+      "behavior_fingerprint": "f9b2f552e1b8945ef32c2bf859973c525553dd70df4b68603a54c0812ca90aeb",
+      "change_class": "major",
+      "depends_on": [
+        "OD-002@1.0.0",
+        "ORG-STRUCT-001@0.1.0",
+        "SEC-AUTH-001@0.1.0"
+      ],
+      "fingerprint": "e762dae769c4ace3605cf0488a14788a88592bc9cc5b5cdce0c505786fb935bb",
+      "id": "AC-SEC-001",
+      "kind": "acceptance",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-SEC-001"
+        }
+      ],
+      "status": "in_review",
+      "version": "0.1.0"
+    },
+    "ATC-REC-001@0.1.0": {
+      "behavior_fingerprint": "a8319b843d4c5823d6f9a6a9f5adc56a4b829af5dcad0ebcf3aa83922a3c911c",
+      "change_class": "minor",
+      "depends_on": [
+        "ED-001@0.1.0",
+        "OD-002@1.0.0",
+        "ORG-STRUCT-001@0.1.0",
+        "ORG-COLLAB-001@0.1.0",
+        "SEC-DEPLOY-001@0.1.0",
+        "OD-009@0.1.0",
+        "OPS-RECEIPT-001@0.1.0",
+        "SEC-AUTH-001@0.1.0",
+        "AC-SEC-001@0.1.0",
+        "SEC-AUD-001@0.1.0",
+        "NFR-ARCH-001@0.1.0"
+      ],
+      "fingerprint": "071aeb85adf1e36257baab4700efc2c7d38bf001a8c99597e2d29153cf412d57",
+      "id": "ATC-REC-001",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-RECEIPT-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "ORG-STRUCT-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "SEC-AUTH-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "SEC-AUD-001"
+        }
+      ],
+      "status": "proposed",
+      "version": "0.1.0"
+    },
+    "ATC-REC-002@0.1.0": {
+      "behavior_fingerprint": "8165547969e469a63b60b4dbde56e4d09c167cddef2a7d01b4d1c4bc483f457c",
+      "change_class": "minor",
+      "depends_on": [
+        "ATC-REC-001@0.1.0",
+        "OD-002@1.0.0",
+        "ORG-STRUCT-001@0.1.0",
+        "OPS-RECEIPT-002@0.1.0",
+        "OD-009@0.1.0",
+        "OD-031@0.1.0",
+        "SEC-AUTH-001@0.1.0",
+        "SEC-AUD-001@0.1.0"
+      ],
+      "fingerprint": "d7b86a278ed8f2c8ca040d9e6f7a4be4310753476f19c2d9153b917f6f09d3db",
+      "id": "ATC-REC-002",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-RECEIPT-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "ORG-STRUCT-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "SEC-AUD-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-031"
+        }
+      ],
+      "status": "proposed",
+      "version": "0.1.0"
+    },
+    "ATC-REC-003@0.1.0": {
+      "behavior_fingerprint": "dcf1ca080f8d791e572f014c367b5665d4be222f02869175fcb84d4ec0d2e89a",
+      "change_class": "major",
+      "depends_on": [
+        "ATC-REC-001@0.1.0",
+        "OD-002@1.0.0",
+        "ORG-STRUCT-001@0.1.0",
+        "OPS-RECEIPT-003@0.1.0",
+        "OPS-IDENTITY-003@0.1.0",
+        "AC-REC-001@0.1.0",
+        "SEC-AUTH-001@0.1.0",
+        "SEC-AUD-001@0.1.0",
+        "OD-005@0.1.0",
+        "NFR-ARCH-001@0.1.0"
+      ],
+      "fingerprint": "3102bb7bcc5122e838285d269f059e7bc831d355bb29967fe9f7ed4453b372dd",
+      "id": "ATC-REC-003",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-RECEIPT-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "ORG-STRUCT-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-IDENTITY-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-REC-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "SEC-AUD-001"
+        }
+      ],
+      "status": "proposed",
+      "version": "0.1.0"
+    },
+    "ATC-REC-004@0.1.0": {
+      "behavior_fingerprint": "8bbccfb66f7e945c469fe4b2283da15369994620b4bf4ebe733548839d9c9cea",
+      "change_class": "major",
+      "depends_on": [
+        "ATC-REC-001@0.1.0",
+        "OD-002@1.0.0",
+        "OPS-IDENTITY-001@0.1.0",
+        "OPS-IDENTITY-002@0.1.0",
+        "OPS-EXC-001@0.1.0",
+        "OPS-EXC-002@0.1.0",
+        "AC-ID-001@0.1.0",
+        "OD-005@0.1.0",
+        "OD-009@0.1.0",
+        "SEC-AUTH-001@0.1.0",
+        "SEC-AUD-001@0.1.0"
+      ],
+      "fingerprint": "5a9566ef366a7649ff87664fdef706d9863974b7085c7c68187ec426a61cc7cb",
+      "id": "ATC-REC-004",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-IDENTITY-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-IDENTITY-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-ID-001"
+        }
+      ],
+      "status": "proposed",
+      "version": "0.1.0"
+    },
+    "ATC-REC-005@0.1.0": {
+      "behavior_fingerprint": "9cd470376bb9468b841da2566f975e460d7de377a5a02ab6e38786ff35bd8087",
+      "change_class": "major",
+      "depends_on": [
+        "ATC-REC-004@0.1.0",
+        "OD-002@1.0.0",
+        "OPS-EXC-001@0.1.0",
+        "OPS-EXC-002@0.1.0",
+        "OD-005@0.1.0",
+        "SEC-AUTH-001@0.1.0",
+        "SEC-AUD-001@0.1.0"
+      ],
+      "fingerprint": "a108abc80862e3cda924401759885ec1ddaa680be6e7d2d42871500cc7e9ff47",
+      "id": "ATC-REC-005",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-EXC-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-EXC-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-005"
+        }
+      ],
+      "status": "proposed",
+      "version": "0.1.0"
+    },
+    "ATC-REC-006@0.1.0": {
+      "behavior_fingerprint": "f1006a1cf2e12eb569f7de941b362465e476d880bc33db621bf89043ccdafeec",
+      "change_class": "major",
+      "depends_on": [
+        "ATC-REC-003@0.1.0",
+        "OD-002@1.0.0",
+        "ATC-REC-004@0.1.0",
+        "ATC-REC-005@0.1.0",
+        "OPS-RECEIPT-003@0.1.0",
+        "OPS-IDENTITY-003@0.1.0",
+        "RULE-004@0.1.0",
+        "RULE-026@0.1.0",
+        "NFR-ARCH-002@0.1.0",
+        "OD-005@0.1.0"
+      ],
+      "fingerprint": "ad0c4e4db8854b5a743b731bfbe231494c5d6e6081a4276ea6c8c2f71b00377d",
+      "id": "ATC-REC-006",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-RECEIPT-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-IDENTITY-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "RULE-026"
+        }
+      ],
+      "status": "proposed",
+      "version": "0.1.0"
+    },
+    "BUS-PROD-003@0.1.0": {
+      "behavior_fingerprint": "28d3981d6ca2f303fe0aaaa43c1d925f069d0eeb6fd070192203885d1c48855a",
+      "change_class": "major",
+      "depends_on": [
+        "RULE-026@0.1.0"
+      ],
+      "fingerprint": "faf2128cf61269dfc43dd642b3658c751f2a4499e4d859c6a7df801791b36ae4",
+      "id": "BUS-PROD-003",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "BUS-PROD-003"
+        }
+      ],
+      "status": "in_review",
+      "version": "0.1.0"
+    },
+    "BUS-REQ-003@0.1.0": {
+      "behavior_fingerprint": "e73b4d4f3b4e8cd08c4cbeb9ae8f832c5ae5393eeba26d95f9576682cf3f5846",
+      "change_class": "major",
+      "depends_on": [
+        "RULE-026@0.1.0"
+      ],
+      "fingerprint": "344c1c5fe26c3fbf58f79ae912fdbb5cc0b911659aca306c179cba2540e47fd1",
+      "id": "BUS-REQ-003",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "BUS-REQ-003"
+        }
+      ],
+      "status": "in_review",
+      "version": "0.1.0"
+    },
+    "ED-001@0.1.0": {
+      "behavior_fingerprint": "67e00342a0b53e3904c7d4704933a772b333025565135f506f7b88d86706c01d",
+      "change_class": "major",
+      "depends_on": [
+        "OD-002@1.0.0",
+        "OD-020@0.1.0",
+        "OD-025@0.1.0"
+      ],
+      "fingerprint": "a4210690ac62879fecd1754363f3930408eee0948251716dd23ec819cb5889c2",
+      "id": "ED-001",
+      "kind": "decision",
+      "source_refs": [],
+      "status": "proposed",
+      "version": "0.1.0"
+    },
+    "NFR-ARCH-001@0.1.0": {
+      "behavior_fingerprint": "265dc93c4cd804dcc95edd1601a2f5553b89675b24f46a3b4cdf154fc8067be2",
+      "change_class": "major",
+      "depends_on": [
+        "OD-025@0.1.0"
+      ],
+      "fingerprint": "7d8902e4ce560a987e8da1e312bfecebab9511857ffd111e5ad080f7d5ee12a2",
+      "id": "NFR-ARCH-001",
+      "kind": "nfr",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "NFR-ARCH-001"
+        }
+      ],
+      "status": "in_review",
+      "version": "0.1.0"
+    },
+    "NFR-ARCH-002@0.1.0": {
+      "behavior_fingerprint": "881b20e9f6440f4b4c019299f375c2dfcc92a2a9051f55f3edd4d37809e468f5",
+      "change_class": "major",
+      "depends_on": [
+        "NFR-ARCH-001@0.1.0"
+      ],
+      "fingerprint": "cf08fe497161d228a102825d8c961dfda0dbdc2fa1393e9406c5278d62daf9e6",
+      "id": "NFR-ARCH-002",
+      "kind": "nfr",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "NFR-ARCH-002"
+        }
+      ],
+      "status": "in_review",
+      "version": "0.1.0"
+    },
+    "OD-001@0.1.0": {
+      "behavior_fingerprint": "e98e4869d80e78f8ff00890ac074f691f1d7d29d239d8ef68fdbbdee2e4e522e",
+      "change_class": "major",
+      "depends_on": [],
+      "fingerprint": "5fe4ffb5dcfa53c561241f4fc5123eea865c9dcfe5a2b34bba539f4c05d5672a",
+      "id": "OD-001",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-001"
+        }
+      ],
+      "status": "proposed",
+      "version": "0.1.0"
+    },
+    "OD-002@1.0.0": {
+      "behavior_fingerprint": "e8f0a7396d1b4346d8db82f6702757971c91433c67570fc5dff81fc86352937e",
+      "change_class": "major",
+      "depends_on": [],
+      "fingerprint": "81a2d96fb09e7650923ec3d3d41d5e2ba3bd29610a9395b9eb7bea2a0f1661eb",
+      "id": "OD-002",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-002"
+        }
+      ],
+      "status": "approved",
+      "version": "1.0.0"
+    },
+    "OD-005@0.1.0": {
+      "behavior_fingerprint": "99899f3dad4050692e3e27edfae239da6aea778c821284ff8976dd1d2978c385",
+      "change_class": "major",
+      "depends_on": [],
+      "fingerprint": "10daafe00d405cd61c4dbd76c2dee272797a6b5e715788995d2ed74f6117c232",
+      "id": "OD-005",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-005"
+        }
+      ],
+      "status": "proposed",
+      "version": "0.1.0"
+    },
+    "OD-009@0.1.0": {
+      "behavior_fingerprint": "6ee5d8faa6f8bf17fa5f31ff0888ef6ec0001e6bda59b3281126437400a1f144",
+      "change_class": "major",
+      "depends_on": [],
+      "fingerprint": "962080700bba41441ec16015605eaa2a2c0714942cbcfcf0a2f0bc4abd629b8d",
+      "id": "OD-009",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-009"
+        }
+      ],
+      "status": "proposed",
+      "version": "0.1.0"
+    },
+    "OD-020@0.1.0": {
+      "behavior_fingerprint": "b18688d93c93b3a3b3b385f33e5e318984ff2d94df4fc102c21699cd5229457c",
+      "change_class": "major",
+      "depends_on": [
+        "OD-001@0.1.0",
+        "OD-002@1.0.0"
+      ],
+      "fingerprint": "f360f3f9b949ceaafce5cdc6b175bee4e85b7221f9aa4b6adac016fafcffda4c",
+      "id": "OD-020",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-020"
+        }
+      ],
+      "status": "proposed",
+      "version": "0.1.0"
+    },
+    "OD-025@0.1.0": {
+      "behavior_fingerprint": "0aeadab868da11286ad3c19829e702153fa1bf2d260643b12bfa4d68d4c3c520",
+      "change_class": "major",
+      "depends_on": [
+        "OD-001@0.1.0"
+      ],
+      "fingerprint": "4823d8880043fd3490b0cb93988cfdde015055dd6af284a9005123018f6ae1c3",
+      "id": "OD-025",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-025"
+        }
+      ],
+      "status": "proposed",
+      "version": "0.1.0"
+    },
+    "OD-027@0.1.0": {
+      "behavior_fingerprint": "b57aada71e72d930ec7f7c147d05fe80e7e84880019abaa79a6f0658c82f0441",
+      "change_class": "major",
+      "depends_on": [
+        "OD-001@0.1.0"
+      ],
+      "fingerprint": "3b8ac36dfd16d5bb7b4f55999684bab7346def2aa1c163def3ed5f04172870fa",
+      "id": "OD-027",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-027"
+        }
+      ],
+      "status": "proposed",
+      "version": "0.1.0"
+    },
+    "OD-029@0.1.0": {
+      "behavior_fingerprint": "d76c2c97e999fcc156914edeaacf9bf6829550a74f5ecf265a0e5052552e6e89",
+      "change_class": "major",
+      "depends_on": [
+        "OD-001@0.1.0"
+      ],
+      "fingerprint": "85e197b51ea70faa46294dcbfa020fc623c8f98ebc9d6997c9ed581dfafc4843",
+      "id": "OD-029",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-029"
+        }
+      ],
+      "status": "proposed",
+      "version": "0.1.0"
+    },
+    "OD-030@0.1.0": {
+      "behavior_fingerprint": "26b74f9efb3cb52618eb977fae5a5f1c93a103e14d3a365ec1c48e32e26e3fe5",
+      "change_class": "major",
+      "depends_on": [
+        "OD-001@0.1.0"
+      ],
+      "fingerprint": "03dbc6d00f5857449a0c8de147d602f530d76e3a598228f4f088c12dae2cfb64",
+      "id": "OD-030",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-030"
+        }
+      ],
+      "status": "proposed",
+      "version": "0.1.0"
+    },
+    "OD-031@0.1.0": {
+      "behavior_fingerprint": "7b9891809d5b85c7016b71779d59175d32ef34baf8bca9c80111efda45b32296",
+      "change_class": "major",
+      "depends_on": [
+        "OD-001@0.1.0",
+        "OD-009@0.1.0",
+        "OD-030@0.1.0"
+      ],
+      "fingerprint": "3626d4882314f075da4e7050ed45fe6b006818cfb737b6febb8a7cfee6f8fd95",
+      "id": "OD-031",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-031"
+        }
+      ],
+      "status": "proposed",
+      "version": "0.1.0"
+    },
+    "OD-032@0.1.0": {
+      "behavior_fingerprint": "52746566a1977d84a48606e9b3b45943e5ab003d529f04530b9255e5e2aadbc1",
+      "change_class": "major",
+      "depends_on": [
+        "OD-001@0.1.0"
+      ],
+      "fingerprint": "0664721d0fb0a33e88972ef2c6b1df72204e7d58e673bd6fbb0606f6984ad19d",
+      "id": "OD-032",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-032"
+        }
+      ],
+      "status": "proposed",
+      "version": "0.1.0"
+    },
+    "OD-034@0.1.0": {
+      "behavior_fingerprint": "593fc01f31fe807b1ab20253a9ab637c08a351be8c38440d683a9e8272d1556f",
+      "change_class": "major",
+      "depends_on": [
+        "OD-001@0.1.0",
+        "OD-029@0.1.0"
+      ],
+      "fingerprint": "d9645e91b6778f65d064bf23aa4b2418f3828cb02ef3f19bd2e4e37b75dc1a40",
+      "id": "OD-034",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-034"
+        }
+      ],
+      "status": "proposed",
+      "version": "0.1.0"
+    },
+    "OPS-EXC-001@0.1.0": {
+      "behavior_fingerprint": "02f3d0b5ef2a89d1d49a3ac06c442e3f5b0d3d723e7e6bdd7eddfc680f90d2a0",
+      "change_class": "minor",
+      "depends_on": [
+        "OPS-RECEIPT-001@0.1.0",
+        "OPS-IDENTITY-001@0.1.0"
+      ],
+      "fingerprint": "84fdb3643f7eb1cd7bf99773264133e9261b02c03a94dfec5ab93d63e8e93fd8",
+      "id": "OPS-EXC-001",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-EXC-001"
+        }
+      ],
+      "status": "in_review",
+      "version": "0.1.0"
+    },
+    "OPS-EXC-002@0.1.0": {
+      "behavior_fingerprint": "7c26ce4f5c948846e280bb497ed5311c8cb1f898b7283f3bbcb4f2b5537f4695",
+      "change_class": "major",
+      "depends_on": [
+        "OPS-EXC-001@0.1.0",
+        "OD-005@0.1.0"
+      ],
+      "fingerprint": "8cf1d2cd7b5930ba2688263bc4c181accdfd4364e48b08fb31b75586f5781da6",
+      "id": "OPS-EXC-002",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-EXC-002"
+        }
+      ],
+      "status": "in_review",
+      "version": "0.1.0"
+    },
+    "OPS-IDENTITY-001@0.1.0": {
+      "behavior_fingerprint": "9ce4e9b121af940db6cd9e03d12cf003116a58a241a4af78630ca0cf8d13cd09",
+      "change_class": "minor",
+      "depends_on": [
+        "OPS-RECEIPT-001@0.1.0"
+      ],
+      "fingerprint": "0a417c32d1859c6612ca7144c728cc75b172e5a5d32761a1ac52c470d675aaf1",
+      "id": "OPS-IDENTITY-001",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-IDENTITY-001"
+        }
+      ],
+      "status": "in_review",
+      "version": "0.1.0"
+    },
+    "OPS-IDENTITY-002@0.1.0": {
+      "behavior_fingerprint": "20c76ed4613251cfd072323a992449061c22d91d5b938b7d0fa2e51f533f20bb",
+      "change_class": "major",
+      "depends_on": [
+        "OPS-IDENTITY-001@0.1.0",
+        "OD-009@0.1.0"
+      ],
+      "fingerprint": "b00534b8eb9a1750dcc75d2e2b178a5183564042f2d6653a9befa31e67687b18",
+      "id": "OPS-IDENTITY-002",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-IDENTITY-002"
+        }
+      ],
+      "status": "in_review",
+      "version": "0.1.0"
+    },
+    "OPS-IDENTITY-003@0.1.0": {
+      "behavior_fingerprint": "a76da7d5cadd845a8b388336e8b5c951527a8eced41e2a9b40a6f68f24fc85bd",
+      "change_class": "major",
+      "depends_on": [
+        "OPS-RECEIPT-003@0.1.0",
+        "OPS-IDENTITY-001@0.1.0",
+        "OPS-IDENTITY-002@0.1.0",
+        "OD-005@0.1.0"
+      ],
+      "fingerprint": "7eb34bdf50c2f079f08852332d0acac9deddde9b5ae1bed7ae5de680d5d98483",
+      "id": "OPS-IDENTITY-003",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-IDENTITY-003"
+        }
+      ],
+      "status": "in_review",
+      "version": "0.1.0"
+    },
+    "OPS-RECEIPT-001@0.1.0": {
+      "behavior_fingerprint": "5eedf83f921de841e32a738e85b5e1d32d6b6506862acfabde9a8916a224fc94",
+      "change_class": "minor",
+      "depends_on": [
+        "OD-009@0.1.0"
+      ],
+      "fingerprint": "7fc24d0d2a7dca6f19298c33402e26323fc44580d83ef4d8ef12f4786f4b1d47",
+      "id": "OPS-RECEIPT-001",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-RECEIPT-001"
+        }
+      ],
+      "status": "in_review",
+      "version": "0.1.0"
+    },
+    "OPS-RECEIPT-002@0.1.0": {
+      "behavior_fingerprint": "3e6b41b202f1f699a848f1f8da4584ec05addf448d58ac63a06166d0146c65d4",
+      "change_class": "minor",
+      "depends_on": [
+        "OD-002@1.0.0",
+        "ORG-STRUCT-001@0.1.0",
+        "OPS-RECEIPT-001@0.1.0",
+        "OD-009@0.1.0",
+        "OD-031@0.1.0"
+      ],
+      "fingerprint": "c226b56a7fbf8c9482ed45241088b21060298375060084f60f082d2abbde846d",
+      "id": "OPS-RECEIPT-002",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-RECEIPT-002"
+        }
+      ],
+      "status": "in_review",
+      "version": "0.1.0"
+    },
+    "OPS-RECEIPT-003@0.1.0": {
+      "behavior_fingerprint": "bae35ccec26f59e1595c13a9e7154867c46d9f1acc80816c98ed7e36af80e74e",
+      "change_class": "major",
+      "depends_on": [
+        "OPS-RECEIPT-001@0.1.0",
+        "OD-005@0.1.0"
+      ],
+      "fingerprint": "3e4f6d543a544d2a8fafdd05742ac16706acf2335091458c239d533ab88908b7",
+      "id": "OPS-RECEIPT-003",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-RECEIPT-003"
+        }
+      ],
+      "status": "in_review",
+      "version": "0.1.0"
+    },
+    "ORG-COLLAB-001@0.1.0": {
+      "behavior_fingerprint": "e915b580d5a1fb8fd3860379ad9aca2f8f8ca76aecd1c3c9144b4844f2b5ef4b",
+      "change_class": "major",
+      "depends_on": [
+        "OD-002@1.0.0",
+        "ORG-STRUCT-001@0.1.0"
+      ],
+      "fingerprint": "be0c4ffabc11bf56c4cfe5eb0e90140094de49f3a4685faf2924e105ff47b8e1",
+      "id": "ORG-COLLAB-001",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "ORG-COLLAB-001"
+        }
+      ],
+      "status": "in_review",
+      "version": "0.1.0"
+    },
+    "ORG-STRUCT-001@0.1.0": {
+      "behavior_fingerprint": "fbad80d3feefc083871e248ed52f3fe591c228482181531ffa1df25a8ab25bef",
+      "change_class": "major",
+      "depends_on": [
+        "OD-002@1.0.0"
+      ],
+      "fingerprint": "433e35c3fb9057b943355fcdace4a4c70be3cf78d0d9a9136b5ea8f55d5393d0",
+      "id": "ORG-STRUCT-001",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "ORG-STRUCT-001"
+        }
+      ],
+      "status": "in_review",
+      "version": "0.1.0"
+    },
+    "REL-R1-RECEIVING-PILOT@0.1.0": {
+      "behavior_fingerprint": "5b8c6ff098ba7aa14a3d46aea9e874663620af8dcb5fc3d138d6f7c5ba6bbd96",
+      "change_class": "major",
+      "depends_on": [
+        "ED-001@0.1.0",
+        "OD-001@0.1.0",
+        "OD-002@1.0.0",
+        "OD-005@0.1.0",
+        "OD-009@0.1.0",
+        "ATC-REC-001@0.1.0",
+        "ATC-REC-002@0.1.0",
+        "ATC-REC-003@0.1.0",
+        "ATC-REC-004@0.1.0",
+        "ATC-REC-005@0.1.0",
+        "ATC-REC-006@0.1.0"
+      ],
+      "fingerprint": "a99ea5b7aa5849c75aaf02710baf5dd9a4763875138503404152a350abfdca3e",
+      "id": "REL-R1-RECEIVING-PILOT",
+      "kind": "release-baseline",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-001"
+        }
+      ],
+      "status": "proposed",
+      "version": "0.1.0"
+    },
+    "RULE-004@0.1.0": {
+      "behavior_fingerprint": "175d37d3f380e11aba6da2cfe831af85ddf53e1b5f01d528b826987c0b4112d6",
+      "change_class": "major",
+      "depends_on": [
+        "OPS-IDENTITY-002@0.1.0",
+        "OD-009@0.1.0"
+      ],
+      "fingerprint": "cb054b8410192f0763901e17288c00261684821100e6d097f3ac9f2c3d77ea5d",
+      "id": "RULE-004",
+      "kind": "rule",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "RULE-004"
+        }
+      ],
+      "status": "in_review",
+      "version": "0.1.0"
+    },
+    "RULE-026@0.1.0": {
+      "behavior_fingerprint": "c81c90486b72294de91e4937339fc6e61cffadef5b5ed1de2d782c9a09300271",
+      "change_class": "major",
+      "depends_on": [
+        "OD-025@0.1.0"
+      ],
+      "fingerprint": "cfaf997d49a1c94038e0e8fc07a08a206c8861db29eae1462237d5873e2ad1ad",
+      "id": "RULE-026",
+      "kind": "rule",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "RULE-026"
+        }
+      ],
+      "status": "in_review",
+      "version": "0.1.0"
+    },
+    "SEC-AUD-001@0.1.0": {
+      "behavior_fingerprint": "dbd57dadcf8b196ebf34aa040c3f0f8ee26813f04be1136ecb05c8cbfcb0749c",
+      "change_class": "minor",
+      "depends_on": [],
+      "fingerprint": "8aa132fc72a4ed56581ed96334e8200585c54b07581ce7f87024d2ff4aa48e7a",
+      "id": "SEC-AUD-001",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "SEC-AUD-001"
+        }
+      ],
+      "status": "in_review",
+      "version": "0.1.0"
+    },
+    "SEC-AUTH-001@0.1.0": {
+      "behavior_fingerprint": "c0c87ed8a4d5ae22d41efb14efd900c7d8d482977f7b6b94ab6fd2ceb0a08f54",
+      "change_class": "major",
+      "depends_on": [
+        "OD-002@1.0.0",
+        "ORG-STRUCT-001@0.1.0",
+        "OD-032@0.1.0"
+      ],
+      "fingerprint": "9f69be78d53d464ceb7e990b8e9e3afb023c9460c43d3f729d0383959f6fcd76",
+      "id": "SEC-AUTH-001",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "SEC-AUTH-001"
+        }
+      ],
+      "status": "in_review",
+      "version": "0.1.0"
+    },
+    "SEC-DEPLOY-001@0.1.0": {
+      "behavior_fingerprint": "e888abd7210e646ca43c15882dd27531cac46a1899fb17b884a5aac43bc7fcb1",
+      "change_class": "major",
+      "depends_on": [
+        "OD-002@1.0.0"
+      ],
+      "fingerprint": "e02276ed1c4adf94c80a9a4efa44000e4a914d387d6d3b0a293635b0045dc92e",
+      "id": "SEC-DEPLOY-001",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "SEC-DEPLOY-001"
+        }
+      ],
+      "status": "in_review",
+      "version": "0.1.0"
+    }
+  }
+}

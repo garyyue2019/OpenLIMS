@@ -1,0 +1,20 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "decision",
+  "id": "OD-005",
+  "version": "0.1.0",
+  "status": "proposed",
+  "title": "条件接收与身份异常审批矩阵",
+  "summary": "定义超温、身份疑似、危险属性、复合样和复测等场景的决定类型、授权角色、必需证据及可进入的后续动作。",
+  "owners": ["实验室负责人", "质量负责人", "EHS负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "OD-005"}],
+  "depends_on": [],
+  "affects": ["receiving", "identity", "exception", "sample-preparation", "task-allocation"],
+  "change_class": "major",
+  "decision_state": "open",
+  "options": ["仅已接收允许进入执行", "条件接收按逐项限制放行", "按危险/温控/身份场景分别配置"],
+  "decision": null,
+  "blocking_scope": ["解除隔离", "条件接收", "异常后续动作", "制样与任务分配门禁"],
+  "exit_criteria": ["逐场景批准岗位明确", "必需证据明确", "状态与允许动作矩阵签字"]
+}

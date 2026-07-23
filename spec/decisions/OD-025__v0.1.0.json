@@ -1,0 +1,20 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "decision",
+  "id": "OD-025",
+  "version": "0.1.0",
+  "status": "proposed",
+  "title": "平台内核、行业包与技术包边界",
+  "summary": "冻结扩展契约、版本策略、兼容矩阵责任和客户配置不得越过的内核边界。",
+  "owners": ["产品负责人", "架构负责人", "技术负责人", "质量负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "OD-025"}],
+  "depends_on": ["OD-001@0.1.0"],
+  "affects": ["modular-monolith", "industry-packs", "technical-packs", "configuration"],
+  "change_class": "major",
+  "decision_state": "open",
+  "options": ["内核加正交扩展平面", "行业垂直模块", "客户隔离扩展"],
+  "decision": null,
+  "blocking_scope": ["模块接口", "包版本", "迁移策略", "契约测试"],
+  "exit_criteria": ["模块职责矩阵批准", "版本兼容策略批准", "禁止侵入规则可测试"]
+}

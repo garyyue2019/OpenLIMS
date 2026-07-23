@@ -1,0 +1,26 @@
+# Python caches and local environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+
+# Local secrets and editor/OS state
+.env
+.env.*
+!.env.example
+*.local
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+~$*
+
+# Local planning session selector (plans themselves remain versioned)
+.planning/.active_plan

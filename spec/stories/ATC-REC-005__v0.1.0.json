@@ -1,0 +1,87 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "story",
+  "id": "ATC-REC-005",
+  "version": "0.1.0",
+  "status": "proposed",
+  "target_release": "REL-R1-RECEIVING-PILOT@0.1.0",
+  "epic_id": "EP-RECEIVING",
+  "feature_id": "FEAT-REC-EXCEPTION",
+  "title": "处理收样异常并执行授权决定",
+  "summary": "对数量、温度、破损、污染、标签和身份异常建立受控决定；不得自动降低范围或默认条件接收。",
+  "owners": ["质量产品负责人", "实验室负责人", "EHS负责人", "QA负责人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "OD-002"},
+    {"document": "PRD-MAIN", "item": "OPS-EXC-001"},
+    {"document": "PRD-MAIN", "item": "OPS-EXC-002"},
+    {"document": "PRD-MAIN", "item": "OD-005"}
+  ],
+  "depends_on": [
+    "ATC-REC-004@0.1.0",
+    "OD-002@1.0.0",
+    "OPS-EXC-001@0.1.0",
+    "OPS-EXC-002@0.1.0",
+    "OD-005@0.1.0",
+    "SEC-AUTH-001@0.1.0",
+    "SEC-AUD-001@0.1.0"
+  ],
+  "affects": ["exception", "receiving", "identity", "scope-change", "authorization", "audit", "automated-test"],
+  "change_class": "major",
+  "body": {
+    "readiness": "blocked",
+    "business_outcome": "收样异常有明确责任方、证据、影响和授权决定；系统不会为了推进订单而静默缩小范围、延长有效期或默认接受风险。",
+    "actor": "收样员发起，质量、技术、EHS或客户合同授权人按 OD-005 矩阵处理",
+    "preconditions": ["OD-005 已批准逐场景审批矩阵", "异常分类、严重度、SLA和客户等待计时规则已批准", "关联实物、委托、范围和证据版本已固定"],
+    "trigger": "收样或身份评估发现数量不足、超温、破损、污染、标签冲突、身份错配或超时",
+    "happy_path": [
+      "创建唯一 Exception 并固定发现事实和证据",
+      "根据分类和风险计算责任方、可选决定和必需批准",
+      "授权人选择待客户指令、条件接收、拒收、安全封存、退回或发起范围/补样变更",
+      "决定引用 OD-005 版本、限制条件、有效期、证据和批准人",
+      "任何范围变化创建独立 ScopeChange，不回写冻结范围",
+      "决定通过事务发件箱通知受影响模块"
+    ],
+    "failure_paths": [
+      "不在授权矩阵内的用户不能提交决定",
+      "缺少温度记录、照片、客户确认等必需证据时保持开放",
+      "条件接收限制为空或适用性 UNKNOWN 时阻断",
+      "尝试直接降低范围、延长期限或关闭异常而无决定时拒绝",
+      "并发决定只允许一个基于期望版本成功",
+      "通知失败不回滚已批准决定，但进入事务发件箱重试和差异队列"
+    ],
+    "invariants": [
+      "异常事实与决定分离且历史不可变",
+      "异常关闭不删除原始证据",
+      "条件接收不能隐含允许全部下游动作",
+      "范围变化只通过版本化变更单",
+      "UNKNOWN 适用性默认阻断"
+    ],
+    "data_contract": {
+      "exception": ["type", "severity", "objectRefs", "observedAt", "evidenceRefs", "impactCandidate", "status"],
+      "decision": ["decisionType", "matrixVersion", "constraints", "validUntil", "requiredApprovals", "evidenceRefs", "rationale"],
+      "decisionTypes": ["AWAIT_CUSTOMER", "CONDITIONAL_ACCEPT", "REJECT", "SAFETY_HOLD", "RETURN", "REQUEST_RESAMPLE", "REQUEST_SCOPE_CHANGE"]
+    },
+    "api_contract": {
+      "operations": ["POST /api/v1/exceptions", "POST /api/v1/exceptions/{id}/decisions", "POST /api/v1/exceptions/{id}/close"],
+      "errors": ["DECISION_NOT_AUTHORIZED", "DECISION_EVIDENCE_INCOMPLETE", "APPLICABILITY_UNKNOWN", "SCOPE_CHANGE_REQUIRED", "EXPECTED_VERSION_CONFLICT"]
+    },
+    "state_transitions": ["Exception: OPEN -> UNDER_REVIEW -> DECIDED -> CLOSED", "决定可使 ReceivedItem 进入 AWAITING_CUSTOMER、CONDITIONAL_ACCEPTED、REJECTED、SAFETY_HOLD 或 RETURN_PENDING", "决定不得直接伪造 ACCEPTED"],
+    "permissions": ["按异常类型、严重度、实验室、客户和有效期校验授权", "发起人与最终批准人的职责分离按 OD-005 执行", "EHS安全封存不能被普通质量角色解除", "客户确认只代表客户意图，不替代实验室技术批准"],
+    "audit": ["记录异常事实、每次决定候选、批准、拒绝、撤回和关闭", "保留规则矩阵版本、批准链、证据哈希和影响对象", "接口通知与重放单独审计"],
+    "ui_states": ["异常工作台按风险和等待责任方分组", "决定选项由矩阵过滤但服务端再次校验", "缺少证据显示逐项阻断", "条件接收显示限制和到期时间", "范围变更以独立链接展示而非直接编辑"],
+    "observability": ["指标 receiving_exception_open_total 和 decision_lead_time_seconds", "客户等待与内部等待分别计时", "高风险异常超 SLA 告警", "事务发件箱失败进入差异队列"],
+    "test_cases": [
+      {"id": "TC-REC-005-01", "title": "数量不足", "type": "positive", "given": ["实物数量低于批准样品需求"], "when": ["收样员创建异常"], "then": ["异常保持开放", "不得自动缩减范围", "提供补样或范围变更受控路径"]},
+      {"id": "TC-REC-005-02", "title": "无证据条件接收", "type": "negative", "given": ["超温异常缺少温度记录和技术影响评估"], "when": ["尝试条件接收"], "then": ["返回DECISION_EVIDENCE_INCOMPLETE", "保持隔离"]},
+      {"id": "TC-REC-005-03", "title": "未知适用性", "type": "boundary", "given": ["异常类型未配置批准矩阵"], "when": ["提交决定"], "then": ["返回APPLICABILITY_UNKNOWN", "默认阻断并告警"]},
+      {"id": "TC-REC-005-04", "title": "越权批准", "type": "security", "given": ["用户不在该严重度审批范围"], "when": ["批准条件接收"], "then": ["服务端拒绝", "状态不变", "记录越权尝试"]},
+      {"id": "TC-REC-005-05", "title": "并发决定", "type": "concurrency", "given": ["两名批准人读取同一版本"], "when": ["分别提交冲突决定"], "then": ["最多一笔成功", "另一笔版本冲突"]},
+      {"id": "TC-REC-005-06", "title": "通知恢复", "type": "recovery", "given": ["决定已提交但下游通知暂时失败"], "when": ["发件箱重试"], "then": ["决定不重复", "下游只生效一次", "差异队列关闭"]}
+    ],
+    "non_goals": ["不决定 OD-005 的矩阵内容", "不实现完整 CAPA/QMS", "不允许直接编辑冻结 TestScopeMatrix", "不以客户同意替代技术和质量批准"],
+    "allowed_paths": ["src/modules/exception/**", "src/modules/receiving/public-contracts/**", "src/modules/test-scope/public-contracts/**", "contracts/exception/**", "apps/web/exceptions/**", "tests/exception/**"],
+    "verification_commands": ["python -m tools.specgen check", "TECH_STACK_TEST_COMMAND_REQUIRED_BY_ED-001", "DECISION_MATRIX_TEST_REQUIRED_BY_OD-005", "OUTBOX_IDEMPOTENCY_TEST_REQUIRED"],
+    "definition_of_done": ["异常分类和决定均版本化", "自动缩减范围和默认条件接收的反向测试通过", "权限、职责分离、并发、恢复和审计测试通过", "UNKNOWN 默认阻断", "下游通知幂等", "追踪矩阵完整"]
+  }
+}

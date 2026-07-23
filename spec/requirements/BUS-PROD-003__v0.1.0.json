@@ -1,0 +1,18 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-PROD-003",
+  "version": "0.1.0",
+  "status": "in_review",
+  "title": "被业务引用的产品版本禁止原地修改",
+  "summary": "已被委托、范围、任务或报告引用的产品或变体版本不可原地编辑；变化必须形成新版本和影响评估。",
+  "owners": ["产品数据所有者", "技术负责人", "质量负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "BUS-PROD-003"}],
+  "depends_on": ["RULE-026@0.1.0"],
+  "affects": ["product", "product-variant", "versioning", "impact-analysis", "evidence"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "UNKNOWN", "condition": "产品版本和冻结引用契约批准后启用"},
+  "invariants": ["已引用版本不可变", "新版本不自动替换在制引用", "影响评估引用旧版和新版差异"]
+}

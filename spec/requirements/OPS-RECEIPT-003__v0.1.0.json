@@ -1,0 +1,18 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "OPS-RECEIPT-003",
+  "version": "0.1.0",
+  "status": "in_review",
+  "title": "身份评估完成前保持隔离",
+  "summary": "实物进入实验室后默认隔离；身份评估和授权决定未满足时，拆解、制样和检测分配必须失败关闭。",
+  "owners": ["收样负责人", "质量负责人", "领域负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "OPS-RECEIPT-003"}],
+  "depends_on": ["OPS-RECEIPT-001@0.1.0", "OD-005@0.1.0"],
+  "affects": ["receiving", "identity", "sample-preparation", "task-allocation", "audit"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "UNKNOWN", "condition": "OD-005 批准解除隔离和条件接收矩阵后启用"},
+  "invariants": ["隔离是服务端领域门禁而非页面按钮", "阻断不得改变实物状态", "失败必须记录追加式审计事件"]
+}

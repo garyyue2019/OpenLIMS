@@ -1,0 +1,18 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "rule",
+  "id": "RULE-004",
+  "version": "0.1.0",
+  "status": "in_review",
+  "title": "身份映射、任务使用与代表性分离",
+  "summary": "一个物理对象可以映射实际存在的多个特征，但任务使用必须通过 TestObjectAllocation，代表性必须通过 CoverageDecision，归属歧义必须阻断。",
+  "owners": ["技术负责人", "质量负责人", "领域负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "RULE-004"}],
+  "depends_on": ["OPS-IDENTITY-002@0.1.0", "OD-009@0.1.0"],
+  "affects": ["identity", "task-allocation", "coverage", "lineage"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "UNKNOWN", "condition": "身份粒度、任务分配和覆盖对象契约批准后启用"},
+  "failure_policy": "BLOCK"
+}

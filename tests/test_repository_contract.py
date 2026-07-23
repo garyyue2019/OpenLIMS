@@ -37,6 +37,11 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertEqual(0, result.returncode, result.stderr.decode("utf-8", errors="replace"))
         self.assertIn("个规格版本", result.stdout.decode("utf-8"))
 
+    def test_git_checkout_keeps_deterministic_lf_bytes(self) -> None:
+        attributes = (ROOT / ".gitattributes").read_text(encoding="utf-8")
+        self.assertIn("* text=auto eol=lf", attributes)
+        self.assertIn("*.pptx -text", attributes)
+
     def test_expected_bootstrap_artifacts_exist(self) -> None:
         tasks = sorted((ROOT / "generated" / "spec" / "tasks").glob("*.md"))
         features = sorted((ROOT / "generated" / "spec" / "features").glob("*.feature"))

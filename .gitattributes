@@ -1,0 +1,5 @@
+# Keep deterministic specification inputs and generated artifacts byte-stable.
+* text=auto eol=lf
+
+# Office deliverables are binary and must never receive line-ending conversion.
+*.pptx -text

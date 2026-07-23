@@ -1,0 +1,37 @@
+<Solution>
+  <Folder Name="/contracts/" />
+  <Folder Name="/contracts/platform/">
+    <Project Path="contracts/platform/OpenLIMS.Contracts.Platform/OpenLIMS.Contracts.Platform.csproj" />
+  </Folder>
+  <Folder Name="/src/" />
+  <Folder Name="/src/building-blocks/">
+    <Project Path="src/building-blocks/OpenLIMS.BuildingBlocks.Platform/OpenLIMS.BuildingBlocks.Platform.csproj" />
+  </Folder>
+  <Folder Name="/src/host/" />
+  <Folder Name="/src/host/api/">
+    <Project Path="src/host/api/OpenLIMS.Api/OpenLIMS.Api.csproj" />
+  </Folder>
+  <Folder Name="/src/host/worker/">
+    <Project Path="src/host/worker/OpenLIMS.Worker/OpenLIMS.Worker.csproj" />
+  </Folder>
+  <Folder Name="/tests/" />
+  <Folder Name="/tests/architecture/">
+    <Project Path="tests/architecture/OpenLIMS.ArchitectureTests/OpenLIMS.ArchitectureTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/contract/" />
+  <Folder Name="/tests/contract/platform/">
+    <Project Path="tests/contract/platform/OpenLIMS.Platform.ContractTests/OpenLIMS.Platform.ContractTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/e2e/" />
+  <Folder Name="/tests/e2e/smoke/">
+    <Project Path="tests/e2e/smoke/OpenLIMS.Platform.SmokeTests/OpenLIMS.Platform.SmokeTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/integration/" />
+  <Folder Name="/tests/integration/platform/">
+    <Project Path="tests/integration/platform/OpenLIMS.Platform.IntegrationTests/OpenLIMS.Platform.IntegrationTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/unit/" />
+  <Folder Name="/tests/unit/platform/">
+    <Project Path="tests/unit/platform/OpenLIMS.Platform.UnitTests/OpenLIMS.Platform.UnitTests.csproj" />
+  </Folder>
+</Solution>

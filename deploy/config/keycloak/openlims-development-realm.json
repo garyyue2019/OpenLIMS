@@ -1,0 +1,109 @@
+{
+  "realm": "openlims-development",
+  "enabled": true,
+  "displayName": "OpenLIMS Development",
+  "clientScopes": [
+    {
+      "name": "openlims-api-audience",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "false",
+        "display.on.consent.screen": "false"
+      },
+      "protocolMappers": [
+        {
+          "name": "openlims-api audience",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "consentRequired": false,
+          "config": {
+            "included.client.audience": "openlims-api",
+            "access.token.claim": "true",
+            "id.token.claim": "false",
+            "introspection.token.claim": "true"
+          }
+        },
+        {
+          "name": "organization_group",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.attribute": "organization_group",
+            "claim.name": "organization_group",
+            "jsonType.label": "String",
+            "access.token.claim": "true",
+            "id.token.claim": "true",
+            "userinfo.token.claim": "true",
+            "introspection.token.claim": "true"
+          }
+        }
+      ]
+    }
+  ],
+  "clients": [
+    {
+      "clientId": "openlims-api",
+      "name": "OpenLIMS API development audience",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "bearerOnly": true,
+      "publicClient": false,
+      "standardFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false
+    },
+    {
+      "clientId": "openlims-web",
+      "name": "OpenLIMS Web development PKCE client",
+      "enabled": true,
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "attributes": {
+        "pkce.code.challenge.method": "S256"
+      },
+      "defaultClientScopes": ["profile", "email", "roles", "web-origins", "openlims-api-audience"],
+      "redirectUris": ["http://localhost:5173/*"],
+      "webOrigins": ["http://localhost:5173"]
+    },
+    {
+      "clientId": "openlims-ci",
+      "name": "OpenLIMS disposable integration-test client",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "secret": "synthetic-development-ci-secret",
+      "standardFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": true,
+      "defaultClientScopes": ["profile", "roles", "openlims-api-audience"]
+    }
+  ],
+  "users": [
+    {
+      "username": "dev.operator",
+      "enabled": true,
+      "emailVerified": true,
+      "attributes": {
+        "organization_group": ["development-group"]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "synthetic-development-only-password",
+          "temporary": true
+        }
+      ]
+    },
+    {
+      "username": "service-account-openlims-ci",
+      "enabled": true,
+      "serviceAccountClientId": "openlims-ci",
+      "attributes": {
+        "organization_group": ["development-group"]
+      }
+    }
+  ]
+}

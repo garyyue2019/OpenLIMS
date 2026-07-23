@@ -1,0 +1,12 @@
+.git
+.github
+.planning
+**/bin
+**/obj
+**/node_modules
+**/TestResults
+apps/web/coverage
+apps/web/dist
+generated
+outputs
+spec

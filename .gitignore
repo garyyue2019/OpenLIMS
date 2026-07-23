@@ -9,6 +9,20 @@ htmlcov/
 .venv/
 venv/
 
+# .NET build outputs and test artifacts
+**/bin/
+**/obj/
+**/TestResults/
+artifacts/
+
+# Node and frontend outputs
+node_modules/
+.pnpm-store/
+apps/web/dist/
+apps/web/coverage/
+apps/web/playwright-report/
+apps/web/test-results/
+
 # Local secrets and editor/OS state
 .env
 .env.*

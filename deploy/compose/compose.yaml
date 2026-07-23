@@ -1,0 +1,74 @@
+name: openlims-development
+
+services:
+  postgres:
+    image: postgres:18.4-alpine@sha256:9a8afca54e7861fd90fab5fdf4c42477a6b1cb7d293595148e674e0a3181de15
+    environment:
+      POSTGRES_DB: ${OPENLIMS_POSTGRES_DATABASE:?set OPENLIMS_POSTGRES_DATABASE}
+      POSTGRES_USER: ${OPENLIMS_POSTGRES_USER:?set OPENLIMS_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${OPENLIMS_POSTGRES_PASSWORD:?set OPENLIMS_POSTGRES_PASSWORD}
+    ports:
+      - "${OPENLIMS_POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - openlims-postgres-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 10s
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.4.1@sha256:bbb299c7e58a2c61c683dc3439da3e2698e005ca88ba6fd249629311d70250ab
+    command: start-dev --import-realm
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: ${OPENLIMS_KEYCLOAK_ADMIN_USER:?set OPENLIMS_KEYCLOAK_ADMIN_USER}
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${OPENLIMS_KEYCLOAK_ADMIN_PASSWORD:?set OPENLIMS_KEYCLOAK_ADMIN_PASSWORD}
+      KC_HEALTH_ENABLED: "true"
+    ports:
+      - "${OPENLIMS_KEYCLOAK_PORT:-8080}:8080"
+    volumes:
+      - ../config/keycloak:/opt/keycloak/data/import:ro
+    healthcheck:
+      test: ["CMD-SHELL", "exec 3<>/dev/tcp/127.0.0.1/9000; printf 'GET /health/ready HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n' >&3; grep -q '200 OK' <&3"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
+
+  minio:
+    image: minio/minio:RELEASE.2025-09-07T16-13-09Z@sha256:14cea493d9a34af32f524e538b8346cf79f3321eff8e708c1e2960462bd8936e
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${OPENLIMS_MINIO_ROOT_USER:?set OPENLIMS_MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${OPENLIMS_MINIO_ROOT_PASSWORD:?set OPENLIMS_MINIO_ROOT_PASSWORD}
+    ports:
+      - "${OPENLIMS_MINIO_PORT:-9000}:9000"
+      - "${OPENLIMS_MINIO_CONSOLE_PORT:-9001}:9001"
+    volumes:
+      - openlims-minio-data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:9000/minio/health/live"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 10s
+
+  minio-bootstrap:
+    image: minio/mc:RELEASE.2025-08-13T08-35-41Z@sha256:a7fe349ef4bd8521fb8497f55c6042871b2ae640607cf99d9bede5e9bdf11727
+    depends_on:
+      minio:
+        condition: service_healthy
+    environment:
+      OPENLIMS_MINIO_ROOT_USER: ${OPENLIMS_MINIO_ROOT_USER:?set OPENLIMS_MINIO_ROOT_USER}
+      OPENLIMS_MINIO_ROOT_PASSWORD: ${OPENLIMS_MINIO_ROOT_PASSWORD:?set OPENLIMS_MINIO_ROOT_PASSWORD}
+      OPENLIMS_MINIO_BUCKET: ${OPENLIMS_MINIO_BUCKET:?set OPENLIMS_MINIO_BUCKET}
+    entrypoint: >-
+      /bin/sh -ec 'mc alias set local http://minio:9000 "$${OPENLIMS_MINIO_ROOT_USER}" "$${OPENLIMS_MINIO_ROOT_PASSWORD}";
+      mc mb --ignore-existing "local/$${OPENLIMS_MINIO_BUCKET}";
+      mc anonymous set none "local/$${OPENLIMS_MINIO_BUCKET}"'
+    restart: "no"
+
+volumes:
+  openlims-postgres-data:
+  openlims-minio-data:

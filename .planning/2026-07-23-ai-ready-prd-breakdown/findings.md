@@ -1,6 +1,8 @@
 # Findings & Decisions
 
 ## Requirements
+- 2026-07-23 用户明确要求停止继续扩写治理文档，并授权执行`DEV-001`实际工程骨架；同时授权主代理使用多个子代理处理简单、边界明确的实现任务，复杂架构、领域和集成由主代理负责。
+- DEV-001本轮按明确批准的工程Spike处理：只实现代码、数据库/运行配置、测试和必要工程说明，不修改`spec/`、`generated/spec/`或现有审批材料，不把Spike结果表示为生产Ready。
 - 2026-07-23 用户明确要求“提交并发布”；这授权把当前完整工作区提交到现有Git仓库并推送`origin/main`，但不授权填写33个评审角色槽、补造15项技术锁或提升任何`proposed/in_review/blocked`规格状态。
 - 2026-07-23 用户逐项明确选择：RV-PLT-001接受依赖分离，002接受推荐技术栈并要求精确锁定，003接受模块化单体边界，004接受非生产合成验证环境，005接受单集团独立部署隔离契约，006采用审计方案A，007接受供应链门禁，008接受工程骨架任务范围。该输入记录为`USER_CONFIRMED_PENDING_CONTROLLED_IDENTITY_AND_ROLE_APPROVAL`，不是33个角色槽的正式批准。
 - 2026-07-23 用户同意按“联合评审→责任人证据与技术锁→批准后继版本→Ready→实现”的顺序推进；该授权只启动评审流程，不代表RV-PLT-001至008中的任何一项ACCEPT，也未提供受控身份、角色授权或签名证据。
@@ -26,6 +28,16 @@
 - 必须控制“规范源变化后派生文件同步变化”，同时防止自动覆盖手写业务代码、历史迁移和已批准证据。
 
 ## Research Findings
+- 前端工具代理锁定的Vite 7.1.7和Vitest 3.2.4在当前审计库中分别存在高危/严重漏洞；同主版本修复版7.3.6和3.2.7可在不改变技术选择的情况下清零已知漏洞，供应链审计必须在首次锁定后再执行。
+- Ant Design Vue的`Layout`和`Descriptions`父插件会自动注册Header/Content/Footer/Item子组件；子组件没有install函数，不能再调用`.use()`或重复`.component()`，否则浏览器控制台产生warning。
+- 真实浏览器验证确认Web同源配置`apiBaseUrl=/`与Vite `/health`代理可正确连接127.0.0.1:5080 API；状态页展示后端生成的关联ID，且没有业务导航或业务数据。
+- DEV-001 Spike的真实边界：API/Worker/Web/锁/测试/Compose/CI已存在并可启动，但当前`/health/ready`只证明空Host配置与进程就绪；它没有探测PostgreSQL、Keycloak、MinIO，也没有实现OIDC、对象存储操作、迁移、Outbox/Inbox持久化或检测业务。
+- 最终依赖安全结果为NuGet和pnpm均0已知漏洞；pnpm锁文件中的peer/engine范围是上游兼容元数据，不是我们的直接浮动声明，直接依赖精确性应从package.json、Directory.Packages.props和镜像digest判断。
+- Docker Registry核验结果：`postgres:18.4-alpine`、`quay.io/keycloak/keycloak:26.4.1`和`minio/minio:RELEASE.2025-09-07T16-13-09Z`均存在，可分别固定manifest digest；代理初选的MinIO 2025-10-15标签不存在，不能进入可运行Compose。
+- PostgreSQL 18官方容器的数据卷边界应挂载`/var/lib/postgresql`而不是旧版常用的`/var/lib/postgresql/data`；Compose已按18+布局修正，避免升级和初始化路径错误。
+- GitHub Actions应以commit SHA引用而不是tag：checkout v4.2.2、setup-dotnet v4.3.1、setup-node v4.4.0和setup-python v5.6.0的tag均已通过GitHub API解析到不可变commit。
+- `Microsoft.AspNetCore.OpenApi 10.0.10`的默认传递`Microsoft.OpenApi 2.0.0`以及中央覆盖2.4.1会被NuGet Audit以NU1903阻断；Spike保持SCA警告即错误，中央精确覆盖到后端已验证兼容的3.5.1。
+- 当前本机没有Docker；Node/pnpm可用，但只安装.NET SDK 9.0.305。工程骨架不得因此静默改为`net9.0`，应获取并固定仓库本地.NET 10 SDK，Docker编排可以实现和静态校验，但容器集成验证必须如实标记为未在本机运行。
 - 发起人方案选择应记录在`ATC-PLT-000-JOINT-APPROVAL-PACKET.md`的独立选择区，而不修改正式签署对象`ATC-PLT-000-NEXT-VERSION-CHANGESET.md`：后者的SHA已被33条PENDING记录引用，当前选择没有改变变更集正文，也不具备受控身份/角色授权，不应触发正式记录哈希迁移。
 - 联合评审包可把8项选择标记为`USER_CONFIRMED_PENDING_CONTROLLED_IDENTITY_AND_ROLE_APPROVAL`；其自身SHA侧车需随正文更新，但评审CSV必须继续保持`decision=PENDING/record_status=DRAFT`。
 - Review Status最终门禁语义已由40项测试和真实仓库验证：当前返回exit 4而非错误；正文/CSV结构或哈希无效才返回exit 2；模拟完整受控ACCEPT与VERIFIED锁时返回EVIDENCE_READY/exit 0。
@@ -226,3 +238,38 @@
 - `D:\FHJTFS\OpenLIMS\docs\ai-development\README.md`
 - `D:\FHJTFS\OpenLIMS\generated\spec\readiness-report.md`
 - `D:\FHJTFS\OpenLIMS\generated\spec\tasks\ATC-REC-003__v0.1.0.md`
+
+## DEV-001B 基础依赖与登录集成（2026-07-24）
+- 当前分支为 `codex/dev-001-engineering-skeleton`，DEV-001 工程骨架尚未提交，需作为本包实现基线保留。
+- 前置规格门禁通过：59个规格版本、389个来源条目有效，来源无漂移，影响图为空。
+- `ATC-PLT-000@1.0.0` 仍因自身状态及ED/SEC/NFR/AC依赖返回BLOCKED；用户已明确批准继续下一个基础设施集成任务包，因此本轮只能作为Spike推进，不得宣称Story Ready或生产可用。
+- 本包目标限定为PostgreSQL、Keycloak、MinIO真实适配、外部readiness、OIDC登录和基础持久化，不实现LIMS业务模块。
+- `ATC-PLT-000@1.0.0` 的allowed_paths已覆盖Host、building-blocks、平台契约、Web、平台测试、Compose/配置、验证脚本、应用CI和必要工程说明；本包无需修改规格扩大路径。
+- 现有集中包版本已包含EF Core、Npgsql和OpenTelemetry，但尚无JWT Bearer、OIDC前端客户端或S3 SDK；新增依赖必须精确锁定并重新生成锁文件。
+- Compose已有固定digest的PostgreSQL 18.4、Keycloak 26.4.1和MinIO，Keycloak realm当前只有公共Web客户端，尚缺API audience/claims、合成用户及MinIO初始化。
+- 本机锁定工具链可用：.NET SDK 10.0.302 / runtime 10.0.10、Node 24.14.1、pnpm 10.34.5。
+- NuGet官方索引核对后固定`Microsoft.AspNetCore.Authentication.JwtBearer 10.0.10`和`AWSSDK.S3 4.0.101.4`；版本写入中央清单，后续用锁定恢复和漏洞审计验证。
+- 本机没有Docker/Podman Engine，也没有Java、PostgreSQL或MinIO本地服务；依赖真实启动无法在当前机器直接执行，必须通过可复现Compose/CI路径或安装新的外部运行时后验证，不能把静态配置检查描述成已启动验证。
+- 前端代理已完成`oidc-client-ts 3.5.0`的Authorization Code + PKCE会话壳、回调、登出、Bearer调用和9项测试；根pnpm锁仍由主代理统一更新。
+- 前端初版OIDC authority只允许HTTPS，和本地Keycloak的`http://localhost:8080`冲突；集成时需采用“生产HTTPS，开发仅允许loopback HTTP”的确定性校验，不能放宽到任意明文IdP。
+- OIDC回调初版安全忽略外部returnTo但总是回首页；可在不信任URL的前提下恢复经过校验的本地returnTo，提升登录后回到原技术页面的体验。
+- 后端初版已加入JWT、三依赖探测、S3端口和显式迁移入口，但迁移只创建history表，`IOutboxWriter`/`IInboxDeduplicator`/`IAuditIntentWriter`仍无生产适配；必须补实际PostgreSQL表与实现，不能用测试夹具冒充完成。
+- 后端初版OIDC discovery使用可能缺尾斜杠的BaseAddress加相对路径，存在解析到错误realm路径的风险；应显式构造`{authority}/.well-known/openid-configuration`。
+- 后端readiness缺独立总超时/分依赖超时；配置模板已有超时字段但代码未绑定。需确保每次探测失败关闭且不无限挂起。
+- Web状态页初版仍请求匿名`/health/ready`，因此不会真实验证登录令牌、401/403或集团claim；应改为请求受保护且复用依赖探测的`/system/status`。
+- 运行配置模板使用`*SecretRef`/`*BucketRef`字段，而Host初版绑定实际ConnectionString/Bucket/AccessKey/SecretKey，当前文档命令无法启动；集成阶段必须统一真实绑定名并继续禁止把Secret写入仓库。
+- CI已增加三依赖启动smoke和镜像digest审计，但尚未启动应用、执行迁移或验证JWT/对象存储/API readiness；当前只能证明依赖容器配置，不能证明端到端集成。
+- 主集成新增`tests/e2e/smoke`独立可执行探针，由CI在真实三依赖启动后验证迁移、readiness、Outbox/Audit原子提交与回滚、Inbox并发去重及MinIO上传/读取/删除；普通单元/契约测试不因本机缺Docker而静默跳过。
+- 首次前端整体验证12项测试全绿，但pnpm明确提示esbuild构建脚本未获批准且单块产物约550KB；将显式只批准锁定的esbuild脚本，并把身份客户端/UI依赖拆为独立chunk后复验。
+- NuGet全解决方案（含传递依赖）与pnpm高危门槛审计均为0个已知漏洞；Keycloak realm静态语义确认Web仅PKCE S256且禁Direct Grant，CI服务账户只使用合成Secret并携带单集团claim。
+- CI的镜像锁审计初版只要求“至少一行匹配digest”，已收紧为逐镜像校验；新增NuGet JSON递归漏洞门禁，避免只打印清单却不失败。
+- 真实浏览器验证通过：`/`呈现未登录状态和唯一登录入口；通过可见系统状态链接进入`/system/status`后收到后端真实401并显示`AUTH.AUTHENTICATION_REQUIRED`与关联ID；页面无集团选择器、无密码输入、无console warning/error。
+- 由于本机无Keycloak，未点击登录向不可用IdP发起跳转，也未宣称浏览器回调完成；真实PKCE回调仍由可启动Compose环境执行。
+- Keycloak 26健康端点默认位于容器内部management端口9000，CI不能从映射的8080主端口请求`/health/ready`；外部Smoke已改为请求realm discovery，容器就绪仍由内部9000 healthcheck负责。
+- DEV-001B终审结论：不修改任何spec/generated/PRD/decision-packets，不创建业务模块；本机可验证范围全部通过。唯一环境性未执行项是三依赖真实容器启动和PKCE完整回调，已在应用CI中形成确定性执行链，但需分支提交推送后由GitHub runner实际产生证据。
+
+## DEV-001/DEV-001B GitHub发布（2026-07-24）
+- 用户接受建议，明确授权提交并推送当前`codex/dev-001-engineering-skeleton`分支，以触发GitHub Actions真实依赖Smoke。
+- 远端为`https://github.com/garyyue2019/OpenLIMS.git`；发布目标是远端同名开发分支，不直接合并`main`。
+- 提交前前置门禁再次通过：59个规格版本、389个来源，source current、impact为空；`ATC-PLT-000@1.0.0`仍按预期以退出码4返回BLOCKED，发布不提升任何规格状态。
+- 发布前完整规格与应用验证再次全绿；当前可以进入范围审计、暂存和提交，不需要修改任何实现或门禁。

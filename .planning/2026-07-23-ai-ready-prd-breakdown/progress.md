@@ -1,5 +1,42 @@
 # Progress Log
 
+## 2026-07-23 DEV-001 工程骨架 Spike
+
+### Phase 40: DEV-001 Spike 边界与环境
+- **Status:** in_progress
+- 用户明确要求停止扩写治理文档、按开发任务包开始实际编码，并授权主代理把边界清楚的任务交给子代理并行处理。
+- 本轮把该指令作为工程骨架Spike的明确批准：允许实现可运行底座，但不修改`spec/`、`generated/spec/`、既有治理材料或任何规格审批状态，也不引入检测业务默认值。
+- 前置门禁通过：59个规格/389个来源有效，source current，impact为空；`ATC-PLT-000@1.0.0`仍按仓库事实返回BLOCKED/exit 4。
+- 工作区起点干净，当前`main`位于`13fe3ff`；尚未创建应用代码。
+- 本机工具链：Python可用，Node `v24.14.1`、npm `11.11.0`、pnpm `11.9.0`；仅有.NET SDK `9.0.305`，没有目标.NET 10；Docker命令不可用。
+- 已从Microsoft官方10.0发布元数据确认当前LTS精确版本为SDK `10.0.302`、Runtime `10.0.10`，并将SDK安装到用户本地`%LOCALAPPDATA%\OpenLIMS\dotnet`；未覆盖系统SDK、未提交二进制。
+- 已创建`codex/dev-001-engineering-skeleton`分支；根工程固定.NET SDK、集中NuGet版本、Node `24.14.1`与pnpm `10.34.5`，空`.slnx`和pnpm工作区均通过工具验证。
+- 允许路径确认只覆盖Host、Building Blocks、平台契约、Web、平台测试、Compose、验证脚本、应用CI和必要工程说明；不允许业务模块、Pack、spec、generated或治理材料。
+- Phase 40完成。三个terra子代理分别负责后端平台骨架、Web Shell、运行/CI；目录所有权互斥，主代理负责根锁文件、解决方案集成和最终验收。
+
+### Phase 41: DEV-001 并行工程实现
+- **Status:** in_progress
+- 后端代理创建API/Worker/Building Blocks/平台契约及平台测试，但不修改根解决方案；主代理后续统一加入项目。
+- 前端代理首次因Story BLOCKED遵守仓库规则停止；主代理已明确本轮是用户批准的工程Spike而不是把Story提升为Ready，并重新派发仅限`apps/web/**`的任务。
+- 运行代理负责`deploy/`、验证脚本、应用CI、e2e smoke和必要`docs/engineering/`，不得修改根配置或治理文档。
+- 运行代理已完成Compose、合成配置、Keycloak空realm、PowerShell/Bash验证脚本、应用CI和开发环境说明；规格全门禁与40项Python测试通过，缺少工具时验证脚本正确返回非零。
+- 主代理审查发现代理选择的MinIO标签在官方Registry不存在；已改用存在的`RELEASE.2025-09-07T16-13-09Z`并固定digest。PostgreSQL改为当前18.4且按18+官方目录布局挂载，PostgreSQL/Keycloak/MinIO三个镜像均固定manifest digest。
+- 应用CI中的GitHub Actions已从可变tag改为对应commit SHA，并补充固定Python 3.13、前端高危依赖审计和Compose静态配置验证。
+- 后端首次restore由`Microsoft.AspNetCore.OpenApi`传递的已知漏洞版本阻断；中央覆盖2.4.1仍触发NU1903，因此已提升为代理本机实际可用且无该漏洞告警的`Microsoft.OpenApi 3.5.1`，不降低warnings-as-errors/SCA门禁。
+- 后端代理完成Contracts、Building Blocks、API、Worker与三类测试；主代理纳入`.slnx`、移除未使用OpenAPI包、修复客户端伪造集团声明头、补齐技术OpenAPI路径并新增独立架构测试项目。
+- `.NET 10.0.302`精确锁恢复、Release warnings-as-errors构建及13项测试全部通过；NuGet传递依赖漏洞扫描为0。
+- 前端代理完成Vue技术壳、首页、系统状态页、同源运行配置与4项单元测试。主代理补充默认合成配置、Vite同源健康代理和URL契约测试，并把全量AntD导入缩减为按组件导入，产物约475KB且无构建体积警告。
+- 前端首次审计发现Vite/Vitest已知漏洞；升级并重锁后`pnpm audit`无已知漏洞，lint、typecheck、4项测试和build全部通过。
+- 使用Docker Compose官方独立二进制v5.3.1完成Compose静态配置验证；本机仍无Docker Engine，因此没有启动PostgreSQL/Keycloak/MinIO，也不宣称容器集成通过。
+- 实际启动API与Web：`/health/live`和`/health/ready`均HTTP 200，关联ID响应头存在，Web首页HTTP 200。应用内浏览器验证首页和`/system/status`路由，状态页显示“服务已就绪”及真实关联ID。
+- 浏览器主审捕获并修复Ant Design注册warning；最终刷新后DOM、页面尺寸和状态均正确，控制台无新增warning/error。浏览器标签已清理，API/Web/Worker监听与进程已停止。
+- Phase 42完成：PowerShell的task/architecture/contracts三类验证入口全部通过；Git Bash/Docker Engine不在本机，未把缺失工具解释为通过。Docker Compose独立v5.3.1已完成静态`config --quiet`验证。
+- AGENTS.md最终六道门禁通过：严格校验59个规格/389个来源、source current、history passed、两次generate均`written=0/unchanged=46`、check passed、40项Python测试全绿；impact归零。
+- 应用终审通过：.NET锁定恢复、Release warnings-as-errors构建、13项测试、NuGet传递漏洞审计；pnpm冻结安装、0已知漏洞、lint、typecheck、4项测试和生产构建；Compose静态配置、直接依赖精确锁、Secret扫描和`git diff --check`全部通过。
+- 受保护路径审计为空：`spec/`、`generated/spec/`、原始PRD和`docs/decision-packets/`均未修改；不存在`src/modules`或`src/packs`业务实现。
+- 必要工程说明已补充API、Worker和Web实际启动命令，并明确当前Host readiness不代表PostgreSQL/Keycloak/MinIO端到端探测、OIDC登录、对象存储或迁移已完成。
+- Phase 43完成。当前交付是可启动、可测试、可视化验收的DEV-001工程骨架Spike；尚未提交或推送，下一任务包应补依赖集成/认证或进入集团组织功能，不能把Spike表示为生产Ready。
+
 ## 2026-07-23 受控提交与 GitHub 发布
 
 ### Phase 39: 受控提交与 GitHub 发布
@@ -304,6 +341,55 @@
 | 规划状态补丁使用旧上下文未应用 | 1 | 读取当前区段后按精确上下文更新 |
 | 领域复核子代理完整报告前触发 429 重试上限 | 1 | 使用已返回结论，并由另外两路完整复核和主代理补足 |
 | 生成文件标记测试误要求 CSV 正文包含注释 | 1 | 对 CSV 免除正文标记，继续由 lock/哈希/文件树门禁控制 |
+
+## 2026-07-24 DEV-001B 基础依赖与登录集成
+
+### Phase 44: 前置门禁、边界与基线
+- **Status:** in_progress
+- 用户按建议批准进入下一任务包；本轮停止治理文档扩写，直接开发基础依赖与登录集成。
+- 已恢复活动计划与未同步上下文，确认当前分支为 `codex/dev-001-engineering-skeleton`，DEV-001 代码仍为未提交工作区变更。
+- 前置 `validate`、`source-status`、`impact` 通过；`ATC-PLT-000@1.0.0` 按预期以退出码4返回BLOCKED，阻塞来自未批准的平台、安全、架构和验收规格。
+- 本轮据用户明确授权作为Spike实施，不修改`spec/`、`generated/spec/`或产品治理材料，不补业务默认值，不提升任何规格状态。
+- 首次同时更新三份规划文件的补丁因沿用了根目录旧规划文件的乱码上下文而整体未应用；读取活动计划精确末尾后拆分更新，未造成部分写入。
+- 已核对ATC允许路径和现有工程树；DEV-001B所需应用、测试、Compose、脚本和工程说明均在授权范围内，不需要改任务卡或规格。
+- 已核对本地精确工具链并从NuGet官方索引选择JWT Bearer与S3 SDK的精确稳定版本，中央版本清单由主代理统一维护，避免代理间锁文件冲突。
+- 环境复核确认Docker/Podman、Java、PostgreSQL和MinIO均不存在；本轮仍实现并自动验证连接/探测逻辑，但真实三依赖启动的证据必须诚实标为当前环境限制。
+- Phase 44完成：前置门禁、任务允许路径、现有工程基线、工具链和Spike非目标均已核对；三路代理进入并行实现，Phase 45开始。
+- 前端并行分支已完成并通过lint/typecheck/9项测试/build；主代理审查发现本地HTTP IdP白名单和回调returnTo两项集成细节，待统一修复并补测试。
+- 后端和运行环境并行实现已返回；主代理逐文件审查发现持久化适配、超时绑定、OIDC discovery路径、受保护状态调用、配置字段名和CI端到端范围仍需补齐，未直接把代理“局部通过”视为任务完成。
+- 主集成首次锁定恢复成功；构建在API处发现重复认证错误码常量，已按精确编译错误删除重复定义并记录，继续执行下一次构建。
+- 新增真实依赖Smoke可执行项目后，组合命令因PowerShell空`LASTEXITCODE`提前退出；下一次构建准确暴露新项目未restore及契约夹具两个编译问题，已分别修正，未绕过门禁。
+- 主集成Release构建现为0警告0错误；首次16项.NET测试中15项通过，唯一失败是架构白名单尚未登记受保护技术端点`/system/status`，已精确更新白名单后准备复测。
+- 前端锁文件已统一刷新，lint/typecheck/12项测试/build通过；构建输出暴露esbuild脚本批准和单chunk体积提示，已采取显式供应链白名单与代码分块配置，等待复验。
+- 本地无外部依赖运行API时，liveness=200、readiness=503且带Problem Details/关联ID、受保护状态=401；检查发现401 Content-Type仍为普通JSON，已切换统一Problem执行器后复验。
+- RFC Problem修复后的首次build被上轮遗留API子进程锁定apphost；已验证进程路径后安全停止，错误属于验证进程清理而非代码编译，准备重新构建。
+- 修复进程清理后Release构建0警告，21项.NET测试全绿；运行态复验确认200 liveness、503 RFC Problem readiness、401 RFC Problem受保护状态及各自关联ID，验证进程和端口已清理。
+- Compose 5.3.1静态解析通过，4个镜像全部固定SHA-256；NuGet/pnpm漏洞审计为0，CI同步增强逐镜像与后端递归漏洞门禁。
+- Phase 45完成：PostgreSQL受控迁移与实际端口、Keycloak JWT/前端PKCE、MinIO固定Bucket适配、三依赖readiness及Compose初始化均已实现；Phase 46进入整体运行与门禁验证。
+- 使用浏览器技能实测首页和系统状态页：未登录/401安全UI、后端错误码与关联ID呈现正确，无集团选择器/密码输入和console告警；按技能要求清理浏览器标签页，API/Web验证进程及端口均已停止。
+- 本地模拟CI NuGet JSON递归门禁时，PowerShell外部程序直管Python未传入stdin；将改用临时文件复现GitHub Bash的真实“先写JSON、再解析”步骤并重新验证。
+- 第二次Windows模拟确认PowerShell重定向默认UTF-16LE，与GitHub Bash的UTF-8不同；已记录平台差异，下一步按本地真实编码验证数据，再单独验证CI Python递归逻辑。
+- PowerShell task/architecture/contracts入口已通过；首次Git Bash task在`/warnaserror`发生MSYS路径转换，已统一为跨Shell安全的`-warnaserror`并准备复测。
+- Git Bash task/architecture/contracts复测全部通过；Phase 46完成。由于本机无Docker Engine，真实三依赖验证被固化为CI中的启动、迁移、PostgreSQL/S3事务Smoke、JWT服务账户和API readiness链；本机提供Compose静态解析、应用失败关闭和浏览器实测证据，不虚报容器已启动。
+- 最终状态汇总的首个只读PowerShell命令因`rg`双引号嵌套解析失败；已记录并改用单引号模式，不影响已通过的任何门禁。
+- AGENTS.md终审通过：59个规格版本/389个来源、source current、history passed、两次generate均`written=0/unchanged=46`、check passed、Python 40项测试通过。
+- 应用终审通过：锁定恢复、Release构建0警告、.NET 21项测试、前端12项测试、PowerShell与Git Bash task/architecture/contracts、NuGet/pnpm 0漏洞、Compose 4镜像静态配置/digest、Keycloak realm、Secret高置信扫描、浏览器与API失败关闭验证全部通过。
+- 最终范围审计：81个工作区文件全部位于ATC允许路径或planning技能工作记录；受保护规格/生成/PRD/decision-packets变化为0，`src/modules`/`src/packs`不存在，5080/5173端口无监听。
+- Phase 47完成。DEV-001与DEV-001B仍位于`codex/dev-001-engineering-skeleton`未提交工作区；本轮用户未要求提交或推送。
+
+## 2026-07-24 DEV-001/DEV-001B 提交与GitHub发布
+
+### Phase 48: 受控提交前终审
+- **Status:** in_progress
+- 用户接受“提交并发布分支以运行真实CI Smoke”的建议，当前授权覆盖提交与推送开发分支，不包含直接合并main。
+- 已恢复活动计划、工作区和远端：本地分支`codex/dev-001-engineering-skeleton`基于`main@13fe3ff`，远端`origin`指向`garyyue2019/OpenLIMS`。
+- 前置validate/source-status/impact通过；ATC-PLT-000继续以READY_EXIT=4诚实BLOCKED，未把发布授权误解释为正式批准。
+- 提交前AGENTS.md六道门禁再次通过：59个规格版本/389个来源、history/check通过、两次generate均`written=0/unchanged=46`、Python 40项测试通过。
+- 应用终审再次通过：锁定恢复、Release构建0警告、.NET 21项测试、前端12项测试与构建、NuGet/pnpm零漏洞、Compose 4镜像静态解析和digest检查通过。
+- 范围审计通过：81个工作区文件全部位于ATC允许路径或planning技能记录，受保护spec/generated/PRD/decision-packets变化为0，`src/modules`/`src/packs`不存在。
+- 远端同名分支尚不存在，本地HEAD与最新`origin/main`均为`13fe3ff`；Phase 48完成，Phase 49开始。当前环境没有GitHub CLI，推送后将使用GitHub公开Actions API监控CI。
+- 已暂存81个文件（8741行新增、1行删除）并通过cached diff检查；内容为DEV-001/DEV-001B工程、测试、CI、运行说明及planning记录，无受保护规格或业务模块。
+- 首次同步暂存状态的多文件规划补丁因文件标记格式错误整体未应用；修正后成功记录，未产生部分写入。
 
 ## 2026-07-23 集团多机构决策迁移
 

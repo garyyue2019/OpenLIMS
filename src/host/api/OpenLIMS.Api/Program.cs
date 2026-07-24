@@ -4,14 +4,12 @@ using Microsoft.IdentityModel.Tokens;
 using OpenLIMS.Api;
 using OpenLIMS.BuildingBlocks.Platform;
 using OpenLIMS.Contracts.Platform;
+using OpenLIMS.Modules.Receiving;
 using OpenTelemetry.Trace;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Logging.ClearProviders();
 builder.Logging.AddJsonConsole();
-
-IOpenLimsServerModule[] modules = [];
-var moduleCatalog = OpenLimsModuleCatalog.Create(modules);
 
 var platformOptions = builder.Configuration.GetSection(PlatformOptions.SectionName).Get<PlatformOptions>();
 if (!HasRequiredDeploymentConfiguration(platformOptions, builder.Environment))
@@ -20,6 +18,8 @@ if (!HasRequiredDeploymentConfiguration(platformOptions, builder.Environment))
 }
 
 var deploymentOptions = platformOptions!;
+IOpenLimsServerModule[] modules = [new ReceivingModule(deploymentOptions.PostgresConnectionString!)];
+var moduleCatalog = OpenLimsModuleCatalog.Create(modules);
 var organizationScope = new OrganizationScope(deploymentOptions.OrganizationGroupId!);
 var allowInsecureOidc = IsApprovedDevelopmentHttpEndpoint(
     deploymentOptions.OidcAuthority!,
@@ -160,7 +160,8 @@ app.MapGet("/openapi/v1.json", () => Results.Json(new
     {
         ["/health/live"] = new { get = new { operationId = "getLiveness", responses = new { ok = new { description = "Process is alive" } } } },
         ["/health/ready"] = new { get = new { operationId = "getReadiness", responses = new { ok = new { description = "Platform host is ready" } } } },
-        ["/system/status"] = new { get = new { operationId = "getAuthenticatedSystemStatus", responses = new { ok = new { description = "Authenticated platform status" } } } }
+        ["/system/status"] = new { get = new { operationId = "getAuthenticatedSystemStatus", responses = new { ok = new { description = "Authenticated platform status" } } } },
+        ["/api/v1/receipts"] = new { post = new { operationId = "registerReceipt", responses = new { created = new { description = "Receipt, containers, and quarantined received items created" } } } }
     }
 }));
 app.MapOpenLimsModuleEndpoints(moduleCatalog);

@@ -24,7 +24,8 @@ case "$profile" in
     case "$module" in
       platform) test_filter='FullyQualifiedName~Platform' ;;
       module-onboarding) test_filter='Profile=module-onboarding' ;;
-      *) echo "The task profile requires --module platform or --module module-onboarding." >&2; exit 2 ;;
+      receiving) test_filter='Profile=receiving' ;;
+      *) echo "The task profile requires --module platform, --module module-onboarding, or --module receiving." >&2; exit 2 ;;
     esac
     require_command dotnet
     gate "dotnet restore (locked)" dotnet restore OpenLIMS.slnx --locked-mode

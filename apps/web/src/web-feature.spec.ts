@@ -7,6 +7,7 @@ import {
   type WebFeatureDescriptor
 } from './web-feature'
 import { platformShellFeature, webFeatureComposition, webFeatureRegistry } from './web-feature-registry'
+import { receivingFeature } from './features/receiving/receiving-feature'
 
 const component = {} as Component
 
@@ -124,15 +125,17 @@ describe('composeWebFeatures', () => {
 })
 
 describe('production web feature registry', () => {
-  it('contains only the existing platform shell routes and navigation', () => {
-    expect(webFeatureRegistry).toEqual([platformShellFeature])
+  it('contains the platform shell and only the approved receiving registration slice', () => {
+    expect(webFeatureRegistry).toEqual([platformShellFeature, receivingFeature])
     expect(webFeatureComposition.routes.map((route) => [route.name, route.path])).toEqual([
       ['platform.home', '/'],
       ['platform.system-status', '/system/status'],
-      ['platform.auth-callback', '/auth/callback']
+      ['platform.auth-callback', '/auth/callback'],
+      ['receiving.registration', '/receiving/receipts/new']
     ])
     expect(webFeatureComposition.navigationEntries).toEqual([
-      { id: 'platform.system-status', label: 'System status', routeName: 'platform.system-status' }
+      { id: 'platform.system-status', label: 'System status', routeName: 'platform.system-status' },
+      { id: 'receiving.registration', label: '到货登记', routeName: 'receiving.registration' }
     ])
   })
 })

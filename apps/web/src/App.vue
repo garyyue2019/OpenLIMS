@@ -25,6 +25,6 @@ const route = useRoute()
       </div>
     </a-layout-header>
     <a-layout-content class="app-content"><RouterView /></a-layout-content>
-    <a-layout-footer class="app-footer">OpenLIMS · Technical shell</a-layout-footer>
+    <a-layout-footer class="app-footer">OpenLIMS · 单集团独立部署</a-layout-footer>
   </a-layout>
 </template>

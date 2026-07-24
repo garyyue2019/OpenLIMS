@@ -90,6 +90,7 @@ public sealed partial class ArchitectureBoundaryTests
         var contractRoots = new[]
         {
             Path.Combine(RepositoryRoot, "contracts", "modules"),
+            Path.Combine(RepositoryRoot, "contracts", "receiving"),
             Path.Combine(RepositoryRoot, "src", "modules")
         };
         var violations = contractRoots
@@ -114,7 +115,7 @@ public sealed partial class ArchitectureBoundaryTests
     }
 
     [Fact]
-    public void Production_hosts_use_an_explicitly_empty_business_module_manifest()
+    public void Production_hosts_use_an_explicit_receiving_module_manifest()
     {
         var hostPrograms = new[]
         {
@@ -122,7 +123,21 @@ public sealed partial class ArchitectureBoundaryTests
             Path.Combine(RepositoryRoot, "src", "host", "worker", "OpenLIMS.Worker", "Program.cs")
         };
 
-        Assert.All(hostPrograms, program => Assert.Matches(EmptyModuleManifestPattern(), File.ReadAllText(program)));
+        Assert.All(hostPrograms, program => Assert.Matches(ReceivingModuleManifestPattern(), File.ReadAllText(program)));
+        Assert.All(hostPrograms, program => Assert.DoesNotContain("Assembly.Load", File.ReadAllText(program), StringComparison.Ordinal));
+    }
+
+    [Fact]
+    public void Receiving_persistence_accesses_only_its_private_schema()
+    {
+        var moduleRoot = Path.Combine(RepositoryRoot, "src", "modules", "receiving");
+        var sql = Directory.EnumerateFiles(moduleRoot, "*.cs", SearchOption.AllDirectories)
+            .SelectMany(file => SchemaAccessPattern().Matches(File.ReadAllText(file)))
+            .Select(match => match.Groups[1].Value)
+            .ToArray();
+
+        Assert.NotEmpty(sql);
+        Assert.All(sql, schema => Assert.Equal("receiving", schema, ignoreCase: true));
     }
 
     private static Dictionary<string, ProductionProject> LoadProductionProjects()
@@ -225,23 +240,35 @@ public sealed partial class ArchitectureBoundaryTests
     private static string? GetModuleId(string relativePath)
     {
         var segments = relativePath.Split('/', StringSplitOptions.RemoveEmptyEntries);
-        if (segments.Length < 4 ||
-            !(segments[0].Equals("src", StringComparison.OrdinalIgnoreCase) || segments[0].Equals("contracts", StringComparison.OrdinalIgnoreCase)) ||
-            !segments[1].Equals("modules", StringComparison.OrdinalIgnoreCase))
+        if (segments.Length >= 4 &&
+            segments[0].Equals("src", StringComparison.OrdinalIgnoreCase) &&
+            segments[1].Equals("modules", StringComparison.OrdinalIgnoreCase))
         {
-            return null;
+            Assert.Matches("^[a-z][a-z0-9-]*$", segments[2]);
+            return segments[2];
         }
 
-        Assert.Matches("^[a-z][a-z0-9-]*$", segments[2]);
-        return segments[2];
+        if (segments.Length >= 3 &&
+            segments[0].Equals("contracts", StringComparison.OrdinalIgnoreCase) &&
+            !segments[1].Equals("platform", StringComparison.OrdinalIgnoreCase))
+        {
+            Assert.Matches("^[a-z][a-z0-9-]*$", segments[1]);
+            return segments[1];
+        }
+
+        return null;
     }
 
     private static bool IsModulePublicContract(string relativePath)
     {
         var segments = relativePath.Split('/', StringSplitOptions.RemoveEmptyEntries);
-        return segments.Length >= 4 &&
-            (segments[0].Equals("contracts", StringComparison.OrdinalIgnoreCase) && segments[1].Equals("modules", StringComparison.OrdinalIgnoreCase) ||
-             segments[0].Equals("src", StringComparison.OrdinalIgnoreCase) && segments[1].Equals("modules", StringComparison.OrdinalIgnoreCase) && segments[3].Equals("contracts", StringComparison.OrdinalIgnoreCase));
+        return segments.Length >= 3 &&
+                segments[0].Equals("contracts", StringComparison.OrdinalIgnoreCase) &&
+                !segments[1].Equals("platform", StringComparison.OrdinalIgnoreCase) ||
+            segments.Length >= 4 &&
+                segments[0].Equals("src", StringComparison.OrdinalIgnoreCase) &&
+                segments[1].Equals("modules", StringComparison.OrdinalIgnoreCase) &&
+                segments[3].Equals("contracts", StringComparison.OrdinalIgnoreCase);
     }
 
     private static bool IsPlatformFoundation(string relativePath) =>
@@ -273,8 +300,11 @@ public sealed partial class ArchitectureBoundaryTests
     [GeneratedRegex("\\b(?:DbContext|DbSet|MigrationBuilder)\\b|\\[(?:Table|Column)\\s*\\(", RegexOptions.CultureInvariant)]
     private static partial Regex PrivatePersistencePattern();
 
-    [GeneratedRegex("IOpenLimsServerModule\\s*\\[\\s*\\]\\s+modules\\s*=\\s*\\[\\s*\\]\\s*;", RegexOptions.CultureInvariant)]
-    private static partial Regex EmptyModuleManifestPattern();
+    [GeneratedRegex("IOpenLimsServerModule\\s*\\[\\s*\\]\\s+modules\\s*=\\s*\\[\\s*new\\s+ReceivingModule\\(", RegexOptions.CultureInvariant)]
+    private static partial Regex ReceivingModuleManifestPattern();
+
+    [GeneratedRegex("\\b(?:from|into|update|join|references)\\s+([a-z_][a-z0-9_]*)\\.", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex SchemaAccessPattern();
 
     private sealed record ProductionProject(string RelativePath, IReadOnlyList<string> References);
 }

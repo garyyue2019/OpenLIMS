@@ -1,6 +1,7 @@
 import AuthCallbackView from './views/AuthCallbackView.vue'
 import HomeView from './views/HomeView.vue'
 import SystemStatusView from './views/SystemStatusView.vue'
+import { receivingFeature } from './features/receiving/receiving-feature'
 import {
   composeWebFeatures,
   type WebFeatureDescriptor
@@ -19,8 +20,11 @@ export const platformShellFeature = {
   ]
 } as const satisfies WebFeatureDescriptor
 
-// Production features are registered explicitly at build time. DEV-002 intentionally
-// contains only the existing platform shell and no LIMS business feature.
-export const webFeatureRegistry: readonly WebFeatureDescriptor[] = [platformShellFeature]
+// Production features are registered explicitly at build time. DEV-003 adds only
+// the approved receiving registration slice; no runtime feature discovery is used.
+export const webFeatureRegistry: readonly WebFeatureDescriptor[] = [
+  platformShellFeature,
+  receivingFeature
+]
 
 export const webFeatureComposition = composeWebFeatures(webFeatureRegistry)

@@ -1,0 +1,29 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "SEC-DEPLOY-001",
+  "version": "2.0.0",
+  "status": "approved",
+  "title": "集团间独立运行、数据、遥测与恢复平面",
+  "summary": "每个检测集团使用独立运行、数据、身份、遥测和备份恢复边界，不提供共享 SaaS 多租户数据平面。",
+  "owners": ["架构负责人", "安全负责人", "运维负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "OD-002"}, {"document": "PRD-MAIN", "item": "SEC-DEPLOY-001"}],
+  "depends_on": ["OD-002@1.0.0"],
+  "affects": ["deployment", "runtime", "identity", "database", "object-storage", "secrets", "messaging", "search", "ai-runtime", "telemetry", "backup-recovery"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "ENABLED", "condition": "所有生产环境、恢复环境及集团隔离验证环境"},
+  "approval_evidence": "用户明确要求集团多机构独立部署，并明确拒绝共享 SaaS 多租户；于 2026-07-24 再次批准 DEV-003 基线。",
+  "invariants": [
+    "一个运行部署只绑定一个 OrganizationGroup，集团标识来自受保护部署配置和受信身份上下文",
+    "不同集团不共享应用运行时、数据库、对象存储、密钥、消息队列、检索或向量索引、AI 会话或缓存",
+    "不同集团的日志、指标和 Trace 使用独立接收、存储、查询、凭据和告警边界",
+    "跨集团令牌、服务凭据或对象引用必须在任何业务数据访问前拒绝",
+    "客户端 DTO、查询参数和 Header 不得选择或覆盖 OrganizationGroupId",
+    "云托管仅允许单集团独享环境，不得退化为共享数据平面的行级租户过滤",
+    "备份、WAL、对象副本、密钥和恢复凭据按集团独立，备份不得恢复到其他集团运行环境",
+    "同一不可变构建制品可以复用，但运行、数据、遥测和恢复责任不能共享"
+  ],
+  "required_future_evidence": ["逐集团资源清单", "真实交叉访问失败记录", "数据访问前拒绝证据", "跨集团恢复阻断演练"]
+}

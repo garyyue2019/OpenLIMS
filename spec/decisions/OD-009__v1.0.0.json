@@ -1,0 +1,35 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "decision",
+  "id": "OD-009",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "试点玩具收到实物唯一识别粒度",
+  "summary": "为三岁及以上常规硬质塑胶非电动玩具确定 Receipt、Container 与 ReceivedItem 的登记粒度和强制拆分条件。",
+  "owners": ["收样负责人", "技术负责人", "质量负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "OD-009"}],
+  "depends_on": ["OD-002@1.0.0"],
+  "affects": ["receiving", "identifier", "barcode", "lineage", "toy-pilot"],
+  "change_class": "major",
+  "decision_state": "decided",
+  "approval_evidence": "用户于 2026-07-24 明确回复“批准 DEV-003 业务基线”，批准了完整销售玩具或套装逐个登记及强制拆分条件。",
+  "options": ["逐个完整销售玩具或套装", "按包装单元", "按同质组", "按后续材料或颜色拆分"],
+  "decision": "Receipt 表示一次物流到货，Container 表示实际包装，ReceivedItem 表示一个完整销售玩具或玩具套装。同一包装内多个完整玩具或套装必须逐个创建 ReceivedItem；零部件、材料和颜色不在收样登记阶段拆分。",
+  "split_rules": [
+    "型号不同必须拆分",
+    "批次不同必须拆分",
+    "序列号不同必须拆分",
+    "颜色不同必须拆分",
+    "包装状态不同必须拆分",
+    "封识状态不同必须拆分",
+    "实物状态不同必须拆分"
+  ],
+  "constraints": [
+    "包装数量不得自动解释为实物数量",
+    "每个 ReceivedItem 使用独立、稳定且不可复用的身份",
+    "新 ReceivedItem 登记后自动进入隔离",
+    "本决策不决定零部件、材料、颜色、取样份或制备份的后续谱系粒度"
+  ],
+  "acceptance_evidence": ["一个包装内两个完整玩具产生两个 ReceivedItem", "任一强制拆分属性不同会产生不同 ReceivedItem", "包装、零部件和材料不会被误当成同一对象层级"]
+}

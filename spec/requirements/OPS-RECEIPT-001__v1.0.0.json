@@ -1,0 +1,26 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "OPS-RECEIPT-001",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "分别登记到货批、包装单元和收到的实物",
+  "summary": "收样模型必须区分物流到货事实、包装边界和逐个完整销售玩具或套装，禁止用单一 Sample 记录抹平层级。",
+  "owners": ["收样负责人", "领域负责人", "质量负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "OPS-RECEIPT-001"}],
+  "depends_on": ["OD-009@1.0.0"],
+  "affects": ["receiving", "data-model", "api", "ux", "audit", "quarantine"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "ENABLED", "condition": "Release 1 三岁及以上常规硬质塑胶非电动玩具收样切片"},
+  "approval_evidence": "用户于 2026-07-24 明确批准 DEV-003 Receipt、Container、ReceivedItem 模型和玩具实物粒度。",
+  "invariants": [
+    "Receipt、Container、ReceivedItem 使用不同不可复用业务编号",
+    "一个完整销售玩具或玩具套装对应一个 ReceivedItem，同一包装内多个实物逐个登记",
+    "包装数量不得自动解释为实物数量",
+    "OD-009 强制拆分属性不同的实物不得合并",
+    "新 ReceivedItem 登记后自动进入 QUARANTINED",
+    "删除或关闭不得抹除到货事实"
+  ]
+}

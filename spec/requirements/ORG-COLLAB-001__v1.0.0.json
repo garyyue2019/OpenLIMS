@@ -1,0 +1,24 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "ORG-COLLAB-001",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "集团内跨机构协作责任分离",
+  "summary": "集团内跨法人或跨实验室收样必须分别保存业务归属、收样、执行和授权责任，不产生集团全局隐式权限。",
+  "owners": ["集团运营负责人", "实验室负责人", "质量负责人", "财务负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "ORG-COLLAB-001"}],
+  "depends_on": ["OD-002@1.0.0", "ORG-STRUCT-001@1.0.0"],
+  "affects": ["service-order", "receiving", "lab-execution", "reporting", "billing", "authorization", "audit"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "ENABLED", "condition": "集团内跨法人或跨实验室协作仅在显式授权时启用"},
+  "approval_evidence": "用户于 2026-07-24 明确批准跨实验室必须显式授权。",
+  "invariants": [
+    "委托归属法人、收样实验室、执行实验室或工作中心、报告签发主体和计费主体不得合并为一个机构字段",
+    "跨机构流转必须存在明确授权、交接事件和审计证据",
+    "跨实验室协作不得隐式授予跨客户或跨法人访问权限",
+    "首期只启用单法人或单实验室时仍保留完整关系和契约"
+  ]
+}

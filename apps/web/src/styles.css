@@ -15,4 +15,19 @@ h1 { color: #102a43; font-size: clamp(2rem, 6vw, 3.5rem); margin-block: .4rem 1r
 .diagnostic { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; color: #486581; font-size: .875rem; }
 .app-footer { text-align: center; color: #627d98; background: transparent; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.receiving-page { width: min(100%, 1080px); display: grid; gap: 1.25rem; }
+.receiving-page h1 { font-size: clamp(1.8rem, 4vw, 3rem); }
+.receiving-form { display: grid; gap: 1rem; }
+.form-section { background: #fff; border: 1px solid #d9e2ec; border-radius: .75rem; padding: 1rem; box-shadow: 0 8px 24px rgb(16 42 67 / 8%); }
+.form-section h2, .form-section h3 { margin-top: 0; }
+.field-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem 1rem; }
+.field-grid label { display: grid; gap: .3rem; color: #334e68; font-size: .875rem; font-weight: 600; }
+.field-grid input { width: 100%; border: 1px solid #bcccdc; border-radius: .35rem; padding: .55rem .65rem; color: #102a43; background: #fff; }
+.field-grid input:disabled { color: #829ab1; background: #f0f4f8; }
+.field-grid .wide { grid-column: 1 / -1; }
+.container-card { display: grid; gap: 1rem; }
+.item-card { border-left: 4px solid #2f80ed; background: #f8fbff; padding: 1rem; }
+.form-actions { display: flex; justify-content: space-between; gap: 1rem; }
+.registration-result { background: #f0fff4; border: 1px solid #9ae6b4; border-radius: .75rem; padding: 1rem; }
 @media (max-width: 480px) { .app-header { padding-inline: 1rem; } .app-header nav a { padding-right: 0; } }
+@media (max-width: 720px) { .field-grid { grid-template-columns: 1fr; } .field-grid .wide { grid-column: auto; } .form-actions { align-items: stretch; flex-direction: column; } }

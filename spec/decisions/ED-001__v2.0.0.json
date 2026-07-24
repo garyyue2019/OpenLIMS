@@ -1,0 +1,42 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "decision",
+  "id": "ED-001",
+  "version": "2.0.0",
+  "status": "approved",
+  "title": "已验证的工程技术栈与版本锁基线",
+  "summary": "采用 DEV-001 与 DEV-002 已落地并由仓库锁文件验证的 .NET、Vue、PostgreSQL 模块化单体技术栈，作为 DEV-003 的开发和 CI 基线。",
+  "owners": ["架构负责人", "工程负责人", "安全负责人", "运维负责人"],
+  "source_refs": [],
+  "depends_on": ["OD-002@1.0.0"],
+  "affects": ["repository", "backend", "frontend", "database", "ci", "non-production-deployment", "supply-chain"],
+  "change_class": "major",
+  "decision_state": "decided",
+  "approval_evidence": "用户于 2026-07-24 明确回复“批准 DEV-003 业务基线”，其中第 8 项批准以 DEV-001、DEV-002 已交付平台能力作为技术基线。",
+  "options": ["沿用仓库已验证并锁定的工程技术栈", "为 DEV-003 引入另一套未经验证的技术栈"],
+  "decision": "DEV-003 沿用仓库已验证的 .NET 10、ASP.NET Core、EF Core、Npgsql、PostgreSQL、Vue、TypeScript、Vite、pnpm 和模块化单体接入通道；所有运行时和依赖解析使用精确锁，不允许 latest、范围版本或运行时插件下载。",
+  "locked_stack": {
+    "dotnet_sdk": "10.0.302; rollForward=disable",
+    "aspnet_and_efcore": "10.0.10",
+    "npgsql": "10.0.3",
+    "database_for_development_and_ci": "postgres:18.4-alpine@sha256:9a8afca54e7861fd90fab5fdf4c42477a6b1cb7d293595148e674e0a3181de15",
+    "node": "24.14.1",
+    "pnpm": "10.34.5; lockfileVersion=9.0",
+    "vue": "3.5.18",
+    "typescript": "5.9.2",
+    "vite": "7.3.6",
+    "ant_design_vue": "4.2.6",
+    "vitest": "3.2.7",
+    "api": "REST、OpenAPI、RFC 9457 Problem Details",
+    "async": "PostgreSQL 事务 Outbox 与幂等 Worker"
+  },
+  "constraints": [
+    "依赖必须由 global.json、中央包版本、packages.lock.json、package.json、pnpm-lock.yaml 或 OCI digest 精确锁定",
+    "生产 Host 不自动执行模块迁移，迁移只通过显式受控入口执行",
+    "Keycloak 与 MinIO 仅为开发和 CI 参考实现，不构成生产产品选择",
+    "本决策不批准生产拓扑、容量、SLA、RPO、RTO、生产 IdP、生产对象存储、KMS 或 Secret 产品",
+    "一个部署只绑定一个 OrganizationGroup，禁止共享 SaaS 多租户数据平面"
+  ],
+  "acceptance_evidence": ["global.json", "Directory.Packages.props", "packages.lock.json", "package.json", "pnpm-lock.yaml", "deploy/compose/compose.yaml", "DEV-001 与 DEV-002 CI 结果"]
+}

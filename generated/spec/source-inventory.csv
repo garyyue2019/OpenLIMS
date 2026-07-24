@@ -40,7 +40,7 @@ PRD-MAIN,AC-RETEST-001,acceptance-block,19.3 检测、QC 和报告,1216,复测�
 PRD-MAIN,AC-RPT-001,acceptance-block,19.3 检测、QC 和报告,1222,签发关口,895c36ef837a7a548b3c15351bfbbe2a9b2845f6a0b6afd9a3c49e661b3459de,
 PRD-MAIN,AC-RPT-002,acceptance-block,19.3 检测、QC 和报告,1225,更正版本,c53fe5580be1fb5b91e9fe5044bf77dc2c685aa2173eb78a3d8bdc1519194811,
 PRD-MAIN,AC-SCOPE-001,acceptance-block,19.0 要求、范围、覆盖和认可,1108,范围行全链,884daaf2c6b97bd4789897da9c19c98543e3fa0f96197509c7389308a48d96a4,
-PRD-MAIN,AC-SEC-001,acceptance-block,19.5 安全、AI 降级和恢复,1258,集团内多维越权防护,7f1ff95a65eb1d1fcc23e6d55d3f8acfb9c70c794c7bd7a1a0512b1ab1fee267,AC-SEC-001@0.1.0
+PRD-MAIN,AC-SEC-001,acceptance-block,19.5 安全、AI 降级和恢复,1258,集团内多维越权防护,7f1ff95a65eb1d1fcc23e6d55d3f8acfb9c70c794c7bd7a1a0512b1ab1fee267,AC-SEC-001@0.1.0;AC-SEC-001@1.0.0
 PRD-MAIN,AC-SEC-002,acceptance-block,19.5 安全、AI 降级和恢复,1264,间接提示注入,ce6a60d3d1a43cae0b99bcb5b6b52341d79a7eeafd20253a510df048a7fa96c4,
 PRD-MAIN,AC-STATE-001,acceptance-block,19.2 收样、拆解和谱系,1157,顺序性试验状态,8aff0645546f3fd33231331914f8c8f0d4424fde518b9ab9bee1614bb77b9dd3,
 PRD-MAIN,AC-STMT-001,acceptance-block,19.4 发票、应收和对账,1250,客户对账单守恒,531d296b60b7a7f7b4b622cfe9efd12e9a7d2b8fc6cfdc969f3b89e02f46db7e,
@@ -201,7 +201,7 @@ PRD-MAIN,LAB-SUB-001,table-row,12.6 检测、QC、结果采用和分包,833,系�
 PRD-MAIN,LAB-SUB-002,table-row,12.6 检测、QC、结果采用和分包,834,系统必须使外部结果引用分包任务、报告版本、方法和内部复核决定,f03c2972255d65ffd7417e5394090d8738bffaf3a0ec162738a0434fc480e36c,
 PRD-MAIN,LAB-SUB-003,table-row,12.6 检测、QC、结果采用和分包,835,系统必须在分包报告更正或撤回时触发内部报告影响评估,b92db704780fc084063ffe34be0373be1345c4e8ac7629dd6e68fb55491f20a5,
 PRD-MAIN,NFR-ACC-001,table-row,17. 非功能需求,1058,核心业务界面必须满足 WCAG 2.2 AA,6f4984a5dc750c9d4a4b18f3dad261f40e36f01c3cf1b6674ddefcbf73ac740c,
-PRD-MAIN,NFR-ARCH-001,table-row,17. 非功能需求,1046,系统必须采用模块化单体作为首期应用架构,c1f16ba3b49bdf2879a580eb6caddf958dde26164bf5598fa43d2cb5c80873f2,ATC-PLT-000@0.1.0;ATC-PLT-000@1.0.0;ATC-PLT-003@1.0.0;NFR-ARCH-001@0.1.0;NFR-ARCH-001@1.0.0
+PRD-MAIN,NFR-ARCH-001,table-row,17. 非功能需求,1046,系统必须采用模块化单体作为首期应用架构,c1f16ba3b49bdf2879a580eb6caddf958dde26164bf5598fa43d2cb5c80873f2,ATC-PLT-000@0.1.0;ATC-PLT-000@1.0.0;ATC-PLT-003@1.0.0;NFR-ARCH-001@0.1.0;NFR-ARCH-001@1.0.0;NFR-ARCH-001@2.0.0
 PRD-MAIN,NFR-ARCH-002,table-row,17. 非功能需求,1047,系统必须使用事务发件箱和幂等消费者处理跨模块事件,9627fe3f9bad217b2ca596ced3168152e6bbd5b8c686dd9a7bf7f3e14bc98354,ATC-PLT-000@0.1.0;ATC-PLT-000@1.0.0;ATC-PLT-003@1.0.0;NFR-ARCH-002@0.1.0;NFR-ARCH-002@1.0.0
 PRD-MAIN,NFR-AVL-001,table-row,17. 非功能需求,1053,生产月度可用性目标应当为 99.9%,31dd272f6d5bcff315ab0e96b49b4936d3c9e1ea06a305f12e9354490420d313,
 PRD-MAIN,NFR-BDR-001,table-row,17. 非功能需求,1054,核心业务 RPO 应当不超过 15 分钟,9462773df21aa4d34bc6b3c3cf2f590c09ed246b2759e089cba7f9d0017df572,
@@ -218,14 +218,14 @@ PRD-MAIN,NFR-PERF-005,table-row,17. 非功能需求,1052,启用商业运营包�
 PRD-MAIN,NFR-SEC-001,table-row,17. 非功能需求,1056,上线时严重和高危安全缺陷必须为零,f6c679a6c07ac84d3dca9814dd8088833b5da9a82e58d595858a8c40ebb0ca5d,
 PRD-MAIN,NFR-SEC-002,table-row,17. 非功能需求,1057,数据传输和静态敏感数据必须使用批准的加密方案,13dc0eeaf4be2570d700bed4afa4d399009c36776d1451e76397dbf2e2ffb9a5,
 PRD-MAIN,OD-001,table-row,23. 明确待决策事项,1447,Release 1 的唯一试点“行业 × 产品类别 × 目标市场/客户协议 × 方法族”、灯塔客户和黄金场景,47f6cb0447b1e1a6e9a9d5b85ac92e055bede7856505c2fbbd330e2d888f4b3e,OD-001@0.1.0;REL-R1-RECEIVING-PILOT@0.1.0;REL-R1-RECEIVING-PILOT@1.0.0
-PRD-MAIN,OD-002,table-row,23. 明确待决策事项,1448,**已决定：集团多机构、每集团独立部署；禁止共享 SaaS 多租户。** 云托管也必须是单集团独享环境；集团内支持多法人、多实验室、多部门和多工作中心，送检客户不是租户,871512ce3d1bf4d0019290174ad63426313fe8a1f1fb4f36191b08cd827b2207,ATC-PLT-000@0.1.0;ATC-PLT-000@1.0.0;ATC-PLT-003@1.0.0;ATC-REC-001@0.1.0;ATC-REC-001@1.0.0;ATC-REC-002@0.1.0;ATC-REC-002@1.0.0;ATC-REC-003@0.1.0;ATC-REC-003@1.0.0;ATC-REC-004@0.1.0;ATC-REC-004@1.0.0;ATC-REC-005@0.1.0;ATC-REC-005@1.0.0;ATC-REC-006@0.1.0;ATC-REC-006@1.0.0;OD-002@1.0.0;ORG-STRUCT-001@0.1.0;SEC-DEPLOY-001@0.1.0;SEC-DEPLOY-001@1.0.0
+PRD-MAIN,OD-002,table-row,23. 明确待决策事项,1448,**已决定：集团多机构、每集团独立部署；禁止共享 SaaS 多租户。** 云托管也必须是单集团独享环境；集团内支持多法人、多实验室、多部门和多工作中心，送检客户不是租户,871512ce3d1bf4d0019290174ad63426313fe8a1f1fb4f36191b08cd827b2207,ATC-PLT-000@0.1.0;ATC-PLT-000@1.0.0;ATC-PLT-003@1.0.0;ATC-REC-001@0.1.0;ATC-REC-001@1.0.0;ATC-REC-001@2.0.0;ATC-REC-002@0.1.0;ATC-REC-002@1.0.0;ATC-REC-003@0.1.0;ATC-REC-003@1.0.0;ATC-REC-004@0.1.0;ATC-REC-004@1.0.0;ATC-REC-005@0.1.0;ATC-REC-005@1.0.0;ATC-REC-006@0.1.0;ATC-REC-006@1.0.0;OD-002@1.0.0;ORG-STRUCT-001@0.1.0;ORG-STRUCT-001@1.0.0;SEC-DEPLOY-001@0.1.0;SEC-DEPLOY-001@1.0.0;SEC-DEPLOY-001@2.0.0
 PRD-MAIN,OD-003,table-row,23. 明确待决策事项,1449,产品结构最大层级、单版本节点上限和图片数量上限,332a2614631a727a0dac05f12453aad6e55957bd502b3ea9958d8acd71e3895e,
 PRD-MAIN,OD-004,table-row,23. 明确待决策事项,1450,哪些产品或方法允许、要求或禁止破坏性拆解,c73c04c8e5e634babc68d1cbc4c7268e55c50b7f8eb54c805dd17c325ea2d0b7,
 PRD-MAIN,OD-005,table-row,23. 明确待决策事项,1451,条件接收、身份疑似、温控、危险属性、复合样和复测的审批矩阵,3afac312d7469744944316782d09e856c66730c394ad5029f946123bdcd5aa83,ATC-REC-005@0.1.0;ATC-REC-005@1.0.0;OD-005@0.1.0
 PRD-MAIN,OD-006,table-row,23. 明确待决策事项,1452,客户 BOM 和图片的数据分类、AI 处理区域、保留期限及外部模型许可,93054645a68704f9647d88a711bf8c203180f32a68e5ed025ef1b0f6ca4d5dfd,
 PRD-MAIN,OD-007,table-row,23. 明确待决策事项,1453,AI 近似报价 BOM 的首期品类、人工复核阈值和业务停止条件,9fa8dfe21710408de84053ba92af994e77b463b6eef44bd4354bfa39c5d90022,
 PRD-MAIN,OD-008,table-row,23. 明确待决策事项,1454,逻辑产品 BOM 与检测分解的批准岗位及变更影响规则,b618cbec80e9a21fbbb9c077055aa50d77ffb42fbcdebc45876799a3046d91c1,
-PRD-MAIN,OD-009,table-row,23. 明确待决策事项,1455,收到的实物唯一识别粒度按件、序列号、包装或同质组如何决定,34b3188b79c0e362e82833dfa41a70174e5028d226016385ddc76901e1964ac7,OD-009@0.1.0
+PRD-MAIN,OD-009,table-row,23. 明确待决策事项,1455,收到的实物唯一识别粒度按件、序列号、包装或同质组如何决定,34b3188b79c0e362e82833dfa41a70174e5028d226016385ddc76901e1964ac7,ATC-REC-001@2.0.0;OD-009@0.1.0;OD-009@1.0.0
 PRD-MAIN,OD-010,table-row,23. 明确待决策事项,1456,各样品类型的计量维度、精度、损耗和容差,58d1f16668067087e90042ff5a89ab5cfe8d78356ebda1f5f10450e22dc203d0,
 PRD-MAIN,OD-011,table-row,23. 明确待决策事项,1457,适用认可体系、电子记录、电子签名、报告保留和撤回规则,9587de5de83003b910f2539f84a98cc768fa17cbb27e03fdc2707565801d6590,
 PRD-MAIN,OD-012,table-row,23. 明确待决策事项,1458,方法、规格、资质、人员资格和设备状态的权威来源,2e1fa8ddbe587214fb7394eb0daf94eb1f96da4cd71dbf94166405f649f68b19,
@@ -297,7 +297,7 @@ PRD-MAIN,OPS-QTY-001,table-row,12.5 谱系、数量和任务分配,795,系统必
 PRD-MAIN,OPS-QTY-002,table-row,12.5 谱系、数量和任务分配,796,系统必须按对象配置计量维度、单位、测量方法、精度、允许损耗和守恒公差,09ba863f4ddf78cb15c33c6a499e66212335aa6313f248686c61b9d59ff9053f,
 PRD-MAIN,OPS-QTY-003,table-row,12.5 谱系、数量和任务分配,797,系统必须阻止负余额、超分配和无依据跨物理量换算,359f7746c28e69d08ea427d2b617a63b0230afcbf92139a03481f011b1b69f4a,
 PRD-MAIN,OPS-QTY-004,table-row,12.5 谱系、数量和任务分配,798,系统必须通过冲销和重记更正已过账数量流水,62e8771a4a6111ac841db861299083bbb1180b1adc148eda8e4ed84f0a87098d,
-PRD-MAIN,OPS-RECEIPT-001,table-row,12.4 收样、身份和拆解,743,系统必须分别登记到货批、包装单元和收到的实物,7c5ac0cbc8b80f7778fdc3240ffd9bd7633839bacefe88c4896b3ebc05cad965,ATC-REC-001@0.1.0;ATC-REC-001@1.0.0;OPS-RECEIPT-001@0.1.0
+PRD-MAIN,OPS-RECEIPT-001,table-row,12.4 收样、身份和拆解,743,系统必须分别登记到货批、包装单元和收到的实物,7c5ac0cbc8b80f7778fdc3240ffd9bd7633839bacefe88c4896b3ebc05cad965,ATC-REC-001@0.1.0;ATC-REC-001@1.0.0;ATC-REC-001@2.0.0;OPS-RECEIPT-001@0.1.0;OPS-RECEIPT-001@1.0.0
 PRD-MAIN,OPS-RECEIPT-002,table-row,12.4 收样、身份和拆解,744,系统必须为每个包装单元和收到的实物分配唯一标识,5d23e65500b33f3b281878f7ddcb2400a6b44748d2509ed551723a9a6422a96f,ATC-REC-002@0.1.0;ATC-REC-002@1.0.0;OPS-RECEIPT-002@0.1.0
 PRD-MAIN,OPS-RECEIPT-003,table-row,12.4 收样、身份和拆解,745,系统必须在身份评估完成前保持实物隔离,389923bc1881370792e1984f9e1bf9f994f3341583475592c9b903bedb3b12e8,ATC-REC-003@0.1.0;ATC-REC-003@1.0.0;ATC-REC-006@0.1.0;ATC-REC-006@1.0.0;OPS-RECEIPT-003@0.1.0
 PRD-MAIN,OPS-RESRC-001,table-row,12.5 谱系、数量和任务分配,810,系统必须按人员授权、设备/场地/夹具能力、校准状态、时间窗口、依赖和样品状态检查硬资源冲突,b3de20a4e4371a5dbb96464bb9a8d659541094cd5f3a67c5f14c1c1ac4161726,
@@ -314,8 +314,8 @@ PRD-MAIN,OPS-TOY-004,table-row,12.4 收样、身份和拆解,772,每个 TestUnit
 PRD-MAIN,OPS-TOY-005,table-row,12.4 收样、身份和拆解,773,多测试单元结果汇总为产品/型号结论时必须引用批准的危险域覆盖，不得拼接成未实际存在的“同一整件全部通过”,5412fbcaff83246885136efdfab13b870c3aa8a1d23871d9fdeb17a904196858,
 PRD-MAIN,OPS-TOY-006,table-row,12.4 收样、身份和拆解,774,玩具样品需求必须按危险域 × 测试单元 × 平行 × 互斥破坏试验，加化学最低取样量、复测预留和留样确定；自动计算结果必须由技术人员批准,9f483f4725b5970b3367b459dad1ea58327c58e25836d8fe091b3a4666b69504,
 PRD-MAIN,OPS-TOY-007,table-row,12.4 收样、身份和拆解,775,包装、标签、说明书和营销年龄声明必须按版本、语言、市场和图片证据管理；产品/年龄决定变化时，受影响 LabelReview 必须失效并重审,cbcc5f4b7c3f592e38413b9d596c3359e8d627657aace631c5ac4dfa37889f17,
-PRD-MAIN,ORG-COLLAB-001,table-row,12.1 范围、产品与结构,683,跨法人或跨实验室协同时，系统必须分别记录委托归属法人、收样实验室、执行实验室/工作中心、报告签发主体、计费主体及其授权依据；不得用一个“机构”字段覆盖不同责任,5b09595bea9c6fc7389343ac598999fb9be1190b5f0a8591e74598b2ff708efc,ORG-COLLAB-001@0.1.0
-PRD-MAIN,ORG-STRUCT-001,table-row,12.1 范围、产品与结构,682,系统必须以 OrganizationGroup → LegalEntity → Laboratory → Department/WorkCenter 表达集团多机构层级、有效期和状态；一个部署只允许一个 OrganizationGroup，送检客户不得建模为组织集团或隔离租户,75db94de48ebe025a2783449abea7404fa95b6ae89656e1740df8a3b08c4fcd6,ATC-REC-001@0.1.0;ATC-REC-001@1.0.0;ATC-REC-002@0.1.0;ATC-REC-002@1.0.0;ATC-REC-003@0.1.0;ATC-REC-003@1.0.0;ORG-STRUCT-001@0.1.0
+PRD-MAIN,ORG-COLLAB-001,table-row,12.1 范围、产品与结构,683,跨法人或跨实验室协同时，系统必须分别记录委托归属法人、收样实验室、执行实验室/工作中心、报告签发主体、计费主体及其授权依据；不得用一个“机构”字段覆盖不同责任,5b09595bea9c6fc7389343ac598999fb9be1190b5f0a8591e74598b2ff708efc,ORG-COLLAB-001@0.1.0;ORG-COLLAB-001@1.0.0
+PRD-MAIN,ORG-STRUCT-001,table-row,12.1 范围、产品与结构,682,系统必须以 OrganizationGroup → LegalEntity → Laboratory → Department/WorkCenter 表达集团多机构层级、有效期和状态；一个部署只允许一个 OrganizationGroup，送检客户不得建模为组织集团或隔离租户,75db94de48ebe025a2783449abea7404fa95b6ae89656e1740df8a3b08c4fcd6,ATC-REC-001@0.1.0;ATC-REC-001@1.0.0;ATC-REC-001@2.0.0;ATC-REC-002@0.1.0;ATC-REC-002@1.0.0;ATC-REC-003@0.1.0;ATC-REC-003@1.0.0;ORG-STRUCT-001@0.1.0;ORG-STRUCT-001@1.0.0
 PRD-MAIN,RISK-001,table-row,21. 主要风险与缓解措施,1393,客户图片无法揭示隐藏结构,8ae9d6ecd6be0bf83d929f699df3961a3ce2af39ee7532631ceb237dcd7c1492,
 PRD-MAIN,RISK-002,table-row,21. 主要风险与缓解措施,1394,人工将 AI 推断误作事实,eed595f278ee432742effad9ac6c6e14ef7ae3d606ff932ce2b83514b83341eb,
 PRD-MAIN,RISK-003,table-row,21. 主要风险与缓解措施,1395,逻辑产品 BOM 与物理谱系混用,0db847e26c6031a292080e44b10fecaebffc78bf456b110558b9a2e64a09fdcb,
@@ -376,15 +376,15 @@ PRD-MAIN,RULE-023,table-row,18. 核心业务规则,1092,同一产品名称或型
 PRD-MAIN,RULE-024,table-row,18. 核心业务规则,1093,“单项符合”和“已测试范围符合”是 LIMS 内部受控结论；全面法规评估、声明和认证/证书只保存外部或另行授权流程的权威引用，不得由 LIMS 根据一组检测结果生成或提升,ccdf3b7fd0b3e87ff0823d583707fb92a8181d030176295001895cc3a68da430,
 PRD-MAIN,RULE-025,table-row,18. 核心业务规则,1094,认可资格必须按报告行、实验室地点、方法/参数/量程、时间和签字人计算，不得用机构级标记放行,4882534471acf71ad0a7a8e849dbce05e44ba637a020eb747ee4b816e29a523e,
 PRD-MAIN,RULE-026,table-row,18. 核心业务规则,1095,行业包或客户配置升级只对明确生效范围起作用；历史和在制对象按批准迁移/沿用策略处理,138639c246ce3e8fe979512d64e89d518bcf416fd7ecb5ca6616e7ddc556b121,ATC-REC-006@0.1.0;ATC-REC-006@1.0.0;RULE-026@0.1.0
-PRD-MAIN,SEC-AUD-001,table-row,14. 权限、职责分离与电子签名,972,系统必须对新增、修改、状态转换、批准、下载、导出、扫描、标签重印、AI 运行和接口重放生成追加式审计事件,79bb14cf6bf64595ee7888ceba58bc8d33c85449aee4f66e8672727780ee5e2d,ATC-PLT-000@0.1.0;ATC-PLT-000@1.0.0;ATC-REC-001@0.1.0;ATC-REC-001@1.0.0;ATC-REC-002@0.1.0;ATC-REC-002@1.0.0;ATC-REC-003@0.1.0;ATC-REC-003@1.0.0;SEC-AUD-001@0.1.0;SEC-AUD-001@1.0.0
+PRD-MAIN,SEC-AUD-001,table-row,14. 权限、职责分离与电子签名,972,系统必须对新增、修改、状态转换、批准、下载、导出、扫描、标签重印、AI 运行和接口重放生成追加式审计事件,79bb14cf6bf64595ee7888ceba58bc8d33c85449aee4f66e8672727780ee5e2d,ATC-PLT-000@0.1.0;ATC-PLT-000@1.0.0;ATC-REC-001@0.1.0;ATC-REC-001@1.0.0;ATC-REC-001@2.0.0;ATC-REC-002@0.1.0;ATC-REC-002@1.0.0;ATC-REC-003@0.1.0;ATC-REC-003@1.0.0;SEC-AUD-001@0.1.0;SEC-AUD-001@1.0.0;SEC-AUD-001@2.0.0
 PRD-MAIN,SEC-AUD-002,table-row,14. 权限、职责分离与电子签名,973,系统必须使普通管理员无法修改或删除审计日志,60aff14a66c559bcf73b2b5dda0416c1aa15ff3df256ae53af25f70acb4ab871,
 PRD-MAIN,SEC-AUD-003,table-row,14. 权限、职责分离与电子签名,974,系统必须通过哈希链、WORM 或经批准等效机制检测审计完整性破坏,98d7f414cd12feccccb95bafd1defe5e83f3351f4ec16f0705b081ac1f884105,
-PRD-MAIN,SEC-AUTH-001,table-row,14. 权限、职责分离与电子签名,964,系统必须先校验由部署与受信身份绑定的集团上下文，再在服务端同时校验角色、对象、客户、法人、实验室、金额和授权有效期；客户端不得自行指定或覆盖集团上下文,cf10f589589e19290348efd37262215aa95c68c54880a6fd1fd085bff84ba435,ATC-REC-001@0.1.0;ATC-REC-001@1.0.0;SEC-AUTH-001@0.1.0
+PRD-MAIN,SEC-AUTH-001,table-row,14. 权限、职责分离与电子签名,964,系统必须先校验由部署与受信身份绑定的集团上下文，再在服务端同时校验角色、对象、客户、法人、实验室、金额和授权有效期；客户端不得自行指定或覆盖集团上下文,cf10f589589e19290348efd37262215aa95c68c54880a6fd1fd085bff84ba435,ATC-REC-001@0.1.0;ATC-REC-001@1.0.0;ATC-REC-001@2.0.0;SEC-AUTH-001@0.1.0;SEC-AUTH-001@1.0.0
 PRD-MAIN,SEC-AUTH-002,table-row,14. 权限、职责分离与电子签名,965,系统必须阻止检测人员复核被禁止自审的结果,1b69329937c36da250a9a0b1a38e1e3811afd46ada5ec547e4169f8aa3498ccf,
 PRD-MAIN,SEC-AUTH-003,table-row,14. 权限、职责分离与电子签名,966,系统必须阻止开票申请人与最终审批人为同一人,5e00ae7e00b22e1d5c4e90a9c6e210e2c4baee6bf82cce6a1c2aa01c7bc16fca,
 PRD-MAIN,SEC-AUTH-004,table-row,14. 权限、职责分离与电子签名,967,系统必须阻止收款登记人与受限核销审批人为同一人,def48a0a1848c0b015bc760df1a8f9cf80ea789f559c8c0ed8a6dc49d0a9b7f4,
 PRD-MAIN,SEC-AUTH-005,table-row,14. 权限、职责分离与电子签名,968,系统必须阻止退款账户维护人与退款最终审批或执行人为同一人,30276f305b250159de928aa92e5ea11a03dd4445736e950b2ced986dc3f094ef,
 PRD-MAIN,SEC-AUTH-006,table-row,14. 权限、职责分离与电子签名,969,系统必须按累计金额执行审批限额和反拆单控制,140324f6c728a82032d75d103e151f263d32e0aaa949dbb3dfd0e8f0c4aa1cd8,
-PRD-MAIN,SEC-DEPLOY-001,table-row,14. 权限、职责分离与电子签名,963,每个生产部署必须只绑定一个 OrganizationGroup；不同集团的运行环境、数据库、对象存储、密钥、队列、检索/AI 和备份恢复必须独立，禁止共享 SaaS 多租户数据平面,c16fdea96ddb5b659a3504e6a8cbb2cf6d25fa9de71dabbf7c4202155a496cc9,ATC-PLT-000@0.1.0;ATC-PLT-000@1.0.0;SEC-DEPLOY-001@0.1.0;SEC-DEPLOY-001@1.0.0
+PRD-MAIN,SEC-DEPLOY-001,table-row,14. 权限、职责分离与电子签名,963,每个生产部署必须只绑定一个 OrganizationGroup；不同集团的运行环境、数据库、对象存储、密钥、队列、检索/AI 和备份恢复必须独立，禁止共享 SaaS 多租户数据平面,c16fdea96ddb5b659a3504e6a8cbb2cf6d25fa9de71dabbf7c4202155a496cc9,ATC-PLT-000@0.1.0;ATC-PLT-000@1.0.0;SEC-DEPLOY-001@0.1.0;SEC-DEPLOY-001@1.0.0;SEC-DEPLOY-001@2.0.0
 PRD-MAIN,SEC-SIGN-001,table-row,14. 权限、职责分离与电子签名,970,系统必须要求受控批准或签发时重新认证并记录签署意图,b60fb7bad706e42254348c4aa485bb60edf2476c6a13a936a223c963a87e7f92,
 PRD-MAIN,SEC-SIGN-002,table-row,14. 权限、职责分离与电子签名,971,系统必须在被签内容变化后使原签名失效并触发重新审批,804dcfa0d80e05b815f7075677509d2c62eb0db0389ccd68c96934fc5aa729c0,

@@ -120,3 +120,10 @@
 - 当前 Windows 环境没有 Docker、Podman、PostgreSQL 服务或 PostgreSQL 二进制，无法在本机诚实执行真实数据库测试。
 - 73 个当前变更文件全部匹配 `ATC-REC-001@2.0.0` allowed paths；无越界文件。
 - Linux Application CI 已配置固定 digest 的 PostgreSQL 18.4 service 和专用测试数据库，完整后端与 receiving profile 将在那里运行 6 项真实数据库测试。
+
+## Pull Request Delivery
+
+- 分支 `codex/dev-003-receipt-registration` 已推送，首个实现提交为 `f637e154bc3ae884626685d80c79d348a399395a`。
+- GitHub 比较页确认基线为 `main`、比较分支正确、1 个提交和 73 个文件；首次填写 PR 描述时浏览器返回内部错误，尚未创建 PR。
+- PR #3 已创建且无冲突。首轮 CI 中规格治理和 Windows 模块回归通过；Linux 真实 PostgreSQL 测试 5/6 通过。
+- 唯一失败是测试使用 `Assert.Equal` 比较带 `List<T>` 的 record，日志显示期望和实际业务 ID、编号、版本均相同，但 List 使用引用相等；生产重放逻辑没有失败。测试改为严格深层等价比较。

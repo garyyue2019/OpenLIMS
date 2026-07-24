@@ -47,7 +47,7 @@ public sealed class ReceiptRegistrationPersistenceTests
         var first = await RegisterAsync(provider, ValidRequest(), "idem-replay");
         var second = await RegisterAsync(provider, ValidRequest(), "idem-replay");
 
-        Assert.Equal(first, second);
+        Assert.Equivalent(first, second, strict: true);
         Assert.Equal(1, await CountAsync(connectionString, "receiving.receipt"));
         Assert.Equal(2, await CountAsync(connectionString, "receiving.received_item"));
         Assert.Equal(3, await CountAsync(connectionString, "receiving.outbox"));

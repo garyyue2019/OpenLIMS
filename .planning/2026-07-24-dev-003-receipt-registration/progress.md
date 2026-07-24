@@ -54,6 +54,9 @@
 - 最终本地规格门禁通过：strict validate、source-status、history、READY、check、Python 40/40。
 - 最终本地工程门禁通过：locked restore、Release `-warnaserror` build；除无本地 PostgreSQL 的 receiving integration 外，后端 76 项通过；前端 lint、typecheck、28/28 单测和 production build 通过。
 - `git diff --check` 通过；额外格式验证发现 5 个本任务文件的 using 排序和 1 个未改动平台测试的既存排序问题。只修正任务范围内文件，不扩大 allowed paths 修改旧测试源。
+- 已提交 `f637e15` 并推送 DEV-003 分支；正在创建 PR 以触发真实 PostgreSQL CI。首次填写描述遇到一次浏览器内部错误，未重复提交。
+- PR #3 创建成功；首轮规格治理和 Windows 回归通过，Linux PostgreSQL 集成 5/6 通过。
+- 唯一失败定位为测试断言语义：record 内嵌 List 不能用浅层 `Assert.Equal`。改为 `Assert.Equivalent(..., strict: true)` 验证完整重放结构，生产代码不变。
 
 ## Verification Ledger
 

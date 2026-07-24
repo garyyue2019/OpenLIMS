@@ -3,7 +3,7 @@ param(
     [Parameter(Mandatory = $true)]
     [ValidateSet('task', 'architecture', 'contracts', 'all')]
     [string]$Profile,
-    [ValidateSet('platform')]
+    [ValidateSet('platform', 'module-onboarding')]
     [string]$Module
 )
 
@@ -30,11 +30,15 @@ function Invoke-DotNetTest([string]$Filter) {
 
 switch ($Profile) {
     'task' {
-        if ($Module -ne 'platform') { throw "The task profile requires -Module platform." }
+        $moduleFilters = @{
+            'platform' = 'FullyQualifiedName~Platform'
+            'module-onboarding' = 'Profile=module-onboarding'
+        }
+        if ([string]::IsNullOrWhiteSpace($Module) -or -not $moduleFilters.ContainsKey($Module)) { throw "The task profile requires -Module platform or -Module module-onboarding." }
         Require-Command dotnet
         Invoke-Gate 'dotnet restore (locked)' { dotnet restore OpenLIMS.slnx --locked-mode }
         Invoke-Gate 'dotnet build' { dotnet build OpenLIMS.slnx -c Release --no-restore -warnaserror }
-        Invoke-DotNetTest 'FullyQualifiedName~Platform'
+        Invoke-DotNetTest $moduleFilters[$Module]
     }
     'architecture' { Invoke-DotNetTest 'FullyQualifiedName~Architecture' }
     'contracts' { Invoke-DotNetTest 'FullyQualifiedName~Contract' }

@@ -10,5 +10,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <ProjectReference Include="../../../../src/host/api/OpenLIMS.Api/OpenLIMS.Api.csproj" />
+    <ProjectReference Include="../../../../src/host/worker/OpenLIMS.Worker/OpenLIMS.Worker.csproj" Aliases="worker" />
+    <ProjectReference Include="../../../fixtures/modules/OpenLIMS.Testing.ModuleFixture/OpenLIMS.Testing.ModuleFixture.csproj" />
   </ItemGroup>
 </Project>

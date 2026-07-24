@@ -21,11 +21,15 @@ dotnet_test() { require_command dotnet; gate "dotnet test ($1)" dotnet test Open
 
 case "$profile" in
   task)
-    [[ "$module" == "platform" ]] || { echo "The task profile requires --module platform." >&2; exit 2; }
+    case "$module" in
+      platform) test_filter='FullyQualifiedName~Platform' ;;
+      module-onboarding) test_filter='Profile=module-onboarding' ;;
+      *) echo "The task profile requires --module platform or --module module-onboarding." >&2; exit 2 ;;
+    esac
     require_command dotnet
     gate "dotnet restore (locked)" dotnet restore OpenLIMS.slnx --locked-mode
     gate "dotnet build" dotnet build OpenLIMS.slnx -c Release --no-restore -warnaserror
-    dotnet_test 'FullyQualifiedName~Platform'
+    dotnet_test "$test_filter"
     ;;
   architecture) dotnet_test 'FullyQualifiedName~Architecture' ;;
   contracts) dotnet_test 'FullyQualifiedName~Contract' ;;

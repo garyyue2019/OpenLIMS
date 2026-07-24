@@ -1,10 +1,14 @@
 using OpenLIMS.BuildingBlocks.Platform;
 using OpenLIMS.Contracts.Platform;
+using OpenLIMS.Worker;
 using Microsoft.Extensions.Hosting;
 
 var builder = Host.CreateApplicationBuilder(args);
 builder.Logging.ClearProviders();
 builder.Logging.AddJsonConsole();
+
+IOpenLimsServerModule[] modules = [];
+var moduleCatalog = OpenLimsModuleCatalog.Create(modules);
 
 var organizationGroupId = builder.Configuration["Platform:OrganizationGroupId"];
 var postgresConnectionString = builder.Configuration["Platform:PostgresConnectionString"];
@@ -21,8 +25,18 @@ if (args.Length == 1 && string.Equals(args[0], "--apply-platform-migration", Str
 
 builder.Services.AddSingleton<ICurrentOrganizationContext>(new DeploymentOrganizationContext(new OrganizationScope(organizationGroupId)));
 builder.Services.AddSingleton<IClock, SystemClock>();
+builder.Services.AddOpenLimsWorkerModule(moduleCatalog);
 builder.Services.AddHostedService<IdleWorker>();
-await builder.Build().RunAsync();
+var host = builder.Build();
+var logger = host.Services.GetRequiredService<ILoggerFactory>().CreateLogger("OpenLIMS.ModuleComposition");
+foreach (var module in moduleCatalog.Modules)
+{
+    logger.LogInformation(
+        "OpenLIMS module {ModuleId} contract {ContractVersion} registered for Worker host",
+        module.Descriptor.ModuleId,
+        module.Descriptor.ContractVersion);
+}
+await host.RunAsync();
 
 internal sealed class IdleWorker(ILogger<IdleWorker> logger) : BackgroundService
 {

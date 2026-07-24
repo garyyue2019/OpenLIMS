@@ -37,7 +37,7 @@ class RepositoryContractTests(unittest.TestCase):
             check=False,
         )
         self.assertEqual(0, result.returncode, result.stderr.decode("utf-8", errors="replace"))
-        self.assertIn("59 个规格版本", result.stdout.decode("utf-8"))
+        self.assertIn("60 个规格版本", result.stdout.decode("utf-8"))
 
     def test_git_checkout_keeps_deterministic_lf_bytes(self) -> None:
         attributes = (ROOT / ".gitattributes").read_text(encoding="utf-8")
@@ -49,6 +49,7 @@ class RepositoryContractTests(unittest.TestCase):
         features = sorted((ROOT / "generated" / "spec" / "features").glob("*.feature"))
         expected_tasks = {
             *(f"ATC-PLT-000__v{version}.md" for version in ("0.1.0", "1.0.0")),
+            "ATC-PLT-003__v1.0.0.md",
             *(
                 f"ATC-REC-{number:03d}__v{version}.md"
                 for version in ("0.1.0", "1.0.0")
@@ -56,7 +57,7 @@ class RepositoryContractTests(unittest.TestCase):
             ),
         }
         self.assertEqual(expected_tasks, {path.name for path in tasks})
-        self.assertEqual(19, len(features))
+        self.assertEqual(20, len(features))
         self.assertTrue(
             {
                 "ATC-PLT-000__v0.1.0.feature",
@@ -270,6 +271,7 @@ class RepositoryContractTests(unittest.TestCase):
             "NFR-ARCH-002@1.0.0",
             "AC-DEPLOY-001@1.0.0",
             "ATC-PLT-000@1.0.0",
+            "ATC-PLT-003@1.0.0",
             "REL-R1-RECEIVING-PILOT@1.0.0",
             *(f"ATC-REC-{number:03d}@1.0.0" for number in range(1, 7)),
         }
@@ -311,12 +313,17 @@ class RepositoryContractTests(unittest.TestCase):
             with self.subTest(in_review=ref):
                 self.assertEqual("in_review", objects[ref]["status"])
 
-        for ref in planned_refs:
+        for ref in planned_refs - {"ATC-PLT-003@1.0.0"}:
             with self.subTest(no_false_approval=ref):
                 item = objects[ref]
                 self.assertNotEqual("approved", item["status"])
                 self.assertNotEqual("decided", item.get("decision_state"))
                 self.assertNotEqual("ready", item.get("body", {}).get("readiness"))
+
+        approved_module_onboarding = objects["ATC-PLT-003@1.0.0"]
+        self.assertEqual("approved", approved_module_onboarding["status"])
+        self.assertEqual("ready", approved_module_onboarding["body"]["readiness"])
+        self.assertEqual("DEV-002", approved_module_onboarding["body"]["implementation_task_id"])
 
         expected_platform_dependencies = {
             "ED-002@1.0.0": {"OD-002@1.0.0"},

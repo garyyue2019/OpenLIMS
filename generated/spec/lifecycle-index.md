@@ -17,6 +17,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `AC-SEC-001` | `0.1.0` | `in_review` | `spec/acceptance/AC-SEC-001__v0.1.0.json` |
 | `ATC-PLT-000` | `0.1.0` | `proposed` | `spec/stories/ATC-PLT-000__v0.1.0.json` |
 | `ATC-PLT-000` | `1.0.0` | `proposed` | `spec/stories/ATC-PLT-000__v1.0.0.json` |
+| `ATC-PLT-003` | `1.0.0` | `approved` | `spec/stories/ATC-PLT-003__v1.0.0.json` |
 | `ATC-REC-001` | `0.1.0` | `proposed` | `spec/stories/ATC-REC-001__v0.1.0.json` |
 | `ATC-REC-001` | `1.0.0` | `proposed` | `spec/stories/ATC-REC-001__v1.0.0.json` |
 | `ATC-REC-002` | `0.1.0` | `proposed` | `spec/stories/ATC-REC-002__v0.1.0.json` |

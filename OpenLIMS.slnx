@@ -26,6 +26,10 @@
   <Folder Name="/tests/e2e/smoke/">
     <Project Path="tests/e2e/smoke/OpenLIMS.Platform.SmokeTests/OpenLIMS.Platform.SmokeTests.csproj" />
   </Folder>
+  <Folder Name="/tests/fixtures/" />
+  <Folder Name="/tests/fixtures/modules/">
+    <Project Path="tests/fixtures/modules/OpenLIMS.Testing.ModuleFixture/OpenLIMS.Testing.ModuleFixture.csproj" />
+  </Folder>
   <Folder Name="/tests/integration/" />
   <Folder Name="/tests/integration/platform/">
     <Project Path="tests/integration/platform/OpenLIMS.Platform.IntegrationTests/OpenLIMS.Platform.IntegrationTests.csproj" />

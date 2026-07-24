@@ -547,6 +547,21 @@
       "openlims.contracts.platform": {
         "type": "Project"
       },
+      "openlims.testing.modulefixture": {
+        "type": "Project",
+        "dependencies": {
+          "OpenLIMS.BuildingBlocks.Platform": "[1.0.0, )"
+        }
+      },
+      "openlims.worker": {
+        "type": "Project",
+        "dependencies": {
+          "Microsoft.Extensions.Hosting": "[10.0.10, )",
+          "OpenLIMS.BuildingBlocks.Platform": "[1.0.0, )",
+          "OpenLIMS.Contracts.Platform": "[1.0.0, )",
+          "OpenTelemetry.Extensions.Hosting": "[1.17.0, )"
+        }
+      },
       "AWSSDK.S3": {
         "type": "CentralTransitive",
         "requested": "[4.0.101.4, )",

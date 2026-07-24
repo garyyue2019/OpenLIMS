@@ -254,6 +254,37 @@
       "status": "proposed",
       "title": "建立可验证的模块化单体工程骨架"
     },
+    "ATC-PLT-003@1.0.0": {
+      "affects": [
+        "module-composition",
+        "api-host",
+        "worker-host",
+        "web-composition",
+        "architecture-tests",
+        "verification"
+      ],
+      "depends_on": [
+        "OD-002@1.0.0"
+      ],
+      "fingerprint": "b2a7af44a3db6fa8f6c7893009b53f1a6cfc5dc4de0c644f80eadd1f7f9218fa",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "NFR-ARCH-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "NFR-ARCH-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-002"
+        }
+      ],
+      "status": "approved",
+      "title": "建立业务模块接入与验证通道"
+    },
     "ATC-REC-001@0.1.0": {
       "affects": [
         "receiving",

@@ -4,6 +4,7 @@
     <RootNamespace>OpenLIMS.BuildingBlocks.Platform</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="AWSSDK.S3" />
     <PackageReference Include="Npgsql" />
     <ProjectReference Include="../../../contracts/platform/OpenLIMS.Contracts.Platform/OpenLIMS.Contracts.Platform.csproj" />

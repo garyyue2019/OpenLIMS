@@ -15,6 +15,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `AC-SEC-001@0.1.0` | `acceptance` | `in_review` | 集团内多维越权防护 | `major` | authorization, search, export, object-storage, ai-retrieval, automated-test | `e762dae769c4` |
 | `ATC-PLT-000@0.1.0` | `story` | `proposed` | 建立可验证的模块化单体工程骨架 | `major` | engineering-skeleton, repository, api-host, worker-host, web-shell, module-boundaries, postgresql, identity, object-storage, outbox, audit, observability, ci, deployment, automated-test | `af9924a0b1fa` |
 | `ATC-PLT-000@1.0.0` | `story` | `proposed` | 建立可验证的模块化单体工程骨架 | `major` | engineering-skeleton, repository, api-host, worker-host, web-shell, module-boundaries, postgresql, identity, object-storage, outbox, audit, observability, ci, deployment, automated-test | `f45a6ee6de5f` |
+| `ATC-PLT-003@1.0.0` | `story` | `approved` | 建立业务模块接入与验证通道 | `major` | module-composition, api-host, worker-host, web-composition, architecture-tests, verification | `b2a7af44a3db` |
 | `ATC-REC-001@0.1.0` | `story` | `proposed` | 登记到货批、包装单元和收到实物 | `minor` | receiving, authorization, audit, receiving-ui, automated-test | `9b8952decd3e` |
 | `ATC-REC-001@1.0.0` | `story` | `proposed` | 登记到货批、包装单元和收到实物 | `minor` | receiving, authorization, audit, receiving-ui, automated-test | `2c78ba34a872` |
 | `ATC-REC-002@0.1.0` | `story` | `proposed` | 生成、打印并校验包装和实物标识 | `minor` | receiving, identifier, barcode, mobile, audit, automated-test | `01083113a16c` |

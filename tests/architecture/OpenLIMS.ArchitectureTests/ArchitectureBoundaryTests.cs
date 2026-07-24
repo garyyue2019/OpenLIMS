@@ -9,31 +9,98 @@ public sealed partial class ArchitectureBoundaryTests
     private static readonly string RepositoryRoot = FindRepositoryRoot();
 
     [Fact]
-    public void Production_projects_do_not_reference_tests_or_business_implementation_roots()
+    public void Production_project_references_respect_modular_monolith_boundaries()
     {
-        var projectRoots = new[] { "src", "contracts" };
-        var forbiddenSegments = new[] { "/tests/", "/src/modules/", "/src/packs/" };
+        var projects = LoadProductionProjects();
+        var violations = new List<string>();
+        var moduleDependencies = new Dictionary<string, HashSet<string>>(StringComparer.OrdinalIgnoreCase);
 
-        foreach (var projectRoot in projectRoots)
+        foreach (var project in projects.Values)
         {
-            foreach (var projectFile in Directory.EnumerateFiles(Path.Combine(RepositoryRoot, projectRoot), "*.csproj", SearchOption.AllDirectories))
+            foreach (var reference in project.References)
             {
-                var document = XDocument.Load(projectFile);
-                var references = document.Descendants("ProjectReference")
-                    .Select(reference => reference.Attribute("Include")?.Value.Replace('\\', '/') ?? string.Empty)
-                    .ToArray();
+                if (!IsWithinRepository(reference))
+                {
+                    violations.Add($"{project.RelativePath} references a project outside the repository: {reference}");
+                    continue;
+                }
 
-                Assert.All(references, reference =>
-                    Assert.DoesNotContain(forbiddenSegments, segment => $"/{reference.TrimStart('.').TrimStart('/')}".Contains(segment, StringComparison.OrdinalIgnoreCase)));
+                var targetRelativePath = RelativePath(reference);
+                if (targetRelativePath.StartsWith("tests/", StringComparison.OrdinalIgnoreCase))
+                {
+                    violations.Add($"{project.RelativePath} references test project {targetRelativePath}");
+                    continue;
+                }
+
+                var sourceModule = GetModuleId(project.RelativePath);
+                var targetModule = GetModuleId(targetRelativePath);
+
+                if (IsPlatformFoundation(project.RelativePath) && targetModule is not null)
+                {
+                    violations.Add($"platform foundation {project.RelativePath} references module implementation {targetRelativePath}");
+                }
+
+                if (sourceModule is not null && targetModule is not null && !StringComparer.OrdinalIgnoreCase.Equals(sourceModule, targetModule))
+                {
+                    if (!IsModulePublicContract(targetRelativePath))
+                    {
+                        violations.Add($"module '{sourceModule}' references private implementation from module '{targetModule}': {targetRelativePath}");
+                        continue;
+                    }
+
+                    if (!moduleDependencies.TryGetValue(sourceModule, out var dependencies))
+                    {
+                        dependencies = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+                        moduleDependencies.Add(sourceModule, dependencies);
+                    }
+
+                    dependencies.Add(targetModule);
+                }
             }
+        }
+
+        violations.AddRange(FindModuleDependencyCycles(moduleDependencies));
+
+        Assert.Empty(violations);
+    }
+
+    [Fact]
+    public void Production_project_reference_graph_is_acyclic()
+    {
+        var projects = LoadProductionProjects();
+        var projectPaths = projects.Keys.ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var visiting = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var visited = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+        foreach (var projectPath in projectPaths)
+        {
+            Assert.False(ContainsCycle(projectPath, projects, projectPaths, visiting, visited), $"Circular production project dependency detected from {RelativePath(projectPath)}.");
         }
     }
 
     [Fact]
-    public void Engineering_spike_contains_no_production_business_module_or_pack()
+    public void Production_contains_no_dynamic_module_pack_root()
     {
-        Assert.False(Directory.Exists(Path.Combine(RepositoryRoot, "src", "modules")));
         Assert.False(Directory.Exists(Path.Combine(RepositoryRoot, "src", "packs")));
+    }
+
+    [Fact]
+    public void Module_public_contracts_do_not_expose_private_persistence_types_or_tables()
+    {
+        var contractRoots = new[]
+        {
+            Path.Combine(RepositoryRoot, "contracts", "modules"),
+            Path.Combine(RepositoryRoot, "src", "modules")
+        };
+        var violations = contractRoots
+            .Where(Directory.Exists)
+            .SelectMany(root => Directory.EnumerateFiles(root, "*.cs", SearchOption.AllDirectories))
+            .Where(file => IsModulePublicContract(RelativePath(file)))
+            .Where(file => PrivatePersistencePattern().IsMatch(File.ReadAllText(file)))
+            .Select(RelativePath)
+            .ToArray();
+
+        Assert.Empty(violations);
     }
 
     [Fact]
@@ -45,6 +112,149 @@ public sealed partial class ArchitectureBoundaryTests
 
         Assert.Equal(allowed, routes);
     }
+
+    [Fact]
+    public void Production_hosts_use_an_explicitly_empty_business_module_manifest()
+    {
+        var hostPrograms = new[]
+        {
+            Path.Combine(RepositoryRoot, "src", "host", "api", "OpenLIMS.Api", "Program.cs"),
+            Path.Combine(RepositoryRoot, "src", "host", "worker", "OpenLIMS.Worker", "Program.cs")
+        };
+
+        Assert.All(hostPrograms, program => Assert.Matches(EmptyModuleManifestPattern(), File.ReadAllText(program)));
+    }
+
+    private static Dictionary<string, ProductionProject> LoadProductionProjects()
+    {
+        var projects = new Dictionary<string, ProductionProject>(StringComparer.OrdinalIgnoreCase);
+        foreach (var projectRoot in new[] { "src", "contracts" })
+        {
+            var absoluteRoot = Path.Combine(RepositoryRoot, projectRoot);
+            if (!Directory.Exists(absoluteRoot))
+            {
+                continue;
+            }
+
+            foreach (var projectFile in Directory.EnumerateFiles(absoluteRoot, "*.csproj", SearchOption.AllDirectories))
+            {
+                var fullProjectPath = Path.GetFullPath(projectFile);
+                var document = XDocument.Load(projectFile);
+                var references = document.Descendants("ProjectReference")
+                    .Select(reference => reference.Attribute("Include")?.Value)
+                    .Where(include => !string.IsNullOrWhiteSpace(include))
+                    .Select(include => Path.GetFullPath(Path.Combine(Path.GetDirectoryName(projectFile)!, include!)))
+                    .ToArray();
+
+                projects.Add(fullProjectPath, new ProductionProject(RelativePath(fullProjectPath), references));
+            }
+        }
+
+        return projects;
+    }
+
+    private static bool ContainsCycle(
+        string projectPath,
+        IReadOnlyDictionary<string, ProductionProject> projects,
+        IReadOnlySet<string> projectPaths,
+        ISet<string> visiting,
+        ISet<string> visited)
+    {
+        if (visited.Contains(projectPath))
+        {
+            return false;
+        }
+
+        if (!visiting.Add(projectPath))
+        {
+            return true;
+        }
+
+        foreach (var reference in projects[projectPath].References.Where(projectPaths.Contains))
+        {
+            if (ContainsCycle(reference, projects, projectPaths, visiting, visited))
+            {
+                return true;
+            }
+        }
+
+        visiting.Remove(projectPath);
+        visited.Add(projectPath);
+        return false;
+    }
+
+    private static IEnumerable<string> FindModuleDependencyCycles(IReadOnlyDictionary<string, HashSet<string>> dependencies)
+    {
+        foreach (var module in dependencies.Keys)
+        {
+            var stack = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            if (ModuleDependencyContainsCycle(module, dependencies, stack, new HashSet<string>(StringComparer.OrdinalIgnoreCase)))
+            {
+                yield return $"circular module dependency detected from '{module}'";
+            }
+        }
+    }
+
+    private static bool ModuleDependencyContainsCycle(
+        string module,
+        IReadOnlyDictionary<string, HashSet<string>> dependencies,
+        ISet<string> stack,
+        ISet<string> visited)
+    {
+        if (!visited.Add(module))
+        {
+            return stack.Contains(module);
+        }
+
+        stack.Add(module);
+        if (dependencies.TryGetValue(module, out var targets))
+        {
+            foreach (var target in targets)
+            {
+                if (stack.Contains(target) || ModuleDependencyContainsCycle(target, dependencies, stack, visited))
+                {
+                    return true;
+                }
+            }
+        }
+
+        stack.Remove(module);
+        return false;
+    }
+
+    private static string? GetModuleId(string relativePath)
+    {
+        var segments = relativePath.Split('/', StringSplitOptions.RemoveEmptyEntries);
+        if (segments.Length < 4 ||
+            !(segments[0].Equals("src", StringComparison.OrdinalIgnoreCase) || segments[0].Equals("contracts", StringComparison.OrdinalIgnoreCase)) ||
+            !segments[1].Equals("modules", StringComparison.OrdinalIgnoreCase))
+        {
+            return null;
+        }
+
+        Assert.Matches("^[a-z][a-z0-9-]*$", segments[2]);
+        return segments[2];
+    }
+
+    private static bool IsModulePublicContract(string relativePath)
+    {
+        var segments = relativePath.Split('/', StringSplitOptions.RemoveEmptyEntries);
+        return segments.Length >= 4 &&
+            (segments[0].Equals("contracts", StringComparison.OrdinalIgnoreCase) && segments[1].Equals("modules", StringComparison.OrdinalIgnoreCase) ||
+             segments[0].Equals("src", StringComparison.OrdinalIgnoreCase) && segments[1].Equals("modules", StringComparison.OrdinalIgnoreCase) && segments[3].Equals("contracts", StringComparison.OrdinalIgnoreCase));
+    }
+
+    private static bool IsPlatformFoundation(string relativePath) =>
+        relativePath.StartsWith("contracts/platform/", StringComparison.OrdinalIgnoreCase) ||
+        relativePath.StartsWith("src/building-blocks/", StringComparison.OrdinalIgnoreCase);
+
+    private static bool IsWithinRepository(string path)
+    {
+        var relativePath = Path.GetRelativePath(RepositoryRoot, path);
+        return relativePath != ".." && !relativePath.StartsWith($"..{Path.DirectorySeparatorChar}", StringComparison.Ordinal);
+    }
+
+    private static string RelativePath(string path) => Path.GetRelativePath(RepositoryRoot, path).Replace('\\', '/');
 
     private static string FindRepositoryRoot()
     {
@@ -59,4 +269,12 @@ public sealed partial class ArchitectureBoundaryTests
 
     [GeneratedRegex("Map(?:Get|Post|Put|Patch|Delete)\\(\\\"([^\\\"]+)\\\"")]
     private static partial Regex RoutePattern();
+
+    [GeneratedRegex("\\b(?:DbContext|DbSet|MigrationBuilder)\\b|\\[(?:Table|Column)\\s*\\(", RegexOptions.CultureInvariant)]
+    private static partial Regex PrivatePersistencePattern();
+
+    [GeneratedRegex("IOpenLimsServerModule\\s*\\[\\s*\\]\\s+modules\\s*=\\s*\\[\\s*\\]\\s*;", RegexOptions.CultureInvariant)]
+    private static partial Regex EmptyModuleManifestPattern();
+
+    private sealed record ProductionProject(string RelativePath, IReadOnlyList<string> References);
 }

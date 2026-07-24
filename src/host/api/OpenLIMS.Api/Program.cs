@@ -10,6 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Logging.ClearProviders();
 builder.Logging.AddJsonConsole();
 
+IOpenLimsServerModule[] modules = [];
+var moduleCatalog = OpenLimsModuleCatalog.Create(modules);
+
 var platformOptions = builder.Configuration.GetSection(PlatformOptions.SectionName).Get<PlatformOptions>();
 if (!HasRequiredDeploymentConfiguration(platformOptions, builder.Environment))
 {
@@ -79,6 +82,7 @@ builder.Services
         };
     });
 builder.Services.AddAuthorization();
+builder.Services.AddOpenLimsModule(moduleCatalog);
 builder.Services.AddOpenTelemetry().WithTracing(tracing =>
     tracing.AddAspNetCoreInstrumentation().AddHttpClientInstrumentation());
 
@@ -159,6 +163,14 @@ app.MapGet("/openapi/v1.json", () => Results.Json(new
         ["/system/status"] = new { get = new { operationId = "getAuthenticatedSystemStatus", responses = new { ok = new { description = "Authenticated platform status" } } } }
     }
 }));
+app.MapOpenLimsModuleEndpoints(moduleCatalog);
+foreach (var module in moduleCatalog.Modules)
+{
+    app.Logger.LogInformation(
+        "OpenLIMS module {ModuleId} contract {ContractVersion} registered for API host",
+        module.Descriptor.ModuleId,
+        module.Descriptor.ContractVersion);
+}
 app.Run();
 
 static async Task<IResult> CheckReadinessAsync(

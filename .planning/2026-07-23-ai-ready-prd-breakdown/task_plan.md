@@ -4,7 +4,7 @@
 基于现有 OpenLIMS PRD，形成并实际交付一套可运行、可追踪、可增量同步的 AI 开发规格与需求编译工具链。
 
 ## Current Phase
-In Progress: 联合评审发起与明确选择收集
+Phase 49: 分支提交与GitHub发布
 
 ## Phases
 
@@ -238,6 +238,71 @@ In Progress: 联合评审发起与明确选择收集
 - [x] 暂存完整交付、创建提交、推送`main`到`origin/main`并核对远端CI
 - **Status:** complete
 
+### Phase 40: DEV-001 Spike 边界与环境
+- [x] 恢复计划并运行规格、来源、影响与Story Ready前置门禁
+- [x] 核对任务允许路径、仓库现状和本机工具链，固定不引入业务默认值的Spike边界
+- [x] 创建独立开发分支并把后端、前端、运行验证拆给互不冲突的代理
+- **Status:** complete
+
+### Phase 41: DEV-001 并行工程实现
+- [x] 创建.NET 10解决方案、API/Worker/BuildingBlocks骨架和基础自动化测试
+- [x] 创建Vue 3/TypeScript前端、可访问应用壳和前端测试
+- [x] 创建本地依赖编排、跨平台验证入口和CI应用门禁
+- **Status:** complete
+
+### Phase 42: DEV-001 集成与修复
+- [x] 主代理审查所有代理产物，统一命名、模块边界、配置和健康检查契约
+- [x] 运行后端、前端、脚本、架构、规格和生成幂等测试并修复失败
+- [x] 启动可运行应用并验证浏览器/API健康路径；记录Docker缺失导致的真实限制
+- **Status:** complete
+
+### Phase 43: DEV-001 交付
+- [x] 核对只修改允许路径且未触碰spec/generated/治理文档
+- [x] 汇总实际可运行命令、已验证范围、剩余环境限制和下一任务包入口
+- **Status:** complete
+
+### Phase 44: DEV-001B 前置门禁、边界与基线
+- [x] 恢复计划并运行规格、来源、影响与ATC-PLT-000 Ready门禁
+- [x] 核对任务允许路径、现有工程代码和未提交DEV-001基线
+- [x] 固定DEV-001B为用户明确批准的基础依赖与登录集成Spike，不补业务默认值
+- **Status:** complete
+
+### Phase 45: DEV-001B 并行实现
+- [x] 实现PostgreSQL连接、迁移、Outbox/Inbox及审计意图最小持久化
+- [x] 实现Keycloak OIDC/JWT登录、退出、可信集团上下文和授权失败路径
+- [x] 实现MinIO对象存储端口、外部依赖readiness及本地依赖初始化
+- **Status:** complete
+
+### Phase 46: DEV-001B 集成与自动化验证
+- [x] 集成Web/API/Worker配置并补齐正反向、权限、并发、恢复和契约测试
+- [x] 在可用环境实际启动依赖并执行端到端验证；若本机仍无Docker Engine则提供可重复的替代验证证据
+- [x] 运行应用构建、依赖审计、Compose静态检查和浏览器/API验证并修复失败
+- **Status:** complete
+
+### Phase 47: DEV-001B 完整门禁与交付
+- [x] 执行AGENTS.md六道完成门禁和二次幂等generate
+- [x] 核对受保护规格/生成目录未被人工修改，汇总实现范围、已知限制和下一任务包入口
+- [x] 保留为独立、可审查的未提交增量，除非用户另行要求提交或推送
+- **Status:** complete
+
+### Phase 48: DEV-001/DEV-001B 受控提交前终审
+- [x] 恢复发布上下文并重跑规格、来源、影响与Story Ready前置门禁
+- [x] 重跑AGENTS.md六道门禁、应用锁定构建测试、依赖审计和Compose静态检查
+- [x] 核对受保护路径、提交范围、远端目标和工作区无未知文件
+- **Status:** complete
+
+### Phase 49: 分支提交与GitHub发布
+- [x] 暂存完整DEV-001/DEV-001B增量并复核暂存差异
+- [ ] 创建单一可审查提交并推送`codex/dev-001-engineering-skeleton`
+- [ ] 核对远端分支提交SHA与本地一致，不直接合并main
+- **Status:** in_progress
+
+### Phase 50: GitHub Actions验证与交付
+- [ ] 监控该提交触发的规格与应用工作流直到终态
+- [ ] 失败时读取具体日志、修复、重新门禁并追加提交；成功时记录运行URL和证据
+- [ ] 交付提交、远端分支、CI状态、真实容器Smoke结果和下一步建议
+- **Status:** pending
+
 ## Decisions Made
 | Decision | Rationale |
 |----------|-----------|
@@ -265,6 +330,7 @@ In Progress: 联合评审发起与明确选择收集
 | 用户要求按建议顺序推进，当前先发起联合评审而不记录任何ACCEPT | 对推进顺序的授权不等于对8项方案、33个角色槽或15项技术锁的正式批准；必须先取得明确身份、授权和逐项结论 |
 | 用户已明确接受RV-PLT-001至005、007至008，并为RV-PLT-006选择方案A | 该记录完成发起人方案方向确认；由于受控身份、代表角色和授权依据仍缺失，不能据此把评审CSV改为ACCEPT/VERIFIED或提升规格状态 |
 | 用户明确要求“提交并发布”，本轮发布当前完整工作区到现有GitHub远端 | 该授权覆盖Git提交与推送，不等于业务审批；所有PENDING评审记录、技术锁及proposed/in_review/blocked规格保持原状 |
+| 用户明确要求停止扩写治理文档并开始执行DEV-001，且授权使用多个子代理 | 本轮作为用户明确批准的工程骨架Spike实施，只新增应用代码、测试、运行配置和必要工程说明；不改spec/generated，不补业务默认值，不提升任何审批状态 |
 
 ## Errors Encountered
 | Error | Resolution |
@@ -289,3 +355,29 @@ In Progress: 联合评审发起与明确选择收集
 | 首次同时更新两份审批文档的大补丁因5.4节标题上下文不精确而整体未应用 | 拆为按文件和区段的精确补丁，成功更新草案/批准边界；失败补丁没有产生部分写入 |
 | 将预期返回BLOCKED的Ready命令与其他只读检查放入同一并行工具批次，非零退出使批次提前返回 | 改为单独执行Ready并显式记录原始`READY_EXIT=4`，其余检查另行运行；未修改门禁或隐藏阻塞 |
 | 首次批量同步五份Review Status文档时，故障排查文档的旧上下文不匹配导致整批补丁未应用 | 读取精确区段后拆为两组补丁，成功更新全部文档；失败补丁没有部分写入 |
+| 运行代理选择的MinIO标签`RELEASE.2025-10-15T17-29-55Z`在Docker Registry不存在 | 从Docker Hub官方标签接口选择存在的`RELEASE.2025-09-07T16-13-09Z`并固定manifest digest；同时将PostgreSQL升级到当前18.4并固定digest |
+| 主代理审查运行文件时把Keycloak realm文件名写成`openlims-dev-realm.json`导致只读路径错误 | 使用`rg --files deploy`确认实际文件为`openlims-development-realm.json`并完成审查；未修改文件或重复错误命令 |
+| 查询Microsoft.OpenApi近期版本时误用了PowerShell不存在的`Select-Object -Join`参数 | 最新版本主查询已成功返回3.9.0；移除无效摘要写法，并采用后端代理已实际兼容验证的无漏洞3.5.1精确锁继续构建 |
+| 首次新增DEV-001B三份规划记录时误用了根目录旧规划的乱码末尾作为活动findings上下文，补丁整体未应用 | 读取活动计划精确末尾后拆分补丁；仅更新规划记录，没有业务文件产生部分修改 |
+| DEV-001B主集成首次构建发现代理与主代理都新增了`AuthenticationRequired`常量，产生CS0102重复定义 | 删除重复行并保留唯一稳定错误码；其余项目已编译到API阶段，未降低警告即错误门禁 |
+| 首次组合执行JSON解析、restore、pnpm锁和build时，在PowerShell cmdlet后检查空`LASTEXITCODE`导致提前以0退出，实际未恢复新Smoke项目 | 改为每个外部程序单独执行并核对资产/锁文件；后续不对纯PowerShell cmdlet使用`LASTEXITCODE` |
+| 新增契约认证夹具首次编译缺`ILoggerFactory`命名空间，且常量`Scheme`隐藏基类属性被警告即错误拦截 | 增加精确Logging using并把常量改名`SchemeName`；保持警告即错误，不使用抑制 |
+| DEV-001B首次全量.NET测试中架构路由白名单仍只有DEV-001三个端点，新增受保护`/system/status`被正确拦截 | 将该技术端点显式加入唯一白名单；业务路由、`src/modules`和`src/packs`禁止断言保持不变 |
+| 首次本地运行态失败关闭检查发现401安全正文虽正确但`WriteAsJsonAsync`把Content-Type覆盖为`application/json` | 改由ASP.NET Core `Results.Problem`统一执行RFC 9457响应，保留稳定错误码、关联ID和no-store头后复测 |
+| 终止长运行工具cell只结束了`dotnet run`父进程，子API进程27768仍锁定Release apphost，导致下一次build复制重试失败 | 核对PID路径确属工作区API后停止该进程；后续运行验证在结束时同时核对端口与子进程，不把文件锁误判为代码失败 |
+| 浏览器直接跳转`/system/status`被客户端拦截 | 按浏览器技能读取故障排查说明，重新抓取DOM后使用页面中唯一、可见且href精确匹配的导航链接进入；页面验证成功，未重复失败动作 |
+| 在Windows PowerShell中直接把`dotnet list --format json`管道给Python时stdin为空，JSON门禁模拟失败 | 改为按CI真实方式先把dotnet输出写入临时JSON再由Python解析；该差异仅影响本地Shell模拟，不修改CI判定逻辑 |
+| PowerShell `>`把本地临时NuGet JSON写成UTF-16LE，按GitHub Bash的UTF-8读取方式再次解析失败 | 本地改按UTF-16解析并单独验证Python递归判定；CI继续使用Ubuntu Bash重定向产生UTF-8，不照搬Windows编码 |
+| Git Bash执行Unix验证入口时把MSBuild参数`/warnaserror`转换成`C:/Program Files/Git/warnaserror`，导致MSB1008 | Windows/Unix脚本及CI统一改用等价的`-warnaserror`开关，避免MSYS路径转换且继续保持警告即错误 |
+| 最终状态汇总命令中把含转义双引号的`rg`模式嵌入PowerShell双引号命令，触发字符串终止符解析错误 | 改用单引号模式并拆分关键行检索；失败发生在只读汇总前，没有修改任何文件 |
+| 暂存后首次同步Phase 49规划状态时补丁的第二个文件标记前带多余空格，导致整体未应用 | 修正补丁格式后分别更新任务和进度；失败补丁没有产生部分写入，暂存区内容未受影响 |
+| 用`rg`同时读取尚不存在的`tests/architecture`目录导致两次exit 1 | 首次确认目录缺失后由主代理创建正式架构测试项目；后续直接以解决方案测试验证，不再把缺目录当内容搜索目标 |
+| PowerShell运行时不提供`[System.IO.Path]::GetRelativePath`，前端批量审查标题生成报错 | 文件正文仍完整输出；后续相对路径使用已验证的字符串前缀截取，不再调用缺失API |
+| 前端首次供应链审计发现Vite高危漏洞和Vitest严重漏洞 | 保持审计阻断，升级到同一主版本的Vite 7.3.6、Vitest 3.2.7与插件6.0.8；重新锁定后`pnpm audit`为0已知漏洞 |
+| 桌面安全策略拒绝`Start-Process`后台启动API/Web | 改用两个受控前台运行单元托管服务，完成HTTP与浏览器验收后显式清理进程；未绕过系统策略 |
+| 浏览器后端不支持文档中列出的`networkidle`等待状态 | 按browser-troubleshooting改用已支持的`load`状态和DOM快照；未重选浏览器或切换控制机制 |
+| 浏览器审查发现Ant Design子组件被错误当作插件注册并产生Vue warning | 仅对带install的父组件使用`.use()`；父插件自动注册子组件，最终页面刷新后无新增warning/error |
+| 监听进程清理时按仓库工作目录过滤`node.exe`，同时命中了已完成验收的浏览器Node内核 | 浏览器标签已先finalize且无用户状态丢失；后续进程清理只按已验证监听端口或应用可执行文件PID，不再按通用node工作目录过滤 |
+| 查询监听进程时再次把PowerShell`foreach`结果直接接管道而解析失败 | 立即改为先收集`$rows`再格式化，精确识别并清理API/Worker；未执行未验证PID操作 |
+| 辅助锁扫描把`pnpm-lock.yaml`内第三方peer/engine范围误判为直接依赖未锁 | 保留确定性锁文件，检查收窄到我们维护的package.json、中央NuGet版本、csproj和Compose镜像；直接声明全部精确固定 |
+| 收窄后的首次`rg`依赖正则仍因字符类转义错误无法解析 | 改用PowerShell结构化解析JSON/XML和单独Compose检查，避免继续调试脆弱正则；最终声明锁检查通过 |

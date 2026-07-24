@@ -1,0 +1,20 @@
+{
+  "name": "openlims",
+  "private": true,
+  "packageManager": "pnpm@10.34.5",
+  "engines": {
+    "node": "24.14.1",
+    "pnpm": "10.34.5"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  },
+  "scripts": {
+    "web:build": "pnpm --filter @openlims/web build",
+    "web:lint": "pnpm --filter @openlims/web lint",
+    "web:test": "pnpm --filter @openlims/web test:unit",
+    "web:typecheck": "pnpm --filter @openlims/web typecheck"
+  }
+}

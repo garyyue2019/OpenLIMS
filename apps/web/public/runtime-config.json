@@ -1,0 +1,10 @@
+{
+  "apiBaseUrl": "/",
+  "environmentLabel": "本地开发",
+  "oidc": {
+    "authority": "http://localhost:8080/realms/openlims-development",
+    "clientId": "openlims-web",
+    "scope": "openid profile email",
+    "audience": "openlims-api"
+  }
+}

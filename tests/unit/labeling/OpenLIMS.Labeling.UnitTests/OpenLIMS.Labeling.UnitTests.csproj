@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>OpenLIMS.Labeling.UnitTests</AssemblyName>
+    <RootNamespace>OpenLIMS.Labeling.UnitTests</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+    <ProjectReference Include="../../../../src/modules/labeling/OpenLIMS.Modules.Labeling/OpenLIMS.Modules.Labeling.csproj" />
+    <ProjectReference Include="../../../../contracts/labeling/OpenLIMS.Contracts.Labeling/OpenLIMS.Contracts.Labeling.csproj" />
+    <ProjectReference Include="../../../../contracts/receiving/OpenLIMS.Contracts.Receiving/OpenLIMS.Contracts.Receiving.csproj" />
+  </ItemGroup>
+</Project>

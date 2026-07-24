@@ -7,7 +7,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 # AI 开发就绪报告
 
 - 未批准 PRD 来源漂移：**0** 个文档
-- Story 数量：**16**
+- Story 数量：**17**
 
 | Story | 规格状态 | 就绪度 | 结论 | 阻塞原因 |
 |---|---|---|---|---|
@@ -19,6 +19,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `ATC-REC-001@2.0.0` | `approved` | `ready` | **READY** | 无 |
 | `ATC-REC-002@0.1.0` | `proposed` | `blocked` | **BLOCKED** | 规格状态为 proposed，尚未批准；开发就绪度为 blocked；依赖 ATC-PLT-000@0.1.0 状态为 proposed；依赖 ATC-REC-001@0.1.0 状态为 proposed；依赖 ORG-STRUCT-001@0.1.0 状态为 in_review；依赖 OPS-RECEIPT-002@0.1.0 状态为 in_review；依赖 OD-009@0.1.0 状态为 proposed；依赖 OD-031@0.1.0 状态为 proposed；依赖 SEC-AUTH-001@0.1.0 状态为 in_review；依赖 SEC-AUD-001@0.1.0 状态为 in_review |
 | `ATC-REC-002@1.0.0` | `proposed` | `blocked` | **BLOCKED** | 规格状态为 proposed，尚未批准；开发就绪度为 blocked；依赖 ATC-PLT-000@1.0.0 状态为 proposed；依赖 ATC-REC-001@1.0.0 状态为 proposed；依赖 ORG-STRUCT-001@0.1.0 状态为 in_review；依赖 OPS-RECEIPT-002@0.1.0 状态为 in_review；依赖 OD-009@0.1.0 状态为 proposed；依赖 OD-031@0.1.0 状态为 proposed；依赖 SEC-AUTH-001@0.1.0 状态为 in_review；依赖 SEC-AUD-001@1.0.0 状态为 in_review |
+| `ATC-REC-002@2.0.0` | `approved` | `ready` | **READY** | 无 |
 | `ATC-REC-003@0.1.0` | `proposed` | `blocked` | **BLOCKED** | 规格状态为 proposed，尚未批准；开发就绪度为 blocked；依赖 ATC-PLT-000@0.1.0 状态为 proposed；依赖 ATC-REC-001@0.1.0 状态为 proposed；依赖 ORG-STRUCT-001@0.1.0 状态为 in_review；依赖 OPS-RECEIPT-003@0.1.0 状态为 in_review；依赖 OPS-IDENTITY-003@0.1.0 状态为 in_review；依赖 AC-REC-001@0.1.0 状态为 in_review；依赖 SEC-AUTH-001@0.1.0 状态为 in_review；依赖 SEC-AUD-001@0.1.0 状态为 in_review；依赖 OD-005@0.1.0 状态为 proposed；依赖 NFR-ARCH-001@0.1.0 状态为 in_review |
 | `ATC-REC-003@1.0.0` | `proposed` | `blocked` | **BLOCKED** | 规格状态为 proposed，尚未批准；开发就绪度为 blocked；依赖 ATC-PLT-000@1.0.0 状态为 proposed；依赖 ATC-REC-001@1.0.0 状态为 proposed；依赖 ORG-STRUCT-001@0.1.0 状态为 in_review；依赖 OPS-RECEIPT-003@0.1.0 状态为 in_review；依赖 OPS-IDENTITY-003@0.1.0 状态为 in_review；依赖 AC-REC-001@0.1.0 状态为 in_review；依赖 SEC-AUTH-001@0.1.0 状态为 in_review；依赖 SEC-AUD-001@1.0.0 状态为 in_review；依赖 OD-005@0.1.0 状态为 proposed；依赖 NFR-ARCH-001@1.0.0 状态为 in_review |
 | `ATC-REC-004@0.1.0` | `proposed` | `blocked` | **BLOCKED** | 规格状态为 proposed，尚未批准；开发就绪度为 blocked；依赖 ATC-PLT-000@0.1.0 状态为 proposed；依赖 ATC-REC-001@0.1.0 状态为 proposed；依赖 OPS-IDENTITY-001@0.1.0 状态为 in_review；依赖 OPS-IDENTITY-002@0.1.0 状态为 in_review；依赖 OPS-EXC-001@0.1.0 状态为 in_review；依赖 OPS-EXC-002@0.1.0 状态为 in_review；依赖 AC-ID-001@0.1.0 状态为 in_review；依赖 OD-005@0.1.0 状态为 proposed；依赖 OD-009@0.1.0 状态为 proposed；依赖 SEC-AUTH-001@0.1.0 状态为 in_review；依赖 SEC-AUD-001@0.1.0 状态为 in_review |

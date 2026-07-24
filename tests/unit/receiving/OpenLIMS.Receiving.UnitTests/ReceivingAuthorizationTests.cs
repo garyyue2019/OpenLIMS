@@ -17,6 +17,7 @@ public sealed class ReceivingAuthorizationTests
             Claim(ReceivingClaimTypes.Capability, ReceivingCapabilities.Register),
             Claim(ReceivingClaimTypes.LegalEntity, "legal-a"),
             Claim(ReceivingClaimTypes.Laboratory, "lab-a"),
+            Claim(ReceivingClaimTypes.LaboratoryCode, "LAB-A"),
             Claim(ReceivingClaimTypes.Customer, "customer-a"),
             Claim(ReceivingClaimTypes.ServiceOrder, "order-a"),
             Claim(ReceivingClaimTypes.ReceivableServiceOrder, "order-a"));
@@ -24,6 +25,7 @@ public sealed class ReceivingAuthorizationTests
         var decision = await port.AuthorizeAsync(Request(), TestContext.Current.CancellationToken);
 
         Assert.Equal(ReceivingAuthorizationOutcome.Allowed, decision.Outcome);
+        Assert.Equal("LAB-A", decision.LaboratoryCode);
     }
 
     [Fact]
@@ -32,6 +34,23 @@ public sealed class ReceivingAuthorizationTests
         var port = Port(
             Claim("organization_group", "group-a"),
             Claim("role", "system_admin"),
+            Claim(ReceivingClaimTypes.LegalEntity, "legal-a"),
+            Claim(ReceivingClaimTypes.Laboratory, "lab-a"),
+            Claim(ReceivingClaimTypes.Customer, "customer-a"),
+            Claim(ReceivingClaimTypes.ServiceOrder, "order-a"),
+            Claim(ReceivingClaimTypes.ReceivableServiceOrder, "order-a"));
+
+        var decision = await port.AuthorizeAsync(Request(), TestContext.Current.CancellationToken);
+
+        Assert.Equal(ReceivingAuthorizationOutcome.Denied, decision.Outcome);
+    }
+
+    [Fact]
+    public async Task Authorized_scope_without_one_trusted_laboratory_code_is_denied()
+    {
+        var port = Port(
+            Claim("organization_group", "group-a"),
+            Claim(ReceivingClaimTypes.Capability, ReceivingCapabilities.Register),
             Claim(ReceivingClaimTypes.LegalEntity, "legal-a"),
             Claim(ReceivingClaimTypes.Laboratory, "lab-a"),
             Claim(ReceivingClaimTypes.Customer, "customer-a"),

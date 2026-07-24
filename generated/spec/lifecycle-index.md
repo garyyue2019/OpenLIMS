@@ -24,6 +24,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `ATC-REC-001` | `2.0.0` | `approved` | `spec/stories/ATC-REC-001__v2.0.0.json` |
 | `ATC-REC-002` | `0.1.0` | `proposed` | `spec/stories/ATC-REC-002__v0.1.0.json` |
 | `ATC-REC-002` | `1.0.0` | `proposed` | `spec/stories/ATC-REC-002__v1.0.0.json` |
+| `ATC-REC-002` | `2.0.0` | `approved` | `spec/stories/ATC-REC-002__v2.0.0.json` |
 | `ATC-REC-003` | `0.1.0` | `proposed` | `spec/stories/ATC-REC-003__v0.1.0.json` |
 | `ATC-REC-003` | `1.0.0` | `proposed` | `spec/stories/ATC-REC-003__v1.0.0.json` |
 | `ATC-REC-004` | `0.1.0` | `proposed` | `spec/stories/ATC-REC-004__v0.1.0.json` |
@@ -54,6 +55,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `OD-029` | `0.1.0` | `proposed` | `spec/decisions/OD-029__v0.1.0.json` |
 | `OD-030` | `0.1.0` | `proposed` | `spec/decisions/OD-030__v0.1.0.json` |
 | `OD-031` | `0.1.0` | `proposed` | `spec/decisions/OD-031__v0.1.0.json` |
+| `OD-031` | `1.0.0` | `approved` | `spec/decisions/OD-031__v1.0.0.json` |
 | `OD-032` | `0.1.0` | `proposed` | `spec/decisions/OD-032__v0.1.0.json` |
 | `OD-034` | `0.1.0` | `proposed` | `spec/decisions/OD-034__v0.1.0.json` |
 | `OPS-EXC-001` | `0.1.0` | `in_review` | `spec/requirements/OPS-EXC-001__v0.1.0.json` |
@@ -64,6 +66,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `OPS-RECEIPT-001` | `0.1.0` | `in_review` | `spec/requirements/OPS-RECEIPT-001__v0.1.0.json` |
 | `OPS-RECEIPT-001` | `1.0.0` | `approved` | `spec/requirements/OPS-RECEIPT-001__v1.0.0.json` |
 | `OPS-RECEIPT-002` | `0.1.0` | `in_review` | `spec/requirements/OPS-RECEIPT-002__v0.1.0.json` |
+| `OPS-RECEIPT-002` | `1.0.0` | `approved` | `spec/requirements/OPS-RECEIPT-002__v1.0.0.json` |
 | `OPS-RECEIPT-003` | `0.1.0` | `in_review` | `spec/requirements/OPS-RECEIPT-003__v0.1.0.json` |
 | `ORG-COLLAB-001` | `0.1.0` | `in_review` | `spec/requirements/ORG-COLLAB-001__v0.1.0.json` |
 | `ORG-COLLAB-001` | `1.0.0` | `approved` | `spec/requirements/ORG-COLLAB-001__v1.0.0.json` |

@@ -1,6 +1,7 @@
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using OpenLIMS.Contracts.Platform;
 using OpenLIMS.Contracts.Receiving;
 
@@ -70,8 +71,10 @@ public static class ReceivingRules
         IIdGenerator idGenerator,
         string organizationGroupId,
         string actorId,
-        DateTimeOffset now)
+        DateTimeOffset now,
+        string laboratoryCode)
     {
+        var normalizedLaboratoryCode = NormalizeLaboratoryCode(laboratoryCode);
         var receiptId = NextGuid(idGenerator);
         var containers = request.Containers.Select((container, containerIndex) =>
         {
@@ -82,6 +85,7 @@ public static class ReceivingRules
                 return new ReceivedItemPlan(
                     itemId,
                     BusinessNumber("ITM", itemId),
+                    NextGuid(idGenerator),
                     containerIndex,
                     itemIndex,
                     item);
@@ -89,6 +93,7 @@ public static class ReceivingRules
             return new ContainerPlan(
                 containerId,
                 BusinessNumber("CNT", containerId),
+                NextGuid(idGenerator),
                 containerIndex,
                 container,
                 items);
@@ -100,6 +105,7 @@ public static class ReceivingRules
             organizationGroupId,
             actorId,
             now,
+            normalizedLaboratoryCode,
             request,
             containers);
     }
@@ -154,6 +160,22 @@ public static class ReceivingRules
 
     private static string BusinessNumber(string prefix, Guid id) =>
         $"{prefix}-{id:N}".ToUpperInvariant();
+
+    internal static string NormalizeLaboratoryCode(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            throw new ReceivingDomainException(ReceivingErrorCodes.AuthorizationDenied);
+        }
+
+        var normalized = value.Trim().ToUpperInvariant();
+        if (normalized.Length is < 2 or > 16 || !Regex.IsMatch(normalized, "^[A-Z0-9][A-Z0-9-]*$"))
+        {
+            throw new ReceivingDomainException(ReceivingErrorCodes.AuthorizationDenied);
+        }
+
+        return normalized;
+    }
 }
 
 public sealed class ReceivingDomainException(string errorCode) : InvalidOperationException(errorCode)
@@ -175,12 +197,14 @@ internal sealed record ReceiptPlan(
     string OrganizationGroupId,
     string ActorId,
     DateTimeOffset OccurredAt,
+    string LaboratoryCode,
     RegisterReceiptRequest Request,
     IReadOnlyList<ContainerPlan> Containers);
 
 internal sealed record ContainerPlan(
     Guid Id,
     string Number,
+    Guid LabelOpaqueReference,
     int Index,
     RegisterContainerRequest Request,
     IReadOnlyList<ReceivedItemPlan> Items);
@@ -188,6 +212,7 @@ internal sealed record ContainerPlan(
 internal sealed record ReceivedItemPlan(
     Guid Id,
     string Number,
+    Guid LabelOpaqueReference,
     int ContainerIndex,
     int ItemIndex,
     RegisterReceivedItemRequest Request);

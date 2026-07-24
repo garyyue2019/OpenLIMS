@@ -335,11 +335,27 @@
           "OpenLIMS.Contracts.Platform": "[1.0.0, )"
         }
       },
+      "openlims.contracts.labeling": {
+        "type": "Project",
+        "dependencies": {
+          "OpenLIMS.Contracts.Receiving": "[1.0.0, )"
+        }
+      },
       "openlims.contracts.platform": {
         "type": "Project"
       },
       "openlims.contracts.receiving": {
         "type": "Project"
+      },
+      "openlims.modules.labeling": {
+        "type": "Project",
+        "dependencies": {
+          "Npgsql": "[10.0.3, )",
+          "OpenLIMS.BuildingBlocks.Platform": "[1.0.0, )",
+          "OpenLIMS.Contracts.Labeling": "[1.0.0, )",
+          "OpenLIMS.Contracts.Platform": "[1.0.0, )",
+          "OpenLIMS.Contracts.Receiving": "[1.0.0, )"
+        }
       },
       "openlims.modules.receiving": {
         "type": "Project",

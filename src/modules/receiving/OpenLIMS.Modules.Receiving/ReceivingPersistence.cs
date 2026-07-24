@@ -26,7 +26,9 @@ internal sealed record IdempotencyReservation(
     IdempotencyReservationKind Kind,
     ReceiptRegistrationResult? Result = null);
 
-internal sealed class ReceivingRegistrationStore(IPostgresTransactionAccessor transactionAccessor)
+internal sealed class ReceivingRegistrationStore(
+    IPostgresTransactionAccessor transactionAccessor,
+    ReceivingLabelIdentityWriter labelIdentityWriter)
 {
     public async Task<IdempotencyReservation> ReserveIdempotencyAsync(
         string organizationGroupId,
@@ -98,11 +100,31 @@ internal sealed class ReceivingRegistrationStore(IPostgresTransactionAccessor tr
         foreach (var container in plan.Containers)
         {
             await InsertContainerAsync(connection, transaction, plan, container, cancellationToken);
+            var containerIdentity = await labelIdentityWriter.AllocateAsync(
+                plan,
+                ReceivingLabelObjectTypes.Container,
+                container.Id,
+                1,
+                "REGISTERED",
+                container.LabelOpaqueReference,
+                idempotencyKeyHash,
+                correlationId,
+                cancellationToken);
             var itemResults = new List<ReceivedItemRegistrationResult>(container.Items.Count);
             foreach (var item in container.Items)
             {
                 await InsertReceivedItemAsync(connection, transaction, plan, container, item, cancellationToken);
                 await InsertStateHistoryAsync(connection, transaction, plan, item, cancellationToken);
+                var itemIdentity = await labelIdentityWriter.AllocateAsync(
+                    plan,
+                    ReceivingLabelObjectTypes.ReceivedItem,
+                    item.Id,
+                    1,
+                    "QUARANTINED",
+                    item.LabelOpaqueReference,
+                    idempotencyKeyHash,
+                    correlationId,
+                    cancellationToken);
                 await InsertAuditAndOutboxAsync(
                     connection,
                     transaction,
@@ -115,13 +137,19 @@ internal sealed class ReceivingRegistrationStore(IPostgresTransactionAccessor tr
                     item.Id.ToString("N"),
                     item.Number,
                     "QUARANTINED",
-                    1));
+                    1)
+                {
+                    LabelIdentity = ToResult(itemIdentity)
+                });
             }
 
             containerResults.Add(new ContainerRegistrationResult(
                 container.Id.ToString("N"),
                 container.Number,
-                itemResults));
+                itemResults)
+            {
+                LabelIdentity = ToResult(containerIdentity)
+            });
         }
 
         await InsertReceiptAuditAndOutboxAsync(
@@ -133,6 +161,12 @@ internal sealed class ReceivingRegistrationStore(IPostgresTransactionAccessor tr
             cancellationToken);
         return new ReceiptRegistrationResult(plan.Id.ToString("N"), plan.Number, 1, containerResults);
     }
+
+    private static LabelIdentityResult ToResult(ReceivingLabelIdentity identity) => new(
+        identity.ObjectType,
+        identity.BusinessNumber,
+        LabelBarcodeCodec.Create(identity.ObjectType, identity.OpaqueReference),
+        identity.TemplateVersion);
 
     public async Task CompleteIdempotencyAsync(
         string organizationGroupId,
@@ -325,7 +359,7 @@ internal sealed class ReceivingRegistrationStore(IPostgresTransactionAccessor tr
             JsonSerializer.Serialize(new { item.Number, state = "QUARANTINED", version = 1 }, ReceivingJson.Options),
             cancellationToken);
 
-    private static async Task InsertAuditAndOutboxPairAsync(
+    internal static async Task InsertAuditAndOutboxPairAsync(
         NpgsqlConnection connection,
         NpgsqlTransaction transaction,
         ReceiptPlan plan,

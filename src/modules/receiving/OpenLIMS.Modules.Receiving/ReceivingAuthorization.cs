@@ -23,10 +23,19 @@ internal sealed class HttpClaimsReceivingAuthorizationPort(IHttpContextAccessor 
             return ValueTask.FromResult(ReceivingAuthorizationDecision.Denied);
         }
 
-        return ValueTask.FromResult(
-            HasExactClaim(user, ReceivingClaimTypes.ReceivableServiceOrder, request.ServiceOrderId)
-                ? ReceivingAuthorizationDecision.Allowed
-                : ReceivingAuthorizationDecision.NotReceivable);
+        if (!HasExactClaim(user, ReceivingClaimTypes.ReceivableServiceOrder, request.ServiceOrderId))
+        {
+            return ValueTask.FromResult(ReceivingAuthorizationDecision.NotReceivable);
+        }
+
+        var laboratoryCodes = user.FindAll(ReceivingClaimTypes.LaboratoryCode)
+            .Select(claim => claim.Value)
+            .Where(value => !string.IsNullOrWhiteSpace(value))
+            .Distinct(StringComparer.Ordinal)
+            .ToArray();
+        return ValueTask.FromResult(laboratoryCodes.Length == 1
+            ? ReceivingAuthorizationDecision.AllowedFor(laboratoryCodes[0])
+            : ReceivingAuthorizationDecision.Denied);
     }
 
     private static bool HasExactClaim(ClaimsPrincipal user, string type, string value) =>

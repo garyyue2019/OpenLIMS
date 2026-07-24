@@ -555,6 +555,58 @@
       "status": "proposed",
       "title": "生成、打印并校验包装和实物标识"
     },
+    "ATC-REC-002@2.0.0": {
+      "affects": [
+        "receiving",
+        "identifier",
+        "barcode",
+        "label-printing",
+        "worker",
+        "scan-resolution",
+        "audit",
+        "automated-test"
+      ],
+      "depends_on": [
+        "ATC-PLT-003@1.0.0",
+        "ATC-REC-001@2.0.0",
+        "ED-001@2.0.0",
+        "OD-002@1.0.0",
+        "ORG-STRUCT-001@1.0.0",
+        "OPS-RECEIPT-001@1.0.0",
+        "OPS-RECEIPT-002@1.0.0",
+        "OD-009@1.0.0",
+        "OD-031@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0",
+        "NFR-ARCH-001@2.0.0"
+      ],
+      "fingerprint": "89010ab6fd1a1f4e66e5e3e731bab4288d929e99644303936255d2b35c2f4e35",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-RECEIPT-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "ORG-STRUCT-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "SEC-AUD-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-031"
+        }
+      ],
+      "status": "approved",
+      "title": "生成、打印并校验包装和实物标识"
+    },
     "ATC-REC-003@0.1.0": {
       "affects": [
         "receiving",
@@ -1402,6 +1454,29 @@
       "status": "proposed",
       "title": "首期条码、移动流程和仪器接口清单"
     },
+    "OD-031@1.0.0": {
+      "affects": [
+        "barcode",
+        "label-printing",
+        "receiving",
+        "scan-resolution",
+        "audit"
+      ],
+      "depends_on": [
+        "OD-002@1.0.0",
+        "OD-009@1.0.0"
+      ],
+      "fingerprint": "04a15707f209b11f7514792a06cb856006155922bfb3d1a0a1ead6338c863cc3",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-031"
+        }
+      ],
+      "status": "approved",
+      "title": "首期条码、打印和扫码流程"
+    },
     "OD-032@0.1.0": {
       "affects": [
         "party",
@@ -1629,6 +1704,33 @@
         }
       ],
       "status": "in_review",
+      "title": "包装单元与收到实物唯一标识"
+    },
+    "OPS-RECEIPT-002@1.0.0": {
+      "affects": [
+        "receiving",
+        "identifier",
+        "barcode",
+        "label-printing",
+        "scan-resolution",
+        "audit"
+      ],
+      "depends_on": [
+        "OD-002@1.0.0",
+        "ORG-STRUCT-001@1.0.0",
+        "OPS-RECEIPT-001@1.0.0",
+        "OD-009@1.0.0",
+        "OD-031@1.0.0"
+      ],
+      "fingerprint": "1938f7c2e39064a26106a0cf719f03ed98bc16aafc8702495b21a1220f915573",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-RECEIPT-002"
+        }
+      ],
+      "status": "approved",
       "title": "包装单元与收到实物唯一标识"
     },
     "OPS-RECEIPT-003@0.1.0": {

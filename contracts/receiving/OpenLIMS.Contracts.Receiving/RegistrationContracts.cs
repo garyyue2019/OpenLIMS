@@ -43,13 +43,25 @@ public sealed record ReceiptRegistrationResult(
 public sealed record ContainerRegistrationResult(
     string ContainerId,
     string ContainerNumber,
-    IReadOnlyList<ReceivedItemRegistrationResult> ReceivedItems);
+    IReadOnlyList<ReceivedItemRegistrationResult> ReceivedItems)
+{
+    public LabelIdentityResult? LabelIdentity { get; init; }
+}
 
 public sealed record ReceivedItemRegistrationResult(
     string ReceivedItemId,
     string ReceivedItemNumber,
     string State,
-    long Version);
+    long Version)
+{
+    public LabelIdentityResult? LabelIdentity { get; init; }
+}
+
+public sealed record LabelIdentityResult(
+    string ObjectType,
+    string BusinessNumber,
+    string BarcodePayload,
+    string TemplateVersion);
 
 public sealed record ReceivingAuthorizationRequest(
     string OrganizationGroupId,
@@ -67,9 +79,12 @@ public enum ReceivingAuthorizationOutcome
     ServiceOrderNotReceivable
 }
 
-public sealed record ReceivingAuthorizationDecision(ReceivingAuthorizationOutcome Outcome)
+public sealed record ReceivingAuthorizationDecision(
+    ReceivingAuthorizationOutcome Outcome,
+    string? LaboratoryCode = null)
 {
-    public static ReceivingAuthorizationDecision Allowed { get; } = new(ReceivingAuthorizationOutcome.Allowed);
+    public static ReceivingAuthorizationDecision AllowedFor(string laboratoryCode) =>
+        new(ReceivingAuthorizationOutcome.Allowed, laboratoryCode);
     public static ReceivingAuthorizationDecision Denied { get; } = new(ReceivingAuthorizationOutcome.Denied);
     public static ReceivingAuthorizationDecision NotReceivable { get; } = new(ReceivingAuthorizationOutcome.ServiceOrderNotReceivable);
 }
@@ -84,6 +99,10 @@ public interface IReceivingAuthorizationPort
 public static class ReceivingCapabilities
 {
     public const string Register = "receiving.register";
+    public const string LabelPrint = "receiving.label.print";
+    public const string LabelReprint = "receiving.label.reprint";
+    public const string LabelReprintOverride = "receiving.label.reprint.override";
+    public const string LabelScan = "receiving.label.scan";
 }
 
 public static class ReceivingClaimTypes
@@ -91,9 +110,46 @@ public static class ReceivingClaimTypes
     public const string Capability = "capability";
     public const string LegalEntity = "legal_entity";
     public const string Laboratory = "laboratory";
+    public const string LaboratoryCode = "laboratory_code";
     public const string Customer = "customer";
     public const string ServiceOrder = "service_order";
     public const string ReceivableServiceOrder = "receivable_service_order";
+}
+
+public static class ReceivingLabelObjectTypes
+{
+    public const string Container = "CT";
+    public const string ReceivedItem = "RI";
+}
+
+public sealed record ReceivingLabelObjectSnapshot(
+    string ObjectType,
+    string ObjectId,
+    long ObjectVersion,
+    string OrganizationGroupId,
+    string LegalEntityId,
+    string LaboratoryId,
+    string LaboratoryCode,
+    string CustomerId,
+    string ServiceOrderId,
+    string BusinessNumber,
+    string OpaqueReference,
+    string FormatVersion,
+    string State);
+
+public interface IReceivingLabelObjectPort
+{
+    ValueTask<ReceivingLabelObjectSnapshot?> GetAsync(
+        string organizationGroupId,
+        string objectType,
+        string objectId,
+        CancellationToken cancellationToken = default);
+
+    ValueTask<ReceivingLabelObjectSnapshot?> ResolveAsync(
+        string organizationGroupId,
+        string objectType,
+        string opaqueReference,
+        CancellationToken cancellationToken = default);
 }
 
 public static class ReceivingErrorCodes

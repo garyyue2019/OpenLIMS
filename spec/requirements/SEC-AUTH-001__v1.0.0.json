@@ -1,0 +1,27 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "SEC-AUTH-001",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "收样命令服务端多维授权校验",
+  "summary": "DEV-003 受控收样操作必须绑定服务端建立的集团上下文，并校验 capability、客户、法人、实验室、委托范围和授权有效期。",
+  "owners": ["安全负责人", "架构负责人", "收样能力所有者"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "SEC-AUTH-001"}],
+  "depends_on": ["OD-002@1.0.0", "ORG-STRUCT-001@1.0.0", "ORG-COLLAB-001@1.0.0", "SEC-DEPLOY-001@2.0.0"],
+  "affects": ["authorization", "receiving-commands", "organization-scope", "audit"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "ENABLED", "condition": "DEV-003 RegisterReceipt 及其查询操作"},
+  "approval_evidence": "用户于 2026-07-24 批准收样权限按集团、法人、实验室、客户和委托控制，管理员默认无业务权限，跨实验室必须显式授权。",
+  "invariants": [
+    "前端隐藏不是授权，服务端默认拒绝",
+    "RegisterReceipt 要求 capability=receiving.register",
+    "系统管理员默认没有 receiving.register 业务能力",
+    "集团上下文由部署与受信身份绑定且客户端不得覆盖",
+    "未授权法人、实验室、客户、委托或对象的不存在与无权限响应不得泄露敏感差异",
+    "跨实验室协作必须依赖委托范围内的显式授权",
+    "授权必须在命令执行时仍处于有效期"
+  ]
+}

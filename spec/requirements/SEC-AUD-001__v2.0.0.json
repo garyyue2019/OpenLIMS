@@ -1,0 +1,30 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "SEC-AUD-001",
+  "version": "2.0.0",
+  "status": "approved",
+  "title": "受控命令的审计意图、失败尝试与追加账本",
+  "summary": "受控业务事实、模块本地 audit_pending 和 Outbox 同事务原子提交；拒绝和回滚尝试独立追加，敏感正文不得进入审计。",
+  "owners": ["质量负责人", "安全负责人", "审计负责人", "架构负责人", "运维负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "SEC-AUD-001"}],
+  "depends_on": [],
+  "affects": ["audit", "receiving-commands", "outbox", "failure-handling", "observability", "privacy"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "ENABLED", "condition": "DEV-003 成功、拒绝、无权限、并发冲突、业务校验和回滚尝试"},
+  "approval_evidence": "用户于 2026-07-24 批准登记、审计和事务发件箱原子提交并支持幂等重试。",
+  "invariants": [
+    "成功受控命令必须同事务写入业务事实、module-local audit_pending 和 module-local Outbox，任一失败则整体回滚",
+    "被拒绝、无权限、并发冲突和业务事务回滚尝试使用独立受控追加路径记录",
+    "中央审计账本可由幂等消费者最终汇聚，但不得覆盖或丢失原审计意图",
+    "普通管理员不得修改或删除追加式审计记录",
+    "审计意图写入路径不可用时受控命令失败，不得先完成业务再静默补审计",
+    "运行日志、Trace 或指标不得冒充受控审计事件",
+    "密码、令牌、Secret、未脱敏敏感正文和完整原始文件不得写入审计或日志",
+    "重试和恢复保留原失败证据并使用新 attemptId 关联原命令"
+  ],
+  "success_atomic_writes": ["业务事实", "module-local audit_pending", "module-local Outbox"],
+  "failure_attempt_minimum": ["attemptId", "correlationId", "actorRef", "deploymentGroupRef", "commandType", "target摘要", "decisionCode", "occurredAt", "originalAttemptRef"]
+}

@@ -136,6 +136,18 @@
       "openlims.contracts.platform": {
         "type": "Project"
       },
+      "openlims.contracts.receiving": {
+        "type": "Project"
+      },
+      "openlims.modules.receiving": {
+        "type": "Project",
+        "dependencies": {
+          "Npgsql": "[10.0.3, )",
+          "OpenLIMS.BuildingBlocks.Platform": "[1.0.0, )",
+          "OpenLIMS.Contracts.Platform": "[1.0.0, )",
+          "OpenLIMS.Contracts.Receiving": "[1.0.0, )"
+        }
+      },
       "AWSSDK.S3": {
         "type": "CentralTransitive",
         "requested": "[4.0.101.4, )",

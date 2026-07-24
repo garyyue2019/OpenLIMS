@@ -1,0 +1,35 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "nfr",
+  "id": "NFR-ARCH-001",
+  "version": "2.0.0",
+  "status": "approved",
+  "title": "模块化单体边界强制门禁",
+  "summary": "DEV-003 必须通过代码依赖和数据库边界门禁，模块私表零越权访问且代码、契约和事件依赖图循环依赖为零。",
+  "owners": ["架构负责人", "工程负责人", "数据库负责人", "QA负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "NFR-ARCH-001"}],
+  "depends_on": ["ED-001@2.0.0", "ATC-PLT-003@1.0.0"],
+  "affects": ["architecture", "module-boundaries", "database-permissions", "contracts", "ci", "receiving"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "ENABLED", "condition": "DEV-003 模块、公共契约、数据库迁移和 CI 变更"},
+  "approval_evidence": "用户于 2026-07-24 批准 DEV-001、DEV-002 已交付平台能力作为 DEV-003 技术基线。",
+  "target": "模块私有表零越权访问；代码、契约和事件依赖图循环依赖为零",
+  "measures": [
+    {"name": "private_table_cross_module_access", "target": 0, "unit": "detected_accesses"},
+    {"name": "code_dependency_cycles", "target": 0, "unit": "cycles"},
+    {"name": "contract_dependency_cycles", "target": 0, "unit": "cycles"},
+    {"name": "event_dependency_cycles", "target": 0, "unit": "cycles"},
+    {"name": "cross_module_infrastructure_references", "target": 0, "unit": "references"}
+  ],
+  "enforcement": [
+    "receiving 不得引用其他模块 Infrastructure、EF 实体、DbContext 或私有迁移",
+    "同步协作只允许版本化公共端口，异步协作只允许 Outbox 和版本化事件",
+    "API 与 Worker 通过编译期显式清单接入 receiving",
+    "正常启动路径不得自动执行 receiving 迁移",
+    "Dapper、原生 SQL、后台 Worker 和迁移工具不得绕过模块边界",
+    "测试夹具模块不得进入生产 Host 引用闭包"
+  ],
+  "failure_policy": "任一目标非零时 CI 失败；不得关闭规则、扩大数据库权限或删除失败记录放行。"
+}

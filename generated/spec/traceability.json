@@ -127,6 +127,30 @@
       "status": "in_review",
       "title": "集团内多维越权防护"
     },
+    "AC-SEC-001@1.0.0": {
+      "affects": [
+        "authorization",
+        "receiving",
+        "automated-test",
+        "audit"
+      ],
+      "depends_on": [
+        "OD-002@1.0.0",
+        "ORG-STRUCT-001@1.0.0",
+        "ORG-COLLAB-001@1.0.0",
+        "SEC-AUTH-001@1.0.0"
+      ],
+      "fingerprint": "da7cd0c5db0a0540e0aa7f94a22b8e7b4e6a0b02cb0613e3eea87f02569b6a54",
+      "kind": "acceptance",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-SEC-001"
+        }
+      ],
+      "status": "approved",
+      "title": "集团内收样多维越权防护"
+    },
     "ATC-PLT-000@0.1.0": {
       "affects": [
         "engineering-skeleton",
@@ -381,6 +405,60 @@
         }
       ],
       "status": "proposed",
+      "title": "登记到货批、包装单元和收到实物"
+    },
+    "ATC-REC-001@2.0.0": {
+      "affects": [
+        "receiving",
+        "authorization",
+        "audit",
+        "outbox",
+        "receiving-ui",
+        "automated-test"
+      ],
+      "depends_on": [
+        "ATC-PLT-003@1.0.0",
+        "ED-001@2.0.0",
+        "OD-002@1.0.0",
+        "ORG-STRUCT-001@1.0.0",
+        "ORG-COLLAB-001@1.0.0",
+        "SEC-DEPLOY-001@2.0.0",
+        "OD-009@1.0.0",
+        "OPS-RECEIPT-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "AC-SEC-001@1.0.0",
+        "SEC-AUD-001@2.0.0",
+        "NFR-ARCH-001@2.0.0"
+      ],
+      "fingerprint": "5f5d2d7c7e2faf0dd30de7f3da41adc0d9370fd64eff4205b1b3d57f206f9a5a",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-RECEIPT-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-009"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "ORG-STRUCT-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "SEC-AUTH-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "SEC-AUD-001"
+        }
+      ],
+      "status": "approved",
       "title": "登记到货批、包装单元和收到实物"
     },
     "ATC-REC-002@0.1.0": {
@@ -941,6 +1019,25 @@
       "status": "proposed",
       "title": "工程技术栈、仓库与版本锁基线"
     },
+    "ED-001@2.0.0": {
+      "affects": [
+        "repository",
+        "backend",
+        "frontend",
+        "database",
+        "ci",
+        "non-production-deployment",
+        "supply-chain"
+      ],
+      "depends_on": [
+        "OD-002@1.0.0"
+      ],
+      "fingerprint": "fad2f23d20bdf9352b615f2cd74bfb846723b221c1015edf1c3e173757c3f58c",
+      "kind": "decision",
+      "source_refs": [],
+      "status": "approved",
+      "title": "已验证的工程技术栈与版本锁基线"
+    },
     "ED-002@1.0.0": {
       "affects": [
         "architecture",
@@ -1002,6 +1099,30 @@
         }
       ],
       "status": "in_review",
+      "title": "模块化单体边界强制门禁"
+    },
+    "NFR-ARCH-001@2.0.0": {
+      "affects": [
+        "architecture",
+        "module-boundaries",
+        "database-permissions",
+        "contracts",
+        "ci",
+        "receiving"
+      ],
+      "depends_on": [
+        "ED-001@2.0.0",
+        "ATC-PLT-003@1.0.0"
+      ],
+      "fingerprint": "58fc78930c62ab25d19efd16131fcd655ad15bfd6ec63aa76b9255b988974abd",
+      "kind": "nfr",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "NFR-ARCH-001"
+        }
+      ],
+      "status": "approved",
       "title": "模块化单体边界强制门禁"
     },
     "NFR-ARCH-002@0.1.0": {
@@ -1128,6 +1249,28 @@
       ],
       "status": "proposed",
       "title": "收到实物唯一识别粒度"
+    },
+    "OD-009@1.0.0": {
+      "affects": [
+        "receiving",
+        "identifier",
+        "barcode",
+        "lineage",
+        "toy-pilot"
+      ],
+      "depends_on": [
+        "OD-002@1.0.0"
+      ],
+      "fingerprint": "d207509591d2f2b926c3cbcaeac3fa42f21050b7736b482faa88162fbd88bc7d",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-009"
+        }
+      ],
+      "status": "approved",
+      "title": "试点玩具收到实物唯一识别粒度"
     },
     "OD-020@0.1.0": {
       "affects": [
@@ -1439,6 +1582,29 @@
       "status": "in_review",
       "title": "分别登记到货批、包装单元和收到的实物"
     },
+    "OPS-RECEIPT-001@1.0.0": {
+      "affects": [
+        "receiving",
+        "data-model",
+        "api",
+        "ux",
+        "audit",
+        "quarantine"
+      ],
+      "depends_on": [
+        "OD-009@1.0.0"
+      ],
+      "fingerprint": "f8458e721ae42a9378bcb9bac19f8ec1229aa602861fef5c1b811b0939d08fa0",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-RECEIPT-001"
+        }
+      ],
+      "status": "approved",
+      "title": "分别登记到货批、包装单元和收到的实物"
+    },
     "OPS-RECEIPT-002@0.1.0": {
       "affects": [
         "receiving",
@@ -1513,6 +1679,31 @@
       "status": "in_review",
       "title": "集团内跨机构协作责任分离"
     },
+    "ORG-COLLAB-001@1.0.0": {
+      "affects": [
+        "service-order",
+        "receiving",
+        "lab-execution",
+        "reporting",
+        "billing",
+        "authorization",
+        "audit"
+      ],
+      "depends_on": [
+        "OD-002@1.0.0",
+        "ORG-STRUCT-001@1.0.0"
+      ],
+      "fingerprint": "f1b8c3cc8e734c13040336466b84f2299254c2508c29ab27341a43b95d01e0b4",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "ORG-COLLAB-001"
+        }
+      ],
+      "status": "approved",
+      "title": "集团内跨机构协作责任分离"
+    },
     "ORG-STRUCT-001@0.1.0": {
       "affects": [
         "organization-model",
@@ -1537,6 +1728,32 @@
         }
       ],
       "status": "in_review",
+      "title": "集团多机构组织层级"
+    },
+    "ORG-STRUCT-001@1.0.0": {
+      "affects": [
+        "organization-model",
+        "master-data",
+        "authorization-context",
+        "integration",
+        "audit"
+      ],
+      "depends_on": [
+        "OD-002@1.0.0"
+      ],
+      "fingerprint": "4161307d63560537941c65a0f237bf24bf5600bc2fdde64a8ea68cf12e7d9adb",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "ORG-STRUCT-001"
+        }
+      ],
+      "status": "approved",
       "title": "集团多机构组织层级"
     },
     "REL-R1-RECEIVING-PILOT@0.1.0": {
@@ -1689,6 +1906,27 @@
       "status": "in_review",
       "title": "受控命令的审计意图、失败尝试与追加账本"
     },
+    "SEC-AUD-001@2.0.0": {
+      "affects": [
+        "audit",
+        "receiving-commands",
+        "outbox",
+        "failure-handling",
+        "observability",
+        "privacy"
+      ],
+      "depends_on": [],
+      "fingerprint": "e07e4dd757642629de9c0d8211da2696649c9dfef2431adf565b515069273ea5",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "SEC-AUD-001"
+        }
+      ],
+      "status": "approved",
+      "title": "受控命令的审计意图、失败尝试与追加账本"
+    },
     "SEC-AUTH-001@0.1.0": {
       "affects": [
         "authorization",
@@ -1711,6 +1949,30 @@
       ],
       "status": "in_review",
       "title": "服务端多维授权校验"
+    },
+    "SEC-AUTH-001@1.0.0": {
+      "affects": [
+        "authorization",
+        "receiving-commands",
+        "organization-scope",
+        "audit"
+      ],
+      "depends_on": [
+        "OD-002@1.0.0",
+        "ORG-STRUCT-001@1.0.0",
+        "ORG-COLLAB-001@1.0.0",
+        "SEC-DEPLOY-001@2.0.0"
+      ],
+      "fingerprint": "22eff948c51e323f60a25fad8bd9beea219b82bfc38f6c5e33db4f73a61e4700",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "SEC-AUTH-001"
+        }
+      ],
+      "status": "approved",
+      "title": "收样命令服务端多维授权校验"
     },
     "SEC-DEPLOY-001@0.1.0": {
       "affects": [
@@ -1771,6 +2033,38 @@
         }
       ],
       "status": "in_review",
+      "title": "集团间独立运行、数据、遥测与恢复平面"
+    },
+    "SEC-DEPLOY-001@2.0.0": {
+      "affects": [
+        "deployment",
+        "runtime",
+        "identity",
+        "database",
+        "object-storage",
+        "secrets",
+        "messaging",
+        "search",
+        "ai-runtime",
+        "telemetry",
+        "backup-recovery"
+      ],
+      "depends_on": [
+        "OD-002@1.0.0"
+      ],
+      "fingerprint": "701cb0e82013509a9a57d1a242abe9ecbba405f311bd3f00e960aa21e0f43c02",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "SEC-DEPLOY-001"
+        }
+      ],
+      "status": "approved",
       "title": "集团间独立运行、数据、遥测与恢复平面"
     }
   }

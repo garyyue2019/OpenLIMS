@@ -1,14 +1,12 @@
+using Microsoft.Extensions.Hosting;
 using OpenLIMS.BuildingBlocks.Platform;
 using OpenLIMS.Contracts.Platform;
+using OpenLIMS.Modules.Receiving;
 using OpenLIMS.Worker;
-using Microsoft.Extensions.Hosting;
 
 var builder = Host.CreateApplicationBuilder(args);
 builder.Logging.ClearProviders();
 builder.Logging.AddJsonConsole();
-
-IOpenLimsServerModule[] modules = [];
-var moduleCatalog = OpenLimsModuleCatalog.Create(modules);
 
 var organizationGroupId = builder.Configuration["Platform:OrganizationGroupId"];
 var postgresConnectionString = builder.Configuration["Platform:PostgresConnectionString"];
@@ -17,10 +15,24 @@ if (string.IsNullOrWhiteSpace(organizationGroupId) || string.IsNullOrWhiteSpace(
     throw new InvalidOperationException("PLT.CONFIGURATION_INVALID");
 }
 
+IOpenLimsServerModule[] modules = [new ReceivingModule(postgresConnectionString)];
+var moduleCatalog = OpenLimsModuleCatalog.Create(modules);
+
 if (args.Length == 1 && string.Equals(args[0], "--apply-platform-migration", StringComparison.Ordinal))
 {
     await PlatformMigrationRunner.ApplyAsync(postgresConnectionString);
     return;
+}
+
+if (args.Length == 2 && string.Equals(args[0], "--apply-module-migration", StringComparison.Ordinal))
+{
+    await OpenLimsModuleMigrationRunner.ApplyAsync(moduleCatalog, args[1]);
+    return;
+}
+
+if (args.Length > 0)
+{
+    throw new InvalidOperationException("PLT.COMMAND_INVALID");
 }
 
 builder.Services.AddSingleton<ICurrentOrganizationContext>(new DeploymentOrganizationContext(new OrganizationScope(organizationGroupId)));

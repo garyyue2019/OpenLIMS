@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>OpenLIMS.Modules.Receiving</AssemblyName>
+    <RootNamespace>OpenLIMS.Modules.Receiving</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Npgsql" />
+    <ProjectReference Include="../../../../contracts/receiving/OpenLIMS.Contracts.Receiving/OpenLIMS.Contracts.Receiving.csproj" />
+    <ProjectReference Include="../../../building-blocks/OpenLIMS.BuildingBlocks.Platform/OpenLIMS.BuildingBlocks.Platform.csproj" />
+    <ProjectReference Include="../../../../contracts/platform/OpenLIMS.Contracts.Platform/OpenLIMS.Contracts.Platform.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="OpenLIMS.Receiving.UnitTests" />
+    <InternalsVisibleTo Include="OpenLIMS.Receiving.IntegrationTests" />
+    <InternalsVisibleTo Include="OpenLIMS.Receiving.ContractTests" />
+  </ItemGroup>
+</Project>

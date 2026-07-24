@@ -3,6 +3,9 @@
   <Folder Name="/contracts/platform/">
     <Project Path="contracts/platform/OpenLIMS.Contracts.Platform/OpenLIMS.Contracts.Platform.csproj" />
   </Folder>
+  <Folder Name="/contracts/receiving/">
+    <Project Path="contracts/receiving/OpenLIMS.Contracts.Receiving/OpenLIMS.Contracts.Receiving.csproj" />
+  </Folder>
   <Folder Name="/src/" />
   <Folder Name="/src/building-blocks/">
     <Project Path="src/building-blocks/OpenLIMS.BuildingBlocks.Platform/OpenLIMS.BuildingBlocks.Platform.csproj" />
@@ -14,6 +17,10 @@
   <Folder Name="/src/host/worker/">
     <Project Path="src/host/worker/OpenLIMS.Worker/OpenLIMS.Worker.csproj" />
   </Folder>
+  <Folder Name="/src/modules/" />
+  <Folder Name="/src/modules/receiving/">
+    <Project Path="src/modules/receiving/OpenLIMS.Modules.Receiving/OpenLIMS.Modules.Receiving.csproj" />
+  </Folder>
   <Folder Name="/tests/" />
   <Folder Name="/tests/architecture/">
     <Project Path="tests/architecture/OpenLIMS.ArchitectureTests/OpenLIMS.ArchitectureTests.csproj" />
@@ -21,6 +28,9 @@
   <Folder Name="/tests/contract/" />
   <Folder Name="/tests/contract/platform/">
     <Project Path="tests/contract/platform/OpenLIMS.Platform.ContractTests/OpenLIMS.Platform.ContractTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/contract/receiving/">
+    <Project Path="tests/contract/receiving/OpenLIMS.Receiving.ContractTests/OpenLIMS.Receiving.ContractTests.csproj" />
   </Folder>
   <Folder Name="/tests/e2e/" />
   <Folder Name="/tests/e2e/smoke/">
@@ -34,8 +44,14 @@
   <Folder Name="/tests/integration/platform/">
     <Project Path="tests/integration/platform/OpenLIMS.Platform.IntegrationTests/OpenLIMS.Platform.IntegrationTests.csproj" />
   </Folder>
+  <Folder Name="/tests/integration/receiving/">
+    <Project Path="tests/integration/receiving/OpenLIMS.Receiving.IntegrationTests/OpenLIMS.Receiving.IntegrationTests.csproj" />
+  </Folder>
   <Folder Name="/tests/unit/" />
   <Folder Name="/tests/unit/platform/">
     <Project Path="tests/unit/platform/OpenLIMS.Platform.UnitTests/OpenLIMS.Platform.UnitTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/unit/receiving/">
+    <Project Path="tests/unit/receiving/OpenLIMS.Receiving.UnitTests/OpenLIMS.Receiving.UnitTests.csproj" />
   </Folder>
 </Solution>

@@ -531,6 +531,7 @@
           "Microsoft.AspNetCore.Authentication.JwtBearer": "[10.0.10, )",
           "OpenLIMS.BuildingBlocks.Platform": "[1.0.0, )",
           "OpenLIMS.Contracts.Platform": "[1.0.0, )",
+          "OpenLIMS.Modules.Receiving": "[1.0.0, )",
           "OpenTelemetry.Extensions.Hosting": "[1.17.0, )",
           "OpenTelemetry.Instrumentation.AspNetCore": "[1.17.0, )",
           "OpenTelemetry.Instrumentation.Http": "[1.17.0, )"
@@ -547,6 +548,18 @@
       "openlims.contracts.platform": {
         "type": "Project"
       },
+      "openlims.contracts.receiving": {
+        "type": "Project"
+      },
+      "openlims.modules.receiving": {
+        "type": "Project",
+        "dependencies": {
+          "Npgsql": "[10.0.3, )",
+          "OpenLIMS.BuildingBlocks.Platform": "[1.0.0, )",
+          "OpenLIMS.Contracts.Platform": "[1.0.0, )",
+          "OpenLIMS.Contracts.Receiving": "[1.0.0, )"
+        }
+      },
       "openlims.testing.modulefixture": {
         "type": "Project",
         "dependencies": {
@@ -559,6 +572,7 @@
           "Microsoft.Extensions.Hosting": "[10.0.10, )",
           "OpenLIMS.BuildingBlocks.Platform": "[1.0.0, )",
           "OpenLIMS.Contracts.Platform": "[1.0.0, )",
+          "OpenLIMS.Modules.Receiving": "[1.0.0, )",
           "OpenTelemetry.Extensions.Hosting": "[1.17.0, )"
         }
       },

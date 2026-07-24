@@ -37,7 +37,7 @@ class RepositoryContractTests(unittest.TestCase):
             check=False,
         )
         self.assertEqual(0, result.returncode, result.stderr.decode("utf-8", errors="replace"))
-        self.assertIn("60 个规格版本", result.stdout.decode("utf-8"))
+        self.assertIn("71 个规格版本", result.stdout.decode("utf-8"))
 
     def test_git_checkout_keeps_deterministic_lf_bytes(self) -> None:
         attributes = (ROOT / ".gitattributes").read_text(encoding="utf-8")
@@ -55,9 +55,10 @@ class RepositoryContractTests(unittest.TestCase):
                 for version in ("0.1.0", "1.0.0")
                 for number in range(1, 7)
             ),
+            "ATC-REC-001__v2.0.0.md",
         }
         self.assertEqual(expected_tasks, {path.name for path in tasks})
-        self.assertEqual(20, len(features))
+        self.assertEqual(22, len(features))
         self.assertTrue(
             {
                 "ATC-PLT-000__v0.1.0.feature",
@@ -283,14 +284,26 @@ class RepositoryContractTests(unittest.TestCase):
             objects[f'{item["id"]}@{item["version"]}'] = item
 
         self.assertTrue(planned_refs.issubset(objects))
+        approved_dev003_v1_refs = {
+            "AC-SEC-001@1.0.0",
+            "OD-009@1.0.0",
+            "OPS-RECEIPT-001@1.0.0",
+            "ORG-COLLAB-001@1.0.0",
+            "ORG-STRUCT-001@1.0.0",
+            "SEC-AUTH-001@1.0.0",
+        }
         self.assertEqual(
-            planned_refs,
+            planned_refs | approved_dev003_v1_refs,
             {
                 ref
                 for ref in objects
                 if ref.endswith("@1.0.0") and ref != "OD-002@1.0.0"
             },
         )
+        for ref in approved_dev003_v1_refs:
+            with self.subTest(dev003_approved_dependency=ref):
+                self.assertEqual("approved", objects[ref]["status"])
+                self.assertIn("用户", objects[ref]["approval_evidence"])
 
         decision_states = {
             "ED-001@1.0.0": ("proposed", "open"),
@@ -324,6 +337,17 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertEqual("approved", approved_module_onboarding["status"])
         self.assertEqual("ready", approved_module_onboarding["body"]["readiness"])
         self.assertEqual("DEV-002", approved_module_onboarding["body"]["implementation_task_id"])
+
+        dev003 = objects["ATC-REC-001@2.0.0"]
+        self.assertEqual("approved", dev003["status"])
+        self.assertEqual("ready", dev003["body"]["readiness"])
+        self.assertEqual("DEV-003", dev003["body"]["implementation_task_id"])
+        self.assertNotIn("ATC-PLT-000@1.0.0", dev003["depends_on"])
+        self.assertIn("ATC-PLT-003@1.0.0", dev003["depends_on"])
+        for dependency in dev003["depends_on"]:
+            with self.subTest(dev003_dependency=dependency):
+                self.assertEqual("approved", objects[dependency]["status"])
+        self.assertIn("用户", dev003["body"]["approval_evidence"])
 
         expected_platform_dependencies = {
             "ED-002@1.0.0": {"OD-002@1.0.0"},

@@ -127,3 +127,5 @@
 - GitHub 比较页确认基线为 `main`、比较分支正确、1 个提交和 73 个文件；首次填写 PR 描述时浏览器返回内部错误，尚未创建 PR。
 - PR #3 已创建且无冲突。首轮 CI 中规格治理和 Windows 模块回归通过；Linux 真实 PostgreSQL 测试 5/6 通过。
 - 唯一失败是测试使用 `Assert.Equal` 比较带 `List<T>` 的 record，日志显示期望和实际业务 ID、编号、版本均相同，但 List 使用引用相等；生产重放逻辑没有失败。测试改为严格深层等价比较。
+- 第二轮 PR Head `686144b11df425c92fda5ce9414b5ba914251610` 的 Application CI、Windows 模块回归和 Specification governance 全部成功。
+- Linux 真实 PostgreSQL 集成测试 6/6 通过，覆盖正常登记、幂等重放、幂等冲突、授权拒绝、Outbox 失败整体回滚和并发相同请求单实例化。

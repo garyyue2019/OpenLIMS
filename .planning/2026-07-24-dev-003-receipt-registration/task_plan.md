@@ -6,7 +6,7 @@
 
 ## Current Phase
 
-Phase 5: 测试与硬化
+Complete
 
 ## Phases
 
@@ -41,17 +41,17 @@ Phase 5: 测试与硬化
 
 ### Phase 5: 测试与硬化
 
-- [ ] 覆盖正向、反向、边界、权限、并发、恢复和审计测试
-- [ ] 覆盖幂等相同载荷、幂等冲突、跨组织拒绝和跨实验室显式授权
-- [ ] 覆盖迁移、模块边界、Web 行为与可访问性
-- **Status:** in_progress
+- [x] 覆盖正向、反向、边界、权限、并发、恢复和审计测试
+- [x] 覆盖幂等相同载荷、幂等冲突、跨组织拒绝和跨实验室显式授权
+- [x] 覆盖迁移、模块边界、Web 行为与可访问性
+- **Status:** complete
 
 ### Phase 6: 完整门禁与交付
 
-- [ ] 执行仓库完成门禁和确定性二次生成
-- [ ] 审计全部变更是否位于 DEV-003 allowed paths
-- [ ] 提交、推送并创建 PR，等待全部 CI 通过
-- **Status:** pending
+- [x] 执行仓库完成门禁和确定性二次生成
+- [x] 审计全部变更是否位于 DEV-003 allowed paths
+- [x] 提交、推送并创建 PR，等待全部 CI 通过
+- **Status:** complete
 
 ## Approved Scope Decisions
 
@@ -93,3 +93,4 @@ Phase 5: 测试与硬化
 | `dotnet format --verify-no-changes` 报告 5 个本任务文件 import 顺序和 1 个未改动平台测试的既存 import 顺序 | 1 | 手工修正 allowed paths 内的 5 个文件；对未改动且不在 allowed paths 的既存文件不越界改写，改用限定文件格式验证 |
 | GitHub PR 描述首次填充返回浏览器内部错误 | 1 | 保留已打开页面，不重复相同定位方式；重新读取页面状态并使用当前 textarea 定位 |
 | 首轮 Linux PostgreSQL CI 6 项中 1 项失败：record 内嵌 `List<T>` 的 `Assert.Equal` 使用引用相等 | 1 | 数据库实际重放 ID 和字段一致；将测试改为严格深层 `Assert.Equivalent`，不修改生产幂等逻辑 |
+| 查询第二轮 CI 当前步骤的 PowerShell 把 `foreach` 语句直接接管道，触发空管道解析错误 | 1 | 不重复原语法；先把 foreach 结果赋给 `$rows` 再格式化 |

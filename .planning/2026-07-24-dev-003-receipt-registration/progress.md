@@ -57,6 +57,17 @@
 - 已提交 `f637e15` 并推送 DEV-003 分支；正在创建 PR 以触发真实 PostgreSQL CI。首次填写描述遇到一次浏览器内部错误，未重复提交。
 - PR #3 创建成功；首轮规格治理和 Windows 回归通过，Linux PostgreSQL 集成 5/6 通过。
 - 唯一失败定位为测试断言语义：record 内嵌 List 不能用浅层 `Assert.Equal`。改为 `Assert.Equivalent(..., strict: true)` 验证完整重放结构，生产代码不变。
+- 第二轮规格治理通过，Application CI 继续运行；一次只读状态查询脚本出现 PowerShell 管道语法错误，已改用分步赋值，不影响仓库或 CI。
+- 第二轮 Application CI 完成并成功：Linux verify 与 Windows module-onboarding 均通过；Specification governance 同样通过。
+- 真实 PostgreSQL 集成测试 6/6 通过，DEV-003 所有计划阶段完成。
+
+## Final Delivery
+
+- Pull Request: https://github.com/garyyue2019/OpenLIMS/pull/3
+- Implementation commit: `f637e154bc3ae884626685d80c79d348a399395a`
+- CI-fix commit: `686144b11df425c92fda5ce9414b5ba914251610`
+- Application CI: https://github.com/garyyue2019/OpenLIMS/actions/runs/30061588762 — SUCCESS
+- Specification governance: https://github.com/garyyue2019/OpenLIMS/actions/runs/30061588753 — SUCCESS
 
 ## Verification Ledger
 
@@ -72,3 +83,10 @@
 | first `python -m tools.specgen generate` | PASS — written=11 |
 | `python -m tools.specgen check` | PASS |
 | second `python -m tools.specgen generate` | PASS — written=0 |
+| Release build with warnings as errors | PASS — 0 warnings / 0 errors |
+| local backend tests excluding unavailable local PostgreSQL | PASS — 76 tests |
+| Linux PostgreSQL receiving integration | PASS — 6 tests |
+| frontend lint / typecheck / unit / build | PASS — 28 unit tests |
+| allowed-path audit | PASS — 73 changed files / 0 violations |
+| Application CI | PASS — Linux verify and Windows module onboarding |
+| Specification governance | PASS |

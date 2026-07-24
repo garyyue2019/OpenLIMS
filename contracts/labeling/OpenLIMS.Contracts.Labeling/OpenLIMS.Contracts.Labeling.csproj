@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>OpenLIMS.Contracts.Labeling</AssemblyName>
+    <RootNamespace>OpenLIMS.Contracts.Labeling</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../receiving/OpenLIMS.Contracts.Receiving/OpenLIMS.Contracts.Receiving.csproj" />
+  </ItemGroup>
+</Project>

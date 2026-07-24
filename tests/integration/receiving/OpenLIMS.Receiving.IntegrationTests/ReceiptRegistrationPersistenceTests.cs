@@ -23,18 +23,28 @@ public sealed class ReceiptRegistrationPersistenceTests
     {
         var connectionString = ConnectionString();
         await PrepareAsync(connectionString);
-        await using var provider = BuildProvider(connectionString, ReceivingAuthorizationDecision.Allowed);
+        await using var provider = BuildProvider(connectionString, ReceivingAuthorizationDecision.AllowedFor("LAB-A"));
 
         var result = await RegisterAsync(provider, ValidRequest(), "idem-normal");
 
         Assert.Equal(2, result.Containers[0].ReceivedItems.Count);
         Assert.All(result.Containers[0].ReceivedItems, item => Assert.Equal("QUARANTINED", item.State));
+        var containerLabel = Assert.IsType<LabelIdentityResult>(result.Containers[0].LabelIdentity);
+        Assert.StartsWith("LAB-A-CT-20260724-", containerLabel.BusinessNumber, StringComparison.Ordinal);
+        Assert.All(result.Containers[0].ReceivedItems, item =>
+        {
+            var itemLabel = Assert.IsType<LabelIdentityResult>(item.LabelIdentity);
+            Assert.StartsWith("LAB-A-RI-20260724-", itemLabel.BusinessNumber, StringComparison.Ordinal);
+            Assert.True(LabelBarcodeCodec.TryParse(itemLabel.BarcodePayload, out var barcode, out _));
+            Assert.Equal("RI", barcode!.ObjectType);
+        });
         Assert.Equal(1, await CountAsync(connectionString, "receiving.receipt"));
         Assert.Equal(1, await CountAsync(connectionString, "receiving.container"));
         Assert.Equal(2, await CountAsync(connectionString, "receiving.received_item"));
         Assert.Equal(4, await CountAsync(connectionString, "receiving.received_item_state_history"));
-        Assert.Equal(3, await CountAsync(connectionString, "receiving.audit_pending"));
-        Assert.Equal(3, await CountAsync(connectionString, "receiving.outbox"));
+        Assert.Equal(3, await CountAsync(connectionString, "receiving.label_identity"));
+        Assert.Equal(6, await CountAsync(connectionString, "receiving.audit_pending"));
+        Assert.Equal(6, await CountAsync(connectionString, "receiving.outbox"));
     }
 
     [Fact]
@@ -42,7 +52,7 @@ public sealed class ReceiptRegistrationPersistenceTests
     {
         var connectionString = ConnectionString();
         await PrepareAsync(connectionString);
-        await using var provider = BuildProvider(connectionString, ReceivingAuthorizationDecision.Allowed);
+        await using var provider = BuildProvider(connectionString, ReceivingAuthorizationDecision.AllowedFor("LAB-A"));
 
         var first = await RegisterAsync(provider, ValidRequest(), "idem-replay");
         var second = await RegisterAsync(provider, ValidRequest(), "idem-replay");
@@ -50,7 +60,8 @@ public sealed class ReceiptRegistrationPersistenceTests
         Assert.Equivalent(first, second, strict: true);
         Assert.Equal(1, await CountAsync(connectionString, "receiving.receipt"));
         Assert.Equal(2, await CountAsync(connectionString, "receiving.received_item"));
-        Assert.Equal(3, await CountAsync(connectionString, "receiving.outbox"));
+        Assert.Equal(3, await CountAsync(connectionString, "receiving.label_identity"));
+        Assert.Equal(6, await CountAsync(connectionString, "receiving.outbox"));
     }
 
     [Fact]
@@ -58,7 +69,7 @@ public sealed class ReceiptRegistrationPersistenceTests
     {
         var connectionString = ConnectionString();
         await PrepareAsync(connectionString);
-        await using var provider = BuildProvider(connectionString, ReceivingAuthorizationDecision.Allowed);
+        await using var provider = BuildProvider(connectionString, ReceivingAuthorizationDecision.AllowedFor("LAB-A"));
         await RegisterAsync(provider, ValidRequest(), "idem-conflict");
 
         var exception = await Assert.ThrowsAsync<ReceivingDomainException>(() =>
@@ -104,7 +115,7 @@ public sealed class ReceiptRegistrationPersistenceTests
 
         try
         {
-            await using var provider = BuildProvider(connectionString, ReceivingAuthorizationDecision.Allowed);
+            await using var provider = BuildProvider(connectionString, ReceivingAuthorizationDecision.AllowedFor("LAB-A"));
             var exception = await Assert.ThrowsAsync<ReceivingDomainException>(() =>
                 RegisterAsync(provider, ValidRequest(), "idem-outbox-failure"));
 
@@ -129,7 +140,7 @@ public sealed class ReceiptRegistrationPersistenceTests
     {
         var connectionString = ConnectionString();
         await PrepareAsync(connectionString);
-        await using var provider = BuildProvider(connectionString, ReceivingAuthorizationDecision.Allowed);
+        await using var provider = BuildProvider(connectionString, ReceivingAuthorizationDecision.AllowedFor("LAB-A"));
         using var firstScope = provider.CreateScope();
         using var secondScope = provider.CreateScope();
         var request = ValidRequest();
@@ -222,8 +233,11 @@ public sealed class ReceiptRegistrationPersistenceTests
     private static async Task PrepareAsync(string connectionString)
     {
         await ReceivingMigrator.ApplyAsync(connectionString, TestContext.Current.CancellationToken);
+        await ReceivingLabelIdentityMigrator.ApplyAsync(connectionString, TestContext.Current.CancellationToken);
         await ExecuteAsync(connectionString, """
             truncate table
+              receiving.label_identity,
+              receiving.label_sequence,
               receiving.received_item_state_history,
               receiving.audit_pending,
               receiving.audit_attempt,

@@ -1,6 +1,8 @@
 using Microsoft.Extensions.Hosting;
 using OpenLIMS.BuildingBlocks.Platform;
+using OpenLIMS.Contracts.Labeling;
 using OpenLIMS.Contracts.Platform;
+using OpenLIMS.Modules.Labeling;
 using OpenLIMS.Modules.Receiving;
 using OpenLIMS.Worker;
 
@@ -15,7 +17,12 @@ if (string.IsNullOrWhiteSpace(organizationGroupId) || string.IsNullOrWhiteSpace(
     throw new InvalidOperationException("PLT.CONFIGURATION_INVALID");
 }
 
-IOpenLimsServerModule[] modules = [new ReceivingModule(postgresConnectionString)];
+var labelPrinters = builder.Configuration.GetSection("Labeling:Printers").Get<LogicalLabelPrinter[]>() ?? [];
+IOpenLimsServerModule[] modules =
+[
+    new ReceivingModule(postgresConnectionString),
+    new LabelingModule(postgresConnectionString, labelPrinters)
+];
 var moduleCatalog = OpenLimsModuleCatalog.Create(modules);
 
 if (args.Length == 1 && string.Equals(args[0], "--apply-platform-migration", StringComparison.Ordinal))

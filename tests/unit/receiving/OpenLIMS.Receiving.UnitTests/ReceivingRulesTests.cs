@@ -21,7 +21,8 @@ public sealed class ReceivingRulesTests
             new SequentialIdGenerator(),
             "group-a",
             "actor-a",
-            Now);
+            Now,
+            "LAB-A");
 
         Assert.Single(plan.Containers);
         Assert.Equal(2, plan.Containers[0].Items.Count);
@@ -89,9 +90,28 @@ public sealed class ReceivingRulesTests
             new InvalidIdGenerator(),
             "group-a",
             "actor-a",
-            Now));
+            Now,
+            "LAB-A"));
 
         Assert.Contains("REC.ID_GENERATOR_INVALID", exception.Message, StringComparison.Ordinal);
+    }
+
+    [Theory]
+    [InlineData("")]
+    [InlineData("lab code")]
+    [InlineData("LAB_CODE")]
+    [InlineData("LAB-CODE-IS-TOO-LONG")]
+    public void Untrusted_or_invalid_laboratory_code_fails_closed(string laboratoryCode)
+    {
+        var exception = Assert.Throws<ReceivingDomainException>(() => ReceivingRules.CreatePlan(
+            ValidRequest(),
+            new SequentialIdGenerator(),
+            "group-a",
+            "actor-a",
+            Now,
+            laboratoryCode));
+
+        Assert.Equal(ReceivingErrorCodes.AuthorizationDenied, exception.ErrorCode);
     }
 
     internal static RegisterReceiptRequest ValidRequest() => new(

@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using OpenLIMS.Api;
 using OpenLIMS.BuildingBlocks.Platform;
+using OpenLIMS.Contracts.Labeling;
 using OpenLIMS.Contracts.Platform;
+using OpenLIMS.Modules.Labeling;
 using OpenLIMS.Modules.Receiving;
 using OpenTelemetry.Trace;
 
@@ -18,7 +20,12 @@ if (!HasRequiredDeploymentConfiguration(platformOptions, builder.Environment))
 }
 
 var deploymentOptions = platformOptions!;
-IOpenLimsServerModule[] modules = [new ReceivingModule(deploymentOptions.PostgresConnectionString!)];
+var labelPrinters = builder.Configuration.GetSection("Labeling:Printers").Get<LogicalLabelPrinter[]>() ?? [];
+IOpenLimsServerModule[] modules =
+[
+    new ReceivingModule(deploymentOptions.PostgresConnectionString!),
+    new LabelingModule(deploymentOptions.PostgresConnectionString!, labelPrinters)
+];
 var moduleCatalog = OpenLimsModuleCatalog.Create(modules);
 var organizationScope = new OrganizationScope(deploymentOptions.OrganizationGroupId!);
 var allowInsecureOidc = IsApprovedDevelopmentHttpEndpoint(
@@ -161,7 +168,11 @@ app.MapGet("/openapi/v1.json", () => Results.Json(new
         ["/health/live"] = new { get = new { operationId = "getLiveness", responses = new { ok = new { description = "Process is alive" } } } },
         ["/health/ready"] = new { get = new { operationId = "getReadiness", responses = new { ok = new { description = "Platform host is ready" } } } },
         ["/system/status"] = new { get = new { operationId = "getAuthenticatedSystemStatus", responses = new { ok = new { description = "Authenticated platform status" } } } },
-        ["/api/v1/receipts"] = new { post = new { operationId = "registerReceipt", responses = new { created = new { description = "Receipt, containers, and quarantined received items created" } } } }
+        ["/api/v1/receipts"] = new { post = new { operationId = "registerReceipt", responses = new { created = new { description = "Receipt, containers, and quarantined received items created" } } } },
+        ["/api/v1/label-jobs"] = new { post = new { operationId = "createLabelPrintJobs", responses = new { accepted = new { description = "Label print jobs accepted" } } } },
+        ["/api/v1/label-jobs/{printJobId}"] = new { get = new { operationId = "getLabelPrintJob", responses = new { ok = new { description = "Label print job state" } } } },
+        ["/api/v1/label-jobs/{printJobId}/reprint"] = new { post = new { operationId = "reprintLabel", responses = new { accepted = new { description = "Controlled reprint accepted" } } } },
+        ["/api/v1/scans/resolve"] = new { post = new { operationId = "resolveLabelScan", responses = new { ok = new { description = "Authorized label scan resolution" } } } }
     }
 }));
 app.MapOpenLimsModuleEndpoints(moduleCatalog);

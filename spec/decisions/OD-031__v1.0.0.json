@@ -1,0 +1,59 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "decision",
+  "id": "OD-031",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "首期条码、打印和扫码流程",
+  "summary": "批准 DEV-004 的包装与收到实物编号、二维码、50×30毫米标签、TSPL/TSPL2 网络打印和扫码枪校验闭环；仪器与文件接口继续后移。",
+  "owners": ["实验室运营负责人", "IT负责人", "产品负责人", "质量负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "OD-031"}],
+  "depends_on": ["OD-002@1.0.0", "OD-009@1.0.0"],
+  "affects": ["barcode", "label-printing", "receiving", "scan-resolution", "audit"],
+  "change_class": "major",
+  "decision_state": "decided",
+  "approval_evidence": "用户于 2026-07-24 明确回复“批准 DEV-004 业务基线”，批准了对象范围、编号格式、二维码载荷、标签、TSPL/TSPL2 网络打印、扫码枪、重印门禁和不确定投递恢复语义。",
+  "options": ["浏览器打印", "厂商专用SDK", "TSPL/TSPL2网络打印", "移动摄像头扫码", "USB或蓝牙键盘式扫码枪"],
+  "decision": "DEV-004 只为 Container 与 ReceivedItem 建立标签闭环。使用 QR Code Model 2；打印采用不绑定品牌的 TSPL/TSPL2 兼容网络标签机和 TCP 9100；首期扫码入口为 Web 收样页配合 USB 或蓝牙键盘式扫码枪。打印发送不冒充物理出纸，必须以扫描校验形成 VERIFIED 证据。",
+  "identifier_format": {
+    "human_readable": "LABCODE-{CT|RI}-YYYYMMDD-######",
+    "namespace": "单集团独立部署内按对象类型和日期原子递增；实验室代码为不可变显示快照，不能选择或切换集团",
+    "reuse_policy": "永不回收、永不复用、重印不改变"
+  },
+  "barcode_contract": {
+    "symbology": "QR Code Model 2",
+    "payload": ["formatVersion=OL1", "objectType=CT|RI", "random128BitOpaqueReference", "corruptionChecksum"],
+    "privacy": "不得包含客户、产品、型号、法人、实验室或其他业务正文；编码不是授权凭证",
+    "resolution": "只允许服务端解析，并重新执行集团、法人、实验室、客户、对象和能力授权"
+  },
+  "label_contract": {
+    "size": "50x30mm",
+    "density": "203dpi",
+    "templates": ["REC-CT-50X30@1.0.0", "REC-RI-50X30@1.0.0"],
+    "visible_fields": ["包装或实物对象类型", "业务编号", "实验室代码", "二维码", "模板版本"],
+    "attachment_rule": "ReceivedItem 标签贴在受控样品袋或吊牌，不直接贴到可能影响检测的实物表面"
+  },
+  "print_contract": {
+    "transport": "TSPL/TSPL2 over TCP 9100",
+    "printer_scope": "逻辑打印机绑定一个实验室，禁止向未授权实验室打印",
+    "states": ["REQUESTED", "DISPATCHING", "DISPATCHED", "VERIFIED", "FAILED", "UNKNOWN"],
+    "truth_rule": "DISPATCHED 只表示适配器已发送，不表示物理出纸；扫描同一标签后才进入 VERIFIED",
+    "uncertain_delivery": "发送结果不确定时禁止自动重发；操作者必须扫描疑似标签或执行受控重印"
+  },
+  "reprint_contract": {
+    "copies_per_request": 1,
+    "reason_required": true,
+    "capability": "receiving.label.reprint",
+    "override_after_successful_reprints": 3,
+    "override_capability": "receiving.label.reprint.override",
+    "identity_rule": "沿用原编号与二维码身份，每次只新增追加式打印事件"
+  },
+  "deferred_scope": ["Receipt 标签", "派生样品和检测份标签", "手机摄像头和原生App", "离线扫码", "浏览器打印对话框", "厂商SDK", "仪器和文件接口"],
+  "acceptance_evidence": [
+    "同一对象重印后业务编号和二维码身份不变",
+    "打印发送、物理校验和失败状态不会互相冒充",
+    "跨法人、跨实验室、跨客户或无对象权限扫码不泄露对象信息",
+    "发送不确定时不会自动产生第二份物理输出"
+  ]
+}

@@ -80,7 +80,9 @@ internal sealed class ReceiptRegistrationService(
                     idGenerator,
                     organizationGroupId,
                     actor.ActorId,
-                    clock.UtcNow);
+                    clock.UtcNow,
+                    authorization.LaboratoryCode
+                        ?? throw new ReceivingDomainException(ReceivingErrorCodes.AuthorizationDenied));
                 result = await store.InsertRegistrationAsync(
                     plan,
                     keyHash,

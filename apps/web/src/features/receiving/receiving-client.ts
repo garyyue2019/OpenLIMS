@@ -33,12 +33,21 @@ export interface ReceivedItemRegistrationResult {
   receivedItemNumber: string
   state: 'QUARANTINED'
   version: number
+  labelIdentity?: LabelIdentityResult
 }
 
 export interface ContainerRegistrationResult {
   containerId: string
   containerNumber: string
   receivedItems: ReceivedItemRegistrationResult[]
+  labelIdentity?: LabelIdentityResult
+}
+
+export interface LabelIdentityResult {
+  objectType: 'CT' | 'RI'
+  businessNumber: string
+  barcodePayload: string
+  templateVersion: string
 }
 
 export interface ReceiptRegistrationResult {

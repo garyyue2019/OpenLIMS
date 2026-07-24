@@ -22,6 +22,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `ATC-REC-001@2.0.0` | `story` | `approved` | 登记到货批、包装单元和收到实物 | `major` | receiving, authorization, audit, outbox, receiving-ui, automated-test | `5f5d2d7c7e2f` |
 | `ATC-REC-002@0.1.0` | `story` | `proposed` | 生成、打印并校验包装和实物标识 | `minor` | receiving, identifier, barcode, mobile, audit, automated-test | `01083113a16c` |
 | `ATC-REC-002@1.0.0` | `story` | `proposed` | 生成、打印并校验包装和实物标识 | `minor` | receiving, identifier, barcode, mobile, audit, automated-test | `3d08c534ec64` |
+| `ATC-REC-002@2.0.0` | `story` | `approved` | 生成、打印并校验包装和实物标识 | `major` | receiving, identifier, barcode, label-printing, worker, scan-resolution, audit, automated-test | `89010ab6fd1a` |
 | `ATC-REC-003@0.1.0` | `story` | `proposed` | 身份评估前实施统一隔离门禁 | `major` | receiving, disassembly, sample-preparation, task-allocation, authorization, audit, automated-test | `98da53ec10f9` |
 | `ATC-REC-003@1.0.0` | `story` | `proposed` | 身份评估前实施统一隔离门禁 | `major` | receiving, disassembly, sample-preparation, task-allocation, authorization, audit, automated-test | `cb41b44b7f3b` |
 | `ATC-REC-004@0.1.0` | `story` | `proposed` | 记录身份证据并形成匹配或冲突结论 | `major` | identity, receiving, exception, evidence, authorization, audit, automated-test | `a26dc988872b` |
@@ -52,6 +53,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `OD-029@0.1.0` | `decision` | `proposed` | 认可范围数据粒度与签发门禁 | `major` | accreditation, result-review, reporting, signature | `85e197b51ea7` |
 | `OD-030@0.1.0` | `decision` | `proposed` | 各方法族最小执行记录与外部系统边界 | `major` | execution, batch, qc, raw-data, instrument-integration | `03dbc6d00f58` |
 | `OD-031@0.1.0` | `decision` | `proposed` | 首期条码、移动流程和仪器接口清单 | `major` | barcode, mobile, instrument-integration, validation-data | `3626d4882314` |
+| `OD-031@1.0.0` | `decision` | `approved` | 首期条码、打印和扫码流程 | `major` | barcode, label-printing, receiving, scan-resolution, audit | `04a15707f209` |
 | `OD-032@0.1.0` | `decision` | `proposed` | 多方参与角色、访问和付款权限模型 | `major` | party, authorization, report-delivery, billing | `0664721d0fb0` |
 | `OD-034@0.1.0` | `decision` | `proposed` | 检测结论层级与全面合规引用边界 | `major` | conformity, reporting, external-compliance-reference | `d9645e91b677` |
 | `OPS-EXC-001@0.1.0` | `requirement` | `in_review` | 收样异常分类建档 | `minor` | exception, receiving, identity, evidence, workflow | `84fdb3643f7e` |
@@ -62,6 +64,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `OPS-RECEIPT-001@0.1.0` | `requirement` | `in_review` | 分别登记到货批、包装单元和收到的实物 | `minor` | receiving, data-model, api, ux, audit | `7fc24d0d2a7d` |
 | `OPS-RECEIPT-001@1.0.0` | `requirement` | `approved` | 分别登记到货批、包装单元和收到的实物 | `major` | receiving, data-model, api, ux, audit, quarantine | `f8458e721ae4` |
 | `OPS-RECEIPT-002@0.1.0` | `requirement` | `in_review` | 包装单元与收到实物唯一标识 | `minor` | receiving, identifier, barcode, mobile, audit | `c226b56a7fbf` |
+| `OPS-RECEIPT-002@1.0.0` | `requirement` | `approved` | 包装单元与收到实物唯一标识 | `major` | receiving, identifier, barcode, label-printing, scan-resolution, audit | `1938f7c2e390` |
 | `OPS-RECEIPT-003@0.1.0` | `requirement` | `in_review` | 身份评估完成前保持隔离 | `major` | receiving, identity, sample-preparation, task-allocation, audit | `3e4f6d543a54` |
 | `ORG-COLLAB-001@0.1.0` | `requirement` | `in_review` | 集团内跨机构协作责任分离 | `major` | service-order, receiving, lab-execution, reporting, billing, authorization, audit | `be0c4ffabc11` |
 | `ORG-COLLAB-001@1.0.0` | `requirement` | `approved` | 集团内跨机构协作责任分离 | `major` | service-order, receiving, lab-execution, reporting, billing, authorization, audit | `f1b8c3cc8e73` |

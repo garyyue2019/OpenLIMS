@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>OpenLIMS.Modules.Labeling</AssemblyName>
+    <RootNamespace>OpenLIMS.Modules.Labeling</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Npgsql" />
+    <ProjectReference Include="../../../../contracts/labeling/OpenLIMS.Contracts.Labeling/OpenLIMS.Contracts.Labeling.csproj" />
+    <ProjectReference Include="../../../../contracts/receiving/OpenLIMS.Contracts.Receiving/OpenLIMS.Contracts.Receiving.csproj" />
+    <ProjectReference Include="../../../building-blocks/OpenLIMS.BuildingBlocks.Platform/OpenLIMS.BuildingBlocks.Platform.csproj" />
+    <ProjectReference Include="../../../../contracts/platform/OpenLIMS.Contracts.Platform/OpenLIMS.Contracts.Platform.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="OpenLIMS.Labeling.UnitTests" />
+    <InternalsVisibleTo Include="OpenLIMS.Labeling.IntegrationTests" />
+    <InternalsVisibleTo Include="OpenLIMS.Labeling.ContractTests" />
+  </ItemGroup>
+</Project>

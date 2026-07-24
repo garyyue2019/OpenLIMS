@@ -1,0 +1,30 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "OPS-RECEIPT-002",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "包装单元与收到实物唯一标识",
+  "summary": "为每个 Container 和 ReceivedItem 原子分配集团内不可复用的业务编号和非敏感二维码身份，并提供可审计打印、扫码校验与受控重印。",
+  "owners": ["收样负责人", "领域负责人", "质量负责人", "IT负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "OPS-RECEIPT-002"}],
+  "depends_on": ["OD-002@1.0.0", "ORG-STRUCT-001@1.0.0", "OPS-RECEIPT-001@1.0.0", "OD-009@1.0.0", "OD-031@1.0.0"],
+  "affects": ["receiving", "identifier", "barcode", "label-printing", "scan-resolution", "audit"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "ENABLED", "condition": "Release 1 三岁及以上常规硬质塑胶非电动玩具收样切片"},
+  "approval_evidence": "用户于 2026-07-24 明确回复“批准 DEV-004 业务基线”。",
+  "invariants": [
+    "只为 Container 和 ReceivedItem 分配本切片标识，不为 Receipt、派生样品、试样、检测份或制备份分配",
+    "对象与标识在同一收样事务中原子持久化；打印失败不得回滚、删除或重新分配身份",
+    "业务编号格式为 LABCODE-{CT|RI}-YYYYMMDD-######，在集团、对象类型和日期命名空间内原子唯一且永不复用",
+    "二维码为 OL1 版本的对象类型、随机128位不透明引用和差错校验，不包含客户或产品敏感正文",
+    "编码永远不是授权凭证；服务端解析后必须重新校验集团、法人、实验室、客户、对象和能力权限",
+    "每台逻辑打印机绑定一个实验室，禁止跨实验室误打印",
+    "DISPATCHED 不等于物理出纸，只有扫描同一标签完成后才能记录 VERIFIED",
+    "重印不改变业务编号或二维码身份；每次重印只追加 PrintEvent 并保留原因",
+    "发送结果不确定时禁止自动重发；必须先扫描确认或执行受控重印",
+    "一个生产部署只服务一个 OrganizationGroup，任何编号、打印机或扫码字段均不得成为集团选择入口"
+  ]
+}

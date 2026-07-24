@@ -27,7 +27,9 @@ public sealed class ReceivingModule(string postgresConnectionString) :
         services.AddHttpContextAccessor();
         services.TryAddScoped<IReceivingAuthorizationPort, HttpClaimsReceivingAuthorizationPort>();
         services.TryAddScoped<IReceiptRegistrationService, ReceiptRegistrationService>();
+        services.TryAddScoped<IReceivingLabelObjectPort, ReceivingLabelObjectPort>();
         services.TryAddScoped<ReceivingRegistrationStore>();
+        services.TryAddScoped<ReceivingLabelIdentityWriter>();
         services.TryAddScoped<ReceivingAttemptAuditWriter>();
     }
 
@@ -40,8 +42,11 @@ public sealed class ReceivingModule(string postgresConnectionString) :
         services.AddHostedService<ReceivingOutboxMonitor>();
     }
 
-    public Task ApplyMigrationAsync(CancellationToken cancellationToken) =>
-        ReceivingMigrator.ApplyAsync(_options.ConnectionString, cancellationToken);
+    public async Task ApplyMigrationAsync(CancellationToken cancellationToken)
+    {
+        await ReceivingMigrator.ApplyAsync(_options.ConnectionString, cancellationToken);
+        await ReceivingLabelIdentityMigrator.ApplyAsync(_options.ConnectionString, cancellationToken);
+    }
 
     private void AddPersistence(IServiceCollection services)
     {

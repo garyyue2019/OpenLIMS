@@ -63,6 +63,8 @@ jobs:
         run: bash scripts/verify.sh --profile task --module module-onboarding
       - name: Verify receiving task profile
         run: bash scripts/verify.sh --profile task --module receiving
+      - name: Verify labeling task profile
+        run: bash scripts/verify.sh --profile task --module labeling
       - name: Audit backend dependencies
         run: |
           dotnet list OpenLIMS.slnx package --vulnerable --include-transitive --format json > dotnet-vulnerabilities.json
@@ -112,6 +114,7 @@ jobs:
         run: |
           dotnet run --project src/host/worker/OpenLIMS.Worker/OpenLIMS.Worker.csproj -c Release --no-build -- --apply-platform-migration
           dotnet run --project src/host/worker/OpenLIMS.Worker/OpenLIMS.Worker.csproj -c Release --no-build -- --apply-module-migration receiving
+          dotnet run --project src/host/worker/OpenLIMS.Worker/OpenLIMS.Worker.csproj -c Release --no-build -- --apply-module-migration labeling
           dotnet run --project tests/e2e/smoke/OpenLIMS.Platform.SmokeTests/OpenLIMS.Platform.SmokeTests.csproj -c Release --no-build
           dotnet run --project src/host/api/OpenLIMS.Api/OpenLIMS.Api.csproj -c Release --no-build > openlims-api.log 2>&1 &
           api_pid=$!
@@ -150,3 +153,6 @@ jobs:
       - name: Verify module onboarding task profile
         shell: pwsh
         run: ./scripts/verify.ps1 -Profile task -Module module-onboarding
+      - name: Verify labeling task profile
+        shell: pwsh
+        run: ./scripts/verify.ps1 -Profile task -Module labeling

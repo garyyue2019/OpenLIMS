@@ -4,7 +4,7 @@
 在不引入任何检测业务语义或共享 SaaS 多租户的前提下，为 OpenLIMS 建立可验证的后端、Worker、Web、迁移和 CI 业务模块接入通道。
 
 ## Current Phase
-Phase 4 — Full Verification and Delivery
+Complete
 
 ## Phases
 
@@ -27,10 +27,10 @@ Phase 4 — Full Verification and Delivery
 - **Status:** complete
 
 ### Phase 4: Full Verification and Delivery
-- [ ] 执行仓库完成门禁与确定性二次生成
-- [ ] 审查 allowed paths、工作树和生成目录所有权
-- [ ] 提交、推送并创建 PR
-- **Status:** in_progress
+- [x] 执行仓库完成门禁与确定性二次生成
+- [x] 审查 allowed paths、工作树和生成目录所有权
+- [x] 提交、推送并创建 PR
+- **Status:** complete
 
 ## Scope Decisions
 | Decision | Rationale |

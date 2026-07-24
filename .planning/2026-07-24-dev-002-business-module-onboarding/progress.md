@@ -27,6 +27,8 @@
 - 主代理复跑前端 lint、typecheck、4 个测试文件 24 项和 production build，全部通过。
 - allowed-paths 展开 43 个实际变更文件后全部匹配 DEV-002 任务卡。
 - 最终仓库门禁依次通过：strict validate、source-status、verify-history、generate(written=0)、check、Python 40 tests；第二次 generate 仍为 written=0。
+- 提交 `484b189` 已推送到 `codex/dev-002-business-module-onboarding`，并创建正式 PR #2。
+- PR #2 初始实现提交的 Application CI（Linux + Windows module-onboarding）与 Specification governance 共 3/3 检查通过，无冲突，可合并。
 
 ## Verification Ledger
 | Gate | Result |

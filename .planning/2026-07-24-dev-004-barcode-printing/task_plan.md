@@ -51,11 +51,11 @@ Phase 6（等待用户明确要求提交与发布）
 
 ### Phase 6: 提交与发布评审
 
-- [ ] 更新任务证据和计划记录
-- [ ] 提交 DEV-004 分支
-- [ ] 推送并创建 PR
+- [x] 更新任务证据和计划记录
+- [x] 提交 DEV-004 分支
+- [x] 推送并创建 PR
 - [ ] 等待 CI 终态并报告结果
-- **Status:** pending
+- **Status:** in_progress
 
 ## Key Questions
 

@@ -437,18 +437,40 @@ internal sealed class ReceivingAttemptAuditWriter(ReceivingDataSource dataSource
         DateTimeOffset occurredAt,
         CancellationToken cancellationToken)
     {
+        await WriteAsync(
+            "RegisterReceipt",
+            actorId,
+            organizationGroupId,
+            targetHash,
+            correlationId,
+            decisionCode,
+            occurredAt,
+            cancellationToken);
+    }
+
+    public async Task WriteAsync(
+        string commandType,
+        string? actorId,
+        string organizationGroupId,
+        string targetHash,
+        string correlationId,
+        string decisionCode,
+        DateTimeOffset occurredAt,
+        CancellationToken cancellationToken)
+    {
         await using var command = dataSource.DataSource.CreateCommand("""
             insert into receiving.audit_attempt (
                 attempt_id, actor_id, organization_group_id, command_type, target_hash,
                 decision_code, correlation_id, occurred_at
             ) values (
-                @attempt_id, @actor_id, @organization_group_id, 'RegisterReceipt', @target_hash,
+                @attempt_id, @actor_id, @organization_group_id, @command_type, @target_hash,
                 @decision_code, @correlation_id, @occurred_at
             )
             """);
         command.Parameters.AddWithValue("attempt_id", Guid.NewGuid());
-        command.Parameters.AddWithValue("actor_id", actorId);
+        command.Parameters.AddWithValue("actor_id", (object?)actorId ?? DBNull.Value);
         command.Parameters.AddWithValue("organization_group_id", organizationGroupId);
+        command.Parameters.AddWithValue("command_type", commandType);
         command.Parameters.AddWithValue("target_hash", targetHash);
         command.Parameters.AddWithValue("decision_code", decisionCode);
         command.Parameters.AddWithValue("correlation_id", correlationId);

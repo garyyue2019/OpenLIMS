@@ -11,7 +11,9 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `AC-DEPLOY-001@0.1.0` | `acceptance` | `in_review` | 集团间独立数据平面 | `major` | deployment-test, security-test, disaster-recovery, infrastructure-evidence | `1a8c17fd6201` |
 | `AC-DEPLOY-001@1.0.0` | `acceptance` | `in_review` | 集团间独立数据平面真实交叉访问验收 | `major` | deployment-test, runtime-security-test, identity-test, telemetry-test, disaster-recovery, infrastructure-evidence | `d09e3a7d43b1` |
 | `AC-ID-001@0.1.0` | `acceptance` | `in_review` | 身份错配 | `major` | identity, exception, conditional-acceptance, audit, automated-test | `a56a740130e6` |
+| `AC-ID-001@1.0.0` | `acceptance` | `approved` | 身份评估三层事实和冲突事件 | `major` | identity-assessment, receiving, audit, automated-test | `8bc40f09987e` |
 | `AC-REC-001@0.1.0` | `acceptance` | `in_review` | 隔离控制 | `major` | receiving, sample-preparation, task-allocation, audit, automated-test | `8e184359a694` |
+| `AC-REC-001@1.0.0` | `acceptance` | `approved` | 隔离资格统一失败关闭 | `major` | receiving, sample-preparation, task-allocation, audit, automated-test | `9d4fdb3bf6b8` |
 | `AC-SEC-001@0.1.0` | `acceptance` | `in_review` | 集团内多维越权防护 | `major` | authorization, search, export, object-storage, ai-retrieval, automated-test | `e762dae769c4` |
 | `AC-SEC-001@1.0.0` | `acceptance` | `approved` | 集团内收样多维越权防护 | `major` | authorization, receiving, automated-test, audit | `da7cd0c5db0a` |
 | `ATC-PLT-000@0.1.0` | `story` | `proposed` | 建立可验证的模块化单体工程骨架 | `major` | engineering-skeleton, repository, api-host, worker-host, web-shell, module-boundaries, postgresql, identity, object-storage, outbox, audit, observability, ci, deployment, automated-test | `af9924a0b1fa` |
@@ -25,6 +27,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `ATC-REC-002@2.0.0` | `story` | `approved` | 生成、打印并校验包装和实物标识 | `major` | receiving, identifier, barcode, label-printing, worker, scan-resolution, audit, automated-test | `89010ab6fd1a` |
 | `ATC-REC-003@0.1.0` | `story` | `proposed` | 身份评估前实施统一隔离门禁 | `major` | receiving, disassembly, sample-preparation, task-allocation, authorization, audit, automated-test | `98da53ec10f9` |
 | `ATC-REC-003@1.0.0` | `story` | `proposed` | 身份评估前实施统一隔离门禁 | `major` | receiving, disassembly, sample-preparation, task-allocation, authorization, audit, automated-test | `cb41b44b7f3b` |
+| `ATC-REC-003@2.0.0` | `story` | `approved` | 实施隔离门禁和 ReceivedItem 身份评估 | `major` | receiving, identity-assessment, lab-execution-gate, authorization, audit, automated-test | `8f80f420f858` |
 | `ATC-REC-004@0.1.0` | `story` | `proposed` | 记录身份证据并形成匹配或冲突结论 | `major` | identity, receiving, exception, evidence, authorization, audit, automated-test | `a26dc988872b` |
 | `ATC-REC-004@1.0.0` | `story` | `proposed` | 记录身份证据并形成匹配或冲突结论 | `major` | identity, receiving, exception, evidence, authorization, audit, automated-test | `8b686110ac21` |
 | `ATC-REC-005@0.1.0` | `story` | `proposed` | 处理收样异常并执行授权决定 | `major` | exception, receiving, identity, scope-change, authorization, audit, automated-test | `0cbee64dcc55` |
@@ -56,16 +59,21 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `OD-031@1.0.0` | `decision` | `approved` | 首期条码、打印和扫码流程 | `major` | barcode, label-printing, receiving, scan-resolution, audit | `04a15707f209` |
 | `OD-032@0.1.0` | `decision` | `proposed` | 多方参与角色、访问和付款权限模型 | `major` | party, authorization, report-delivery, billing | `0664721d0fb0` |
 | `OD-034@0.1.0` | `decision` | `proposed` | 检测结论层级与全面合规引用边界 | `major` | conformity, reporting, external-compliance-reference | `d9645e91b677` |
+| `OD-035@1.0.0` | `decision` | `approved` | DEV-005 隔离与身份评估边界 | `major` | receiving, identity-assessment, lab-execution-gate, audit | `2edfbe80e573` |
 | `OPS-EXC-001@0.1.0` | `requirement` | `in_review` | 收样异常分类建档 | `minor` | exception, receiving, identity, evidence, workflow | `84fdb3643f7e` |
 | `OPS-EXC-002@0.1.0` | `requirement` | `in_review` | 异常不得自动降低范围或默认条件接收 | `major` | exception, scope-change, conditional-acceptance, authorization, audit | `8cf1d2cd7b59` |
 | `OPS-IDENTITY-001@0.1.0` | `requirement` | `in_review` | 分离客户声明身份、实验室观察和匹配结论 | `minor` | identity, evidence, data-model, audit, ux | `0a417c32d185` |
+| `OPS-IDENTITY-001@1.0.0` | `requirement` | `approved` | 分离客户声明、实验室观察和身份结论 | `major` | identity-assessment, evidence, data-model, audit, ux | `97812afb50d8` |
 | `OPS-IDENTITY-002@0.1.0` | `requirement` | `in_review` | 实物身份映射到实际送检项与受试配置 | `major` | identity, submission, product-variant, configuration, task-allocation | `b00534b8eb9a` |
+| `OPS-IDENTITY-002@1.0.0` | `requirement` | `approved` | 形成 ReceivedItem 人工身份结论 | `major` | identity-assessment, receiving, evidence, authorization | `acfd63403bd7` |
 | `OPS-IDENTITY-003@0.1.0` | `requirement` | `in_review` | 身份异常对象禁止进入制样和检测 | `major` | identity, sample-preparation, task-allocation, authorization, audit | `7eb34bdf50c2` |
+| `OPS-IDENTITY-003@1.0.0` | `requirement` | `approved` | 统一阻断未放行对象进入实验室执行 | `major` | receiving, sample-preparation, task-allocation, authorization, audit | `49098432e451` |
 | `OPS-RECEIPT-001@0.1.0` | `requirement` | `in_review` | 分别登记到货批、包装单元和收到的实物 | `minor` | receiving, data-model, api, ux, audit | `7fc24d0d2a7d` |
 | `OPS-RECEIPT-001@1.0.0` | `requirement` | `approved` | 分别登记到货批、包装单元和收到的实物 | `major` | receiving, data-model, api, ux, audit, quarantine | `f8458e721ae4` |
 | `OPS-RECEIPT-002@0.1.0` | `requirement` | `in_review` | 包装单元与收到实物唯一标识 | `minor` | receiving, identifier, barcode, mobile, audit | `c226b56a7fbf` |
 | `OPS-RECEIPT-002@1.0.0` | `requirement` | `approved` | 包装单元与收到实物唯一标识 | `major` | receiving, identifier, barcode, label-printing, scan-resolution, audit | `1938f7c2e390` |
 | `OPS-RECEIPT-003@0.1.0` | `requirement` | `in_review` | 身份评估完成前保持隔离 | `major` | receiving, identity, sample-preparation, task-allocation, audit | `3e4f6d543a54` |
+| `OPS-RECEIPT-003@1.0.0` | `requirement` | `approved` | 身份评估和受控放行前保持隔离 | `major` | receiving, identity-assessment, sample-preparation, task-allocation, audit | `4a0317294f87` |
 | `ORG-COLLAB-001@0.1.0` | `requirement` | `in_review` | 集团内跨机构协作责任分离 | `major` | service-order, receiving, lab-execution, reporting, billing, authorization, audit | `be0c4ffabc11` |
 | `ORG-COLLAB-001@1.0.0` | `requirement` | `approved` | 集团内跨机构协作责任分离 | `major` | service-order, receiving, lab-execution, reporting, billing, authorization, audit | `f1b8c3cc8e73` |
 | `ORG-STRUCT-001@0.1.0` | `requirement` | `in_review` | 集团多机构组织层级 | `major` | organization-model, master-data, authorization-context, integration, audit | `433e35c3fb90` |

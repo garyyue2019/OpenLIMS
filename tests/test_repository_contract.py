@@ -37,7 +37,7 @@ class RepositoryContractTests(unittest.TestCase):
             check=False,
         )
         self.assertEqual(0, result.returncode, result.stderr.decode("utf-8", errors="replace"))
-        self.assertIn("74 个规格版本", result.stdout.decode("utf-8"))
+        self.assertIn("82 个规格版本", result.stdout.decode("utf-8"))
 
     def test_git_checkout_keeps_deterministic_lf_bytes(self) -> None:
         attributes = (ROOT / ".gitattributes").read_text(encoding="utf-8")
@@ -57,13 +57,17 @@ class RepositoryContractTests(unittest.TestCase):
             ),
             "ATC-REC-001__v2.0.0.md",
             "ATC-REC-002__v2.0.0.md",
+            "ATC-REC-003__v2.0.0.md",
         }
         self.assertEqual(expected_tasks, {path.name for path in tasks})
-        self.assertEqual(23, len(features))
+        self.assertEqual(26, len(features))
         self.assertTrue(
             {
                 "ATC-PLT-000__v0.1.0.feature",
                 "ATC-PLT-000__v1.0.0.feature",
+                "AC-ID-001__v1.0.0.feature",
+                "AC-REC-001__v1.0.0.feature",
+                "ATC-REC-003__v2.0.0.feature",
             }.issubset({path.name for path in features})
         )
         self.assertFalse(any(path.name.startswith("R1-REC-") for path in (*tasks, *features)))
@@ -286,9 +290,16 @@ class RepositoryContractTests(unittest.TestCase):
 
         self.assertTrue(planned_refs.issubset(objects))
         approved_delivery_v1_refs = {
+            "AC-ID-001@1.0.0",
+            "AC-REC-001@1.0.0",
             "AC-SEC-001@1.0.0",
+            "OD-035@1.0.0",
             "OD-009@1.0.0",
+            "OPS-IDENTITY-001@1.0.0",
+            "OPS-IDENTITY-002@1.0.0",
+            "OPS-IDENTITY-003@1.0.0",
             "OPS-RECEIPT-001@1.0.0",
+            "OPS-RECEIPT-003@1.0.0",
             "ORG-COLLAB-001@1.0.0",
             "ORG-STRUCT-001@1.0.0",
             "SEC-AUTH-001@1.0.0",
@@ -351,6 +362,17 @@ class RepositoryContractTests(unittest.TestCase):
             with self.subTest(dev003_dependency=dependency):
                 self.assertEqual("approved", objects[dependency]["status"])
         self.assertIn("用户", dev003["body"]["approval_evidence"])
+
+        dev005 = objects["ATC-REC-003@2.0.0"]
+        self.assertEqual("approved", dev005["status"])
+        self.assertEqual("ready", dev005["body"]["readiness"])
+        self.assertEqual("DEV-005", dev005["body"]["implementation_task_id"])
+        self.assertIn("OD-035@1.0.0", dev005["depends_on"])
+        self.assertNotIn("OPS-EXC-001@0.1.0", dev005["depends_on"])
+        for dependency in dev005["depends_on"]:
+            with self.subTest(dev005_dependency=dependency):
+                self.assertEqual("approved", objects[dependency]["status"])
+        self.assertIn("用户", dev005["body"]["approval_evidence"])
 
         expected_platform_dependencies = {
             "ED-002@1.0.0": {"OD-002@1.0.0"},

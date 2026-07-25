@@ -3,363 +3,412 @@ flowchart LR
   N1["AC-DEPLOY-001@0.1.0\nacceptance/in_review"]
   N2["AC-DEPLOY-001@1.0.0\nacceptance/in_review"]
   N3["AC-ID-001@0.1.0\nacceptance/in_review"]
-  N4["AC-REC-001@0.1.0\nacceptance/in_review"]
-  N5["AC-SEC-001@0.1.0\nacceptance/in_review"]
-  N6["AC-SEC-001@1.0.0\nacceptance/approved"]
-  N7["ATC-PLT-000@0.1.0\nstory/proposed"]
-  N8["ATC-PLT-000@1.0.0\nstory/proposed"]
-  N9["ATC-PLT-003@1.0.0\nstory/approved"]
-  N10["ATC-REC-001@0.1.0\nstory/proposed"]
-  N11["ATC-REC-001@1.0.0\nstory/proposed"]
-  N12["ATC-REC-001@2.0.0\nstory/approved"]
-  N13["ATC-REC-002@0.1.0\nstory/proposed"]
-  N14["ATC-REC-002@1.0.0\nstory/proposed"]
-  N15["ATC-REC-002@2.0.0\nstory/approved"]
-  N16["ATC-REC-003@0.1.0\nstory/proposed"]
-  N17["ATC-REC-003@1.0.0\nstory/proposed"]
-  N18["ATC-REC-004@0.1.0\nstory/proposed"]
-  N19["ATC-REC-004@1.0.0\nstory/proposed"]
-  N20["ATC-REC-005@0.1.0\nstory/proposed"]
-  N21["ATC-REC-005@1.0.0\nstory/proposed"]
-  N22["ATC-REC-006@0.1.0\nstory/proposed"]
-  N23["ATC-REC-006@1.0.0\nstory/proposed"]
-  N24["BUS-PROD-003@0.1.0\nrequirement/in_review"]
-  N25["BUS-REQ-003@0.1.0\nrequirement/in_review"]
-  N26["ED-001@0.1.0\ndecision/proposed"]
-  N27["ED-001@1.0.0\ndecision/proposed"]
-  N28["ED-001@2.0.0\ndecision/approved"]
-  N29["ED-002@1.0.0\ndecision/proposed"]
-  N30["NFR-ARCH-001@0.1.0\nnfr/in_review"]
-  N31["NFR-ARCH-001@1.0.0\nnfr/in_review"]
-  N32["NFR-ARCH-001@2.0.0\nnfr/approved"]
-  N33["NFR-ARCH-002@0.1.0\nnfr/in_review"]
-  N34["NFR-ARCH-002@1.0.0\nnfr/in_review"]
-  N35["OD-001@0.1.0\ndecision/proposed"]
-  N36["OD-002@1.0.0\ndecision/approved"]
-  N37["OD-005@0.1.0\ndecision/proposed"]
-  N38["OD-009@0.1.0\ndecision/proposed"]
-  N39["OD-009@1.0.0\ndecision/approved"]
-  N40["OD-020@0.1.0\ndecision/proposed"]
-  N41["OD-025@0.1.0\ndecision/proposed"]
-  N42["OD-027@0.1.0\ndecision/proposed"]
-  N43["OD-029@0.1.0\ndecision/proposed"]
-  N44["OD-030@0.1.0\ndecision/proposed"]
-  N45["OD-031@0.1.0\ndecision/proposed"]
-  N46["OD-031@1.0.0\ndecision/approved"]
-  N47["OD-032@0.1.0\ndecision/proposed"]
-  N48["OD-034@0.1.0\ndecision/proposed"]
-  N49["OPS-EXC-001@0.1.0\nrequirement/in_review"]
-  N50["OPS-EXC-002@0.1.0\nrequirement/in_review"]
-  N51["OPS-IDENTITY-001@0.1.0\nrequirement/in_review"]
-  N52["OPS-IDENTITY-002@0.1.0\nrequirement/in_review"]
-  N53["OPS-IDENTITY-003@0.1.0\nrequirement/in_review"]
-  N54["OPS-RECEIPT-001@0.1.0\nrequirement/in_review"]
-  N55["OPS-RECEIPT-001@1.0.0\nrequirement/approved"]
-  N56["OPS-RECEIPT-002@0.1.0\nrequirement/in_review"]
-  N57["OPS-RECEIPT-002@1.0.0\nrequirement/approved"]
-  N58["OPS-RECEIPT-003@0.1.0\nrequirement/in_review"]
-  N59["ORG-COLLAB-001@0.1.0\nrequirement/in_review"]
-  N60["ORG-COLLAB-001@1.0.0\nrequirement/approved"]
-  N61["ORG-STRUCT-001@0.1.0\nrequirement/in_review"]
-  N62["ORG-STRUCT-001@1.0.0\nrequirement/approved"]
-  N63["REL-R1-RECEIVING-PILOT@0.1.0\nrelease-baseline/proposed"]
-  N64["REL-R1-RECEIVING-PILOT@1.0.0\nrelease-baseline/proposed"]
-  N65["RULE-004@0.1.0\nrule/in_review"]
-  N66["RULE-026@0.1.0\nrule/in_review"]
-  N67["SEC-AUD-001@0.1.0\nrequirement/in_review"]
-  N68["SEC-AUD-001@1.0.0\nrequirement/in_review"]
-  N69["SEC-AUD-001@2.0.0\nrequirement/approved"]
-  N70["SEC-AUTH-001@0.1.0\nrequirement/in_review"]
-  N71["SEC-AUTH-001@1.0.0\nrequirement/approved"]
-  N72["SEC-DEPLOY-001@0.1.0\nrequirement/in_review"]
-  N73["SEC-DEPLOY-001@1.0.0\nrequirement/in_review"]
-  N74["SEC-DEPLOY-001@2.0.0\nrequirement/approved"]
-  N36 --> N1
-  N72 --> N1
-  N36 --> N2
-  N73 --> N2
-  N37 --> N3
-  N49 --> N3
-  N50 --> N3
-  N51 --> N3
-  N52 --> N3
+  N4["AC-ID-001@1.0.0\nacceptance/approved"]
+  N5["AC-REC-001@0.1.0\nacceptance/in_review"]
+  N6["AC-REC-001@1.0.0\nacceptance/approved"]
+  N7["AC-SEC-001@0.1.0\nacceptance/in_review"]
+  N8["AC-SEC-001@1.0.0\nacceptance/approved"]
+  N9["ATC-PLT-000@0.1.0\nstory/proposed"]
+  N10["ATC-PLT-000@1.0.0\nstory/proposed"]
+  N11["ATC-PLT-003@1.0.0\nstory/approved"]
+  N12["ATC-REC-001@0.1.0\nstory/proposed"]
+  N13["ATC-REC-001@1.0.0\nstory/proposed"]
+  N14["ATC-REC-001@2.0.0\nstory/approved"]
+  N15["ATC-REC-002@0.1.0\nstory/proposed"]
+  N16["ATC-REC-002@1.0.0\nstory/proposed"]
+  N17["ATC-REC-002@2.0.0\nstory/approved"]
+  N18["ATC-REC-003@0.1.0\nstory/proposed"]
+  N19["ATC-REC-003@1.0.0\nstory/proposed"]
+  N20["ATC-REC-003@2.0.0\nstory/approved"]
+  N21["ATC-REC-004@0.1.0\nstory/proposed"]
+  N22["ATC-REC-004@1.0.0\nstory/proposed"]
+  N23["ATC-REC-005@0.1.0\nstory/proposed"]
+  N24["ATC-REC-005@1.0.0\nstory/proposed"]
+  N25["ATC-REC-006@0.1.0\nstory/proposed"]
+  N26["ATC-REC-006@1.0.0\nstory/proposed"]
+  N27["BUS-PROD-003@0.1.0\nrequirement/in_review"]
+  N28["BUS-REQ-003@0.1.0\nrequirement/in_review"]
+  N29["ED-001@0.1.0\ndecision/proposed"]
+  N30["ED-001@1.0.0\ndecision/proposed"]
+  N31["ED-001@2.0.0\ndecision/approved"]
+  N32["ED-002@1.0.0\ndecision/proposed"]
+  N33["NFR-ARCH-001@0.1.0\nnfr/in_review"]
+  N34["NFR-ARCH-001@1.0.0\nnfr/in_review"]
+  N35["NFR-ARCH-001@2.0.0\nnfr/approved"]
+  N36["NFR-ARCH-002@0.1.0\nnfr/in_review"]
+  N37["NFR-ARCH-002@1.0.0\nnfr/in_review"]
+  N38["OD-001@0.1.0\ndecision/proposed"]
+  N39["OD-002@1.0.0\ndecision/approved"]
+  N40["OD-005@0.1.0\ndecision/proposed"]
+  N41["OD-009@0.1.0\ndecision/proposed"]
+  N42["OD-009@1.0.0\ndecision/approved"]
+  N43["OD-020@0.1.0\ndecision/proposed"]
+  N44["OD-025@0.1.0\ndecision/proposed"]
+  N45["OD-027@0.1.0\ndecision/proposed"]
+  N46["OD-029@0.1.0\ndecision/proposed"]
+  N47["OD-030@0.1.0\ndecision/proposed"]
+  N48["OD-031@0.1.0\ndecision/proposed"]
+  N49["OD-031@1.0.0\ndecision/approved"]
+  N50["OD-032@0.1.0\ndecision/proposed"]
+  N51["OD-034@0.1.0\ndecision/proposed"]
+  N52["OD-035@1.0.0\ndecision/approved"]
+  N53["OPS-EXC-001@0.1.0\nrequirement/in_review"]
+  N54["OPS-EXC-002@0.1.0\nrequirement/in_review"]
+  N55["OPS-IDENTITY-001@0.1.0\nrequirement/in_review"]
+  N56["OPS-IDENTITY-001@1.0.0\nrequirement/approved"]
+  N57["OPS-IDENTITY-002@0.1.0\nrequirement/in_review"]
+  N58["OPS-IDENTITY-002@1.0.0\nrequirement/approved"]
+  N59["OPS-IDENTITY-003@0.1.0\nrequirement/in_review"]
+  N60["OPS-IDENTITY-003@1.0.0\nrequirement/approved"]
+  N61["OPS-RECEIPT-001@0.1.0\nrequirement/in_review"]
+  N62["OPS-RECEIPT-001@1.0.0\nrequirement/approved"]
+  N63["OPS-RECEIPT-002@0.1.0\nrequirement/in_review"]
+  N64["OPS-RECEIPT-002@1.0.0\nrequirement/approved"]
+  N65["OPS-RECEIPT-003@0.1.0\nrequirement/in_review"]
+  N66["OPS-RECEIPT-003@1.0.0\nrequirement/approved"]
+  N67["ORG-COLLAB-001@0.1.0\nrequirement/in_review"]
+  N68["ORG-COLLAB-001@1.0.0\nrequirement/approved"]
+  N69["ORG-STRUCT-001@0.1.0\nrequirement/in_review"]
+  N70["ORG-STRUCT-001@1.0.0\nrequirement/approved"]
+  N71["REL-R1-RECEIVING-PILOT@0.1.0\nrelease-baseline/proposed"]
+  N72["REL-R1-RECEIVING-PILOT@1.0.0\nrelease-baseline/proposed"]
+  N73["RULE-004@0.1.0\nrule/in_review"]
+  N74["RULE-026@0.1.0\nrule/in_review"]
+  N75["SEC-AUD-001@0.1.0\nrequirement/in_review"]
+  N76["SEC-AUD-001@1.0.0\nrequirement/in_review"]
+  N77["SEC-AUD-001@2.0.0\nrequirement/approved"]
+  N78["SEC-AUTH-001@0.1.0\nrequirement/in_review"]
+  N79["SEC-AUTH-001@1.0.0\nrequirement/approved"]
+  N80["SEC-DEPLOY-001@0.1.0\nrequirement/in_review"]
+  N81["SEC-DEPLOY-001@1.0.0\nrequirement/in_review"]
+  N82["SEC-DEPLOY-001@2.0.0\nrequirement/approved"]
+  N39 --> N1
+  N80 --> N1
+  N39 --> N2
+  N81 --> N2
+  N40 --> N3
   N53 --> N3
-  N53 --> N4
+  N54 --> N3
+  N55 --> N3
+  N57 --> N3
+  N59 --> N3
+  N56 --> N4
   N58 --> N4
-  N67 --> N4
-  N70 --> N4
-  N36 --> N5
-  N61 --> N5
-  N70 --> N5
-  N36 --> N6
+  N60 --> N4
+  N77 --> N4
+  N79 --> N4
+  N59 --> N5
+  N65 --> N5
+  N75 --> N5
+  N78 --> N5
   N60 --> N6
-  N62 --> N6
-  N71 --> N6
-  N1 --> N7
-  N26 --> N7
-  N30 --> N7
-  N33 --> N7
-  N36 --> N7
-  N40 --> N7
-  N41 --> N7
-  N67 --> N7
-  N72 --> N7
-  N2 --> N8
-  N27 --> N8
-  N29 --> N8
-  N31 --> N8
-  N34 --> N8
-  N36 --> N8
+  N66 --> N6
+  N77 --> N6
+  N79 --> N6
+  N39 --> N7
+  N69 --> N7
+  N78 --> N7
+  N39 --> N8
   N68 --> N8
-  N73 --> N8
+  N70 --> N8
+  N79 --> N8
+  N1 --> N9
+  N29 --> N9
+  N33 --> N9
   N36 --> N9
-  N5 --> N10
-  N7 --> N10
-  N26 --> N10
+  N39 --> N9
+  N43 --> N9
+  N44 --> N9
+  N75 --> N9
+  N80 --> N9
+  N2 --> N10
   N30 --> N10
-  N36 --> N10
-  N38 --> N10
-  N54 --> N10
-  N59 --> N10
-  N61 --> N10
-  N67 --> N10
-  N70 --> N10
-  N72 --> N10
-  N5 --> N11
-  N8 --> N11
-  N27 --> N11
-  N31 --> N11
-  N36 --> N11
-  N38 --> N11
-  N54 --> N11
-  N59 --> N11
-  N61 --> N11
-  N68 --> N11
-  N70 --> N11
-  N73 --> N11
-  N6 --> N12
+  N32 --> N10
+  N34 --> N10
+  N37 --> N10
+  N39 --> N10
+  N76 --> N10
+  N81 --> N10
+  N39 --> N11
+  N7 --> N12
   N9 --> N12
-  N28 --> N12
-  N32 --> N12
-  N36 --> N12
+  N29 --> N12
+  N33 --> N12
   N39 --> N12
-  N55 --> N12
-  N60 --> N12
-  N62 --> N12
+  N41 --> N12
+  N61 --> N12
+  N67 --> N12
   N69 --> N12
-  N71 --> N12
-  N74 --> N12
+  N75 --> N12
+  N78 --> N12
+  N80 --> N12
   N7 --> N13
   N10 --> N13
-  N36 --> N13
-  N38 --> N13
-  N45 --> N13
-  N56 --> N13
+  N30 --> N13
+  N34 --> N13
+  N39 --> N13
+  N41 --> N13
   N61 --> N13
   N67 --> N13
-  N70 --> N13
+  N69 --> N13
+  N76 --> N13
+  N78 --> N13
+  N81 --> N13
   N8 --> N14
   N11 --> N14
-  N36 --> N14
-  N38 --> N14
-  N45 --> N14
-  N56 --> N14
-  N61 --> N14
+  N31 --> N14
+  N35 --> N14
+  N39 --> N14
+  N42 --> N14
+  N62 --> N14
   N68 --> N14
   N70 --> N14
+  N77 --> N14
+  N79 --> N14
+  N82 --> N14
   N9 --> N15
   N12 --> N15
-  N28 --> N15
-  N32 --> N15
-  N36 --> N15
   N39 --> N15
-  N46 --> N15
-  N55 --> N15
-  N57 --> N15
-  N62 --> N15
+  N41 --> N15
+  N48 --> N15
+  N63 --> N15
   N69 --> N15
-  N71 --> N15
-  N4 --> N16
-  N7 --> N16
+  N75 --> N15
+  N78 --> N15
   N10 --> N16
-  N30 --> N16
-  N36 --> N16
-  N37 --> N16
-  N53 --> N16
-  N58 --> N16
-  N61 --> N16
-  N67 --> N16
-  N70 --> N16
-  N4 --> N17
-  N8 --> N17
+  N13 --> N16
+  N39 --> N16
+  N41 --> N16
+  N48 --> N16
+  N63 --> N16
+  N69 --> N16
+  N76 --> N16
+  N78 --> N16
   N11 --> N17
+  N14 --> N17
   N31 --> N17
-  N36 --> N17
-  N37 --> N17
-  N53 --> N17
-  N58 --> N17
-  N61 --> N17
-  N68 --> N17
+  N35 --> N17
+  N39 --> N17
+  N42 --> N17
+  N49 --> N17
+  N62 --> N17
+  N64 --> N17
   N70 --> N17
-  N3 --> N18
-  N7 --> N18
-  N10 --> N18
-  N36 --> N18
-  N37 --> N18
-  N38 --> N18
-  N49 --> N18
-  N50 --> N18
-  N51 --> N18
-  N52 --> N18
-  N67 --> N18
-  N70 --> N18
-  N3 --> N19
-  N8 --> N19
-  N11 --> N19
-  N36 --> N19
-  N37 --> N19
-  N38 --> N19
-  N49 --> N19
-  N50 --> N19
-  N51 --> N19
-  N52 --> N19
-  N68 --> N19
-  N70 --> N19
-  N7 --> N20
-  N18 --> N20
-  N36 --> N20
-  N37 --> N20
-  N49 --> N20
-  N50 --> N20
-  N67 --> N20
+  N77 --> N17
+  N79 --> N17
+  N5 --> N18
+  N9 --> N18
+  N12 --> N18
+  N33 --> N18
+  N39 --> N18
+  N40 --> N18
+  N59 --> N18
+  N65 --> N18
+  N69 --> N18
+  N75 --> N18
+  N78 --> N18
+  N5 --> N19
+  N10 --> N19
+  N13 --> N19
+  N34 --> N19
+  N39 --> N19
+  N40 --> N19
+  N59 --> N19
+  N65 --> N19
+  N69 --> N19
+  N76 --> N19
+  N78 --> N19
+  N4 --> N20
+  N6 --> N20
+  N11 --> N20
+  N14 --> N20
+  N17 --> N20
+  N31 --> N20
+  N35 --> N20
+  N39 --> N20
+  N42 --> N20
+  N52 --> N20
+  N56 --> N20
+  N58 --> N20
+  N60 --> N20
+  N62 --> N20
+  N66 --> N20
   N70 --> N20
-  N8 --> N21
-  N19 --> N21
-  N36 --> N21
-  N37 --> N21
-  N49 --> N21
-  N50 --> N21
-  N68 --> N21
-  N70 --> N21
-  N7 --> N22
-  N16 --> N22
-  N18 --> N22
-  N20 --> N22
-  N33 --> N22
-  N36 --> N22
-  N37 --> N22
+  N77 --> N20
+  N79 --> N20
+  N3 --> N21
+  N9 --> N21
+  N12 --> N21
+  N39 --> N21
+  N40 --> N21
+  N41 --> N21
+  N53 --> N21
+  N54 --> N21
+  N55 --> N21
+  N57 --> N21
+  N75 --> N21
+  N78 --> N21
+  N3 --> N22
+  N10 --> N22
+  N13 --> N22
+  N39 --> N22
+  N40 --> N22
+  N41 --> N22
   N53 --> N22
-  N58 --> N22
-  N65 --> N22
-  N66 --> N22
-  N8 --> N23
-  N17 --> N23
-  N19 --> N23
+  N54 --> N22
+  N55 --> N22
+  N57 --> N22
+  N76 --> N22
+  N78 --> N22
+  N9 --> N23
   N21 --> N23
-  N34 --> N23
-  N36 --> N23
-  N37 --> N23
+  N39 --> N23
+  N40 --> N23
   N53 --> N23
-  N58 --> N23
-  N65 --> N23
-  N66 --> N23
-  N66 --> N24
-  N66 --> N25
-  N36 --> N26
+  N54 --> N23
+  N75 --> N23
+  N78 --> N23
+  N10 --> N24
+  N22 --> N24
+  N39 --> N24
+  N40 --> N24
+  N53 --> N24
+  N54 --> N24
+  N76 --> N24
+  N78 --> N24
+  N9 --> N25
+  N18 --> N25
+  N21 --> N25
+  N23 --> N25
+  N36 --> N25
+  N39 --> N25
+  N40 --> N25
+  N59 --> N25
+  N65 --> N25
+  N73 --> N25
+  N74 --> N25
+  N10 --> N26
+  N19 --> N26
+  N22 --> N26
+  N24 --> N26
+  N37 --> N26
+  N39 --> N26
   N40 --> N26
-  N41 --> N26
-  N29 --> N27
-  N36 --> N27
-  N36 --> N28
-  N36 --> N29
-  N41 --> N30
-  N29 --> N31
-  N9 --> N32
-  N28 --> N32
-  N30 --> N33
-  N31 --> N34
-  N68 --> N34
-  N36 --> N39
-  N35 --> N40
-  N36 --> N40
-  N35 --> N41
-  N35 --> N42
-  N35 --> N43
-  N35 --> N44
-  N35 --> N45
+  N59 --> N26
+  N65 --> N26
+  N73 --> N26
+  N74 --> N26
+  N74 --> N27
+  N74 --> N28
+  N39 --> N29
+  N43 --> N29
+  N44 --> N29
+  N32 --> N30
+  N39 --> N30
+  N39 --> N31
+  N39 --> N32
+  N44 --> N33
+  N32 --> N34
+  N11 --> N35
+  N31 --> N35
+  N33 --> N36
+  N34 --> N37
+  N76 --> N37
+  N39 --> N42
+  N38 --> N43
+  N39 --> N43
+  N38 --> N44
   N38 --> N45
-  N44 --> N45
-  N36 --> N46
-  N39 --> N46
-  N35 --> N47
-  N35 --> N48
-  N43 --> N48
-  N51 --> N49
-  N54 --> N49
-  N37 --> N50
-  N49 --> N50
-  N54 --> N51
-  N38 --> N52
-  N51 --> N52
-  N37 --> N53
-  N51 --> N53
-  N52 --> N53
-  N58 --> N53
-  N38 --> N54
-  N39 --> N55
-  N36 --> N56
-  N38 --> N56
-  N45 --> N56
-  N54 --> N56
-  N61 --> N56
-  N36 --> N57
-  N39 --> N57
-  N46 --> N57
+  N38 --> N46
+  N38 --> N47
+  N38 --> N48
+  N41 --> N48
+  N47 --> N48
+  N39 --> N49
+  N42 --> N49
+  N38 --> N50
+  N38 --> N51
+  N46 --> N51
+  N39 --> N52
+  N42 --> N52
+  N55 --> N53
+  N61 --> N53
+  N40 --> N54
+  N53 --> N54
+  N61 --> N55
+  N42 --> N56
+  N52 --> N56
+  N62 --> N56
+  N41 --> N57
   N55 --> N57
-  N62 --> N57
-  N37 --> N58
-  N54 --> N58
-  N36 --> N59
-  N61 --> N59
-  N36 --> N60
-  N62 --> N60
-  N36 --> N61
-  N36 --> N62
-  N7 --> N63
-  N10 --> N63
-  N13 --> N63
-  N16 --> N63
-  N18 --> N63
-  N20 --> N63
-  N22 --> N63
-  N26 --> N63
-  N35 --> N63
-  N36 --> N63
-  N37 --> N63
-  N38 --> N63
-  N8 --> N64
-  N11 --> N64
-  N14 --> N64
-  N17 --> N64
-  N19 --> N64
-  N21 --> N64
-  N23 --> N64
-  N27 --> N64
-  N29 --> N64
-  N35 --> N64
-  N36 --> N64
-  N37 --> N64
-  N38 --> N64
-  N38 --> N65
-  N52 --> N65
-  N41 --> N66
-  N36 --> N70
-  N47 --> N70
-  N61 --> N70
-  N36 --> N71
-  N60 --> N71
-  N62 --> N71
-  N74 --> N71
-  N36 --> N72
-  N36 --> N73
-  N36 --> N74
+  N42 --> N58
+  N52 --> N58
+  N56 --> N58
+  N40 --> N59
+  N55 --> N59
+  N57 --> N59
+  N65 --> N59
+  N52 --> N60
+  N56 --> N60
+  N58 --> N60
+  N66 --> N60
+  N41 --> N61
+  N42 --> N62
+  N39 --> N63
+  N41 --> N63
+  N48 --> N63
+  N61 --> N63
+  N69 --> N63
+  N39 --> N64
+  N42 --> N64
+  N49 --> N64
+  N62 --> N64
+  N70 --> N64
+  N40 --> N65
+  N61 --> N65
+  N52 --> N66
+  N62 --> N66
+  N39 --> N67
+  N69 --> N67
+  N39 --> N68
+  N70 --> N68
+  N39 --> N69
+  N39 --> N70
+  N9 --> N71
+  N12 --> N71
+  N15 --> N71
+  N18 --> N71
+  N21 --> N71
+  N23 --> N71
+  N25 --> N71
+  N29 --> N71
+  N38 --> N71
+  N39 --> N71
+  N40 --> N71
+  N41 --> N71
+  N10 --> N72
+  N13 --> N72
+  N16 --> N72
+  N19 --> N72
+  N22 --> N72
+  N24 --> N72
+  N26 --> N72
+  N30 --> N72
+  N32 --> N72
+  N38 --> N72
+  N39 --> N72
+  N40 --> N72
+  N41 --> N72
+  N41 --> N73
+  N57 --> N73
+  N44 --> N74
+  N39 --> N78
+  N50 --> N78
+  N69 --> N78
+  N39 --> N79
+  N68 --> N79
+  N70 --> N79
+  N82 --> N79
+  N39 --> N80
+  N39 --> N81
+  N39 --> N82

@@ -14,6 +14,81 @@ internal static class ReceivingEndpoints
     {
         endpoints.MapPost(ReceivingContract.RegisterReceiptPath, RegisterAsync)
             .RequireAuthorization();
+        endpoints.MapGet(IdentityAssessmentContract.AssessmentPath, GetIdentityAssessmentAsync)
+            .WithName("getIdentityAssessment")
+            .RequireAuthorization();
+        endpoints.MapPost(IdentityAssessmentContract.ObservationsPath, CreateIdentityObservationAsync)
+            .WithName("createIdentityObservation")
+            .RequireAuthorization();
+        endpoints.MapPost(IdentityAssessmentContract.DecisionsPath, SubmitIdentityDecisionAsync)
+            .WithName("submitIdentityDecision")
+            .RequireAuthorization();
+    }
+
+    private static async Task<IResult> GetIdentityAssessmentAsync(
+        string id,
+        HttpContext context,
+        IIdentityAssessmentService service,
+        CancellationToken cancellationToken)
+    {
+        var correlationId = Correlation(context);
+        try
+        {
+            var result = await service.GetAsync(id, correlationId, cancellationToken);
+            return Results.Json(result, ReceivingJson.Options);
+        }
+        catch (ReceivingDomainException exception)
+        {
+            return IdentityProblem(exception.ErrorCode, correlationId);
+        }
+    }
+
+    private static async Task<IResult> CreateIdentityObservationAsync(
+        string id,
+        HttpContext context,
+        IIdentityAssessmentService service,
+        CancellationToken cancellationToken)
+    {
+        var correlationId = Correlation(context);
+        var request = await ReadBodyAsync<CreateIdentityObservationRequest>(context, cancellationToken);
+        if (request is null)
+        {
+            return IdentityProblem(ReceivingErrorCodes.IdentityEvidenceIncomplete, correlationId);
+        }
+
+        try
+        {
+            var result = await service.AddObservationAsync(id, request, correlationId, cancellationToken);
+            return Results.Json(result, ReceivingJson.Options, statusCode: StatusCodes.Status201Created);
+        }
+        catch (ReceivingDomainException exception)
+        {
+            return IdentityProblem(exception.ErrorCode, correlationId);
+        }
+    }
+
+    private static async Task<IResult> SubmitIdentityDecisionAsync(
+        string id,
+        HttpContext context,
+        IIdentityAssessmentService service,
+        CancellationToken cancellationToken)
+    {
+        var correlationId = Correlation(context);
+        var request = await ReadBodyAsync<SubmitIdentityDecisionRequest>(context, cancellationToken);
+        if (request is null)
+        {
+            return IdentityProblem(ReceivingErrorCodes.IdentityEvidenceIncomplete, correlationId);
+        }
+
+        try
+        {
+            var result = await service.SubmitDecisionAsync(id, request, correlationId, cancellationToken);
+            return Results.Json(result, ReceivingJson.Options, statusCode: StatusCodes.Status201Created);
+        }
+        catch (ReceivingDomainException exception)
+        {
+            return IdentityProblem(exception.ErrorCode, correlationId);
+        }
     }
 
     private static async Task<IResult> RegisterAsync(
@@ -85,6 +160,45 @@ internal static class ReceivingEndpoints
                 ["errorCode"] = errorCode,
                 ["correlationId"] = correlationId
             });
+
+    private static async Task<T?> ReadBodyAsync<T>(HttpContext context, CancellationToken cancellationToken)
+    {
+        try
+        {
+            return await JsonSerializer.DeserializeAsync<T>(context.Request.Body, ReceivingJson.Options, cancellationToken);
+        }
+        catch (JsonException)
+        {
+            return default;
+        }
+    }
+
+    private static string Correlation(HttpContext context) =>
+        context.Items[CorrelationId.HeaderName]?.ToString() ?? Guid.NewGuid().ToString("N");
+
+    private static IResult IdentityProblem(string errorCode, string correlationId)
+    {
+        var statusCode = errorCode switch
+        {
+            ReceivingErrorCodes.AuthorizationDenied => StatusCodes.Status403Forbidden,
+            ReceivingErrorCodes.ObjectNotAccessible => StatusCodes.Status404NotFound,
+            ReceivingErrorCodes.ExpectedVersionConflict => StatusCodes.Status409Conflict,
+            ReceivingErrorCodes.IdentityConflict => StatusCodes.Status422UnprocessableEntity,
+            ReceivingErrorCodes.IdentityAmbiguous => StatusCodes.Status422UnprocessableEntity,
+            ReceivingErrorCodes.IdentityEvidenceIncomplete => StatusCodes.Status422UnprocessableEntity,
+            ReceivingErrorCodes.PersistenceUnavailable => StatusCodes.Status503ServiceUnavailable,
+            ReceivingErrorCodes.ReceivingPortUnavailable => StatusCodes.Status503ServiceUnavailable,
+            _ => StatusCodes.Status400BadRequest
+        };
+        return Results.Problem(
+            statusCode: statusCode,
+            title: "Identity assessment could not be processed",
+            extensions: new Dictionary<string, object?>
+            {
+                ["errorCode"] = errorCode,
+                ["correlationId"] = correlationId
+            });
+    }
 }
 
 public interface IReceiptRegistrationService
@@ -92,6 +206,26 @@ public interface IReceiptRegistrationService
     Task<ReceiptRegistrationResult> RegisterAsync(
         RegisterReceiptRequest request,
         string idempotencyKey,
+        string correlationId,
+        CancellationToken cancellationToken = default);
+}
+
+public interface IIdentityAssessmentService
+{
+    Task<IdentityAssessmentResult> GetAsync(
+        string receivedItemId,
+        string correlationId,
+        CancellationToken cancellationToken = default);
+
+    Task<IdentityAssessmentResult> AddObservationAsync(
+        string receivedItemId,
+        CreateIdentityObservationRequest request,
+        string correlationId,
+        CancellationToken cancellationToken = default);
+
+    Task<IdentityAssessmentResult> SubmitDecisionAsync(
+        string receivedItemId,
+        SubmitIdentityDecisionRequest request,
         string correlationId,
         CancellationToken cancellationToken = default);
 }

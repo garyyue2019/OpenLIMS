@@ -1,0 +1,22 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "acceptance",
+  "id": "AC-REC-001",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "隔离资格统一失败关闭",
+  "summary": "同一 ReceivedItem 对拆解、制样和检测分配得到一致阻断，不产生业务副作用并保留审计。",
+  "owners": ["质量负责人", "QA负责人", "收样负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "AC-REC-001"}],
+  "depends_on": ["OPS-RECEIPT-003@1.0.0", "OPS-IDENTITY-003@1.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0"],
+  "affects": ["receiving", "sample-preparation", "task-allocation", "audit", "automated-test"],
+  "change_class": "major",
+  "approval_evidence": "用户于 2026-07-25 明确回复‘批准 DEV-005 业务基线’。",
+  "scenario": {
+    "given": ["ReceivedItem 已登记且保持 QUARANTINED", "调用身份已通过认证"],
+    "when": ["分别查询拆解、制样和检测对象分配资格"],
+    "then": ["三个动作均返回 BLOCKED", "返回固定规则和对象版本", "不产生下游业务副作用", "每次尝试追加阻断审计", "未知、版本冲突、端口不可用和跨组织请求均失败关闭"]
+  },
+  "automation": ["领域规则单元测试", "公共端口契约测试", "PostgreSQL 集成测试", "跨法人/实验室/客户授权测试", "客户端不能覆盖集团测试", "并发版本冲突与审计测试"]
+}

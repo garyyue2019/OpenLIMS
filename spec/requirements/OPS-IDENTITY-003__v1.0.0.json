@@ -1,0 +1,27 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "OPS-IDENTITY-003",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "统一阻断未放行对象进入实验室执行",
+  "summary": "ReceivingEligibilityPort@v1 对拆解、制样和检测分配执行相同的版本化失败关闭规则。",
+  "owners": ["质量负责人", "身份评估员", "领域负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "OPS-IDENTITY-003"}],
+  "depends_on": ["OPS-RECEIPT-003@1.0.0", "OPS-IDENTITY-001@1.0.0", "OPS-IDENTITY-002@1.0.0", "OD-035@1.0.0"],
+  "affects": ["receiving", "sample-preparation", "task-allocation", "authorization", "audit"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "ENABLED", "condition": "DEV-005 统一门禁；DEV-007 前失败关闭"},
+  "approval_evidence": "用户于 2026-07-25 明确回复‘批准 DEV-005 业务基线’。",
+  "invariants": [
+    "公共端口版本为 ReceivingEligibilityPort@v1，规则版本固定为 REC-ELIGIBILITY@1.0.0",
+    "动作只允许 DISASSEMBLY、SAMPLE_PREPARATION、TEST_OBJECT_ALLOCATION",
+    "决策只允许 ALLOWED、BLOCKED、UNKNOWN，UNKNOWN 等同 BLOCKED",
+    "DEV-007 有效放行决定交付前，本版本不会返回 ALLOWED",
+    "调用者必须传服务端绑定集团、实验室、ReceivedItem、期望对象版本和动作",
+    "权限不足和对象不存在统一失败，不泄露对象状态",
+    "每次阻断追加审计且不写任何下游私有表"
+  ]
+}

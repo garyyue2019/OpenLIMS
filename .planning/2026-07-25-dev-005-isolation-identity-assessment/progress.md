@@ -62,3 +62,12 @@
 - 首轮 CI：`deterministic-specification-gate` 与 `verify-module-onboarding-windows` 通过；主 `verify` 的后端构建/测试、三个 task profile 和依赖审计均通过，但 `Check frontend` 失败，开始定位作业日志。
 - 主 `verify` 的失败在本地用精确命令复现为 `pnpm audit --audit-level high`；lint、typecheck、38/38 单元测试和生产构建仍通过。
 - 修复需要修改前端依赖清单或根锁文件，二者均不在 `ATC-REC-003@2.0.0` allowed_paths；未降低审计门禁，也未把依赖治理混入 DEV-005。
+
+### 轻量依赖治理调整
+
+- 用户于 2026-07-25 明确确认采用“越轻越好”的依赖治理规则。
+- `ATC-REC-003@2.0.0` 已允许修改 `.github/workflows/application-ci.yml`，因此未新增治理任务卡，也未修改业务规格或依赖锁。
+- 前后端依赖审计统一为仅 `critical` 阻断；前端完整依赖审计继续输出全部公告，但使用非阻断报告。
+- 前端 lint、typecheck、38/38 单元测试、生产构建和生产依赖 critical 审计通过；完整审计仍报告开发工具链中的 2 条 `brace-expansion` high 公告。
+- 全部规格收尾门禁和 40 项 Python 测试通过，两次 `generate` 均为 `written=0`。
+- 本机 NuGet 在线漏洞查询因 TLS 连接意外 EOF 未取得服务端结果；未降低或绕过 CI 中的 critical 判定。

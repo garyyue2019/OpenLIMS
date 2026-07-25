@@ -179,6 +179,7 @@ app.MapGet("/openapi/v1.json", () => Results.Json(new
         ["/api/v1/exceptions"] = new { post = new { operationId = "createReceivingException", responses = new { created = new { description = "Append-only receiving exception recorded without releasing quarantine" } } } },
         ["/api/v1/exceptions/{id}"] = new { get = new { operationId = "getReceivingException", responses = new { ok = new { description = "Receiving exception facts, state, versions, and decisions" } } } },
         ["/api/v1/exceptions/{id}/decisions"] = new { post = new { operationId = "submitReceivingExceptionDecision", responses = new { created = new { description = "Authorized exception decision recorded without releasing quarantine" } } } },
+        ["/api/v1/received-items/{id}/release-decisions"] = new { post = new { operationId = "submitReceivingReleaseDecision", responses = new { created = new { description = "Immutable normal or constrained release decision recorded atomically" } } } },
         ["/api/v1/label-jobs"] = new { post = new { operationId = "createLabelPrintJobs", responses = new { accepted = new { description = "Label print jobs accepted" } } } },
         ["/api/v1/label-jobs/{printJobId}"] = new { get = new { operationId = "getLabelPrintJob", responses = new { ok = new { description = "Label print job state" } } } },
         ["/api/v1/label-jobs/{printJobId}/reprint"] = new { post = new { operationId = "reprintLabel", responses = new { accepted = new { description = "Controlled reprint accepted" } } } },

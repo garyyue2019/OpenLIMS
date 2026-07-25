@@ -1141,6 +1141,60 @@
       "status": "proposed",
       "title": "受控解除隔离并发布执行资格"
     },
+    "ATC-REC-006@2.0.0": {
+      "affects": [
+        "receiving",
+        "identity",
+        "exception",
+        "authorization",
+        "audit",
+        "outbox",
+        "lab-execution-gate",
+        "automated-test"
+      ],
+      "depends_on": [
+        "ATC-PLT-003@1.0.0",
+        "ATC-REC-005@2.0.0",
+        "ED-001@2.0.0",
+        "OD-002@1.0.0",
+        "OD-005@1.0.0",
+        "OD-035@1.0.0",
+        "OPS-RECEIPT-003@1.0.0",
+        "OPS-IDENTITY-003@1.0.0",
+        "OPS-EXC-001@1.0.0",
+        "OPS-EXC-002@1.0.0",
+        "AC-REC-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0",
+        "NFR-ARCH-001@2.0.0"
+      ],
+      "fingerprint": "fdf0bc2308e1e56cdd289ce94001b8e0971678fa3f00ca7329024cdfa1685087",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-RECEIPT-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-IDENTITY-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "RULE-026"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-REC-001"
+        }
+      ],
+      "status": "approved",
+      "title": "实施 DEV-007 受控放行与版本固定资格"
+    },
     "BUS-PROD-003@0.1.0": {
       "affects": [
         "product",

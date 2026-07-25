@@ -112,6 +112,7 @@ public static class ReceivingCapabilities
     public const string ExceptionRead = "exception.read";
     public const string ExceptionQualityApprove = "exception.quality.approve";
     public const string ExceptionEhsApprove = "exception.ehs.approve";
+    public const string ReleaseApprove = "receiving.release.approve";
 }
 
 public static class ReceivingClaimTypes
@@ -182,4 +183,8 @@ public static class ReceivingErrorCodes
     public const string DecisionEvidenceIncomplete = "DECISION_EVIDENCE_INCOMPLETE";
     public const string ConditionalAcceptConstraintsRequired = "CONDITIONAL_ACCEPT_CONSTRAINTS_REQUIRED";
     public const string ApplicabilityUnknown = "APPLICABILITY_UNKNOWN";
+    public const string IdentityNotMatched = "IDENTITY_NOT_MATCHED";
+    public const string BlockingException = "BLOCKING_EXCEPTION";
+    public const string ReleaseApplicabilityUnknown = "RELEASE_APPLICABILITY_UNKNOWN";
+    public const string ReleaseNotAuthorized = "RELEASE_NOT_AUTHORIZED";
 }

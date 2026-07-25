@@ -32,6 +32,29 @@ internal static class ReceivingEndpoints
         endpoints.MapPost(ReceivingExceptionContract.DecisionsPath, SubmitReceivingExceptionDecisionAsync)
             .WithName("submitReceivingExceptionDecision")
             .RequireAuthorization();
+        endpoints.MapPost(ReceivingReleaseContract.DecisionsPath, SubmitReceivingReleaseDecisionAsync)
+            .WithName("submitReceivingReleaseDecision")
+            .RequireAuthorization();
+    }
+
+    private static async Task<IResult> SubmitReceivingReleaseDecisionAsync(
+        string id,
+        HttpContext context,
+        IReceivingReleaseService service,
+        CancellationToken cancellationToken)
+    {
+        var correlationId = Correlation(context);
+        var request = await ReadBodyAsync<SubmitReceivingReleaseDecisionRequest>(context, cancellationToken);
+        if (request is null) return ReleaseProblem(ReceivingErrorCodes.ValidationFailed, correlationId);
+        try
+        {
+            var result = await service.SubmitAsync(id, request, correlationId, cancellationToken);
+            return Results.Json(result, ReceivingJson.Options, statusCode: StatusCodes.Status201Created);
+        }
+        catch (ReceivingDomainException exception)
+        {
+            return ReleaseProblem(exception.ErrorCode, correlationId);
+        }
     }
 
     private static async Task<IResult> CreateReceivingExceptionAsync(
@@ -286,6 +309,28 @@ internal static class ReceivingEndpoints
                 ["correlationId"] = correlationId
             });
     }
+
+    private static IResult ReleaseProblem(string errorCode, string correlationId)
+    {
+        var statusCode = errorCode switch
+        {
+            ReceivingErrorCodes.ReleaseNotAuthorized or ReceivingErrorCodes.AuthorizationDenied => StatusCodes.Status403Forbidden,
+            ReceivingErrorCodes.ObjectNotAccessible => StatusCodes.Status404NotFound,
+            ReceivingErrorCodes.ExpectedVersionConflict => StatusCodes.Status409Conflict,
+            ReceivingErrorCodes.PersistenceUnavailable or ReceivingErrorCodes.ReceivingPortUnavailable => StatusCodes.Status503ServiceUnavailable,
+            ReceivingErrorCodes.IdentityNotMatched or ReceivingErrorCodes.BlockingException or
+            ReceivingErrorCodes.ReleaseApplicabilityUnknown => StatusCodes.Status422UnprocessableEntity,
+            _ => StatusCodes.Status400BadRequest
+        };
+        return Results.Problem(
+            statusCode: statusCode,
+            title: "Receiving release could not be processed",
+            extensions: new Dictionary<string, object?>
+            {
+                ["errorCode"] = errorCode,
+                ["correlationId"] = correlationId
+            });
+    }
 }
 
 public interface IReceiptRegistrationService
@@ -332,6 +377,15 @@ public interface IReceivingExceptionService
     Task<ReceivingExceptionResult> SubmitDecisionAsync(
         string exceptionId,
         SubmitReceivingExceptionDecisionRequest request,
+        string correlationId,
+        CancellationToken cancellationToken = default);
+}
+
+public interface IReceivingReleaseService
+{
+    Task<ReceivingReleaseDecisionResult> SubmitAsync(
+        string receivedItemId,
+        SubmitReceivingReleaseDecisionRequest request,
         string correlationId,
         CancellationToken cancellationToken = default);
 }

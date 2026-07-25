@@ -29,6 +29,7 @@ public sealed class ReceivingModule(string postgresConnectionString) :
         services.TryAddScoped<IReceiptRegistrationService, ReceiptRegistrationService>();
         services.TryAddScoped<IReceivingLabelObjectPort, ReceivingLabelObjectPort>();
         services.TryAddScoped<IReceivingEligibilityPort, ReceivingEligibilityPort>();
+        services.TryAddScoped<IReceivingEligibilityPortV2, ReceivingEligibilityPortV2>();
         services.TryAddScoped<ReceivingRegistrationStore>();
         services.TryAddScoped<ReceivingLabelIdentityWriter>();
         services.TryAddScoped<ReceivingAttemptAuditWriter>();
@@ -36,6 +37,8 @@ public sealed class ReceivingModule(string postgresConnectionString) :
         services.TryAddScoped<IdentityAssessmentStore>();
         services.TryAddScoped<IReceivingExceptionService, ReceivingExceptionService>();
         services.TryAddScoped<ReceivingExceptionStore>();
+        services.TryAddScoped<IReceivingReleaseService, ReceivingReleaseService>();
+        services.TryAddScoped<ReceivingReleaseStore>();
     }
 
     public void MapApiEndpoints(IEndpointRouteBuilder endpoints) => ReceivingEndpoints.Map(endpoints);
@@ -53,6 +56,7 @@ public sealed class ReceivingModule(string postgresConnectionString) :
         await ReceivingLabelIdentityMigrator.ApplyAsync(_options.ConnectionString, cancellationToken);
         await ReceivingIdentityAssessmentMigrator.ApplyAsync(_options.ConnectionString, cancellationToken);
         await ReceivingExceptionMigrator.ApplyAsync(_options.ConnectionString, cancellationToken);
+        await ReceivingReleaseMigrator.ApplyAsync(_options.ConnectionString, cancellationToken);
     }
 
     private void AddPersistence(IServiceCollection services)

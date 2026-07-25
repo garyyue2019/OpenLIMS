@@ -24,3 +24,10 @@
 - `IReceivingEligibilityPort` v1 固定使用 `REC-ELIGIBILITY@1.0.0` 并故意始终失败关闭；DEV-007 应新增 v2 接口，避免改变 v1 调用者语义。
 - DEV-006 条件接收已经校验非空允许/禁止动作、有效期、证据与质量能力；DEV-007 只需在锁内聚合最新状态和限制。
 - 严格校验不允许同一逻辑 requirement/acceptance 同时存在两个 approved 版本；为避免改写旧版本或引入发布基线负担，最终只追加 `ATC-REC-006@2.0.0`，并精确依赖现有批准规格。
+
+## PR #7 CI 与发布边界
+
+- PR #7 可自动合并，但当前 3 项检查中 1 项失败，Squash 按钮因此禁用。
+- 唯一失败为 `Matched_item_without_exceptions_releases_atomically_and_only_v2_allows_execution`：数据库实际状态历史数为 3，测试期望 2。
+- 注册流程为每个对象记录 RECEIVED 与 QUARANTINED，受控放行再追加 ACCEPTED；因此实现和数据库结果正确，失败来自陈旧断言。
+- 仓库没有明确的生产 deploy/publish 工作流、版本号或目标环境；`REL-R1-RECEIVING-PILOT@1.0.0` 仍为 proposed，不能把 PR 合并当成正式发布或擅自创建 Seal/tag/GitHub Release。

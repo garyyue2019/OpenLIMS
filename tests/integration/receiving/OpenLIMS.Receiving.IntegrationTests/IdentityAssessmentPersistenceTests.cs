@@ -397,7 +397,7 @@ public sealed class IdentityAssessmentPersistenceTests
         Assert.Empty(released.ExceptionDecisionVersions);
         Assert.Equal(1, await CountAsync(connectionString, "receiving.receiving_release_decision"));
         Assert.Equal("ACCEPTED", await ScalarStringAsync(connectionString, "select state from receiving.received_item limit 1"));
-        Assert.Equal("2", await ScalarStringAsync(connectionString, "select count(*)::text from receiving.received_item_state_history"));
+        Assert.Equal("3", await ScalarStringAsync(connectionString, "select count(*)::text from receiving.received_item_state_history"));
 
         var v1 = await scope.ServiceProvider.GetRequiredService<IReceivingEligibilityPort>().EvaluateAsync(
             new ReceivingEligibilityRequest(

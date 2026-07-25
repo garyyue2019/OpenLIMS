@@ -201,6 +201,179 @@ public sealed class IdentityAssessmentPersistenceTests
         Assert.Equal(1, await CountAsync(connectionString, "receiving.identity_declaration_snapshot"));
     }
 
+    [Fact]
+    public async Task Receiving_exception_and_conditional_decision_remain_quarantined_and_append_evidence()
+    {
+        var connectionString = ConnectionString();
+        await PrepareAsync(connectionString);
+        await using var creatorProvider = BuildProvider(
+            connectionString, ReceivingAuthorizationDecision.AllowedFor("LAB-A"), "creator-a");
+        var itemId = await RegisterOneAsync(creatorProvider);
+        ReceivingExceptionResult created;
+        using (var scope = creatorProvider.CreateScope())
+        {
+            created = await scope.ServiceProvider.GetRequiredService<IReceivingExceptionService>().CreateAsync(
+                ExceptionRequest(itemId, 1, ReceivingExceptionTypes.QuantityShortage),
+                "corr-exception-create", TestContext.Current.CancellationToken);
+        }
+
+        await using var approverProvider = BuildProvider(
+            connectionString, ReceivingAuthorizationDecision.AllowedFor("LAB-A"), "quality-a");
+        using var approverScope = approverProvider.CreateScope();
+        var decided = await approverScope.ServiceProvider.GetRequiredService<IReceivingExceptionService>()
+            .SubmitDecisionAsync(
+                created.ExceptionId, ConditionalDecision(1), "corr-exception-decide",
+                TestContext.Current.CancellationToken);
+
+        Assert.Equal(ReceivingExceptionSeverities.Standard, created.Severity);
+        Assert.Equal(ReceivingExceptionStatuses.ConditionallyAccepted, decided.Status);
+        Assert.Equal("QUARANTINED", decided.ItemState);
+        Assert.Equal(3, decided.ItemVersion);
+        Assert.Single(decided.Decisions);
+        Assert.Equal(1, await CountAsync(connectionString, "receiving.receiving_exception"));
+        Assert.Equal(1, await CountAsync(connectionString, "receiving.receiving_exception_decision"));
+        Assert.Equal("QUARANTINED", await ScalarStringAsync(connectionString, "select state from receiving.received_item limit 1"));
+    }
+
+    [Fact]
+    public async Task Concurrent_exception_decisions_allow_at_most_one_expected_version()
+    {
+        var connectionString = ConnectionString();
+        await PrepareAsync(connectionString);
+        await using var creatorProvider = BuildProvider(
+            connectionString, ReceivingAuthorizationDecision.AllowedFor("LAB-A"), "creator-a");
+        var itemId = await RegisterOneAsync(creatorProvider);
+        ReceivingExceptionResult created;
+        using (var scope = creatorProvider.CreateScope())
+        {
+            created = await scope.ServiceProvider.GetRequiredService<IReceivingExceptionService>().CreateAsync(
+                ExceptionRequest(itemId, 1, ReceivingExceptionTypes.Damaged),
+                "corr-create", TestContext.Current.CancellationToken);
+        }
+
+        await using var firstProvider = BuildProvider(
+            connectionString, ReceivingAuthorizationDecision.AllowedFor("LAB-A"), "quality-a");
+        await using var secondProvider = BuildProvider(
+            connectionString, ReceivingAuthorizationDecision.AllowedFor("LAB-A"), "quality-b");
+        using var firstScope = firstProvider.CreateScope();
+        using var secondScope = secondProvider.CreateScope();
+        var first = firstScope.ServiceProvider.GetRequiredService<IReceivingExceptionService>()
+            .SubmitDecisionAsync(created.ExceptionId, RejectDecision(1), "corr-first", TestContext.Current.CancellationToken);
+        var second = secondScope.ServiceProvider.GetRequiredService<IReceivingExceptionService>()
+            .SubmitDecisionAsync(created.ExceptionId, RejectDecision(1), "corr-second", TestContext.Current.CancellationToken);
+        var outcomes = await Task.WhenAll(CaptureExceptionAsync(first), CaptureExceptionAsync(second));
+
+        Assert.Single(outcomes, value => value.Result is not null);
+        Assert.Equal(ReceivingErrorCodes.ExpectedVersionConflict,
+            Assert.Single(outcomes, value => value.Error is not null).Error!.ErrorCode);
+        Assert.Equal(1, await CountAsync(connectionString, "receiving.receiving_exception_decision"));
+    }
+
+    [Fact]
+    public async Task Exception_outbox_failure_rolls_back_fact_item_version_and_audit()
+    {
+        var connectionString = ConnectionString();
+        await PrepareAsync(connectionString);
+        await using var provider = BuildProvider(
+            connectionString, ReceivingAuthorizationDecision.AllowedFor("LAB-A"), "creator-a");
+        var itemId = await RegisterOneAsync(provider);
+        var auditBefore = await CountAsync(connectionString, "receiving.audit_pending");
+        await ExecuteAsync(connectionString, """
+            create or replace function receiving.fail_exception_outbox() returns trigger language plpgsql as $$
+            begin
+              if new.event_type = 'RECEIVING_EXCEPTION_RECORDED' then
+                raise exception 'forced exception outbox failure';
+              end if;
+              return new;
+            end;
+            $$;
+            create trigger trg_fail_exception_outbox before insert on receiving.outbox
+            for each row execute function receiving.fail_exception_outbox();
+            """);
+        try
+        {
+            using var scope = provider.CreateScope();
+            var exception = await Assert.ThrowsAsync<ReceivingDomainException>(() =>
+                scope.ServiceProvider.GetRequiredService<IReceivingExceptionService>().CreateAsync(
+                    ExceptionRequest(itemId, 1, ReceivingExceptionTypes.Damaged),
+                    "corr-rollback", TestContext.Current.CancellationToken));
+            Assert.Equal(ReceivingErrorCodes.PersistenceUnavailable, exception.ErrorCode);
+            Assert.Equal(0, await CountAsync(connectionString, "receiving.receiving_exception"));
+            Assert.Equal(auditBefore, await CountAsync(connectionString, "receiving.audit_pending"));
+            Assert.Equal("1", await ScalarStringAsync(connectionString, "select version::text from receiving.received_item limit 1"));
+            Assert.Equal(1, await CountAsync(connectionString, "receiving.audit_attempt"));
+        }
+        finally
+        {
+            await ExecuteAsync(connectionString, """
+                drop trigger if exists trg_fail_exception_outbox on receiving.outbox;
+                drop function if exists receiving.fail_exception_outbox();
+                """);
+        }
+    }
+
+    [Fact]
+    public async Task Exception_fact_and_decision_history_reject_update_and_delete()
+    {
+        var connectionString = ConnectionString();
+        await PrepareAsync(connectionString);
+        await using var creatorProvider = BuildProvider(
+            connectionString, ReceivingAuthorizationDecision.AllowedFor("LAB-A"), "creator-a");
+        var itemId = await RegisterOneAsync(creatorProvider);
+        ReceivingExceptionResult created;
+        using (var scope = creatorProvider.CreateScope())
+        {
+            created = await scope.ServiceProvider.GetRequiredService<IReceivingExceptionService>().CreateAsync(
+                ExceptionRequest(itemId, 1, ReceivingExceptionTypes.Damaged),
+                "corr-create", TestContext.Current.CancellationToken);
+        }
+        await using var approverProvider = BuildProvider(
+            connectionString, ReceivingAuthorizationDecision.AllowedFor("LAB-A"), "quality-a");
+        using (var scope = approverProvider.CreateScope())
+        {
+            await scope.ServiceProvider.GetRequiredService<IReceivingExceptionService>().SubmitDecisionAsync(
+                created.ExceptionId, RejectDecision(1), "corr-reject", TestContext.Current.CancellationToken);
+        }
+
+        var update = await Assert.ThrowsAsync<PostgresException>(() => ExecuteAsync(
+            connectionString, "update receiving.receiving_exception set description = 'rewritten'"));
+        var delete = await Assert.ThrowsAsync<PostgresException>(() => ExecuteAsync(
+            connectionString, "delete from receiving.receiving_exception_decision"));
+        Assert.Equal("55000", update.SqlState);
+        Assert.Equal("55000", delete.SqlState);
+    }
+
+    [Fact]
+    public async Task Unauthorized_exception_decision_is_rejected_and_hash_audited()
+    {
+        var connectionString = ConnectionString();
+        await PrepareAsync(connectionString);
+        await using var creatorProvider = BuildProvider(
+            connectionString, ReceivingAuthorizationDecision.AllowedFor("LAB-A"), "creator-a");
+        var itemId = await RegisterOneAsync(creatorProvider);
+        ReceivingExceptionResult created;
+        using (var scope = creatorProvider.CreateScope())
+        {
+            created = await scope.ServiceProvider.GetRequiredService<IReceivingExceptionService>().CreateAsync(
+                ExceptionRequest(itemId, 1, ReceivingExceptionTypes.Contamination),
+                "corr-create-safety", TestContext.Current.CancellationToken);
+        }
+
+        await using var deniedProvider = BuildProvider(
+            connectionString, ReceivingAuthorizationDecision.Denied, "quality-a");
+        using var deniedScope = deniedProvider.CreateScope();
+        var exception = await Assert.ThrowsAsync<ReceivingDomainException>(() =>
+            deniedScope.ServiceProvider.GetRequiredService<IReceivingExceptionService>().SubmitDecisionAsync(
+                created.ExceptionId, RejectDecision(1), "corr-denied-safety", TestContext.Current.CancellationToken));
+
+        Assert.Equal(ReceivingErrorCodes.DecisionNotAuthorized, exception.ErrorCode);
+        Assert.Equal(0, await CountAsync(connectionString, "receiving.receiving_exception_decision"));
+        Assert.Equal(1, await CountAsync(connectionString, "receiving.audit_attempt"));
+        var target = await ScalarStringAsync(connectionString, "select target_hash from receiving.audit_attempt limit 1");
+        Assert.Equal(64, target.Length);
+        Assert.DoesNotContain(created.ExceptionId, target, StringComparison.Ordinal);
+    }
+
     private static async Task<(IdentityAssessmentResult? Result, ReceivingDomainException? Error)> CaptureAsync(
         Task<IdentityAssessmentResult> task)
     {
@@ -214,9 +387,17 @@ public sealed class IdentityAssessmentPersistenceTests
         }
     }
 
+    private static async Task<(ReceivingExceptionResult? Result, ReceivingDomainException? Error)> CaptureExceptionAsync(
+        Task<ReceivingExceptionResult> task)
+    {
+        try { return (await task, null); }
+        catch (ReceivingDomainException exception) { return (null, exception); }
+    }
+
     private static ServiceProvider BuildProvider(
         string connectionString,
-        ReceivingAuthorizationDecision authorizationDecision)
+        ReceivingAuthorizationDecision authorizationDecision,
+        string actorId = "actor-a")
     {
         var services = new ServiceCollection();
         services.AddLogging();
@@ -235,7 +416,7 @@ public sealed class IdentityAssessmentPersistenceTests
             DependencyProbeTimeoutSeconds = 2
         });
         services.AddSingleton<ICurrentOrganizationContext>(new DeploymentOrganizationContext(new OrganizationScope("group-a")));
-        services.AddSingleton<ICurrentActorContext>(new FixedActorContext(new ActorContext("actor-a", "group-a")));
+        services.AddSingleton<ICurrentActorContext>(new FixedActorContext(new ActorContext(actorId, "group-a")));
         services.AddSingleton<IClock>(new FixedClock(Now));
         services.AddSingleton<IIdGenerator, GuidIdGenerator>();
         new ReceivingModule(connectionString).AddApiServices(services);
@@ -294,6 +475,22 @@ public sealed class IdentityAssessmentPersistenceTests
         "All required evidence is consistent.",
         IdentityAssessmentContract.RuleSetVersion);
 
+    private static CreateReceivingExceptionRequest ExceptionRequest(string itemId, long itemVersion, string type) => new(
+        itemId, itemVersion, type, Now, "Observed receiving exception.",
+        ["object://exception/evidence"], [new string('c', 64)]);
+
+    private static SubmitReceivingExceptionDecisionRequest ConditionalDecision(long version) => new(
+        version, ReceivingExceptionDecisionTypes.ConditionalAccept,
+        [ReceivingEligibilityActions.Disassembly], [ReceivingEligibilityActions.SamplePreparation],
+        Now.AddDays(7), ["object://exception/decision"], [new string('d', 64)],
+        "Impact reviewed for the explicitly allowed action.",
+        "Quality approver accepted the documented constraints.", ReceivingExceptionContract.MatrixVersion);
+
+    private static SubmitReceivingExceptionDecisionRequest RejectDecision(long version) => new(
+        version, ReceivingExceptionDecisionTypes.Reject, [], [], null,
+        ["object://exception/decision"], [new string('d', 64)], string.Empty,
+        "Authorized reviewer rejected the received item.", ReceivingExceptionContract.MatrixVersion);
+
     private static string ConnectionString() =>
         Environment.GetEnvironmentVariable("OPENLIMS_TEST_POSTGRES_CONNECTION")
         ?? throw new InvalidOperationException("OPENLIMS_TEST_POSTGRES_CONNECTION is required for receiving integration tests.");
@@ -303,8 +500,12 @@ public sealed class IdentityAssessmentPersistenceTests
         await ReceivingMigrator.ApplyAsync(connectionString, TestContext.Current.CancellationToken);
         await ReceivingLabelIdentityMigrator.ApplyAsync(connectionString, TestContext.Current.CancellationToken);
         await ReceivingIdentityAssessmentMigrator.ApplyAsync(connectionString, TestContext.Current.CancellationToken);
+        await ReceivingExceptionMigrator.ApplyAsync(connectionString, TestContext.Current.CancellationToken);
         await ExecuteAsync(connectionString, """
             truncate table
+              receiving.receiving_exception_decision,
+              receiving.receiving_exception_state,
+              receiving.receiving_exception,
               receiving.identity_decision,
               receiving.identity_observation,
               receiving.identity_assessment,

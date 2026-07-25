@@ -1,0 +1,19 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "OPS-EXC-002",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "DEV-006 异常不得自动降低范围或默认条件接收",
+  "summary": "异常决定必须由 OD-005@1.0.0 授权人显式提交；系统不得静默降低范围、延长有效期或默认条件接收。",
+  "owners": ["质量负责人", "技术负责人", "EHS负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "OPS-EXC-002"}],
+  "depends_on": ["OPS-EXC-001@1.0.0", "OD-005@1.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0"],
+  "affects": ["exception", "scope-change", "conditional-acceptance", "authorization", "audit"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "ENABLED", "condition": "OD-005@1.0.0 已批准"},
+  "approval_evidence": "用户于 2026-07-25 明确要求确定 DEV-006 条件接收、拒收和审批权限并批准精简后继任务卡。",
+  "invariants": ["没有授权决定时保持隔离", "条件接收要求证据、技术影响说明、非空允许动作、非空禁止动作和有效期", "安全关键异常不得条件接收", "范围变化只能通过后继受控变更单", "客户确认不替代质量或 EHS 批准", "发起人不能批准自己的决定"]
+}

@@ -108,6 +108,10 @@ public static class ReceivingCapabilities
     public const string LabelScan = "receiving.label.scan";
     public const string IdentityEvaluate = "receiving.identity.evaluate";
     public const string EligibilityEvaluate = "receiving.eligibility.evaluate";
+    public const string ExceptionCreate = "exception.create";
+    public const string ExceptionRead = "exception.read";
+    public const string ExceptionQualityApprove = "exception.quality.approve";
+    public const string ExceptionEhsApprove = "exception.ehs.approve";
 }
 
 public static class ReceivingClaimTypes
@@ -173,4 +177,9 @@ public static class ReceivingErrorCodes
     public const string ObjectNotAccessible = "OBJECT_NOT_ACCESSIBLE";
     public const string ExpectedVersionConflict = "EXPECTED_VERSION_CONFLICT";
     public const string ReceivingPortUnavailable = "RECEIVING_PORT_UNAVAILABLE";
+    public const string ExceptionTypeUnknown = "EXCEPTION_TYPE_UNKNOWN";
+    public const string DecisionNotAuthorized = "DECISION_NOT_AUTHORIZED";
+    public const string DecisionEvidenceIncomplete = "DECISION_EVIDENCE_INCOMPLETE";
+    public const string ConditionalAcceptConstraintsRequired = "CONDITIONAL_ACCEPT_CONSTRAINTS_REQUIRED";
+    public const string ApplicabilityUnknown = "APPLICABILITY_UNKNOWN";
 }

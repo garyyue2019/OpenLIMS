@@ -1,0 +1,30 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "decision",
+  "id": "OD-005",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "DEV-006 精简条件接收与异常审批矩阵",
+  "summary": "以质量负责人和 EHS 两类批准人覆盖普通与安全关键收样异常；条件接收必须显式限制，未知场景失败关闭。",
+  "owners": ["实验室负责人", "质量负责人", "EHS负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "OD-005"}],
+  "depends_on": ["OD-002@1.0.0", "OD-035@1.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0"],
+  "affects": ["receiving", "identity", "exception", "authorization", "audit"],
+  "change_class": "major",
+  "decision_state": "decided",
+  "approval_evidence": "用户于 2026-07-25 明确要求快速确定 DEV-006 规则、创建并批准精简后继任务卡，并确认治理越轻越好。",
+  "options": ["每类异常配置独立多级审批", "质量与 EHS 双层最小矩阵", "无审批自动条件接收"],
+  "decision": "采用质量与 EHS 双层最小矩阵。普通异常由质量负责人批准；污染、危险属性及安全封存由 EHS 批准。条件接收只由质量负责人批准且必须有证据、技术影响说明、非空允许动作、非空禁止动作和有效期；安全关键异常不得条件接收。拒收普通异常由质量负责人批准，安全关键异常由 EHS 批准。异常发起人不得批准自己提交的决定；客户确认仅作为证据。未配置异常、严重度或权限适用性一律 UNKNOWN 并阻断。",
+  "classification": {
+    "types": ["QUANTITY_SHORTAGE", "TEMPERATURE_EXCURSION", "DAMAGED", "CONTAMINATION", "LABEL_CONFLICT", "IDENTITY_MISMATCH", "IDENTITY_INDETERMINATE"],
+    "severities": ["STANDARD", "SAFETY_CRITICAL"],
+    "safetyCriticalTypes": ["CONTAMINATION"],
+    "unknownRule": "任何未映射分类或适用性返回 UNKNOWN 并保持隔离"
+  },
+  "approval_matrix": [
+    {"scope": "STANDARD", "allowedDecisions": ["AWAIT_CUSTOMER", "CONDITIONAL_ACCEPT", "REJECT"], "approverCapability": "exception.quality.approve"},
+    {"scope": "SAFETY_CRITICAL", "allowedDecisions": ["REJECT", "SAFETY_HOLD"], "approverCapability": "exception.ehs.approve"}
+  ],
+  "constraints": ["发起人与批准人分离", "条件接收不得修改冻结范围", "条件接收不得隐含允许全部下游动作", "解除隔离仍由 DEV-007 负责"]
+}

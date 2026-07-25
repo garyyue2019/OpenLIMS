@@ -3,6 +3,7 @@ import { computed, reactive, ref, watch } from 'vue'
 import { authSnapshot } from '../../auth-store'
 import { hasReceivingRegisterCapability } from './receiving-access'
 import IdentityAssessmentPanel from './IdentityAssessmentPanel.vue'
+import ReceivingExceptionPanel from './ReceivingExceptionPanel.vue'
 import {
   hasLabelPrintCapability,
   hasLabelReprintCapability,
@@ -232,7 +233,7 @@ async function reprint(job: LabelPrintJobResult): Promise<void> {
 <template>
   <main class="receiving-page">
     <header>
-      <p class="eyebrow">RECEIVING · DEV-005</p>
+      <p class="eyebrow">RECEIVING · DEV-006</p>
       <h1>到货、包装与实物登记</h1>
       <p>一个包装内有多个完整玩具或套装时，请逐个添加实物。登记成功后所有实物自动进入隔离。</p>
     </header>
@@ -310,6 +311,7 @@ async function reprint(job: LabelPrintJobResult): Promise<void> {
             {{ item.receivedItemNumber }} · <strong>{{ item.state }}</strong>
             <span v-if="item.labelIdentity"> · 实物标签 {{ item.labelIdentity.businessNumber }}</span>
             <IdentityAssessmentPanel :received-item-id="item.receivedItemId" @item-version-changed="item.version = $event" />
+            <ReceivingExceptionPanel :received-item-id="item.receivedItemId" :item-version="item.version" @item-version-changed="item.version = $event" />
           </li>
         </ul>
       </div>

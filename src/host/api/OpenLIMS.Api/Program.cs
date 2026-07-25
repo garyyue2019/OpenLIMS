@@ -7,8 +7,8 @@ using OpenLIMS.Contracts.Labeling;
 using OpenLIMS.Contracts.Platform;
 using OpenLIMS.Modules.Labeling;
 using OpenLIMS.Modules.Receiving;
-using OpenTelemetry.Trace;
 using OpenTelemetry.Metrics;
+using OpenTelemetry.Trace;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Logging.ClearProviders();
@@ -93,7 +93,9 @@ builder.Services.AddAuthorization();
 builder.Services.AddOpenLimsModule(moduleCatalog);
 builder.Services.AddOpenTelemetry()
     .WithTracing(tracing => tracing.AddAspNetCoreInstrumentation().AddHttpClientInstrumentation())
-    .WithMetrics(metrics => metrics.AddMeter("OpenLIMS.Receiving.IdentityAssessment"));
+    .WithMetrics(metrics => metrics
+        .AddMeter("OpenLIMS.Receiving.IdentityAssessment")
+        .AddMeter("OpenLIMS.Receiving.Exception"));
 
 var app = builder.Build();
 app.UseExceptionHandler(exceptionApp => exceptionApp.Run(async context =>
@@ -174,6 +176,9 @@ app.MapGet("/openapi/v1.json", () => Results.Json(new
         ["/api/v1/received-items/{id}/identity-assessment"] = new { get = new { operationId = "getIdentityAssessment", responses = new { ok = new { description = "Current declaration snapshot, observations, decisions, quarantine state, and versions" } } } },
         ["/api/v1/received-items/{id}/identity-observations"] = new { post = new { operationId = "createIdentityObservation", responses = new { created = new { description = "Append-only laboratory identity observation recorded" } } } },
         ["/api/v1/received-items/{id}/identity-decisions"] = new { post = new { operationId = "submitIdentityDecision", responses = new { created = new { description = "Append-only manual identity decision recorded without releasing quarantine" } } } },
+        ["/api/v1/exceptions"] = new { post = new { operationId = "createReceivingException", responses = new { created = new { description = "Append-only receiving exception recorded without releasing quarantine" } } } },
+        ["/api/v1/exceptions/{id}"] = new { get = new { operationId = "getReceivingException", responses = new { ok = new { description = "Receiving exception facts, state, versions, and decisions" } } } },
+        ["/api/v1/exceptions/{id}/decisions"] = new { post = new { operationId = "submitReceivingExceptionDecision", responses = new { created = new { description = "Authorized exception decision recorded without releasing quarantine" } } } },
         ["/api/v1/label-jobs"] = new { post = new { operationId = "createLabelPrintJobs", responses = new { accepted = new { description = "Label print jobs accepted" } } } },
         ["/api/v1/label-jobs/{printJobId}"] = new { get = new { operationId = "getLabelPrintJob", responses = new { ok = new { description = "Label print job state" } } } },
         ["/api/v1/label-jobs/{printJobId}/reprint"] = new { post = new { operationId = "reprintLabel", responses = new { accepted = new { description = "Controlled reprint accepted" } } } },

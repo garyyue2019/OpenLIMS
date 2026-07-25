@@ -70,7 +70,10 @@ public sealed record ReceivingAuthorizationRequest(
     string LaboratoryId,
     string CustomerId,
     string ServiceOrderId,
-    string Capability);
+    string Capability)
+{
+    public string? ProductCategory { get; init; }
+}
 
 public enum ReceivingAuthorizationOutcome
 {
@@ -103,6 +106,8 @@ public static class ReceivingCapabilities
     public const string LabelReprint = "receiving.label.reprint";
     public const string LabelReprintOverride = "receiving.label.reprint.override";
     public const string LabelScan = "receiving.label.scan";
+    public const string IdentityEvaluate = "receiving.identity.evaluate";
+    public const string EligibilityEvaluate = "receiving.eligibility.evaluate";
 }
 
 public static class ReceivingClaimTypes
@@ -114,6 +119,7 @@ public static class ReceivingClaimTypes
     public const string Customer = "customer";
     public const string ServiceOrder = "service_order";
     public const string ReceivableServiceOrder = "receivable_service_order";
+    public const string ProductCategory = "product_category";
 }
 
 public static class ReceivingLabelObjectTypes
@@ -161,4 +167,10 @@ public static class ReceivingErrorCodes
     public const string IdempotencyConflict = "REC.IDEMPOTENCY_CONFLICT";
     public const string ValidationFailed = "REC.VALIDATION_FAILED";
     public const string PersistenceUnavailable = "REC.PERSISTENCE_UNAVAILABLE";
+    public const string IdentityEvidenceIncomplete = "IDENTITY_EVIDENCE_INCOMPLETE";
+    public const string IdentityConflict = "IDENTITY_CONFLICT";
+    public const string IdentityAmbiguous = "IDENTITY_AMBIGUOUS";
+    public const string ObjectNotAccessible = "OBJECT_NOT_ACCESSIBLE";
+    public const string ExpectedVersionConflict = "EXPECTED_VERSION_CONFLICT";
+    public const string ReceivingPortUnavailable = "RECEIVING_PORT_UNAVAILABLE";
 }

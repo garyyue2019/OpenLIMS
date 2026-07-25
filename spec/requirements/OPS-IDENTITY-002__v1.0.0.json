@@ -1,0 +1,26 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "OPS-IDENTITY-002",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "形成 ReceivedItem 人工身份结论",
+  "summary": "有权评估员基于完整观察提交 MATCHED、MISMATCHED 或 INDETERMINATE，结果不表达代表性或自动放行。",
+  "owners": ["身份评估员", "技术负责人", "质量负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "OPS-IDENTITY-002"}],
+  "depends_on": ["OPS-IDENTITY-001@1.0.0", "OD-009@1.0.0", "OD-035@1.0.0"],
+  "affects": ["identity-assessment", "receiving", "evidence", "authorization"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "ENABLED", "condition": "Release 1 ReceivedItem 身份评估"},
+  "approval_evidence": "用户于 2026-07-25 明确回复‘批准 DEV-005 业务基线’。",
+  "invariants": [
+    "评估状态只允许 NOT_STARTED、IN_PROGRESS、MATCHED、MISMATCHED、INDETERMINATE",
+    "只有 receiving.identity.evaluate 能力及对象所属法人、实验室、客户、委托范围内人员可操作",
+    "MATCHED 需要声明与关键观察一致且理由非空",
+    "存在关键差异时不能提交 MATCHED；存在多义且未消歧时只能提交 INDETERMINATE",
+    "MISMATCHED 和 INDETERMINATE 发布幂等身份冲突事实事件，但不创建完整异常审批对象",
+    "AI 只能提示差异，最终结论的 actor 必须是受控人工或受控服务身份"
+  ]
+}

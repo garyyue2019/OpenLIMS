@@ -95,6 +95,45 @@ public sealed class ReceivingAuthorizationTests
         Assert.Equal(ReceivingAuthorizationOutcome.ServiceOrderNotReceivable, decision.Outcome);
     }
 
+    [Fact]
+    public async Task Identity_scope_requires_exact_product_category_claim()
+    {
+        var port = Port(
+            Claim("organization_group", "group-a"),
+            Claim(ReceivingClaimTypes.Capability, ReceivingCapabilities.IdentityEvaluate),
+            Claim(ReceivingClaimTypes.LegalEntity, "legal-a"),
+            Claim(ReceivingClaimTypes.Laboratory, "lab-a"),
+            Claim(ReceivingClaimTypes.LaboratoryCode, "LAB-A"),
+            Claim(ReceivingClaimTypes.Customer, "customer-a"),
+            Claim(ReceivingClaimTypes.ServiceOrder, "order-a"),
+            Claim(ReceivingClaimTypes.ReceivableServiceOrder, "order-a"),
+            Claim(ReceivingClaimTypes.ProductCategory, "Hard plastic toy set"));
+        var request = Request() with { Capability = ReceivingCapabilities.IdentityEvaluate, ProductCategory = "Hard plastic toy set" };
+
+        var decision = await port.AuthorizeAsync(request, TestContext.Current.CancellationToken);
+
+        Assert.Equal(ReceivingAuthorizationOutcome.Allowed, decision.Outcome);
+    }
+
+    [Fact]
+    public async Task Identity_scope_does_not_expand_to_an_unclaimed_product_category()
+    {
+        var port = Port(
+            Claim("organization_group", "group-a"),
+            Claim(ReceivingClaimTypes.Capability, ReceivingCapabilities.IdentityEvaluate),
+            Claim(ReceivingClaimTypes.LegalEntity, "legal-a"),
+            Claim(ReceivingClaimTypes.Laboratory, "lab-a"),
+            Claim(ReceivingClaimTypes.LaboratoryCode, "LAB-A"),
+            Claim(ReceivingClaimTypes.Customer, "customer-a"),
+            Claim(ReceivingClaimTypes.ServiceOrder, "order-a"),
+            Claim(ReceivingClaimTypes.ReceivableServiceOrder, "order-a"));
+        var request = Request() with { Capability = ReceivingCapabilities.IdentityEvaluate, ProductCategory = "Hard plastic toy set" };
+
+        var decision = await port.AuthorizeAsync(request, TestContext.Current.CancellationToken);
+
+        Assert.Equal(ReceivingAuthorizationOutcome.Denied, decision.Outcome);
+    }
+
     private static HttpClaimsReceivingAuthorizationPort Port(params Claim[] claims)
     {
         var identity = new ClaimsIdentity(claims, "test");

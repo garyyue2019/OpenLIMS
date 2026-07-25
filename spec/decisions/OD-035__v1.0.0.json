@@ -1,0 +1,39 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "decision",
+  "id": "OD-035",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "DEV-005 隔离与身份评估边界",
+  "summary": "批准 ReceivedItem 隔离门禁、三层身份事实、人工结论和失败关闭资格端口；条件接收、拒收、异常审批及解除隔离继续后移。",
+  "owners": ["收样负责人", "身份评估负责人", "质量负责人", "产品负责人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "OPS-RECEIPT-003"},
+    {"document": "PRD-MAIN", "item": "OPS-IDENTITY-001"},
+    {"document": "PRD-MAIN", "item": "OPS-IDENTITY-002"},
+    {"document": "PRD-MAIN", "item": "OPS-IDENTITY-003"}
+  ],
+  "depends_on": ["OD-002@1.0.0", "OD-009@1.0.0"],
+  "affects": ["receiving", "identity-assessment", "lab-execution-gate", "audit"],
+  "change_class": "major",
+  "decision_state": "decided",
+  "approval_evidence": "用户于 2026-07-25 明确回复‘批准 DEV-005 业务基线’。",
+  "options": ["身份一致后自动放行", "隔离与身份结论分离并等待受控放行", "由各下游模块分别解释隔离"],
+  "decision": "隔离与身份评估是两个独立维度。ReceivedItem 登记后保持 QUARANTINED；客户声明快照、实验室观察和人工结论分别追加保存。结论仅为 MATCHED、MISMATCHED 或 INDETERMINATE，任何结论都不在 DEV-005 解除隔离。统一资格端口对拆解、制样和检测分配返回 ALLOWED、BLOCKED 或 UNKNOWN；在 DEV-007 发布有效放行决定前不会返回 ALLOWED，UNKNOWN 按 BLOCKED 处理。",
+  "identity_contract": {
+    "objectType": "ReceivedItem",
+    "assessmentStates": ["NOT_STARTED", "IN_PROGRESS", "MATCHED", "MISMATCHED", "INDETERMINATE"],
+    "outcomes": ["MATCHED", "MISMATCHED", "INDETERMINATE"],
+    "facts": ["CustomerDeclarationSnapshot", "LaboratoryIdentityObservation", "IdentityDecision"],
+    "truthRule": "结论不得覆盖声明或观察；更正创建新版本；AI 可以提示差异但不能提交最终结论"
+  },
+  "gate_contract": {
+    "publicPort": "ReceivingEligibilityPort@v1",
+    "actions": ["DISASSEMBLY", "SAMPLE_PREPARATION", "TEST_OBJECT_ALLOCATION"],
+    "decisions": ["ALLOWED", "BLOCKED", "UNKNOWN"],
+    "ruleSetVersion": "REC-ELIGIBILITY@1.0.0",
+    "releaseDependency": "DEV-007 受控解除隔离"
+  },
+  "deferred_scope": ["完整异常聚合和审批", "条件接收", "拒收", "待客户指令", "安全封存", "解除隔离", "拆解、制样和检测分配业务实现"]
+}

@@ -18,7 +18,9 @@ internal sealed class HttpClaimsReceivingAuthorizationPort(IHttpContextAccessor 
             !HasExactClaim(user, ReceivingClaimTypes.LegalEntity, request.LegalEntityId) ||
             !HasExactClaim(user, ReceivingClaimTypes.Laboratory, request.LaboratoryId) ||
             !HasExactClaim(user, ReceivingClaimTypes.Customer, request.CustomerId) ||
-            !HasExactClaim(user, ReceivingClaimTypes.ServiceOrder, request.ServiceOrderId))
+            !HasExactClaim(user, ReceivingClaimTypes.ServiceOrder, request.ServiceOrderId) ||
+            (request.ProductCategory is not null &&
+             !HasExactClaim(user, ReceivingClaimTypes.ProductCategory, request.ProductCategory)))
         {
             return ValueTask.FromResult(ReceivingAuthorizationDecision.Denied);
         }

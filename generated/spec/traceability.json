@@ -77,6 +77,31 @@
       "status": "in_review",
       "title": "身份错配"
     },
+    "AC-ID-001@1.0.0": {
+      "affects": [
+        "identity-assessment",
+        "receiving",
+        "audit",
+        "automated-test"
+      ],
+      "depends_on": [
+        "OPS-IDENTITY-001@1.0.0",
+        "OPS-IDENTITY-002@1.0.0",
+        "OPS-IDENTITY-003@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "8bc40f09987ef1b224e34bd4ee098049d37811b442a6027f33ccf6919fad6f88",
+      "kind": "acceptance",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-ID-001"
+        }
+      ],
+      "status": "approved",
+      "title": "身份评估三层事实和冲突事件"
+    },
     "AC-REC-001@0.1.0": {
       "affects": [
         "receiving",
@@ -101,6 +126,31 @@
       ],
       "status": "in_review",
       "title": "隔离控制"
+    },
+    "AC-REC-001@1.0.0": {
+      "affects": [
+        "receiving",
+        "sample-preparation",
+        "task-allocation",
+        "audit",
+        "automated-test"
+      ],
+      "depends_on": [
+        "OPS-RECEIPT-003@1.0.0",
+        "OPS-IDENTITY-003@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "9d4fdb3bf6b842a8a7c74fb01fd886bdec5cb10e81857043a51678fdeb030a9a",
+      "kind": "acceptance",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-REC-001"
+        }
+      ],
+      "status": "approved",
+      "title": "隔离资格统一失败关闭"
     },
     "AC-SEC-001@0.1.0": {
       "affects": [
@@ -714,6 +764,66 @@
       ],
       "status": "proposed",
       "title": "身份评估前实施统一隔离门禁"
+    },
+    "ATC-REC-003@2.0.0": {
+      "affects": [
+        "receiving",
+        "identity-assessment",
+        "lab-execution-gate",
+        "authorization",
+        "audit",
+        "automated-test"
+      ],
+      "depends_on": [
+        "ATC-PLT-003@1.0.0",
+        "ATC-REC-001@2.0.0",
+        "ATC-REC-002@2.0.0",
+        "ED-001@2.0.0",
+        "OD-002@1.0.0",
+        "OD-009@1.0.0",
+        "OD-035@1.0.0",
+        "ORG-STRUCT-001@1.0.0",
+        "OPS-RECEIPT-001@1.0.0",
+        "OPS-RECEIPT-003@1.0.0",
+        "OPS-IDENTITY-001@1.0.0",
+        "OPS-IDENTITY-002@1.0.0",
+        "OPS-IDENTITY-003@1.0.0",
+        "AC-REC-001@1.0.0",
+        "AC-ID-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0",
+        "NFR-ARCH-001@2.0.0"
+      ],
+      "fingerprint": "8f80f420f8587b216df5a594319f9eb27b9c76774a0eb96bc66b0050ef515326",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-RECEIPT-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-IDENTITY-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-IDENTITY-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-IDENTITY-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-REC-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-ID-001"
+        }
+      ],
+      "status": "approved",
+      "title": "实施隔离门禁和 ReceivedItem 身份评估"
     },
     "ATC-REC-004@0.1.0": {
       "affects": [
@@ -1519,6 +1629,40 @@
       "status": "proposed",
       "title": "检测结论层级与全面合规引用边界"
     },
+    "OD-035@1.0.0": {
+      "affects": [
+        "receiving",
+        "identity-assessment",
+        "lab-execution-gate",
+        "audit"
+      ],
+      "depends_on": [
+        "OD-002@1.0.0",
+        "OD-009@1.0.0"
+      ],
+      "fingerprint": "2edfbe80e573ee2824fc92bd25bcdc9812551b021ee353091ca53ebb90d736f7",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-RECEIPT-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-IDENTITY-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-IDENTITY-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-IDENTITY-003"
+        }
+      ],
+      "status": "approved",
+      "title": "DEV-005 隔离与身份评估边界"
+    },
     "OPS-EXC-001@0.1.0": {
       "affects": [
         "exception",
@@ -1587,6 +1731,30 @@
       "status": "in_review",
       "title": "分离客户声明身份、实验室观察和匹配结论"
     },
+    "OPS-IDENTITY-001@1.0.0": {
+      "affects": [
+        "identity-assessment",
+        "evidence",
+        "data-model",
+        "audit",
+        "ux"
+      ],
+      "depends_on": [
+        "OPS-RECEIPT-001@1.0.0",
+        "OD-009@1.0.0",
+        "OD-035@1.0.0"
+      ],
+      "fingerprint": "97812afb50d8a0f0169053b4fb50a33e978c2dde441e65008ba263576b3f98f9",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-IDENTITY-001"
+        }
+      ],
+      "status": "approved",
+      "title": "分离客户声明、实验室观察和身份结论"
+    },
     "OPS-IDENTITY-002@0.1.0": {
       "affects": [
         "identity",
@@ -1609,6 +1777,29 @@
       ],
       "status": "in_review",
       "title": "实物身份映射到实际送检项与受试配置"
+    },
+    "OPS-IDENTITY-002@1.0.0": {
+      "affects": [
+        "identity-assessment",
+        "receiving",
+        "evidence",
+        "authorization"
+      ],
+      "depends_on": [
+        "OPS-IDENTITY-001@1.0.0",
+        "OD-009@1.0.0",
+        "OD-035@1.0.0"
+      ],
+      "fingerprint": "acfd63403bd72911cc7010ad28dc52fe796595098066690e68e4b6351d60521c",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-IDENTITY-002"
+        }
+      ],
+      "status": "approved",
+      "title": "形成 ReceivedItem 人工身份结论"
     },
     "OPS-IDENTITY-003@0.1.0": {
       "affects": [
@@ -1634,6 +1825,31 @@
       ],
       "status": "in_review",
       "title": "身份异常对象禁止进入制样和检测"
+    },
+    "OPS-IDENTITY-003@1.0.0": {
+      "affects": [
+        "receiving",
+        "sample-preparation",
+        "task-allocation",
+        "authorization",
+        "audit"
+      ],
+      "depends_on": [
+        "OPS-RECEIPT-003@1.0.0",
+        "OPS-IDENTITY-001@1.0.0",
+        "OPS-IDENTITY-002@1.0.0",
+        "OD-035@1.0.0"
+      ],
+      "fingerprint": "49098432e4512527826c27c96e0b109f876298be655f946848aaa61d247ad715",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-IDENTITY-003"
+        }
+      ],
+      "status": "approved",
+      "title": "统一阻断未放行对象进入实验室执行"
     },
     "OPS-RECEIPT-001@0.1.0": {
       "affects": [
@@ -1755,6 +1971,29 @@
       ],
       "status": "in_review",
       "title": "身份评估完成前保持隔离"
+    },
+    "OPS-RECEIPT-003@1.0.0": {
+      "affects": [
+        "receiving",
+        "identity-assessment",
+        "sample-preparation",
+        "task-allocation",
+        "audit"
+      ],
+      "depends_on": [
+        "OPS-RECEIPT-001@1.0.0",
+        "OD-035@1.0.0"
+      ],
+      "fingerprint": "4a0317294f87cc076c467fe6cd6216b47d84d9eb8bc49f8ee989de21c97a302c",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-RECEIPT-003"
+        }
+      ],
+      "status": "approved",
+      "title": "身份评估和受控放行前保持隔离"
     },
     "ORG-COLLAB-001@0.1.0": {
       "affects": [

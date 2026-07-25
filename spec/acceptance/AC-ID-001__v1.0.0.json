@@ -1,0 +1,22 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "acceptance",
+  "id": "AC-ID-001",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "身份评估三层事实和冲突事件",
+  "summary": "身份评估保留声明、观察和结论历史；错配或待定发布冲突事实但不提前实现异常审批。",
+  "owners": ["身份评估员", "质量负责人", "QA负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "AC-ID-001"}],
+  "depends_on": ["OPS-IDENTITY-001@1.0.0", "OPS-IDENTITY-002@1.0.0", "OPS-IDENTITY-003@1.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0"],
+  "affects": ["identity-assessment", "receiving", "audit", "automated-test"],
+  "change_class": "major",
+  "approval_evidence": "用户于 2026-07-25 明确回复‘批准 DEV-005 业务基线’。",
+  "scenario": {
+    "given": ["客户声明快照和 ReceivedItem 已存在", "评估员具有产品类别及对象组织范围权限"],
+    "when": ["评估员追加观察并提交 MATCHED、MISMATCHED 或 INDETERMINATE"],
+    "then": ["三层事实分离且历史不可覆盖", "关键差异不能提交 MATCHED", "错配和待定原子发布幂等冲突事实 Outbox", "对象仍保持 QUARANTINED", "权限、必填证据和期望版本在服务端校验"]
+  },
+  "automation": ["正向和反向领域测试", "权限测试", "并发测试", "不可变历史测试", "事务和 Outbox 恢复测试", "前端状态测试"]
+}

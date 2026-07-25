@@ -1,0 +1,25 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "OPS-RECEIPT-003",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "身份评估和受控放行前保持隔离",
+  "summary": "ReceivedItem 的隔离状态独立于身份结论；服务端统一门禁在有效放行决定出现前阻断实验室执行。",
+  "owners": ["收样负责人", "质量负责人", "领域负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "OPS-RECEIPT-003"}],
+  "depends_on": ["OPS-RECEIPT-001@1.0.0", "OD-035@1.0.0"],
+  "affects": ["receiving", "identity-assessment", "sample-preparation", "task-allocation", "audit"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "ENABLED", "condition": "Release 1 收样与身份评估切片"},
+  "approval_evidence": "用户于 2026-07-25 明确回复‘批准 DEV-005 业务基线’。",
+  "invariants": [
+    "新登记 ReceivedItem 保持 QUARANTINED，身份评估不得直接改为已放行",
+    "隔离状态与身份评估状态分别保存和解释",
+    "门禁是版本化服务端公共契约，不是页面按钮或下游私有规则",
+    "BLOCKED 和 UNKNOWN 不产生拆解、制样、分配或数量副作用",
+    "一个生产部署只绑定一个 OrganizationGroup，客户端不能选择集团"
+  ]
+}

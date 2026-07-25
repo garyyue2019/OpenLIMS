@@ -1,0 +1,25 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "OPS-IDENTITY-001",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "分离客户声明、实验室观察和身份结论",
+  "summary": "身份评估按 ReceivedItem 保存不可覆盖的声明快照、实验室观察和人工结论。",
+  "owners": ["身份评估员", "技术负责人", "质量负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "OPS-IDENTITY-001"}],
+  "depends_on": ["OPS-RECEIPT-001@1.0.0", "OD-009@1.0.0", "OD-035@1.0.0"],
+  "affects": ["identity-assessment", "evidence", "data-model", "audit", "ux"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "ENABLED", "condition": "Release 1 ReceivedItem 身份评估"},
+  "approval_evidence": "用户于 2026-07-25 明确回复‘批准 DEV-005 业务基线’。",
+  "invariants": [
+    "客户声明快照、实验室观察和身份结论是三类独立记录",
+    "首次观察原子固定当时的登记声明和对象版本",
+    "观察和结论只追加；更正建立后续版本，不覆盖历史",
+    "结论必须引用声明快照版本、观察版本、规则版本和证据引用",
+    "附件只保存受控引用和 SHA-256 哈希，不把文件正文写入业务表"
+  ]
+}

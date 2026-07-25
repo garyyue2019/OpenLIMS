@@ -1,0 +1,20 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "OPS-EXC-001",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "DEV-006 收样异常分类建档",
+  "summary": "数量不足、超温、破损、污染、标签冲突、身份错配和身份待定形成追加式异常，引用 ReceivedItem、身份结论和证据版本。",
+  "owners": ["收样负责人", "质量负责人", "EHS负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "OPS-EXC-001"}],
+  "depends_on": ["ATC-REC-003@2.0.0", "OD-005@1.0.0"],
+  "affects": ["exception", "receiving", "identity", "evidence", "workflow"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "ENABLED", "condition": "DEV-006 精简分类和审批矩阵启用"},
+  "approval_evidence": "用户于 2026-07-25 明确要求快速确定 DEV-006 异常分类并创建、批准精简后继任务卡。",
+  "classification": {"types": ["QUANTITY_SHORTAGE", "TEMPERATURE_EXCURSION", "DAMAGED", "CONTAMINATION", "LABEL_CONFLICT", "IDENTITY_MISMATCH", "IDENTITY_INDETERMINATE"], "severities": ["STANDARD", "SAFETY_CRITICAL"]},
+  "invariants": ["异常事实追加保存且不得通过修改原始到货或身份事实消除", "污染固定为 SAFETY_CRITICAL", "未配置分类或严重度为 UNKNOWN 并阻断", "关闭异常保留事实、决定和证据"]
+}

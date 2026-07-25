@@ -23,6 +23,71 @@ internal static class ReceivingEndpoints
         endpoints.MapPost(IdentityAssessmentContract.DecisionsPath, SubmitIdentityDecisionAsync)
             .WithName("submitIdentityDecision")
             .RequireAuthorization();
+        endpoints.MapPost(ReceivingExceptionContract.CreatePath, CreateReceivingExceptionAsync)
+            .WithName("createReceivingException")
+            .RequireAuthorization();
+        endpoints.MapGet(ReceivingExceptionContract.DetailPath, GetReceivingExceptionAsync)
+            .WithName("getReceivingException")
+            .RequireAuthorization();
+        endpoints.MapPost(ReceivingExceptionContract.DecisionsPath, SubmitReceivingExceptionDecisionAsync)
+            .WithName("submitReceivingExceptionDecision")
+            .RequireAuthorization();
+    }
+
+    private static async Task<IResult> CreateReceivingExceptionAsync(
+        HttpContext context,
+        IReceivingExceptionService service,
+        CancellationToken cancellationToken)
+    {
+        var correlationId = Correlation(context);
+        var request = await ReadBodyAsync<CreateReceivingExceptionRequest>(context, cancellationToken);
+        if (request is null) return ExceptionProblem(ReceivingErrorCodes.DecisionEvidenceIncomplete, correlationId);
+        try
+        {
+            var result = await service.CreateAsync(request, correlationId, cancellationToken);
+            return Results.Json(result, ReceivingJson.Options, statusCode: StatusCodes.Status201Created);
+        }
+        catch (ReceivingDomainException exception)
+        {
+            return ExceptionProblem(exception.ErrorCode, correlationId);
+        }
+    }
+
+    private static async Task<IResult> GetReceivingExceptionAsync(
+        string id,
+        HttpContext context,
+        IReceivingExceptionService service,
+        CancellationToken cancellationToken)
+    {
+        var correlationId = Correlation(context);
+        try
+        {
+            return Results.Json(await service.GetAsync(id, correlationId, cancellationToken), ReceivingJson.Options);
+        }
+        catch (ReceivingDomainException exception)
+        {
+            return ExceptionProblem(exception.ErrorCode, correlationId);
+        }
+    }
+
+    private static async Task<IResult> SubmitReceivingExceptionDecisionAsync(
+        string id,
+        HttpContext context,
+        IReceivingExceptionService service,
+        CancellationToken cancellationToken)
+    {
+        var correlationId = Correlation(context);
+        var request = await ReadBodyAsync<SubmitReceivingExceptionDecisionRequest>(context, cancellationToken);
+        if (request is null) return ExceptionProblem(ReceivingErrorCodes.DecisionEvidenceIncomplete, correlationId);
+        try
+        {
+            var result = await service.SubmitDecisionAsync(id, request, correlationId, cancellationToken);
+            return Results.Json(result, ReceivingJson.Options, statusCode: StatusCodes.Status201Created);
+        }
+        catch (ReceivingDomainException exception)
+        {
+            return ExceptionProblem(exception.ErrorCode, correlationId);
+        }
     }
 
     private static async Task<IResult> GetIdentityAssessmentAsync(
@@ -199,6 +264,28 @@ internal static class ReceivingEndpoints
                 ["correlationId"] = correlationId
             });
     }
+
+    private static IResult ExceptionProblem(string errorCode, string correlationId)
+    {
+        var statusCode = errorCode switch
+        {
+            ReceivingErrorCodes.AuthorizationDenied or ReceivingErrorCodes.DecisionNotAuthorized => StatusCodes.Status403Forbidden,
+            ReceivingErrorCodes.ObjectNotAccessible => StatusCodes.Status404NotFound,
+            ReceivingErrorCodes.ExpectedVersionConflict => StatusCodes.Status409Conflict,
+            ReceivingErrorCodes.PersistenceUnavailable or ReceivingErrorCodes.ReceivingPortUnavailable => StatusCodes.Status503ServiceUnavailable,
+            ReceivingErrorCodes.ExceptionTypeUnknown or ReceivingErrorCodes.ApplicabilityUnknown or
+            ReceivingErrorCodes.DecisionEvidenceIncomplete or ReceivingErrorCodes.ConditionalAcceptConstraintsRequired => StatusCodes.Status422UnprocessableEntity,
+            _ => StatusCodes.Status400BadRequest
+        };
+        return Results.Problem(
+            statusCode: statusCode,
+            title: "Receiving exception could not be processed",
+            extensions: new Dictionary<string, object?>
+            {
+                ["errorCode"] = errorCode,
+                ["correlationId"] = correlationId
+            });
+    }
 }
 
 public interface IReceiptRegistrationService
@@ -226,6 +313,25 @@ public interface IIdentityAssessmentService
     Task<IdentityAssessmentResult> SubmitDecisionAsync(
         string receivedItemId,
         SubmitIdentityDecisionRequest request,
+        string correlationId,
+        CancellationToken cancellationToken = default);
+}
+
+public interface IReceivingExceptionService
+{
+    Task<ReceivingExceptionResult> CreateAsync(
+        CreateReceivingExceptionRequest request,
+        string correlationId,
+        CancellationToken cancellationToken = default);
+
+    Task<ReceivingExceptionResult> GetAsync(
+        string exceptionId,
+        string correlationId,
+        CancellationToken cancellationToken = default);
+
+    Task<ReceivingExceptionResult> SubmitDecisionAsync(
+        string exceptionId,
+        SubmitReceivingExceptionDecisionRequest request,
         string correlationId,
         CancellationToken cancellationToken = default);
 }

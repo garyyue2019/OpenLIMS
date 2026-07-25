@@ -1005,6 +1005,50 @@
       "status": "proposed",
       "title": "处理收样异常并执行授权决定"
     },
+    "ATC-REC-005@2.0.0": {
+      "affects": [
+        "exception",
+        "receiving",
+        "identity",
+        "authorization",
+        "audit",
+        "outbox",
+        "automated-test"
+      ],
+      "depends_on": [
+        "ATC-PLT-003@1.0.0",
+        "ATC-REC-003@2.0.0",
+        "ED-001@2.0.0",
+        "OD-002@1.0.0",
+        "OD-005@1.0.0",
+        "OD-035@1.0.0",
+        "OPS-EXC-001@1.0.0",
+        "OPS-EXC-002@1.0.0",
+        "AC-ID-001@1.0.0",
+        "ORG-STRUCT-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0",
+        "NFR-ARCH-001@2.0.0"
+      ],
+      "fingerprint": "00c62c57cf6c5e054bb6502a53a4b64e923d82be8f51b9ce6774fbfb3a72c234",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-EXC-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-EXC-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-005"
+        }
+      ],
+      "status": "approved",
+      "title": "实施 DEV-006 收样异常与授权决定"
+    },
     "ATC-REC-006@0.1.0": {
       "affects": [
         "receiving",
@@ -1393,6 +1437,31 @@
       "status": "proposed",
       "title": "条件接收与身份异常审批矩阵"
     },
+    "OD-005@1.0.0": {
+      "affects": [
+        "receiving",
+        "identity",
+        "exception",
+        "authorization",
+        "audit"
+      ],
+      "depends_on": [
+        "OD-002@1.0.0",
+        "OD-035@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "3796fceb3efe37c7dde2ada0faabf47a691d695653b3303add6cd5881c7091cd",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-005"
+        }
+      ],
+      "status": "approved",
+      "title": "DEV-006 精简条件接收与异常审批矩阵"
+    },
     "OD-009@0.1.0": {
       "affects": [
         "receiving",
@@ -1686,6 +1755,29 @@
       "status": "in_review",
       "title": "收样异常分类建档"
     },
+    "OPS-EXC-001@1.0.0": {
+      "affects": [
+        "exception",
+        "receiving",
+        "identity",
+        "evidence",
+        "workflow"
+      ],
+      "depends_on": [
+        "ATC-REC-003@2.0.0",
+        "OD-005@1.0.0"
+      ],
+      "fingerprint": "f04d497b0ec8e2c5031968398b7159412d23dd55dffec8dc6013429197b29f4c",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-EXC-001"
+        }
+      ],
+      "status": "approved",
+      "title": "DEV-006 收样异常分类建档"
+    },
     "OPS-EXC-002@0.1.0": {
       "affects": [
         "exception",
@@ -1708,6 +1800,31 @@
       ],
       "status": "in_review",
       "title": "异常不得自动降低范围或默认条件接收"
+    },
+    "OPS-EXC-002@1.0.0": {
+      "affects": [
+        "exception",
+        "scope-change",
+        "conditional-acceptance",
+        "authorization",
+        "audit"
+      ],
+      "depends_on": [
+        "OPS-EXC-001@1.0.0",
+        "OD-005@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "4e46384ec83d8306b54d9568138eeb66bce0f4e33ee08c12e9685db81649204e",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-EXC-002"
+        }
+      ],
+      "status": "approved",
+      "title": "DEV-006 异常不得自动降低范围或默认条件接收"
     },
     "OPS-IDENTITY-001@0.1.0": {
       "affects": [

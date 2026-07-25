@@ -32,6 +32,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `ATC-REC-004@1.0.0` | `story` | `proposed` | 记录身份证据并形成匹配或冲突结论 | `major` | identity, receiving, exception, evidence, authorization, audit, automated-test | `8b686110ac21` |
 | `ATC-REC-005@0.1.0` | `story` | `proposed` | 处理收样异常并执行授权决定 | `major` | exception, receiving, identity, scope-change, authorization, audit, automated-test | `0cbee64dcc55` |
 | `ATC-REC-005@1.0.0` | `story` | `proposed` | 处理收样异常并执行授权决定 | `major` | exception, receiving, identity, scope-change, authorization, audit, automated-test | `285d13528f6d` |
+| `ATC-REC-005@2.0.0` | `story` | `approved` | 实施 DEV-006 收样异常与授权决定 | `major` | exception, receiving, identity, authorization, audit, outbox, automated-test | `00c62c57cf6c` |
 | `ATC-REC-006@0.1.0` | `story` | `proposed` | 受控解除隔离并发布执行资格 | `major` | receiving, identity, exception, outbox, lab-execution, audit, automated-test | `d385a6cf535d` |
 | `ATC-REC-006@1.0.0` | `story` | `proposed` | 受控解除隔离并发布执行资格 | `major` | receiving, identity, exception, outbox, lab-execution, audit, automated-test | `e40cd4a7c107` |
 | `BUS-PROD-003@0.1.0` | `requirement` | `in_review` | 被业务引用的产品版本禁止原地修改 | `major` | product, product-variant, versioning, impact-analysis, evidence | `faf2128cf612` |
@@ -48,6 +49,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `OD-001@0.1.0` | `decision` | `proposed` | Release 1 唯一灯塔试点切片 | `major` | release-governance, all-release-1-modules | `b6858d2f1d5b` |
 | `OD-002@1.0.0` | `decision` | `approved` | 集团多机构与单集团独立部署模式 | `major` | organization-model, deployment-boundary, authorization, data-platform, ai-security, backup-recovery | `81a2d96fb09e` |
 | `OD-005@0.1.0` | `decision` | `proposed` | 条件接收与身份异常审批矩阵 | `major` | receiving, identity, exception, sample-preparation, task-allocation | `10daafe00d40` |
+| `OD-005@1.0.0` | `decision` | `approved` | DEV-006 精简条件接收与异常审批矩阵 | `major` | receiving, identity, exception, authorization, audit | `3796fceb3efe` |
 | `OD-009@0.1.0` | `decision` | `proposed` | 收到实物唯一识别粒度 | `major` | receiving, identifier, barcode, lineage | `962080700bba` |
 | `OD-009@1.0.0` | `decision` | `approved` | 试点玩具收到实物唯一识别粒度 | `major` | receiving, identifier, barcode, lineage, toy-pilot | `d207509591d2` |
 | `OD-020@0.1.0` | `decision` | `proposed` | 容量、并发与部署拓扑基线 | `major` | architecture, performance, availability, disaster-recovery | `aec2558b472f` |
@@ -61,7 +63,9 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `OD-034@0.1.0` | `decision` | `proposed` | 检测结论层级与全面合规引用边界 | `major` | conformity, reporting, external-compliance-reference | `d9645e91b677` |
 | `OD-035@1.0.0` | `decision` | `approved` | DEV-005 隔离与身份评估边界 | `major` | receiving, identity-assessment, lab-execution-gate, audit | `2edfbe80e573` |
 | `OPS-EXC-001@0.1.0` | `requirement` | `in_review` | 收样异常分类建档 | `minor` | exception, receiving, identity, evidence, workflow | `84fdb3643f7e` |
+| `OPS-EXC-001@1.0.0` | `requirement` | `approved` | DEV-006 收样异常分类建档 | `major` | exception, receiving, identity, evidence, workflow | `f04d497b0ec8` |
 | `OPS-EXC-002@0.1.0` | `requirement` | `in_review` | 异常不得自动降低范围或默认条件接收 | `major` | exception, scope-change, conditional-acceptance, authorization, audit | `8cf1d2cd7b59` |
+| `OPS-EXC-002@1.0.0` | `requirement` | `approved` | DEV-006 异常不得自动降低范围或默认条件接收 | `major` | exception, scope-change, conditional-acceptance, authorization, audit | `4e46384ec83d` |
 | `OPS-IDENTITY-001@0.1.0` | `requirement` | `in_review` | 分离客户声明身份、实验室观察和匹配结论 | `minor` | identity, evidence, data-model, audit, ux | `0a417c32d185` |
 | `OPS-IDENTITY-001@1.0.0` | `requirement` | `approved` | 分离客户声明、实验室观察和身份结论 | `major` | identity-assessment, evidence, data-model, audit, ux | `97812afb50d8` |
 | `OPS-IDENTITY-002@0.1.0` | `requirement` | `in_review` | 实物身份映射到实际送检项与受试配置 | `major` | identity, submission, product-variant, configuration, task-allocation | `b00534b8eb9a` |

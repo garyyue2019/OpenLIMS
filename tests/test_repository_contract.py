@@ -37,7 +37,7 @@ class RepositoryContractTests(unittest.TestCase):
             check=False,
         )
         self.assertEqual(0, result.returncode, result.stderr.decode("utf-8", errors="replace"))
-        self.assertIn("82 个规格版本", result.stdout.decode("utf-8"))
+        self.assertIn("86 个规格版本", result.stdout.decode("utf-8"))
 
     def test_git_checkout_keeps_deterministic_lf_bytes(self) -> None:
         attributes = (ROOT / ".gitattributes").read_text(encoding="utf-8")
@@ -58,9 +58,10 @@ class RepositoryContractTests(unittest.TestCase):
             "ATC-REC-001__v2.0.0.md",
             "ATC-REC-002__v2.0.0.md",
             "ATC-REC-003__v2.0.0.md",
+            "ATC-REC-005__v2.0.0.md",
         }
         self.assertEqual(expected_tasks, {path.name for path in tasks})
-        self.assertEqual(26, len(features))
+        self.assertEqual(27, len(features))
         self.assertTrue(
             {
                 "ATC-PLT-000__v0.1.0.feature",
@@ -68,6 +69,7 @@ class RepositoryContractTests(unittest.TestCase):
                 "AC-ID-001__v1.0.0.feature",
                 "AC-REC-001__v1.0.0.feature",
                 "ATC-REC-003__v2.0.0.feature",
+                "ATC-REC-005__v2.0.0.feature",
             }.issubset({path.name for path in features})
         )
         self.assertFalse(any(path.name.startswith("R1-REC-") for path in (*tasks, *features)))
@@ -305,6 +307,9 @@ class RepositoryContractTests(unittest.TestCase):
             "SEC-AUTH-001@1.0.0",
             "OD-031@1.0.0",
             "OPS-RECEIPT-002@1.0.0",
+            "OD-005@1.0.0",
+            "OPS-EXC-001@1.0.0",
+            "OPS-EXC-002@1.0.0",
         }
         self.assertEqual(
             planned_refs | approved_delivery_v1_refs,

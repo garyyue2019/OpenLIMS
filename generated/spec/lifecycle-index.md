@@ -34,6 +34,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `ATC-REC-004` | `1.0.0` | `proposed` | `spec/stories/ATC-REC-004__v1.0.0.json` |
 | `ATC-REC-005` | `0.1.0` | `proposed` | `spec/stories/ATC-REC-005__v0.1.0.json` |
 | `ATC-REC-005` | `1.0.0` | `proposed` | `spec/stories/ATC-REC-005__v1.0.0.json` |
+| `ATC-REC-005` | `2.0.0` | `approved` | `spec/stories/ATC-REC-005__v2.0.0.json` |
 | `ATC-REC-006` | `0.1.0` | `proposed` | `spec/stories/ATC-REC-006__v0.1.0.json` |
 | `ATC-REC-006` | `1.0.0` | `proposed` | `spec/stories/ATC-REC-006__v1.0.0.json` |
 | `BUS-PROD-003` | `0.1.0` | `in_review` | `spec/requirements/BUS-PROD-003__v0.1.0.json` |
@@ -50,6 +51,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `OD-001` | `0.1.0` | `proposed` | `spec/decisions/OD-001__v0.1.0.json` |
 | `OD-002` | `1.0.0` | `approved` | `spec/decisions/OD-002__v1.0.0.json` |
 | `OD-005` | `0.1.0` | `proposed` | `spec/decisions/OD-005__v0.1.0.json` |
+| `OD-005` | `1.0.0` | `approved` | `spec/decisions/OD-005__v1.0.0.json` |
 | `OD-009` | `0.1.0` | `proposed` | `spec/decisions/OD-009__v0.1.0.json` |
 | `OD-009` | `1.0.0` | `approved` | `spec/decisions/OD-009__v1.0.0.json` |
 | `OD-020` | `0.1.0` | `proposed` | `spec/decisions/OD-020__v0.1.0.json` |
@@ -63,7 +65,9 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `OD-034` | `0.1.0` | `proposed` | `spec/decisions/OD-034__v0.1.0.json` |
 | `OD-035` | `1.0.0` | `approved` | `spec/decisions/OD-035__v1.0.0.json` |
 | `OPS-EXC-001` | `0.1.0` | `in_review` | `spec/requirements/OPS-EXC-001__v0.1.0.json` |
+| `OPS-EXC-001` | `1.0.0` | `approved` | `spec/requirements/OPS-EXC-001__v1.0.0.json` |
 | `OPS-EXC-002` | `0.1.0` | `in_review` | `spec/requirements/OPS-EXC-002__v0.1.0.json` |
+| `OPS-EXC-002` | `1.0.0` | `approved` | `spec/requirements/OPS-EXC-002__v1.0.0.json` |
 | `OPS-IDENTITY-001` | `0.1.0` | `in_review` | `spec/requirements/OPS-IDENTITY-001__v0.1.0.json` |
 | `OPS-IDENTITY-001` | `1.0.0` | `approved` | `spec/requirements/OPS-IDENTITY-001__v1.0.0.json` |
 | `OPS-IDENTITY-002` | `0.1.0` | `in_review` | `spec/requirements/OPS-IDENTITY-002__v0.1.0.json` |

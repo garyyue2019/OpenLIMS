@@ -37,6 +37,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `ATC-REC-005` | `2.0.0` | `approved` | `spec/stories/ATC-REC-005__v2.0.0.json` |
 | `ATC-REC-006` | `0.1.0` | `proposed` | `spec/stories/ATC-REC-006__v0.1.0.json` |
 | `ATC-REC-006` | `1.0.0` | `proposed` | `spec/stories/ATC-REC-006__v1.0.0.json` |
+| `ATC-REC-006` | `2.0.0` | `approved` | `spec/stories/ATC-REC-006__v2.0.0.json` |
 | `BUS-PROD-003` | `0.1.0` | `in_review` | `spec/requirements/BUS-PROD-003__v0.1.0.json` |
 | `BUS-REQ-003` | `0.1.0` | `in_review` | `spec/requirements/BUS-REQ-003__v0.1.0.json` |
 | `ED-001` | `0.1.0` | `proposed` | `spec/decisions/ED-001__v0.1.0.json` |

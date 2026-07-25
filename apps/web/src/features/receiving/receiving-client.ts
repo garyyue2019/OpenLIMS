@@ -31,7 +31,7 @@ export interface RegisterReceiptRequest {
 export interface ReceivedItemRegistrationResult {
   receivedItemId: string
   receivedItemNumber: string
-  state: 'QUARANTINED'
+  state: 'QUARANTINED' | 'ACCEPTED' | 'CONDITIONALLY_ACCEPTED'
   version: number
   labelIdentity?: LabelIdentityResult
 }

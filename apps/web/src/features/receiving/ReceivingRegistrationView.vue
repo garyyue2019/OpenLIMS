@@ -4,6 +4,7 @@ import { authSnapshot } from '../../auth-store'
 import { hasReceivingRegisterCapability } from './receiving-access'
 import IdentityAssessmentPanel from './IdentityAssessmentPanel.vue'
 import ReceivingExceptionPanel from './ReceivingExceptionPanel.vue'
+import ReceivingReleasePanel from './ReceivingReleasePanel.vue'
 import {
   hasLabelPrintCapability,
   hasLabelReprintCapability,
@@ -312,6 +313,13 @@ async function reprint(job: LabelPrintJobResult): Promise<void> {
             <span v-if="item.labelIdentity"> · 实物标签 {{ item.labelIdentity.businessNumber }}</span>
             <IdentityAssessmentPanel :received-item-id="item.receivedItemId" @item-version-changed="item.version = $event" />
             <ReceivingExceptionPanel :received-item-id="item.receivedItemId" :item-version="item.version" @item-version-changed="item.version = $event" />
+            <ReceivingReleasePanel
+              :received-item-id="item.receivedItemId"
+              :item-version="item.version"
+              :item-state="item.state"
+              @item-version-changed="item.version = $event"
+              @item-state-changed="item.state = $event"
+            />
           </li>
         </ul>
       </div>

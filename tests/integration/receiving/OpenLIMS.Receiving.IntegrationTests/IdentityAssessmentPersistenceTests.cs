@@ -374,6 +374,229 @@ public sealed class IdentityAssessmentPersistenceTests
         Assert.DoesNotContain(created.ExceptionId, target, StringComparison.Ordinal);
     }
 
+    [Fact]
+    public async Task Matched_item_without_exceptions_releases_atomically_and_only_v2_allows_execution()
+    {
+        var connectionString = ConnectionString();
+        await PrepareAsync(connectionString);
+        await using var provider = BuildProvider(
+            connectionString, ReceivingAuthorizationDecision.AllowedFor("LAB-A"), "quality-a");
+        var itemId = await RegisterOneAsync(provider);
+        using var scope = provider.CreateScope();
+        var identity = scope.ServiceProvider.GetRequiredService<IIdentityAssessmentService>();
+        await identity.AddObservationAsync(itemId, Observation(1), "corr-observe", TestContext.Current.CancellationToken);
+        await identity.SubmitDecisionAsync(itemId, Decision(2), "corr-match", TestContext.Current.CancellationToken);
+
+        var released = await scope.ServiceProvider.GetRequiredService<IReceivingReleaseService>().SubmitAsync(
+            itemId, ReleaseRequest(3), "corr-release", TestContext.Current.CancellationToken);
+
+        Assert.Equal(ReceivingReleaseOutcomes.Released, released.Outcome);
+        Assert.Equal(ReceivingReleaseStates.Accepted, released.State);
+        Assert.Equal(3, released.BoundItemVersion);
+        Assert.Equal(4, released.ItemVersion);
+        Assert.Empty(released.ExceptionDecisionVersions);
+        Assert.Equal(1, await CountAsync(connectionString, "receiving.receiving_release_decision"));
+        Assert.Equal("ACCEPTED", await ScalarStringAsync(connectionString, "select state from receiving.received_item limit 1"));
+        Assert.Equal("3", await ScalarStringAsync(connectionString, "select count(*)::text from receiving.received_item_state_history"));
+
+        var v1 = await scope.ServiceProvider.GetRequiredService<IReceivingEligibilityPort>().EvaluateAsync(
+            new ReceivingEligibilityRequest(
+                "lab-a", itemId, ReceivingEligibilityActions.Disassembly, 4,
+                IdentityAssessmentContract.RuleSetVersion),
+            TestContext.Current.CancellationToken);
+        Assert.NotEqual(ReceivingEligibilityDecisions.Allowed, v1.Decision);
+
+        var v2Port = scope.ServiceProvider.GetRequiredService<IReceivingEligibilityPortV2>();
+        foreach (var action in new[]
+                 {
+                     ReceivingEligibilityActions.Disassembly,
+                     ReceivingEligibilityActions.SamplePreparation,
+                     ReceivingEligibilityActions.TestAssignment
+                 })
+        {
+            var v2 = await v2Port.EvaluateAsync(
+                new ReceivingEligibilityV2Request(
+                    "lab-a", itemId, action, 4, ReceivingEligibilityV2Contract.RuleSetVersion),
+                TestContext.Current.CancellationToken);
+            Assert.Equal(ReceivingEligibilityDecisions.Allowed, v2.Decision);
+            Assert.Equal(released.ReleaseDecisionId, v2.ReleaseDecisionId);
+        }
+
+        var update = await Assert.ThrowsAsync<PostgresException>(() => ExecuteAsync(
+            connectionString,
+            "update receiving.receiving_release_decision set rationale = 'rewritten'"));
+        Assert.Equal("55000", update.SqlState);
+    }
+
+    [Fact]
+    public async Task Conditional_release_pins_exception_decision_and_v2_enforces_action_constraints()
+    {
+        var connectionString = ConnectionString();
+        await PrepareAsync(connectionString);
+        await using var creatorProvider = BuildProvider(
+            connectionString, ReceivingAuthorizationDecision.AllowedFor("LAB-A"), "creator-a");
+        var itemId = await RegisterOneAsync(creatorProvider);
+        ReceivingExceptionResult created;
+        using (var creatorScope = creatorProvider.CreateScope())
+        {
+            var identity = creatorScope.ServiceProvider.GetRequiredService<IIdentityAssessmentService>();
+            await identity.AddObservationAsync(itemId, Observation(1), "corr-observe", TestContext.Current.CancellationToken);
+            await identity.SubmitDecisionAsync(itemId, Decision(2), "corr-match", TestContext.Current.CancellationToken);
+            created = await creatorScope.ServiceProvider.GetRequiredService<IReceivingExceptionService>().CreateAsync(
+                ExceptionRequest(itemId, 3, ReceivingExceptionTypes.QuantityShortage),
+                "corr-exception", TestContext.Current.CancellationToken);
+        }
+
+        await using var qualityProvider = BuildProvider(
+            connectionString, ReceivingAuthorizationDecision.AllowedFor("LAB-A"), "quality-a");
+        using var qualityScope = qualityProvider.CreateScope();
+        await qualityScope.ServiceProvider.GetRequiredService<IReceivingExceptionService>().SubmitDecisionAsync(
+            created.ExceptionId, ConditionalDecision(1), "corr-conditional", TestContext.Current.CancellationToken);
+        var released = await qualityScope.ServiceProvider.GetRequiredService<IReceivingReleaseService>().SubmitAsync(
+            itemId, ReleaseRequest(5), "corr-release", TestContext.Current.CancellationToken);
+
+        Assert.Equal(ReceivingReleaseOutcomes.ReleasedWithConstraints, released.Outcome);
+        Assert.Equal(ReceivingReleaseStates.ConditionallyAccepted, released.State);
+        var reference = Assert.Single(released.ExceptionDecisionVersions);
+        Assert.Equal(created.ExceptionId, reference.ExceptionId);
+        Assert.Equal(1, reference.DecisionVersion);
+        Assert.Equal([ReceivingEligibilityActions.Disassembly], released.AllowedActions);
+        Assert.Equal([ReceivingEligibilityActions.SamplePreparation], released.ProhibitedActions);
+
+        var port = qualityScope.ServiceProvider.GetRequiredService<IReceivingEligibilityPortV2>();
+        var allowed = await port.EvaluateAsync(
+            new ReceivingEligibilityV2Request(
+                "lab-a", itemId, ReceivingEligibilityActions.Disassembly, 6,
+                ReceivingEligibilityV2Contract.RuleSetVersion),
+            TestContext.Current.CancellationToken);
+        var blocked = await port.EvaluateAsync(
+            new ReceivingEligibilityV2Request(
+                "lab-a", itemId, ReceivingEligibilityActions.SamplePreparation, 6,
+                ReceivingEligibilityV2Contract.RuleSetVersion),
+            TestContext.Current.CancellationToken);
+        var unknown = await port.EvaluateAsync(
+            new ReceivingEligibilityV2Request(
+                "lab-a", itemId, ReceivingEligibilityActions.Disassembly, 6, "latest"),
+            TestContext.Current.CancellationToken);
+
+        Assert.Equal(ReceivingEligibilityDecisions.Allowed, allowed.Decision);
+        Assert.Equal(ReceivingEligibilityDecisions.Blocked, blocked.Decision);
+        Assert.Contains(ReceivingEligibilityV2Reasons.ActionNotAllowed, blocked.ReasonCodes);
+        Assert.Equal(ReceivingEligibilityDecisions.Unknown, unknown.Decision);
+    }
+
+    [Fact]
+    public async Task Concurrent_release_attempts_create_at_most_one_decision()
+    {
+        var connectionString = ConnectionString();
+        await PrepareAsync(connectionString);
+        await using var setupProvider = BuildProvider(
+            connectionString, ReceivingAuthorizationDecision.AllowedFor("LAB-A"), "identity-a");
+        var itemId = await RegisterOneAsync(setupProvider);
+        using (var setupScope = setupProvider.CreateScope())
+        {
+            var identity = setupScope.ServiceProvider.GetRequiredService<IIdentityAssessmentService>();
+            await identity.AddObservationAsync(itemId, Observation(1), "corr-observe", TestContext.Current.CancellationToken);
+            await identity.SubmitDecisionAsync(itemId, Decision(2), "corr-match", TestContext.Current.CancellationToken);
+        }
+
+        await using var firstProvider = BuildProvider(
+            connectionString, ReceivingAuthorizationDecision.AllowedFor("LAB-A"), "quality-a");
+        await using var secondProvider = BuildProvider(
+            connectionString, ReceivingAuthorizationDecision.AllowedFor("LAB-A"), "quality-b");
+        using var firstScope = firstProvider.CreateScope();
+        using var secondScope = secondProvider.CreateScope();
+        var first = firstScope.ServiceProvider.GetRequiredService<IReceivingReleaseService>().SubmitAsync(
+            itemId, ReleaseRequest(3), "corr-first", TestContext.Current.CancellationToken);
+        var second = secondScope.ServiceProvider.GetRequiredService<IReceivingReleaseService>().SubmitAsync(
+            itemId, ReleaseRequest(3), "corr-second", TestContext.Current.CancellationToken);
+        var outcomes = await Task.WhenAll(CaptureReleaseAsync(first), CaptureReleaseAsync(second));
+
+        Assert.Single(outcomes, value => value.Result is not null);
+        Assert.Equal(ReceivingErrorCodes.ExpectedVersionConflict,
+            Assert.Single(outcomes, value => value.Error is not null).Error!.ErrorCode);
+        Assert.Equal(1, await CountAsync(connectionString, "receiving.receiving_release_decision"));
+    }
+
+    [Fact]
+    public async Task Release_outbox_failure_rolls_back_decision_state_history_and_success_audit()
+    {
+        var connectionString = ConnectionString();
+        await PrepareAsync(connectionString);
+        await using var provider = BuildProvider(
+            connectionString, ReceivingAuthorizationDecision.AllowedFor("LAB-A"), "quality-a");
+        var itemId = await RegisterOneAsync(provider);
+        using var scope = provider.CreateScope();
+        var identity = scope.ServiceProvider.GetRequiredService<IIdentityAssessmentService>();
+        await identity.AddObservationAsync(itemId, Observation(1), "corr-observe", TestContext.Current.CancellationToken);
+        await identity.SubmitDecisionAsync(itemId, Decision(2), "corr-match", TestContext.Current.CancellationToken);
+        var auditBefore = await CountAsync(connectionString, "receiving.audit_pending");
+        var historyBefore = await CountAsync(connectionString, "receiving.received_item_state_history");
+        await ExecuteAsync(connectionString, """
+            create or replace function receiving.fail_release_outbox() returns trigger language plpgsql as $$
+            begin
+              if new.event_type = 'RECEIVING_RELEASED' then
+                raise exception 'forced release outbox failure';
+              end if;
+              return new;
+            end;
+            $$;
+            create trigger trg_fail_release_outbox before insert on receiving.outbox
+            for each row execute function receiving.fail_release_outbox();
+            """);
+        try
+        {
+            var exception = await Assert.ThrowsAsync<ReceivingDomainException>(() =>
+                scope.ServiceProvider.GetRequiredService<IReceivingReleaseService>().SubmitAsync(
+                    itemId, ReleaseRequest(3), "corr-release-rollback", TestContext.Current.CancellationToken));
+
+            Assert.Equal(ReceivingErrorCodes.PersistenceUnavailable, exception.ErrorCode);
+            Assert.Equal(0, await CountAsync(connectionString, "receiving.receiving_release_decision"));
+            Assert.Equal(auditBefore, await CountAsync(connectionString, "receiving.audit_pending"));
+            Assert.Equal(historyBefore, await CountAsync(connectionString, "receiving.received_item_state_history"));
+            Assert.Equal("QUARANTINED", await ScalarStringAsync(connectionString, "select state from receiving.received_item limit 1"));
+            Assert.Equal("3", await ScalarStringAsync(connectionString, "select version::text from receiving.received_item limit 1"));
+            Assert.Equal(1, await CountAsync(connectionString, "receiving.audit_attempt"));
+        }
+        finally
+        {
+            await ExecuteAsync(connectionString, """
+                drop trigger if exists trg_fail_release_outbox on receiving.outbox;
+                drop function if exists receiving.fail_release_outbox();
+                """);
+        }
+    }
+
+    [Fact]
+    public async Task Unauthorized_release_is_rejected_and_hash_audited()
+    {
+        var connectionString = ConnectionString();
+        await PrepareAsync(connectionString);
+        await using var setupProvider = BuildProvider(
+            connectionString, ReceivingAuthorizationDecision.AllowedFor("LAB-A"), "identity-a");
+        var itemId = await RegisterOneAsync(setupProvider);
+        using (var setupScope = setupProvider.CreateScope())
+        {
+            var identity = setupScope.ServiceProvider.GetRequiredService<IIdentityAssessmentService>();
+            await identity.AddObservationAsync(itemId, Observation(1), "corr-observe", TestContext.Current.CancellationToken);
+            await identity.SubmitDecisionAsync(itemId, Decision(2), "corr-match", TestContext.Current.CancellationToken);
+        }
+
+        await using var deniedProvider = BuildProvider(
+            connectionString, ReceivingAuthorizationDecision.Denied, "quality-a");
+        using var deniedScope = deniedProvider.CreateScope();
+        var exception = await Assert.ThrowsAsync<ReceivingDomainException>(() =>
+            deniedScope.ServiceProvider.GetRequiredService<IReceivingReleaseService>().SubmitAsync(
+                itemId, ReleaseRequest(3), "corr-release-denied", TestContext.Current.CancellationToken));
+
+        Assert.Equal(ReceivingErrorCodes.ReleaseNotAuthorized, exception.ErrorCode);
+        Assert.Equal(0, await CountAsync(connectionString, "receiving.receiving_release_decision"));
+        Assert.Equal(1, await CountAsync(connectionString, "receiving.audit_attempt"));
+        var target = await ScalarStringAsync(connectionString, "select target_hash from receiving.audit_attempt limit 1");
+        Assert.Equal(64, target.Length);
+        Assert.DoesNotContain(itemId, target, StringComparison.Ordinal);
+    }
+
     private static async Task<(IdentityAssessmentResult? Result, ReceivingDomainException? Error)> CaptureAsync(
         Task<IdentityAssessmentResult> task)
     {
@@ -392,6 +615,19 @@ public sealed class IdentityAssessmentPersistenceTests
     {
         try { return (await task, null); }
         catch (ReceivingDomainException exception) { return (null, exception); }
+    }
+
+    private static async Task<(ReceivingReleaseDecisionResult? Result, ReceivingDomainException? Error)> CaptureReleaseAsync(
+        Task<ReceivingReleaseDecisionResult> task)
+    {
+        try
+        {
+            return (await task, null);
+        }
+        catch (ReceivingDomainException exception)
+        {
+            return (null, exception);
+        }
     }
 
     private static ServiceProvider BuildProvider(
@@ -491,6 +727,11 @@ public sealed class IdentityAssessmentPersistenceTests
         ["object://exception/decision"], [new string('d', 64)], string.Empty,
         "Authorized reviewer rejected the received item.", ReceivingExceptionContract.MatrixVersion);
 
+    private static SubmitReceivingReleaseDecisionRequest ReleaseRequest(long expectedVersion) => new(
+        expectedVersion,
+        ReceivingReleaseContract.RuleSetVersion,
+        "Quality reviewer confirmed identity and exception eligibility.");
+
     private static string ConnectionString() =>
         Environment.GetEnvironmentVariable("OPENLIMS_TEST_POSTGRES_CONNECTION")
         ?? throw new InvalidOperationException("OPENLIMS_TEST_POSTGRES_CONNECTION is required for receiving integration tests.");
@@ -501,8 +742,10 @@ public sealed class IdentityAssessmentPersistenceTests
         await ReceivingLabelIdentityMigrator.ApplyAsync(connectionString, TestContext.Current.CancellationToken);
         await ReceivingIdentityAssessmentMigrator.ApplyAsync(connectionString, TestContext.Current.CancellationToken);
         await ReceivingExceptionMigrator.ApplyAsync(connectionString, TestContext.Current.CancellationToken);
+        await ReceivingReleaseMigrator.ApplyAsync(connectionString, TestContext.Current.CancellationToken);
         await ExecuteAsync(connectionString, """
             truncate table
+              receiving.receiving_release_decision,
               receiving.receiving_exception_decision,
               receiving.receiving_exception_state,
               receiving.receiving_exception,

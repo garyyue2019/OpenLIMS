@@ -57,3 +57,8 @@
 - 用户于 2026-07-25 明确授权提交、推送并创建 PR。
 - 发布前重新执行门禁：`validate` 通过（82 个规格版本）、`source-status` 为 CURRENT、`impact` 为空、`ATC-REC-003@2.0.0` 为 READY。
 - 工作区仍为 DEV-005 的 48 个允许范围文件，远端为 `https://github.com/garyyue2019/OpenLIMS.git`。
+- 创建提交 `0accbc2`（`feat(receiving): deliver DEV-005 identity assessment`）并推送 `codex/dev-005-isolation-identity-assessment`。
+- 已创建 PR #5：`https://github.com/garyyue2019/OpenLIMS/pull/5`，非 Draft 且可自动合并。
+- 首轮 CI：`deterministic-specification-gate` 与 `verify-module-onboarding-windows` 通过；主 `verify` 的后端构建/测试、三个 task profile 和依赖审计均通过，但 `Check frontend` 失败，开始定位作业日志。
+- 主 `verify` 的失败在本地用精确命令复现为 `pnpm audit --audit-level high`；lint、typecheck、38/38 单元测试和生产构建仍通过。
+- 修复需要修改前端依赖清单或根锁文件，二者均不在 `ATC-REC-003@2.0.0` allowed_paths；未降低审计门禁，也未把依赖治理混入 DEV-005。

@@ -44,7 +44,8 @@ Phase 5（提交与发布）
 ### Phase 5: 提交与发布
 
 - [x] 等待用户明确授权提交和发布
-- [ ] 提交、推送、创建 PR 并等待 CI
+- [x] 提交、推送并创建 PR #5
+- [ ] 等待 CI 全部通过（现被任务范围外的既有前端传递依赖高危审计阻断）
 - **Status:** in_progress
 
 ## Decisions
@@ -68,3 +69,6 @@ Phase 5（提交与发布）
 | Python 仓库契约未把生成的 `ATC-REC-003__v2.0.0.md` 加入期望任务清单 | 1 | 在任务卡允许的 `tests/test_repository_contract.py` 同步精确文件名后重跑全部门禁 |
 | 同一仓库契约仍使用 DEV-005 前的 Feature 总数 23 | 2 | 更新为精确总数 26，并显式断言三份新增 Feature 名称，未放宽其他检查 |
 | 记录上述门禁错误时补丁上下文少了一个空格 | 1 | 使用计划文件中的精确原文重试，未影响业务或测试文件 |
+| PR #5 首轮主 `verify` CI 在 `Check frontend` 步骤失败 | 1 | 后端、Receiving/Labeling task profiles 均已通过；正在读取受保护作业日志定位前端 CI 与本地差异 |
+| GitHub 作业日志公开 API 要求仓库管理权限，凭据读取也被本地安全边界拒绝 | 1 | 未输出或持久化凭据；依据公开步骤定位到前端检查，并用本地精确 CI 命令复现根因 |
+| `pnpm audit --audit-level high` 新报告既有传递依赖高危漏洞 | 1 | 依赖清单/锁文件不在 DEV-005 allowed_paths；不扩卡、不降门禁，记录为需要单独批准的依赖治理阻断 |

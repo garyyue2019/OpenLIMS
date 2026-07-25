@@ -56,3 +56,10 @@
 - 前端客户端测试惯例要求校验 Bearer token、精确路径、稳定服务端错误码以及请求体不包含 `organizationGroupId`；DEV-005 客户端沿用此门禁。
 - 当前变更全部落在 `ATC-REC-003@2.0.0` 的允许范围：Receiving 公共契约/实现/API Host、Receiving 三类测试、Web、批准规格及生成输出、仓库契约测试和任务计划；未修改 Labeling 私有实现或已发布迁移。
 - 架构测试会扫描 Receiving 源码中的 SQL schema 引用并要求全部为 `receiving`；DEV-005 新持久化只访问该私有 schema，跨模块消费者仅能通过 `IReceivingEligibilityPort` 公共契约调用。
+
+## Publication findings
+
+- PR #5 首轮 `deterministic-specification-gate` 和 Windows 模块验证通过，主 `verify` 的后端构建、137 项测试、三个任务 profile 和依赖审计步骤也通过。
+- 主 `verify` 只在组合的 `Check frontend` 步骤失败；本地逐项复现确认 lint、typecheck、38 项单元测试和生产构建通过，失败来自 `pnpm audit --audit-level high`。
+- 2026-07-25 的包审计新报告 `brace-expansion <=5.0.7` 高危拒绝服务公告，路径来自既有 `eslint/minimatch` 与 `@vue/test-utils/js-beautify/editorconfig/minimatch` 传递依赖；DEV-005 未修改任何依赖清单或锁文件。
+- 合规修复需要更新 `apps/web/package.json` 或根 `pnpm-lock.yaml`，但两者不在 `ATC-REC-003@2.0.0` 的 allowed_paths。不能在本卡内擅自扩展范围，也不能修改 CI 跳过高危审计。

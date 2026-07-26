@@ -1,0 +1,21 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-TEX-002",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "互斥裁样与样品不足失败关闭规则",
+  "summary": "纯规则计算试样需求（平行数+复测预留+留样），互斥破坏组之间禁止共享裁片，可用面积不足时按款色、部位、方向和项目输出缺口并阻断；未知语义一律 UNKNOWN。",
+  "owners": ["实验室技术负责人", "质量负责人", "产品负责人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "OPS-TEXTILE-002"}
+  ],
+  "depends_on": ["ED-001@2.0.0", "BUS-TEX-001@1.0.0"],
+  "affects": ["textile", "sample-requirement", "destructive-exclusion", "rules"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "enabled_pack", "applicability": "DISABLED", "condition": "纺织行业包纳入发布并经 OD-001 后继决定批准后启用；本切片仅契约与序列化层"},
+  "approval_evidence": "用户于 2026-07-26 明确选择‘纺织降级为契约切片’并在全流程授权下批准。",
+  "invariants": ["每行所需试样数等于平行数加复测预留加留样", "共享组内出现不同互斥破坏组或多条破坏性行即拒绝（不得以同一裁片满足互斥任务）", "仅非破坏性且规格一致的行允许共享试样（一试样多次非破坏性使用）", "按款号、颜色、部件、部位聚合需求面积并与可用面积比较，不足即 INSUFFICIENT 并输出含方向和项目的缺口明细", "规则集版本或方向未知一律 UNKNOWN 并等同阻断", "规则为纯函数，无 IO、无时钟、无随机"]
+}

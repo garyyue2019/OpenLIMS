@@ -1,0 +1,22 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "acceptance",
+  "id": "AC-TEXTILE-001",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "样品不足与互斥裁样契约验收",
+  "summary": "同一面料两个互斥破坏项目、三个平行加复测预留，可用面积不足时按款色、部位、方向和项目计算缺口并阻断；互斥任务不得共享同一裁片；本验收在纯契约层以确定性测试表达。",
+  "owners": ["实验室技术负责人", "质量负责人", "QA负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "AC-TEXTILE-001"}],
+  "depends_on": ["BUS-TEX-001@1.0.0", "BUS-TEX-002@1.0.0", "BUS-TEX-003@1.0.0"],
+  "affects": ["textile", "sample-requirement", "destructive-exclusion", "automated-test"],
+  "change_class": "major",
+  "approval_evidence": "用户于 2026-07-26 明确选择‘纺织降级为契约切片’并在全流程授权下批准。",
+  "scenario": {
+    "given": ["同一块面料的两个互斥破坏项目需求行", "每行三个平行并含复测预留和留样", "该款色部位的可用面积不足以满足全部需求"],
+    "when": ["以纯规则计算样品需求与充足性", "尝试声明跨互斥组的裁片共享", "以未知方向或规则集版本重复计算"],
+    "then": ["结果为 INSUFFICIENT 且缺口按款号、颜色、部件、部位聚合并列明方向与项目", "跨互斥组共享被拒绝，不得以同一裁片满足互斥任务", "非破坏性同规格行允许共享试样", "未知方向或规则集版本返回 UNKNOWN 并等同阻断", "序列化往返保持字段与形状冻结"]
+  },
+  "automation": ["纯规则确定性单元断言", "JSON 序列化往返与形状冻结测试", "互斥共享拒绝测试", "缺口聚合与明细测试", "UNKNOWN 失败关闭测试", "CuttingPlan 结构校验测试"]
+}

@@ -280,6 +280,29 @@
       "status": "approved",
       "title": "集团内收样多维越权防护"
     },
+    "AC-TEXTILE-001@1.0.0": {
+      "affects": [
+        "textile",
+        "sample-requirement",
+        "destructive-exclusion",
+        "automated-test"
+      ],
+      "depends_on": [
+        "BUS-TEX-001@1.0.0",
+        "BUS-TEX-002@1.0.0",
+        "BUS-TEX-003@1.0.0"
+      ],
+      "fingerprint": "5bf4aeacf8ab8b43294e12aac43287935dfd0280736a36d9aeb4ccca9d3125e6",
+      "kind": "acceptance",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-TEXTILE-001"
+        }
+      ],
+      "status": "approved",
+      "title": "样品不足与互斥裁样契约验收"
+    },
     "ATC-ALLOC-001@1.0.0": {
       "affects": [
         "allocation",
@@ -1435,6 +1458,48 @@
       "status": "approved",
       "title": "实施 DEV-008 ScopeLine 生产可用门禁"
     },
+    "ATC-TEX-001@1.0.0": {
+      "affects": [
+        "textile",
+        "sample-requirement",
+        "cutting-plan",
+        "contracts",
+        "serialization",
+        "automated-test"
+      ],
+      "depends_on": [
+        "ED-001@2.0.0",
+        "OD-002@1.0.0",
+        "OD-027@1.0.0",
+        "BUS-TEX-001@1.0.0",
+        "BUS-TEX-002@1.0.0",
+        "BUS-TEX-003@1.0.0",
+        "AC-TEXTILE-001@1.0.0",
+        "NFR-ARCH-001@2.0.0"
+      ],
+      "fingerprint": "2174f31c3221485eb9866f1a3a268288193e8116e21ae591ba57e36d322f0750",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TEXTILE-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TEXTILE-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TEXTILE-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-TEXTILE-001"
+        }
+      ],
+      "status": "approved",
+      "title": "实施 DEV-011 纺织样品需求未来适配契约切片"
+    },
     "BUS-ALLOC-001@1.0.0": {
       "affects": [
         "allocation",
@@ -1725,6 +1790,76 @@
       ],
       "status": "approved",
       "title": "未经批准候选不得获得生产资格"
+    },
+    "BUS-TEX-001@1.0.0": {
+      "affects": [
+        "textile",
+        "sample-requirement",
+        "contracts",
+        "serialization"
+      ],
+      "depends_on": [
+        "ED-001@2.0.0",
+        "OD-027@1.0.0"
+      ],
+      "fingerprint": "035fe26c8d8921658162e036e365703cc6f47bad60360ffef99be036fbacc391",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TEXTILE-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TEXTILE-002"
+        }
+      ],
+      "status": "approved",
+      "title": "纺织样品需求契约模型"
+    },
+    "BUS-TEX-002@1.0.0": {
+      "affects": [
+        "textile",
+        "sample-requirement",
+        "destructive-exclusion",
+        "rules"
+      ],
+      "depends_on": [
+        "ED-001@2.0.0",
+        "BUS-TEX-001@1.0.0"
+      ],
+      "fingerprint": "c03383bc9852f7685df875ffe223caa81adf52b37792825fa8e8900e7b9a8ef0",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TEXTILE-002"
+        }
+      ],
+      "status": "approved",
+      "title": "互斥裁样与样品不足失败关闭规则"
+    },
+    "BUS-TEX-003@1.0.0": {
+      "affects": [
+        "textile",
+        "cutting-plan",
+        "contracts",
+        "serialization"
+      ],
+      "depends_on": [
+        "ED-001@2.0.0",
+        "BUS-TEX-001@1.0.0"
+      ],
+      "fingerprint": "f727ac469a11dc65979ab15f3eb5aec1bb47c1212e1fa482bd93f91351ee654a",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TEXTILE-003"
+        }
+      ],
+      "status": "approved",
+      "title": "CuttingPlan 序列化契约"
     },
     "ED-001@0.1.0": {
       "affects": [

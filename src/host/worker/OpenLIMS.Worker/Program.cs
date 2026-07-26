@@ -3,6 +3,7 @@ using OpenLIMS.BuildingBlocks.Platform;
 using OpenLIMS.Contracts.Labeling;
 using OpenLIMS.Contracts.Platform;
 using OpenLIMS.Modules.Allocation;
+using OpenLIMS.Modules.Billing;
 using OpenLIMS.Modules.Batch;
 using OpenLIMS.Modules.Labeling;
 using OpenLIMS.Modules.Quantity;
@@ -31,7 +32,8 @@ IOpenLimsServerModule[] modules =
     new QuantityModule(postgresConnectionString),
     new AllocationModule(postgresConnectionString),
     new BatchModule(postgresConnectionString),
-    new ResultModule(postgresConnectionString)
+    new ResultModule(postgresConnectionString),
+    new BillingModule(postgresConnectionString)
 ];
 var moduleCatalog = OpenLimsModuleCatalog.Create(modules);
 

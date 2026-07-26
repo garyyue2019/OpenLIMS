@@ -1,0 +1,19 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-BILL-002",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "零金额证据与原因",
+  "summary": "免费项必须生成零金额计费证据并记录原因；零金额与正常金额证据同等唯一、同等不可改写。",
+  "owners": ["财务负责人", "质量负责人", "产品负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "FIN-BILL-003"}],
+  "depends_on": ["ATC-PLT-003@1.0.0", "BUS-BILL-001@1.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0"],
+  "affects": ["billing", "audit"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "ENABLED", "condition": "DEV-015 唯一计费事实切片启用"},
+  "approval_evidence": "用户于 2026-07-26 明确选择'跳到 BILL'并在全流程授权下批准本切片。",
+  "invariants": ["金额为零的证据必须携带非空零金额原因", "非零金额证据不得携带零金额原因", "零金额证据参与相同的唯一性约束与不可变保证"]
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-BILL-003",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "正负调整证据更正",
+  "summary": "已确认计费证据不可修改或删除；更正只能通过追加引用原证据的正负调整证据完成，调整链全部保留。",
+  "owners": ["财务负责人", "质量负责人", "QA负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "FIN-BILL-004"}],
+  "depends_on": ["ATC-PLT-003@1.0.0", "BUS-BILL-001@1.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0"],
+  "affects": ["billing", "versioning", "audit"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "ENABLED", "condition": "DEV-015 唯一计费事实切片启用"},
+  "approval_evidence": "用户于 2026-07-26 明确选择'跳到 BILL'并在全流程授权下批准本切片。",
+  "invariants": ["计费证据与调整证据创建后不可修改或删除", "调整必须引用存在的原证据并携带原因", "调整金额可正可负但不得为零", "调整不改写原证据，净额由消费方按链计算"]
+}

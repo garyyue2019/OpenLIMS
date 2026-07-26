@@ -54,3 +54,5 @@
 - 借助本地实 PostgreSQL 首次完成全解决方案 13 个测试项目共 208 个用例全部通过，含 Platform 2/2、Receiving 22/22、Labeling 6/6、Scope 7/7 四组数据库集成回归。
 - impact 复核为空；工作区仍为路径审计确认的 40 个变更文件，无 allowed_paths 之外改动。
 - Phase 6 门禁全部完成；按约束等待用户的提交/推送指令。
+- 用户指示提交并推送；已提交 `d84a79d`（59 个文件，全部在 allowed_paths 内，无构建产物），推送到 `origin/codex/dev-008-scopeline-gate`。
+- 本机无 `gh` CLI；使用 git 凭据经 GitHub API 创建 PR：https://github.com/garyyue2019/OpenLIMS/pull/8。Phase 6 完成，等待远端 CI 与合并。

@@ -1,0 +1,22 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "acceptance",
+  "id": "AC-BATCH-001",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "批次 QC 影响传播",
+  "summary": "分析批包含三个客户试样和一组 QC，QC 失败影响整个运行时必须冻结全部受影响成员，保留原批次和数据，通过批准的新运行处理；不得只重开其中一个有利结果。",
+  "owners": ["实验室技术负责人", "质量负责人", "QA负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "AC-BATCH-001"}],
+  "depends_on": ["OD-030@1.0.0", "BUS-BATCH-001@1.0.0", "BUS-BATCH-002@1.0.0", "BUS-BATCH-003@1.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0"],
+  "affects": ["batch", "qc", "freeze-propagation", "audit", "automated-test"],
+  "change_class": "major",
+  "approval_evidence": "用户于 2026-07-26 批准 OD-030 最小口径并在全流程授权下批准本切片。",
+  "scenario": {
+    "given": ["一个分析批包含来自三个不同委托的试样成员和一个批准 QC 样成员", "全部试样成员均经 AllocationStatusPort ALLOWED 且版本固定", "QC 失败影响整个运行"],
+    "when": ["提交 QC_FAILURE 冻结事件", "冻结后尝试新增成员、追加证据和查询状态", "以批准的新运行引用记录后续处理"],
+    "then": ["整批全部成员被冻结且冻结事件列明原因和影响成员数", "原批次、成员与外部证据引用全部保留且数据库拒绝改写", "冻结后新增成员与证据被拒绝", "状态查询返回 BLOCKED 且不得只重开单个有利结果", "冻结、审计和 Outbox 同一事务提交或整体回滚"]
+  },
+  "automation": ["领域规则单元测试", "HTTP 与公共端口契约测试", "PostgreSQL 事务与并发测试", "跨模块分配门禁集成测试", "客户隔离与成员归属测试", "不可变历史与冻结传播测试", "审计与 Outbox 回滚测试", "UNKNOWN 失败关闭测试"]
+}

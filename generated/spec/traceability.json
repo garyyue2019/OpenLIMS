@@ -4,6 +4,33 @@
     "generator": "openlims-specgen@0.1.0"
   },
   "specs": {
+    "AC-BATCH-001@1.0.0": {
+      "affects": [
+        "batch",
+        "qc",
+        "freeze-propagation",
+        "audit",
+        "automated-test"
+      ],
+      "depends_on": [
+        "OD-030@1.0.0",
+        "BUS-BATCH-001@1.0.0",
+        "BUS-BATCH-002@1.0.0",
+        "BUS-BATCH-003@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "6edaaa437d6e66bdb92c3d067c6626157ab1cf8cedaea72b1275c80efe888d1a",
+      "kind": "acceptance",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-BATCH-001"
+        }
+      ],
+      "status": "approved",
+      "title": "批次 QC 影响传播"
+    },
     "AC-DEPLOY-001@0.1.0": {
       "affects": [
         "deployment-test",
@@ -383,6 +410,58 @@
       ],
       "status": "approved",
       "title": "实施 DEV-010 任务分配资格"
+    },
+    "ATC-BATCH-001@1.0.0": {
+      "affects": [
+        "batch",
+        "allocation",
+        "qc",
+        "raw-data",
+        "authorization",
+        "audit",
+        "outbox",
+        "automated-test"
+      ],
+      "depends_on": [
+        "ATC-PLT-003@1.0.0",
+        "ED-001@2.0.0",
+        "OD-002@1.0.0",
+        "OD-030@1.0.0",
+        "ATC-ALLOC-001@1.0.0",
+        "BUS-BATCH-001@1.0.0",
+        "BUS-BATCH-002@1.0.0",
+        "BUS-BATCH-003@1.0.0",
+        "AC-BATCH-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0",
+        "NFR-ARCH-001@2.0.0"
+      ],
+      "fingerprint": "6028422fb5b08d932fa1a3d310e0513b436edee083e38cb2ab109cfcda6df3af",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-030"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-BATCH-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-BATCH-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-BATCH-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-BATCH-001"
+        }
+      ],
+      "status": "approved",
+      "title": "实施 DEV-013 制备/分析批最小切片"
     },
     "ATC-PLT-000@0.1.0": {
       "affects": [
@@ -1645,6 +1724,83 @@
       "status": "approved",
       "title": "并发分配与破坏性互斥阻断"
     },
+    "BUS-BATCH-001@1.0.0": {
+      "affects": [
+        "batch",
+        "execution",
+        "versioning",
+        "authorization",
+        "audit",
+        "outbox"
+      ],
+      "depends_on": [
+        "ATC-PLT-003@1.0.0",
+        "OD-030@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "4e5e753adce87a397807c48fa0db88200bb342bf7ce316648dada084c42683d1",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-BATCH-001"
+        }
+      ],
+      "status": "approved",
+      "title": "类型化不可变批次事实"
+    },
+    "BUS-BATCH-002@1.0.0": {
+      "affects": [
+        "batch",
+        "allocation",
+        "customer-isolation",
+        "raw-data",
+        "audit"
+      ],
+      "depends_on": [
+        "ATC-PLT-003@1.0.0",
+        "OD-030@1.0.0",
+        "ATC-ALLOC-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "021ecf7a878e616ecd5d76526786d90919735dc87a08013360289a8060fca7c4",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-BATCH-002"
+        }
+      ],
+      "status": "approved",
+      "title": "跨委托成员、客户隔离与外部证据引用"
+    },
+    "BUS-BATCH-003@1.0.0": {
+      "affects": [
+        "batch",
+        "qc",
+        "freeze-propagation",
+        "audit",
+        "outbox"
+      ],
+      "depends_on": [
+        "ATC-PLT-003@1.0.0",
+        "OD-030@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "0293aa7be24256521d99c4b4169febb7ef9b261d31a2ae8ce33b37e87e0e7a85",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-BATCH-003"
+        }
+      ],
+      "status": "approved",
+      "title": "批次冻结与全量影响传播"
+    },
     "BUS-PROD-003@0.1.0": {
       "affects": [
         "product",
@@ -2435,6 +2591,30 @@
       ],
       "status": "proposed",
       "title": "各方法族最小执行记录与外部系统边界"
+    },
+    "OD-030@1.0.0": {
+      "affects": [
+        "execution",
+        "batch",
+        "qc",
+        "raw-data",
+        "instrument-integration"
+      ],
+      "depends_on": [
+        "ED-001@2.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "15d19e324c5b6f1dffa8d2becb7714c4e6f75e9d05ca325e35bae3636bebe830",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-030"
+        }
+      ],
+      "status": "approved",
+      "title": "DEV-013 最小执行记录与外部系统边界"
     },
     "OD-031@0.1.0": {
       "affects": [

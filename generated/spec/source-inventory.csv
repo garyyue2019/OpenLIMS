@@ -7,7 +7,7 @@ PRD-MAIN,AC-ALLOC-001,acceptance-block,19.4 发票、应收和对账,1247,核销
 PRD-MAIN,AC-AR-001,acceptance-block,19.4 发票、应收和对账,1241,唯一余额影响,67c2767b800c68391ce3e922a038e6a7c8fb6b5235e361591e66a025d729e1b1,
 PRD-MAIN,AC-AUTO-001,acceptance-block,19.2 收样、拆解和谱系,1202,DVP&R 多对多闭环,b6146605fc8a267d1a4a472d1d509239861ae4a80c98d6a5b1be13b8d2fa8b42,
 PRD-MAIN,AC-AUTO-002,acceptance-block,19.2 收样、拆解和谱系,1205,运行中干预和配置重建,d934bb6d7c5cab3506d6fc1eabb2e6e22fb456bcf58749a804f4706b940c8fd0,
-PRD-MAIN,AC-BATCH-001,acceptance-block,19.2 收样、拆解和谱系,1160,批次 QC 影响传播,01cc2441ea0aa368de478813c958a4c96fa5ce726341f04f899e3ea10d111c6e,
+PRD-MAIN,AC-BATCH-001,acceptance-block,19.2 收样、拆解和谱系,1160,批次 QC 影响传播,01cc2441ea0aa368de478813c958a4c96fa5ce726341f04f899e3ea10d111c6e,AC-BATCH-001@1.0.0;ATC-BATCH-001@1.0.0
 PRD-MAIN,AC-BILL-001,acceptance-block,19.4 发票、应收和对账,1232,防重复计费,edba3d5f98b453afe5efd126f74962ebe1c577a35a597ffd81a19fb37b3a0890,
 PRD-MAIN,AC-COMP-001,acceptance-block,19.3 检测、QC 和报告,1219,复合样结果归属,52f161f5a52a7cc3c697750dae06887ca178c5e2159aadc1c20ebfb2571e37ad,
 PRD-MAIN,AC-COMPOSE-001,acceptance-block,19.2 收样、拆解和谱系,1184,多行业包组合,530241a9ed933edc59b3eaa0976f4357e11afaacd438df87ed6b96c02aab86ba,
@@ -246,7 +246,7 @@ PRD-MAIN,OD-026,table-row,23. 明确待决策事项,1472,要求/标准内容来�
 PRD-MAIN,OD-027,table-row,23. 明确待决策事项,1473,TestScopeMatrix 最小范围行粒度、必需维度、审批岗位和报价/任务/报告变更影响规则,eb18a5b0d1428c2a736482c1234855f9a1fb7940f0903d5998b6a61685bd08f5,ATC-SCP-001@1.0.0;OD-027@0.1.0;OD-027@1.0.0
 PRD-MAIN,OD-028,table-row,23. 明确待决策事项,1474,各行业代表性/最不利覆盖允许的危险域、项目、证据、批准岗位，以及何时自动停止后续复用、何时进入待评估的规则,555ef67a2f0c76f32dd55edafafa328854358d6b3b962882f0d33d9810beca21,
 PRD-MAIN,OD-029,table-row,23. 明确待决策事项,1475,认可范围的数据粒度、权威来源、混合认可报告展示和行级签发门禁,fcd51de1b1bd263119ceb86f45a59d766730784adc2167d883fd3d1f80e53ace,OD-029@0.1.0
-PRD-MAIN,OD-030,table-row,23. 明确待决策事项,1476,各方法族最小执行记录、制备/分析批、QC、原始数据与 ELN/CDS 的权威边界,9e114c6bc26b6bbdcefde2f3427acaaf9cc7ba9855d8196f5be7b116cb96c321,OD-030@0.1.0
+PRD-MAIN,OD-030,table-row,23. 明确待决策事项,1476,各方法族最小执行记录、制备/分析批、QC、原始数据与 ELN/CDS 的权威边界,9e114c6bc26b6bbdcefde2f3427acaaf9cc7ba9855d8196f5be7b116cb96c321,ATC-BATCH-001@1.0.0;OD-030@0.1.0;OD-030@1.0.0
 PRD-MAIN,OD-031,table-row,23. 明确待决策事项,1477,首期条码/移动流程和首批仪器/文件接口清单，按结果数据量、人工工时和风险排序,b9bc81a6032f13243296caeab9647a00118b59f86b75ac90379ed2296ea69fcc,ATC-REC-002@0.1.0;ATC-REC-002@1.0.0;ATC-REC-002@2.0.0;OD-031@0.1.0;OD-031@1.0.0
 PRD-MAIN,OD-032,table-row,23. 明确待决策事项,1478,多方参与角色、品牌/客户协议、报告访问、付款和数据权限模型,e276ce596f45807ac804b22f0159514255b24f383a0e15822dcdcebcec9deb88,OD-032@0.1.0
 PRD-MAIN,OD-033,table-row,23. 明确待决策事项,1479,核心 LIMS 与可选商业运营包边界；是否建设运营应收取决于现有 ERP/财务能力和客户产品战略,906e134c8a105aca68a7f4a0bc81cff920b03d38144d051becb98e49e7e87a7f,
@@ -261,9 +261,9 @@ PRD-MAIN,OPS-AUTO-003,table-row,12.4 收样、身份和拆解,783,TestSequence �
 PRD-MAIN,OPS-AUTO-004,table-row,12.4 收样、身份和拆解,784,长周期运行必须记录 TestProfile、设定/实际曲线、Cycle、Channel/MeasurementPoint、Checkpoint、报警和校准有效性；高频数据可存外部时序库但须有不可变清单和哈希,c25c7b8b1d6054959c309b6b28c7b8bf59de354186dea07d16a32731d5dfd27a,
 PRD-MAIN,OPS-AUTO-005,table-row,12.4 收样、身份和拆解,785,运行中的刷写、维修、换件、工装/线束/负载变化必须形成 Intervention/RepairEvent 和新的适用配置基线；没有 ResumeDecision 不得继续,e7f63aeee4dc9e5633737ae8356dda7a31404b54ed6e896e58b05aae9e3330c9,
 PRD-MAIN,OPS-AUTO-006,table-row,12.4 收样、身份和拆解,786,前/后功能检查、失败事件、偏离批准、客户见证和中期交付物必须引用具体样件、步骤、配置和证据,9eb957e04655f6be045216218280532318f44989a2048f549b26de500edd6688,
-PRD-MAIN,OPS-BATCH-001,table-row,12.5 谱系、数量和任务分配,807,系统必须分别管理制备批、预处理批、分析批、仪器运行和客户委托；不得使用一个通用 ExecutionRun 混淆不同批次责任,706543bad1d3905cde3590f878c01bb7124104b9823c2c291b45d5ad124678e4,
-PRD-MAIN,OPS-BATCH-002,table-row,12.5 谱系、数量和任务分配,808,系统必须允许一个内部批次包含多个委托试样和批准 QC 样，并保持客户隔离、样品位置和结果归属,b7a46afbf41f5913856eeaea8f09f948a5299ff41bf3aba5050ae64da66d363c,
-PRD-MAIN,OPS-BATCH-003,table-row,12.5 谱系、数量和任务分配,809,批次 QC 失败、环境超差或校准失效时，系统必须确定并冻结全部受影响任务和结果,c30f659da4d96c40a2fd6e2341e6734e1c3fa0cb8d5b7a7cabe437efeb14e84f,
+PRD-MAIN,OPS-BATCH-001,table-row,12.5 谱系、数量和任务分配,807,系统必须分别管理制备批、预处理批、分析批、仪器运行和客户委托；不得使用一个通用 ExecutionRun 混淆不同批次责任,706543bad1d3905cde3590f878c01bb7124104b9823c2c291b45d5ad124678e4,ATC-BATCH-001@1.0.0;BUS-BATCH-001@1.0.0
+PRD-MAIN,OPS-BATCH-002,table-row,12.5 谱系、数量和任务分配,808,系统必须允许一个内部批次包含多个委托试样和批准 QC 样，并保持客户隔离、样品位置和结果归属,b7a46afbf41f5913856eeaea8f09f948a5299ff41bf3aba5050ae64da66d363c,ATC-BATCH-001@1.0.0;BUS-BATCH-002@1.0.0
+PRD-MAIN,OPS-BATCH-003,table-row,12.5 谱系、数量和任务分配,809,批次 QC 失败、环境超差或校准失效时，系统必须确定并冻结全部受影响任务和结果,c30f659da4d96c40a2fd6e2341e6734e1c3fa0cb8d5b7a7cabe437efeb14e84f,ATC-BATCH-001@1.0.0;BUS-BATCH-003@1.0.0
 PRD-MAIN,OPS-COMP-001,table-row,12.5 谱系、数量和任务分配,804,系统必须在创建复合样前校验合同许可、方法许可、代表性批准和物理兼容性,4cce146f52ba1e9df0b3523d5505b88a7430f95207f14fe0136649608011c4ad,
 PRD-MAIN,OPS-COMP-002,table-row,12.5 谱系、数量和任务分配,805,系统必须将复合样结果默认仅归属于复合样,0c9a421943bd38badbf32717c46aec03e23790faa20b337152838e1671402f39,
 PRD-MAIN,OPS-COMP-003,table-row,12.5 谱系、数量和任务分配,806,系统必须在来源样身份失效或隔离后冻结相关复合样、任务和结果,973b3cc7cf6507732b4e37bbf567ff0d9abc3a03f5736fd22fa1689a24f65b1e,

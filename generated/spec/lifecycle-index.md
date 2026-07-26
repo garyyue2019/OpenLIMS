@@ -10,6 +10,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 
 | 逻辑 ID | 版本 | 状态 | 文件 |
 |---|---|---|---|
+| `AC-BATCH-001` | `1.0.0` | `approved` | `spec/acceptance/AC-BATCH-001__v1.0.0.json` |
 | `AC-DEPLOY-001` | `0.1.0` | `in_review` | `spec/acceptance/AC-DEPLOY-001__v0.1.0.json` |
 | `AC-DEPLOY-001` | `1.0.0` | `in_review` | `spec/acceptance/AC-DEPLOY-001__v1.0.0.json` |
 | `AC-ELEC-003` | `1.0.0` | `approved` | `spec/acceptance/AC-ELEC-003__v1.0.0.json` |
@@ -24,6 +25,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `AC-TEXTILE-001` | `1.0.0` | `approved` | `spec/acceptance/AC-TEXTILE-001__v1.0.0.json` |
 | `AC-TEXTILE-003` | `1.0.0` | `approved` | `spec/acceptance/AC-TEXTILE-003__v1.0.0.json` |
 | `ATC-ALLOC-001` | `1.0.0` | `approved` | `spec/stories/ATC-ALLOC-001__v1.0.0.json` |
+| `ATC-BATCH-001` | `1.0.0` | `approved` | `spec/stories/ATC-BATCH-001__v1.0.0.json` |
 | `ATC-PLT-000` | `0.1.0` | `proposed` | `spec/stories/ATC-PLT-000__v0.1.0.json` |
 | `ATC-PLT-000` | `1.0.0` | `proposed` | `spec/stories/ATC-PLT-000__v1.0.0.json` |
 | `ATC-PLT-003` | `1.0.0` | `approved` | `spec/stories/ATC-PLT-003__v1.0.0.json` |
@@ -51,6 +53,9 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `BUS-ALLOC-001` | `1.0.0` | `approved` | `spec/requirements/BUS-ALLOC-001__v1.0.0.json` |
 | `BUS-ALLOC-002` | `1.0.0` | `approved` | `spec/requirements/BUS-ALLOC-002__v1.0.0.json` |
 | `BUS-ALLOC-003` | `1.0.0` | `approved` | `spec/requirements/BUS-ALLOC-003__v1.0.0.json` |
+| `BUS-BATCH-001` | `1.0.0` | `approved` | `spec/requirements/BUS-BATCH-001__v1.0.0.json` |
+| `BUS-BATCH-002` | `1.0.0` | `approved` | `spec/requirements/BUS-BATCH-002__v1.0.0.json` |
+| `BUS-BATCH-003` | `1.0.0` | `approved` | `spec/requirements/BUS-BATCH-003__v1.0.0.json` |
 | `BUS-PROD-003` | `0.1.0` | `in_review` | `spec/requirements/BUS-PROD-003__v0.1.0.json` |
 | `BUS-QTY-001` | `1.0.0` | `approved` | `spec/requirements/BUS-QTY-001__v1.0.0.json` |
 | `BUS-QTY-002` | `1.0.0` | `approved` | `spec/requirements/BUS-QTY-002__v1.0.0.json` |
@@ -86,6 +91,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `OD-027` | `1.0.0` | `approved` | `spec/decisions/OD-027__v1.0.0.json` |
 | `OD-029` | `0.1.0` | `proposed` | `spec/decisions/OD-029__v0.1.0.json` |
 | `OD-030` | `0.1.0` | `proposed` | `spec/decisions/OD-030__v0.1.0.json` |
+| `OD-030` | `1.0.0` | `approved` | `spec/decisions/OD-030__v1.0.0.json` |
 | `OD-031` | `0.1.0` | `proposed` | `spec/decisions/OD-031__v0.1.0.json` |
 | `OD-031` | `1.0.0` | `approved` | `spec/decisions/OD-031__v1.0.0.json` |
 | `OD-032` | `0.1.0` | `proposed` | `spec/decisions/OD-032__v0.1.0.json` |

@@ -21,6 +21,9 @@
   <Folder Name="/contracts/textile/">
     <Project Path="contracts/textile/OpenLIMS.Contracts.Textile/OpenLIMS.Contracts.Textile.csproj" />
   </Folder>
+  <Folder Name="/contracts/batch/">
+    <Project Path="contracts/batch/OpenLIMS.Contracts.Batch/OpenLIMS.Contracts.Batch.csproj" />
+  </Folder>
   <Folder Name="/src/" />
   <Folder Name="/src/building-blocks/">
     <Project Path="src/building-blocks/OpenLIMS.BuildingBlocks.Platform/OpenLIMS.BuildingBlocks.Platform.csproj" />
@@ -48,6 +51,9 @@
   <Folder Name="/src/modules/allocation/">
     <Project Path="src/modules/allocation/OpenLIMS.Modules.Allocation/OpenLIMS.Modules.Allocation.csproj" />
   </Folder>
+  <Folder Name="/src/modules/batch/">
+    <Project Path="src/modules/batch/OpenLIMS.Modules.Batch/OpenLIMS.Modules.Batch.csproj" />
+  </Folder>
   <Folder Name="/tests/" />
   <Folder Name="/tests/architecture/">
     <Project Path="tests/architecture/OpenLIMS.ArchitectureTests/OpenLIMS.ArchitectureTests.csproj" />
@@ -73,6 +79,9 @@
   </Folder>
   <Folder Name="/tests/contract/textile/">
     <Project Path="tests/contract/textile/OpenLIMS.Textile.ContractTests/OpenLIMS.Textile.ContractTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/contract/batch/">
+    <Project Path="tests/contract/batch/OpenLIMS.Batch.ContractTests/OpenLIMS.Batch.ContractTests.csproj" />
   </Folder>
   <Folder Name="/tests/e2e/" />
   <Folder Name="/tests/e2e/smoke/">
@@ -101,6 +110,9 @@
   <Folder Name="/tests/integration/allocation/">
     <Project Path="tests/integration/allocation/OpenLIMS.Allocation.IntegrationTests/OpenLIMS.Allocation.IntegrationTests.csproj" />
   </Folder>
+  <Folder Name="/tests/integration/batch/">
+    <Project Path="tests/integration/batch/OpenLIMS.Batch.IntegrationTests/OpenLIMS.Batch.IntegrationTests.csproj" />
+  </Folder>
   <Folder Name="/tests/unit/" />
   <Folder Name="/tests/unit/platform/">
     <Project Path="tests/unit/platform/OpenLIMS.Platform.UnitTests/OpenLIMS.Platform.UnitTests.csproj" />
@@ -119,5 +131,8 @@
   </Folder>
   <Folder Name="/tests/unit/allocation/">
     <Project Path="tests/unit/allocation/OpenLIMS.Allocation.UnitTests/OpenLIMS.Allocation.UnitTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/unit/batch/">
+    <Project Path="tests/unit/batch/OpenLIMS.Batch.UnitTests/OpenLIMS.Batch.UnitTests.csproj" />
   </Folder>
 </Solution>

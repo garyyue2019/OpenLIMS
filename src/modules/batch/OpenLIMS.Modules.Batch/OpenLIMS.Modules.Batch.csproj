@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>OpenLIMS.Modules.Batch</AssemblyName>
+    <RootNamespace>OpenLIMS.Modules.Batch</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Npgsql" />
+    <ProjectReference Include="../../../../contracts/batch/OpenLIMS.Contracts.Batch/OpenLIMS.Contracts.Batch.csproj" />
+    <ProjectReference Include="../../../../contracts/allocation/OpenLIMS.Contracts.Allocation/OpenLIMS.Contracts.Allocation.csproj" />
+    <ProjectReference Include="../../../building-blocks/OpenLIMS.BuildingBlocks.Platform/OpenLIMS.BuildingBlocks.Platform.csproj" />
+    <ProjectReference Include="../../../../contracts/platform/OpenLIMS.Contracts.Platform/OpenLIMS.Contracts.Platform.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="OpenLIMS.Batch.UnitTests" />
+    <InternalsVisibleTo Include="OpenLIMS.Batch.IntegrationTests" />
+    <InternalsVisibleTo Include="OpenLIMS.Batch.ContractTests" />
+  </ItemGroup>
+</Project>

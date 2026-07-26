@@ -1,0 +1,22 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "decision",
+  "id": "OD-030",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "DEV-013 最小执行记录与外部系统边界",
+  "summary": "LIMS 保存最小执行记录（类型化批次、成员、状态与冻结事实），仪器原始数据与 ELN 记录以不可变版本化外部引用钉住；不做仪器控制，不复制外部权威内容。",
+  "owners": ["实验室负责人", "技术负责人", "质量负责人", "架构负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "OD-030"}],
+  "depends_on": ["ED-001@2.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0"],
+  "affects": ["execution", "batch", "qc", "raw-data", "instrument-integration"],
+  "change_class": "major",
+  "decision_state": "decided",
+  "approval_evidence": "用户于 2026-07-26 明确选择‘LIMS 最小记录+外部引用’作为 OD-030 口径，并在全流程授权下解锁执行链。",
+  "options": ["LIMS最小记录加外部引用", "全部在LIMS执行", "按方法族区分"],
+  "decision": "采用 LIMS 最小记录加外部引用，且与试点行业选择无关。LIMS 权威保存：类型化批次（制备、预处理、分析、仪器运行，禁止通用 ExecutionRun）、批次成员及其委托归属、批次状态与冻结事实、结果采纳所需的最小元数据。仪器原始数据、CDS 序列与 ELN 记录保留在其源系统，以稳定 ID、版本和内容哈希构成的不可变外部证据引用钉入批次；LIMS 不做仪器控制、不复制外部权威内容、不在外部系统之上再建平行记录。引用缺失、哈希不明或版本不匹配一律失败关闭。",
+  "authority_boundary": {"lims": ["批次类型与责任", "成员与客户隔离", "冻结与影响传播", "结果采纳元数据"], "external": ["仪器原始数据文件", "CDS 序列与积分", "ELN 实验记录正文"]},
+  "revision_rule": "批次事实与外部证据引用一经写入不可修改或删除；更正只能追加；权威边界变更必须形成 OD-030 后继版本。",
+  "non_goals": ["仪器驱动与采集控制", "ELN/CDS 内容镜像或解析", "按方法族差异化记录深度（如需按族放宽须后继版本）", "发布、Seal 或部署"]
+}

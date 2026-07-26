@@ -338,6 +338,9 @@
       "openlims.contracts.allocation": {
         "type": "Project"
       },
+      "openlims.contracts.batch": {
+        "type": "Project"
+      },
       "openlims.contracts.labeling": {
         "type": "Project",
         "dependencies": {
@@ -366,6 +369,16 @@
           "OpenLIMS.Contracts.Quantity": "[1.0.0, )",
           "OpenLIMS.Contracts.Receiving": "[1.0.0, )",
           "OpenLIMS.Contracts.Scope": "[1.0.0, )"
+        }
+      },
+      "openlims.modules.batch": {
+        "type": "Project",
+        "dependencies": {
+          "Npgsql": "[10.0.3, )",
+          "OpenLIMS.BuildingBlocks.Platform": "[1.0.0, )",
+          "OpenLIMS.Contracts.Allocation": "[1.0.0, )",
+          "OpenLIMS.Contracts.Batch": "[1.0.0, )",
+          "OpenLIMS.Contracts.Platform": "[1.0.0, )"
         }
       },
       "openlims.modules.labeling": {

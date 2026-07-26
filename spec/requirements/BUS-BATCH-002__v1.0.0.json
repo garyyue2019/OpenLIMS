@@ -1,0 +1,19 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-BATCH-002",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "跨委托成员、客户隔离与外部证据引用",
+  "summary": "一个批次可包含多个委托的试样成员和批准 QC 样；试样成员必须经 Allocation 状态端口 ALLOWED 并固定版本，成员各自固定客户/委托归属；外部原始数据以不可变哈希引用追加。",
+  "owners": ["实验室技术负责人", "质量负责人", "产品负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "OPS-BATCH-002"}],
+  "depends_on": ["ATC-PLT-003@1.0.0", "OD-030@1.0.0", "ATC-ALLOC-001@1.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0"],
+  "affects": ["batch", "allocation", "customer-isolation", "raw-data", "audit"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "ENABLED", "condition": "DEV-013 制备/分析批切片启用"},
+  "approval_evidence": "用户于 2026-07-26 批准 OD-030 最小口径并在全流程授权下批准本切片。",
+  "invariants": ["试样成员创建前必须获得 AllocationStatusPort 对精确分配版本的 ALLOWED，端口决定原样固定进成员", "QC 样成员必须固定批准 QC 引用与版本，不经分配门禁", "每个成员固定自身法人、实验室、客户、委托和产品类别归属，批级操作不得覆盖成员归属", "同一分配在同一批次内只能作为成员出现一次", "外部证据引用固定来源系统、稳定 ID、版本和 SHA-256 内容哈希且只能追加", "平台禁止嵌套事务，分配门禁在批次事务之外评估"]
+}

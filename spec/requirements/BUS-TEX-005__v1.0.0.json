@@ -1,0 +1,21 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-TEX-005",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "预处理超差评估与报告阻断规则",
+  "summary": "纯规则比较计划与实际条件：全部在公差内为 WITHIN_TOLERANCE；任一超差为 OUT_OF_TOLERANCE 并列明逐字段偏差，未获批准引用前报告不允许；规则集版本未知为 UNKNOWN 等同阻断。",
+  "owners": ["实验室技术负责人", "质量负责人", "产品负责人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "OPS-TEXTILE-004"}
+  ],
+  "depends_on": ["ED-001@2.0.0", "BUS-TEX-004@1.0.0"],
+  "affects": ["textile", "preconditioning", "out-of-tolerance", "rules"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "enabled_pack", "applicability": "DISABLED", "condition": "纺织行业包纳入发布并经 OD-001 后继决定批准后启用；本切片仅契约与序列化层"},
+  "approval_evidence": "用户于 2026-07-26 选择‘纺织降级为契约切片’并预先批准后续 TEX-002/003 同样处理；在全流程授权下交付本契约。",
+  "invariants": ["实际值与计划值的偏差逐字段与显式公差比较，不做隐式舍入", "任一字段超差即整体 OUT_OF_TOLERANCE 并输出字段、计划值、实际值和偏差", "OUT_OF_TOLERANCE 且无批准引用时 reportingAllowed=false（影响未批准前不得报告）", "WITHIN_TOLERANCE 时 reportingAllowed=true 且无偏差项", "规则集版本未知返回 UNKNOWN 且 reportingAllowed=false", "规则为纯函数，无 IO、无时钟、无随机"]
+}

@@ -16,6 +16,7 @@
         "AC-SEC-001@0.1.0",
         "AC-SEC-001@1.0.0",
         "AC-TEXTILE-001@1.0.0",
+        "AC-TEXTILE-003@1.0.0",
         "ATC-ALLOC-001@1.0.0",
         "ATC-PLT-000@0.1.0",
         "ATC-PLT-000@1.0.0",
@@ -40,6 +41,7 @@
         "ATC-REC-006@2.0.0",
         "ATC-SCP-001@1.0.0",
         "ATC-TEX-001@1.0.0",
+        "ATC-TEX-003@1.0.0",
         "BUS-ALLOC-001@1.0.0",
         "BUS-ALLOC-002@1.0.0",
         "BUS-ALLOC-003@1.0.0",
@@ -54,6 +56,8 @@
         "BUS-TEX-001@1.0.0",
         "BUS-TEX-002@1.0.0",
         "BUS-TEX-003@1.0.0",
+        "BUS-TEX-004@1.0.0",
+        "BUS-TEX-005@1.0.0",
         "ED-001@0.1.0",
         "ED-001@1.0.0",
         "ED-001@2.0.0",
@@ -130,6 +134,7 @@
         "AC-SEC-001@0.1.0",
         "AC-SEC-001@1.0.0",
         "AC-TEXTILE-001@1.0.0",
+        "AC-TEXTILE-003@1.0.0",
         "ATC-ALLOC-001@1.0.0",
         "ATC-PLT-000@0.1.0",
         "ATC-PLT-000@1.0.0",
@@ -154,6 +159,7 @@
         "ATC-REC-006@2.0.0",
         "ATC-SCP-001@1.0.0",
         "ATC-TEX-001@1.0.0",
+        "ATC-TEX-003@1.0.0",
         "BUS-ALLOC-001@1.0.0",
         "BUS-ALLOC-002@1.0.0",
         "BUS-ALLOC-003@1.0.0",
@@ -168,6 +174,8 @@
         "BUS-TEX-001@1.0.0",
         "BUS-TEX-002@1.0.0",
         "BUS-TEX-003@1.0.0",
+        "BUS-TEX-004@1.0.0",
+        "BUS-TEX-005@1.0.0",
         "ED-001@0.1.0",
         "ED-001@1.0.0",
         "ED-001@2.0.0",
@@ -244,6 +252,7 @@
         "AC-SEC-001@0.1.0",
         "AC-SEC-001@1.0.0",
         "AC-TEXTILE-001@1.0.0",
+        "AC-TEXTILE-003@1.0.0",
         "ATC-ALLOC-001@1.0.0",
         "ATC-PLT-000@0.1.0",
         "ATC-PLT-000@1.0.0",
@@ -268,6 +277,7 @@
         "ATC-REC-006@2.0.0",
         "ATC-SCP-001@1.0.0",
         "ATC-TEX-001@1.0.0",
+        "ATC-TEX-003@1.0.0",
         "BUS-ALLOC-001@1.0.0",
         "BUS-ALLOC-002@1.0.0",
         "BUS-ALLOC-003@1.0.0",
@@ -282,6 +292,8 @@
         "BUS-TEX-001@1.0.0",
         "BUS-TEX-002@1.0.0",
         "BUS-TEX-003@1.0.0",
+        "BUS-TEX-004@1.0.0",
+        "BUS-TEX-005@1.0.0",
         "ED-001@0.1.0",
         "ED-001@1.0.0",
         "ED-001@2.0.0",
@@ -342,7 +354,7 @@
         "SEC-DEPLOY-001@1.0.0",
         "SEC-DEPLOY-001@2.0.0"
       ],
-      "sha256": "4a29015291a8e68d09559e3319452aa675541fe863635b087a7f6e4783d1d188"
+      "sha256": "d6b062e212ac009e8742130dd2237ff4fece8ae50d7ee67a1ddc8ba7947853e4"
     },
     "generated/spec/dependency-graph.mmd": {
       "owners": [
@@ -358,6 +370,7 @@
         "AC-SEC-001@0.1.0",
         "AC-SEC-001@1.0.0",
         "AC-TEXTILE-001@1.0.0",
+        "AC-TEXTILE-003@1.0.0",
         "ATC-ALLOC-001@1.0.0",
         "ATC-PLT-000@0.1.0",
         "ATC-PLT-000@1.0.0",
@@ -382,6 +395,7 @@
         "ATC-REC-006@2.0.0",
         "ATC-SCP-001@1.0.0",
         "ATC-TEX-001@1.0.0",
+        "ATC-TEX-003@1.0.0",
         "BUS-ALLOC-001@1.0.0",
         "BUS-ALLOC-002@1.0.0",
         "BUS-ALLOC-003@1.0.0",
@@ -396,6 +410,8 @@
         "BUS-TEX-001@1.0.0",
         "BUS-TEX-002@1.0.0",
         "BUS-TEX-003@1.0.0",
+        "BUS-TEX-004@1.0.0",
+        "BUS-TEX-005@1.0.0",
         "ED-001@0.1.0",
         "ED-001@1.0.0",
         "ED-001@2.0.0",
@@ -456,7 +472,7 @@
         "SEC-DEPLOY-001@1.0.0",
         "SEC-DEPLOY-001@2.0.0"
       ],
-      "sha256": "a2c0abf4cd6c59731240acaf16597e99a3e0af116a15afa49e723ab58e9746a7"
+      "sha256": "7f95f55e92ac78e276eee0a1875ee1955bcf9d1f60cbd316c33778e29134d4d1"
     },
     "generated/spec/features/AC-DEPLOY-001__v0.1.0.feature": {
       "owners": [
@@ -579,6 +595,15 @@
         "BUS-TEX-003@1.0.0"
       ],
       "sha256": "9f413fd6ca17792c6ef0e1a8d61b8e80c88b7a2449227fe40002cf795b3c5774"
+    },
+    "generated/spec/features/AC-TEXTILE-003__v1.0.0.feature": {
+      "owners": [
+        "AC-TEXTILE-003@1.0.0",
+        "BUS-TEX-003@1.0.0",
+        "BUS-TEX-004@1.0.0",
+        "BUS-TEX-005@1.0.0"
+      ],
+      "sha256": "03b930249ceef26766977c42f5dd22d8e1df460490fa13084da9f1c83a8dd031"
     },
     "generated/spec/features/ATC-ALLOC-001__v1.0.0.feature": {
       "owners": [
@@ -985,6 +1010,20 @@
       ],
       "sha256": "379c68953b4013ead4043f302a761f26aee8988adeb1ffadd448f19d5d14e1f7"
     },
+    "generated/spec/features/ATC-TEX-003__v1.0.0.feature": {
+      "owners": [
+        "AC-TEXTILE-003@1.0.0",
+        "ATC-TEX-003@1.0.0",
+        "BUS-TEX-001@1.0.0",
+        "BUS-TEX-003@1.0.0",
+        "BUS-TEX-004@1.0.0",
+        "BUS-TEX-005@1.0.0",
+        "ED-001@2.0.0",
+        "NFR-ARCH-001@2.0.0",
+        "OD-002@1.0.0"
+      ],
+      "sha256": "141aced8ad929971fde42f21c8c28717d4172bd5804d6f139fc9671d2f75225e"
+    },
     "generated/spec/lifecycle-index.md": {
       "owners": [
         "AC-DEPLOY-001@0.1.0",
@@ -999,6 +1038,7 @@
         "AC-SEC-001@0.1.0",
         "AC-SEC-001@1.0.0",
         "AC-TEXTILE-001@1.0.0",
+        "AC-TEXTILE-003@1.0.0",
         "ATC-ALLOC-001@1.0.0",
         "ATC-PLT-000@0.1.0",
         "ATC-PLT-000@1.0.0",
@@ -1023,6 +1063,7 @@
         "ATC-REC-006@2.0.0",
         "ATC-SCP-001@1.0.0",
         "ATC-TEX-001@1.0.0",
+        "ATC-TEX-003@1.0.0",
         "BUS-ALLOC-001@1.0.0",
         "BUS-ALLOC-002@1.0.0",
         "BUS-ALLOC-003@1.0.0",
@@ -1037,6 +1078,8 @@
         "BUS-TEX-001@1.0.0",
         "BUS-TEX-002@1.0.0",
         "BUS-TEX-003@1.0.0",
+        "BUS-TEX-004@1.0.0",
+        "BUS-TEX-005@1.0.0",
         "ED-001@0.1.0",
         "ED-001@1.0.0",
         "ED-001@2.0.0",
@@ -1097,7 +1140,7 @@
         "SEC-DEPLOY-001@1.0.0",
         "SEC-DEPLOY-001@2.0.0"
       ],
-      "sha256": "6c3f53d658497450ab479eccdc152f39fedd587098c7e817454fe2755600ae36"
+      "sha256": "526c4d9e839d287fe3d3f8c5f46a21c5373c0ef83c98684f38b61c0f85e9292c"
     },
     "generated/spec/readiness-report.md": {
       "owners": [
@@ -1113,6 +1156,7 @@
         "AC-SEC-001@0.1.0",
         "AC-SEC-001@1.0.0",
         "AC-TEXTILE-001@1.0.0",
+        "AC-TEXTILE-003@1.0.0",
         "ATC-ALLOC-001@1.0.0",
         "ATC-PLT-000@0.1.0",
         "ATC-PLT-000@1.0.0",
@@ -1137,6 +1181,7 @@
         "ATC-REC-006@2.0.0",
         "ATC-SCP-001@1.0.0",
         "ATC-TEX-001@1.0.0",
+        "ATC-TEX-003@1.0.0",
         "BUS-ALLOC-001@1.0.0",
         "BUS-ALLOC-002@1.0.0",
         "BUS-ALLOC-003@1.0.0",
@@ -1151,6 +1196,8 @@
         "BUS-TEX-001@1.0.0",
         "BUS-TEX-002@1.0.0",
         "BUS-TEX-003@1.0.0",
+        "BUS-TEX-004@1.0.0",
+        "BUS-TEX-005@1.0.0",
         "ED-001@0.1.0",
         "ED-001@1.0.0",
         "ED-001@2.0.0",
@@ -1211,7 +1258,7 @@
         "SEC-DEPLOY-001@1.0.0",
         "SEC-DEPLOY-001@2.0.0"
       ],
-      "sha256": "f369003b93c4ceeeac07e750f62c586ee029c331c0f7a43f309389cdcf4ac36e"
+      "sha256": "f6dc0c087e7cf60150cc17960b1b903e348049efa6ec213eaba035c47248dfb6"
     },
     "generated/spec/releases/REL-R1-RECEIVING-PILOT__v0.1.0.requirements-lock.json": {
       "owners": [
@@ -1326,6 +1373,7 @@
         "AC-SEC-001@0.1.0",
         "AC-SEC-001@1.0.0",
         "AC-TEXTILE-001@1.0.0",
+        "AC-TEXTILE-003@1.0.0",
         "ATC-ALLOC-001@1.0.0",
         "ATC-PLT-000@0.1.0",
         "ATC-PLT-000@1.0.0",
@@ -1350,6 +1398,7 @@
         "ATC-REC-006@2.0.0",
         "ATC-SCP-001@1.0.0",
         "ATC-TEX-001@1.0.0",
+        "ATC-TEX-003@1.0.0",
         "BUS-ALLOC-001@1.0.0",
         "BUS-ALLOC-002@1.0.0",
         "BUS-ALLOC-003@1.0.0",
@@ -1364,6 +1413,8 @@
         "BUS-TEX-001@1.0.0",
         "BUS-TEX-002@1.0.0",
         "BUS-TEX-003@1.0.0",
+        "BUS-TEX-004@1.0.0",
+        "BUS-TEX-005@1.0.0",
         "ED-001@0.1.0",
         "ED-001@1.0.0",
         "ED-001@2.0.0",
@@ -1424,7 +1475,7 @@
         "SEC-DEPLOY-001@1.0.0",
         "SEC-DEPLOY-001@2.0.0"
       ],
-      "sha256": "f3e218e35d2d51e1c8fbc436f57bbd1f70ac98147315bec05d0111de16231463"
+      "sha256": "e2c07b2cc3e835dd9d6b4822f987708cebd1270bc014df0c14110280851cbef9"
     },
     "generated/spec/source-inventory.csv": {
       "owners": [
@@ -1440,6 +1491,7 @@
         "AC-SEC-001@0.1.0",
         "AC-SEC-001@1.0.0",
         "AC-TEXTILE-001@1.0.0",
+        "AC-TEXTILE-003@1.0.0",
         "ATC-ALLOC-001@1.0.0",
         "ATC-PLT-000@0.1.0",
         "ATC-PLT-000@1.0.0",
@@ -1464,6 +1516,7 @@
         "ATC-REC-006@2.0.0",
         "ATC-SCP-001@1.0.0",
         "ATC-TEX-001@1.0.0",
+        "ATC-TEX-003@1.0.0",
         "BUS-ALLOC-001@1.0.0",
         "BUS-ALLOC-002@1.0.0",
         "BUS-ALLOC-003@1.0.0",
@@ -1478,6 +1531,8 @@
         "BUS-TEX-001@1.0.0",
         "BUS-TEX-002@1.0.0",
         "BUS-TEX-003@1.0.0",
+        "BUS-TEX-004@1.0.0",
+        "BUS-TEX-005@1.0.0",
         "ED-001@0.1.0",
         "ED-001@1.0.0",
         "ED-001@2.0.0",
@@ -1538,7 +1593,7 @@
         "SEC-DEPLOY-001@1.0.0",
         "SEC-DEPLOY-001@2.0.0"
       ],
-      "sha256": "587c762e950e1b877a7290c990e4707168f9527c26b8aabd7b7a5a5260ef079d"
+      "sha256": "f7df76579a76ff88b7aa55ae835a9d5544aa3e96fcd247d7ea8d594165eccdd4"
     },
     "generated/spec/tasks/ATC-ALLOC-001__v1.0.0.md": {
       "owners": [
@@ -1945,6 +2000,20 @@
       ],
       "sha256": "8ff9e0c406192668c985ffaa49434d8b20208888e3069e9e092a655422e19151"
     },
+    "generated/spec/tasks/ATC-TEX-003__v1.0.0.md": {
+      "owners": [
+        "AC-TEXTILE-003@1.0.0",
+        "ATC-TEX-003@1.0.0",
+        "BUS-TEX-001@1.0.0",
+        "BUS-TEX-003@1.0.0",
+        "BUS-TEX-004@1.0.0",
+        "BUS-TEX-005@1.0.0",
+        "ED-001@2.0.0",
+        "NFR-ARCH-001@2.0.0",
+        "OD-002@1.0.0"
+      ],
+      "sha256": "ef8382b7d2c0f02c013211c5e7943f1b047198fbbaf56dae6a1bdc2e439734b6"
+    },
     "generated/spec/traceability.csv": {
       "owners": [
         "AC-DEPLOY-001@0.1.0",
@@ -1959,6 +2028,7 @@
         "AC-SEC-001@0.1.0",
         "AC-SEC-001@1.0.0",
         "AC-TEXTILE-001@1.0.0",
+        "AC-TEXTILE-003@1.0.0",
         "ATC-ALLOC-001@1.0.0",
         "ATC-PLT-000@0.1.0",
         "ATC-PLT-000@1.0.0",
@@ -1983,6 +2053,7 @@
         "ATC-REC-006@2.0.0",
         "ATC-SCP-001@1.0.0",
         "ATC-TEX-001@1.0.0",
+        "ATC-TEX-003@1.0.0",
         "BUS-ALLOC-001@1.0.0",
         "BUS-ALLOC-002@1.0.0",
         "BUS-ALLOC-003@1.0.0",
@@ -1997,6 +2068,8 @@
         "BUS-TEX-001@1.0.0",
         "BUS-TEX-002@1.0.0",
         "BUS-TEX-003@1.0.0",
+        "BUS-TEX-004@1.0.0",
+        "BUS-TEX-005@1.0.0",
         "ED-001@0.1.0",
         "ED-001@1.0.0",
         "ED-001@2.0.0",
@@ -2057,7 +2130,7 @@
         "SEC-DEPLOY-001@1.0.0",
         "SEC-DEPLOY-001@2.0.0"
       ],
-      "sha256": "53ba0cbdbd185bfc8fbe5422df775708095825dbdbb7abb3cdd17609cf50c1b2"
+      "sha256": "48894ecd4dcf069e6e5916009df9771e0b37c324d8d9ce0d38cde02d0705ae3d"
     },
     "generated/spec/traceability.json": {
       "owners": [
@@ -2073,6 +2146,7 @@
         "AC-SEC-001@0.1.0",
         "AC-SEC-001@1.0.0",
         "AC-TEXTILE-001@1.0.0",
+        "AC-TEXTILE-003@1.0.0",
         "ATC-ALLOC-001@1.0.0",
         "ATC-PLT-000@0.1.0",
         "ATC-PLT-000@1.0.0",
@@ -2097,6 +2171,7 @@
         "ATC-REC-006@2.0.0",
         "ATC-SCP-001@1.0.0",
         "ATC-TEX-001@1.0.0",
+        "ATC-TEX-003@1.0.0",
         "BUS-ALLOC-001@1.0.0",
         "BUS-ALLOC-002@1.0.0",
         "BUS-ALLOC-003@1.0.0",
@@ -2111,6 +2186,8 @@
         "BUS-TEX-001@1.0.0",
         "BUS-TEX-002@1.0.0",
         "BUS-TEX-003@1.0.0",
+        "BUS-TEX-004@1.0.0",
+        "BUS-TEX-005@1.0.0",
         "ED-001@0.1.0",
         "ED-001@1.0.0",
         "ED-001@2.0.0",
@@ -2171,7 +2248,7 @@
         "SEC-DEPLOY-001@1.0.0",
         "SEC-DEPLOY-001@2.0.0"
       ],
-      "sha256": "394328156a0d1842c399878f188a46b1e6020b7f50c2a463e7d08b64feb70f15"
+      "sha256": "0744b27a1114243e214f27144d0a25d10a4aa7e4c7c0b06015974626c9b2d1d8"
     }
   },
   "schema_version": 1,
@@ -2822,6 +2899,26 @@
         {
           "document": "PRD-MAIN",
           "item": "AC-TEXTILE-001"
+        }
+      ],
+      "status": "approved",
+      "version": "1.0.0"
+    },
+    "AC-TEXTILE-003@1.0.0": {
+      "behavior_fingerprint": "04a48f36607e90cab3a5b1ba8e975dea24575cbebab7465616a5636db5a07aa2",
+      "change_class": "major",
+      "depends_on": [
+        "BUS-TEX-003@1.0.0",
+        "BUS-TEX-004@1.0.0",
+        "BUS-TEX-005@1.0.0"
+      ],
+      "fingerprint": "7f112061a2b3ad9a52422aee2d72bcce4735fe0e80d57f8cbd6637382cdd2ecb",
+      "id": "AC-TEXTILE-003",
+      "kind": "acceptance",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-TEXTILE-003"
         }
       ],
       "status": "approved",
@@ -3872,6 +3969,35 @@
       "status": "approved",
       "version": "1.0.0"
     },
+    "ATC-TEX-003@1.0.0": {
+      "behavior_fingerprint": "70d50ebb4100fbd04be7d698799e01f52990cbc95f560c8e7f7252581e5aab58",
+      "change_class": "major",
+      "depends_on": [
+        "ED-001@2.0.0",
+        "OD-002@1.0.0",
+        "BUS-TEX-001@1.0.0",
+        "BUS-TEX-003@1.0.0",
+        "BUS-TEX-004@1.0.0",
+        "BUS-TEX-005@1.0.0",
+        "AC-TEXTILE-003@1.0.0",
+        "NFR-ARCH-001@2.0.0"
+      ],
+      "fingerprint": "d39d389de0fb5854bbb44b6fae3156de00e5acd25949b63d67812c748ca1fa89",
+      "id": "ATC-TEX-003",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TEXTILE-004"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-TEXTILE-003"
+        }
+      ],
+      "status": "approved",
+      "version": "1.0.0"
+    },
     "BUS-ALLOC-001@1.0.0": {
       "behavior_fingerprint": "a90782f4d44aeace1a0efc9ca633b229a7e69ec9d55026c333d437a94350478a",
       "change_class": "major",
@@ -4175,6 +4301,45 @@
         {
           "document": "PRD-MAIN",
           "item": "OPS-TEXTILE-003"
+        }
+      ],
+      "status": "approved",
+      "version": "1.0.0"
+    },
+    "BUS-TEX-004@1.0.0": {
+      "behavior_fingerprint": "506849bf9539fab3ae84a8d3070af14de31248cf7840fb4bbf9856ef29ba0da0",
+      "change_class": "major",
+      "depends_on": [
+        "ED-001@2.0.0",
+        "BUS-TEX-001@1.0.0",
+        "BUS-TEX-003@1.0.0"
+      ],
+      "fingerprint": "71df32f58af7b746415826dcf89328c9afdf01ec1373223908c36a990190acc4",
+      "id": "BUS-TEX-004",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TEXTILE-004"
+        }
+      ],
+      "status": "approved",
+      "version": "1.0.0"
+    },
+    "BUS-TEX-005@1.0.0": {
+      "behavior_fingerprint": "b03093ed65f96409651724487cad00ce86685a8281a3a67db323c898fc3b3f25",
+      "change_class": "major",
+      "depends_on": [
+        "ED-001@2.0.0",
+        "BUS-TEX-004@1.0.0"
+      ],
+      "fingerprint": "4be32afd90e80c2d2f3eb67644a09f5a2659fb549a2a3d0d02dcbe510ee32e21",
+      "id": "BUS-TEX-005",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TEXTILE-004"
         }
       ],
       "status": "approved",

@@ -46,7 +46,7 @@ PRD-MAIN,AC-STATE-001,acceptance-block,19.2 收样、拆解和谱系,1157,顺序
 PRD-MAIN,AC-STMT-001,acceptance-block,19.4 发票、应收和对账,1250,客户对账单守恒,531d296b60b7a7f7b4b622cfe9efd12e9a7d2b8fc6cfdc969f3b89e02f46db7e,
 PRD-MAIN,AC-TEXTILE-001,acceptance-block,19.2 收样、拆解和谱系,1163,样品不足与互斥裁样,654411d2f0f2787d8d9cfdb0cca8c060aaff5ad95c3b47e1a195cfd92964e218,AC-TEXTILE-001@1.0.0;ATC-TEX-001@1.0.0
 PRD-MAIN,AC-TEXTILE-002,acceptance-block,19.2 收样、拆解和谱系,1166,代表色依据失效,cd43787873dfb56b9bcc94146ec2b9f2047af8ac145d4456e603ce0d237d41cf,
-PRD-MAIN,AC-TEXTILE-003,acceptance-block,19.2 收样、拆解和谱系,1169,裁样方向与预处理超差,c8fc9e69b9a72cca5dab0618d8a948ba225939bcb5bca11dc820a5a02218cf4a,
+PRD-MAIN,AC-TEXTILE-003,acceptance-block,19.2 收样、拆解和谱系,1169,裁样方向与预处理超差,c8fc9e69b9a72cca5dab0618d8a948ba225939bcb5bca11dc820a5a02218cf4a,AC-TEXTILE-003@1.0.0;ATC-TEX-003@1.0.0
 PRD-MAIN,AC-TEXTILE-004,acceptance-block,19.2 收样、拆解和谱系,1172,实测与覆盖范围披露,946abf2cf21c01b2ebd03b2a0dc6618a63b75d8d794bb205b3fc0d8a4d9aeaeb,
 PRD-MAIN,AC-TOY-001,acceptance-block,19.2 收样、拆解和谱系,1178,年龄决定变更影响,326f2b335e41614fa2e027b281812ac1dc0a7329f50ea3baacb3e948d9e35c2f,
 PRD-MAIN,AC-TOY-002,acceptance-block,19.2 收样、拆解和谱系,1181,可接触性与测试单元,0b2f59ece33db722429c13f5289952bbc1bb2a551bcb96c52344d9d1efe89c44,
@@ -305,7 +305,7 @@ PRD-MAIN,OPS-STATE-001,table-row,12.4 收样、身份和拆解,755,对顺序性�
 PRD-MAIN,OPS-TEXTILE-001,table-row,12.4 收样、身份和拆解,776,对纺织品，系统必须记录款/色/码/批次/部位覆盖、裁样方向/尺寸/数量及调湿或洗涤等预处理,724ac50401bc20a3bdeb8ef7b556cd821483f33649474b9fbf893957578a41f0,ATC-TEX-001@1.0.0;BUS-TEX-001@1.0.0
 PRD-MAIN,OPS-TEXTILE-002,table-row,12.4 收样、身份和拆解,777,纺织样品需求必须按款号、颜色、部件、材料、部位、方向、平行数、预处理、互斥破坏关系、复测预留和留样计算；样品不足必须在计划批准前阻断或发起范围/补样变更,c0344524379014086ec8b9492744968c1a8f620ab858ab3fe76d2d7f6bfeed77,ATC-TEX-001@1.0.0;BUS-TEX-001@1.0.0;BUS-TEX-002@1.0.0
 PRD-MAIN,OPS-TEXTILE-003,table-row,12.4 收样、身份和拆解,778,CuttingPlan 必须记录来源实物/布批、取样部位、经纬或纵横方向、尺寸、数量、距布边要求、模板版本、操作人及生成试样,4d29e9a52e12b6cae2634946302c11d9ceeea8238fbfba4200a9cf0b5dd693d2,ATC-TEX-001@1.0.0;BUS-TEX-003@1.0.0
-PRD-MAIN,OPS-TEXTILE-004,table-row,12.4 收样、身份和拆解,779,调湿和洗涤必须分别保存计划与实际温湿度、时长、程序、洗涤剂、干燥方式和超差影响；影响未批准前不得报告,de626ac9b5e178ce40799e35f98111d5c8c51f465c3cf8accb4f293fc5c1ecf1,
+PRD-MAIN,OPS-TEXTILE-004,table-row,12.4 收样、身份和拆解,779,调湿和洗涤必须分别保存计划与实际温湿度、时长、程序、洗涤剂、干燥方式和超差影响；影响未批准前不得报告,de626ac9b5e178ce40799e35f98111d5c8c51f465c3cf8accb4f293fc5c1ecf1,ATC-TEX-003@1.0.0;BUS-TEX-004@1.0.0;BUS-TEX-005@1.0.0
 PRD-MAIN,OPS-TEXTILE-005,table-row,12.4 收样、身份和拆解,780,CoverageDecision 必须明确款号、颜色、尺码、材料、部件、部位、供应商/染批和项目范围；不得默认以“最深色”代表全部颜色,fffe0a3310f7e29aad85f369b9427f3c48059f8264ebd660c5858f0d1de87652,
 PRD-MAIN,OPS-TOY-001,table-row,12.4 收样、身份和拆解,769,系统必须分别保存客户年龄/用途声明和实验室 AgeGradeDecision；年龄决定必须有依据、批准、版本和冻结状态,faffa70bc7e55c965adc3e1ac61ac1b13666dc78427c30533aa2e1cfe1c8ead4,
 PRD-MAIN,OPS-TOY-002,table-row,12.4 收样、身份和拆解,770,年龄或用途决定变化时，系统必须重新计算受影响要求条款、样品需求、测试单元、标签审查和已执行任务/结果影响，不得原地改写原决定,c746ed28dec9b412910d212b31b3e8057e3d63428c36bdebe0955b6874dc5320,

@@ -1,0 +1,21 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-TEX-004",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "调湿与洗涤计划/实际契约模型",
+  "summary": "调湿和洗涤分别以计划与实际两组条件（温湿度、时长、程序、洗涤剂、干燥方式）建模，并关联来源布批、CuttingPlan 与生成试样；本切片仅交付契约与序列化，不生产化。",
+  "owners": ["实验室技术负责人", "技术负责人", "质量负责人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "OPS-TEXTILE-004"}
+  ],
+  "depends_on": ["ED-001@2.0.0", "BUS-TEX-001@1.0.0", "BUS-TEX-003@1.0.0"],
+  "affects": ["textile", "preconditioning", "contracts", "serialization"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "enabled_pack", "applicability": "DISABLED", "condition": "纺织行业包纳入发布并经 OD-001 后继决定批准后启用；本切片仅契约与序列化层"},
+  "approval_evidence": "用户于 2026-07-26 选择‘纺织降级为契约切片’并预先批准后续 TEX-002/003 同样处理；在全流程授权下交付本契约。",
+  "invariants": ["调湿（CONDITIONING）计划与实际必须分别记录温度、湿度和时长", "洗涤（WASHING）计划与实际必须分别记录温度、时长、程序、洗涤剂和干燥方式", "记录必须关联来源实物/布批引用，并可关联 CuttingPlan 与生成试样清单（AC-TEXTILE-003 关联链）", "允许公差在记录上显式声明且非负", "类型未知或必录字段缺失即校验失败", "本切片不注册模块、schema、HTTP 端点或运行时端口"]
+}

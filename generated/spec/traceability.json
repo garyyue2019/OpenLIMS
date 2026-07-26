@@ -303,6 +303,29 @@
       "status": "approved",
       "title": "样品不足与互斥裁样契约验收"
     },
+    "AC-TEXTILE-003@1.0.0": {
+      "affects": [
+        "textile",
+        "preconditioning",
+        "cutting-plan",
+        "automated-test"
+      ],
+      "depends_on": [
+        "BUS-TEX-003@1.0.0",
+        "BUS-TEX-004@1.0.0",
+        "BUS-TEX-005@1.0.0"
+      ],
+      "fingerprint": "7f112061a2b3ad9a52422aee2d72bcce4735fe0e80d57f8cbd6637382cdd2ecb",
+      "kind": "acceptance",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-TEXTILE-003"
+        }
+      ],
+      "status": "approved",
+      "title": "裁样方向与预处理超差契约验收"
+    },
     "ATC-ALLOC-001@1.0.0": {
       "affects": [
         "allocation",
@@ -1500,6 +1523,40 @@
       "status": "approved",
       "title": "实施 DEV-011 纺织样品需求未来适配契约切片"
     },
+    "ATC-TEX-003@1.0.0": {
+      "affects": [
+        "textile",
+        "preconditioning",
+        "out-of-tolerance",
+        "contracts",
+        "serialization",
+        "automated-test"
+      ],
+      "depends_on": [
+        "ED-001@2.0.0",
+        "OD-002@1.0.0",
+        "BUS-TEX-001@1.0.0",
+        "BUS-TEX-003@1.0.0",
+        "BUS-TEX-004@1.0.0",
+        "BUS-TEX-005@1.0.0",
+        "AC-TEXTILE-003@1.0.0",
+        "NFR-ARCH-001@2.0.0"
+      ],
+      "fingerprint": "d39d389de0fb5854bbb44b6fae3156de00e5acd25949b63d67812c748ca1fa89",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TEXTILE-004"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-TEXTILE-003"
+        }
+      ],
+      "status": "approved",
+      "title": "实施 DEV-012 纺织调湿/洗涤及超差契约切片"
+    },
     "BUS-ALLOC-001@1.0.0": {
       "affects": [
         "allocation",
@@ -1860,6 +1917,51 @@
       ],
       "status": "approved",
       "title": "CuttingPlan 序列化契约"
+    },
+    "BUS-TEX-004@1.0.0": {
+      "affects": [
+        "textile",
+        "preconditioning",
+        "contracts",
+        "serialization"
+      ],
+      "depends_on": [
+        "ED-001@2.0.0",
+        "BUS-TEX-001@1.0.0",
+        "BUS-TEX-003@1.0.0"
+      ],
+      "fingerprint": "71df32f58af7b746415826dcf89328c9afdf01ec1373223908c36a990190acc4",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TEXTILE-004"
+        }
+      ],
+      "status": "approved",
+      "title": "调湿与洗涤计划/实际契约模型"
+    },
+    "BUS-TEX-005@1.0.0": {
+      "affects": [
+        "textile",
+        "preconditioning",
+        "out-of-tolerance",
+        "rules"
+      ],
+      "depends_on": [
+        "ED-001@2.0.0",
+        "BUS-TEX-004@1.0.0"
+      ],
+      "fingerprint": "4be32afd90e80c2d2f3eb67644a09f5a2659fb549a2a3d0d02dcbe510ee32e21",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TEXTILE-004"
+        }
+      ],
+      "status": "approved",
+      "title": "预处理超差评估与报告阻断规则"
     },
     "ED-001@0.1.0": {
       "affects": [

@@ -11,7 +11,7 @@
 3. [completed] 创建后继规格（BUS-BILL-001~003 + AC-BILL-001@1.0.0 + ATC-BILL-001@1.0.0，无新增 OD）并 READY。
 4. [completed] 实现 contracts/billing + src/modules/billing（镜像 result 范式：advisory lock + expectedCurrentVersion、追加式、独立 audit_attempt、专用 openlims_billing_test 库）。
 5. [completed] 单元/契约/集成/架构测试。
-6. [in_progress] 完整门禁，CI 全绿后按授权自动提交/PR/合并。
+6. [completed] 完整门禁通过；已按授权自动提交、PR #15、CI 全绿并 squash 合并。
 
 ## 约束
 

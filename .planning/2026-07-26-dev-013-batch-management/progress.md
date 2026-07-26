@@ -10,3 +10,4 @@
 - 已实现 contracts/batch + src/modules/batch（类型化批次、AllocationStatusPort gate-then-commit 成员、QC 样、外部证据哈希引用、整批冻结、批级 advisory lock + expectedCurrentVersion、batch.manage 法人+实验室维度），接入宿主/OpenAPI/slnx/verify。
 - Batch 单元 14/14、契约 10/10、集成 8/8（专用 openlims_batch_test 库）、架构 12/12 一次通过；全解决方案 23 个测试项目全部通过。
 - 路径审计：61 个变更文件全部在 allowed_paths，outside_allowed=0。按授权自动提交/PR/合并。
+- PR #13 CI 全绿后按授权以 squash 合并为 `main@c948fc9`；本地 main 已快进。main 现包含 13 个已交付切片，DEV-013 全部完成。

@@ -11,7 +11,7 @@
 3. [completed] 创建 OD-030@1.0.0 与后继规格，生成派生物并 READY。
 4. [completed] 实现 contracts/batch + src/modules/batch（镜像 allocation 范式，gate-then-commit）。
 5. [completed] 单元/契约/集成（专用 openlims_batch_test 库）/架构测试。
-6. [in_progress] 完整门禁，CI 全绿后按授权自动提交/PR/合并。
+6. [completed] 完整门禁通过；已按授权自动提交、PR #13、CI 全绿并 squash 合并为 `main@c948fc9`。
 
 ## 约束
 

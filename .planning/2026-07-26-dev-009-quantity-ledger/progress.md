@@ -25,3 +25,5 @@
 - Phase 6 门禁：strict validate（99 规格版本）、SOURCE CURRENT、HISTORY PASSED、READY、spec check、二次 generate written=0、Python 40/40、locked restore、Release/warnaserror 0 警告 0 错误。
 - 路径审计：60 个变更文件全部位于任务卡 allowed_paths，outside_allowed=0；PRD 未修改，generated/spec 只经生成器更新。
 - Phase 6 门禁全部完成；按约束等待用户的提交/推送指令。
+- 用户指示提交并推送；已提交 `351c12c`（60 个文件，全部在 allowed_paths 内，无构建产物），推送到 `origin/codex/dev-009-quantity-ledger`。
+- 经 GitHub API 创建 PR：https://github.com/garyyue2019/OpenLIMS/pull/9，等待远端 CI。

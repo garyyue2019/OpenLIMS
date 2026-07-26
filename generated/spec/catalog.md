@@ -8,6 +8,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 
 | 版本键 | 类型 | 状态 | 标题 | 变更级别 | 影响模块 | 指纹 |
 |---|---|---|---|---|---|---|
+| `AC-BATCH-001@1.0.0` | `acceptance` | `approved` | 批次 QC 影响传播 | `major` | batch, qc, freeze-propagation, audit, automated-test | `6edaaa437d6e` |
 | `AC-DEPLOY-001@0.1.0` | `acceptance` | `in_review` | 集团间独立数据平面 | `major` | deployment-test, security-test, disaster-recovery, infrastructure-evidence | `1a8c17fd6201` |
 | `AC-DEPLOY-001@1.0.0` | `acceptance` | `in_review` | 集团间独立数据平面真实交叉访问验收 | `major` | deployment-test, runtime-security-test, identity-test, telemetry-test, disaster-recovery, infrastructure-evidence | `d09e3a7d43b1` |
 | `AC-ELEC-003@1.0.0` | `acceptance` | `approved` | 破坏性分配互斥与资格门禁全链 | `major` | allocation, destructive-exclusion, eligibility-gate, audit, automated-test | `735b5f0293cd` |
@@ -22,6 +23,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `AC-TEXTILE-001@1.0.0` | `acceptance` | `approved` | 样品不足与互斥裁样契约验收 | `major` | textile, sample-requirement, destructive-exclusion, automated-test | `5bf4aeacf8ab` |
 | `AC-TEXTILE-003@1.0.0` | `acceptance` | `approved` | 裁样方向与预处理超差契约验收 | `major` | textile, preconditioning, cutting-plan, automated-test | `7f112061a2b3` |
 | `ATC-ALLOC-001@1.0.0` | `story` | `approved` | 实施 DEV-010 任务分配资格 | `major` | allocation, receiving, scope, quantity, eligibility-gate, authorization, audit, outbox, automated-test | `d8e63c13c345` |
+| `ATC-BATCH-001@1.0.0` | `story` | `approved` | 实施 DEV-013 制备/分析批最小切片 | `major` | batch, allocation, qc, raw-data, authorization, audit, outbox, automated-test | `6028422fb5b0` |
 | `ATC-PLT-000@0.1.0` | `story` | `proposed` | 建立可验证的模块化单体工程骨架 | `major` | engineering-skeleton, repository, api-host, worker-host, web-shell, module-boundaries, postgresql, identity, object-storage, outbox, audit, observability, ci, deployment, automated-test | `af9924a0b1fa` |
 | `ATC-PLT-000@1.0.0` | `story` | `proposed` | 建立可验证的模块化单体工程骨架 | `major` | engineering-skeleton, repository, api-host, worker-host, web-shell, module-boundaries, postgresql, identity, object-storage, outbox, audit, observability, ci, deployment, automated-test | `f45a6ee6de5f` |
 | `ATC-PLT-003@1.0.0` | `story` | `approved` | 建立业务模块接入与验证通道 | `major` | module-composition, api-host, worker-host, web-composition, architecture-tests, verification | `b2a7af44a3db` |
@@ -49,6 +51,9 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `BUS-ALLOC-001@1.0.0` | `requirement` | `approved` | 版本固定的 TestObjectAllocation 分配事实 | `major` | allocation, versioning, authorization, audit, outbox | `3eeead680cf1` |
 | `BUS-ALLOC-002@1.0.0` | `requirement` | `approved` | 分配前三端口资格门禁 | `major` | allocation, eligibility-gate, receiving, scope, quantity, audit | `8f439560e509` |
 | `BUS-ALLOC-003@1.0.0` | `requirement` | `approved` | 并发分配与破坏性互斥阻断 | `major` | allocation, concurrency, destructive-exclusion, authorization, audit | `09e85a6926d8` |
+| `BUS-BATCH-001@1.0.0` | `requirement` | `approved` | 类型化不可变批次事实 | `major` | batch, execution, versioning, authorization, audit, outbox | `4e5e753adce8` |
+| `BUS-BATCH-002@1.0.0` | `requirement` | `approved` | 跨委托成员、客户隔离与外部证据引用 | `major` | batch, allocation, customer-isolation, raw-data, audit | `021ecf7a878e` |
+| `BUS-BATCH-003@1.0.0` | `requirement` | `approved` | 批次冻结与全量影响传播 | `major` | batch, qc, freeze-propagation, audit, outbox | `0293aa7be242` |
 | `BUS-PROD-003@0.1.0` | `requirement` | `in_review` | 被业务引用的产品版本禁止原地修改 | `major` | product, product-variant, versioning, impact-analysis, evidence | `faf2128cf612` |
 | `BUS-QTY-001@1.0.0` | `requirement` | `approved` | 不可变数量流水与冲销重记 | `major` | quantity, versioning, authorization, audit, outbox | `47e4cca52ccf` |
 | `BUS-QTY-002@1.0.0` | `requirement` | `approved` | 账户级计量维度、精度与守恒公差配置 | `major` | quantity, measurement, authorization, audit | `a35cedb07b7f` |
@@ -84,6 +89,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `OD-027@1.0.0` | `decision` | `approved` | DEV-008 ScopeLine 最小粒度与轻量批准 | `major` | test-scope, production-gate, authorization, audit, outbox | `ba8bd756a337` |
 | `OD-029@0.1.0` | `decision` | `proposed` | 认可范围数据粒度与签发门禁 | `major` | accreditation, result-review, reporting, signature | `85e197b51ea7` |
 | `OD-030@0.1.0` | `decision` | `proposed` | 各方法族最小执行记录与外部系统边界 | `major` | execution, batch, qc, raw-data, instrument-integration | `03dbc6d00f58` |
+| `OD-030@1.0.0` | `decision` | `approved` | DEV-013 最小执行记录与外部系统边界 | `major` | execution, batch, qc, raw-data, instrument-integration | `15d19e324c5b` |
 | `OD-031@0.1.0` | `decision` | `proposed` | 首期条码、移动流程和仪器接口清单 | `major` | barcode, mobile, instrument-integration, validation-data | `3626d4882314` |
 | `OD-031@1.0.0` | `decision` | `approved` | 首期条码、打印和扫码流程 | `major` | barcode, label-printing, receiving, scan-resolution, audit | `04a15707f209` |
 | `OD-032@0.1.0` | `decision` | `proposed` | 多方参与角色、访问和付款权限模型 | `major` | party, authorization, report-delivery, billing | `0664721d0fb0` |

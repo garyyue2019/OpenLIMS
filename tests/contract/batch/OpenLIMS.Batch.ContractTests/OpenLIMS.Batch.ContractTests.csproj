@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>OpenLIMS.Batch.ContractTests</AssemblyName>
+    <RootNamespace>OpenLIMS.Batch.ContractTests</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+    <ProjectReference Include="../../../../src/host/api/OpenLIMS.Api/OpenLIMS.Api.csproj" />
+    <ProjectReference Include="../../../../src/modules/batch/OpenLIMS.Modules.Batch/OpenLIMS.Modules.Batch.csproj" />
+    <ProjectReference Include="../../../../contracts/batch/OpenLIMS.Contracts.Batch/OpenLIMS.Contracts.Batch.csproj" />
+  </ItemGroup>
+</Project>

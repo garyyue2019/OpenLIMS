@@ -8,6 +8,7 @@ using OpenLIMS.Contracts.Platform;
 using OpenLIMS.Modules.Allocation;
 using OpenLIMS.Modules.Billing;
 using OpenLIMS.Modules.Instrument;
+using OpenLIMS.Modules.Qc;
 using OpenLIMS.Modules.Batch;
 using OpenLIMS.Modules.Labeling;
 using OpenLIMS.Modules.Quantity;
@@ -39,7 +40,8 @@ IOpenLimsServerModule[] modules =
     new BatchModule(deploymentOptions.PostgresConnectionString!),
     new ResultModule(deploymentOptions.PostgresConnectionString!),
     new BillingModule(deploymentOptions.PostgresConnectionString!),
-    new InstrumentModule(deploymentOptions.PostgresConnectionString!)
+    new InstrumentModule(deploymentOptions.PostgresConnectionString!),
+    new QcModule(deploymentOptions.PostgresConnectionString!)
 ];
 var moduleCatalog = OpenLimsModuleCatalog.Create(modules);
 var organizationScope = new OrganizationScope(deploymentOptions.OrganizationGroupId!);
@@ -228,6 +230,15 @@ app.MapGet("/openapi/v1.json", () => Results.Json(new
         ["/api/v1/instrument-files/{id}/exceptions/{exceptionId}/resolution"] = new { post = new { operationId = "resolveInstrumentImportException", responses = new { created = new { description = "Human confirmation recorded without altering raw values" } } } },
         ["/api/v1/instrument-files/{id}"] = new { get = new { operationId = "getInstrumentFile", responses = new { ok = new { description = "Immutable instrument file registration with rows and exceptions" } } } },
         ["/api/v1/instrument-files/{id}/import-status"] = new { get = new { operationId = "getInstrumentImportStatus", responses = new { ok = new { description = "Version-pinned instrument import status decision" } } } },
+        ["/api/v1/qc-runs"] = new { post = new { operationId = "openQcRun", responses = new { created = new { description = "QC run opened with pinned method and QC rule set versions" } } } },
+        ["/api/v1/qc-runs/{id}/results"] = new { post = new { operationId = "recordQcResult", responses = new { created = new { description = "Immutable QC rule result recorded" } } } },
+        ["/api/v1/qc-runs/{id}/verdict"] = new { post = new { operationId = "recordQcVerdict", responses = new { created = new { description = "Run verdict derived from rule results" } } } },
+        ["/api/v1/qc-runs/{id}/impact"] = new { post = new { operationId = "recordQcImpact", responses = new { created = new { description = "Full impact scope recorded for a failed run" } } } },
+        ["/api/v1/qc-runs/{id}/deviation-approval"] = new { post = new { operationId = "recordQcDeviationApproval", responses = new { created = new { description = "Deviation approval recorded; it never lifts the block on its own" } } } },
+        ["/api/v1/qc-runs/{id}/gates"] = new { post = new { operationId = "satisfyQcReleaseGate", responses = new { created = new { description = "One of the five release gates satisfied" } } } },
+        ["/api/v1/qc-runs/{id}/release"] = new { post = new { operationId = "releaseQcBlock", responses = new { created = new { description = "Block released once all five gates are satisfied" } } } },
+        ["/api/v1/qc-runs/{id}"] = new { get = new { operationId = "getQcRun", responses = new { ok = new { description = "QC run with results, impact scope, gates and deviations" } } } },
+        ["/api/v1/qc-runs/{id}/reportability"] = new { get = new { operationId = "getQcReportability", responses = new { ok = new { description = "Version-pinned QC reportability decision for a target" } } } },
         ["/api/v1/label-jobs"] = new { post = new { operationId = "createLabelPrintJobs", responses = new { accepted = new { description = "Label print jobs accepted" } } } },
         ["/api/v1/label-jobs/{printJobId}"] = new { get = new { operationId = "getLabelPrintJob", responses = new { ok = new { description = "Label print job state" } } } },
         ["/api/v1/label-jobs/{printJobId}/reprint"] = new { post = new { operationId = "reprintLabel", responses = new { accepted = new { description = "Controlled reprint accepted" } } } },

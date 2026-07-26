@@ -37,7 +37,7 @@ class RepositoryContractTests(unittest.TestCase):
             check=False,
         )
         self.assertEqual(0, result.returncode, result.stderr.decode("utf-8", errors="replace"))
-        self.assertIn("145 个规格版本", result.stdout.decode("utf-8"))
+        self.assertIn("150 个规格版本", result.stdout.decode("utf-8"))
 
     def test_git_checkout_keeps_deterministic_lf_bytes(self) -> None:
         attributes = (ROOT / ".gitattributes").read_text(encoding="utf-8")
@@ -73,9 +73,10 @@ class RepositoryContractTests(unittest.TestCase):
             "ATC-PLT-001__v1.0.0.md",
             "ATC-GOV-001__v1.0.0.md",
             "ATC-INST-001__v1.0.0.md",
+            "ATC-QC-001__v1.0.0.md",
         }
         self.assertEqual(expected_tasks, {path.name for path in tasks})
-        self.assertEqual(50, len(features))
+        self.assertEqual(52, len(features))
         self.assertTrue(
             {
                 "ATC-PLT-000__v0.1.0.feature",
@@ -107,6 +108,8 @@ class RepositoryContractTests(unittest.TestCase):
                 "ATC-PLT-001__v1.0.0.feature",
                 "ATC-GOV-001__v1.0.0.feature",
                 "ATC-INST-001__v1.0.0.feature",
+                "ATC-QC-001__v1.0.0.feature",
+                "AC-QC-001__v1.0.0.feature",
             }.issubset({path.name for path in features})
         )
         self.assertFalse(any(path.name.startswith("R1-REC-") for path in (*tasks, *features)))
@@ -405,6 +408,11 @@ class RepositoryContractTests(unittest.TestCase):
             "BUS-INST-002@1.0.0",
             "BUS-INST-003@1.0.0",
             "ATC-INST-001@1.0.0",
+            "BUS-QC-001@1.0.0",
+            "BUS-QC-002@1.0.0",
+            "BUS-QC-003@1.0.0",
+            "AC-QC-001@1.0.0",
+            "ATC-QC-001@1.0.0",
         }
         self.assertEqual(
             planned_refs | approved_delivery_v1_refs,

@@ -1,0 +1,34 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-QC-003",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "五关口解除阻断与偏差获批不等于可报告",
+  "summary": "QC 阻断只有在调查记录、影响范围确认、结果有效性决定、采用规则确认与技术复核五项关口全部满足后才能解除；偏差获批本身既不是关口之一，也绝不单独解除阻断；解除为一次性追加事实并记录解除人与时间。",
+  "owners": ["质量负责人", "实验室负责人", "技术负责人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "LAB-QC-003"},
+    {"document": "PRD-MAIN", "item": "RULE-010"},
+    {"document": "PRD-MAIN", "item": "AC-QC-001"}
+  ],
+  "depends_on": ["BUS-QC-001@1.0.0", "BUS-QC-002@1.0.0", "OD-005@1.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0"],
+  "affects": ["qc", "release-gate", "deviation", "technical-review", "reportability"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {
+    "mode": "core",
+    "applicability": "ENABLED",
+    "condition": "DEV-021 QC 影响传播切片启用"
+  },
+  "approval_evidence": "用户于 2026-07-26 决定 OD-001（玩具×机械物理方法族）解锁 QC 卡，并在全流程授权下批准本切片基线。",
+  "invariants": [
+    "解除阻断的关口恰为五项：INVESTIGATION（调查记录引用）、IMPACT_SCOPE（影响范围确认）、VALIDITY_DECISION（结果有效性决定）、ADOPTION_RULE（采用规则确认）、TECHNICAL_REVIEW（技术复核）（LAB-QC-003）",
+    "每项关口为独立追加事实，携带引用+版本、满足人与时间；同一关口不得重复满足",
+    "五项齐备前任何解除尝试被拒绝并保持不可报告（AC-QC-001）",
+    "偏差获批（DEVIATION_APPROVAL）可作为独立记录存在，但不属于五关口且单独存在时阻断保持（RULE-010：偏差获批不等于结果可报告）",
+    "解除阻断为单向一次性事实；解除后影响目标的可报告性方为 ALLOWED",
+    "关口满足与解除阻断均须 qc.manage 能力与对象级授权；失败仅写模块 audit_attempt"
+  ]
+}

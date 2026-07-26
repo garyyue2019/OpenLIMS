@@ -3,7 +3,7 @@ param(
     [Parameter(Mandatory = $true)]
     [ValidateSet('task', 'architecture', 'contracts', 'all')]
     [string]$Profile,
-    [ValidateSet('platform', 'module-onboarding', 'receiving', 'labeling', 'scope', 'quantity', 'allocation', 'textile', 'batch', 'result', 'billing', 'ai', 'instrument')]
+    [ValidateSet('platform', 'module-onboarding', 'receiving', 'labeling', 'scope', 'quantity', 'allocation', 'textile', 'batch', 'result', 'billing', 'ai', 'instrument', 'qc')]
     [string]$Module
 )
 
@@ -44,8 +44,9 @@ switch ($Profile) {
             'billing' = 'Profile=billing'
             'ai' = 'Profile=ai'
             'instrument' = 'Profile=instrument'
+            'qc' = 'Profile=qc'
         }
-        if ([string]::IsNullOrWhiteSpace($Module) -or -not $moduleFilters.ContainsKey($Module)) { throw "The task profile requires -Module platform, -Module module-onboarding, -Module receiving, -Module labeling, -Module scope, -Module quantity, -Module allocation, -Module textile, -Module batch, -Module result, -Module billing, -Module ai, or -Module instrument." }
+        if ([string]::IsNullOrWhiteSpace($Module) -or -not $moduleFilters.ContainsKey($Module)) { throw "The task profile requires -Module platform, -Module module-onboarding, -Module receiving, -Module labeling, -Module scope, -Module quantity, -Module allocation, -Module textile, -Module batch, -Module result, -Module billing, -Module ai, -Module instrument, or -Module qc." }
         Require-Command dotnet
         Invoke-Gate 'dotnet restore (locked)' { dotnet restore OpenLIMS.slnx --locked-mode }
         Invoke-Gate 'dotnet build' { dotnet build OpenLIMS.slnx -c Release --no-restore -warnaserror }

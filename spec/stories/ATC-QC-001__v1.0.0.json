@@ -1,0 +1,119 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "story",
+  "id": "ATC-QC-001",
+  "version": "1.0.0",
+  "status": "approved",
+  "target_release": "REL-R1-RECEIVING-PILOT@1.0.0",
+  "epic_id": "EP-QUALITY",
+  "feature_id": "FEAT-QC-IMPACT",
+  "title": "实施 DEV-021 QC 影响传播",
+  "summary": "交付 qc 模块：按固定方法版本执行 QC 规则并落不可变 QCResult；QC 失败时一次性登记覆盖全批的影响集并把受影响结果保持不可报告；解除阻断必须五关口（调查/影响范围/有效性决定/采用规则/技术复核）齐备，偏差获批绝不单独解除；公开 QC 可报告性端口供报告链后续卡消费。",
+  "owners": ["实验室负责人", "质量负责人", "技术负责人", "QA负责人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "LAB-QC-001"},
+    {"document": "PRD-MAIN", "item": "LAB-QC-002"},
+    {"document": "PRD-MAIN", "item": "LAB-QC-003"},
+    {"document": "PRD-MAIN", "item": "RULE-010"},
+    {"document": "PRD-MAIN", "item": "RULE-022"},
+    {"document": "PRD-MAIN", "item": "AC-QC-001"}
+  ],
+  "depends_on": [
+    "ED-001@2.0.0",
+    "OD-002@1.0.0",
+    "OD-001@1.0.0",
+    "OD-030@1.0.0",
+    "BUS-QC-001@1.0.0",
+    "BUS-QC-002@1.0.0",
+    "BUS-QC-003@1.0.0",
+    "AC-QC-001@1.0.0",
+    "ATC-BATCH-001@1.0.0",
+    "ATC-RESULT-001@1.0.0",
+    "SEC-AUTH-001@1.0.0",
+    "SEC-AUD-001@2.0.0",
+    "NFR-ARCH-001@2.0.0"
+  ],
+  "affects": ["qc", "impact-propagation", "reportability", "release-gate", "batch", "result", "audit", "outbox", "authorization", "automated-test"],
+  "change_class": "major",
+  "body": {
+    "readiness": "ready",
+    "implementation_task_id": "DEV-021",
+    "approval_evidence": "用户于 2026-07-26 明确回复'定 OD-001：玩具 + 机械物理方法族'解锁 QC 卡；本卡在全流程授权下自主收敛最小基线（不触碰未决 OD-012 设备/方法权威来源与 OD-013 分包回传）。",
+    "business_outcome": "QC 从批次层的'冻结原因声明'升级为可执行的质量关口：规则按方法版本执行留下可追事实，失败影响一次性覆盖全批而非单条结果，解除阻断必须五关口齐备且偏差获批无法走捷径——这正是 RISK-006（QC 形式审批后错误放行）的结构性防线。",
+    "actor": "QC 执行者与质量放行审核者（qc.manage 能力）",
+    "preconditions": ["批次已存在且未冻结（经 IBatchStatusPort 门禁固定）", "OD-001 已决定试点切片（玩具×物理机械）", "OD-030 已决定最小执行记录与外部引用口径"],
+    "trigger": "QC 执行者为某分析批开启 QC 运行并提交规则结果；失败时质量审核者推进五关口",
+    "happy_path": [
+      "POST QC 运行：固定批次引用+版本（批次门禁 ALLOWED 原样固定）、方法引用+版本、QC 规则集版本 → OPEN",
+      "POST QC 结果：逐条规则落 QCResult（规则引用+版本、控制类型、观测值、判定、判定依据），追加式不可变",
+      "POST 判定：全部 PASS → PASSED，运行结束；任一 FAIL → FAILED 并要求登记影响集",
+      "POST 影响集：登记该运行覆盖的全部受影响目标（结果组/任务，含目标版本），空集被拒绝",
+      "GET 可报告性端口：受影响目标返回 BLOCKED 并列明未满足关口",
+      "POST 关口：INVESTIGATION / IMPACT_SCOPE / VALIDITY_DECISION / ADOPTION_RULE / TECHNICAL_REVIEW 逐项满足（各带引用+版本、满足人、时间）",
+      "POST 解除：五关口齐备时解除阻断，可报告性转为 ALLOWED"
+    ],
+    "failure_paths": [
+      "批次门禁 BLOCKED（含已冻结）或 UNKNOWN → QC.ELIGIBILITY_BLOCKED / QC.APPLICABILITY_UNKNOWN，运行不产生",
+      "空影响集或重复登记同一目标 → QC.VALIDATION_FAILED",
+      "五关口未齐备时解除 → QC.RELEASE_GATE_INCOMPLETE，阻断保持，无解除事实",
+      "仅有偏差获批时解除 → QC.RELEASE_GATE_INCOMPLETE（偏差获批不属五关口，RULE-010）",
+      "同一关口重复满足或对已解除运行再次解除 → QC.VALIDATION_FAILED",
+      "UPDATE/DELETE 任何 qc 事实 → 数据库 55000（QC.QC_APPEND_ONLY）",
+      "行为人缺失/组织不匹配/能力拒绝 → QC.NOT_AUTHORIZED，仅 audit_attempt 留痕",
+      "平台审计或发件箱写入失败 → 整体回滚，业务事实不产生"
+    ],
+    "invariants": [
+      "方法版本与 QC 规则集版本在运行事实上原样固定，不得漂移（LAB-QC-001）",
+      "影响集覆盖全批受影响目标，不得只处理发现异常的单条结果（RULE-022）",
+      "受影响目标在解除前一律 BLOCKED（LAB-QC-002、AC-QC-001）",
+      "解除关口恰为五项且偏差获批不在其中（LAB-QC-003、RULE-010）",
+      "全部事实追加式、DB 触发器强制；乐观并发 expectedCurrentVersion + advisory lock",
+      "事实、平台审计意图与发件箱同一事务提交；模块 audit_attempt 独立于回滚存活",
+      "批次冻结语义由 batch 模块拥有——本卡经端口消费，不复制也不放宽",
+      "本卡不修改结果模块事实：可报告性经 IQcReportabilityPort 表达，消费方自行担责"
+    ],
+    "data_contract": {
+      "qcRun": ["qcRunId", "ruleSetVersion(QC-IMPACT@1.0.0)", "objectScope{legalEntityId, laboratoryId}", "batchId", "expectedBatchVersion", "batchGateDecision", "batchGateRuleSetVersion", "methodRef{id, version}", "qcRuleSetRef{id, version}", "state(OPEN/PASSED/FAILED/RELEASED)", "version"],
+      "qcResult": ["qcResultId", "qcRunId", "ruleRef{id, version}", "controlType(BLANK/SPIKE/DUPLICATE/REFERENCE_MATERIAL/CALIBRATION_CHECK)", "observedValue", "verdict(PASS/FAIL)", "verdictBasis"],
+      "impactEntry": ["impactId", "qcRunId", "targetType(RESULT_GROUP/TASK)", "targetId", "targetVersion", "recordedBy", "recordedAt"],
+      "releaseGate": ["gateId", "qcRunId", "kind(INVESTIGATION/IMPACT_SCOPE/VALIDITY_DECISION/ADOPTION_RULE/TECHNICAL_REVIEW)", "evidenceRef{id, version}", "satisfiedBy", "satisfiedAt"],
+      "deviationApproval": ["deviationId", "qcRunId", "approvalRef{id, version}", "approvedBy", "approvedAt", "注：不属五关口"],
+      "reportabilityResult": ["decision(ALLOWED/BLOCKED/UNKNOWN)", "reasonCodes[]", "qcRunId?", "targetId", "outstandingGates[]", "ruleSetVersion"]
+    },
+    "api_contract": {
+      "operations": [
+        "POST /api/v1/qc-runs → 201 开启 QC 运行（批次门禁固定）",
+        "POST /api/v1/qc-runs/{id}/results → 201 追加 QC 规则结果",
+        "POST /api/v1/qc-runs/{id}/verdict → 201 判定运行 PASSED/FAILED",
+        "POST /api/v1/qc-runs/{id}/impact → 201 登记影响集",
+        "POST /api/v1/qc-runs/{id}/deviation-approval → 201 记录偏差获批（不解除阻断）",
+        "POST /api/v1/qc-runs/{id}/gates → 201 满足单个解除关口",
+        "POST /api/v1/qc-runs/{id}/release → 201 五关口齐备后解除阻断",
+        "GET /api/v1/qc-runs/{id} → 200 运行、结果、影响集与关口明细",
+        "GET /api/v1/qc-runs/{id}/reportability → 200 可报告性决策"
+      ],
+      "publicPort": "IQcReportabilityPort.EvaluateAsync(QcReportabilityRequest) → ALLOWED/BLOCKED/UNKNOWN，按目标与版本+规则集固定，供报告链后续卡消费",
+      "errors": ["QC.VALIDATION_FAILED", "QC.ELIGIBILITY_BLOCKED", "QC.APPLICABILITY_UNKNOWN", "QC.RELEASE_GATE_INCOMPLETE", "QC.EXPECTED_VERSION_CONFLICT", "QC.NOT_AUTHORIZED", "QC.OBJECT_NOT_ACCESSIBLE", "QC.PERSISTENCE_UNAVAILABLE"]
+    },
+    "state_transitions": ["QC 运行：OPEN →（全 PASS）PASSED；OPEN →（任一 FAIL）FAILED →（五关口齐备）RELEASED；均不可逆", "关口：未满足 → 已满足（单向一次）"],
+    "permissions": ["新增能力 qc.manage（运行/结果/判定/影响/关口/解除/读取共用，操作差异由状态约束）；HttpClaims 精确 claim 检查", "消费的批次状态端口自行强制其能力，本卡不放宽也不复制"],
+    "audit": ["每个命令写平台 audit_intent（同事务）+ outbox 事件（Qc.RunOpened/ResultRecorded/VerdictRecorded/ImpactRecorded/GateSatisfied/Released）", "失败尝试写 qc.audit_attempt（SHA-256 目标哈希，独立于回滚）", "读取写 READ_QC_RUN 审计"],
+    "observability": ["计数器：运行数、结果判定分布、影响目标数、关口满足分布、解除数、可报告性决策分布", "结构化日志固定 correlationId 与错误码"],
+    "ui_states": ["本卡不新增前端页面", "QC 队列与放行界面属后续卡"],
+    "test_cases": [
+      {"id": "TC-QC-001-01", "title": "方法版本驱动执行", "type": "positive", "given": ["未冻结批次与固定方法/规则集版本"], "when": ["开启运行并逐条落 QCResult"], "then": ["版本原样固定", "全 PASS → PASSED", "审计+发件箱同事务"]},
+      {"id": "TC-QC-001-02", "title": "失败与全量影响传播", "type": "positive", "given": ["一条规则 FAIL"], "when": ["判定并登记覆盖全批的影响集"], "then": ["运行 FAILED", "全部目标登记", "空影响集被拒绝", "重复目标被拒绝"]},
+      {"id": "TC-QC-001-03", "title": "AC-QC-001 偏差获批不解除", "type": "negative", "given": ["QC 失败且已记录偏差获批"], "when": ["影响范围与有效性决定未记录时查询可报告性并尝试解除"], "then": ["BLOCKED 并列明未满足关口", "解除被拒 QC.RELEASE_GATE_INCOMPLETE", "无解除事实"]},
+      {"id": "TC-QC-001-04", "title": "五关口逐项缺失", "type": "boundary", "given": ["五关口中任缺一项"], "when": ["解除"], "then": ["逐项拒绝并列明缺失关口", "齐备后解除成功且可报告性 ALLOWED"]},
+      {"id": "TC-QC-001-05", "title": "批次门禁失败关闭", "type": "negative", "given": ["批次状态端口 BLOCKED 或异常"], "when": ["开启运行"], "then": ["QC.ELIGIBILITY_BLOCKED / QC.APPLICABILITY_UNKNOWN", "运行事实为零", "audit_attempt 恰一次"]},
+      {"id": "TC-QC-001-06", "title": "追加式与并发", "type": "negative", "given": ["已有 QC 事实"], "when": ["UPDATE/DELETE 及并发同版本提交"], "then": ["55000 拒绝", "恰一个提交成功，另一方 EXPECTED_VERSION_CONFLICT"]},
+      {"id": "TC-QC-001-07", "title": "平台证据失败回滚", "type": "negative", "given": ["审计或发件箱注入失败"], "when": ["开启运行"], "then": ["业务事实回滚为零", "audit_attempt 恰一次"]},
+      {"id": "TC-QC-001-08", "title": "可报告性端口版本固定", "type": "boundary", "given": ["已解除与未解除运行"], "when": ["正确/过期版本与未知规则集查询"], "then": ["ALLOWED / BLOCKED / UNKNOWN[VERSION_MISMATCH] / UNKNOWN[RULE_SET_VERSION_UNKNOWN]"]}
+    ],
+    "non_goals": ["不实现环境监控采集或校准状态权威来源（OD-012 未决）", "不实现分包方 QC 回传（OD-013 未决）", "不修改批次冻结语义或结果模块事实（经端口消费）", "不实现报告签发闸门（报告链待 OD-011/022/029）", "不实现 QC 限值/控制图统计或趋势判定（规则判定由调用方声明依据）", "不新增前端页面", "不触碰未决 OD，不创建 Seal、tag、GitHub Release 或部署"],
+    "allowed_paths": ["spec/requirements/BUS-QC-001__v1.0.0.json", "spec/requirements/BUS-QC-002__v1.0.0.json", "spec/requirements/BUS-QC-003__v1.0.0.json", "spec/acceptance/AC-QC-001__v1.0.0.json", "spec/stories/ATC-QC-001__v1.0.0.json", "generated/spec/**", ".planning/2026-07-27-dev-021-qc-impact-propagation/**", "OpenLIMS.slnx", "contracts/qc/**", "src/modules/qc/**", "src/host/api/**", "src/host/worker/**", "tests/unit/qc/**", "tests/contract/qc/**", "tests/integration/qc/**", "tests/architecture/**", "tests/contract/labeling/OpenLIMS.Labeling.ContractTests/packages.lock.json", "tests/contract/platform/OpenLIMS.Platform.ContractTests/packages.lock.json", "tests/contract/receiving/OpenLIMS.Receiving.ContractTests/packages.lock.json", "tests/contract/scope/OpenLIMS.Scope.ContractTests/packages.lock.json", "tests/contract/quantity/OpenLIMS.Quantity.ContractTests/packages.lock.json", "tests/contract/allocation/OpenLIMS.Allocation.ContractTests/packages.lock.json", "tests/contract/batch/OpenLIMS.Batch.ContractTests/packages.lock.json", "tests/contract/result/OpenLIMS.Result.ContractTests/packages.lock.json", "tests/contract/billing/OpenLIMS.Billing.ContractTests/packages.lock.json", "tests/contract/instrument/OpenLIMS.Instrument.ContractTests/packages.lock.json", "tests/integration/platform/OpenLIMS.Platform.IntegrationTests/packages.lock.json", "tests/test_repository_contract.py", "docs/domain/qc/**", "scripts/verify.ps1", "scripts/verify.sh"],
+    "verification_commands": ["python -m tools.specgen ready --story ATC-QC-001@1.0.0", "pwsh -File scripts/verify.ps1 -Profile task -Module qc", "pwsh -File scripts/verify.ps1 -Profile architecture", "python -m tools.specgen check"],
+    "definition_of_done": ["规则执行、影响传播、五关口解除与可报告性端口全部落地且追加式 DB 强制", "AC-QC-001（偏差获批不解除）与五关口逐项缺失均有回归测试", "全部既有测试项目保持绿色", "全仓验证通过且二次 generate written=0", "所有变更位于 allowed_paths"]
+  }
+}

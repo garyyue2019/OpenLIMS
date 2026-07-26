@@ -35,7 +35,8 @@ case "$profile" in
       billing) test_filter='Profile=billing' ;;
       ai) test_filter='Profile=ai' ;;
       instrument) test_filter='Profile=instrument' ;;
-      *) echo "The task profile requires --module platform, --module module-onboarding, --module receiving, --module labeling, --module scope, --module quantity, --module allocation, --module textile, --module batch, --module result, --module billing, --module ai, or --module instrument." >&2; exit 2 ;;
+      qc) test_filter='Profile=qc' ;;
+      *) echo "The task profile requires --module platform, --module module-onboarding, --module receiving, --module labeling, --module scope, --module quantity, --module allocation, --module textile, --module batch, --module result, --module billing, --module ai, --module instrument, or --module qc." >&2; exit 2 ;;
     esac
     require_command dotnet
     gate "dotnet restore (locked)" dotnet restore OpenLIMS.slnx --locked-mode

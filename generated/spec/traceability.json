@@ -31,6 +31,30 @@
       "status": "approved",
       "title": "批次 QC 影响传播"
     },
+    "AC-BILL-001@1.0.0": {
+      "affects": [
+        "billing",
+        "audit",
+        "automated-test"
+      ],
+      "depends_on": [
+        "BUS-BILL-001@1.0.0",
+        "BUS-BILL-002@1.0.0",
+        "BUS-BILL-003@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "8d0d6511cad865448ba2e96f28ef1d4d31233860ca490344914d553a917ef269",
+      "kind": "acceptance",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-BILL-001"
+        }
+      ],
+      "status": "approved",
+      "title": "防重复计费"
+    },
     "AC-DEPLOY-001@0.1.0": {
       "affects": [
         "deployment-test",
@@ -488,6 +512,59 @@
       ],
       "status": "approved",
       "title": "实施 DEV-013 制备/分析批最小切片"
+    },
+    "ATC-BILL-001@1.0.0": {
+      "affects": [
+        "billing",
+        "result",
+        "authorization",
+        "audit",
+        "outbox",
+        "automated-test"
+      ],
+      "depends_on": [
+        "ATC-PLT-003@1.0.0",
+        "ED-001@2.0.0",
+        "OD-002@1.0.0",
+        "ATC-RESULT-001@1.0.0",
+        "BUS-BILL-001@1.0.0",
+        "BUS-BILL-002@1.0.0",
+        "BUS-BILL-003@1.0.0",
+        "AC-BILL-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0",
+        "NFR-ARCH-001@2.0.0"
+      ],
+      "fingerprint": "b6802a9d2521ecbc38a2b2c7adf6cf51b0b026252ae9cfc40864e0f0d870bb58",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "FIN-BILL-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "FIN-BILL-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "FIN-BILL-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "FIN-BILL-004"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "FIN-BILL-005"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-BILL-001"
+        }
+      ],
+      "status": "approved",
+      "title": "实施 DEV-015 唯一计费事实"
     },
     "ATC-PLT-000@0.1.0": {
       "affects": [
@@ -1896,6 +1973,85 @@
       ],
       "status": "approved",
       "title": "批次冻结与全量影响传播"
+    },
+    "BUS-BILL-001@1.0.0": {
+      "affects": [
+        "billing",
+        "result",
+        "versioning",
+        "authorization",
+        "audit",
+        "outbox"
+      ],
+      "depends_on": [
+        "ATC-PLT-003@1.0.0",
+        "ATC-RESULT-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "1ea66d5b70f12603b488a4911e3469faec37762160ccc553b228ab7632c037e0",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "FIN-BILL-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "FIN-BILL-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "FIN-BILL-005"
+        }
+      ],
+      "status": "approved",
+      "title": "服务完成事实生成唯一计费候选"
+    },
+    "BUS-BILL-002@1.0.0": {
+      "affects": [
+        "billing",
+        "audit"
+      ],
+      "depends_on": [
+        "ATC-PLT-003@1.0.0",
+        "BUS-BILL-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "e8ad36abf78ca671d05dc639cb03c09a64bb2ad26a3c2e6939bdad53f0e198b1",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "FIN-BILL-003"
+        }
+      ],
+      "status": "approved",
+      "title": "零金额证据与原因"
+    },
+    "BUS-BILL-003@1.0.0": {
+      "affects": [
+        "billing",
+        "versioning",
+        "audit"
+      ],
+      "depends_on": [
+        "ATC-PLT-003@1.0.0",
+        "BUS-BILL-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "58850683ebc98892c4992a0895a5ae85e6d4c559a3c5118d03e23c50ee316c34",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "FIN-BILL-004"
+        }
+      ],
+      "status": "approved",
+      "title": "正负调整证据更正"
     },
     "BUS-PROD-003@0.1.0": {
       "affects": [

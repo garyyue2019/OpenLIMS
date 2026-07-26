@@ -8,7 +8,7 @@ PRD-MAIN,AC-AR-001,acceptance-block,19.4 发票、应收和对账,1241,唯一余
 PRD-MAIN,AC-AUTO-001,acceptance-block,19.2 收样、拆解和谱系,1202,DVP&R 多对多闭环,b6146605fc8a267d1a4a472d1d509239861ae4a80c98d6a5b1be13b8d2fa8b42,
 PRD-MAIN,AC-AUTO-002,acceptance-block,19.2 收样、拆解和谱系,1205,运行中干预和配置重建,d934bb6d7c5cab3506d6fc1eabb2e6e22fb456bcf58749a804f4706b940c8fd0,
 PRD-MAIN,AC-BATCH-001,acceptance-block,19.2 收样、拆解和谱系,1160,批次 QC 影响传播,01cc2441ea0aa368de478813c958a4c96fa5ce726341f04f899e3ea10d111c6e,AC-BATCH-001@1.0.0;ATC-BATCH-001@1.0.0
-PRD-MAIN,AC-BILL-001,acceptance-block,19.4 发票、应收和对账,1232,防重复计费,edba3d5f98b453afe5efd126f74962ebe1c577a35a597ffd81a19fb37b3a0890,
+PRD-MAIN,AC-BILL-001,acceptance-block,19.4 发票、应收和对账,1232,防重复计费,edba3d5f98b453afe5efd126f74962ebe1c577a35a597ffd81a19fb37b3a0890,AC-BILL-001@1.0.0;ATC-BILL-001@1.0.0
 PRD-MAIN,AC-COMP-001,acceptance-block,19.3 检测、QC 和报告,1219,复合样结果归属,52f161f5a52a7cc3c697750dae06887ca178c5e2159aadc1c20ebfb2571e37ad,
 PRD-MAIN,AC-COMPOSE-001,acceptance-block,19.2 收样、拆解和谱系,1184,多行业包组合,530241a9ed933edc59b3eaa0976f4357e11afaacd438df87ed6b96c02aab86ba,
 PRD-MAIN,AC-CONF-001,acceptance-block,19.0 要求、范围、覆盖和认可,1117,结论层级分离,128d2b59e95b81fe87f8b2d6a5d4639e2f6d9a2bd2a2f4ee0ba9f6c1a20d446a,
@@ -133,11 +133,11 @@ PRD-MAIN,FIN-ALLOC-003,table-row,12.8 核心计费证据、条件开票/ERP 与�
 PRD-MAIN,FIN-AR-001,table-row,12.8 核心计费证据、条件开票/ERP 与可选运营应收,869,系统必须使用不可变交易推导运营应收余额,02d275379b6bdbcc962fa8313bc15899d45d4370540c52cbceda0a92f7a0efa6,
 PRD-MAIN,FIN-AR-002,table-row,12.8 核心计费证据、条件开票/ERP 与可选运营应收,870,系统必须分别展示合同债权余额、运营可催收余额、争议额和坏账后追偿额,38c907b861c4f816f5e6e7badf42c1df247f0aa1237888fdb07a78693a8c7fbf,
 PRD-MAIN,FIN-AR-003,table-row,12.8 核心计费证据、条件开票/ERP 与可选运营应收,871,系统必须禁止直接修改运营应收余额,cf3735d4516e979918f4e490e49b6220e44f27378c1ef791b4494a35c394dae8,
-PRD-MAIN,FIN-BILL-001,table-row,12.8 核心计费证据、条件开票/ERP 与可选运营应收,858,系统必须从合同约定的服务完成事实生成唯一计费候选,ae0c42b21c0faa4ad04c2095d714e36f57f64e64ecff9289273e5b9ae8893af2,
-PRD-MAIN,FIN-BILL-002,table-row,12.8 核心计费证据、条件开票/ERP 与可选运营应收,859,系统必须区分服务完成、可计费权利、开票条件、应收确认和会计收入确认,5396db3bb59794033b23133607c5949ef6779e74b8483da5569c772c046afdd9,
-PRD-MAIN,FIN-BILL-003,table-row,12.8 核心计费证据、条件开票/ERP 与可选运营应收,860,系统必须为免费项生成零金额证据并记录原因,0a7757c186bbc3b4232b03479deac83705c68e148c3b021ba35476a7bc1c8bc5,
-PRD-MAIN,FIN-BILL-004,table-row,12.8 核心计费证据、条件开票/ERP 与可选运营应收,861,系统必须通过正负调整证据更正已确认计费证据,ad34000944f75e0f4df260c46ecec28ae01703503494d05e18d1e95a4bfc5127,
-PRD-MAIN,FIN-BILL-005,table-row,12.8 核心计费证据、条件开票/ERP 与可选运营应收,862,系统必须防止报告重发、接口重试或重复事件产生重复计费,72e0a57e9c835787f4bb3ef200c08656f0901df17aa127426868b5c8a5127270,
+PRD-MAIN,FIN-BILL-001,table-row,12.8 核心计费证据、条件开票/ERP 与可选运营应收,858,系统必须从合同约定的服务完成事实生成唯一计费候选,ae0c42b21c0faa4ad04c2095d714e36f57f64e64ecff9289273e5b9ae8893af2,ATC-BILL-001@1.0.0;BUS-BILL-001@1.0.0
+PRD-MAIN,FIN-BILL-002,table-row,12.8 核心计费证据、条件开票/ERP 与可选运营应收,859,系统必须区分服务完成、可计费权利、开票条件、应收确认和会计收入确认,5396db3bb59794033b23133607c5949ef6779e74b8483da5569c772c046afdd9,ATC-BILL-001@1.0.0;BUS-BILL-001@1.0.0
+PRD-MAIN,FIN-BILL-003,table-row,12.8 核心计费证据、条件开票/ERP 与可选运营应收,860,系统必须为免费项生成零金额证据并记录原因,0a7757c186bbc3b4232b03479deac83705c68e148c3b021ba35476a7bc1c8bc5,ATC-BILL-001@1.0.0;BUS-BILL-002@1.0.0
+PRD-MAIN,FIN-BILL-004,table-row,12.8 核心计费证据、条件开票/ERP 与可选运营应收,861,系统必须通过正负调整证据更正已确认计费证据,ad34000944f75e0f4df260c46ecec28ae01703503494d05e18d1e95a4bfc5127,ATC-BILL-001@1.0.0;BUS-BILL-003@1.0.0
+PRD-MAIN,FIN-BILL-005,table-row,12.8 核心计费证据、条件开票/ERP 与可选运营应收,862,系统必须防止报告重发、接口重试或重复事件产生重复计费,72e0a57e9c835787f4bb3ef200c08656f0901df17aa127426868b5c8a5127270,ATC-BILL-001@1.0.0;BUS-BILL-001@1.0.0
 PRD-MAIN,FIN-CREDIT-001,table-row,12.8 核心计费证据、条件开票/ERP 与可选运营应收,877,系统必须确保同一贷项或红票经济事件只影响一次运营应收余额,bd5f3b87282abfb4cbb84e6e2ed76b83b97680f3ed6be1111f4bcc7ca335ada3,
 PRD-MAIN,FIN-DSP-001,table-row,12.8 核心计费证据、条件开票/ERP 与可选运营应收,878,系统必须限制争议金额不超过当前可争议余额,e485e9deac1d2672c68ea8e1a6c478d6d403a162db90844ca128bb9a7a7df03e,
 PRD-MAIN,FIN-DSP-002,table-row,12.8 核心计费证据、条件开票/ERP 与可选运营应收,879,系统必须使争议只影响争议及催收状态，不改写法定到期日和原应收,0edf4b1c791c3a64be1e3a9a909fa022fbcc3a79d9aa15902f98f34d024ad3d2,

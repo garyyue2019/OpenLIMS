@@ -6,6 +6,7 @@ using OpenLIMS.BuildingBlocks.Platform;
 using OpenLIMS.Contracts.Labeling;
 using OpenLIMS.Contracts.Platform;
 using OpenLIMS.Modules.Allocation;
+using OpenLIMS.Modules.Billing;
 using OpenLIMS.Modules.Batch;
 using OpenLIMS.Modules.Labeling;
 using OpenLIMS.Modules.Quantity;
@@ -35,7 +36,8 @@ IOpenLimsServerModule[] modules =
     new QuantityModule(deploymentOptions.PostgresConnectionString!),
     new AllocationModule(deploymentOptions.PostgresConnectionString!),
     new BatchModule(deploymentOptions.PostgresConnectionString!),
-    new ResultModule(deploymentOptions.PostgresConnectionString!)
+    new ResultModule(deploymentOptions.PostgresConnectionString!),
+    new BillingModule(deploymentOptions.PostgresConnectionString!)
 ];
 var moduleCatalog = OpenLimsModuleCatalog.Create(modules);
 var organizationScope = new OrganizationScope(deploymentOptions.OrganizationGroupId!);
@@ -215,6 +217,10 @@ app.MapGet("/openapi/v1.json", () => Results.Json(new
         ["/api/v1/result-groups/{id}/adoptions"] = new { post = new { operationId = "adoptResult", responses = new { created = new { description = "Strategy-checked adoption appended; latest version effective" } } } },
         ["/api/v1/result-groups/{id}"] = new { get = new { operationId = "getResultGroup", responses = new { ok = new { description = "Immutable result group with observations, provenance, rules, and adoptions" } } } },
         ["/api/v1/result-groups/{id}/adoption-status"] = new { get = new { operationId = "getResultAdoptionStatus", responses = new { ok = new { description = "Version-pinned adoption status decision" } } } },
+        ["/api/v1/billing-evidence"] = new { post = new { operationId = "createBillingEvidence", responses = new { created = new { description = "Unique adoption-gated billing evidence created atomically" } } } },
+        ["/api/v1/billing-evidence/{id}/adjustments"] = new { post = new { operationId = "addBillingAdjustment", responses = new { created = new { description = "Append-only signed adjustment recorded" } } } },
+        ["/api/v1/billing-evidence/{id}"] = new { get = new { operationId = "getBillingEvidence", responses = new { ok = new { description = "Immutable billing evidence with adjustment chain" } } } },
+        ["/api/v1/billing-evidence/{id}/status"] = new { get = new { operationId = "getBillingEvidenceStatus", responses = new { ok = new { description = "Rule-set-pinned billing evidence status decision" } } } },
         ["/api/v1/label-jobs"] = new { post = new { operationId = "createLabelPrintJobs", responses = new { accepted = new { description = "Label print jobs accepted" } } } },
         ["/api/v1/label-jobs/{printJobId}"] = new { get = new { operationId = "getLabelPrintJob", responses = new { ok = new { description = "Label print job state" } } } },
         ["/api/v1/label-jobs/{printJobId}/reprint"] = new { post = new { operationId = "reprintLabel", responses = new { accepted = new { description = "Controlled reprint accepted" } } } },

@@ -9,6 +9,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | 版本键 | 类型 | 状态 | 标题 | 变更级别 | 影响模块 | 指纹 |
 |---|---|---|---|---|---|---|
 | `AC-BATCH-001@1.0.0` | `acceptance` | `approved` | 批次 QC 影响传播 | `major` | batch, qc, freeze-propagation, audit, automated-test | `6edaaa437d6e` |
+| `AC-BILL-001@1.0.0` | `acceptance` | `approved` | 防重复计费 | `major` | billing, audit, automated-test | `8d0d6511cad8` |
 | `AC-DEPLOY-001@0.1.0` | `acceptance` | `in_review` | 集团间独立数据平面 | `major` | deployment-test, security-test, disaster-recovery, infrastructure-evidence | `1a8c17fd6201` |
 | `AC-DEPLOY-001@1.0.0` | `acceptance` | `in_review` | 集团间独立数据平面真实交叉访问验收 | `major` | deployment-test, runtime-security-test, identity-test, telemetry-test, disaster-recovery, infrastructure-evidence | `d09e3a7d43b1` |
 | `AC-ELEC-003@1.0.0` | `acceptance` | `approved` | 破坏性分配互斥与资格门禁全链 | `major` | allocation, destructive-exclusion, eligibility-gate, audit, automated-test | `735b5f0293cd` |
@@ -25,6 +26,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `AC-TEXTILE-003@1.0.0` | `acceptance` | `approved` | 裁样方向与预处理超差契约验收 | `major` | textile, preconditioning, cutting-plan, automated-test | `7f112061a2b3` |
 | `ATC-ALLOC-001@1.0.0` | `story` | `approved` | 实施 DEV-010 任务分配资格 | `major` | allocation, receiving, scope, quantity, eligibility-gate, authorization, audit, outbox, automated-test | `d8e63c13c345` |
 | `ATC-BATCH-001@1.0.0` | `story` | `approved` | 实施 DEV-013 制备/分析批最小切片 | `major` | batch, allocation, qc, raw-data, authorization, audit, outbox, automated-test | `6028422fb5b0` |
+| `ATC-BILL-001@1.0.0` | `story` | `approved` | 实施 DEV-015 唯一计费事实 | `major` | billing, result, authorization, audit, outbox, automated-test | `b6802a9d2521` |
 | `ATC-PLT-000@0.1.0` | `story` | `proposed` | 建立可验证的模块化单体工程骨架 | `major` | engineering-skeleton, repository, api-host, worker-host, web-shell, module-boundaries, postgresql, identity, object-storage, outbox, audit, observability, ci, deployment, automated-test | `af9924a0b1fa` |
 | `ATC-PLT-000@1.0.0` | `story` | `proposed` | 建立可验证的模块化单体工程骨架 | `major` | engineering-skeleton, repository, api-host, worker-host, web-shell, module-boundaries, postgresql, identity, object-storage, outbox, audit, observability, ci, deployment, automated-test | `f45a6ee6de5f` |
 | `ATC-PLT-003@1.0.0` | `story` | `approved` | 建立业务模块接入与验证通道 | `major` | module-composition, api-host, worker-host, web-composition, architecture-tests, verification | `b2a7af44a3db` |
@@ -56,6 +58,9 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `BUS-BATCH-001@1.0.0` | `requirement` | `approved` | 类型化不可变批次事实 | `major` | batch, execution, versioning, authorization, audit, outbox | `4e5e753adce8` |
 | `BUS-BATCH-002@1.0.0` | `requirement` | `approved` | 跨委托成员、客户隔离与外部证据引用 | `major` | batch, allocation, customer-isolation, raw-data, audit | `021ecf7a878e` |
 | `BUS-BATCH-003@1.0.0` | `requirement` | `approved` | 批次冻结与全量影响传播 | `major` | batch, qc, freeze-propagation, audit, outbox | `0293aa7be242` |
+| `BUS-BILL-001@1.0.0` | `requirement` | `approved` | 服务完成事实生成唯一计费候选 | `major` | billing, result, versioning, authorization, audit, outbox | `1ea66d5b70f1` |
+| `BUS-BILL-002@1.0.0` | `requirement` | `approved` | 零金额证据与原因 | `major` | billing, audit | `e8ad36abf78c` |
+| `BUS-BILL-003@1.0.0` | `requirement` | `approved` | 正负调整证据更正 | `major` | billing, versioning, audit | `58850683ebc9` |
 | `BUS-PROD-003@0.1.0` | `requirement` | `in_review` | 被业务引用的产品版本禁止原地修改 | `major` | product, product-variant, versioning, impact-analysis, evidence | `faf2128cf612` |
 | `BUS-QTY-001@1.0.0` | `requirement` | `approved` | 不可变数量流水与冲销重记 | `major` | quantity, versioning, authorization, audit, outbox | `47e4cca52ccf` |
 | `BUS-QTY-002@1.0.0` | `requirement` | `approved` | 账户级计量维度、精度与守恒公差配置 | `major` | quantity, measurement, authorization, audit | `a35cedb07b7f` |

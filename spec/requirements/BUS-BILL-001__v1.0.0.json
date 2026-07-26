@@ -1,0 +1,23 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-BILL-001",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "服务完成事实生成唯一计费候选",
+  "summary": "计费证据从服务完成事实（结果组有效采用，经 ResultAdoptionPort 门禁固定）生成，锚定合同基线引用、收费维度和规则版本；相同四元组只能存在一条有效计费证据。",
+  "owners": ["财务负责人", "技术负责人", "产品负责人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "FIN-BILL-001"},
+    {"document": "PRD-MAIN", "item": "FIN-BILL-002"},
+    {"document": "PRD-MAIN", "item": "FIN-BILL-005"}
+  ],
+  "depends_on": ["ATC-PLT-003@1.0.0", "ATC-RESULT-001@1.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0"],
+  "affects": ["billing", "result", "versioning", "authorization", "audit", "outbox"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "ENABLED", "condition": "DEV-015 唯一计费事实切片启用"},
+  "approval_evidence": "用户于 2026-07-26 明确选择'跳到 BILL'并在全流程授权下批准本切片。",
+  "invariants": ["计费证据创建前必须获得 ResultAdoptionPort 对精确组版本的 ALLOWED 并原样固定（gate-then-commit）", "唯一键为服务事实（resultGroupId+groupVersion+有效采用目标）×合同基线引用×收费维度×规则版本，重复触发被拒绝", "阶段只记录 SERVICE_COMPLETED 到 BILLABLE_CANDIDATE，不实现开票、应收确认或收入确认（区分而不混同）", "货币为调用方声明的固定引用，本切片不做换算（OD-017 保持 open）", "证据、审计和 Outbox 在同一事务提交"]
+}

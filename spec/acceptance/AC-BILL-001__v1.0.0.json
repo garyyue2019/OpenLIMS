@@ -1,0 +1,22 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "acceptance",
+  "id": "AC-BILL-001",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "防重复计费",
+  "summary": "相同服务事实、合同基线、收费维度和规则版本重复触发两次，系统只能存在一条有效计费证据。",
+  "owners": ["财务负责人", "质量负责人", "QA负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "AC-BILL-001"}],
+  "depends_on": ["BUS-BILL-001@1.0.0", "BUS-BILL-002@1.0.0", "BUS-BILL-003@1.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0"],
+  "affects": ["billing", "audit", "automated-test"],
+  "change_class": "major",
+  "approval_evidence": "用户于 2026-07-26 明确选择'跳到 BILL'并在全流程授权下批准本切片。",
+  "scenario": {
+    "given": ["结果组已有有效采用（服务完成事实）", "相同合同基线引用、收费维度和规则版本"],
+    "when": ["顺序重复提交两次相同计费证据", "并发提交两次相同计费证据", "报告重发或接口重试再次触发"],
+    "then": ["只存在一条有效计费证据", "重复提交被拒绝且无副作用", "并发提交最多一笔成功", "调整不产生第二条同键证据"]
+  },
+  "automation": ["领域规则单元测试", "HTTP 与公共端口契约测试", "PostgreSQL 唯一约束与并发测试", "跨模块采用门禁集成测试", "零金额与调整链测试", "审计与 Outbox 回滚测试", "UNKNOWN 失败关闭测试"]
+}

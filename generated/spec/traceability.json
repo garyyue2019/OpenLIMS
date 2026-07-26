@@ -232,6 +232,32 @@
       "status": "approved",
       "title": "隔离资格统一失败关闭"
     },
+    "AC-RETEST-001@1.0.0": {
+      "affects": [
+        "result",
+        "retest",
+        "adoption",
+        "audit",
+        "automated-test"
+      ],
+      "depends_on": [
+        "BUS-RES-001@1.0.0",
+        "BUS-RES-002@1.0.0",
+        "BUS-RES-003@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "578ffe8b2ade26b99f45bb148f55208c4fbafb71d4ebffbc26afd66ab971d97b",
+      "kind": "acceptance",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-RETEST-001"
+        }
+      ],
+      "status": "approved",
+      "title": "复测采用"
+    },
     "AC-SCOPE-001@1.0.0": {
       "affects": [
         "test-scope",
@@ -1511,6 +1537,76 @@
       "status": "approved",
       "title": "实施 DEV-007 受控放行与版本固定资格"
     },
+    "ATC-RESULT-001@1.0.0": {
+      "affects": [
+        "result",
+        "batch",
+        "raw-data",
+        "provenance",
+        "adoption",
+        "retest",
+        "authorization",
+        "audit",
+        "outbox",
+        "automated-test"
+      ],
+      "depends_on": [
+        "ATC-PLT-003@1.0.0",
+        "ED-001@2.0.0",
+        "OD-002@1.0.0",
+        "OD-030@1.0.0",
+        "ATC-BATCH-001@1.0.0",
+        "BUS-RES-001@1.0.0",
+        "BUS-RES-002@1.0.0",
+        "BUS-RES-003@1.0.0",
+        "AC-RETEST-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0",
+        "NFR-ARCH-001@2.0.0"
+      ],
+      "fingerprint": "89ae098800fcc9e3929738cf6a9978e0a79567d6cda65f661882c816343c0124",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-RAW-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-RAW-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-PROV-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-PROV-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-RES-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-RES-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-RES-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-RES-004"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-RETEST-001"
+        }
+      ],
+      "status": "approved",
+      "title": "实施 DEV-014 结果来源与采用"
+    },
     "ATC-SCP-001@1.0.0": {
       "affects": [
         "scope",
@@ -1930,6 +2026,103 @@
       ],
       "status": "in_review",
       "title": "要求更新生成影响清单且不改写冻结委托"
+    },
+    "BUS-RES-001@1.0.0": {
+      "affects": [
+        "result",
+        "raw-data",
+        "batch",
+        "versioning",
+        "audit",
+        "outbox"
+      ],
+      "depends_on": [
+        "ATC-PLT-003@1.0.0",
+        "OD-030@1.0.0",
+        "ATC-BATCH-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "9a52d7f4d3a1e3e78eaa3ea9ef18517d4334f8cf01cde5afbd4b8a803aaf9aca",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-RAW-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-RAW-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-RES-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-RES-002"
+        }
+      ],
+      "status": "approved",
+      "title": "不可变结果观测与原始证据引用"
+    },
+    "BUS-RES-002@1.0.0": {
+      "affects": [
+        "result",
+        "provenance",
+        "versioning",
+        "audit"
+      ],
+      "depends_on": [
+        "ATC-PLT-003@1.0.0",
+        "BUS-RES-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "236b56d1fb85fa84e89b38006e7dfec7c1a9a944a4d4b05b9eaad2e6f87cbf05",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-PROV-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-PROV-002"
+        }
+      ],
+      "status": "approved",
+      "title": "追加式结果来源图"
+    },
+    "BUS-RES-003@1.0.0": {
+      "affects": [
+        "result",
+        "adoption",
+        "retest",
+        "versioning",
+        "audit"
+      ],
+      "depends_on": [
+        "ATC-PLT-003@1.0.0",
+        "BUS-RES-001@1.0.0",
+        "BUS-RES-002@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "5259ecca35c51c34b34147e8ef4a99fe639faeee5831866cce6d54032e8bb2cf",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-RES-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-RES-004"
+        }
+      ],
+      "status": "approved",
+      "title": "预先采用规则与唯一有效采用结果"
     },
     "BUS-SCOPE-001@1.0.0": {
       "affects": [

@@ -1,0 +1,22 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "acceptance",
+  "id": "AC-RETEST-001",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "复测采用",
+  "summary": "原结果已产生且需要复测时，系统必须在复测执行前记录原因、批准人和采用规则；复测完成后不得由执行人员任意选择更有利结果。",
+  "owners": ["实验室技术负责人", "质量负责人", "QA负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "AC-RETEST-001"}],
+  "depends_on": ["BUS-RES-001@1.0.0", "BUS-RES-002@1.0.0", "BUS-RES-003@1.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0"],
+  "affects": ["result", "retest", "adoption", "audit", "automated-test"],
+  "change_class": "major",
+  "approval_evidence": "用户于 2026-07-26 明确选择'跳到 RESULT'并在全流程授权下批准本切片。",
+  "scenario": {
+    "given": ["结果组已有 INITIAL 观测", "需要复测"],
+    "when": ["未记录采用规则时直接提交 RETEST 观测", "记录 RETEST_REPLACES_ORIGINAL 规则后提交带触发原因与批准引用的 RETEST 观测", "尝试采用对执行人员更有利的 INITIAL 结果", "按规则采用最新 RETEST 结果"],
+    "then": ["无预先规则的 RETEST 观测被拒绝", "规则记录后 RETEST 观测成功且原数据、谱系、触发原因和批准全部保留", "违反策略的采用被拒绝（不得任意选择有利结果）", "合规采用成功且该组只有一个有效采用结果", "观测、规则与采用全部不可改写"]
+  },
+  "automation": ["领域规则单元测试", "HTTP 与公共端口契约测试", "PostgreSQL 事务与并发测试", "批次门禁集成测试", "预先规则与策略校验测试", "不可变历史与唯一有效采用测试", "审计与 Outbox 回滚测试", "UNKNOWN 失败关闭测试"]
+}

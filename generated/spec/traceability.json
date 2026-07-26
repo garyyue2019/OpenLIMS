@@ -644,6 +644,46 @@
       "status": "approved",
       "title": "实施 DEV-015 唯一计费事实"
     },
+    "ATC-GOV-001@1.0.0": {
+      "affects": [
+        "release-governance",
+        "applicability",
+        "industry-pack",
+        "technical-pack",
+        "baseline",
+        "traceability",
+        "automated-test"
+      ],
+      "depends_on": [
+        "ED-001@2.0.0",
+        "OD-002@1.0.0",
+        "OD-001@1.0.0",
+        "BUS-GOV-001@1.0.0",
+        "NFR-ARCH-001@2.0.0"
+      ],
+      "fingerprint": "a0b1e6f5d4519b03c508bc33457107bb75e228dd2623e6d4313e7cfe2274b3c2",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "BUS-DOMAIN-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "BUS-REQ-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "RULE-026"
+        }
+      ],
+      "status": "approved",
+      "title": "实施 DEV-019 冻结 R1 适用性基线"
+    },
     "ATC-PLT-000@0.1.0": {
       "affects": [
         "engineering-skeleton",
@@ -2305,6 +2345,42 @@
       "status": "approved",
       "title": "正负调整证据更正"
     },
+    "BUS-GOV-001@1.0.0": {
+      "affects": [
+        "release-governance",
+        "applicability",
+        "industry-pack",
+        "technical-pack",
+        "baseline",
+        "traceability"
+      ],
+      "depends_on": [
+        "OD-001@1.0.0",
+        "ATC-PLT-003@1.0.0"
+      ],
+      "fingerprint": "97ca439d12b45476a2f23d6077c692ff69941d08b3c4166c626a8900dbba7d24",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "BUS-DOMAIN-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "BUS-REQ-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "RULE-026"
+        }
+      ],
+      "status": "approved",
+      "title": "Release 1 适用性基线冻结不变量"
+    },
     "BUS-PLT-001@1.0.0": {
       "affects": [
         "platform",
@@ -2988,6 +3064,29 @@
       ],
       "status": "proposed",
       "title": "Release 1 唯一灯塔试点切片"
+    },
+    "OD-001@1.0.0": {
+      "affects": [
+        "release-governance",
+        "applicability",
+        "industry-pack",
+        "technical-pack",
+        "all-release-1-modules"
+      ],
+      "depends_on": [
+        "ED-001@2.0.0",
+        "OD-002@1.0.0"
+      ],
+      "fingerprint": "c2aa44467e86108130b5a46636a6dcfb170331b2e2129368122081ee59f7555c",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-001"
+        }
+      ],
+      "status": "approved",
+      "title": "DEV-019 Release 1 唯一灯塔试点切片"
     },
     "OD-002@1.0.0": {
       "affects": [

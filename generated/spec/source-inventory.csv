@@ -88,7 +88,7 @@ PRD-MAIN,BP-020,table-row,5. 业务原则,174,认可标识和授权必须按报�
 PRD-MAIN,BUS-CAP-001,table-row,12.1 范围、产品与结构,692,系统必须在正式报价前记录实验室能力、认可范围、方法、人员/设备、分包、样品量、交期和保密评审结果,50ec533080267a33bc75342ec02df8ee74d225093bc7bf2f9f9f2a04b327f169,
 PRD-MAIN,BUS-COV-001,table-row,12.1 范围、产品与结构,696,系统必须将代表样、被覆盖对象、适用危险域/项目、理由、批准、排除项和失效条件作为版本化 CoverageDecision 管理,5ad2b268652e60b475315e4e20a98a9ef957f0bb9a73819dfad1b71a3fd04b3d,
 PRD-MAIN,BUS-COV-002,table-row,12.1 范围、产品与结构,697,覆盖输入、产品/材料/配置版本或适用规则变化时，系统必须使受影响覆盖决定进入待重新评估状态,a9c769aef02faccbca356c0f8abfdff27b575c5d28c70b9091ca9bbe7e6a600f,
-PRD-MAIN,BUS-DOMAIN-001,table-row,12.1 范围、产品与结构,684,系统必须按部署集团获批业务域、行业包和实验室能力配置允许的委托类型；排除域默认禁用，但不得把产品路线图排除项硬编码为不可扩展的永久禁令,65b56e0f875b31e0ff086b91af8d144bac7ef264fe47757b2f432e264c0edb19,
+PRD-MAIN,BUS-DOMAIN-001,table-row,12.1 范围、产品与结构,684,系统必须按部署集团获批业务域、行业包和实验室能力配置允许的委托类型；排除域默认禁用，但不得把产品路线图排除项硬编码为不可扩展的永久禁令,65b56e0f875b31e0ff086b91af8d144bac7ef264fe47757b2f432e264c0edb19,ATC-GOV-001@1.0.0;BUS-GOV-001@1.0.0
 PRD-MAIN,BUS-DOMAIN-002,table-row,12.1 范围、产品与结构,685,同一送检项/收到的实物必须允许同时启用多个行业包和技术包，共享同一物理身份、谱系、数量及保管链；各包拥有独立范围行和结论，不得复制样品或相互覆盖,ccf179f8412f680394d814196a62246223de45ccb9cfc7ff960c98eef9bf43fb,
 PRD-MAIN,BUS-METHOD-001,table-row,12.1 范围、产品与结构,691,系统必须将要求、检测套餐、方法及选项、限值、计算、判定规则和样品需求作为独立版本对象管理,d46cd44fa91e8b25b3d7da27ecbee90c549a58c4ad5b591344dd309f25b41e32,
 PRD-MAIN,BUS-PARTY-001,table-row,12.1 范围、产品与结构,686,系统必须分别管理申请方、付款方、品牌/项目所有者、制造商、工厂、样品提供者、报告抬头和报告接收方等参与方角色及有效期,4193a9edde11ea0b2b67a68c52bac30b8b6276998764038ac85f53406c5ad964,
@@ -107,7 +107,7 @@ PRD-MAIN,BUS-QUOTE-005,table-row,12.2 询价、报价和变更,714,系统必须�
 PRD-MAIN,BUS-QUOTE-006,table-row,12.2 询价、报价和变更,715,系统必须通过变更单处理已接受报价后的范围、数量、方法、价格或周期变化,44d5fd376a0de97299f64dd19d8b18e6f8cc16173de4a236b9384040e73c9196,
 PRD-MAIN,BUS-QUOTE-007,table-row,12.2 询价、报价和变更,716,系统必须对变更生成价格、周期、样品需求、在制工作和报告影响清单,1cfd8150eefbed41dad1390781adb825c0f2505c5112a285c4daae0006e84c4c,
 PRD-MAIN,BUS-REQ-001,table-row,12.1 范围、产品与结构,687,系统必须分别管理要求来源、出版文档版本/修订/勘误、文档关系、采用/适用规则、条款、内容所有者和批准状态,b372e02f1038ee0c3864b19ac35632ceee3d3c259a6c25c8bce1517d3e10a136,
-PRD-MAIN,BUS-REQ-002,table-row,12.1 范围、产品与结构,688,系统必须阻止没有受控适用依据的文档版本自动用于新范围；受控依据可来自法规/认证过渡、客户/OEM 指定、研究/比对目的或其他批准规则,9839145ae7e2a057815ef7ee5138829699f9b5023c44179c41e692c36c9c3476,
+PRD-MAIN,BUS-REQ-002,table-row,12.1 范围、产品与结构,688,系统必须阻止没有受控适用依据的文档版本自动用于新范围；受控依据可来自法规/认证过渡、客户/OEM 指定、研究/比对目的或其他批准规则,9839145ae7e2a057815ef7ee5138829699f9b5023c44179c41e692c36c9c3476,ATC-GOV-001@1.0.0;BUS-GOV-001@1.0.0
 PRD-MAIN,BUS-REQ-003,table-row,12.1 范围、产品与结构,689,系统必须使要求或客户协议更新生成受影响套餐、范围、进行中任务和报告模板清单，不得静默改写已冻结委托,b25305f7c4995ae01cdf259084e2fea5f3e8309c6c172c4a9090de21fd64119a,BUS-REQ-003@0.1.0
 PRD-MAIN,BUS-REQ-004,table-row,12.1 范围、产品与结构,690,系统必须将出版文档版本、文档关系、采用/适用规则、委托适用性评估和最终选择快照分层管理；不得把文档发布日期直接当作委托生效日期,688179ec44d7abd570632e32affd122d139e23a2350a017eebaf09e1b0e10793,
 PRD-MAIN,BUS-SCOPE-001,table-row,12.1 范围、产品与结构,693,系统必须为正式报价和执行建立版本化 TestScopeMatrix,934f5ba7c567fafa7bf251a73567c6421ef577938300b12118193d49695eee41,ATC-SCP-001@1.0.0;BUS-SCOPE-001@1.0.0
@@ -217,7 +217,7 @@ PRD-MAIN,NFR-PERF-004,table-row,17. 非功能需求,1051,启用商业运营包�
 PRD-MAIN,NFR-PERF-005,table-row,17. 非功能需求,1052,启用商业运营包时，单客户对账单必须在 30 秒内生成,7e8b2a438e6e9682951b5657aadd6ab4d48ecb8d791be2e7e1bf7708b77f887f,
 PRD-MAIN,NFR-SEC-001,table-row,17. 非功能需求,1056,上线时严重和高危安全缺陷必须为零,f6c679a6c07ac84d3dca9814dd8088833b5da9a82e58d595858a8c40ebb0ca5d,
 PRD-MAIN,NFR-SEC-002,table-row,17. 非功能需求,1057,数据传输和静态敏感数据必须使用批准的加密方案,13dc0eeaf4be2570d700bed4afa4d399009c36776d1451e76397dbf2e2ffb9a5,
-PRD-MAIN,OD-001,table-row,23. 明确待决策事项,1447,Release 1 的唯一试点“行业 × 产品类别 × 目标市场/客户协议 × 方法族”、灯塔客户和黄金场景,47f6cb0447b1e1a6e9a9d5b85ac92e055bede7856505c2fbbd330e2d888f4b3e,OD-001@0.1.0;REL-R1-RECEIVING-PILOT@0.1.0;REL-R1-RECEIVING-PILOT@1.0.0
+PRD-MAIN,OD-001,table-row,23. 明确待决策事项,1447,Release 1 的唯一试点“行业 × 产品类别 × 目标市场/客户协议 × 方法族”、灯塔客户和黄金场景,47f6cb0447b1e1a6e9a9d5b85ac92e055bede7856505c2fbbd330e2d888f4b3e,ATC-GOV-001@1.0.0;BUS-GOV-001@1.0.0;OD-001@0.1.0;OD-001@1.0.0;REL-R1-RECEIVING-PILOT@0.1.0;REL-R1-RECEIVING-PILOT@1.0.0
 PRD-MAIN,OD-002,table-row,23. 明确待决策事项,1448,**已决定：集团多机构、每集团独立部署；禁止共享 SaaS 多租户。** 云托管也必须是单集团独享环境；集团内支持多法人、多实验室、多部门和多工作中心，送检客户不是租户,871512ce3d1bf4d0019290174ad63426313fe8a1f1fb4f36191b08cd827b2207,ATC-PLT-000@0.1.0;ATC-PLT-000@1.0.0;ATC-PLT-003@1.0.0;ATC-REC-001@0.1.0;ATC-REC-001@1.0.0;ATC-REC-001@2.0.0;ATC-REC-002@0.1.0;ATC-REC-002@1.0.0;ATC-REC-002@2.0.0;ATC-REC-003@0.1.0;ATC-REC-003@1.0.0;ATC-REC-004@0.1.0;ATC-REC-004@1.0.0;ATC-REC-005@0.1.0;ATC-REC-005@1.0.0;ATC-REC-006@0.1.0;ATC-REC-006@1.0.0;ATC-REC-006@2.0.0;OD-002@1.0.0;ORG-STRUCT-001@0.1.0;ORG-STRUCT-001@1.0.0;SEC-DEPLOY-001@0.1.0;SEC-DEPLOY-001@1.0.0;SEC-DEPLOY-001@2.0.0
 PRD-MAIN,OD-003,table-row,23. 明确待决策事项,1449,产品结构最大层级、单版本节点上限和图片数量上限,332a2614631a727a0dac05f12453aad6e55957bd502b3ea9958d8acd71e3895e,
 PRD-MAIN,OD-004,table-row,23. 明确待决策事项,1450,哪些产品或方法允许、要求或禁止破坏性拆解,c73c04c8e5e634babc68d1cbc4c7268e55c50b7f8eb54c805dd17c325ea2d0b7,
@@ -375,7 +375,7 @@ PRD-MAIN,RULE-022,table-row,18. 核心业务规则,1091,批次 QC 或环境超�
 PRD-MAIN,RULE-023,table-row,18. 核心业务规则,1092,同一产品名称或型号但受试配置、硬件/固件、零件/图纸修订、批次或关键材料不同，不得默认共享结果,4b80d8c142b4b21aeb808e8889a7f00361cb835012a5c6181038f9796148fa18,
 PRD-MAIN,RULE-024,table-row,18. 核心业务规则,1093,“单项符合”和“已测试范围符合”是 LIMS 内部受控结论；全面法规评估、声明和认证/证书只保存外部或另行授权流程的权威引用，不得由 LIMS 根据一组检测结果生成或提升,ccdf3b7fd0b3e87ff0823d583707fb92a8181d030176295001895cc3a68da430,
 PRD-MAIN,RULE-025,table-row,18. 核心业务规则,1094,认可资格必须按报告行、实验室地点、方法/参数/量程、时间和签字人计算，不得用机构级标记放行,4882534471acf71ad0a7a8e849dbce05e44ba637a020eb747ee4b816e29a523e,
-PRD-MAIN,RULE-026,table-row,18. 核心业务规则,1095,行业包或客户配置升级只对明确生效范围起作用；历史和在制对象按批准迁移/沿用策略处理,138639c246ce3e8fe979512d64e89d518bcf416fd7ecb5ca6616e7ddc556b121,ATC-REC-006@0.1.0;ATC-REC-006@1.0.0;ATC-REC-006@2.0.0;RULE-026@0.1.0
+PRD-MAIN,RULE-026,table-row,18. 核心业务规则,1095,行业包或客户配置升级只对明确生效范围起作用；历史和在制对象按批准迁移/沿用策略处理,138639c246ce3e8fe979512d64e89d518bcf416fd7ecb5ca6616e7ddc556b121,ATC-GOV-001@1.0.0;ATC-REC-006@0.1.0;ATC-REC-006@1.0.0;ATC-REC-006@2.0.0;BUS-GOV-001@1.0.0;RULE-026@0.1.0
 PRD-MAIN,SEC-AUD-001,table-row,14. 权限、职责分离与电子签名,972,系统必须对新增、修改、状态转换、批准、下载、导出、扫描、标签重印、AI 运行和接口重放生成追加式审计事件,79bb14cf6bf64595ee7888ceba58bc8d33c85449aee4f66e8672727780ee5e2d,ATC-PLT-000@0.1.0;ATC-PLT-000@1.0.0;ATC-PLT-001@1.0.0;ATC-PLT-002@1.0.0;ATC-REC-001@0.1.0;ATC-REC-001@1.0.0;ATC-REC-001@2.0.0;ATC-REC-002@0.1.0;ATC-REC-002@1.0.0;ATC-REC-002@2.0.0;ATC-REC-003@0.1.0;ATC-REC-003@1.0.0;BUS-PLT-001@1.0.0;SEC-AUD-001@0.1.0;SEC-AUD-001@1.0.0;SEC-AUD-001@2.0.0
 PRD-MAIN,SEC-AUD-002,table-row,14. 权限、职责分离与电子签名,973,系统必须使普通管理员无法修改或删除审计日志,60aff14a66c559bcf73b2b5dda0416c1aa15ff3df256ae53af25f70acb4ab871,ATC-PLT-002@1.0.0;BUS-PLT-001@1.0.0
 PRD-MAIN,SEC-AUD-003,table-row,14. 权限、职责分离与电子签名,974,系统必须通过哈希链、WORM 或经批准等效机制检测审计完整性破坏,98d7f414cd12feccccb95bafd1defe5e83f3351f4ec16f0705b081ac1f884105,

@@ -11,7 +11,7 @@
 3. [completed] 创建批准的后继规格与任务卡，生成派生物并使精确版本任务卡返回 READY。
 4. [completed] 在 allowed_paths 内实现领域逻辑、公共契约、持久化/API、审计和门禁端口。
 5. [completed] 补齐正向、反向、边界、权限、并发、恢复、审计和回归测试。
-6. [in_progress] 执行完整门禁，二次生成 written=0，CI 全绿后按授权自动提交/PR/合并。
+6. [completed] 执行完整门禁，二次生成 written=0；已按授权自动提交、PR #11、CI 全绿并 squash 合并为 `main@19ab75b`。
 
 ## 约束
 

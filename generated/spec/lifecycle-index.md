@@ -12,6 +12,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 |---|---|---|---|
 | `AC-DEPLOY-001` | `0.1.0` | `in_review` | `spec/acceptance/AC-DEPLOY-001__v0.1.0.json` |
 | `AC-DEPLOY-001` | `1.0.0` | `in_review` | `spec/acceptance/AC-DEPLOY-001__v1.0.0.json` |
+| `AC-ELEC-003` | `1.0.0` | `approved` | `spec/acceptance/AC-ELEC-003__v1.0.0.json` |
 | `AC-ID-001` | `0.1.0` | `in_review` | `spec/acceptance/AC-ID-001__v0.1.0.json` |
 | `AC-ID-001` | `1.0.0` | `approved` | `spec/acceptance/AC-ID-001__v1.0.0.json` |
 | `AC-QTY-001` | `1.0.0` | `approved` | `spec/acceptance/AC-QTY-001__v1.0.0.json` |
@@ -20,6 +21,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `AC-SCOPE-001` | `1.0.0` | `approved` | `spec/acceptance/AC-SCOPE-001__v1.0.0.json` |
 | `AC-SEC-001` | `0.1.0` | `in_review` | `spec/acceptance/AC-SEC-001__v0.1.0.json` |
 | `AC-SEC-001` | `1.0.0` | `approved` | `spec/acceptance/AC-SEC-001__v1.0.0.json` |
+| `ATC-ALLOC-001` | `1.0.0` | `approved` | `spec/stories/ATC-ALLOC-001__v1.0.0.json` |
 | `ATC-PLT-000` | `0.1.0` | `proposed` | `spec/stories/ATC-PLT-000__v0.1.0.json` |
 | `ATC-PLT-000` | `1.0.0` | `proposed` | `spec/stories/ATC-PLT-000__v1.0.0.json` |
 | `ATC-PLT-003` | `1.0.0` | `approved` | `spec/stories/ATC-PLT-003__v1.0.0.json` |
@@ -42,6 +44,9 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `ATC-REC-006` | `1.0.0` | `proposed` | `spec/stories/ATC-REC-006__v1.0.0.json` |
 | `ATC-REC-006` | `2.0.0` | `approved` | `spec/stories/ATC-REC-006__v2.0.0.json` |
 | `ATC-SCP-001` | `1.0.0` | `approved` | `spec/stories/ATC-SCP-001__v1.0.0.json` |
+| `BUS-ALLOC-001` | `1.0.0` | `approved` | `spec/requirements/BUS-ALLOC-001__v1.0.0.json` |
+| `BUS-ALLOC-002` | `1.0.0` | `approved` | `spec/requirements/BUS-ALLOC-002__v1.0.0.json` |
+| `BUS-ALLOC-003` | `1.0.0` | `approved` | `spec/requirements/BUS-ALLOC-003__v1.0.0.json` |
 | `BUS-PROD-003` | `0.1.0` | `in_review` | `spec/requirements/BUS-PROD-003__v0.1.0.json` |
 | `BUS-QTY-001` | `1.0.0` | `approved` | `spec/requirements/BUS-QTY-001__v1.0.0.json` |
 | `BUS-QTY-002` | `1.0.0` | `approved` | `spec/requirements/BUS-QTY-002__v1.0.0.json` |

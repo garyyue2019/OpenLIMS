@@ -5,6 +5,7 @@ using OpenLIMS.Api;
 using OpenLIMS.BuildingBlocks.Platform;
 using OpenLIMS.Contracts.Labeling;
 using OpenLIMS.Contracts.Platform;
+using OpenLIMS.Modules.Allocation;
 using OpenLIMS.Modules.Labeling;
 using OpenLIMS.Modules.Quantity;
 using OpenLIMS.Modules.Receiving;
@@ -29,7 +30,8 @@ IOpenLimsServerModule[] modules =
     new ReceivingModule(deploymentOptions.PostgresConnectionString!),
     new LabelingModule(deploymentOptions.PostgresConnectionString!, labelPrinters),
     new ScopeModule(deploymentOptions.PostgresConnectionString!),
-    new QuantityModule(deploymentOptions.PostgresConnectionString!)
+    new QuantityModule(deploymentOptions.PostgresConnectionString!),
+    new AllocationModule(deploymentOptions.PostgresConnectionString!)
 ];
 var moduleCatalog = OpenLimsModuleCatalog.Create(modules);
 var organizationScope = new OrganizationScope(deploymentOptions.OrganizationGroupId!);
@@ -192,6 +194,10 @@ app.MapGet("/openapi/v1.json", () => Results.Json(new
         ["/api/v1/quantity-accounts/{id}/entries"] = new { post = new { operationId = "postQuantityEntry", responses = new { created = new { description = "Append-only quantity ledger entry posted atomically" } } } },
         ["/api/v1/quantity-accounts/{id}"] = new { get = new { operationId = "getQuantityAccount", responses = new { ok = new { description = "Quantity account configuration, balance, reserved, and available amounts" } } } },
         ["/api/v1/quantity-accounts/{id}/availability"] = new { get = new { operationId = "getQuantityAvailability", responses = new { ok = new { description = "Version-pinned availability decision" } } } },
+        ["/api/v1/test-object-allocations"] = new { post = new { operationId = "createTestObjectAllocation", responses = new { created = new { description = "Immutable gate-pinned test object allocation created atomically" } } } },
+        ["/api/v1/test-object-allocations/{id}/release"] = new { post = new { operationId = "releaseTestObjectAllocation", responses = new { created = new { description = "Append-only one-time allocation release recorded" } } } },
+        ["/api/v1/test-object-allocations/{id}"] = new { get = new { operationId = "getTestObjectAllocation", responses = new { ok = new { description = "Immutable allocation fact with pinned gate decisions" } } } },
+        ["/api/v1/test-object-allocations/{id}/status"] = new { get = new { operationId = "getAllocationStatus", responses = new { ok = new { description = "Version-pinned allocation status decision" } } } },
         ["/api/v1/label-jobs"] = new { post = new { operationId = "createLabelPrintJobs", responses = new { accepted = new { description = "Label print jobs accepted" } } } },
         ["/api/v1/label-jobs/{printJobId}"] = new { get = new { operationId = "getLabelPrintJob", responses = new { ok = new { description = "Label print job state" } } } },
         ["/api/v1/label-jobs/{printJobId}/reprint"] = new { post = new { operationId = "reprintLabel", responses = new { accepted = new { description = "Controlled reprint accepted" } } } },

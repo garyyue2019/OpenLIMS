@@ -531,6 +531,7 @@
           "Microsoft.AspNetCore.Authentication.JwtBearer": "[10.0.10, )",
           "OpenLIMS.BuildingBlocks.Platform": "[1.0.0, )",
           "OpenLIMS.Contracts.Platform": "[1.0.0, )",
+          "OpenLIMS.Modules.Allocation": "[1.0.0, )",
           "OpenLIMS.Modules.Labeling": "[1.0.0, )",
           "OpenLIMS.Modules.Quantity": "[1.0.0, )",
           "OpenLIMS.Modules.Receiving": "[1.0.0, )",
@@ -547,6 +548,9 @@
           "Npgsql": "[10.0.3, )",
           "OpenLIMS.Contracts.Platform": "[1.0.0, )"
         }
+      },
+      "openlims.contracts.allocation": {
+        "type": "Project"
       },
       "openlims.contracts.labeling": {
         "type": "Project",
@@ -565,6 +569,18 @@
       },
       "openlims.contracts.scope": {
         "type": "Project"
+      },
+      "openlims.modules.allocation": {
+        "type": "Project",
+        "dependencies": {
+          "Npgsql": "[10.0.3, )",
+          "OpenLIMS.BuildingBlocks.Platform": "[1.0.0, )",
+          "OpenLIMS.Contracts.Allocation": "[1.0.0, )",
+          "OpenLIMS.Contracts.Platform": "[1.0.0, )",
+          "OpenLIMS.Contracts.Quantity": "[1.0.0, )",
+          "OpenLIMS.Contracts.Receiving": "[1.0.0, )",
+          "OpenLIMS.Contracts.Scope": "[1.0.0, )"
+        }
       },
       "openlims.modules.labeling": {
         "type": "Project",
@@ -615,6 +631,7 @@
           "Microsoft.Extensions.Hosting": "[10.0.10, )",
           "OpenLIMS.BuildingBlocks.Platform": "[1.0.0, )",
           "OpenLIMS.Contracts.Platform": "[1.0.0, )",
+          "OpenLIMS.Modules.Allocation": "[1.0.0, )",
           "OpenLIMS.Modules.Labeling": "[1.0.0, )",
           "OpenLIMS.Modules.Quantity": "[1.0.0, )",
           "OpenLIMS.Modules.Receiving": "[1.0.0, )",

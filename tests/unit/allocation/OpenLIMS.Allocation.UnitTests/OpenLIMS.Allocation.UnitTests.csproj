@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>OpenLIMS.Allocation.UnitTests</AssemblyName>
+    <RootNamespace>OpenLIMS.Allocation.UnitTests</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+    <ProjectReference Include="../../../../src/modules/allocation/OpenLIMS.Modules.Allocation/OpenLIMS.Modules.Allocation.csproj" />
+    <ProjectReference Include="../../../../contracts/allocation/OpenLIMS.Contracts.Allocation/OpenLIMS.Contracts.Allocation.csproj" />
+    <ProjectReference Include="../../../../contracts/platform/OpenLIMS.Contracts.Platform/OpenLIMS.Contracts.Platform.csproj" />
+  </ItemGroup>
+</Project>

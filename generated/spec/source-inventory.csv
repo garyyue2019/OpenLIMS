@@ -20,7 +20,7 @@ PRD-MAIN,AC-DEPLOY-001,acceptance-block,19.5 安全、AI 降级和恢复,1261,�
 PRD-MAIN,AC-DIS-001,acceptance-block,19.2 收样、拆解和谱系,1145,拆解可选,9d21005e5aca48a10614625cf3662da650336d827d38b2aaf61ba5f26928bf29,
 PRD-MAIN,AC-ELEC-001,acceptance-block,19.2 收样、拆解和谱系,1190,EMC 扫描多源结果,cba441f0947436dbfa8d13a2ced716c39b90d74f3a9edc2ad5913d90d8bf1d18,
 PRD-MAIN,AC-ELEC-002,acceptance-block,19.2 收样、拆解和谱系,1193,型号覆盖局部失效,1206ea2b0c9d24b70d85e22d6fbfd2baa9cb7d27c7422804a06cf4d2a1b17ca0,
-PRD-MAIN,AC-ELEC-003,acceptance-block,19.2 收样、拆解和谱系,1196,破坏顺序与样品资格,0d95ce84dd323cc6a0fc8be5b90aa91a5f17c1d0e85c521f235baa0e752bc752,
+PRD-MAIN,AC-ELEC-003,acceptance-block,19.2 收样、拆解和谱系,1196,破坏顺序与样品资格,0d95ce84dd323cc6a0fc8be5b90aa91a5f17c1d0e85c521f235baa0e752bc752,AC-ELEC-003@1.0.0;ATC-ALLOC-001@1.0.0
 PRD-MAIN,AC-ERP-001,acceptance-block,19.4 发票、应收和对账,1253,ERP 同步状态,3091bf63218aad3f1461c58d318c0f0f739223a9d2b31f1fe3b23aba6a4314a9,
 PRD-MAIN,AC-ID-001,acceptance-block,19.2 收样、拆解和谱系,1142,身份错配,dd8a93c8071ea0853e2c8aba028dd66161921ff5e40dfe65482386108a74cc35,AC-ID-001@0.1.0;AC-ID-001@1.0.0;ATC-REC-003@2.0.0;ATC-REC-004@0.1.0;ATC-REC-004@1.0.0
 PRD-MAIN,AC-INV-001,acceptance-block,19.4 发票、应收和对账,1235,并发开票,1567a481a013a3ef65236f54ee94b5cb1ce71990e321c8246ff218f419f0da2a,
@@ -251,10 +251,10 @@ PRD-MAIN,OD-031,table-row,23. 明确待决策事项,1477,首期条码/移动流�
 PRD-MAIN,OD-032,table-row,23. 明确待决策事项,1478,多方参与角色、品牌/客户协议、报告访问、付款和数据权限模型,e276ce596f45807ac804b22f0159514255b24f383a0e15822dcdcebcec9deb88,OD-032@0.1.0
 PRD-MAIN,OD-033,table-row,23. 明确待决策事项,1479,核心 LIMS 与可选商业运营包边界；是否建设运营应收取决于现有 ERP/财务能力和客户产品战略,906e134c8a105aca68a7f4a0bc81cff920b03d38144d051becb98e49e7e87a7f,
 PRD-MAIN,OD-034,table-row,23. 明确待决策事项,1480,“单项符合、已测范围符合”的行业化语义与批准权限，以及外部/另行授权的全面法规评估、认证状态或证书如何引用、由谁负责和哪些未覆盖项必须披露,812972e2a3d8b8546103613a65ac214bbdb3d4d2f4f973fb258adedad0744309,OD-034@0.1.0
-PRD-MAIN,OPS-ALLOC-001,table-row,12.5 谱系、数量和任务分配,799,系统必须在任务分配时校验身份、状态、可用量、方法适用性、保存条件和有效期,236b5718874c346d0d470ffae2132897d0fccb6c9473874d88aaa321fb77a148,
-PRD-MAIN,OPS-ALLOC-002,table-row,12.5 谱系、数量和任务分配,800,系统必须记录预留量、领用量、预计消耗量、实际消耗量和归还量,532a38744aea361d20d029638992e22422542a866dcfd8b912e57ecd689536e1,
-PRD-MAIN,OPS-ALLOC-003,table-row,12.5 谱系、数量和任务分配,801,系统必须通过 TestObjectAllocation 使每次任务使用引用物理对象、身份映射版本、范围行、计划/序列步骤、用途、顺序、破坏性和预留状态,e6c99b43b60ebec09d21531b153736a839b249f919c9c0c7723ca9d339a96187,
-PRD-MAIN,OPS-ALLOC-004,table-row,12.5 谱系、数量和任务分配,802,SampleIdentityAssignment、TestObjectAllocation 和 CoverageDecision 必须为独立关系；修改测试分配或覆盖决定不得改写实物实际身份,bc1bde0edbe8da5dd81a866d9cad1db2775880a9dd46b3e23cca90d47e5212e3,
+PRD-MAIN,OPS-ALLOC-001,table-row,12.5 谱系、数量和任务分配,799,系统必须在任务分配时校验身份、状态、可用量、方法适用性、保存条件和有效期,236b5718874c346d0d470ffae2132897d0fccb6c9473874d88aaa321fb77a148,ATC-ALLOC-001@1.0.0;BUS-ALLOC-002@1.0.0;BUS-ALLOC-003@1.0.0
+PRD-MAIN,OPS-ALLOC-002,table-row,12.5 谱系、数量和任务分配,800,系统必须记录预留量、领用量、预计消耗量、实际消耗量和归还量,532a38744aea361d20d029638992e22422542a866dcfd8b912e57ecd689536e1,ATC-ALLOC-001@1.0.0
+PRD-MAIN,OPS-ALLOC-003,table-row,12.5 谱系、数量和任务分配,801,系统必须通过 TestObjectAllocation 使每次任务使用引用物理对象、身份映射版本、范围行、计划/序列步骤、用途、顺序、破坏性和预留状态,e6c99b43b60ebec09d21531b153736a839b249f919c9c0c7723ca9d339a96187,ATC-ALLOC-001@1.0.0;BUS-ALLOC-001@1.0.0;BUS-ALLOC-003@1.0.0
+PRD-MAIN,OPS-ALLOC-004,table-row,12.5 谱系、数量和任务分配,802,SampleIdentityAssignment、TestObjectAllocation 和 CoverageDecision 必须为独立关系；修改测试分配或覆盖决定不得改写实物实际身份,bc1bde0edbe8da5dd81a866d9cad1db2775880a9dd46b3e23cca90d47e5212e3,ATC-ALLOC-001@1.0.0;BUS-ALLOC-001@1.0.0
 PRD-MAIN,OPS-AUTO-001,table-row,12.4 收样、身份和拆解,781,对汽车零件，系统必须记录项目、零件/图纸/HW/SW/标定版本、样件组、试验序列、工况、阶段检查和中断/恢复,656dd6d87ce693b650b5a27a037eb24bfb8e792f2a3e80a4de22c0c402ffa241,
 PRD-MAIN,OPS-AUTO-002,table-row,12.4 收样、身份和拆解,782,每个 VerificationRow 必须多对多关联要求/判据、试验步骤、SampleGroup/具体样件、运行、ResultInput、证据、结论和批准偏离；缺少证据或偏离时不得标记闭环,03a3c90b7675b0f750ddd69cdca7dcffb58d33cff7291fda0d8a72ee1b9c69dd,
 PRD-MAIN,OPS-AUTO-003,table-row,12.4 收样、身份和拆解,783,TestSequence 必须版本化并表达步骤依赖、样件分配、破坏性、恢复时间、最大间隔和失败后的停止/继续/待客户规则,67935936d407980e82b175e5f8d34ce1b3422e364105794c3cdee9e1662b39fe,

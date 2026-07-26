@@ -10,7 +10,7 @@ OD-001 解锁的第三张（最后一张）卡：交付 qc 模块——按方法
 2. [completed] 规格 BUS-QC-001/002/003 + AC-QC-001 + ATC-QC-001 并 READY；契约测试计数更新。
 3. [completed] contracts/qc + src/modules/qc 八件套 + 宿主/slnx/verify/OpenAPI/架构测试接线。
 4. [completed] 单元/契约/集成测试（专用 openlims_qc_test）。
-5. [in_progress] 完整门禁 + 对抗式评审工作流，CI 全绿后按授权交付。
+5. [completed] 完整门禁 + 对抗式评审工作流，CI 全绿后按授权交付。
 
 ## 约束
 

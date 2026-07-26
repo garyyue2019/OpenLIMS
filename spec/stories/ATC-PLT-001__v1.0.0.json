@@ -1,0 +1,217 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "story",
+  "id": "ATC-PLT-001",
+  "version": "1.0.0",
+  "status": "approved",
+  "target_release": "REL-R1-RECEIVING-PILOT@1.0.0",
+  "epic_id": "EP-PLATFORM",
+  "feature_id": "FEAT-PLT-REQUEST-CONTEXT",
+  "title": "实施 DEV-018 请求上下文与对象级授权正式化",
+  "summary": "为已在全部模块落地的请求上下文与对象级授权行为补上正式卡：部署绑定集团上下文、对象级能力授权失败关闭、跨组织访问不泄露对象存在性（AC-SEC-001）、correlation 贯穿平台审计与模块尝试审计，全部在真实端口跨模块 E2E 中验证；纯正式化与测试，不改任何产品代码。",
+  "owners": [
+    "技术负责人",
+    "安全负责人",
+    "质量负责人",
+    "QA负责人"
+  ],
+  "source_refs": [
+    {
+      "document": "PRD-MAIN",
+      "item": "SEC-AUTH-001"
+    },
+    {
+      "document": "PRD-MAIN",
+      "item": "SEC-AUD-001"
+    },
+    {
+      "document": "PRD-MAIN",
+      "item": "AC-SEC-001"
+    }
+  ],
+  "depends_on": [
+    "ED-001@2.0.0",
+    "OD-002@1.0.0",
+    "BUS-PLT-002@1.0.0",
+    "SEC-AUTH-001@1.0.0",
+    "SEC-AUD-001@2.0.0",
+    "AC-SEC-001@1.0.0",
+    "NFR-ARCH-001@2.0.0",
+    "ATC-PLT-002@1.0.0"
+  ],
+  "affects": [
+    "platform",
+    "authorization",
+    "request-context",
+    "correlation",
+    "cross-module",
+    "audit",
+    "automated-test"
+  ],
+  "change_class": "major",
+  "body": {
+    "readiness": "ready",
+    "implementation_task_id": "DEV-018",
+    "approval_evidence": "用户于 2026-07-26 授予全流程授权并指示'继续'；本卡为建议清单最后一张无未决 OD 阻断卡（SEC-AUTH-001@1.0.0 与 AC-SEC-001@1.0.0 均已批准），据此自主收敛最小基线。",
+    "business_outcome": "对象级授权与跨组织隔离从各模块分散测试升级为平台级组合证据：能力拒绝在真实链路中失败关闭、跨组织探测无法区分'不存在'与'无权访问'、correlation 全链可追，为审计与安全评审提供单一验证入口。",
+    "actor": "平台安全评审者与 QA（E2E 中的固定测试身份：授权行为人、越权行为人、跨组织行为人）",
+    "preconditions": [
+      "ATC-PLT-002 的全链 E2E 基础设施（openlims_chain_test、单容器全模块装配）已交付",
+      "各模块授权端口与组织分区加载已在既有卡中实现"
+    ],
+    "trigger": "QA 在专用数据库上执行请求上下文与对象级授权组合验证",
+    "happy_path": [
+      "授权行为人在部署组织内执行链路命令成功，platform.audit_intent 逐行固定 actor、组织与调用方 correlation",
+      "组织上下文由容器部署配置提供，测试证明请求载荷中不存在可覆盖组织的输入面",
+      "能力拒绝（授权端口 Deny）时命令失败关闭：无业务事实、无平台审计意图/发件箱泄漏，仅模块 audit_attempt 留痕且 correlation 原样",
+      "跨组织行为人读取他组对象得到 OBJECT_NOT_ACCESSIBLE，与读取不存在对象的错误不可区分",
+      "行为人组织与部署组织不一致时命令直接 NOT_AUTHORIZED 失败关闭"
+    ],
+    "failure_paths": [
+      "能力拒绝 → NOT_AUTHORIZED，业务事实为零，audit_attempt 恰记一次失败",
+      "跨组织读取 → OBJECT_NOT_ACCESSIBLE（不泄露存在性）",
+      "行为人缺失或组织不匹配 → NOT_AUTHORIZED",
+      "以上任何失败均不产生 platform.audit_intent 成功记录或 outbox 事件"
+    ],
+    "invariants": [
+      "集团上下文部署绑定且客户端不可指定（SEC-AUTH-001）",
+      "对象级授权服务端强制，拒绝失败关闭",
+      "跨组织不泄露对象存在性（AC-SEC-001）",
+      "correlation 原样贯穿 platform.audit_intent 与模块 audit_attempt",
+      "本卡零产品代码变更——仅规格、E2E 测试与文档",
+      "不修改任何既有规格，不触碰未决 OD"
+    ],
+    "data_contract": {
+      "requestContext": [
+        "organizationGroupId（部署配置）",
+        "actorId + actorOrganizationGroupId（受信身份）",
+        "correlationId（调用方提供或端口生成）"
+      ],
+      "authorizationRequest": [
+        "organizationGroupId",
+        "actorId",
+        "objectScope",
+        "capability"
+      ],
+      "auditEvidence": [
+        "platform.audit_intent(actor_id, organization_group_id, correlation_id)",
+        "<module>.audit_attempt(actor_id, organization_group_id, correlation_id, outcome)"
+      ]
+    },
+    "api_contract": {
+      "operations": [],
+      "publicPort": "无新增端口——验证既有模块授权端口与服务的组合行为",
+      "errors": [
+        "<MOD>.NOT_AUTHORIZED",
+        "<MOD>.OBJECT_NOT_ACCESSIBLE"
+      ]
+    },
+    "state_transitions": [
+      "无新增状态机——授权决策为无状态服务端校验"
+    ],
+    "permissions": [
+      "不新增能力或 claim；E2E 以 Deny/跨组织固定桩注入既有授权端口接口验证失败关闭"
+    ],
+    "audit": [
+      "授权拒绝仅在模块 audit_attempt 留痕；成功命令的 actor/组织/correlation 在 platform.audit_intent 固定"
+    ],
+    "observability": [
+      "无新增指标；组合回归由 FullyQualifiedName~Platform 过滤器纳入 CI"
+    ],
+    "ui_states": [
+      "本卡不新增前端页面",
+      "无客户端交互面——交付物为规格与测试"
+    ],
+    "test_cases": [
+      {
+        "id": "TC-PLT-001-01",
+        "title": "correlation 与身份贯穿",
+        "type": "positive",
+        "given": [
+          "授权行为人与部署组织一致"
+        ],
+        "when": [
+          "执行范围+数量命令并携带调用方 correlation"
+        ],
+        "then": [
+          "platform.audit_intent 行固定 actor、组织与原样 correlation"
+        ]
+      },
+      {
+        "id": "TC-PLT-001-02",
+        "title": "能力拒绝失败关闭",
+        "type": "negative",
+        "given": [
+          "范围授权端口 Deny，其余装配真实"
+        ],
+        "when": [
+          "创建范围矩阵版本"
+        ],
+        "then": [
+          "NOT_AUTHORIZED",
+          "范围事实为零",
+          "scope.audit_attempt 恰一次且 correlation 原样",
+          "无新增平台审计/发件箱"
+        ]
+      },
+      {
+        "id": "TC-PLT-001-03",
+        "title": "跨组织不泄露存在性",
+        "type": "negative",
+        "given": [
+          "组织甲已有范围矩阵",
+          "跨组织行为人（组织乙容器）"
+        ],
+        "when": [
+          "读取组织甲对象与读取不存在对象"
+        ],
+        "then": [
+          "两者均 OBJECT_NOT_ACCESSIBLE，不可区分"
+        ]
+      },
+      {
+        "id": "TC-PLT-001-04",
+        "title": "组织不匹配失败关闭",
+        "type": "negative",
+        "given": [
+          "行为人组织与部署组织不一致"
+        ],
+        "when": [
+          "执行任一模块命令"
+        ],
+        "then": [
+          "NOT_AUTHORIZED",
+          "无业务事实"
+        ]
+      }
+    ],
+    "non_goals": [
+      "不实现新的授权语义、角色模型或金额/有效期维度（SEC-AUTH-001 其余维度由各业务卡渐进落地）",
+      "不改任何模块或平台产品代码",
+      "不新增 HTTP 层测试宿主（HTTP claims 路径已由各模块与 CI 冒烟覆盖）",
+      "不触碰未决 OD，不创建 Seal、tag、GitHub Release 或部署"
+    ],
+    "allowed_paths": [
+      "spec/requirements/BUS-PLT-002__v1.0.0.json",
+      "spec/stories/ATC-PLT-001__v1.0.0.json",
+      "generated/spec/**",
+      ".planning/2026-07-26-dev-018-platform-request-context/**",
+      "tests/e2e/chain/**",
+      "tests/test_repository_contract.py",
+      "docs/domain/platform/**"
+    ],
+    "verification_commands": [
+      "python -m tools.specgen ready --story ATC-PLT-001@1.0.0",
+      "pwsh -File scripts/verify.ps1 -Profile task -Module platform",
+      "python -m tools.specgen check"
+    ],
+    "definition_of_done": [
+      "四个测试用例在真实端口组合下通过",
+      "零产品代码变更（git 差异仅规格/测试/文档/规划）",
+      "全部测试项目保持绿色",
+      "全仓验证通过且二次 generate written=0",
+      "所有变更位于 allowed_paths"
+    ]
+  }
+}

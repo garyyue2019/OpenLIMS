@@ -13,3 +13,4 @@
   4) 缺同版本并发提交测试（各兄弟模块均有）。
 - 修复：ClassifyRows 区分"行事实占用"（排队 DUPLICATE_ROW）与"异常队列占用"（INS.VALIDATION_FAILED），批内异常行号也纳入队列集；FailAsync 裸 23505 → ValidationFailed。
 - 回归：单元 +2、集成 +2（重投失败关闭、同版本并发单赢家），instrument 36 个测试全绿；全仓 34 项目 431 测试全绿。
+- PR #20 CI 全绿后按授权 squash 合并为 main@a3c927e；本地 main 已快进。main 现包含 20 个已交付切片，DEV-020 全部完成。

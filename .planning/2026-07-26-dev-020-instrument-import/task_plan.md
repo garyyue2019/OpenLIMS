@@ -10,7 +10,7 @@ OD-001 已决（玩具×物理机械）解锁本卡：交付 instrument 模块�
 2. [completed] 规格 BUS-INST-001/002/003 + ATC-INST-001 并 READY；契约测试 141→145、特性 49→50。
 3. [completed] contracts/instrument + src/modules/instrument（八件套）+ 宿主/slnx/verify/OpenAPI 接线。
 4. [completed] 单元/契约/集成/架构测试（专用 openlims_instrument_test）；验证数据集 100% 一致契约测试。
-5. [in_progress] 完整门禁 + 代码评审工作流，CI 全绿后按授权提交/PR/合并。
+5. [completed] 完整门禁 + 代码评审工作流，CI 全绿后按授权提交/PR/合并。
 
 ## 约束
 

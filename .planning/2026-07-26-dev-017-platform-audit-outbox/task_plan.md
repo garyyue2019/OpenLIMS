@@ -11,7 +11,7 @@
 3. [completed] 创建 BUS-PLT-001 + ATC-PLT-002@1.0.0（依赖六张链路卡）并 READY。
 4. [completed] 实现 platform-0002 迁移与 IsCurrentAsync 扩展。
 5. [completed] 全链 E2E 测试（专用 openlims_chain_test 库）+ 平台不可变测试。
-6. [in_progress] 完整门禁，CI 全绿后按授权自动提交/PR/合并。
+6. [completed] 完整门禁，CI 全绿后按授权自动提交/PR/合并。
 
 ## 约束
 

@@ -8,3 +8,4 @@
 - platform-0002 迁移实现：audit_intent 追加式 + outbox 仅派发触发器（55000），IsCurrentAsync 要求双迁移；冒烟改为不可变断言+合法派发标记。
 - 新增 tests/e2e/chain/OpenLIMS.Platform.ChainE2ETests：全链真实端口组合、过期分配失败关闭、平台不可变、迁移幂等/就绪共 4 用例，一次通过。
 - 全仓 31 个测试项目全绿（新增 ChainE2E）。
+- PR #17 CI 全绿（Specification governance + Application CI）后按授权 squash 合并为 main@eb3ab31；本地 main 已快进。main 现包含 17 个已交付切片，DEV-017 全部完成。

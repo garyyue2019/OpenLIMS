@@ -1,0 +1,41 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "acceptance",
+  "id": "AC-RPT-001",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "签发关口",
+  "summary": "给定报告存在一个未解决身份冲突、一个 QC 阻断或一个无效签字授权，当签字人尝试签发时，系统必须阻止签发并逐项显示受影响对象、规则版本和下一步。",
+  "owners": ["质量负责人", "授权签字人", "QA负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "AC-RPT-001"}],
+  "depends_on": ["BUS-RPT-001@1.0.0", "BUS-RPT-002@1.0.0", "BUS-RPT-003@1.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0"],
+  "affects": ["report", "release-gate", "receiving", "qc", "signature-authority", "automated-test"],
+  "change_class": "major",
+  "approval_evidence": "用户于 2026-07-27 定下 OD-011/022/029 与'门禁优先/签署其次'切分并在全流程授权下批准本验收基线。",
+  "scenario": {
+    "given": [
+      "一份已装配的报告，其报告行分别受三类问题影响",
+      "第一行的收样项存在未解决身份冲突（收样资格端口 BLOCKED）",
+      "第二行所属结果目标存在未解除的 QC 阻断（QC 可报告性端口 BLOCKED）",
+      "第三行的授权签字人不具备该行方法/参数的认可签字资格"
+    ],
+    "when": [
+      "签字人尝试推进该报告至待批准或签发"
+    ],
+    "then": [
+      "签发被阻止，报告不进入待批准",
+      "逐项返回三个阻断项，每项含受影响对象引用、规则集版本、原因码与允许的下一步",
+      "阻断项不得聚合为单一布尔值或单条汇总消息",
+      "任一来源端口返回 UNKNOWN 时同样阻断（失败关闭）",
+      "门禁评估、审计与 Outbox 在同一事务提交或一起回滚"
+    ]
+  },
+  "automation": [
+    "领域规则单元测试",
+    "HTTP 与公开端口契约测试",
+    "PostgreSQL 追加式与并发测试",
+    "三类阻断并存的逐项返回测试",
+    "端口 UNKNOWN 失败关闭测试"
+  ]
+}

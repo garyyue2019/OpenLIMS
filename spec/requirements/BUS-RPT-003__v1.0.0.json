@@ -1,0 +1,34 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-RPT-003",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "行级认可校验与混合范围报告",
+  "summary": "每个报告行的认可资格按六维独立计算——执行实验室/地点、方法版本、产品/基质、参数/量程、认可有效期、授权签字人资格；混合认可报告合法但非认可行必须显式标注且不得携带认可声明；报告级或机构级『已认可』布尔值被禁止。",
+  "owners": ["质量负责人", "法务负责人", "授权签字人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "RPT-CLAIM-001"},
+    {"document": "PRD-MAIN", "item": "LAB-ACC-001"},
+    {"document": "PRD-MAIN", "item": "RULE-025"}
+  ],
+  "depends_on": ["OD-029@1.0.0", "OD-030@1.0.0", "BUS-RPT-001@1.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0"],
+  "affects": ["report", "accreditation", "release-gate", "claim"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {
+    "mode": "core",
+    "applicability": "ENABLED",
+    "condition": "DEV-022 报告签发门禁切片启用"
+  },
+  "approval_evidence": "用户于 2026-07-27 明确选择'完整行级多维范围'（OD-029）并在全流程授权下批准本切片基线。",
+  "invariants": [
+    "认可资格按报告行独立计算，维度恰为六项：实验室/地点、方法引用+版本、产品/基质、参数/量程、认可有效期、授权签字人资格（OD-029@1.0.0、LAB-ACC-001、RULE-025）",
+    "认可范围以受控版本化外部引用登记（稳定 ID + 版本 + 内容哈希）；引用缺失、版本不匹配或已过有效期一律判定为不在认可范围（失败关闭）",
+    "禁止报告级或机构级单一『已认可』布尔值；机构标记不得覆盖行级计算结果（RPT-CLAIM-001、RISK-019）",
+    "混合认可报告合法：认可行携带认可标识，非认可行必须显式标注不在认可范围且不得携带认可声明（AC-ACC-001）",
+    "任一行的认可校验失败即阻断整个报告签发，并按逐项阻断格式返回该行对象、规则版本与下一步",
+    "分包披露以调用方声明的受控引用逐行表达；未声明分包披露的行按无分包处理，本切片不实现分包对象（OD-013 未决）"
+  ]
+}

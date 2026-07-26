@@ -36,6 +36,9 @@
   <Folder Name="/contracts/qc/">
     <Project Path="contracts/qc/OpenLIMS.Contracts.Qc/OpenLIMS.Contracts.Qc.csproj" />
   </Folder>
+  <Folder Name="/contracts/report/">
+    <Project Path="contracts/report/OpenLIMS.Contracts.Report/OpenLIMS.Contracts.Report.csproj" />
+  </Folder>
   <Folder Name="/contracts/ai/">
     <Project Path="contracts/ai/OpenLIMS.Contracts.Ai/OpenLIMS.Contracts.Ai.csproj" />
   </Folder>
@@ -81,6 +84,9 @@
   <Folder Name="/src/modules/qc/">
     <Project Path="src/modules/qc/OpenLIMS.Modules.Qc/OpenLIMS.Modules.Qc.csproj" />
   </Folder>
+  <Folder Name="/src/modules/report/">
+    <Project Path="src/modules/report/OpenLIMS.Modules.Report/OpenLIMS.Modules.Report.csproj" />
+  </Folder>
   <Folder Name="/tests/" />
   <Folder Name="/tests/architecture/">
     <Project Path="tests/architecture/OpenLIMS.ArchitectureTests/OpenLIMS.ArchitectureTests.csproj" />
@@ -121,6 +127,9 @@
   </Folder>
   <Folder Name="/tests/contract/qc/">
     <Project Path="tests/contract/qc/OpenLIMS.Qc.ContractTests/OpenLIMS.Qc.ContractTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/contract/report/">
+    <Project Path="tests/contract/report/OpenLIMS.Report.ContractTests/OpenLIMS.Report.ContractTests.csproj" />
   </Folder>
   <Folder Name="/tests/contract/ai/">
     <Project Path="tests/contract/ai/OpenLIMS.Ai.ContractTests/OpenLIMS.Ai.ContractTests.csproj" />
@@ -170,6 +179,9 @@
   <Folder Name="/tests/integration/qc/">
     <Project Path="tests/integration/qc/OpenLIMS.Qc.IntegrationTests/OpenLIMS.Qc.IntegrationTests.csproj" />
   </Folder>
+  <Folder Name="/tests/integration/report/">
+    <Project Path="tests/integration/report/OpenLIMS.Report.IntegrationTests/OpenLIMS.Report.IntegrationTests.csproj" />
+  </Folder>
   <Folder Name="/tests/unit/" />
   <Folder Name="/tests/unit/platform/">
     <Project Path="tests/unit/platform/OpenLIMS.Platform.UnitTests/OpenLIMS.Platform.UnitTests.csproj" />
@@ -203,5 +215,8 @@
   </Folder>
   <Folder Name="/tests/unit/qc/">
     <Project Path="tests/unit/qc/OpenLIMS.Qc.UnitTests/OpenLIMS.Qc.UnitTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/unit/report/">
+    <Project Path="tests/unit/report/OpenLIMS.Report.UnitTests/OpenLIMS.Report.UnitTests.csproj" />
   </Folder>
 </Solution>

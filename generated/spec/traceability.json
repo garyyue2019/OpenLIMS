@@ -4,6 +4,31 @@
     "generator": "openlims-specgen@0.1.0"
   },
   "specs": {
+    "AC-ACC-001@1.0.0": {
+      "affects": [
+        "report",
+        "accreditation",
+        "claim",
+        "release-gate",
+        "automated-test"
+      ],
+      "depends_on": [
+        "OD-029@1.0.0",
+        "BUS-RPT-001@1.0.0",
+        "BUS-RPT-003@1.0.0",
+        "SEC-AUTH-001@1.0.0"
+      ],
+      "fingerprint": "d592b7d9d08ec3aa6b1f7d4b9a953afa060d596919072ff93740e5efddfdc995",
+      "kind": "acceptance",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-ACC-001"
+        }
+      ],
+      "status": "approved",
+      "title": "报告行认可门禁"
+    },
     "AC-AI-003@1.0.0": {
       "affects": [
         "ai",
@@ -330,6 +355,33 @@
       "status": "approved",
       "title": "复测采用"
     },
+    "AC-RPT-001@1.0.0": {
+      "affects": [
+        "report",
+        "release-gate",
+        "receiving",
+        "qc",
+        "signature-authority",
+        "automated-test"
+      ],
+      "depends_on": [
+        "BUS-RPT-001@1.0.0",
+        "BUS-RPT-002@1.0.0",
+        "BUS-RPT-003@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "1ed56a51a81c12ea469a45de398fe5724a115181e6b2854d479e755eb4ce30e1",
+      "kind": "acceptance",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-RPT-001"
+        }
+      ],
+      "status": "approved",
+      "title": "签发关口"
+    },
     "AC-SCOPE-001@1.0.0": {
       "affects": [
         "test-scope",
@@ -450,6 +502,31 @@
       ],
       "status": "approved",
       "title": "裁样方向与预处理超差契约验收"
+    },
+    "AC-TRACE-001@1.0.0": {
+      "affects": [
+        "report",
+        "traceability",
+        "result",
+        "release-gate",
+        "automated-test"
+      ],
+      "depends_on": [
+        "BUS-RPT-001@1.0.0",
+        "BUS-RPT-002@1.0.0",
+        "ATC-RESULT-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "a99b23ae81a0272b3475e3039ddb33873632d237772355446dc1ec6ec5867f5f",
+      "kind": "acceptance",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-TRACE-001"
+        }
+      ],
+      "status": "approved",
+      "title": "全链追溯"
     },
     "ATC-AI-001@1.0.0": {
       "affects": [
@@ -2030,6 +2107,86 @@
       "status": "approved",
       "title": "实施 DEV-014 结果来源与采用"
     },
+    "ATC-RPT-001@1.0.0": {
+      "affects": [
+        "report",
+        "release-gate",
+        "traceability",
+        "accreditation",
+        "qc",
+        "result",
+        "batch",
+        "instrument",
+        "scope",
+        "receiving",
+        "audit",
+        "outbox",
+        "authorization",
+        "automated-test"
+      ],
+      "depends_on": [
+        "ED-001@2.0.0",
+        "OD-002@1.0.0",
+        "OD-001@1.0.0",
+        "OD-011@1.0.0",
+        "OD-029@1.0.0",
+        "OD-030@1.0.0",
+        "BUS-RPT-001@1.0.0",
+        "BUS-RPT-002@1.0.0",
+        "BUS-RPT-003@1.0.0",
+        "AC-RPT-001@1.0.0",
+        "AC-ACC-001@1.0.0",
+        "AC-TRACE-001@1.0.0",
+        "ATC-RESULT-001@1.0.0",
+        "ATC-QC-001@1.0.0",
+        "ATC-INST-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0",
+        "NFR-ARCH-001@2.0.0"
+      ],
+      "fingerprint": "86ba2b2323216eb56e7180564cbefd0e984f9947aa28b3a966e3f92ac2597b7c",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "RPT-TRACE-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "RPT-GATE-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "RPT-GATE-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "RPT-CLAIM-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "RPT-SCOPE-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-ACC-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-RPT-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-ACC-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-TRACE-001"
+        }
+      ],
+      "status": "approved",
+      "title": "实施 DEV-022 报告签发门禁"
+    },
     "ATC-SCP-001@1.0.0": {
       "affects": [
         "scope",
@@ -2995,6 +3152,111 @@
       "status": "approved",
       "title": "预先采用规则与唯一有效采用结果"
     },
+    "BUS-RPT-001@1.0.0": {
+      "affects": [
+        "report",
+        "traceability",
+        "result",
+        "scope-partition",
+        "audit"
+      ],
+      "depends_on": [
+        "OD-011@1.0.0",
+        "OD-030@1.0.0",
+        "ATC-RESULT-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "1649d6809ee6a44a7c76a7e3df383f36a7af7f5b9d9315d3efce3fc89856df8e",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "RPT-TRACE-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "RPT-SCOPE-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "RULE-005"
+        }
+      ],
+      "status": "approved",
+      "title": "报告装配与报告行全链追溯"
+    },
+    "BUS-RPT-002@1.0.0": {
+      "affects": [
+        "report",
+        "release-gate",
+        "qc",
+        "batch",
+        "result",
+        "instrument",
+        "scope",
+        "receiving"
+      ],
+      "depends_on": [
+        "BUS-RPT-001@1.0.0",
+        "ATC-QC-001@1.0.0",
+        "ATC-BATCH-001@1.0.0",
+        "ATC-INST-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "b4c0d447f99e7c4b9aa4f08a9f33ed20bc4592ab9d61d13c76fa92e364c0cdd4",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "RPT-GATE-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "RPT-GATE-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "RULE-010"
+        }
+      ],
+      "status": "approved",
+      "title": "签发前门禁与逐项阻断说明"
+    },
+    "BUS-RPT-003@1.0.0": {
+      "affects": [
+        "report",
+        "accreditation",
+        "release-gate",
+        "claim"
+      ],
+      "depends_on": [
+        "OD-029@1.0.0",
+        "OD-030@1.0.0",
+        "BUS-RPT-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "7299643d02f14d9d870b6dca47ccf7d77b6563bf6ae2224cbf43ac55710fe734",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "RPT-CLAIM-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-ACC-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "RULE-025"
+        }
+      ],
+      "status": "approved",
+      "title": "行级认可校验与混合范围报告"
+    },
     "BUS-SCOPE-001@1.0.0": {
       "affects": [
         "test-scope",
@@ -3548,6 +3810,33 @@
       "status": "approved",
       "title": "DEV-009 数量账户计量口径与轻量过账"
     },
+    "OD-011@1.0.0": {
+      "affects": [
+        "report",
+        "accreditation",
+        "electronic-signature",
+        "electronic-record",
+        "retention",
+        "release-gate"
+      ],
+      "depends_on": [
+        "ED-001@2.0.0",
+        "OD-001@1.0.0",
+        "OD-002@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "bc85a331e27ccbf7c34f4966bd407a384a2bef60bc52951c2415797d1994dfd0",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-011"
+        }
+      ],
+      "status": "approved",
+      "title": "DEV-022 适用认可体系、电子记录与报告保留"
+    },
     "OD-020@0.1.0": {
       "affects": [
         "architecture",
@@ -3569,6 +3858,33 @@
       ],
       "status": "proposed",
       "title": "容量、并发与部署拓扑基线"
+    },
+    "OD-022@1.0.0": {
+      "affects": [
+        "report",
+        "version-chain",
+        "correction",
+        "withdrawal",
+        "supersession",
+        "delivery"
+      ],
+      "depends_on": [
+        "OD-001@1.0.0",
+        "OD-002@1.0.0",
+        "OD-011@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "6a378b2d1dc9396778c83087bc7bb777c564b9b62590272ab641bb601002ee0e",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-022"
+        }
+      ],
+      "status": "approved",
+      "title": "DEV-022 报告更正、补充、撤回、作废与替代语义"
     },
     "OD-025@0.1.0": {
       "affects": [
@@ -3656,6 +3972,31 @@
       ],
       "status": "proposed",
       "title": "认可范围数据粒度与签发门禁"
+    },
+    "OD-029@1.0.0": {
+      "affects": [
+        "accreditation",
+        "result-review",
+        "reporting",
+        "signature",
+        "release-gate"
+      ],
+      "depends_on": [
+        "OD-001@1.0.0",
+        "OD-002@1.0.0",
+        "OD-011@1.0.0",
+        "SEC-AUTH-001@1.0.0"
+      ],
+      "fingerprint": "18d466483a2c7459ab49c8c912c3b7a454241086d19cd5dd8ba39bc56dcb66bf",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-029"
+        }
+      ],
+      "status": "approved",
+      "title": "DEV-022 认可范围数据粒度与行级签发门禁"
     },
     "OD-030@0.1.0": {
       "affects": [

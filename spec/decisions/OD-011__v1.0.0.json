@@ -1,0 +1,36 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "decision",
+  "id": "OD-011",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "DEV-022 适用认可体系、电子记录与报告保留",
+  "summary": "冻结 Release 1 的认可体系为 CNAS/CMA，电子记录与电子签名以《电子签名法》为依据：受控签发要求重新认证、记录签署意图并绑定不可变报告内容哈希；已签发报告版本永久追加式保留，不得删除或覆盖。",
+  "owners": ["法务负责人", "质量负责人", "授权签字人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "OD-011"}],
+  "depends_on": ["ED-001@2.0.0", "OD-001@1.0.0", "OD-002@1.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0"],
+  "affects": ["report", "accreditation", "electronic-signature", "electronic-record", "retention", "release-gate"],
+  "change_class": "major",
+  "decision_state": "decided",
+  "options": [
+    "CNAS/CMA 认可体系 + 《电子签名法》电子记录与签名，内部受控签署",
+    "ISO/IEC 17025 + 21 CFR Part 11 级 ERES（哈希链审计、周期性复核、验证档案）",
+    "最小内部受控签署，认可体系专属规则继续 open"
+  ],
+  "decision": "采用 CNAS/CMA 认可体系 + 《电子签名法》电子记录与电子签名，内部受控签署。与 OD-001 已决试点切片（玩具婴童产品 × 中国内销 × 物理机械方法族）一致：适用认可体系为中国合格评定国家认可委员会（CNAS）与检验检测机构资质认定（CMA），不采用 FDA 21 CFR Part 11 级 ERES（该体系服务于医药/FDA 场景，本试点无适用义务）。电子签名的可靠性由三要素构成并全部在系统内强制：签发时重新认证、显式记录签署意图、签名绑定被签内容的不可变 SHA-256 哈希；被签内容任何变化使原签名失效并要求重新审批（SEC-SIGN-001/002）。电子记录保留策略为永久追加式：已签发报告版本不得删除或覆盖（RPT-VERS-002），撤回只改变版本状态而不移除记录，旧下载链接必须继续返回其原本对应的版本及其历史状态（RPT-VERS-004）。外部签章系统对接（INT-ESIGN-001）保留接口边界但本决定不要求 Release 1 接入——内部受控签署即构成可靠电子签名，外部签章为后续增量。SEC-AUD-003 的完整性机制在本决定下收敛为：平台审计表已由数据库触发器强制追加式（platform-0002），Release 1 以此作为'经批准等效机制'，不要求哈希链或 WORM 存储。",
+  "approval_evidence": "用户于 2026-07-27 明确选择'CNAS/CMA + 电子签名法'作为 OD-011 口径，并在全流程授权下解锁报告链。",
+  "regime": {
+    "accreditation_bodies": ["CNAS", "CMA"],
+    "electronic_record_basis": "中华人民共和国电子签名法",
+    "excluded_regimes": ["21 CFR Part 11 级 ERES（无适用义务）"],
+    "signature_reliability_factors": ["签发时重新认证", "显式记录签署意图", "绑定不可变内容 SHA-256 哈希"],
+    "signature_invalidation": "被签内容变化即失效并触发重新审批（SEC-SIGN-002）",
+    "retention_policy": "已签发版本永久追加式保留；不得删除或覆盖；撤回只改状态",
+    "audit_integrity_mechanism": "数据库触发器强制的追加式平台审计（platform-0002）作为 SEC-AUD-003 的经批准等效机制",
+    "external_signing_service": "INT-ESIGN-001 保留接口边界，Release 1 不接入"
+  },
+  "boundary_with_sibling_decisions": "本决定拥有『认可体系、电子记录/签名、报告保留』；报告更正/补充/撤回/作废/替代的 SOP 状态语义归 OD-022；认可范围数据粒度与行级签发门禁归 OD-029。三者不重复定义『撤回』与『认可』。",
+  "revision_rule": "本决定为追加式记录；认可体系、电子签名可靠性要素或保留策略的任何变更必须以 OD-011 后继版本记录并重新获得法务/质量/授权签字人批准。",
+  "non_goals": ["不接入外部签章服务或 CA 证书体系", "不实现哈希链或 WORM 审计存储", "不定义报告状态迁移语义（属 OD-022）", "不定义认可范围数据粒度（属 OD-029）", "不构成法律意见或上线合规结论", "不创建发布、Seal 或部署"]
+}

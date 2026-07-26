@@ -163,6 +163,9 @@
       "openlims.contracts.receiving": {
         "type": "Project"
       },
+      "openlims.contracts.report": {
+        "type": "Project"
+      },
       "openlims.contracts.result": {
         "type": "Project"
       },
@@ -246,6 +249,22 @@
           "OpenLIMS.BuildingBlocks.Platform": "[1.0.0, )",
           "OpenLIMS.Contracts.Platform": "[1.0.0, )",
           "OpenLIMS.Contracts.Receiving": "[1.0.0, )"
+        }
+      },
+      "openlims.modules.report": {
+        "type": "Project",
+        "dependencies": {
+          "Npgsql": "[10.0.3, )",
+          "OpenLIMS.BuildingBlocks.Platform": "[1.0.0, )",
+          "OpenLIMS.Contracts.Allocation": "[1.0.0, )",
+          "OpenLIMS.Contracts.Batch": "[1.0.0, )",
+          "OpenLIMS.Contracts.Instrument": "[1.0.0, )",
+          "OpenLIMS.Contracts.Platform": "[1.0.0, )",
+          "OpenLIMS.Contracts.Qc": "[1.0.0, )",
+          "OpenLIMS.Contracts.Receiving": "[1.0.0, )",
+          "OpenLIMS.Contracts.Report": "[1.0.0, )",
+          "OpenLIMS.Contracts.Result": "[1.0.0, )",
+          "OpenLIMS.Contracts.Scope": "[1.0.0, )"
         }
       },
       "openlims.modules.result": {

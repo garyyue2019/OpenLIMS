@@ -10,6 +10,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 
 | 逻辑 ID | 版本 | 状态 | 文件 |
 |---|---|---|---|
+| `AC-ACC-001` | `1.0.0` | `approved` | `spec/acceptance/AC-ACC-001__v1.0.0.json` |
 | `AC-AI-003` | `1.0.0` | `approved` | `spec/acceptance/AC-AI-003__v1.0.0.json` |
 | `AC-BATCH-001` | `1.0.0` | `approved` | `spec/acceptance/AC-BATCH-001__v1.0.0.json` |
 | `AC-BILL-001` | `1.0.0` | `approved` | `spec/acceptance/AC-BILL-001__v1.0.0.json` |
@@ -23,11 +24,13 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `AC-REC-001` | `0.1.0` | `in_review` | `spec/acceptance/AC-REC-001__v0.1.0.json` |
 | `AC-REC-001` | `1.0.0` | `approved` | `spec/acceptance/AC-REC-001__v1.0.0.json` |
 | `AC-RETEST-001` | `1.0.0` | `approved` | `spec/acceptance/AC-RETEST-001__v1.0.0.json` |
+| `AC-RPT-001` | `1.0.0` | `approved` | `spec/acceptance/AC-RPT-001__v1.0.0.json` |
 | `AC-SCOPE-001` | `1.0.0` | `approved` | `spec/acceptance/AC-SCOPE-001__v1.0.0.json` |
 | `AC-SEC-001` | `0.1.0` | `in_review` | `spec/acceptance/AC-SEC-001__v0.1.0.json` |
 | `AC-SEC-001` | `1.0.0` | `approved` | `spec/acceptance/AC-SEC-001__v1.0.0.json` |
 | `AC-TEXTILE-001` | `1.0.0` | `approved` | `spec/acceptance/AC-TEXTILE-001__v1.0.0.json` |
 | `AC-TEXTILE-003` | `1.0.0` | `approved` | `spec/acceptance/AC-TEXTILE-003__v1.0.0.json` |
+| `AC-TRACE-001` | `1.0.0` | `approved` | `spec/acceptance/AC-TRACE-001__v1.0.0.json` |
 | `ATC-AI-001` | `1.0.0` | `approved` | `spec/stories/ATC-AI-001__v1.0.0.json` |
 | `ATC-ALLOC-001` | `1.0.0` | `approved` | `spec/stories/ATC-ALLOC-001__v1.0.0.json` |
 | `ATC-BATCH-001` | `1.0.0` | `approved` | `spec/stories/ATC-BATCH-001__v1.0.0.json` |
@@ -59,6 +62,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `ATC-REC-006` | `1.0.0` | `proposed` | `spec/stories/ATC-REC-006__v1.0.0.json` |
 | `ATC-REC-006` | `2.0.0` | `approved` | `spec/stories/ATC-REC-006__v2.0.0.json` |
 | `ATC-RESULT-001` | `1.0.0` | `approved` | `spec/stories/ATC-RESULT-001__v1.0.0.json` |
+| `ATC-RPT-001` | `1.0.0` | `approved` | `spec/stories/ATC-RPT-001__v1.0.0.json` |
 | `ATC-SCP-001` | `1.0.0` | `approved` | `spec/stories/ATC-SCP-001__v1.0.0.json` |
 | `ATC-TEX-001` | `1.0.0` | `approved` | `spec/stories/ATC-TEX-001__v1.0.0.json` |
 | `ATC-TEX-003` | `1.0.0` | `approved` | `spec/stories/ATC-TEX-003__v1.0.0.json` |
@@ -91,6 +95,9 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `BUS-RES-001` | `1.0.0` | `approved` | `spec/requirements/BUS-RES-001__v1.0.0.json` |
 | `BUS-RES-002` | `1.0.0` | `approved` | `spec/requirements/BUS-RES-002__v1.0.0.json` |
 | `BUS-RES-003` | `1.0.0` | `approved` | `spec/requirements/BUS-RES-003__v1.0.0.json` |
+| `BUS-RPT-001` | `1.0.0` | `approved` | `spec/requirements/BUS-RPT-001__v1.0.0.json` |
+| `BUS-RPT-002` | `1.0.0` | `approved` | `spec/requirements/BUS-RPT-002__v1.0.0.json` |
+| `BUS-RPT-003` | `1.0.0` | `approved` | `spec/requirements/BUS-RPT-003__v1.0.0.json` |
 | `BUS-SCOPE-001` | `1.0.0` | `approved` | `spec/requirements/BUS-SCOPE-001__v1.0.0.json` |
 | `BUS-SCOPE-002` | `1.0.0` | `approved` | `spec/requirements/BUS-SCOPE-002__v1.0.0.json` |
 | `BUS-SCOPE-003` | `1.0.0` | `approved` | `spec/requirements/BUS-SCOPE-003__v1.0.0.json` |
@@ -116,11 +123,14 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `OD-009` | `0.1.0` | `proposed` | `spec/decisions/OD-009__v0.1.0.json` |
 | `OD-009` | `1.0.0` | `approved` | `spec/decisions/OD-009__v1.0.0.json` |
 | `OD-010` | `1.0.0` | `approved` | `spec/decisions/OD-010__v1.0.0.json` |
+| `OD-011` | `1.0.0` | `approved` | `spec/decisions/OD-011__v1.0.0.json` |
 | `OD-020` | `0.1.0` | `proposed` | `spec/decisions/OD-020__v0.1.0.json` |
+| `OD-022` | `1.0.0` | `approved` | `spec/decisions/OD-022__v1.0.0.json` |
 | `OD-025` | `0.1.0` | `proposed` | `spec/decisions/OD-025__v0.1.0.json` |
 | `OD-027` | `0.1.0` | `proposed` | `spec/decisions/OD-027__v0.1.0.json` |
 | `OD-027` | `1.0.0` | `approved` | `spec/decisions/OD-027__v1.0.0.json` |
 | `OD-029` | `0.1.0` | `proposed` | `spec/decisions/OD-029__v0.1.0.json` |
+| `OD-029` | `1.0.0` | `approved` | `spec/decisions/OD-029__v1.0.0.json` |
 | `OD-030` | `0.1.0` | `proposed` | `spec/decisions/OD-030__v0.1.0.json` |
 | `OD-030` | `1.0.0` | `approved` | `spec/decisions/OD-030__v1.0.0.json` |
 | `OD-031` | `0.1.0` | `proposed` | `spec/decisions/OD-031__v0.1.0.json` |

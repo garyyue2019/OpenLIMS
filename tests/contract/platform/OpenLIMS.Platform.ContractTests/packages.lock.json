@@ -536,6 +536,7 @@
           "OpenLIMS.Modules.Billing": "[1.0.0, )",
           "OpenLIMS.Modules.Instrument": "[1.0.0, )",
           "OpenLIMS.Modules.Labeling": "[1.0.0, )",
+          "OpenLIMS.Modules.Qc": "[1.0.0, )",
           "OpenLIMS.Modules.Quantity": "[1.0.0, )",
           "OpenLIMS.Modules.Receiving": "[1.0.0, )",
           "OpenLIMS.Modules.Result": "[1.0.0, )",
@@ -572,6 +573,9 @@
         }
       },
       "openlims.contracts.platform": {
+        "type": "Project"
+      },
+      "openlims.contracts.qc": {
         "type": "Project"
       },
       "openlims.contracts.quantity": {
@@ -637,6 +641,16 @@
           "OpenLIMS.Contracts.Receiving": "[1.0.0, )"
         }
       },
+      "openlims.modules.qc": {
+        "type": "Project",
+        "dependencies": {
+          "Npgsql": "[10.0.3, )",
+          "OpenLIMS.BuildingBlocks.Platform": "[1.0.0, )",
+          "OpenLIMS.Contracts.Batch": "[1.0.0, )",
+          "OpenLIMS.Contracts.Platform": "[1.0.0, )",
+          "OpenLIMS.Contracts.Qc": "[1.0.0, )"
+        }
+      },
       "openlims.modules.quantity": {
         "type": "Project",
         "dependencies": {
@@ -691,6 +705,7 @@
           "OpenLIMS.Modules.Billing": "[1.0.0, )",
           "OpenLIMS.Modules.Instrument": "[1.0.0, )",
           "OpenLIMS.Modules.Labeling": "[1.0.0, )",
+          "OpenLIMS.Modules.Qc": "[1.0.0, )",
           "OpenLIMS.Modules.Quantity": "[1.0.0, )",
           "OpenLIMS.Modules.Receiving": "[1.0.0, )",
           "OpenLIMS.Modules.Result": "[1.0.0, )",

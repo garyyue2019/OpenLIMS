@@ -201,6 +201,32 @@
       "status": "approved",
       "title": "身份评估三层事实和冲突事件"
     },
+    "AC-QC-001@1.0.0": {
+      "affects": [
+        "qc",
+        "deviation",
+        "reportability",
+        "release-gate",
+        "automated-test"
+      ],
+      "depends_on": [
+        "BUS-QC-001@1.0.0",
+        "BUS-QC-002@1.0.0",
+        "BUS-QC-003@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "fb078df40ed131d567ab2a6c9c9e83a56989475cec933856535f388075c40be0",
+      "kind": "acceptance",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-QC-001"
+        }
+      ],
+      "status": "approved",
+      "title": "QC 阻断"
+    },
     "AC-QTY-001@1.0.0": {
       "affects": [
         "quantity",
@@ -984,6 +1010,65 @@
       ],
       "status": "approved",
       "title": "建立业务模块接入与验证通道"
+    },
+    "ATC-QC-001@1.0.0": {
+      "affects": [
+        "qc",
+        "impact-propagation",
+        "reportability",
+        "release-gate",
+        "batch",
+        "result",
+        "audit",
+        "outbox",
+        "authorization",
+        "automated-test"
+      ],
+      "depends_on": [
+        "ED-001@2.0.0",
+        "OD-002@1.0.0",
+        "OD-001@1.0.0",
+        "OD-030@1.0.0",
+        "BUS-QC-001@1.0.0",
+        "BUS-QC-002@1.0.0",
+        "BUS-QC-003@1.0.0",
+        "AC-QC-001@1.0.0",
+        "ATC-BATCH-001@1.0.0",
+        "ATC-RESULT-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0",
+        "NFR-ARCH-001@2.0.0"
+      ],
+      "fingerprint": "17119ce811f55636ddb354a0ea4ba4bfb627bafe6bbd3860f6966cf8dfdbe94f",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-QC-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-QC-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-QC-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "RULE-010"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "RULE-022"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-QC-001"
+        }
+      ],
+      "status": "approved",
+      "title": "实施 DEV-021 QC 影响传播"
     },
     "ATC-QTY-001@1.0.0": {
       "affects": [
@@ -2606,6 +2691,104 @@
       ],
       "status": "in_review",
       "title": "被业务引用的产品版本禁止原地修改"
+    },
+    "BUS-QC-001@1.0.0": {
+      "affects": [
+        "qc",
+        "method-version",
+        "batch",
+        "rule-execution",
+        "audit"
+      ],
+      "depends_on": [
+        "OD-001@1.0.0",
+        "OD-030@1.0.0",
+        "ATC-BATCH-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "392bc228b77b56062f0ff1defa0254c0f5c6c539468930cea51c91caaac7cbfb",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-QC-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-BATCH-002"
+        }
+      ],
+      "status": "approved",
+      "title": "方法版本驱动的 QC 规则执行与结果事实"
+    },
+    "BUS-QC-002@1.0.0": {
+      "affects": [
+        "qc",
+        "impact-propagation",
+        "reportability",
+        "batch",
+        "result"
+      ],
+      "depends_on": [
+        "BUS-QC-001@1.0.0",
+        "ATC-BATCH-001@1.0.0",
+        "ATC-RESULT-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "213fac5030abb5d8285fd47b728b69999d32d5b2c561a00193eda86fc83d2e50",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-QC-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "RULE-022"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-BATCH-003"
+        }
+      ],
+      "status": "approved",
+      "title": "QC 失败影响范围全量传播与不可报告保持"
+    },
+    "BUS-QC-003@1.0.0": {
+      "affects": [
+        "qc",
+        "release-gate",
+        "deviation",
+        "technical-review",
+        "reportability"
+      ],
+      "depends_on": [
+        "BUS-QC-001@1.0.0",
+        "BUS-QC-002@1.0.0",
+        "OD-005@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "87e3787eb0ab8c250d9350ccc65a28f3e5a03766ca561130317205b37375267d",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-QC-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "RULE-010"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-QC-001"
+        }
+      ],
+      "status": "approved",
+      "title": "五关口解除阻断与偏差获批不等于可报告"
     },
     "BUS-QTY-001@1.0.0": {
       "affects": [

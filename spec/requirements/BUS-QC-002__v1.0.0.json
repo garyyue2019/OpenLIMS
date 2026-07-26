@@ -1,0 +1,33 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-QC-002",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "QC 失败影响范围全量传播与不可报告保持",
+  "summary": "QC 运行失败时，影响范围必须覆盖该运行所关联批次内的全部受影响任务与结果，而不只是发现异常的那一条；受影响结果一律保持不可报告，直到解除阻断的全部关口满足；影响集在失败时一次性固定为不可变记录。",
+  "owners": ["实验室负责人", "质量负责人", "技术负责人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "LAB-QC-002"},
+    {"document": "PRD-MAIN", "item": "RULE-022"},
+    {"document": "PRD-MAIN", "item": "OPS-BATCH-003"}
+  ],
+  "depends_on": ["BUS-QC-001@1.0.0", "ATC-BATCH-001@1.0.0", "ATC-RESULT-001@1.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0"],
+  "affects": ["qc", "impact-propagation", "reportability", "batch", "result"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {
+    "mode": "core",
+    "applicability": "ENABLED",
+    "condition": "DEV-021 QC 影响传播切片启用"
+  },
+  "approval_evidence": "用户于 2026-07-26 决定 OD-001（玩具×机械物理方法族）解锁 QC 卡，并在全流程授权下批准本切片基线。",
+  "invariants": [
+    "QC 失败时影响集必须显式登记调用方声明的全部受影响目标（结果组/任务），且至少包含一个目标；空影响集被拒绝（RULE-022 不得只处理发现异常的单个结果）",
+    "影响集记录一次性固定且追加式：目标标识、目标版本、登记时间与登记人不可修改",
+    "任一影响目标只要存在未解除的 QC 阻断，其可报告性即为 BLOCKED（LAB-QC-002）",
+    "影响记录归属唯一 QC 运行，同一运行内同一目标不得重复登记",
+    "本切片不修改结果模块事实——可报告性由 QC 公开端口对外表达，消费方自行担责"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-QC-001",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "方法版本驱动的 QC 规则执行与结果事实",
+  "summary": "QC 运行按固定的方法版本执行适用的 QC 规则集：每条规则产出不可变 QCResult 事实（规则引用+版本、控制类型、观测值、判定 PASS/FAIL、判定依据）；规则集与方法版本原样固定于运行事实，任何一条规则 FAIL 即整个 QC 运行判定为失败。",
+  "owners": ["实验室负责人", "质量负责人", "技术负责人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "LAB-QC-001"},
+    {"document": "PRD-MAIN", "item": "OPS-BATCH-002"}
+  ],
+  "depends_on": ["OD-001@1.0.0", "OD-030@1.0.0", "ATC-BATCH-001@1.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0"],
+  "affects": ["qc", "method-version", "batch", "rule-execution", "audit"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {
+    "mode": "core",
+    "applicability": "ENABLED",
+    "condition": "DEV-021 QC 影响传播切片启用"
+  },
+  "approval_evidence": "用户于 2026-07-26 决定 OD-001（玩具×机械物理方法族）解锁 QC 卡，并在全流程授权下批准本切片基线。",
+  "invariants": [
+    "QC 运行必须固定方法引用+版本与 QC 规则集版本，运行后不得漂移（LAB-QC-001）",
+    "每条 QC 规则产出一条不可变 QCResult：规则引用+版本、控制类型（BLANK/SPIKE/DUPLICATE/REFERENCE_MATERIAL/CALIBRATION_CHECK）、观测值、判定与判定依据",
+    "任一 QCResult 判定为 FAIL，整个 QC 运行判定为 FAILED；全部 PASS 才是 PASSED",
+    "QC 运行绑定到已存在的批次，批次的存在性与非冻结状态经 IBatchStatusPort 门禁固定（gate-then-commit），不复制批次语义",
+    "QC 运行、QCResult 与影响记录全部追加式，由数据库触发器强制（errcode 55000）"
+  ]
+}

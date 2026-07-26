@@ -16,6 +16,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `AC-ELEC-003@1.0.0` | `acceptance` | `approved` | 破坏性分配互斥与资格门禁全链 | `major` | allocation, destructive-exclusion, eligibility-gate, audit, automated-test | `735b5f0293cd` |
 | `AC-ID-001@0.1.0` | `acceptance` | `in_review` | 身份错配 | `major` | identity, exception, conditional-acceptance, audit, automated-test | `a56a740130e6` |
 | `AC-ID-001@1.0.0` | `acceptance` | `approved` | 身份评估三层事实和冲突事件 | `major` | identity-assessment, receiving, audit, automated-test | `8bc40f09987e` |
+| `AC-QC-001@1.0.0` | `acceptance` | `approved` | QC 阻断 | `major` | qc, deviation, reportability, release-gate, automated-test | `fb078df40ed1` |
 | `AC-QTY-001@1.0.0` | `acceptance` | `approved` | 并发超分配阻断与不可变流水链 | `major` | quantity, concurrency, availability-gate, audit, automated-test | `2491d853f11e` |
 | `AC-REC-001@0.1.0` | `acceptance` | `in_review` | 隔离控制 | `major` | receiving, sample-preparation, task-allocation, audit, automated-test | `8e184359a694` |
 | `AC-REC-001@1.0.0` | `acceptance` | `approved` | 隔离资格统一失败关闭 | `major` | receiving, sample-preparation, task-allocation, audit, automated-test | `9d4fdb3bf6b8` |
@@ -36,6 +37,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `ATC-PLT-001@1.0.0` | `story` | `approved` | 实施 DEV-018 请求上下文与对象级授权正式化 | `major` | platform, authorization, request-context, correlation, cross-module, audit, automated-test | `013e485b4c12` |
 | `ATC-PLT-002@1.0.0` | `story` | `approved` | 实施 DEV-017 事务内审计和发件箱正式化与全链验证 | `major` | platform, audit, outbox, migration, cross-module, scope, quantity, allocation, batch, result, billing, automated-test | `83df7240aff4` |
 | `ATC-PLT-003@1.0.0` | `story` | `approved` | 建立业务模块接入与验证通道 | `major` | module-composition, api-host, worker-host, web-composition, architecture-tests, verification | `b2a7af44a3db` |
+| `ATC-QC-001@1.0.0` | `story` | `approved` | 实施 DEV-021 QC 影响传播 | `major` | qc, impact-propagation, reportability, release-gate, batch, result, audit, outbox, authorization, automated-test | `17119ce811f5` |
 | `ATC-QTY-001@1.0.0` | `story` | `approved` | 实施 DEV-009 不可变数量流水与并发预留 | `major` | quantity, authorization, audit, outbox, availability-gate, automated-test | `29b0d4a4add0` |
 | `ATC-REC-001@0.1.0` | `story` | `proposed` | 登记到货批、包装单元和收到实物 | `minor` | receiving, authorization, audit, receiving-ui, automated-test | `9b8952decd3e` |
 | `ATC-REC-001@1.0.0` | `story` | `proposed` | 登记到货批、包装单元和收到实物 | `minor` | receiving, authorization, audit, receiving-ui, automated-test | `2c78ba34a872` |
@@ -77,6 +79,9 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `BUS-PLT-001@1.0.0` | `requirement` | `approved` | 平台审计与发件箱组合不变量 | `major` | platform, audit, outbox, migration, cross-module, transaction | `23725a2fb414` |
 | `BUS-PLT-002@1.0.0` | `requirement` | `approved` | 请求上下文与对象级授权不变量 | `major` | platform, authorization, request-context, correlation, cross-module, audit | `f4238a62d8ff` |
 | `BUS-PROD-003@0.1.0` | `requirement` | `in_review` | 被业务引用的产品版本禁止原地修改 | `major` | product, product-variant, versioning, impact-analysis, evidence | `faf2128cf612` |
+| `BUS-QC-001@1.0.0` | `requirement` | `approved` | 方法版本驱动的 QC 规则执行与结果事实 | `major` | qc, method-version, batch, rule-execution, audit | `392bc228b77b` |
+| `BUS-QC-002@1.0.0` | `requirement` | `approved` | QC 失败影响范围全量传播与不可报告保持 | `major` | qc, impact-propagation, reportability, batch, result | `213fac5030ab` |
+| `BUS-QC-003@1.0.0` | `requirement` | `approved` | 五关口解除阻断与偏差获批不等于可报告 | `major` | qc, release-gate, deviation, technical-review, reportability | `87e3787eb0ab` |
 | `BUS-QTY-001@1.0.0` | `requirement` | `approved` | 不可变数量流水与冲销重记 | `major` | quantity, versioning, authorization, audit, outbox | `47e4cca52ccf` |
 | `BUS-QTY-002@1.0.0` | `requirement` | `approved` | 账户级计量维度、精度与守恒公差配置 | `major` | quantity, measurement, authorization, audit | `a35cedb07b7f` |
 | `BUS-QTY-003@1.0.0` | `requirement` | `approved` | 负余额、超分配与并发预留阻断 | `major` | quantity, concurrency, availability-gate, authorization, audit | `519b56d09ba9` |

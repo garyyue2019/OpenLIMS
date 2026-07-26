@@ -1,0 +1,42 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "acceptance",
+  "id": "AC-QC-001",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "QC 阻断",
+  "summary": "给定某 QC 失败，当偏差仅被批准而影响范围和结果有效性尚未决定时，相关结果必须继续保持不可报告。",
+  "owners": ["质量负责人", "实验室负责人", "QA负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "AC-QC-001"}],
+  "depends_on": ["BUS-QC-001@1.0.0", "BUS-QC-002@1.0.0", "BUS-QC-003@1.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0"],
+  "affects": ["qc", "deviation", "reportability", "release-gate", "automated-test"],
+  "change_class": "major",
+  "approval_evidence": "用户于 2026-07-26 决定 OD-001（玩具×机械物理方法族）解锁 QC 卡，并在全流程授权下批准本验收基线。",
+  "scenario": {
+    "given": [
+      "某分析批的 QC 运行中至少一条 QC 规则判定为 FAIL，QC 运行判定为 FAILED",
+      "影响集覆盖该批内全部受影响结果目标，不只是发现异常的那一条",
+      "授权人已记录偏差获批"
+    ],
+    "when": [
+      "影响范围确认与结果有效性决定尚未记录",
+      "查询任一受影响结果的 QC 可报告性并尝试解除阻断"
+    ],
+    "then": [
+      "可报告性必须为 BLOCKED 并列明未满足的关口",
+      "解除阻断被拒绝且不产生解除事实",
+      "偏差获批不改变可报告性（偏差获批不等于结果可报告）",
+      "五关口（调查、影响范围、有效性决定、采用规则、技术复核）全部满足并解除后可报告性才为 ALLOWED",
+      "关口事实、审计和 Outbox 同一事务提交或一起回滚"
+    ]
+  },
+  "automation": [
+    "领域规则单元测试",
+    "HTTP 与公开端口契约测试",
+    "PostgreSQL 追加式与并发测试",
+    "偏差获批不解除阻断回归测试",
+    "五关口逐项缺失的阻断保持测试",
+    "影响集全量传播测试"
+  ]
+}

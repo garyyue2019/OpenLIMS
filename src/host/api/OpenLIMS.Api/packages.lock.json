@@ -154,6 +154,9 @@
       "openlims.contracts.platform": {
         "type": "Project"
       },
+      "openlims.contracts.qc": {
+        "type": "Project"
+      },
       "openlims.contracts.quantity": {
         "type": "Project"
       },
@@ -215,6 +218,16 @@
           "OpenLIMS.Contracts.Labeling": "[1.0.0, )",
           "OpenLIMS.Contracts.Platform": "[1.0.0, )",
           "OpenLIMS.Contracts.Receiving": "[1.0.0, )"
+        }
+      },
+      "openlims.modules.qc": {
+        "type": "Project",
+        "dependencies": {
+          "Npgsql": "[10.0.3, )",
+          "OpenLIMS.BuildingBlocks.Platform": "[1.0.0, )",
+          "OpenLIMS.Contracts.Batch": "[1.0.0, )",
+          "OpenLIMS.Contracts.Platform": "[1.0.0, )",
+          "OpenLIMS.Contracts.Qc": "[1.0.0, )"
         }
       },
       "openlims.modules.quantity": {

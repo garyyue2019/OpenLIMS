@@ -33,6 +33,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `ATC-BILL-001` | `1.0.0` | `approved` | `spec/stories/ATC-BILL-001__v1.0.0.json` |
 | `ATC-PLT-000` | `0.1.0` | `proposed` | `spec/stories/ATC-PLT-000__v0.1.0.json` |
 | `ATC-PLT-000` | `1.0.0` | `proposed` | `spec/stories/ATC-PLT-000__v1.0.0.json` |
+| `ATC-PLT-001` | `1.0.0` | `approved` | `spec/stories/ATC-PLT-001__v1.0.0.json` |
 | `ATC-PLT-002` | `1.0.0` | `approved` | `spec/stories/ATC-PLT-002__v1.0.0.json` |
 | `ATC-PLT-003` | `1.0.0` | `approved` | `spec/stories/ATC-PLT-003__v1.0.0.json` |
 | `ATC-QTY-001` | `1.0.0` | `approved` | `spec/stories/ATC-QTY-001__v1.0.0.json` |
@@ -70,6 +71,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `BUS-BILL-002` | `1.0.0` | `approved` | `spec/requirements/BUS-BILL-002__v1.0.0.json` |
 | `BUS-BILL-003` | `1.0.0` | `approved` | `spec/requirements/BUS-BILL-003__v1.0.0.json` |
 | `BUS-PLT-001` | `1.0.0` | `approved` | `spec/requirements/BUS-PLT-001__v1.0.0.json` |
+| `BUS-PLT-002` | `1.0.0` | `approved` | `spec/requirements/BUS-PLT-002__v1.0.0.json` |
 | `BUS-PROD-003` | `0.1.0` | `in_review` | `spec/requirements/BUS-PROD-003__v0.1.0.json` |
 | `BUS-QTY-001` | `1.0.0` | `approved` | `spec/requirements/BUS-QTY-001__v1.0.0.json` |
 | `BUS-QTY-002` | `1.0.0` | `approved` | `spec/requirements/BUS-QTY-002__v1.0.0.json` |

@@ -771,6 +771,45 @@
       "status": "proposed",
       "title": "建立可验证的模块化单体工程骨架"
     },
+    "ATC-PLT-001@1.0.0": {
+      "affects": [
+        "platform",
+        "authorization",
+        "request-context",
+        "correlation",
+        "cross-module",
+        "audit",
+        "automated-test"
+      ],
+      "depends_on": [
+        "ED-001@2.0.0",
+        "OD-002@1.0.0",
+        "BUS-PLT-002@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0",
+        "AC-SEC-001@1.0.0",
+        "NFR-ARCH-001@2.0.0",
+        "ATC-PLT-002@1.0.0"
+      ],
+      "fingerprint": "013e485b4c1285652c986b4e460e2b8b9991c15fafa32e438276000d62cefa5e",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "SEC-AUTH-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "SEC-AUD-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-SEC-001"
+        }
+      ],
+      "status": "approved",
+      "title": "实施 DEV-018 请求上下文与对象级授权正式化"
+    },
     "ATC-PLT-002@1.0.0": {
       "affects": [
         "platform",
@@ -2294,6 +2333,35 @@
       ],
       "status": "approved",
       "title": "平台审计与发件箱组合不变量"
+    },
+    "BUS-PLT-002@1.0.0": {
+      "affects": [
+        "platform",
+        "authorization",
+        "request-context",
+        "correlation",
+        "cross-module",
+        "audit"
+      ],
+      "depends_on": [
+        "ATC-PLT-003@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "f4238a62d8ff733534d673bc3ca1ea91411bc9f2ea6b0d6138b2ae49cc08064a",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "SEC-AUTH-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-SEC-001"
+        }
+      ],
+      "status": "approved",
+      "title": "请求上下文与对象级授权不变量"
     },
     "BUS-PROD-003@0.1.0": {
       "affects": [

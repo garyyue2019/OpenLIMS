@@ -1,0 +1,33 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-PLT-002",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "请求上下文与对象级授权不变量",
+  "summary": "集团上下文由部署绑定且客户端不可指定或覆盖；每个模块命令在服务端校验行为人上下文、组织匹配与对象级能力授权，拒绝时失败关闭且仅留失败尝试审计；跨组织访问因组内加载不命中而返回对象不可访问，不泄露对象是否存在；调用方 correlation 原样贯穿平台审计意图与模块尝试审计。",
+  "owners": ["技术负责人", "安全负责人", "质量负责人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "SEC-AUTH-001"},
+    {"document": "PRD-MAIN", "item": "AC-SEC-001"}
+  ],
+  "depends_on": ["ATC-PLT-003@1.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0"],
+  "affects": ["platform", "authorization", "request-context", "correlation", "cross-module", "audit"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {
+    "mode": "core",
+    "applicability": "ENABLED",
+    "condition": "DEV-018 请求上下文与对象级授权正式化切片启用"
+  },
+  "approval_evidence": "用户于 2026-07-26 授予全流程授权（自主收敛最小业务基线并交付）；本卡正式化已批准的 SEC-AUTH-001@1.0.0 与 AC-SEC-001@1.0.0 行为，无未决 OD。",
+  "invariants": [
+    "组织集团上下文来自部署配置（DeploymentOrganizationContext），任何请求载荷或声明不得指定或覆盖（SEC-AUTH-001）",
+    "行为人上下文缺失或其组织与部署组织不一致时命令失败关闭（NOT_AUTHORIZED），不产生业务事实",
+    "对象级能力授权由各模块授权端口在服务端强制，拒绝时业务事实与平台审计意图/发件箱均不产生，仅模块私有 audit_attempt 留失败痕迹",
+    "跨组织对象访问因按组织分区的加载不命中而返回 OBJECT_NOT_ACCESSIBLE，与对象不存在不可区分（AC-SEC-001 不泄露存在性）",
+    "调用方提供的 correlationId 原样写入 platform.audit_intent 与模块 audit_attempt；缺失时由端口生成且不失败",
+    "本不变量适用于全部业务模块，包括跨模块状态端口的评估路径"
+  ]
+}

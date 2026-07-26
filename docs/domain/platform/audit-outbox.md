@@ -24,3 +24,12 @@
 - 12 步命令各自留下 `platform.audit_intent`（按 correlation 排序单调）与 `platform.outbox` 事件。
 - receiving 资格端口以许可桩替代（receiving 模块早于端口纪律交付，纳入真实链路属后续卡）。
 - 失败关闭：以过期分配版本挂载批次成员被拒绝，仅 `batch.audit_attempt` 留痕。
+
+## 请求上下文与对象级授权（DEV-018 / ATC-PLT-001）
+
+`RequestContextAuthorizationE2ETests` 在同一专用库上以平台组合证据固定 SEC-AUTH-001 与 AC-SEC-001：
+
+- **部署绑定组织**：组织上下文来自容器部署配置（`DeploymentOrganizationContext`），请求载荷无覆盖入口；行为人组织与部署组织不一致 → `<MOD>.NOT_AUTHORIZED`，零事实。
+- **能力拒绝失败关闭**：授权端口 Deny 时命令无业务事实、无平台审计意图/发件箱泄漏，仅模块 `audit_attempt` 留痕且 correlation 原样。
+- **跨组织不泄露存在性**：跨组织读取因按组织分区的加载不命中返回 `OBJECT_NOT_ACCESSIBLE`，与读取不存在对象逐字节不可区分（异常类型与消息一致）。
+- **correlation 贯穿**：调用方 correlation 原样固定于 `platform.audit_intent`（含 actor 与组织）。

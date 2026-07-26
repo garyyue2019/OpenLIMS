@@ -1,0 +1,20 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-SCOPE-003",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "未经批准候选不得获得生产资格",
+  "summary": "客户勾选、历史套餐、BOM、AI 候选、缺失引用或未知规则不得绕过批准矩阵生成生产资格。",
+  "owners": ["技术负责人", "质量负责人", "QA负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "BUS-SCOPE-003"}],
+  "depends_on": ["BUS-SCOPE-001@1.0.0", "BUS-SCOPE-002@1.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0"],
+  "affects": ["production-gate", "quotation-candidate", "ai-candidate", "authorization", "audit"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "ENABLED", "condition": "DEV-008 生产资格查询"},
+  "approval_evidence": "用户于 2026-07-26 明确回复‘批准 DEV-008 业务基线’。",
+  "decisions": ["ALLOWED", "BLOCKED", "UNKNOWN"],
+  "invariants": ["只有当前不可变 APPROVED 矩阵版本且全部范围行完整时返回 ALLOWED", "候选来源本身不产生生产资格", "请求版本不是当前批准版本时返回 UNKNOWN", "未知规则、模式、对象范围或权限适用性返回 UNKNOWN 并按阻断处理", "资格查询不创建生产任务或其他业务事实"]
+}

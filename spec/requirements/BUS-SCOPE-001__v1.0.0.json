@@ -1,0 +1,19 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-SCOPE-001",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "版本化 TestScopeMatrix 批准基线",
+  "summary": "授权技术人员一次提交包含完整范围行的不可变 APPROVED TestScopeMatrix 版本；修订只追加后继版本。",
+  "owners": ["技术负责人", "质量负责人", "产品负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "BUS-SCOPE-001"}],
+  "depends_on": ["ATC-PLT-003@1.0.0", "OD-027@1.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0"],
+  "affects": ["test-scope", "versioning", "authorization", "audit", "outbox"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "ENABLED", "condition": "DEV-008 ScopeLine 生产可用门禁启用"},
+  "approval_evidence": "用户于 2026-07-26 明确回复‘批准 DEV-008 业务基线’。",
+  "invariants": ["每个矩阵具有稳定 scopeMatrixId 和单调递增版本", "每个批准版本及其范围行不可修改或删除", "后继版本必须校验 expectedCurrentVersion", "矩阵版本、审计和 Outbox 在同一事务提交", "客户端不得提交 OrganizationGroup"]
+}

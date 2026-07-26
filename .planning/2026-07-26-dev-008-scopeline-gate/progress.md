@@ -1,0 +1,56 @@
+# DEV-008 进度
+
+## 2026-07-26
+
+- 用户决定暂不发布，继续 DEV-008。
+- 将 DEV-008 收敛为 `ATC-SCP-001：ScopeLine 生产可用门禁`。
+- 完成 validate、source-status、impact；均无漂移或影响项。
+- ready 检查确认任务卡尚不存在。
+- 从 `main@77f5dae` 创建分支 `codex/dev-008-scopeline-gate`。
+- 建立独立规划、发现和进度记录。
+- 首次并行关键词检索因零命中退出码未返回分项内容；已记录并改用容忍零命中的精确检索。
+- 已从 PRD 提取 ScopeLine 最小对象、EvaluationMode 条件语义、禁止候选直达生产、不可原地修改和关系分离约束。
+- 已确认当前应用代码尚无 ScopeLine/TestScopeMatrix 实现。
+- 第二次并行规格检索仍受零命中退出码影响；已停止该组合方式，改用已知文件直读和单项可选检索。
+- 已读取 `OD-027@0.1.0`，确认它仍为 open 且没有批准决定。
+- Phase 1 完成；Phase 2 等待用户确认 ScopeLine 最小粒度后继续起草并批准任务卡。
+- 用户明确批准 DEV-008 业务基线；Phase 2 完成，Phase 3 开始。
+- 已核对后继规格格式和来源基线；确定追加一项决定、三项需求、一项验收和一张任务卡。
+- 已确认 Epic/Feature 稳定标识，并将实现收敛为 API、持久化、审计/Outbox 与生产资格端口，不新增 UI。
+- 已盘点模块、Host、Solution 和测试项目结构，确定 Scope 采用现有模块组合协议和独立 schema。
+- 已核对平台事务、审计、Outbox 和授权模式，确定 Scope 业务写入与平台证据在同一事务提交。
+- 已核对 Endpoint、服务失败关闭、追加迁移和版本化资格端口实现范式。
+- 已固定独立 Scope 授权契约与单一 capability 的实现方式。
+- 已核对新项目、包锁与 OpenAPI 接入要求，准备创建 Scope 契约和模块骨架。
+- 已创建 Scope contracts、领域规则、授权、迁移、持久化、服务、资格端口、Endpoint 和模块组合骨架，并接入 API、Worker、OpenAPI 与 Solution。
+- 已定位精确 .NET 10.0.302 用户级 SDK，后续可执行本地编译验证。
+- 核心 Scope 模块已在 Release/warnaserror 下编译通过，0 warnings / 0 errors。
+- 已核对契约测试替换方式和架构门禁扩展点，开始补齐测试项目。
+- 已新增 Scope 领域/授权单元测试和架构边界断言；首次构建仅有两处 xUnit 取消令牌分析器错误，已修复。
+- 首次 Release 构建进入 Scope 项目，仅发现 Module 文件缺平台契约 using；已修复。
+- 第二次 Release 构建仅发现 eligibility query 的 out 参数确定赋值错误；已改为显式初始化。
+- 已追加 6 项批准源规格；首次 validate 仅提示 Story 缺少 `ui_states`，已按无 UI 非目标补齐客户端状态约束。
+- strict validate、source-status 和 impact 通过；6 项新增规格均为经用户批准的直接 major 增量。
+- 生成器写入 12 个派生文件，随后 `ATC-SCP-001@1.0.0` 返回 READY，spec check 通过，二次 generate 为 written=0。
+- Phase 3 完成，正式进入 allowed_paths 内实现。
+- 恢复 DEV-008 会话后确认工作区仍在 `codex/dev-008-scopeline-gate`，未提交实现和生成物均保留。
+- 复核 Scope 持久化、迁移、服务与公共资格端口；确认资格端口在事务内对象范围授权拒绝时尚未走独立 `scope.audit_attempt` 追加路径。
+- Windows 下首次用 `rg` 检索 `*.cs` 路径通配符失败（错误 123）；已改为对目录检索，未重复使用失败写法。
+- 一次并行检索包含不存在的 `src/modules/platform` 路径而整体返回失败；随后只读取已确认存在的 building-blocks 路径，未重复该检索。
+- 已补充 Scope PostgreSQL 集成测试项目及 Solution 接入，并生成锁文件；Release/warnings-as-errors 编译通过，0 warning / 0 error。
+- 已修复资格端口事务内授权拒绝未追加失败审计的问题，并保留调用方 correlationId。
+- 本机未设置 `OPENLIMS_TEST_POSTGRES_CONNECTION`，且未安装 Docker；数据库集成测试当前只能完成编译验证，待隔离 PostgreSQL 环境执行。
+- 首次运行三项仓库契约测试时，新增 Story 的批准证据位于 `body.approval_evidence`，而既有断言只读取顶层字段；已将断言兼容两种既有 schema 位置，不改变规格。
+- 首次完整 Python 仓库测试发现 DEV-008 Story 漏列所有 Story 必须直接固定的 `OD-002@1.0.0` 单集团边界依赖；已补充该既有批准依赖，不放宽测试或改变用户批准的业务语义，并重新执行生成与 ready 门禁。
+- 路径审计确认 API 新增 Scope 项目引用会机械更新三个 Contract 和 Platform Integration 的 NuGet 锁图，同时 Scope 验证命令需要接入现有跨平台验证脚本；已将这些精确技术路径补入任务卡并仅增加 `scope` 过滤入口，不扩大业务能力。
+- 最终路径审计结果为 changed=40、outside_allowed=0；PRD 未修改，`generated/spec/` 只通过生成器更新。
+- 最终 strict validate、source-status、verify-history、ready、spec check 和 40 项 Python 测试全部通过；二次 generate 为 `written=0`。
+- Solution locked restore 与 Release/warnings-as-errors 全量构建通过；Scope 单元 10/10、Scope 契约 10/10、架构 9/9 通过，Solution contracts/architecture 过滤门禁通过。
+- Bash 不在本机 PATH，故 `verify.sh` 仅完成与 PowerShell 脚本对称的最小文本变更；`verify.ps1` 已通过 PowerShell AST 语法检查。
+- Phase 4 完成；Phase 5 的测试代码、编译和非数据库门禁完成，仍等待隔离 PostgreSQL 执行 7 个数据库用例后进入 Phase 6。
+- 本机用 zonky embedded-postgres-binaries（PG16.4，约22MB）在 `D:\pgtest` 展开并 initdb，起于空闲端口 127.0.0.1:55442，未触碰其他会话残留在 55432 的旧实例。
+- 设置 `OPENLIMS_TEST_POSTGRES_CONNECTION` 后，Scope PostgreSQL 集成测试 7/7 全部通过（原子提交/并发/不可变/失败关闭审计/资格版本语义）。Phase 5 完成，进入 Phase 6 全量门禁。
+- Phase 6 全量门禁通过：strict validate（93 规格版本）、SOURCE CURRENT、HISTORY PASSED、`ATC-SCP-001@1.0.0` READY、spec check、二次 generate `written=0`、Python 40/40、locked restore、Release/warnaserror 构建 0 警告 0 错误。
+- 借助本地实 PostgreSQL 首次完成全解决方案 13 个测试项目共 208 个用例全部通过，含 Platform 2/2、Receiving 22/22、Labeling 6/6、Scope 7/7 四组数据库集成回归。
+- impact 复核为空；工作区仍为路径审计确认的 40 个变更文件，无 allowed_paths 之外改动。
+- Phase 6 门禁全部完成；按约束等待用户的提交/推送指令。

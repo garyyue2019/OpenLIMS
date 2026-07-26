@@ -152,6 +152,32 @@
       "status": "approved",
       "title": "隔离资格统一失败关闭"
     },
+    "AC-SCOPE-001@1.0.0": {
+      "affects": [
+        "test-scope",
+        "production-gate",
+        "audit",
+        "automated-test"
+      ],
+      "depends_on": [
+        "OD-027@1.0.0",
+        "BUS-SCOPE-001@1.0.0",
+        "BUS-SCOPE-002@1.0.0",
+        "BUS-SCOPE-003@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "0a563aaed59835af2a2796f6b679a9bdb5998f2272ac7f6bc28f8b60ea0e17fe",
+      "kind": "acceptance",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-SCOPE-001"
+        }
+      ],
+      "status": "approved",
+      "title": "ScopeLine 完整链与生产资格门禁"
+    },
     "AC-SEC-001@0.1.0": {
       "affects": [
         "authorization",
@@ -1195,6 +1221,55 @@
       "status": "approved",
       "title": "实施 DEV-007 受控放行与版本固定资格"
     },
+    "ATC-SCP-001@1.0.0": {
+      "affects": [
+        "scope",
+        "authorization",
+        "audit",
+        "outbox",
+        "production-gate",
+        "automated-test"
+      ],
+      "depends_on": [
+        "ATC-PLT-003@1.0.0",
+        "ED-001@2.0.0",
+        "OD-002@1.0.0",
+        "OD-027@1.0.0",
+        "BUS-SCOPE-001@1.0.0",
+        "BUS-SCOPE-002@1.0.0",
+        "BUS-SCOPE-003@1.0.0",
+        "AC-SCOPE-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0",
+        "NFR-ARCH-001@2.0.0"
+      ],
+      "fingerprint": "1ae1eaf0c359f3c045dddcb33fd10e0b2543e9b8f68aa7631577fa791be20503",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-027"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "BUS-SCOPE-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "BUS-SCOPE-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "BUS-SCOPE-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-SCOPE-001"
+        }
+      ],
+      "status": "approved",
+      "title": "实施 DEV-008 ScopeLine 生产可用门禁"
+    },
     "BUS-PROD-003@0.1.0": {
       "affects": [
         "product",
@@ -1238,6 +1313,79 @@
       ],
       "status": "in_review",
       "title": "要求更新生成影响清单且不改写冻结委托"
+    },
+    "BUS-SCOPE-001@1.0.0": {
+      "affects": [
+        "test-scope",
+        "versioning",
+        "authorization",
+        "audit",
+        "outbox"
+      ],
+      "depends_on": [
+        "ATC-PLT-003@1.0.0",
+        "OD-027@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "b1fc752a6298985effc0b3edcd5438679e570d11c54aa6d34dbe89ec0c44d598",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "BUS-SCOPE-001"
+        }
+      ],
+      "status": "approved",
+      "title": "版本化 TestScopeMatrix 批准基线"
+    },
+    "BUS-SCOPE-002@1.0.0": {
+      "affects": [
+        "scope-line",
+        "method",
+        "sample-requirement",
+        "evaluation",
+        "production-gate"
+      ],
+      "depends_on": [
+        "BUS-SCOPE-001@1.0.0",
+        "OD-027@1.0.0"
+      ],
+      "fingerprint": "b416895da744a6c7917b360732a0808a23e62eccdc1a5a55d08476953ab88521",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "BUS-SCOPE-002"
+        }
+      ],
+      "status": "approved",
+      "title": "ScopeLine 完整引用与 EvaluationMode 条件语义"
+    },
+    "BUS-SCOPE-003@1.0.0": {
+      "affects": [
+        "production-gate",
+        "quotation-candidate",
+        "ai-candidate",
+        "authorization",
+        "audit"
+      ],
+      "depends_on": [
+        "BUS-SCOPE-001@1.0.0",
+        "BUS-SCOPE-002@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "7fc3f3b546eeb457320a7a96756c442bb760527658b41cf13623f6956b9d18f5",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "BUS-SCOPE-003"
+        }
+      ],
+      "status": "approved",
+      "title": "未经批准候选不得获得生产资格"
     },
     "ED-001@0.1.0": {
       "affects": [
@@ -1620,6 +1768,30 @@
       ],
       "status": "proposed",
       "title": "TestScopeMatrix 范围行粒度与变更影响"
+    },
+    "OD-027@1.0.0": {
+      "affects": [
+        "test-scope",
+        "production-gate",
+        "authorization",
+        "audit",
+        "outbox"
+      ],
+      "depends_on": [
+        "ED-001@2.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "ba8bd756a3370d178f44612bbbb8bf18f2655fe01a1923d339166a6e8f745037",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-027"
+        }
+      ],
+      "status": "approved",
+      "title": "DEV-008 ScopeLine 最小粒度与轻量批准"
     },
     "OD-029@0.1.0": {
       "affects": [

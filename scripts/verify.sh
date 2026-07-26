@@ -31,7 +31,8 @@ case "$profile" in
       allocation) test_filter='Profile=allocation' ;;
       textile) test_filter='Profile=textile' ;;
       batch) test_filter='Profile=batch' ;;
-      *) echo "The task profile requires --module platform, --module module-onboarding, --module receiving, --module labeling, --module scope, --module quantity, --module allocation, --module textile, or --module batch." >&2; exit 2 ;;
+      result) test_filter='Profile=result' ;;
+      *) echo "The task profile requires --module platform, --module module-onboarding, --module receiving, --module labeling, --module scope, --module quantity, --module allocation, --module textile, --module batch, or --module result." >&2; exit 2 ;;
     esac
     require_command dotnet
     gate "dotnet restore (locked)" dotnet restore OpenLIMS.slnx --locked-mode

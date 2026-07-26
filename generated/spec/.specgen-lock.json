@@ -13,6 +13,7 @@
         "AC-QTY-001@1.0.0",
         "AC-REC-001@0.1.0",
         "AC-REC-001@1.0.0",
+        "AC-RETEST-001@1.0.0",
         "AC-SCOPE-001@1.0.0",
         "AC-SEC-001@0.1.0",
         "AC-SEC-001@1.0.0",
@@ -41,6 +42,7 @@
         "ATC-REC-006@0.1.0",
         "ATC-REC-006@1.0.0",
         "ATC-REC-006@2.0.0",
+        "ATC-RESULT-001@1.0.0",
         "ATC-SCP-001@1.0.0",
         "ATC-TEX-001@1.0.0",
         "ATC-TEX-003@1.0.0",
@@ -55,6 +57,9 @@
         "BUS-QTY-002@1.0.0",
         "BUS-QTY-003@1.0.0",
         "BUS-REQ-003@0.1.0",
+        "BUS-RES-001@1.0.0",
+        "BUS-RES-002@1.0.0",
+        "BUS-RES-003@1.0.0",
         "BUS-SCOPE-001@1.0.0",
         "BUS-SCOPE-002@1.0.0",
         "BUS-SCOPE-003@1.0.0",
@@ -137,6 +142,7 @@
         "AC-QTY-001@1.0.0",
         "AC-REC-001@0.1.0",
         "AC-REC-001@1.0.0",
+        "AC-RETEST-001@1.0.0",
         "AC-SCOPE-001@1.0.0",
         "AC-SEC-001@0.1.0",
         "AC-SEC-001@1.0.0",
@@ -165,6 +171,7 @@
         "ATC-REC-006@0.1.0",
         "ATC-REC-006@1.0.0",
         "ATC-REC-006@2.0.0",
+        "ATC-RESULT-001@1.0.0",
         "ATC-SCP-001@1.0.0",
         "ATC-TEX-001@1.0.0",
         "ATC-TEX-003@1.0.0",
@@ -179,6 +186,9 @@
         "BUS-QTY-002@1.0.0",
         "BUS-QTY-003@1.0.0",
         "BUS-REQ-003@0.1.0",
+        "BUS-RES-001@1.0.0",
+        "BUS-RES-002@1.0.0",
+        "BUS-RES-003@1.0.0",
         "BUS-SCOPE-001@1.0.0",
         "BUS-SCOPE-002@1.0.0",
         "BUS-SCOPE-003@1.0.0",
@@ -261,6 +271,7 @@
         "AC-QTY-001@1.0.0",
         "AC-REC-001@0.1.0",
         "AC-REC-001@1.0.0",
+        "AC-RETEST-001@1.0.0",
         "AC-SCOPE-001@1.0.0",
         "AC-SEC-001@0.1.0",
         "AC-SEC-001@1.0.0",
@@ -289,6 +300,7 @@
         "ATC-REC-006@0.1.0",
         "ATC-REC-006@1.0.0",
         "ATC-REC-006@2.0.0",
+        "ATC-RESULT-001@1.0.0",
         "ATC-SCP-001@1.0.0",
         "ATC-TEX-001@1.0.0",
         "ATC-TEX-003@1.0.0",
@@ -303,6 +315,9 @@
         "BUS-QTY-002@1.0.0",
         "BUS-QTY-003@1.0.0",
         "BUS-REQ-003@0.1.0",
+        "BUS-RES-001@1.0.0",
+        "BUS-RES-002@1.0.0",
+        "BUS-RES-003@1.0.0",
         "BUS-SCOPE-001@1.0.0",
         "BUS-SCOPE-002@1.0.0",
         "BUS-SCOPE-003@1.0.0",
@@ -372,7 +387,7 @@
         "SEC-DEPLOY-001@1.0.0",
         "SEC-DEPLOY-001@2.0.0"
       ],
-      "sha256": "4dca0d47dbb16d443fcde43f1e4d04d304bb550f2195205e409459b0070214f8"
+      "sha256": "5150d01ec40336bc2b8aee0ea7464f3cfa41081c72098fd87c502f11d30d4ef1"
     },
     "generated/spec/dependency-graph.mmd": {
       "owners": [
@@ -385,6 +400,7 @@
         "AC-QTY-001@1.0.0",
         "AC-REC-001@0.1.0",
         "AC-REC-001@1.0.0",
+        "AC-RETEST-001@1.0.0",
         "AC-SCOPE-001@1.0.0",
         "AC-SEC-001@0.1.0",
         "AC-SEC-001@1.0.0",
@@ -413,6 +429,7 @@
         "ATC-REC-006@0.1.0",
         "ATC-REC-006@1.0.0",
         "ATC-REC-006@2.0.0",
+        "ATC-RESULT-001@1.0.0",
         "ATC-SCP-001@1.0.0",
         "ATC-TEX-001@1.0.0",
         "ATC-TEX-003@1.0.0",
@@ -427,6 +444,9 @@
         "BUS-QTY-002@1.0.0",
         "BUS-QTY-003@1.0.0",
         "BUS-REQ-003@0.1.0",
+        "BUS-RES-001@1.0.0",
+        "BUS-RES-002@1.0.0",
+        "BUS-RES-003@1.0.0",
         "BUS-SCOPE-001@1.0.0",
         "BUS-SCOPE-002@1.0.0",
         "BUS-SCOPE-003@1.0.0",
@@ -496,7 +516,7 @@
         "SEC-DEPLOY-001@1.0.0",
         "SEC-DEPLOY-001@2.0.0"
       ],
-      "sha256": "0d99f3c5bad1785ec77c466bec480467ad4ccb5124415ab231f950ec32cf72da"
+      "sha256": "fb95013b620cee4f10a43668db438d20cc30c95029f482fdf6a753611ab01152"
     },
     "generated/spec/features/AC-BATCH-001__v1.0.0.feature": {
       "owners": [
@@ -591,6 +611,17 @@
         "SEC-AUTH-001@1.0.0"
       ],
       "sha256": "2e81437c22e21e6e5270aad09295351af4d6ee5e61fafd07eaea24105a3ae7c1"
+    },
+    "generated/spec/features/AC-RETEST-001__v1.0.0.feature": {
+      "owners": [
+        "AC-RETEST-001@1.0.0",
+        "BUS-RES-001@1.0.0",
+        "BUS-RES-002@1.0.0",
+        "BUS-RES-003@1.0.0",
+        "SEC-AUD-001@2.0.0",
+        "SEC-AUTH-001@1.0.0"
+      ],
+      "sha256": "5d71e43a687b4db3b712159c79e545580d11d2e82ca37d15a0e15fb34f9c9203"
     },
     "generated/spec/features/AC-SCOPE-001__v1.0.0.feature": {
       "owners": [
@@ -1033,6 +1064,24 @@
       ],
       "sha256": "bdf312c34d4c11ce9820baaa15ecf07b6c6d9455486c5e44f18a589f243097ef"
     },
+    "generated/spec/features/ATC-RESULT-001__v1.0.0.feature": {
+      "owners": [
+        "AC-RETEST-001@1.0.0",
+        "ATC-BATCH-001@1.0.0",
+        "ATC-PLT-003@1.0.0",
+        "ATC-RESULT-001@1.0.0",
+        "BUS-RES-001@1.0.0",
+        "BUS-RES-002@1.0.0",
+        "BUS-RES-003@1.0.0",
+        "ED-001@2.0.0",
+        "NFR-ARCH-001@2.0.0",
+        "OD-002@1.0.0",
+        "OD-030@1.0.0",
+        "SEC-AUD-001@2.0.0",
+        "SEC-AUTH-001@1.0.0"
+      ],
+      "sha256": "883a76e5965022f8685dd67746af765d2d415fc0586b26db1c9c94911f15e4f8"
+    },
     "generated/spec/features/ATC-SCP-001__v1.0.0.feature": {
       "owners": [
         "AC-SCOPE-001@1.0.0",
@@ -1089,6 +1138,7 @@
         "AC-QTY-001@1.0.0",
         "AC-REC-001@0.1.0",
         "AC-REC-001@1.0.0",
+        "AC-RETEST-001@1.0.0",
         "AC-SCOPE-001@1.0.0",
         "AC-SEC-001@0.1.0",
         "AC-SEC-001@1.0.0",
@@ -1117,6 +1167,7 @@
         "ATC-REC-006@0.1.0",
         "ATC-REC-006@1.0.0",
         "ATC-REC-006@2.0.0",
+        "ATC-RESULT-001@1.0.0",
         "ATC-SCP-001@1.0.0",
         "ATC-TEX-001@1.0.0",
         "ATC-TEX-003@1.0.0",
@@ -1131,6 +1182,9 @@
         "BUS-QTY-002@1.0.0",
         "BUS-QTY-003@1.0.0",
         "BUS-REQ-003@0.1.0",
+        "BUS-RES-001@1.0.0",
+        "BUS-RES-002@1.0.0",
+        "BUS-RES-003@1.0.0",
         "BUS-SCOPE-001@1.0.0",
         "BUS-SCOPE-002@1.0.0",
         "BUS-SCOPE-003@1.0.0",
@@ -1200,7 +1254,7 @@
         "SEC-DEPLOY-001@1.0.0",
         "SEC-DEPLOY-001@2.0.0"
       ],
-      "sha256": "17a0c4743b2f9feb10109e4f4115ef8c6478835ba8d708fc07c7dbc8796941ea"
+      "sha256": "2f02613a82ea30ebc5d810788e92b7eca249d085d1bfcca9b665c2d7c0303ef0"
     },
     "generated/spec/readiness-report.md": {
       "owners": [
@@ -1213,6 +1267,7 @@
         "AC-QTY-001@1.0.0",
         "AC-REC-001@0.1.0",
         "AC-REC-001@1.0.0",
+        "AC-RETEST-001@1.0.0",
         "AC-SCOPE-001@1.0.0",
         "AC-SEC-001@0.1.0",
         "AC-SEC-001@1.0.0",
@@ -1241,6 +1296,7 @@
         "ATC-REC-006@0.1.0",
         "ATC-REC-006@1.0.0",
         "ATC-REC-006@2.0.0",
+        "ATC-RESULT-001@1.0.0",
         "ATC-SCP-001@1.0.0",
         "ATC-TEX-001@1.0.0",
         "ATC-TEX-003@1.0.0",
@@ -1255,6 +1311,9 @@
         "BUS-QTY-002@1.0.0",
         "BUS-QTY-003@1.0.0",
         "BUS-REQ-003@0.1.0",
+        "BUS-RES-001@1.0.0",
+        "BUS-RES-002@1.0.0",
+        "BUS-RES-003@1.0.0",
         "BUS-SCOPE-001@1.0.0",
         "BUS-SCOPE-002@1.0.0",
         "BUS-SCOPE-003@1.0.0",
@@ -1324,7 +1383,7 @@
         "SEC-DEPLOY-001@1.0.0",
         "SEC-DEPLOY-001@2.0.0"
       ],
-      "sha256": "dc0bf3930fd11e360ba2c36ec8acf715a0a2672513d26c1d0fd90a60c0beda3d"
+      "sha256": "94f59e130215e35d5694bfcc3cc925b5f8aa5841f82468d8c697ae7fdfe26d36"
     },
     "generated/spec/releases/REL-R1-RECEIVING-PILOT__v0.1.0.requirements-lock.json": {
       "owners": [
@@ -1436,6 +1495,7 @@
         "AC-QTY-001@1.0.0",
         "AC-REC-001@0.1.0",
         "AC-REC-001@1.0.0",
+        "AC-RETEST-001@1.0.0",
         "AC-SCOPE-001@1.0.0",
         "AC-SEC-001@0.1.0",
         "AC-SEC-001@1.0.0",
@@ -1464,6 +1524,7 @@
         "ATC-REC-006@0.1.0",
         "ATC-REC-006@1.0.0",
         "ATC-REC-006@2.0.0",
+        "ATC-RESULT-001@1.0.0",
         "ATC-SCP-001@1.0.0",
         "ATC-TEX-001@1.0.0",
         "ATC-TEX-003@1.0.0",
@@ -1478,6 +1539,9 @@
         "BUS-QTY-002@1.0.0",
         "BUS-QTY-003@1.0.0",
         "BUS-REQ-003@0.1.0",
+        "BUS-RES-001@1.0.0",
+        "BUS-RES-002@1.0.0",
+        "BUS-RES-003@1.0.0",
         "BUS-SCOPE-001@1.0.0",
         "BUS-SCOPE-002@1.0.0",
         "BUS-SCOPE-003@1.0.0",
@@ -1547,7 +1611,7 @@
         "SEC-DEPLOY-001@1.0.0",
         "SEC-DEPLOY-001@2.0.0"
       ],
-      "sha256": "fd0b26f2b47575a83775792143638affdc5eb0270f2dd869c3605d128e2eb8d5"
+      "sha256": "fc93feec73fca3ff93c07401fa3ff2bd034d06f18cd50ae32527ab7687d96e70"
     },
     "generated/spec/source-inventory.csv": {
       "owners": [
@@ -1560,6 +1624,7 @@
         "AC-QTY-001@1.0.0",
         "AC-REC-001@0.1.0",
         "AC-REC-001@1.0.0",
+        "AC-RETEST-001@1.0.0",
         "AC-SCOPE-001@1.0.0",
         "AC-SEC-001@0.1.0",
         "AC-SEC-001@1.0.0",
@@ -1588,6 +1653,7 @@
         "ATC-REC-006@0.1.0",
         "ATC-REC-006@1.0.0",
         "ATC-REC-006@2.0.0",
+        "ATC-RESULT-001@1.0.0",
         "ATC-SCP-001@1.0.0",
         "ATC-TEX-001@1.0.0",
         "ATC-TEX-003@1.0.0",
@@ -1602,6 +1668,9 @@
         "BUS-QTY-002@1.0.0",
         "BUS-QTY-003@1.0.0",
         "BUS-REQ-003@0.1.0",
+        "BUS-RES-001@1.0.0",
+        "BUS-RES-002@1.0.0",
+        "BUS-RES-003@1.0.0",
         "BUS-SCOPE-001@1.0.0",
         "BUS-SCOPE-002@1.0.0",
         "BUS-SCOPE-003@1.0.0",
@@ -1671,7 +1740,7 @@
         "SEC-DEPLOY-001@1.0.0",
         "SEC-DEPLOY-001@2.0.0"
       ],
-      "sha256": "1ab3c5b311b7ce19c9a88fe7b15a142f42d8efa075490f70af83be2842aeeedb"
+      "sha256": "e4cb17227ad9000a3ba35eae910b586b1b0a20c92a0ddd980a653c3ba81f27ed"
     },
     "generated/spec/tasks/ATC-ALLOC-001__v1.0.0.md": {
       "owners": [
@@ -2065,6 +2134,24 @@
       ],
       "sha256": "0a61e9174c2e397965b5d213125a4aff29b8789aaa2df3696ab33f1084b5a74a"
     },
+    "generated/spec/tasks/ATC-RESULT-001__v1.0.0.md": {
+      "owners": [
+        "AC-RETEST-001@1.0.0",
+        "ATC-BATCH-001@1.0.0",
+        "ATC-PLT-003@1.0.0",
+        "ATC-RESULT-001@1.0.0",
+        "BUS-RES-001@1.0.0",
+        "BUS-RES-002@1.0.0",
+        "BUS-RES-003@1.0.0",
+        "ED-001@2.0.0",
+        "NFR-ARCH-001@2.0.0",
+        "OD-002@1.0.0",
+        "OD-030@1.0.0",
+        "SEC-AUD-001@2.0.0",
+        "SEC-AUTH-001@1.0.0"
+      ],
+      "sha256": "dec5de68f7a99f013bfca0ce11f432e3b05f511a66f2f9697154e3d3d9820312"
+    },
     "generated/spec/tasks/ATC-SCP-001__v1.0.0.md": {
       "owners": [
         "AC-SCOPE-001@1.0.0",
@@ -2121,6 +2208,7 @@
         "AC-QTY-001@1.0.0",
         "AC-REC-001@0.1.0",
         "AC-REC-001@1.0.0",
+        "AC-RETEST-001@1.0.0",
         "AC-SCOPE-001@1.0.0",
         "AC-SEC-001@0.1.0",
         "AC-SEC-001@1.0.0",
@@ -2149,6 +2237,7 @@
         "ATC-REC-006@0.1.0",
         "ATC-REC-006@1.0.0",
         "ATC-REC-006@2.0.0",
+        "ATC-RESULT-001@1.0.0",
         "ATC-SCP-001@1.0.0",
         "ATC-TEX-001@1.0.0",
         "ATC-TEX-003@1.0.0",
@@ -2163,6 +2252,9 @@
         "BUS-QTY-002@1.0.0",
         "BUS-QTY-003@1.0.0",
         "BUS-REQ-003@0.1.0",
+        "BUS-RES-001@1.0.0",
+        "BUS-RES-002@1.0.0",
+        "BUS-RES-003@1.0.0",
         "BUS-SCOPE-001@1.0.0",
         "BUS-SCOPE-002@1.0.0",
         "BUS-SCOPE-003@1.0.0",
@@ -2232,7 +2324,7 @@
         "SEC-DEPLOY-001@1.0.0",
         "SEC-DEPLOY-001@2.0.0"
       ],
-      "sha256": "e01152c417ec1a2fc94810a1398624f2903cd11f800f23be34e6b2777dc94ea1"
+      "sha256": "1f93e84509f797bd4e11e3ce6fa4903cc260a86a154e83fdb28567b0b745a70e"
     },
     "generated/spec/traceability.json": {
       "owners": [
@@ -2245,6 +2337,7 @@
         "AC-QTY-001@1.0.0",
         "AC-REC-001@0.1.0",
         "AC-REC-001@1.0.0",
+        "AC-RETEST-001@1.0.0",
         "AC-SCOPE-001@1.0.0",
         "AC-SEC-001@0.1.0",
         "AC-SEC-001@1.0.0",
@@ -2273,6 +2366,7 @@
         "ATC-REC-006@0.1.0",
         "ATC-REC-006@1.0.0",
         "ATC-REC-006@2.0.0",
+        "ATC-RESULT-001@1.0.0",
         "ATC-SCP-001@1.0.0",
         "ATC-TEX-001@1.0.0",
         "ATC-TEX-003@1.0.0",
@@ -2287,6 +2381,9 @@
         "BUS-QTY-002@1.0.0",
         "BUS-QTY-003@1.0.0",
         "BUS-REQ-003@0.1.0",
+        "BUS-RES-001@1.0.0",
+        "BUS-RES-002@1.0.0",
+        "BUS-RES-003@1.0.0",
         "BUS-SCOPE-001@1.0.0",
         "BUS-SCOPE-002@1.0.0",
         "BUS-SCOPE-003@1.0.0",
@@ -2356,7 +2453,7 @@
         "SEC-DEPLOY-001@1.0.0",
         "SEC-DEPLOY-001@2.0.0"
       ],
-      "sha256": "315d8648e5746c2fbfb6a133696f696635e49ca1e9f45096dd5a813d7f507a71"
+      "sha256": "696475dd1b6b162b8cd3f82f6be72503933f30e98cafc7da4e6c331c1c0f37cd"
     }
   },
   "schema_version": 1,
@@ -2946,6 +3043,28 @@
         {
           "document": "PRD-MAIN",
           "item": "AC-REC-001"
+        }
+      ],
+      "status": "approved",
+      "version": "1.0.0"
+    },
+    "AC-RETEST-001@1.0.0": {
+      "behavior_fingerprint": "014e9e23db08db1aa03e90b5053e0b1815c6ee69588f01e4b85b1278b2c143ad",
+      "change_class": "major",
+      "depends_on": [
+        "BUS-RES-001@1.0.0",
+        "BUS-RES-002@1.0.0",
+        "BUS-RES-003@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "578ffe8b2ade26b99f45bb148f55208c4fbafb71d4ebffbc26afd66ab971d97b",
+      "id": "AC-RETEST-001",
+      "kind": "acceptance",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-RETEST-001"
         }
       ],
       "status": "approved",
@@ -4064,6 +4183,67 @@
       "status": "approved",
       "version": "2.0.0"
     },
+    "ATC-RESULT-001@1.0.0": {
+      "behavior_fingerprint": "783e0b6ea9599ff62841e9b0549a4cdc3efcc7076cd4f4d3896222d69b0c7b67",
+      "change_class": "major",
+      "depends_on": [
+        "ATC-PLT-003@1.0.0",
+        "ED-001@2.0.0",
+        "OD-002@1.0.0",
+        "OD-030@1.0.0",
+        "ATC-BATCH-001@1.0.0",
+        "BUS-RES-001@1.0.0",
+        "BUS-RES-002@1.0.0",
+        "BUS-RES-003@1.0.0",
+        "AC-RETEST-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0",
+        "NFR-ARCH-001@2.0.0"
+      ],
+      "fingerprint": "89ae098800fcc9e3929738cf6a9978e0a79567d6cda65f661882c816343c0124",
+      "id": "ATC-RESULT-001",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-RAW-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-RAW-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-PROV-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-PROV-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-RES-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-RES-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-RES-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-RES-004"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-RETEST-001"
+        }
+      ],
+      "status": "approved",
+      "version": "1.0.0"
+    },
     "ATC-SCP-001@1.0.0": {
       "behavior_fingerprint": "a36392425f47e5accdcaa3684869956dc334956fb140d933baf4319d547c253f",
       "change_class": "major",
@@ -4423,6 +4603,91 @@
       ],
       "status": "in_review",
       "version": "0.1.0"
+    },
+    "BUS-RES-001@1.0.0": {
+      "behavior_fingerprint": "99d3f3bd67454372cd26f8b1ccc3b38562d67055e672d88a0ecc82cf51554db0",
+      "change_class": "major",
+      "depends_on": [
+        "ATC-PLT-003@1.0.0",
+        "OD-030@1.0.0",
+        "ATC-BATCH-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "9a52d7f4d3a1e3e78eaa3ea9ef18517d4334f8cf01cde5afbd4b8a803aaf9aca",
+      "id": "BUS-RES-001",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-RAW-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-RAW-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-RES-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-RES-002"
+        }
+      ],
+      "status": "approved",
+      "version": "1.0.0"
+    },
+    "BUS-RES-002@1.0.0": {
+      "behavior_fingerprint": "2c6aed5794a04ec1e468a6a0693550ad58e34ee3e506164537f850276dd87c14",
+      "change_class": "major",
+      "depends_on": [
+        "ATC-PLT-003@1.0.0",
+        "BUS-RES-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "236b56d1fb85fa84e89b38006e7dfec7c1a9a944a4d4b05b9eaad2e6f87cbf05",
+      "id": "BUS-RES-002",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-PROV-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-PROV-002"
+        }
+      ],
+      "status": "approved",
+      "version": "1.0.0"
+    },
+    "BUS-RES-003@1.0.0": {
+      "behavior_fingerprint": "9a8eff6690fd2632f528c35b3d92558aa1e8abbd17e9bc2f49e2555cc5209fe1",
+      "change_class": "major",
+      "depends_on": [
+        "ATC-PLT-003@1.0.0",
+        "BUS-RES-001@1.0.0",
+        "BUS-RES-002@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "5259ecca35c51c34b34147e8ef4a99fe639faeee5831866cce6d54032e8bb2cf",
+      "id": "BUS-RES-003",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-RES-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-RES-004"
+        }
+      ],
+      "status": "approved",
+      "version": "1.0.0"
     },
     "BUS-SCOPE-001@1.0.0": {
       "behavior_fingerprint": "d20fb9f91a4b8d784dab82c06a656914803b0f7d6d73b83ac23c01c240787b49",

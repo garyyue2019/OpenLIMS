@@ -1,0 +1,24 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-RES-001",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "不可变结果观测与原始证据引用",
+  "summary": "结果观测以六类事件（初测、重复测定、复测、补测、重新制备、补样）不可变记录，携带原始数据外部引用、SHA-256 哈希、来源系统和解析器版本；已提交观测与结果禁止覆盖。",
+  "owners": ["实验室技术负责人", "技术负责人", "质量负责人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "LAB-RAW-001"},
+    {"document": "PRD-MAIN", "item": "LAB-RAW-002"},
+    {"document": "PRD-MAIN", "item": "LAB-RES-001"},
+    {"document": "PRD-MAIN", "item": "LAB-RES-002"}
+  ],
+  "depends_on": ["ATC-PLT-003@1.0.0", "OD-030@1.0.0", "ATC-BATCH-001@1.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0"],
+  "affects": ["result", "raw-data", "batch", "versioning", "audit", "outbox"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "ENABLED", "condition": "DEV-014 结果来源与采用切片启用"},
+  "approval_evidence": "用户于 2026-07-26 明确选择'跳到 RESULT'并在全流程授权下批准本切片。",
+  "invariants": ["观测类型仅允许 INITIAL、DUPLICATE、RETEST、SUPPLEMENT、RE_PREPARATION、RE_SAMPLING 显式枚举", "非 INITIAL 观测必须记录触发原因和批准引用", "每条观测固定外部证据引用、SHA-256 哈希、来源系统和解析器版本（OD-030 边界）", "已提交观测与结果不可修改、覆盖或删除", "结果组创建前必须获得 BatchStatusPort 对精确批次版本的 ALLOWED 并原样固定", "观测、审计和 Outbox 在同一事务提交"]
+}

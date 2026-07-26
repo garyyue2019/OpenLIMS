@@ -536,6 +536,7 @@
           "OpenLIMS.Modules.Labeling": "[1.0.0, )",
           "OpenLIMS.Modules.Quantity": "[1.0.0, )",
           "OpenLIMS.Modules.Receiving": "[1.0.0, )",
+          "OpenLIMS.Modules.Result": "[1.0.0, )",
           "OpenLIMS.Modules.Scope": "[1.0.0, )",
           "OpenTelemetry.Extensions.Hosting": "[1.17.0, )",
           "OpenTelemetry.Instrumentation.AspNetCore": "[1.17.0, )",
@@ -569,6 +570,9 @@
         "type": "Project"
       },
       "openlims.contracts.receiving": {
+        "type": "Project"
+      },
+      "openlims.contracts.result": {
         "type": "Project"
       },
       "openlims.contracts.scope": {
@@ -624,6 +628,16 @@
           "OpenLIMS.Contracts.Receiving": "[1.0.0, )"
         }
       },
+      "openlims.modules.result": {
+        "type": "Project",
+        "dependencies": {
+          "Npgsql": "[10.0.3, )",
+          "OpenLIMS.BuildingBlocks.Platform": "[1.0.0, )",
+          "OpenLIMS.Contracts.Batch": "[1.0.0, )",
+          "OpenLIMS.Contracts.Platform": "[1.0.0, )",
+          "OpenLIMS.Contracts.Result": "[1.0.0, )"
+        }
+      },
       "openlims.modules.scope": {
         "type": "Project",
         "dependencies": {
@@ -650,6 +664,7 @@
           "OpenLIMS.Modules.Labeling": "[1.0.0, )",
           "OpenLIMS.Modules.Quantity": "[1.0.0, )",
           "OpenLIMS.Modules.Receiving": "[1.0.0, )",
+          "OpenLIMS.Modules.Result": "[1.0.0, )",
           "OpenLIMS.Modules.Scope": "[1.0.0, )",
           "OpenTelemetry.Extensions.Hosting": "[1.17.0, )"
         }

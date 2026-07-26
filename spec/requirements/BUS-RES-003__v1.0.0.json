@@ -1,0 +1,22 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-RES-003",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "预先采用规则与唯一有效采用结果",
+  "summary": "采用规则必须在看到复测结果前记录；采用必须引用预先记录的规则版本并按策略校验目标，每个结果组只有一个有效采用结果（最新采用版本），历史采用全部保留。",
+  "owners": ["实验室技术负责人", "质量负责人", "产品负责人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "LAB-RES-003"},
+    {"document": "PRD-MAIN", "item": "LAB-RES-004"}
+  ],
+  "depends_on": ["ATC-PLT-003@1.0.0", "BUS-RES-001@1.0.0", "BUS-RES-002@1.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0"],
+  "affects": ["result", "adoption", "retest", "versioning", "audit"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "ENABLED", "condition": "DEV-014 结果来源与采用切片启用"},
+  "approval_evidence": "用户于 2026-07-26 明确选择'跳到 RESULT'并在全流程授权下批准本切片。",
+  "invariants": ["RETEST 观测提交前该组必须已存在采用规则记录", "采用规则策略仅允许 RETEST_REPLACES_ORIGINAL 和 TECHNICAL_REVIEW_SELECTS 显式枚举", "RETEST_REPLACES_ORIGINAL 策略下采用目标必须是最新 RETEST 观测或纳入其的派生结果", "TECHNICAL_REVIEW_SELECTS 策略下采用必须携带技术复核批准引用", "每组只有一个有效采用结果：采用版本单调递增，最新版本有效，历史全部保留", "无预先规则的采用一律拒绝，执行人员不得任意选择有利结果"]
+}

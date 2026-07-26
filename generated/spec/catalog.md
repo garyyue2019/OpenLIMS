@@ -17,6 +17,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `AC-QTY-001@1.0.0` | `acceptance` | `approved` | 并发超分配阻断与不可变流水链 | `major` | quantity, concurrency, availability-gate, audit, automated-test | `2491d853f11e` |
 | `AC-REC-001@0.1.0` | `acceptance` | `in_review` | 隔离控制 | `major` | receiving, sample-preparation, task-allocation, audit, automated-test | `8e184359a694` |
 | `AC-REC-001@1.0.0` | `acceptance` | `approved` | 隔离资格统一失败关闭 | `major` | receiving, sample-preparation, task-allocation, audit, automated-test | `9d4fdb3bf6b8` |
+| `AC-RETEST-001@1.0.0` | `acceptance` | `approved` | 复测采用 | `major` | result, retest, adoption, audit, automated-test | `578ffe8b2ade` |
 | `AC-SCOPE-001@1.0.0` | `acceptance` | `approved` | ScopeLine 完整链与生产资格门禁 | `major` | test-scope, production-gate, audit, automated-test | `0a563aaed598` |
 | `AC-SEC-001@0.1.0` | `acceptance` | `in_review` | 集团内多维越权防护 | `major` | authorization, search, export, object-storage, ai-retrieval, automated-test | `e762dae769c4` |
 | `AC-SEC-001@1.0.0` | `acceptance` | `approved` | 集团内收样多维越权防护 | `major` | authorization, receiving, automated-test, audit | `da7cd0c5db0a` |
@@ -45,6 +46,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `ATC-REC-006@0.1.0` | `story` | `proposed` | 受控解除隔离并发布执行资格 | `major` | receiving, identity, exception, outbox, lab-execution, audit, automated-test | `d385a6cf535d` |
 | `ATC-REC-006@1.0.0` | `story` | `proposed` | 受控解除隔离并发布执行资格 | `major` | receiving, identity, exception, outbox, lab-execution, audit, automated-test | `e40cd4a7c107` |
 | `ATC-REC-006@2.0.0` | `story` | `approved` | 实施 DEV-007 受控放行与版本固定资格 | `major` | receiving, identity, exception, authorization, audit, outbox, lab-execution-gate, automated-test | `fdf0bc2308e1` |
+| `ATC-RESULT-001@1.0.0` | `story` | `approved` | 实施 DEV-014 结果来源与采用 | `major` | result, batch, raw-data, provenance, adoption, retest, authorization, audit, outbox, automated-test | `89ae098800fc` |
 | `ATC-SCP-001@1.0.0` | `story` | `approved` | 实施 DEV-008 ScopeLine 生产可用门禁 | `major` | scope, authorization, audit, outbox, production-gate, automated-test | `1ae1eaf0c359` |
 | `ATC-TEX-001@1.0.0` | `story` | `approved` | 实施 DEV-011 纺织样品需求未来适配契约切片 | `major` | textile, sample-requirement, cutting-plan, contracts, serialization, automated-test | `2174f31c3221` |
 | `ATC-TEX-003@1.0.0` | `story` | `approved` | 实施 DEV-012 纺织调湿/洗涤及超差契约切片 | `major` | textile, preconditioning, out-of-tolerance, contracts, serialization, automated-test | `d39d389de0fb` |
@@ -59,6 +61,9 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `BUS-QTY-002@1.0.0` | `requirement` | `approved` | 账户级计量维度、精度与守恒公差配置 | `major` | quantity, measurement, authorization, audit | `a35cedb07b7f` |
 | `BUS-QTY-003@1.0.0` | `requirement` | `approved` | 负余额、超分配与并发预留阻断 | `major` | quantity, concurrency, availability-gate, authorization, audit | `519b56d09ba9` |
 | `BUS-REQ-003@0.1.0` | `requirement` | `in_review` | 要求更新生成影响清单且不改写冻结委托 | `major` | requirements, impact-analysis, service-order, report-template, migration | `344c1c5fe26c` |
+| `BUS-RES-001@1.0.0` | `requirement` | `approved` | 不可变结果观测与原始证据引用 | `major` | result, raw-data, batch, versioning, audit, outbox | `9a52d7f4d3a1` |
+| `BUS-RES-002@1.0.0` | `requirement` | `approved` | 追加式结果来源图 | `major` | result, provenance, versioning, audit | `236b56d1fb85` |
+| `BUS-RES-003@1.0.0` | `requirement` | `approved` | 预先采用规则与唯一有效采用结果 | `major` | result, adoption, retest, versioning, audit | `5259ecca35c5` |
 | `BUS-SCOPE-001@1.0.0` | `requirement` | `approved` | 版本化 TestScopeMatrix 批准基线 | `major` | test-scope, versioning, authorization, audit, outbox | `b1fc752a6298` |
 | `BUS-SCOPE-002@1.0.0` | `requirement` | `approved` | ScopeLine 完整引用与 EvaluationMode 条件语义 | `major` | scope-line, method, sample-requirement, evaluation, production-gate | `b416895da744` |
 | `BUS-SCOPE-003@1.0.0` | `requirement` | `approved` | 未经批准候选不得获得生产资格 | `major` | production-gate, quotation-candidate, ai-candidate, authorization, audit | `7fc3f3b546ee` |

@@ -24,6 +24,9 @@
   <Folder Name="/contracts/batch/">
     <Project Path="contracts/batch/OpenLIMS.Contracts.Batch/OpenLIMS.Contracts.Batch.csproj" />
   </Folder>
+  <Folder Name="/contracts/result/">
+    <Project Path="contracts/result/OpenLIMS.Contracts.Result/OpenLIMS.Contracts.Result.csproj" />
+  </Folder>
   <Folder Name="/src/" />
   <Folder Name="/src/building-blocks/">
     <Project Path="src/building-blocks/OpenLIMS.BuildingBlocks.Platform/OpenLIMS.BuildingBlocks.Platform.csproj" />
@@ -54,6 +57,9 @@
   <Folder Name="/src/modules/batch/">
     <Project Path="src/modules/batch/OpenLIMS.Modules.Batch/OpenLIMS.Modules.Batch.csproj" />
   </Folder>
+  <Folder Name="/src/modules/result/">
+    <Project Path="src/modules/result/OpenLIMS.Modules.Result/OpenLIMS.Modules.Result.csproj" />
+  </Folder>
   <Folder Name="/tests/" />
   <Folder Name="/tests/architecture/">
     <Project Path="tests/architecture/OpenLIMS.ArchitectureTests/OpenLIMS.ArchitectureTests.csproj" />
@@ -82,6 +88,9 @@
   </Folder>
   <Folder Name="/tests/contract/batch/">
     <Project Path="tests/contract/batch/OpenLIMS.Batch.ContractTests/OpenLIMS.Batch.ContractTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/contract/result/">
+    <Project Path="tests/contract/result/OpenLIMS.Result.ContractTests/OpenLIMS.Result.ContractTests.csproj" />
   </Folder>
   <Folder Name="/tests/e2e/" />
   <Folder Name="/tests/e2e/smoke/">
@@ -113,6 +122,9 @@
   <Folder Name="/tests/integration/batch/">
     <Project Path="tests/integration/batch/OpenLIMS.Batch.IntegrationTests/OpenLIMS.Batch.IntegrationTests.csproj" />
   </Folder>
+  <Folder Name="/tests/integration/result/">
+    <Project Path="tests/integration/result/OpenLIMS.Result.IntegrationTests/OpenLIMS.Result.IntegrationTests.csproj" />
+  </Folder>
   <Folder Name="/tests/unit/" />
   <Folder Name="/tests/unit/platform/">
     <Project Path="tests/unit/platform/OpenLIMS.Platform.UnitTests/OpenLIMS.Platform.UnitTests.csproj" />
@@ -134,5 +146,8 @@
   </Folder>
   <Folder Name="/tests/unit/batch/">
     <Project Path="tests/unit/batch/OpenLIMS.Batch.UnitTests/OpenLIMS.Batch.UnitTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/unit/result/">
+    <Project Path="tests/unit/result/OpenLIMS.Result.UnitTests/OpenLIMS.Result.UnitTests.csproj" />
   </Folder>
 </Solution>

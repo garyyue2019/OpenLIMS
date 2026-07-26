@@ -10,6 +10,7 @@ using OpenLIMS.Modules.Batch;
 using OpenLIMS.Modules.Labeling;
 using OpenLIMS.Modules.Quantity;
 using OpenLIMS.Modules.Receiving;
+using OpenLIMS.Modules.Result;
 using OpenLIMS.Modules.Scope;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
@@ -33,7 +34,8 @@ IOpenLimsServerModule[] modules =
     new ScopeModule(deploymentOptions.PostgresConnectionString!),
     new QuantityModule(deploymentOptions.PostgresConnectionString!),
     new AllocationModule(deploymentOptions.PostgresConnectionString!),
-    new BatchModule(deploymentOptions.PostgresConnectionString!)
+    new BatchModule(deploymentOptions.PostgresConnectionString!),
+    new ResultModule(deploymentOptions.PostgresConnectionString!)
 ];
 var moduleCatalog = OpenLimsModuleCatalog.Create(modules);
 var organizationScope = new OrganizationScope(deploymentOptions.OrganizationGroupId!);
@@ -206,6 +208,13 @@ app.MapGet("/openapi/v1.json", () => Results.Json(new
         ["/api/v1/batches/{id}/freeze"] = new { post = new { operationId = "freezeBatch", responses = new { created = new { description = "One-time whole-batch freeze event recorded" } } } },
         ["/api/v1/batches/{id}"] = new { get = new { operationId = "getBatch", responses = new { ok = new { description = "Immutable batch facts with members, evidence, and freeze state" } } } },
         ["/api/v1/batches/{id}/status"] = new { get = new { operationId = "getBatchStatus", responses = new { ok = new { description = "Version-pinned batch status decision" } } } },
+        ["/api/v1/result-groups"] = new { post = new { operationId = "createResultGroup", responses = new { created = new { description = "Batch-gated immutable result group created atomically" } } } },
+        ["/api/v1/result-groups/{id}/observations"] = new { post = new { operationId = "addResultObservation", responses = new { created = new { description = "Immutable typed observation with raw evidence reference appended" } } } },
+        ["/api/v1/result-groups/{id}/derivations"] = new { post = new { operationId = "addResultDerivation", responses = new { created = new { description = "Append-only provenance derivation recorded" } } } },
+        ["/api/v1/result-groups/{id}/adoption-rule"] = new { post = new { operationId = "recordAdoptionRule", responses = new { created = new { description = "Pre-retest adoption rule recorded append-only" } } } },
+        ["/api/v1/result-groups/{id}/adoptions"] = new { post = new { operationId = "adoptResult", responses = new { created = new { description = "Strategy-checked adoption appended; latest version effective" } } } },
+        ["/api/v1/result-groups/{id}"] = new { get = new { operationId = "getResultGroup", responses = new { ok = new { description = "Immutable result group with observations, provenance, rules, and adoptions" } } } },
+        ["/api/v1/result-groups/{id}/adoption-status"] = new { get = new { operationId = "getResultAdoptionStatus", responses = new { ok = new { description = "Version-pinned adoption status decision" } } } },
         ["/api/v1/label-jobs"] = new { post = new { operationId = "createLabelPrintJobs", responses = new { accepted = new { description = "Label print jobs accepted" } } } },
         ["/api/v1/label-jobs/{printJobId}"] = new { get = new { operationId = "getLabelPrintJob", responses = new { ok = new { description = "Label print job state" } } } },
         ["/api/v1/label-jobs/{printJobId}/reprint"] = new { post = new { operationId = "reprintLabel", responses = new { accepted = new { description = "Controlled reprint accepted" } } } },

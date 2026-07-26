@@ -26,3 +26,4 @@
 - Phase 6 门禁全部完成；按约束等待用户的提交/推送指令。
 - 用户指示提交并推送；已提交（60 个文件，全部在 allowed_paths 内，无构建产物），推送到 `origin/codex/dev-010-allocation-eligibility`。
 - 经 GitHub API 创建 PR：https://github.com/garyyue2019/OpenLIMS/pull/10，等待远端 CI。
+- 两个提交的 Specification governance 与 Application CI（含 Linux PostgreSQL 五模块集成测试）均 success。等待用户合并指令。

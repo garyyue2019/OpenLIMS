@@ -20,3 +20,4 @@
 - Release/warnaserror 构建 0 警告 0 错误；Textile 契约 9/9、架构 11/11 一次通过。
 - Phase 6 门禁：strict validate（109）、SOURCE CURRENT、HISTORY PASSED、READY、check、二次 generate written=0、Python 40/40、locked restore、全解决方案 20 个测试项目 286/286。
 - 路径审计：33 个变更文件全部位于 allowed_paths，outside_allowed=0。按全流程授权自动提交/推送/PR。
+- 已提交并推送（33 个文件），经 GitHub API 创建 PR：https://github.com/garyyue2019/OpenLIMS/pull/11，等待远端 CI；全绿后按授权自动合并。

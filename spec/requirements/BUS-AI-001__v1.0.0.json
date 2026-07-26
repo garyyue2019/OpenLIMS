@@ -1,0 +1,19 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-AI-001",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "AI 运行控制封套契约",
+  "summary": "每次 AI 运行以版本化封套表达：模型、网关路由、提示模板、输出模式和输入版本全部固定；封套缺失任一固定引用即校验失败。本切片仅交付契约与校验，不运行模型。",
+  "owners": ["技术负责人", "AI负责人", "质量负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "AI-BOM-007"}],
+  "depends_on": ["ED-001@2.0.0"],
+  "affects": ["ai", "run-control", "contracts", "serialization"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "conditional", "applicability": "DISABLED", "condition": "OD-006 数据许可与 OD-007 品类/复核阈值批准且 AI 旁路启用后生效；本切片仅契约与校验层"},
+  "approval_evidence": "用户于 2026-07-26 明确选择'AI 降级为契约切片'并在全流程授权下批准本契约。",
+  "invariants": ["封套必须固定模型标识与版本、网关路由、提示模板版本、输出模式版本和全部输入引用版本", "任一固定引用缺失或版本非法即校验失败", "封套创建后语义不可变，演进只能形成新版本", "本切片不注册模块、schema、HTTP 端点、能力或模型调用"]
+}

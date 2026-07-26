@@ -7,10 +7,11 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 # AI 开发就绪报告
 
 - 未批准 PRD 来源漂移：**0** 个文档
-- Story 数量：**28**
+- Story 数量：**29**
 
 | Story | 规格状态 | 就绪度 | 结论 | 阻塞原因 |
 |---|---|---|---|---|
+| `ATC-AI-001@1.0.0` | `approved` | `ready` | **READY** | 无 |
 | `ATC-ALLOC-001@1.0.0` | `approved` | `ready` | **READY** | 无 |
 | `ATC-BATCH-001@1.0.0` | `approved` | `ready` | **READY** | 无 |
 | `ATC-BILL-001@1.0.0` | `approved` | `ready` | **READY** | 无 |

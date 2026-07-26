@@ -8,6 +8,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 
 | 版本键 | 类型 | 状态 | 标题 | 变更级别 | 影响模块 | 指纹 |
 |---|---|---|---|---|---|---|
+| `AC-AI-003@1.0.0` | `acceptance` | `approved` | AI 输出失败关闭 | `major` | ai, fail-closed, automated-test | `cd7af0fa22c9` |
 | `AC-BATCH-001@1.0.0` | `acceptance` | `approved` | 批次 QC 影响传播 | `major` | batch, qc, freeze-propagation, audit, automated-test | `6edaaa437d6e` |
 | `AC-BILL-001@1.0.0` | `acceptance` | `approved` | 防重复计费 | `major` | billing, audit, automated-test | `8d0d6511cad8` |
 | `AC-DEPLOY-001@0.1.0` | `acceptance` | `in_review` | 集团间独立数据平面 | `major` | deployment-test, security-test, disaster-recovery, infrastructure-evidence | `1a8c17fd6201` |
@@ -24,6 +25,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `AC-SEC-001@1.0.0` | `acceptance` | `approved` | 集团内收样多维越权防护 | `major` | authorization, receiving, automated-test, audit | `da7cd0c5db0a` |
 | `AC-TEXTILE-001@1.0.0` | `acceptance` | `approved` | 样品不足与互斥裁样契约验收 | `major` | textile, sample-requirement, destructive-exclusion, automated-test | `5bf4aeacf8ab` |
 | `AC-TEXTILE-003@1.0.0` | `acceptance` | `approved` | 裁样方向与预处理超差契约验收 | `major` | textile, preconditioning, cutting-plan, automated-test | `7f112061a2b3` |
+| `ATC-AI-001@1.0.0` | `story` | `approved` | 实施 DEV-016 AI 资料抽取与缺口建议契约切片 | `major` | ai, run-control, fact-class, extraction, gap-suggestion, human-review, contracts, serialization, automated-test | `ba2fc8779dce` |
 | `ATC-ALLOC-001@1.0.0` | `story` | `approved` | 实施 DEV-010 任务分配资格 | `major` | allocation, receiving, scope, quantity, eligibility-gate, authorization, audit, outbox, automated-test | `d8e63c13c345` |
 | `ATC-BATCH-001@1.0.0` | `story` | `approved` | 实施 DEV-013 制备/分析批最小切片 | `major` | batch, allocation, qc, raw-data, authorization, audit, outbox, automated-test | `6028422fb5b0` |
 | `ATC-BILL-001@1.0.0` | `story` | `approved` | 实施 DEV-015 唯一计费事实 | `major` | billing, result, authorization, audit, outbox, automated-test | `b6802a9d2521` |
@@ -52,6 +54,9 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `ATC-SCP-001@1.0.0` | `story` | `approved` | 实施 DEV-008 ScopeLine 生产可用门禁 | `major` | scope, authorization, audit, outbox, production-gate, automated-test | `1ae1eaf0c359` |
 | `ATC-TEX-001@1.0.0` | `story` | `approved` | 实施 DEV-011 纺织样品需求未来适配契约切片 | `major` | textile, sample-requirement, cutting-plan, contracts, serialization, automated-test | `2174f31c3221` |
 | `ATC-TEX-003@1.0.0` | `story` | `approved` | 实施 DEV-012 纺织调湿/洗涤及超差契约切片 | `major` | textile, preconditioning, out-of-tolerance, contracts, serialization, automated-test | `d39d389de0fb` |
+| `BUS-AI-001@1.0.0` | `requirement` | `approved` | AI 运行控制封套契约 | `major` | ai, run-control, contracts, serialization | `95e7831fe908` |
+| `BUS-AI-002@1.0.0` | `requirement` | `approved` | 事实类别与不得提升规则 | `major` | ai, fact-class, rules | `89380e537235` |
+| `BUS-AI-003@1.0.0` | `requirement` | `approved` | 抽取候选、缺口建议与人工处置契约及失败关闭 | `major` | ai, extraction, gap-suggestion, human-review, rules | `442696dd4fdf` |
 | `BUS-ALLOC-001@1.0.0` | `requirement` | `approved` | 版本固定的 TestObjectAllocation 分配事实 | `major` | allocation, versioning, authorization, audit, outbox | `3eeead680cf1` |
 | `BUS-ALLOC-002@1.0.0` | `requirement` | `approved` | 分配前三端口资格门禁 | `major` | allocation, eligibility-gate, receiving, scope, quantity, audit | `8f439560e509` |
 | `BUS-ALLOC-003@1.0.0` | `requirement` | `approved` | 并发分配与破坏性互斥阻断 | `major` | allocation, concurrency, destructive-exclusion, authorization, audit | `09e85a6926d8` |

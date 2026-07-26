@@ -30,6 +30,9 @@
   <Folder Name="/contracts/billing/">
     <Project Path="contracts/billing/OpenLIMS.Contracts.Billing/OpenLIMS.Contracts.Billing.csproj" />
   </Folder>
+  <Folder Name="/contracts/ai/">
+    <Project Path="contracts/ai/OpenLIMS.Contracts.Ai/OpenLIMS.Contracts.Ai.csproj" />
+  </Folder>
   <Folder Name="/src/" />
   <Folder Name="/src/building-blocks/">
     <Project Path="src/building-blocks/OpenLIMS.BuildingBlocks.Platform/OpenLIMS.BuildingBlocks.Platform.csproj" />
@@ -100,6 +103,9 @@
   </Folder>
   <Folder Name="/tests/contract/billing/">
     <Project Path="tests/contract/billing/OpenLIMS.Billing.ContractTests/OpenLIMS.Billing.ContractTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/contract/ai/">
+    <Project Path="tests/contract/ai/OpenLIMS.Ai.ContractTests/OpenLIMS.Ai.ContractTests.csproj" />
   </Folder>
   <Folder Name="/tests/e2e/" />
   <Folder Name="/tests/e2e/smoke/">

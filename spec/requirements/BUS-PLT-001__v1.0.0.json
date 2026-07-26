@@ -1,0 +1,33 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-PLT-001",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "平台审计与发件箱组合不变量",
+  "summary": "每个模块命令必须在同一业务事务内写入 platform.audit_intent 与 platform.outbox；平台审计意图由数据库强制追加式（不可更新/删除），发件箱仅允许把 dispatched_at 从空置值的派发标记；跨模块真实端口组合时每一步证据完整可追且中途失败不留部分事实。",
+  "owners": ["技术负责人", "质量负责人", "安全负责人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "SEC-AUD-001"},
+    {"document": "PRD-MAIN", "item": "SEC-AUD-002"}
+  ],
+  "depends_on": ["ATC-PLT-003@1.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0"],
+  "affects": ["platform", "audit", "outbox", "migration", "cross-module", "transaction"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {
+    "mode": "core",
+    "applicability": "ENABLED",
+    "condition": "DEV-017 平台审计/发件箱正式化切片启用"
+  },
+  "approval_evidence": "用户于 2026-07-26 授予全流程授权（自主收敛最小业务基线并交付）；本卡正式化已批准的 SEC-AUD-001@2.0.0 行为并补齐 SEC-AUD-002 的数据库强制缺口，无未决 OD。",
+  "invariants": [
+    "任何模块业务命令的事实写入、platform.audit_intent 与 platform.outbox 写入必须在同一 PostgreSQL 事务中提交或一起回滚（SEC-AUD-001）",
+    "platform.audit_intent 的 UPDATE 与 DELETE 被数据库触发器拒绝（PLT.AUDIT_APPEND_ONLY，errcode 55000），普通管理员无法修改或删除审计日志（SEC-AUD-002）",
+    "platform.outbox 的 DELETE 被拒绝；UPDATE 仅允许把 dispatched_at 从 null 置为非空且其余列不变（PLT.OUTBOX_DISPATCH_ONLY，errcode 55000）",
+    "平台迁移幂等：platform-0002 重复应用无副作用，就绪探针仅在 platform-0001 与 platform-0002 均存在时报告就绪",
+    "跨模块真实端口组合（范围/数量/分配/批次/结果/计费）下，链路每步命令各自留下审计意图与发件箱事件且顺序可追（correlation/action）",
+    "链路中任一门禁 BLOCKED 或平台写入失败时，本步模块事实不产生，仅模块私有 audit_attempt 记录失败尝试"
+  ]
+}

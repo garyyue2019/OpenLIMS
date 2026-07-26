@@ -108,6 +108,9 @@
     <Project Path="tests/contract/ai/OpenLIMS.Ai.ContractTests/OpenLIMS.Ai.ContractTests.csproj" />
   </Folder>
   <Folder Name="/tests/e2e/" />
+  <Folder Name="/tests/e2e/chain/">
+    <Project Path="tests/e2e/chain/OpenLIMS.Platform.ChainE2ETests/OpenLIMS.Platform.ChainE2ETests.csproj" />
+  </Folder>
   <Folder Name="/tests/e2e/smoke/">
     <Project Path="tests/e2e/smoke/OpenLIMS.Platform.SmokeTests/OpenLIMS.Platform.SmokeTests.csproj" />
   </Folder>

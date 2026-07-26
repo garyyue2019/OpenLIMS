@@ -98,6 +98,28 @@ using (var reader = new StreamReader(output, Encoding.UTF8))
 }
 await storage.DeleteAsync(objectReference, cancellationToken);
 
+await AssertRejectedAsync(dataSource,
+    "update platform.audit_intent set action = 'tampered' where object_id = @id", committedOutboxId, cancellationToken);
+await AssertRejectedAsync(dataSource,
+    "delete from platform.audit_intent where object_id = @id", committedOutboxId, cancellationToken);
+await AssertRejectedAsync(dataSource,
+    "update platform.outbox set message_type = 'tampered' where id = @id", committedOutboxId, cancellationToken);
+await AssertRejectedAsync(dataSource,
+    "delete from platform.outbox where id = @id", committedOutboxId, cancellationToken);
+
+await using (var dispatch = dataSource.CreateCommand(
+    "update platform.outbox set dispatched_at = now() where id = @id"))
+{
+    dispatch.Parameters.AddWithValue("id", committedOutboxId);
+    if (await dispatch.ExecuteNonQueryAsync(cancellationToken) != 1)
+    {
+        throw new InvalidOperationException("Outbox dispatch marking did not update exactly one row.");
+    }
+}
+
+await AssertRejectedAsync(dataSource,
+    "update platform.outbox set dispatched_at = now() where id = @id", committedOutboxId, cancellationToken);
+
 await CleanupAsync(dataSource, [committedOutboxId, inboxId], cancellationToken);
 Console.WriteLine("PLATFORM_SMOKE_PASS");
 
@@ -155,14 +177,32 @@ static async Task<long> CountAsync(
     return (long)(await command.ExecuteScalarAsync(cancellationToken) ?? 0L);
 }
 
+static async Task AssertRejectedAsync(
+    NpgsqlDataSource dataSource,
+    string sql,
+    string id,
+    CancellationToken cancellationToken)
+{
+    await using var command = dataSource.CreateCommand(sql);
+    command.Parameters.AddWithValue("id", id);
+    try
+    {
+        await command.ExecuteNonQueryAsync(cancellationToken);
+    }
+    catch (PostgresException exception) when (exception.SqlState == "55000")
+    {
+        return;
+    }
+
+    throw new InvalidOperationException($"Platform evidence mutation was not rejected: {sql}");
+}
+
 static async Task CleanupAsync(
     NpgsqlDataSource dataSource,
     IReadOnlyCollection<string> ids,
     CancellationToken cancellationToken)
 {
     await using var command = dataSource.CreateCommand("""
-        delete from platform.audit_intent where object_id = any(@ids);
-        delete from platform.outbox where id = any(@ids);
         delete from platform.inbox where message_id = any(@ids);
         delete from platform_smoke.fact where id = any(@ids);
         """);

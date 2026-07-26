@@ -37,7 +37,7 @@ class RepositoryContractTests(unittest.TestCase):
             check=False,
         )
         self.assertEqual(0, result.returncode, result.stderr.decode("utf-8", errors="replace"))
-        self.assertIn("138 个规格版本", result.stdout.decode("utf-8"))
+        self.assertIn("141 个规格版本", result.stdout.decode("utf-8"))
 
     def test_git_checkout_keeps_deterministic_lf_bytes(self) -> None:
         attributes = (ROOT / ".gitattributes").read_text(encoding="utf-8")
@@ -71,9 +71,10 @@ class RepositoryContractTests(unittest.TestCase):
             "ATC-AI-001__v1.0.0.md",
             "ATC-PLT-002__v1.0.0.md",
             "ATC-PLT-001__v1.0.0.md",
+            "ATC-GOV-001__v1.0.0.md",
         }
         self.assertEqual(expected_tasks, {path.name for path in tasks})
-        self.assertEqual(48, len(features))
+        self.assertEqual(49, len(features))
         self.assertTrue(
             {
                 "ATC-PLT-000__v0.1.0.feature",
@@ -103,6 +104,7 @@ class RepositoryContractTests(unittest.TestCase):
                 "ATC-AI-001__v1.0.0.feature",
                 "ATC-PLT-002__v1.0.0.feature",
                 "ATC-PLT-001__v1.0.0.feature",
+                "ATC-GOV-001__v1.0.0.feature",
             }.issubset({path.name for path in features})
         )
         self.assertFalse(any(path.name.startswith("R1-REC-") for path in (*tasks, *features)))
@@ -394,6 +396,9 @@ class RepositoryContractTests(unittest.TestCase):
             "ATC-PLT-002@1.0.0",
             "BUS-PLT-002@1.0.0",
             "ATC-PLT-001@1.0.0",
+            "OD-001@1.0.0",
+            "BUS-GOV-001@1.0.0",
+            "ATC-GOV-001@1.0.0",
         }
         self.assertEqual(
             planned_refs | approved_delivery_v1_refs,
@@ -991,6 +996,54 @@ class RepositoryContractTests(unittest.TestCase):
                     continue
                 with self.subTest(path=path.name, line=number):
                     self.assertTrue(any(marker in line for marker in rejection_markers), line)
+
+
+    def test_r1_applicability_baseline_is_frozen_and_consistent(self) -> None:
+        decided = load_json(ROOT / "spec" / "decisions" / "OD-001__v1.0.0.json")
+        self.assertEqual("approved", decided["status"])
+        self.assertEqual("decided", decided["decision_state"])
+        self.assertIn("用户", decided["approval_evidence"])
+        self.assertIn("物理机械", decided["decision"])
+        pilot = decided["pilot_slice"]
+        self.assertEqual("玩具婴童产品", pilot["industry_pack"])
+        self.assertEqual("物理机械", pilot["primary_technical_pack"])
+        self.assertEqual("分析化学", pilot["deferred_technical_pack"])
+        self.assertEqual(["微生物/生物"], pilot["excluded_technical_capabilities"])
+        self.assertIn("中国内销", pilot["target_market"])
+        proposed = load_json(ROOT / "spec" / "decisions" / "OD-001__v0.1.0.json")
+        self.assertEqual("proposed", proposed["status"])
+        self.assertEqual("open", proposed["decision_state"])
+
+        with (ROOT / "generated" / "spec" / "traceability.csv").open(encoding="utf-8") as handle:
+            rows = {row["spec_key"]: row for row in csv.DictReader(handle)}
+        textile_refs = {f"BUS-TEX-{number:03d}@1.0.0" for number in range(1, 6)}
+        ai_refs = {f"BUS-AI-{number:03d}@1.0.0" for number in range(1, 4)}
+        for ref in textile_refs:
+            with self.subTest(textile=ref):
+                self.assertEqual("enabled_pack", rows[ref]["activation_mode"])
+                self.assertEqual("DISABLED", rows[ref]["applicability"])
+        for ref in ai_refs:
+            with self.subTest(ai=ref):
+                self.assertEqual("conditional", rows[ref]["activation_mode"])
+                self.assertEqual("DISABLED", rows[ref]["applicability"])
+        self.assertEqual("core", rows["BUS-GOV-001@1.0.0"]["activation_mode"])
+        self.assertEqual("ENABLED", rows["BUS-GOV-001@1.0.0"]["applicability"])
+        for key, row in rows.items():
+            if row["status"] != "approved" or row["activation_mode"] == "":
+                continue
+            with self.subTest(no_unknown_applicability=key):
+                self.assertNotEqual("UNKNOWN", row["applicability"])
+            if row["activation_mode"] == "core":
+                with self.subTest(core_enabled=key):
+                    self.assertEqual("ENABLED", row["applicability"])
+
+        snapshot = load_json(ROOT / "spec" / "baselines" / "r1-applicability-baseline.lock.json")
+        lock = load_json(ROOT / "generated" / "spec" / ".specgen-lock.json")
+        for ref in ("OD-001@1.0.0", "BUS-GOV-001@1.0.0", "ATC-GOV-001@1.0.0"):
+            with self.subTest(snapshot_ref=ref):
+                self.assertIn(ref, snapshot["specs"])
+                self.assertEqual(lock["specs"][ref], snapshot["specs"][ref])
+        self.assertEqual(lock["config_fingerprint"], snapshot["config_fingerprint"])
 
 
 if __name__ == "__main__":

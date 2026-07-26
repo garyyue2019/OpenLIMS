@@ -31,6 +31,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `ATC-ALLOC-001` | `1.0.0` | `approved` | `spec/stories/ATC-ALLOC-001__v1.0.0.json` |
 | `ATC-BATCH-001` | `1.0.0` | `approved` | `spec/stories/ATC-BATCH-001__v1.0.0.json` |
 | `ATC-BILL-001` | `1.0.0` | `approved` | `spec/stories/ATC-BILL-001__v1.0.0.json` |
+| `ATC-GOV-001` | `1.0.0` | `approved` | `spec/stories/ATC-GOV-001__v1.0.0.json` |
 | `ATC-PLT-000` | `0.1.0` | `proposed` | `spec/stories/ATC-PLT-000__v0.1.0.json` |
 | `ATC-PLT-000` | `1.0.0` | `proposed` | `spec/stories/ATC-PLT-000__v1.0.0.json` |
 | `ATC-PLT-001` | `1.0.0` | `approved` | `spec/stories/ATC-PLT-001__v1.0.0.json` |
@@ -70,6 +71,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `BUS-BILL-001` | `1.0.0` | `approved` | `spec/requirements/BUS-BILL-001__v1.0.0.json` |
 | `BUS-BILL-002` | `1.0.0` | `approved` | `spec/requirements/BUS-BILL-002__v1.0.0.json` |
 | `BUS-BILL-003` | `1.0.0` | `approved` | `spec/requirements/BUS-BILL-003__v1.0.0.json` |
+| `BUS-GOV-001` | `1.0.0` | `approved` | `spec/requirements/BUS-GOV-001__v1.0.0.json` |
 | `BUS-PLT-001` | `1.0.0` | `approved` | `spec/requirements/BUS-PLT-001__v1.0.0.json` |
 | `BUS-PLT-002` | `1.0.0` | `approved` | `spec/requirements/BUS-PLT-002__v1.0.0.json` |
 | `BUS-PROD-003` | `0.1.0` | `in_review` | `spec/requirements/BUS-PROD-003__v0.1.0.json` |
@@ -98,6 +100,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `NFR-ARCH-002` | `0.1.0` | `in_review` | `spec/nfr/NFR-ARCH-002__v0.1.0.json` |
 | `NFR-ARCH-002` | `1.0.0` | `in_review` | `spec/nfr/NFR-ARCH-002__v1.0.0.json` |
 | `OD-001` | `0.1.0` | `proposed` | `spec/decisions/OD-001__v0.1.0.json` |
+| `OD-001` | `1.0.0` | `approved` | `spec/decisions/OD-001__v1.0.0.json` |
 | `OD-002` | `1.0.0` | `approved` | `spec/decisions/OD-002__v1.0.0.json` |
 | `OD-005` | `0.1.0` | `proposed` | `spec/decisions/OD-005__v0.1.0.json` |
 | `OD-005` | `1.0.0` | `approved` | `spec/decisions/OD-005__v1.0.0.json` |

@@ -29,6 +29,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `ATC-ALLOC-001@1.0.0` | `story` | `approved` | 实施 DEV-010 任务分配资格 | `major` | allocation, receiving, scope, quantity, eligibility-gate, authorization, audit, outbox, automated-test | `d8e63c13c345` |
 | `ATC-BATCH-001@1.0.0` | `story` | `approved` | 实施 DEV-013 制备/分析批最小切片 | `major` | batch, allocation, qc, raw-data, authorization, audit, outbox, automated-test | `6028422fb5b0` |
 | `ATC-BILL-001@1.0.0` | `story` | `approved` | 实施 DEV-015 唯一计费事实 | `major` | billing, result, authorization, audit, outbox, automated-test | `b6802a9d2521` |
+| `ATC-GOV-001@1.0.0` | `story` | `approved` | 实施 DEV-019 冻结 R1 适用性基线 | `major` | release-governance, applicability, industry-pack, technical-pack, baseline, traceability, automated-test | `a0b1e6f5d451` |
 | `ATC-PLT-000@0.1.0` | `story` | `proposed` | 建立可验证的模块化单体工程骨架 | `major` | engineering-skeleton, repository, api-host, worker-host, web-shell, module-boundaries, postgresql, identity, object-storage, outbox, audit, observability, ci, deployment, automated-test | `af9924a0b1fa` |
 | `ATC-PLT-000@1.0.0` | `story` | `proposed` | 建立可验证的模块化单体工程骨架 | `major` | engineering-skeleton, repository, api-host, worker-host, web-shell, module-boundaries, postgresql, identity, object-storage, outbox, audit, observability, ci, deployment, automated-test | `f45a6ee6de5f` |
 | `ATC-PLT-001@1.0.0` | `story` | `approved` | 实施 DEV-018 请求上下文与对象级授权正式化 | `major` | platform, authorization, request-context, correlation, cross-module, audit, automated-test | `013e485b4c12` |
@@ -68,6 +69,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `BUS-BILL-001@1.0.0` | `requirement` | `approved` | 服务完成事实生成唯一计费候选 | `major` | billing, result, versioning, authorization, audit, outbox | `1ea66d5b70f1` |
 | `BUS-BILL-002@1.0.0` | `requirement` | `approved` | 零金额证据与原因 | `major` | billing, audit | `e8ad36abf78c` |
 | `BUS-BILL-003@1.0.0` | `requirement` | `approved` | 正负调整证据更正 | `major` | billing, versioning, audit | `58850683ebc9` |
+| `BUS-GOV-001@1.0.0` | `requirement` | `approved` | Release 1 适用性基线冻结不变量 | `major` | release-governance, applicability, industry-pack, technical-pack, baseline, traceability | `97ca439d12b4` |
 | `BUS-PLT-001@1.0.0` | `requirement` | `approved` | 平台审计与发件箱组合不变量 | `major` | platform, audit, outbox, migration, cross-module, transaction | `23725a2fb414` |
 | `BUS-PLT-002@1.0.0` | `requirement` | `approved` | 请求上下文与对象级授权不变量 | `major` | platform, authorization, request-context, correlation, cross-module, audit | `f4238a62d8ff` |
 | `BUS-PROD-003@0.1.0` | `requirement` | `in_review` | 被业务引用的产品版本禁止原地修改 | `major` | product, product-variant, versioning, impact-analysis, evidence | `faf2128cf612` |
@@ -96,6 +98,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `NFR-ARCH-002@0.1.0` | `nfr` | `in_review` | 事务发件箱与幂等消费者 | `major` | outbox, integration, reliability, observability | `cf08fe497161` |
 | `NFR-ARCH-002@1.0.0` | `nfr` | `in_review` | 事务Outbox、Inbox与并发恢复语义 | `major` | outbox, inbox, workers, integration, concurrency, reliability, recovery, audit, observability | `6ec21b4b8013` |
 | `OD-001@0.1.0` | `decision` | `proposed` | Release 1 唯一灯塔试点切片 | `major` | release-governance, all-release-1-modules | `b6858d2f1d5b` |
+| `OD-001@1.0.0` | `decision` | `approved` | DEV-019 Release 1 唯一灯塔试点切片 | `major` | release-governance, applicability, industry-pack, technical-pack, all-release-1-modules | `c2aa44467e86` |
 | `OD-002@1.0.0` | `decision` | `approved` | 集团多机构与单集团独立部署模式 | `major` | organization-model, deployment-boundary, authorization, data-platform, ai-security, backup-recovery | `81a2d96fb09e` |
 | `OD-005@0.1.0` | `decision` | `proposed` | 条件接收与身份异常审批矩阵 | `major` | receiving, identity, exception, sample-preparation, task-allocation | `10daafe00d40` |
 | `OD-005@1.0.0` | `decision` | `approved` | DEV-006 精简条件接收与异常审批矩阵 | `major` | receiving, identity, exception, authorization, audit | `3796fceb3efe` |

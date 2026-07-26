@@ -1,0 +1,35 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-GOV-001",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "Release 1 适用性基线冻结不变量",
+  "summary": "Release 1 的适用性由已决 OD-001 试点切片（玩具×3岁+硬质塑胶非电动×中国内销×物理机械）唯一决定：核心平台与已交付业务切片为 core/ENABLED，纺织行业包为 enabled_pack/DISABLED，AI 旁路为 conditional/DISABLED，未决 OD 关联能力不得进入生产语义；基线以不可覆盖的锁快照冻结，漂移由仓库契约测试阻断。",
+  "owners": ["产品负责人", "技术负责人", "质量负责人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "OD-001"},
+    {"document": "PRD-MAIN", "item": "BUS-DOMAIN-001"},
+    {"document": "PRD-MAIN", "item": "BUS-REQ-002"},
+    {"document": "PRD-MAIN", "item": "RULE-026"}
+  ],
+  "depends_on": ["OD-001@1.0.0", "ATC-PLT-003@1.0.0"],
+  "affects": ["release-governance", "applicability", "industry-pack", "technical-pack", "baseline", "traceability"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {
+    "mode": "core",
+    "applicability": "ENABLED",
+    "condition": "DEV-019 R1 适用性基线冻结切片启用"
+  },
+  "approval_evidence": "用户于 2026-07-26 明确回复'定 OD-001：玩具 + 机械物理方法族'并在全流程授权下批准本基线正式化。",
+  "invariants": [
+    "Release 1 试点切片以 OD-001@1.0.0 的 decided 结论为唯一依据：行业包=玩具婴童产品、产品资格=3岁及以上常规硬质塑胶非电动玩具、市场=中国内销、技术包=物理机械（BUS-DOMAIN-001 部署配置口径）",
+    "所有 approved 且 activation.mode=core 的规格必须为 applicability=ENABLED；UNKNOWN 适用性按治理策略阻断（unknown_applicability_policy=block）",
+    "纺织行业包（BUS-TEX-001..005）保持 enabled_pack/DISABLED，AI 旁路（BUS-AI-001..003）保持 conditional/DISABLED；排除域默认禁用但不硬编码为永久禁令（BUS-DOMAIN-001）",
+    "未决 OD（含 OD-025/OD-011/OD-022/OD-029/OD-006/OD-007/OD-012）关联能力不得进入生产语义；解锁只能通过后继 OD 版本的 decided 结论（PRD 待决事项规则）",
+    "适用性基线以不可覆盖的锁快照（spec/baselines/r1-applicability-baseline.lock.json）冻结，快照内容与生成锁一致且包含 OD-001@1.0.0",
+    "行业包或客户配置升级只对明确生效范围起作用，不追溯历史与在制对象（RULE-026）；基线变更必须以新快照名追加，不得覆盖既有快照"
+  ]
+}

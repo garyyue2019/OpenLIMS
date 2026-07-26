@@ -32,6 +32,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `ATC-BATCH-001` | `1.0.0` | `approved` | `spec/stories/ATC-BATCH-001__v1.0.0.json` |
 | `ATC-BILL-001` | `1.0.0` | `approved` | `spec/stories/ATC-BILL-001__v1.0.0.json` |
 | `ATC-GOV-001` | `1.0.0` | `approved` | `spec/stories/ATC-GOV-001__v1.0.0.json` |
+| `ATC-INST-001` | `1.0.0` | `approved` | `spec/stories/ATC-INST-001__v1.0.0.json` |
 | `ATC-PLT-000` | `0.1.0` | `proposed` | `spec/stories/ATC-PLT-000__v0.1.0.json` |
 | `ATC-PLT-000` | `1.0.0` | `proposed` | `spec/stories/ATC-PLT-000__v1.0.0.json` |
 | `ATC-PLT-001` | `1.0.0` | `approved` | `spec/stories/ATC-PLT-001__v1.0.0.json` |
@@ -72,6 +73,9 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `BUS-BILL-002` | `1.0.0` | `approved` | `spec/requirements/BUS-BILL-002__v1.0.0.json` |
 | `BUS-BILL-003` | `1.0.0` | `approved` | `spec/requirements/BUS-BILL-003__v1.0.0.json` |
 | `BUS-GOV-001` | `1.0.0` | `approved` | `spec/requirements/BUS-GOV-001__v1.0.0.json` |
+| `BUS-INST-001` | `1.0.0` | `approved` | `spec/requirements/BUS-INST-001__v1.0.0.json` |
+| `BUS-INST-002` | `1.0.0` | `approved` | `spec/requirements/BUS-INST-002__v1.0.0.json` |
+| `BUS-INST-003` | `1.0.0` | `approved` | `spec/requirements/BUS-INST-003__v1.0.0.json` |
 | `BUS-PLT-001` | `1.0.0` | `approved` | `spec/requirements/BUS-PLT-001__v1.0.0.json` |
 | `BUS-PLT-002` | `1.0.0` | `approved` | `spec/requirements/BUS-PLT-002__v1.0.0.json` |
 | `BUS-PROD-003` | `0.1.0` | `in_review` | `spec/requirements/BUS-PROD-003__v0.1.0.json` |

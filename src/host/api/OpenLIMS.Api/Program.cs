@@ -7,6 +7,7 @@ using OpenLIMS.Contracts.Labeling;
 using OpenLIMS.Contracts.Platform;
 using OpenLIMS.Modules.Allocation;
 using OpenLIMS.Modules.Billing;
+using OpenLIMS.Modules.Instrument;
 using OpenLIMS.Modules.Batch;
 using OpenLIMS.Modules.Labeling;
 using OpenLIMS.Modules.Quantity;
@@ -37,7 +38,8 @@ IOpenLimsServerModule[] modules =
     new AllocationModule(deploymentOptions.PostgresConnectionString!),
     new BatchModule(deploymentOptions.PostgresConnectionString!),
     new ResultModule(deploymentOptions.PostgresConnectionString!),
-    new BillingModule(deploymentOptions.PostgresConnectionString!)
+    new BillingModule(deploymentOptions.PostgresConnectionString!),
+    new InstrumentModule(deploymentOptions.PostgresConnectionString!)
 ];
 var moduleCatalog = OpenLimsModuleCatalog.Create(modules);
 var organizationScope = new OrganizationScope(deploymentOptions.OrganizationGroupId!);
@@ -221,6 +223,11 @@ app.MapGet("/openapi/v1.json", () => Results.Json(new
         ["/api/v1/billing-evidence/{id}/adjustments"] = new { post = new { operationId = "addBillingAdjustment", responses = new { created = new { description = "Append-only signed adjustment recorded" } } } },
         ["/api/v1/billing-evidence/{id}"] = new { get = new { operationId = "getBillingEvidence", responses = new { ok = new { description = "Immutable billing evidence with adjustment chain" } } } },
         ["/api/v1/billing-evidence/{id}/status"] = new { get = new { operationId = "getBillingEvidenceStatus", responses = new { ok = new { description = "Rule-set-pinned billing evidence status decision" } } } },
+        ["/api/v1/instrument-files"] = new { post = new { operationId = "registerInstrumentFile", responses = new { created = new { description = "Read-only instrument file registration with content hash and parser version" } } } },
+        ["/api/v1/instrument-files/{id}/rows"] = new { post = new { operationId = "submitInstrumentRows", responses = new { created = new { description = "Parsed rows recorded with pre/post parse values; exceptions queued" } } } },
+        ["/api/v1/instrument-files/{id}/exceptions/{exceptionId}/resolution"] = new { post = new { operationId = "resolveInstrumentImportException", responses = new { created = new { description = "Human confirmation recorded without altering raw values" } } } },
+        ["/api/v1/instrument-files/{id}"] = new { get = new { operationId = "getInstrumentFile", responses = new { ok = new { description = "Immutable instrument file registration with rows and exceptions" } } } },
+        ["/api/v1/instrument-files/{id}/import-status"] = new { get = new { operationId = "getInstrumentImportStatus", responses = new { ok = new { description = "Version-pinned instrument import status decision" } } } },
         ["/api/v1/label-jobs"] = new { post = new { operationId = "createLabelPrintJobs", responses = new { accepted = new { description = "Label print jobs accepted" } } } },
         ["/api/v1/label-jobs/{printJobId}"] = new { get = new { operationId = "getLabelPrintJob", responses = new { ok = new { description = "Label print job state" } } } },
         ["/api/v1/label-jobs/{printJobId}/reprint"] = new { post = new { operationId = "reprintLabel", responses = new { accepted = new { description = "Controlled reprint accepted" } } } },

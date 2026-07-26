@@ -1,0 +1,377 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "story",
+  "id": "ATC-INST-001",
+  "version": "1.0.0",
+  "status": "approved",
+  "target_release": "REL-R1-RECEIVING-PILOT@1.0.0",
+  "epic_id": "EP-EXECUTION",
+  "feature_id": "FEAT-INSTRUMENT-IMPORT",
+  "title": "实施 DEV-020 首类仪器文件导入",
+  "summary": "交付 instrument 模块：仪器文件/CSV 导入登记（稳定引用+版本+SHA-256+仪器/解析器版本，OD-030 口径不复制外部内容）、解析行五维映射并保留解析前后值、异常人工确认队列（原值永不修改）、重复哈希拒绝、追加式 DB 强制、公开导入状态端口；验证数据集契约测试逐字段一致率 100%（PRD §22-15）。",
+  "owners": [
+    "技术负责人",
+    "实验室负责人",
+    "质量负责人",
+    "QA负责人"
+  ],
+  "source_refs": [
+    {
+      "document": "PRD-MAIN",
+      "item": "INT-INST-001"
+    },
+    {
+      "document": "PRD-MAIN",
+      "item": "INT-INST-002"
+    },
+    {
+      "document": "PRD-MAIN",
+      "item": "INT-DATA-001"
+    },
+    {
+      "document": "PRD-MAIN",
+      "item": "LAB-RAW-001"
+    },
+    {
+      "document": "PRD-MAIN",
+      "item": "LAB-RAW-002"
+    }
+  ],
+  "depends_on": [
+    "ED-001@2.0.0",
+    "OD-002@1.0.0",
+    "OD-001@1.0.0",
+    "OD-030@1.0.0",
+    "BUS-INST-001@1.0.0",
+    "BUS-INST-002@1.0.0",
+    "BUS-INST-003@1.0.0",
+    "SEC-AUTH-001@1.0.0",
+    "SEC-AUD-001@2.0.0",
+    "NFR-ARCH-001@2.0.0"
+  ],
+  "affects": [
+    "instrument",
+    "raw-evidence",
+    "parsing",
+    "exception-queue",
+    "hash",
+    "audit",
+    "outbox",
+    "authorization",
+    "automated-test"
+  ],
+  "change_class": "major",
+  "body": {
+    "readiness": "ready",
+    "implementation_task_id": "DEV-020",
+    "approval_evidence": "用户于 2026-07-26 明确回复'定 OD-001：玩具 + 机械物理方法族'解锁 INST 卡；本卡在全流程授权下自主收敛最小基线（能力交付，不做 OD-031 延后的生产仪器清单排序决定）。",
+    "business_outcome": "实验室获得首个受治理的仪器文件导入通道：原始证据不可变、解析映射可追、异常必经人工确认，为物理机械方法族的仪器数据接入提供 LAB-RAW/INT-INST 合规基础，且验证数据集比对基准（100% 一致率）从第一天固定在 CI。",
+    "actor": "仪器数据导入操作者（instrument.import 能力）与导入异常确认人",
+    "preconditions": [
+      "平台依赖（Postgres/OIDC/对象存储探针）就绪",
+      "OD-030 已决定 LIMS 最小记录+外部引用口径",
+      "OD-001 已决定试点切片（玩具×物理机械）"
+    ],
+    "trigger": "操作者登记仪器导出文件并提交解析行；解析异常触发人工确认",
+    "happy_path": [
+      "POST 文件登记：稳定外部引用+版本、SHA-256、来源系统（INSTRUMENT/CDS/MIDDLEWARE）、仪器引用+版本、解析器版本、声明总行数 → INGESTED",
+      "POST 解析行批次：每行五维映射（样品号/批次位置/参数/单位/限定符）+ 解析前原始值 + 解析后值；合法行落为不可变行事实",
+      "异常行（未知样品号/非法单位/值不可解析/行号重复/限定符冲突）进入人工确认队列，导入批次 BLOCKED",
+      "确认人对异常行决议：ACCEPT_WITH_MAPPING（记录修正映射与原因）或 REJECT_ROW（记录原因）；原始值原样保留",
+      "全部行落定（行事实 + 决议）且计数与声明一致 → 导入批次 COMPLETED",
+      "GET 状态端口按 expectedVersion+ruleSetVersion 返回 ALLOWED（COMPLETED 且版本匹配）/BLOCKED/UNKNOWN"
+    ],
+    "failure_paths": [
+      "相同组织内相同 SHA-256 再次登记 → INS.DUPLICATE_FILE（409）",
+      "行号重复或归属未知文件 → INS.VALIDATION_FAILED，不产生行事实",
+      "对已决议异常再次决议 → INS.EXCEPTION_ALREADY_RESOLVED",
+      "存在未决异常时查询状态 → BLOCKED[PENDING_EXCEPTIONS]；版本不匹配/规则集未知 → UNKNOWN（视为阻断）",
+      "UPDATE/DELETE 任何 instrument 事实 → 数据库 55000（INS.INSTRUMENT_APPEND_ONLY）",
+      "行为人缺失/组织不匹配/能力拒绝 → INS.NOT_AUTHORIZED，仅 audit_attempt 留痕",
+      "平台审计/发件箱写入失败 → 整体回滚，业务事实不产生"
+    ],
+    "invariants": [
+      "原文件内容不入 LIMS——登记的是清单+哈希（OD-030/INT-DATA-001）",
+      "解析前原始值逐字节保留且永不修改；解析后值并存不覆盖（LAB-RAW-002）",
+      "文件登记、行事实、异常、决议全部追加式，DB 触发器强制（55000）",
+      "导入批次乐观并发：expectedCurrentVersion + advisory lock，重复 event_id 幂等拒绝",
+      "事实、平台审计意图与发件箱事件同一事务提交；模块 audit_attempt 独立于回滚存活",
+      "单一新能力 instrument.import（含异常决议）；状态端口消费方自行担责",
+      "本卡不做 OD-031 延后的生产仪器清单排序，不接批次/结果消费（后续卡经端口消费）"
+    ],
+    "data_contract": {
+      "fileRegistration": [
+        "fileRegistrationId",
+        "ruleSetVersion(INST-IMPORT@1.0.0)",
+        "objectScope{legalEntityId, laboratoryId}",
+        "externalRef{id, version}",
+        "sha256",
+        "sourceSystem(INSTRUMENT/CDS/MIDDLEWARE)",
+        "instrumentRef{id, version}",
+        "parserVersion",
+        "declaredRowCount",
+        "state(INGESTED/BLOCKED/COMPLETED)",
+        "version"
+      ],
+      "parsedRow": [
+        "rowId",
+        "fileRegistrationId",
+        "rowNumber",
+        "sampleNumber",
+        "batchPosition",
+        "parameter",
+        "unit",
+        "qualifier?",
+        "rawValue",
+        "parsedValue",
+        "parserVersion"
+      ],
+      "importException": [
+        "exceptionId",
+        "fileRegistrationId",
+        "rowNumber",
+        "reasonCode(UNKNOWN_SAMPLE/ILLEGAL_UNIT/UNPARSABLE_VALUE/DUPLICATE_ROW/QUALIFIER_CONFLICT)",
+        "rawContent",
+        "state(PENDING/RESOLVED)"
+      ],
+      "exceptionResolution": [
+        "resolutionId",
+        "exceptionId",
+        "kind(ACCEPT_WITH_MAPPING/REJECT_ROW)",
+        "correctedMapping?",
+        "reason",
+        "resolvedBy",
+        "resolvedAt"
+      ],
+      "statusResult": [
+        "decision(ALLOWED/BLOCKED/UNKNOWN)",
+        "reasonCodes[]",
+        "fileRegistrationId",
+        "currentVersion?",
+        "completedRowCount?",
+        "pendingExceptionCount?",
+        "ruleSetVersion"
+      ]
+    },
+    "api_contract": {
+      "operations": [
+        "POST /api/v1/instrument-files → 201 文件登记",
+        "POST /api/v1/instrument-files/{id}/rows → 201 解析行批次（合法行+异常行分流）",
+        "POST /api/v1/instrument-files/{id}/exceptions/{exceptionId}/resolution → 201 异常决议",
+        "GET /api/v1/instrument-files/{id} → 200 登记与行/异常明细",
+        "GET /api/v1/instrument-files/{id}/import-status → 200 状态端口决策"
+      ],
+      "publicPort": "IInstrumentImportPort.EvaluateAsync(InstrumentImportStatusRequest) → ALLOWED/BLOCKED/UNKNOWN，版本+规则集固定，供批次/结果后续卡消费",
+      "errors": [
+        "INS.VALIDATION_FAILED",
+        "INS.DUPLICATE_FILE",
+        "INS.EXCEPTION_ALREADY_RESOLVED",
+        "INS.EXPECTED_VERSION_CONFLICT",
+        "INS.NOT_AUTHORIZED",
+        "INS.OBJECT_NOT_ACCESSIBLE",
+        "INS.PERSISTENCE_UNAVAILABLE"
+      ]
+    },
+    "state_transitions": [
+      "文件登记：INGESTED →（出现异常）BLOCKED →（全部异常决议且行数落定）COMPLETED；INGESTED →（无异常且行数落定）COMPLETED；不可逆",
+      "异常：PENDING → RESOLVED（单向一次）"
+    ],
+    "permissions": [
+      "新增能力 instrument.import（登记/行提交/异常决议/读取共用，操作差异由对象状态约束）；HttpClaims 精确 claim 检查",
+      "状态端口要求 instrument.import 能力，跨模块消费方自行担责（不放宽也不复制）"
+    ],
+    "audit": [
+      "每个命令写平台 audit_intent（同事务）+ outbox 事件（Instrument.FileRegistered/RowsSubmitted/ExceptionResolved）",
+      "失败尝试写 instrument.audit_attempt（SHA-256 目标哈希，独立于回滚）",
+      "读取写 READ_INSTRUMENT_FILE 审计"
+    ],
+    "observability": [
+      "计数器：登记数、行数（合法/异常）、决议数（接受/拒绝）、状态端口决策分布",
+      "结构化日志固定 correlationId 与错误码"
+    ],
+    "ui_states": [
+      "本卡不新增前端页面",
+      "异常确认队列为 API 面——前端界面属后续卡"
+    ],
+    "test_cases": [
+      {
+        "id": "TC-INST-001-01",
+        "title": "登记与不可变引用",
+        "type": "positive",
+        "given": [
+          "合法文件元数据"
+        ],
+        "when": [
+          "登记"
+        ],
+        "then": [
+          "INGESTED",
+          "哈希/仪器/解析器版本固定",
+          "审计+发件箱同事务",
+          "重复 SHA-256 拒绝 409"
+        ]
+      },
+      {
+        "id": "TC-INST-001-02",
+        "title": "解析行五维映射与前后值",
+        "type": "positive",
+        "given": [
+          "合法行批次"
+        ],
+        "when": [
+          "提交"
+        ],
+        "then": [
+          "行事实含五维映射+rawValue+parsedValue",
+          "行号唯一",
+          "计数落定后 COMPLETED"
+        ]
+      },
+      {
+        "id": "TC-INST-001-03",
+        "title": "异常队列失败关闭",
+        "type": "negative",
+        "given": [
+          "含未知样品号与非法单位的行"
+        ],
+        "when": [
+          "提交"
+        ],
+        "then": [
+          "异常行不产生行事实",
+          "队列 PENDING",
+          "登记 BLOCKED",
+          "状态端口 BLOCKED[PENDING_EXCEPTIONS]"
+        ]
+      },
+      {
+        "id": "TC-INST-001-04",
+        "title": "人工决议保留原值",
+        "type": "positive",
+        "given": [
+          "PENDING 异常"
+        ],
+        "when": [
+          "ACCEPT_WITH_MAPPING 与 REJECT_ROW 各一"
+        ],
+        "then": [
+          "决议人/原因/时间固定",
+          "原始值逐字节不变",
+          "重复决议拒绝",
+          "全部落定后 COMPLETED"
+        ]
+      },
+      {
+        "id": "TC-INST-001-05",
+        "title": "验证数据集 100% 一致",
+        "type": "regression",
+        "given": [
+          "冻结验证数据集（含限定符/单位/异常样例）"
+        ],
+        "when": [
+          "完整导入后逐字段比较"
+        ],
+        "then": [
+          "原始值、解析值、单位、限定符、样品/批次映射、异常处理一致率 100%（PRD §22-15）"
+        ]
+      },
+      {
+        "id": "TC-INST-001-06",
+        "title": "追加式与并发",
+        "type": "negative",
+        "given": [
+          "已有事实"
+        ],
+        "when": [
+          "UPDATE/DELETE 及并发同版本提交"
+        ],
+        "then": [
+          "55000 拒绝",
+          "恰一个提交成功，另一方 EXPECTED_VERSION_CONFLICT"
+        ]
+      },
+      {
+        "id": "TC-INST-001-07",
+        "title": "平台证据失败回滚",
+        "type": "negative",
+        "given": [
+          "审计或发件箱注入失败"
+        ],
+        "when": [
+          "登记"
+        ],
+        "then": [
+          "业务事实回滚为零",
+          "audit_attempt 恰一次"
+        ]
+      },
+      {
+        "id": "TC-INST-001-08",
+        "title": "状态端口版本固定",
+        "type": "boundary",
+        "given": [
+          "COMPLETED 登记"
+        ],
+        "when": [
+          "正确/过期版本与未知规则集查询"
+        ],
+        "then": [
+          "ALLOWED / UNKNOWN[VERSION_MISMATCH] / UNKNOWN[RULE_SET_VERSION_UNKNOWN]"
+        ]
+      }
+    ],
+    "non_goals": [
+      "不做 OD-031 延后的生产仪器/文件接口清单排序（能力交付≠清单决定）",
+      "不实现真实仪器驱动、中间件轮询或高频流式采集（首类为文件/CSV 形态）",
+      "不实现批次/结果对导入数据的消费（后续卡经 IInstrumentImportPort）",
+      "不实现 CDS 重新积分版本链（INT-CDS-001 权威边界已由 OD-030 定口径，运行语义属后续卡）",
+      "不新增前端页面",
+      "不触碰未决 OD，不创建 Seal、tag、GitHub Release 或部署"
+    ],
+    "allowed_paths": [
+      "spec/requirements/BUS-INST-001__v1.0.0.json",
+      "spec/requirements/BUS-INST-002__v1.0.0.json",
+      "spec/requirements/BUS-INST-003__v1.0.0.json",
+      "spec/stories/ATC-INST-001__v1.0.0.json",
+      "generated/spec/**",
+      ".planning/2026-07-26-dev-020-instrument-import/**",
+      "OpenLIMS.slnx",
+      "contracts/instrument/**",
+      "src/modules/instrument/**",
+      "src/host/api/OpenLIMS.Api/**",
+      "src/host/worker/OpenLIMS.Worker/**",
+      "tests/unit/instrument/**",
+      "tests/contract/instrument/**",
+      "tests/integration/instrument/**",
+      "tests/architecture/**",
+      "tests/contract/labeling/OpenLIMS.Labeling.ContractTests/packages.lock.json",
+      "tests/contract/platform/OpenLIMS.Platform.ContractTests/packages.lock.json",
+      "tests/contract/receiving/OpenLIMS.Receiving.ContractTests/packages.lock.json",
+      "tests/contract/scope/OpenLIMS.Scope.ContractTests/packages.lock.json",
+      "tests/contract/quantity/OpenLIMS.Quantity.ContractTests/packages.lock.json",
+      "tests/contract/allocation/OpenLIMS.Allocation.ContractTests/packages.lock.json",
+      "tests/contract/batch/OpenLIMS.Batch.ContractTests/packages.lock.json",
+      "tests/contract/result/OpenLIMS.Result.ContractTests/packages.lock.json",
+      "tests/contract/billing/OpenLIMS.Billing.ContractTests/packages.lock.json",
+      "tests/integration/platform/OpenLIMS.Platform.IntegrationTests/packages.lock.json",
+      "tests/test_repository_contract.py",
+      "docs/domain/instrument/**",
+      "scripts/verify.ps1",
+      "scripts/verify.sh"
+    ],
+    "verification_commands": [
+      "python -m tools.specgen ready --story ATC-INST-001@1.0.0",
+      "pwsh -File scripts/verify.ps1 -Profile task -Module instrument",
+      "pwsh -File scripts/verify.ps1 -Profile architecture",
+      "python -m tools.specgen check"
+    ],
+    "definition_of_done": [
+      "文件登记/解析行/异常队列/决议/状态端口全部落地且追加式 DB 强制",
+      "验证数据集契约测试 100% 一致率固定在 CI",
+      "全部既有测试项目保持绿色",
+      "全仓验证通过且二次 generate written=0",
+      "所有变更位于 allowed_paths"
+    ]
+  }
+}

@@ -344,6 +344,9 @@
       "openlims.contracts.billing": {
         "type": "Project"
       },
+      "openlims.contracts.instrument": {
+        "type": "Project"
+      },
       "openlims.contracts.labeling": {
         "type": "Project",
         "dependencies": {
@@ -395,6 +398,15 @@
           "OpenLIMS.Contracts.Billing": "[1.0.0, )",
           "OpenLIMS.Contracts.Platform": "[1.0.0, )",
           "OpenLIMS.Contracts.Result": "[1.0.0, )"
+        }
+      },
+      "openlims.modules.instrument": {
+        "type": "Project",
+        "dependencies": {
+          "Npgsql": "[10.0.3, )",
+          "OpenLIMS.BuildingBlocks.Platform": "[1.0.0, )",
+          "OpenLIMS.Contracts.Instrument": "[1.0.0, )",
+          "OpenLIMS.Contracts.Platform": "[1.0.0, )"
         }
       },
       "openlims.modules.labeling": {

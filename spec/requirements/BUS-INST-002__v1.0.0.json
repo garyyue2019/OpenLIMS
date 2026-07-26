@@ -1,0 +1,32 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-INST-002",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "解析行映射与解析前后值保留",
+  "summary": "文件/CSV 导入的每一解析行必须携带样品号、批次位置、参数、单位和限定符映射，并同时保留解析前原始值与解析后值；解析行归属唯一文件登记且行号唯一；解析器版本固定于行事实。",
+  "owners": ["技术负责人", "实验室负责人", "质量负责人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "INT-INST-002"},
+    {"document": "PRD-MAIN", "item": "LAB-RAW-001"}
+  ],
+  "depends_on": ["BUS-INST-001@1.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0"],
+  "affects": ["instrument", "parsing", "mapping", "unit", "qualifier", "raw-evidence"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {
+    "mode": "core",
+    "applicability": "ENABLED",
+    "condition": "DEV-020 首类仪器导入切片启用"
+  },
+  "approval_evidence": "用户于 2026-07-26 决定 OD-001（玩具×机械物理方法族）解锁 INST 卡，并在全流程授权下批准本切片基线。",
+  "invariants": [
+    "每一解析行固定：样品号、批次位置、参数、单位、限定符（可空但显式）、解析前原始值、解析后值（INT-INST-002）",
+    "解析前原始值必须逐字节保留，解析后值不得覆盖原始值——两者并存于同一行事实",
+    "解析行以（文件登记, 行号）唯一，重复行号拒绝；行事实追加式不可变",
+    "解析器版本与文件登记的解析器版本一致，行级不允许漂移",
+    "行数与文件登记声明的总行数一致后导入才能完成（部分导入不产生可消费状态）"
+  ]
+}

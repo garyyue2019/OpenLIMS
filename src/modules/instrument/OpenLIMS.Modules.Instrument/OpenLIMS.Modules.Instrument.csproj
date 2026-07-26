@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>OpenLIMS.Modules.Instrument</AssemblyName>
+    <RootNamespace>OpenLIMS.Modules.Instrument</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Npgsql" />
+    <ProjectReference Include="../../../../contracts/instrument/OpenLIMS.Contracts.Instrument/OpenLIMS.Contracts.Instrument.csproj" />
+    <ProjectReference Include="../../../../contracts/platform/OpenLIMS.Contracts.Platform/OpenLIMS.Contracts.Platform.csproj" />
+    <ProjectReference Include="../../../building-blocks/OpenLIMS.BuildingBlocks.Platform/OpenLIMS.BuildingBlocks.Platform.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="OpenLIMS.Instrument.UnitTests" />
+    <InternalsVisibleTo Include="OpenLIMS.Instrument.IntegrationTests" />
+    <InternalsVisibleTo Include="OpenLIMS.Instrument.ContractTests" />
+  </ItemGroup>
+</Project>

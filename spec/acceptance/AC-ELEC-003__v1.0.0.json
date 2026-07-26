@@ -1,0 +1,22 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "acceptance",
+  "id": "AC-ELEC-003",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "破坏性分配互斥与资格门禁全链",
+  "summary": "破坏性异常试验分配活跃时，同一样机不得再分配至要求原始结构的任务；三端口全 ALLOWED 才创建分配；缺失、越权、过期或未知语义统一失败关闭。",
+  "owners": ["实验室技术负责人", "质量负责人", "QA负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "AC-ELEC-003"}],
+  "depends_on": ["BUS-ALLOC-001@1.0.0", "BUS-ALLOC-002@1.0.0", "BUS-ALLOC-003@1.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0"],
+  "affects": ["allocation", "destructive-exclusion", "eligibility-gate", "audit", "automated-test"],
+  "change_class": "major",
+  "approval_evidence": "用户于 2026-07-26 明确回复‘批准 DEV-010 业务基线’。",
+  "scenario": {
+    "given": ["调用人具有 allocation.assign 及对象范围", "同一物理对象已存在一条活跃破坏性分配", "Receiving、Scope 和 Quantity 端口对新请求均可评估"],
+    "when": ["尝试为同一物理对象创建新分配", "释放破坏性分配后重试", "并发提交两笔使用相同 expectedCurrentVersion 的分配"],
+    "then": ["活跃破坏性分配存在时新分配被阻断且无副作用", "释放后三端口全 ALLOWED 的新分配成功并原样固定端口决定", "并发分配最多一笔成功，另一笔版本冲突", "任一端口 BLOCKED/UNKNOWN、有效期过期或越权均失败关闭", "分配、审计和 Outbox 同一事务提交或整体回滚"]
+  },
+  "automation": ["领域规则单元测试", "HTTP 与公共端口契约测试", "PostgreSQL 事务与并发测试", "跨模块三端口门禁集成测试", "对象范围授权测试", "不可变历史与追加释放测试", "审计与 Outbox 回滚测试", "UNKNOWN 失败关闭测试"]
+}

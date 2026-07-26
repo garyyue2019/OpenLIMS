@@ -50,6 +50,32 @@
       "status": "in_review",
       "title": "集团间独立数据平面真实交叉访问验收"
     },
+    "AC-ELEC-003@1.0.0": {
+      "affects": [
+        "allocation",
+        "destructive-exclusion",
+        "eligibility-gate",
+        "audit",
+        "automated-test"
+      ],
+      "depends_on": [
+        "BUS-ALLOC-001@1.0.0",
+        "BUS-ALLOC-002@1.0.0",
+        "BUS-ALLOC-003@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "735b5f0293cd72731d9337ecb4fcdbe438ffd712e1766efce3b7903bd034a145",
+      "kind": "acceptance",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-ELEC-003"
+        }
+      ],
+      "status": "approved",
+      "title": "破坏性分配互斥与资格门禁全链"
+    },
     "AC-ID-001@0.1.0": {
       "affects": [
         "identity",
@@ -253,6 +279,64 @@
       ],
       "status": "approved",
       "title": "集团内收样多维越权防护"
+    },
+    "ATC-ALLOC-001@1.0.0": {
+      "affects": [
+        "allocation",
+        "receiving",
+        "scope",
+        "quantity",
+        "eligibility-gate",
+        "authorization",
+        "audit",
+        "outbox",
+        "automated-test"
+      ],
+      "depends_on": [
+        "ATC-PLT-003@1.0.0",
+        "ED-001@2.0.0",
+        "OD-002@1.0.0",
+        "OD-009@1.0.0",
+        "OD-010@1.0.0",
+        "OD-027@1.0.0",
+        "OD-035@1.0.0",
+        "ATC-REC-006@2.0.0",
+        "ATC-SCP-001@1.0.0",
+        "ATC-QTY-001@1.0.0",
+        "BUS-ALLOC-001@1.0.0",
+        "BUS-ALLOC-002@1.0.0",
+        "BUS-ALLOC-003@1.0.0",
+        "AC-ELEC-003@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0",
+        "NFR-ARCH-001@2.0.0"
+      ],
+      "fingerprint": "d8e63c13c3459ba2c9811cdfaa36fa55b2741d4fc49af2bc0bf746678e525ca1",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-ALLOC-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-ALLOC-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-ALLOC-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-ALLOC-004"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-ELEC-003"
+        }
+      ],
+      "status": "approved",
+      "title": "实施 DEV-010 任务分配资格"
     },
     "ATC-PLT-000@0.1.0": {
       "affects": [
@@ -1350,6 +1434,94 @@
       ],
       "status": "approved",
       "title": "实施 DEV-008 ScopeLine 生产可用门禁"
+    },
+    "BUS-ALLOC-001@1.0.0": {
+      "affects": [
+        "allocation",
+        "versioning",
+        "authorization",
+        "audit",
+        "outbox"
+      ],
+      "depends_on": [
+        "ATC-PLT-003@1.0.0",
+        "OD-009@1.0.0",
+        "OD-027@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "3eeead680cf1f51627a8208c353e6145da827c9ec33b68be7419c1294bf06979",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-ALLOC-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-ALLOC-004"
+        }
+      ],
+      "status": "approved",
+      "title": "版本固定的 TestObjectAllocation 分配事实"
+    },
+    "BUS-ALLOC-002@1.0.0": {
+      "affects": [
+        "allocation",
+        "eligibility-gate",
+        "receiving",
+        "scope",
+        "quantity",
+        "audit"
+      ],
+      "depends_on": [
+        "ATC-PLT-003@1.0.0",
+        "OD-035@1.0.0",
+        "ATC-REC-006@2.0.0",
+        "ATC-SCP-001@1.0.0",
+        "ATC-QTY-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "8f439560e509b447c768685e018b8142c4750987e39f92b5267050058c148a34",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-ALLOC-001"
+        }
+      ],
+      "status": "approved",
+      "title": "分配前三端口资格门禁"
+    },
+    "BUS-ALLOC-003@1.0.0": {
+      "affects": [
+        "allocation",
+        "concurrency",
+        "destructive-exclusion",
+        "authorization",
+        "audit"
+      ],
+      "depends_on": [
+        "ATC-PLT-003@1.0.0",
+        "OD-009@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "09e85a6926d81392a010958336d838f434f27451bc8fcf23fb6e72c559382f9f",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-ALLOC-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-ALLOC-003"
+        }
+      ],
+      "status": "approved",
+      "title": "并发分配与破坏性互斥阻断"
     },
     "BUS-PROD-003@0.1.0": {
       "affects": [

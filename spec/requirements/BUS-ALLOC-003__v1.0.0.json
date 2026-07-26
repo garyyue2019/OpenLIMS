@@ -1,0 +1,22 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-ALLOC-003",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "并发分配与破坏性互斥阻断",
+  "summary": "同一物理对象的分配以 expectedCurrentVersion 串行化，最多一笔成功；存在活跃破坏性分配时阻断该对象的一切新分配，非破坏性分配可以并存。",
+  "owners": ["实验室技术负责人", "技术负责人", "质量负责人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "OPS-ALLOC-001"},
+    {"document": "PRD-MAIN", "item": "OPS-ALLOC-003"}
+  ],
+  "depends_on": ["ATC-PLT-003@1.0.0", "OD-009@1.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0"],
+  "affects": ["allocation", "concurrency", "destructive-exclusion", "authorization", "audit"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "ENABLED", "condition": "DEV-010 任务分配资格启用"},
+  "approval_evidence": "用户于 2026-07-26 明确回复‘批准 DEV-010 业务基线’。",
+  "invariants": ["同一物理对象并发分配使用 expectedCurrentVersion，最多一笔成功", "活跃破坏性分配存在时该对象的新分配一律阻断", "非破坏性分配可在同一对象上并存", "破坏性为调用方声明的分配属性，不决定产品或方法级破坏性主数据", "释放活跃破坏性分配后新分配方可恢复", "失败尝试通过独立追加路径留痕"]
+}

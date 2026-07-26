@@ -2,6 +2,7 @@ using Microsoft.Extensions.Hosting;
 using OpenLIMS.BuildingBlocks.Platform;
 using OpenLIMS.Contracts.Labeling;
 using OpenLIMS.Contracts.Platform;
+using OpenLIMS.Modules.Allocation;
 using OpenLIMS.Modules.Labeling;
 using OpenLIMS.Modules.Quantity;
 using OpenLIMS.Modules.Receiving;
@@ -25,7 +26,8 @@ IOpenLimsServerModule[] modules =
     new ReceivingModule(postgresConnectionString),
     new LabelingModule(postgresConnectionString, labelPrinters),
     new ScopeModule(postgresConnectionString),
-    new QuantityModule(postgresConnectionString)
+    new QuantityModule(postgresConnectionString),
+    new AllocationModule(postgresConnectionString)
 ];
 var moduleCatalog = OpenLimsModuleCatalog.Create(modules);
 

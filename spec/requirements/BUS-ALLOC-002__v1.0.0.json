@@ -1,0 +1,21 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-ALLOC-002",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "分配前三端口资格门禁",
+  "summary": "创建分配前必须在独立事务中依次评估 Receiving 资格（TEST_ASSIGNMENT）、Scope 生产资格和 Quantity 可用量三个版本化公共端口，全部 ALLOWED 才提交事实并原样固定端口决定。",
+  "owners": ["实验室技术负责人", "技术负责人", "质量负责人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "OPS-ALLOC-001"}
+  ],
+  "depends_on": ["ATC-PLT-003@1.0.0", "OD-035@1.0.0", "ATC-REC-006@2.0.0", "ATC-SCP-001@1.0.0", "ATC-QTY-001@1.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0"],
+  "affects": ["allocation", "eligibility-gate", "receiving", "scope", "quantity", "audit"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "ENABLED", "condition": "DEV-010 任务分配资格启用"},
+  "approval_evidence": "用户于 2026-07-26 明确回复‘批准 DEV-010 业务基线’。",
+  "invariants": ["平台禁止嵌套事务，资格评估在分配事务之外完成", "三个端口的决定、对象版本和规则版本原样固定进分配事实", "任一端口 BLOCKED、UNKNOWN 或异常即整体失败关闭且不产生事实", "有效期 validUntil 过期即拒绝", "保存条件作为版本固定引用记录，不伪造语义校验", "UNKNOWN 等同阻断"]
+}

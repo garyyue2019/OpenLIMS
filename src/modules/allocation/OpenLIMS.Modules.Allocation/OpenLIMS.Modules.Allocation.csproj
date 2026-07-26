@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>OpenLIMS.Modules.Allocation</AssemblyName>
+    <RootNamespace>OpenLIMS.Modules.Allocation</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Npgsql" />
+    <ProjectReference Include="../../../../contracts/allocation/OpenLIMS.Contracts.Allocation/OpenLIMS.Contracts.Allocation.csproj" />
+    <ProjectReference Include="../../../../contracts/receiving/OpenLIMS.Contracts.Receiving/OpenLIMS.Contracts.Receiving.csproj" />
+    <ProjectReference Include="../../../../contracts/scope/OpenLIMS.Contracts.Scope/OpenLIMS.Contracts.Scope.csproj" />
+    <ProjectReference Include="../../../../contracts/quantity/OpenLIMS.Contracts.Quantity/OpenLIMS.Contracts.Quantity.csproj" />
+    <ProjectReference Include="../../../building-blocks/OpenLIMS.BuildingBlocks.Platform/OpenLIMS.BuildingBlocks.Platform.csproj" />
+    <ProjectReference Include="../../../../contracts/platform/OpenLIMS.Contracts.Platform/OpenLIMS.Contracts.Platform.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="OpenLIMS.Allocation.UnitTests" />
+    <InternalsVisibleTo Include="OpenLIMS.Allocation.IntegrationTests" />
+    <InternalsVisibleTo Include="OpenLIMS.Allocation.ContractTests" />
+  </ItemGroup>
+</Project>

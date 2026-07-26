@@ -9,7 +9,7 @@
 1. [completed] 侦察（工作流 5 路并行）：OD-001 v0.1.0 结构与 7-23 意向背景；decided 模式（新版本文件、status=approved、decision_state=decided、approval_evidence 含"用户"）；GOV 无既有规格、PRD 锚点为 MoSCoW 适用性制度 L669-676/RULE-026/L1482/OD-001 表行 L1447；specgen activation 语义与 snapshot 冻结机制；OD-025（平台/包边界）可避开保持 open。
 2. [completed] OD-001__v1.0.0.json + BUS-GOV-001@1.0.0 + ATC-GOV-001@1.0.0，READY；契约测试 138→141、特性 48→49。
 3. [completed] snapshot --name r1-applicability-baseline 生成冻结工件；契约测试新增适用性基线断言。
-4. [in_progress] 完整门禁，CI 全绿后按授权提交/PR/合并。
+4. [completed] 完整门禁，CI 全绿后按授权提交/PR/合并。
 
 ## 约束
 

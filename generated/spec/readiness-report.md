@@ -7,7 +7,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 # AI 开发就绪报告
 
 - 未批准 PRD 来源漂移：**0** 个文档
-- Story 数量：**32**
+- Story 数量：**33**
 
 | Story | 规格状态 | 就绪度 | 结论 | 阻塞原因 |
 |---|---|---|---|---|
@@ -16,6 +16,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `ATC-BATCH-001@1.0.0` | `approved` | `ready` | **READY** | 无 |
 | `ATC-BILL-001@1.0.0` | `approved` | `ready` | **READY** | 无 |
 | `ATC-GOV-001@1.0.0` | `approved` | `ready` | **READY** | 无 |
+| `ATC-INST-001@1.0.0` | `approved` | `ready` | **READY** | 无 |
 | `ATC-PLT-000@0.1.0` | `proposed` | `blocked` | **BLOCKED** | 规格状态为 proposed，尚未批准；开发就绪度为 blocked；依赖 ED-001@0.1.0 状态为 proposed；依赖 OD-020@0.1.0 状态为 proposed；依赖 OD-025@0.1.0 状态为 proposed；依赖 SEC-DEPLOY-001@0.1.0 状态为 in_review；依赖 SEC-AUD-001@0.1.0 状态为 in_review；依赖 NFR-ARCH-001@0.1.0 状态为 in_review；依赖 NFR-ARCH-002@0.1.0 状态为 in_review；依赖 AC-DEPLOY-001@0.1.0 状态为 in_review |
 | `ATC-PLT-000@1.0.0` | `proposed` | `blocked` | **BLOCKED** | 规格状态为 proposed，尚未批准；开发就绪度为 blocked；依赖 ED-001@1.0.0 状态为 proposed；依赖 ED-002@1.0.0 状态为 proposed；依赖 SEC-DEPLOY-001@1.0.0 状态为 in_review；依赖 SEC-AUD-001@1.0.0 状态为 in_review；依赖 NFR-ARCH-001@1.0.0 状态为 in_review；依赖 NFR-ARCH-002@1.0.0 状态为 in_review；依赖 AC-DEPLOY-001@1.0.0 状态为 in_review |
 | `ATC-PLT-001@1.0.0` | `approved` | `ready` | **READY** | 无 |

@@ -684,6 +684,57 @@
       "status": "approved",
       "title": "实施 DEV-019 冻结 R1 适用性基线"
     },
+    "ATC-INST-001@1.0.0": {
+      "affects": [
+        "instrument",
+        "raw-evidence",
+        "parsing",
+        "exception-queue",
+        "hash",
+        "audit",
+        "outbox",
+        "authorization",
+        "automated-test"
+      ],
+      "depends_on": [
+        "ED-001@2.0.0",
+        "OD-002@1.0.0",
+        "OD-001@1.0.0",
+        "OD-030@1.0.0",
+        "BUS-INST-001@1.0.0",
+        "BUS-INST-002@1.0.0",
+        "BUS-INST-003@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0",
+        "NFR-ARCH-001@2.0.0"
+      ],
+      "fingerprint": "a970c2e9a43bc42c3a371fe3edeb254a910a410ffba1851ec9f33c2f6673cdc8",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "INT-INST-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "INT-INST-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "INT-DATA-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-RAW-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-RAW-002"
+        }
+      ],
+      "status": "approved",
+      "title": "实施 DEV-020 首类仪器文件导入"
+    },
     "ATC-PLT-000@0.1.0": {
       "affects": [
         "engineering-skeleton",
@@ -2380,6 +2431,101 @@
       ],
       "status": "approved",
       "title": "Release 1 适用性基线冻结不变量"
+    },
+    "BUS-INST-001@1.0.0": {
+      "affects": [
+        "instrument",
+        "raw-evidence",
+        "hash",
+        "immutability",
+        "audit"
+      ],
+      "depends_on": [
+        "OD-030@1.0.0",
+        "OD-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "9eea3481bc801f91a0e42d270341784f9c2f2894355982226f1c7b86e3b3b67e",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "INT-INST-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "INT-DATA-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-RAW-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-RAW-002"
+        }
+      ],
+      "status": "approved",
+      "title": "仪器原文件只读登记与不可变引用"
+    },
+    "BUS-INST-002@1.0.0": {
+      "affects": [
+        "instrument",
+        "parsing",
+        "mapping",
+        "unit",
+        "qualifier",
+        "raw-evidence"
+      ],
+      "depends_on": [
+        "BUS-INST-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "10b87ceabac11a838c3c07455d3b22661e083bdd1a742cac5c555f0407c3da1d",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "INT-INST-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-RAW-001"
+        }
+      ],
+      "status": "approved",
+      "title": "解析行映射与解析前后值保留"
+    },
+    "BUS-INST-003@1.0.0": {
+      "affects": [
+        "instrument",
+        "exception-queue",
+        "human-confirmation",
+        "fail-closed",
+        "status-port"
+      ],
+      "depends_on": [
+        "BUS-INST-001@1.0.0",
+        "BUS-INST-002@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "ba8c31c87b6c7c6e7f0d2a808d63123381d58fa91d5881b4682cf44a5d25c246",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "INT-INST-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-RAW-002"
+        }
+      ],
+      "status": "approved",
+      "title": "导入异常人工确认队列与失败关闭"
     },
     "BUS-PLT-001@1.0.0": {
       "affects": [

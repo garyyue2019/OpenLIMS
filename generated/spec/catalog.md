@@ -30,6 +30,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `ATC-BATCH-001@1.0.0` | `story` | `approved` | 实施 DEV-013 制备/分析批最小切片 | `major` | batch, allocation, qc, raw-data, authorization, audit, outbox, automated-test | `6028422fb5b0` |
 | `ATC-BILL-001@1.0.0` | `story` | `approved` | 实施 DEV-015 唯一计费事实 | `major` | billing, result, authorization, audit, outbox, automated-test | `b6802a9d2521` |
 | `ATC-GOV-001@1.0.0` | `story` | `approved` | 实施 DEV-019 冻结 R1 适用性基线 | `major` | release-governance, applicability, industry-pack, technical-pack, baseline, traceability, automated-test | `a0b1e6f5d451` |
+| `ATC-INST-001@1.0.0` | `story` | `approved` | 实施 DEV-020 首类仪器文件导入 | `major` | instrument, raw-evidence, parsing, exception-queue, hash, audit, outbox, authorization, automated-test | `a970c2e9a43b` |
 | `ATC-PLT-000@0.1.0` | `story` | `proposed` | 建立可验证的模块化单体工程骨架 | `major` | engineering-skeleton, repository, api-host, worker-host, web-shell, module-boundaries, postgresql, identity, object-storage, outbox, audit, observability, ci, deployment, automated-test | `af9924a0b1fa` |
 | `ATC-PLT-000@1.0.0` | `story` | `proposed` | 建立可验证的模块化单体工程骨架 | `major` | engineering-skeleton, repository, api-host, worker-host, web-shell, module-boundaries, postgresql, identity, object-storage, outbox, audit, observability, ci, deployment, automated-test | `f45a6ee6de5f` |
 | `ATC-PLT-001@1.0.0` | `story` | `approved` | 实施 DEV-018 请求上下文与对象级授权正式化 | `major` | platform, authorization, request-context, correlation, cross-module, audit, automated-test | `013e485b4c12` |
@@ -70,6 +71,9 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `BUS-BILL-002@1.0.0` | `requirement` | `approved` | 零金额证据与原因 | `major` | billing, audit | `e8ad36abf78c` |
 | `BUS-BILL-003@1.0.0` | `requirement` | `approved` | 正负调整证据更正 | `major` | billing, versioning, audit | `58850683ebc9` |
 | `BUS-GOV-001@1.0.0` | `requirement` | `approved` | Release 1 适用性基线冻结不变量 | `major` | release-governance, applicability, industry-pack, technical-pack, baseline, traceability | `97ca439d12b4` |
+| `BUS-INST-001@1.0.0` | `requirement` | `approved` | 仪器原文件只读登记与不可变引用 | `major` | instrument, raw-evidence, hash, immutability, audit | `9eea3481bc80` |
+| `BUS-INST-002@1.0.0` | `requirement` | `approved` | 解析行映射与解析前后值保留 | `major` | instrument, parsing, mapping, unit, qualifier, raw-evidence | `10b87ceabac1` |
+| `BUS-INST-003@1.0.0` | `requirement` | `approved` | 导入异常人工确认队列与失败关闭 | `major` | instrument, exception-queue, human-confirmation, fail-closed, status-port | `ba8c31c87b6c` |
 | `BUS-PLT-001@1.0.0` | `requirement` | `approved` | 平台审计与发件箱组合不变量 | `major` | platform, audit, outbox, migration, cross-module, transaction | `23725a2fb414` |
 | `BUS-PLT-002@1.0.0` | `requirement` | `approved` | 请求上下文与对象级授权不变量 | `major` | platform, authorization, request-context, correlation, cross-module, audit | `f4238a62d8ff` |
 | `BUS-PROD-003@0.1.0` | `requirement` | `in_review` | 被业务引用的产品版本禁止原地修改 | `major` | product, product-variant, versioning, impact-analysis, evidence | `faf2128cf612` |

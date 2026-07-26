@@ -1,0 +1,32 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-INST-003",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "导入异常人工确认队列与失败关闭",
+  "summary": "解析异常（未知样品号、非法单位、限定符冲突、值不可解析、行映射重复）不产生可消费解析行，而是进入人工确认队列；人工决议（接受映射修正/拒绝该行）保留原始值与决议人/原因；存在未决异常的导入批次状态为 BLOCKED，公开状态端口 UNKNOWN 视为阻断。",
+  "owners": ["技术负责人", "实验室负责人", "质量负责人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "INT-INST-002"},
+    {"document": "PRD-MAIN", "item": "LAB-RAW-002"}
+  ],
+  "depends_on": ["BUS-INST-001@1.0.0", "BUS-INST-002@1.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0"],
+  "affects": ["instrument", "exception-queue", "human-confirmation", "fail-closed", "status-port"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {
+    "mode": "core",
+    "applicability": "ENABLED",
+    "condition": "DEV-020 首类仪器导入切片启用"
+  },
+  "approval_evidence": "用户于 2026-07-26 决定 OD-001（玩具×机械物理方法族）解锁 INST 卡，并在全流程授权下批准本切片基线。",
+  "invariants": [
+    "异常行进入人工确认队列并保留完整原始内容，不产生可消费解析行（INT-INST-002 异常队列）",
+    "人工决议只有 ACCEPT_WITH_MAPPING（修正映射后放行）与 REJECT_ROW（拒绝该行）两种，必须记录决议人、原因和时间；原始值永不修改（LAB-RAW-002）",
+    "同一异常行只能决议一次，决议追加式不可变",
+    "导入批次存在未决异常时状态为 BLOCKED；全部行放行或拒绝后才能 COMPLETED",
+    "公开导入状态端口按 expectedVersion+ruleSetVersion 固定返回 ALLOWED/BLOCKED/UNKNOWN，UNKNOWN 一律视为阻断（版本不匹配/规则集未知/持久化不可用）"
+  ]
+}

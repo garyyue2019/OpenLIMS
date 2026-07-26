@@ -1,0 +1,34 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-INST-001",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "仪器原文件只读登记与不可变引用",
+  "summary": "仪器/数据系统产出的原文件以只读事实登记：稳定外部引用+版本+SHA-256 内容哈希+来源系统+仪器引用+解析器版本+导入批次（OD-030 口径，不复制外部权威内容，大文件留存对象存储仅登记清单）；同一组织内相同内容哈希重复登记被拒绝；已提交登记不可覆盖或删除。",
+  "owners": ["技术负责人", "实验室负责人", "质量负责人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "INT-INST-001"},
+    {"document": "PRD-MAIN", "item": "INT-DATA-001"},
+    {"document": "PRD-MAIN", "item": "LAB-RAW-001"},
+    {"document": "PRD-MAIN", "item": "LAB-RAW-002"}
+  ],
+  "depends_on": ["OD-030@1.0.0", "OD-001@1.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0"],
+  "affects": ["instrument", "raw-evidence", "hash", "immutability", "audit"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {
+    "mode": "core",
+    "applicability": "ENABLED",
+    "condition": "DEV-020 首类仪器导入切片启用"
+  },
+  "approval_evidence": "用户于 2026-07-26 决定 OD-001（玩具×机械物理方法族）解锁 INST 卡，并在全流程授权下批准本切片基线。",
+  "invariants": [
+    "原文件登记必须包含：稳定外部引用+版本、SHA-256 内容哈希、来源系统、仪器引用+版本、解析器版本、导入批次号（INT-INST-001/LAB-RAW-001）",
+    "LIMS 不存储原文件内容本体——大文件留在对象存储/源系统，登记的是不可变清单与哈希（INT-DATA-001、OD-030 权威边界）",
+    "同一组织内相同 SHA-256 的重复登记被拒绝（INS.DUPLICATE_FILE），防止同一文件多次入账",
+    "已提交的文件登记与解析行不可更新或删除，由数据库触发器强制（LAB-RAW-002，errcode 55000）",
+    "登记、审计意图与发件箱事件在同一事务提交"
+  ]
+}

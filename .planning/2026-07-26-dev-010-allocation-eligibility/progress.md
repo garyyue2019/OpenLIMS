@@ -27,3 +27,5 @@
 - 用户指示提交并推送；已提交（60 个文件，全部在 allowed_paths 内，无构建产物），推送到 `origin/codex/dev-010-allocation-eligibility`。
 - 经 GitHub API 创建 PR：https://github.com/garyyue2019/OpenLIMS/pull/10，等待远端 CI。
 - 两个提交的 Specification governance 与 Application CI（含 Linux PostgreSQL 五模块集成测试）均 success。等待用户合并指令。
+- 用户指示合并；PR #10 以 squash 方式合并为 `main@6091510`，远端分支按惯例保留。
+- 合并后 main 的 Specification governance 与 Application CI 均 success；本地 main 已快进并切换。main 现包含 10 个已交付切片，DEV-010 全部完成。

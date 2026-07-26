@@ -1,0 +1,22 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-QTY-002",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "账户级计量维度、精度与守恒公差配置",
+  "summary": "每个数量账户固定一个计量维度和单位并配置精度与守恒公差；不可合理计量对象拒绝建账，不制造伪精确数量。",
+  "owners": ["实验室技术负责人", "质量负责人", "产品负责人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "OPS-QTY-002"},
+    {"document": "PRD-MAIN", "item": "BP-018"}
+  ],
+  "depends_on": ["ATC-PLT-003@1.0.0", "OD-010@1.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0"],
+  "affects": ["quantity", "measurement", "authorization", "audit"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "ENABLED", "condition": "DEV-009 不可变数量流水启用"},
+  "approval_evidence": "用户于 2026-07-26 明确回复‘批准 DEV-009 业务基线’。",
+  "invariants": ["账户创建时固定 subjectType/subjectRef/subjectVersion、dimension、unit、precisionScale 和 conservationTolerance", "维度仅允许 COUNT、MASS、LENGTH、AREA、VOLUME 最小枚举", "COUNT 维度精度固定为 0 位小数", "过账金额小数位超过账户精度即拒绝", "对象声明不可合理计量时拒绝建账", "未知维度或单位不匹配一律失败关闭"]
+}

@@ -3,6 +3,7 @@ using OpenLIMS.BuildingBlocks.Platform;
 using OpenLIMS.Contracts.Labeling;
 using OpenLIMS.Contracts.Platform;
 using OpenLIMS.Modules.Labeling;
+using OpenLIMS.Modules.Quantity;
 using OpenLIMS.Modules.Receiving;
 using OpenLIMS.Modules.Scope;
 using OpenLIMS.Worker;
@@ -23,7 +24,8 @@ IOpenLimsServerModule[] modules =
 [
     new ReceivingModule(postgresConnectionString),
     new LabelingModule(postgresConnectionString, labelPrinters),
-    new ScopeModule(postgresConnectionString)
+    new ScopeModule(postgresConnectionString),
+    new QuantityModule(postgresConnectionString)
 ];
 var moduleCatalog = OpenLimsModuleCatalog.Create(modules);
 

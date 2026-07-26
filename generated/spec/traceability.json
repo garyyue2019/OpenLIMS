@@ -102,6 +102,33 @@
       "status": "approved",
       "title": "身份评估三层事实和冲突事件"
     },
+    "AC-QTY-001@1.0.0": {
+      "affects": [
+        "quantity",
+        "concurrency",
+        "availability-gate",
+        "audit",
+        "automated-test"
+      ],
+      "depends_on": [
+        "OD-010@1.0.0",
+        "BUS-QTY-001@1.0.0",
+        "BUS-QTY-002@1.0.0",
+        "BUS-QTY-003@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "2491d853f11ec0dfde8d7955d88e516f15d67fdae2ce5d1d5408281be4d5a649",
+      "kind": "acceptance",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-QTY-001"
+        }
+      ],
+      "status": "approved",
+      "title": "并发超分配阻断与不可变流水链"
+    },
     "AC-REC-001@0.1.0": {
       "affects": [
         "receiving",
@@ -384,6 +411,60 @@
       ],
       "status": "approved",
       "title": "建立业务模块接入与验证通道"
+    },
+    "ATC-QTY-001@1.0.0": {
+      "affects": [
+        "quantity",
+        "authorization",
+        "audit",
+        "outbox",
+        "availability-gate",
+        "automated-test"
+      ],
+      "depends_on": [
+        "ATC-PLT-003@1.0.0",
+        "ED-001@2.0.0",
+        "OD-002@1.0.0",
+        "OD-009@1.0.0",
+        "OD-010@1.0.0",
+        "BUS-QTY-001@1.0.0",
+        "BUS-QTY-002@1.0.0",
+        "BUS-QTY-003@1.0.0",
+        "AC-QTY-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0",
+        "NFR-ARCH-001@2.0.0"
+      ],
+      "fingerprint": "29b0d4a4add02323e0db9200b320c25aa97dcd3661bfd49296afafadd97856a9",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-010"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-QTY-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-QTY-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-QTY-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-QTY-004"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-QTY-001"
+        }
+      ],
+      "status": "approved",
+      "title": "实施 DEV-009 不可变数量流水与并发预留"
     },
     "ATC-REC-001@0.1.0": {
       "affects": [
@@ -1292,6 +1373,92 @@
       "status": "in_review",
       "title": "被业务引用的产品版本禁止原地修改"
     },
+    "BUS-QTY-001@1.0.0": {
+      "affects": [
+        "quantity",
+        "versioning",
+        "authorization",
+        "audit",
+        "outbox"
+      ],
+      "depends_on": [
+        "ATC-PLT-003@1.0.0",
+        "OD-010@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "47e4cca52ccfd74aa6e82da564ade18da6049d78b7330c971e04925fbf4d65a4",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-QTY-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-QTY-004"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-LIN-001"
+        }
+      ],
+      "status": "approved",
+      "title": "不可变数量流水与冲销重记"
+    },
+    "BUS-QTY-002@1.0.0": {
+      "affects": [
+        "quantity",
+        "measurement",
+        "authorization",
+        "audit"
+      ],
+      "depends_on": [
+        "ATC-PLT-003@1.0.0",
+        "OD-010@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "a35cedb07b7f7a70dde6b1764770dcef7738a3b613b294fb7d2ee22ef058e381",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-QTY-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "BP-018"
+        }
+      ],
+      "status": "approved",
+      "title": "账户级计量维度、精度与守恒公差配置"
+    },
+    "BUS-QTY-003@1.0.0": {
+      "affects": [
+        "quantity",
+        "concurrency",
+        "availability-gate",
+        "authorization",
+        "audit"
+      ],
+      "depends_on": [
+        "ATC-PLT-003@1.0.0",
+        "OD-010@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "519b56d09ba9983d85a4f411b0ff3bbd148fa44fc713016f6a4bf614bcb9c11a",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-QTY-003"
+        }
+      ],
+      "status": "approved",
+      "title": "负余额、超分配与并发预留阻断"
+    },
     "BUS-REQ-003@0.1.0": {
       "affects": [
         "requirements",
@@ -1704,6 +1871,30 @@
       ],
       "status": "approved",
       "title": "试点玩具收到实物唯一识别粒度"
+    },
+    "OD-010@1.0.0": {
+      "affects": [
+        "quantity",
+        "measurement",
+        "authorization",
+        "audit",
+        "outbox"
+      ],
+      "depends_on": [
+        "ED-001@2.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "5c8856d87619e2a99c0c44f59b95a4f03d940dc617211768f4335ca1d8afc2ae",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-010"
+        }
+      ],
+      "status": "approved",
+      "title": "DEV-009 数量账户计量口径与轻量过账"
     },
     "OD-020@0.1.0": {
       "affects": [

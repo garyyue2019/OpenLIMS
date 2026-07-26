@@ -1,0 +1,22 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "acceptance",
+  "id": "AC-QTY-001",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "并发超分配阻断与不可变流水链",
+  "summary": "可用量 100 克时两名用户并发分配 80 克最多一笔成功；流水不可原地修改，更正只能冲销重记；缺失、越权或未知语义统一失败关闭。",
+  "owners": ["实验室技术负责人", "质量负责人", "QA负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "AC-QTY-001"}],
+  "depends_on": ["OD-010@1.0.0", "BUS-QTY-001@1.0.0", "BUS-QTY-002@1.0.0", "BUS-QTY-003@1.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0"],
+  "affects": ["quantity", "concurrency", "availability-gate", "audit", "automated-test"],
+  "change_class": "major",
+  "approval_evidence": "用户于 2026-07-26 明确回复‘批准 DEV-009 业务基线’。",
+  "scenario": {
+    "given": ["调用人具有 quantity.post 及对象范围", "账户维度、单位、精度和守恒公差已在建账时固定", "账户经收货过账形成可用量 100 克"],
+    "when": ["两名用户使用相同 expectedCurrentVersion 并发提交 80 克分配", "随后对错误条目提交冲销和重记"],
+    "then": ["最多一笔分配成功且有效分配不超过 100 克", "另一笔因版本冲突或可用量不足失败且无副作用", "已过账条目不可修改或删除，更正条目引用原条目", "流水、审计和 Outbox 在同一事务提交或整体回滚", "缺失配置、维度或单位不匹配、越权和 UNKNOWN 均阻断"]
+  },
+  "automation": ["领域规则单元测试", "HTTP 与公共端口契约测试", "PostgreSQL 事务与并发测试", "对象范围授权测试", "不可变历史测试", "审计与 Outbox 回滚测试", "UNKNOWN 失败关闭测试"]
+}

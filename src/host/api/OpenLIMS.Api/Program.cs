@@ -6,6 +6,7 @@ using OpenLIMS.BuildingBlocks.Platform;
 using OpenLIMS.Contracts.Labeling;
 using OpenLIMS.Contracts.Platform;
 using OpenLIMS.Modules.Labeling;
+using OpenLIMS.Modules.Quantity;
 using OpenLIMS.Modules.Receiving;
 using OpenLIMS.Modules.Scope;
 using OpenTelemetry.Metrics;
@@ -27,7 +28,8 @@ IOpenLimsServerModule[] modules =
 [
     new ReceivingModule(deploymentOptions.PostgresConnectionString!),
     new LabelingModule(deploymentOptions.PostgresConnectionString!, labelPrinters),
-    new ScopeModule(deploymentOptions.PostgresConnectionString!)
+    new ScopeModule(deploymentOptions.PostgresConnectionString!),
+    new QuantityModule(deploymentOptions.PostgresConnectionString!)
 ];
 var moduleCatalog = OpenLimsModuleCatalog.Create(modules);
 var organizationScope = new OrganizationScope(deploymentOptions.OrganizationGroupId!);
@@ -186,6 +188,10 @@ app.MapGet("/openapi/v1.json", () => Results.Json(new
         ["/api/v1/scope-matrices/{id}/versions"] = new { post = new { operationId = "reviseScopeMatrix", responses = new { created = new { description = "Append-only approved scope matrix revision created atomically" } } } },
         ["/api/v1/scope-matrices/{id}/versions/{version}"] = new { get = new { operationId = "getScopeMatrixVersion", responses = new { ok = new { description = "Immutable scope matrix version and complete scope lines" } } } },
         ["/api/v1/scope-matrices/{id}/production-eligibility"] = new { get = new { operationId = "getScopeProductionEligibility", responses = new { ok = new { description = "Version-pinned production eligibility decision" } } } },
+        ["/api/v1/quantity-accounts"] = new { post = new { operationId = "createQuantityAccount", responses = new { created = new { description = "Immutable single-dimension quantity account created atomically" } } } },
+        ["/api/v1/quantity-accounts/{id}/entries"] = new { post = new { operationId = "postQuantityEntry", responses = new { created = new { description = "Append-only quantity ledger entry posted atomically" } } } },
+        ["/api/v1/quantity-accounts/{id}"] = new { get = new { operationId = "getQuantityAccount", responses = new { ok = new { description = "Quantity account configuration, balance, reserved, and available amounts" } } } },
+        ["/api/v1/quantity-accounts/{id}/availability"] = new { get = new { operationId = "getQuantityAvailability", responses = new { ok = new { description = "Version-pinned availability decision" } } } },
         ["/api/v1/label-jobs"] = new { post = new { operationId = "createLabelPrintJobs", responses = new { accepted = new { description = "Label print jobs accepted" } } } },
         ["/api/v1/label-jobs/{printJobId}"] = new { get = new { operationId = "getLabelPrintJob", responses = new { ok = new { description = "Label print job state" } } } },
         ["/api/v1/label-jobs/{printJobId}/reprint"] = new { post = new { operationId = "reprintLabel", responses = new { accepted = new { description = "Controlled reprint accepted" } } } },

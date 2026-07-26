@@ -1,0 +1,23 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-QTY-001",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "不可变数量流水与冲销重记",
+  "summary": "数量账户以不可变追加流水记录收货、产出、预留、分配、消耗、归还、损耗和处置；已过账条目只能通过冲销加重记更正。",
+  "owners": ["实验室技术负责人", "质量负责人", "产品负责人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "OPS-QTY-001"},
+    {"document": "PRD-MAIN", "item": "OPS-QTY-004"},
+    {"document": "PRD-MAIN", "item": "OPS-LIN-001"}
+  ],
+  "depends_on": ["ATC-PLT-003@1.0.0", "OD-010@1.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0"],
+  "affects": ["quantity", "versioning", "authorization", "audit", "outbox"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "ENABLED", "condition": "DEV-009 不可变数量流水启用"},
+  "approval_evidence": "用户于 2026-07-26 明确回复‘批准 DEV-009 业务基线’。",
+  "invariants": ["每个账户具有稳定 quantityAccountId 和单调递增版本", "每个已过账条目不可修改或删除", "更正必须冲销原条目并追加引用原条目的重记条目", "流水、审计和 Outbox 在同一事务提交", "数量流水不承载物理谱系、任务分配或保管责任链", "客户端不得提交 OrganizationGroup"]
+}

@@ -1,0 +1,21 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-QTY-003",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "负余额、超分配与并发预留阻断",
+  "summary": "过账在事务内校验余额与活跃预留；负余额、超分配和跨维度换算被阻止，并发写入以 expectedCurrentVersion 只允许一个成功。",
+  "owners": ["实验室技术负责人", "质量负责人", "产品负责人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "OPS-QTY-003"}
+  ],
+  "depends_on": ["ATC-PLT-003@1.0.0", "OD-010@1.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0"],
+  "affects": ["quantity", "concurrency", "availability-gate", "authorization", "audit"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "ENABLED", "condition": "DEV-009 不可变数量流水启用"},
+  "approval_evidence": "用户于 2026-07-26 明确回复‘批准 DEV-009 业务基线’。",
+  "invariants": ["余额为已过账条目合计且不得为负", "可用量等于余额减活跃预留", "预留、分配和消耗超过可用量即拒绝", "并发过账使用 expectedCurrentVersion，最多一笔成功", "本切片禁止一切跨维度和跨单位换算", "可用量查询在规则版本或账户版本不匹配时返回 UNKNOWN 并等同阻断"]
+}

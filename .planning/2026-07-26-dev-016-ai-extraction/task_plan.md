@@ -11,7 +11,7 @@
 3. [completed] 创建后继规格（BUS-AI-001~003 + AC-AI-003@1.0.0 + ATC-AI-001@1.0.0，conditional/DISABLED 激活）并 READY。
 4. [completed] 实现 contracts/ai 纯契约 + AiGovernanceRules 纯规则。
 5. [completed] tests/contract/ai 契约测试（Profile=ai）：封套校验、类别提升拒绝、失败关闭隔离、处置原值保留、序列化冻结、确定性。
-6. [in_progress] 完整门禁，CI 全绿后按授权自动提交/PR/合并。
+6. [completed] 完整门禁通过；已按授权自动提交、PR #16、CI 全绿并 squash 合并。
 
 ## 约束
 

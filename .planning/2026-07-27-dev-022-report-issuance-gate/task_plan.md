@@ -10,7 +10,7 @@
 2. [completed] 三个 OD 决策落盘（已完成）+ BUS-RPT-001/002/003 + AC-RPT-001/AC-TRACE-001/AC-ACC-001 + ATC-RPT-001 并 READY。
 3. [completed] contracts/report + src/modules/report 八件套 + 宿主/slnx/verify/OpenAPI/架构测试接线。
 4. [completed] 单元/契约/集成测试（专用 openlims_report_test）。
-5. [in_progress] 完整门禁 + 对抗式评审工作流，CI 全绿后按授权交付。
+5. [completed] 完整门禁 + 对抗式评审工作流，CI 全绿后按授权交付。
 
 ## 关键设计
 

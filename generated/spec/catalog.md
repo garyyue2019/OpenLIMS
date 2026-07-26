@@ -20,6 +20,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `AC-SEC-001@0.1.0` | `acceptance` | `in_review` | 集团内多维越权防护 | `major` | authorization, search, export, object-storage, ai-retrieval, automated-test | `e762dae769c4` |
 | `AC-SEC-001@1.0.0` | `acceptance` | `approved` | 集团内收样多维越权防护 | `major` | authorization, receiving, automated-test, audit | `da7cd0c5db0a` |
 | `AC-TEXTILE-001@1.0.0` | `acceptance` | `approved` | 样品不足与互斥裁样契约验收 | `major` | textile, sample-requirement, destructive-exclusion, automated-test | `5bf4aeacf8ab` |
+| `AC-TEXTILE-003@1.0.0` | `acceptance` | `approved` | 裁样方向与预处理超差契约验收 | `major` | textile, preconditioning, cutting-plan, automated-test | `7f112061a2b3` |
 | `ATC-ALLOC-001@1.0.0` | `story` | `approved` | 实施 DEV-010 任务分配资格 | `major` | allocation, receiving, scope, quantity, eligibility-gate, authorization, audit, outbox, automated-test | `d8e63c13c345` |
 | `ATC-PLT-000@0.1.0` | `story` | `proposed` | 建立可验证的模块化单体工程骨架 | `major` | engineering-skeleton, repository, api-host, worker-host, web-shell, module-boundaries, postgresql, identity, object-storage, outbox, audit, observability, ci, deployment, automated-test | `af9924a0b1fa` |
 | `ATC-PLT-000@1.0.0` | `story` | `proposed` | 建立可验证的模块化单体工程骨架 | `major` | engineering-skeleton, repository, api-host, worker-host, web-shell, module-boundaries, postgresql, identity, object-storage, outbox, audit, observability, ci, deployment, automated-test | `f45a6ee6de5f` |
@@ -44,6 +45,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `ATC-REC-006@2.0.0` | `story` | `approved` | 实施 DEV-007 受控放行与版本固定资格 | `major` | receiving, identity, exception, authorization, audit, outbox, lab-execution-gate, automated-test | `fdf0bc2308e1` |
 | `ATC-SCP-001@1.0.0` | `story` | `approved` | 实施 DEV-008 ScopeLine 生产可用门禁 | `major` | scope, authorization, audit, outbox, production-gate, automated-test | `1ae1eaf0c359` |
 | `ATC-TEX-001@1.0.0` | `story` | `approved` | 实施 DEV-011 纺织样品需求未来适配契约切片 | `major` | textile, sample-requirement, cutting-plan, contracts, serialization, automated-test | `2174f31c3221` |
+| `ATC-TEX-003@1.0.0` | `story` | `approved` | 实施 DEV-012 纺织调湿/洗涤及超差契约切片 | `major` | textile, preconditioning, out-of-tolerance, contracts, serialization, automated-test | `d39d389de0fb` |
 | `BUS-ALLOC-001@1.0.0` | `requirement` | `approved` | 版本固定的 TestObjectAllocation 分配事实 | `major` | allocation, versioning, authorization, audit, outbox | `3eeead680cf1` |
 | `BUS-ALLOC-002@1.0.0` | `requirement` | `approved` | 分配前三端口资格门禁 | `major` | allocation, eligibility-gate, receiving, scope, quantity, audit | `8f439560e509` |
 | `BUS-ALLOC-003@1.0.0` | `requirement` | `approved` | 并发分配与破坏性互斥阻断 | `major` | allocation, concurrency, destructive-exclusion, authorization, audit | `09e85a6926d8` |
@@ -58,6 +60,8 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `BUS-TEX-001@1.0.0` | `requirement` | `approved` | 纺织样品需求契约模型 | `major` | textile, sample-requirement, contracts, serialization | `035fe26c8d89` |
 | `BUS-TEX-002@1.0.0` | `requirement` | `approved` | 互斥裁样与样品不足失败关闭规则 | `major` | textile, sample-requirement, destructive-exclusion, rules | `c03383bc9852` |
 | `BUS-TEX-003@1.0.0` | `requirement` | `approved` | CuttingPlan 序列化契约 | `major` | textile, cutting-plan, contracts, serialization | `f727ac469a11` |
+| `BUS-TEX-004@1.0.0` | `requirement` | `approved` | 调湿与洗涤计划/实际契约模型 | `major` | textile, preconditioning, contracts, serialization | `71df32f58af7` |
+| `BUS-TEX-005@1.0.0` | `requirement` | `approved` | 预处理超差评估与报告阻断规则 | `major` | textile, preconditioning, out-of-tolerance, rules | `4be32afd90e8` |
 | `ED-001@0.1.0` | `decision` | `proposed` | 应用技术栈与工程仓库基线 | `major` | repository, backend, frontend, database, ci, deployment | `1f7d1cb22b55` |
 | `ED-001@1.0.0` | `decision` | `proposed` | 工程技术栈、仓库与版本锁基线 | `major` | repository, backend, frontend, database, ci, non-production-deployment, supply-chain | `0bb0bcc2f006` |
 | `ED-001@2.0.0` | `decision` | `approved` | 已验证的工程技术栈与版本锁基线 | `major` | repository, backend, frontend, database, ci, non-production-deployment, supply-chain | `fad2f23d20bd` |

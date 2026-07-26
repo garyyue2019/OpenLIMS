@@ -1,0 +1,22 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "acceptance",
+  "id": "AC-TEXTILE-003",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "裁样方向与预处理超差契约验收",
+  "summary": "方法要求按经纬方向裁切并规定温湿度调湿时，实际方向缺失或调湿超差必须关联来源布批、CuttingPlan、生成试样、计划/实际条件和超差影响；未获批准前报告不允许。本验收在纯契约层以确定性测试表达。",
+  "owners": ["实验室技术负责人", "质量负责人", "QA负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "AC-TEXTILE-003"}],
+  "depends_on": ["BUS-TEX-003@1.0.0", "BUS-TEX-004@1.0.0", "BUS-TEX-005@1.0.0"],
+  "affects": ["textile", "preconditioning", "cutting-plan", "automated-test"],
+  "change_class": "major",
+  "approval_evidence": "用户于 2026-07-26 选择‘纺织降级为契约切片’并预先批准后续 TEX-002/003 同样处理；在全流程授权下交付本契约。",
+  "scenario": {
+    "given": ["一条要求距布边、经纬方向裁切并按规定温湿度调湿的预处理记录", "记录关联来源布批、CuttingPlan 和生成试样", "实际温度超出显式公差"],
+    "when": ["以纯规则评估计划与实际条件", "在缺少批准引用时检查报告许可", "补充批准引用后重新评估"],
+    "then": ["评估为 OUT_OF_TOLERANCE 并逐字段列明计划值、实际值和偏差", "无批准引用时 reportingAllowed=false", "补充批准引用后 reportingAllowed=true 且超差事实保留", "方向未知或必录字段缺失即校验失败", "序列化往返保持字段与形状冻结"]
+  },
+  "automation": ["纯规则确定性单元断言", "JSON 序列化往返与形状冻结测试", "逐字段偏差与整体判定测试", "报告阻断与批准解锁测试", "UNKNOWN 失败关闭测试"]
+}

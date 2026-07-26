@@ -22,6 +22,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `AC-SEC-001` | `0.1.0` | `in_review` | `spec/acceptance/AC-SEC-001__v0.1.0.json` |
 | `AC-SEC-001` | `1.0.0` | `approved` | `spec/acceptance/AC-SEC-001__v1.0.0.json` |
 | `AC-TEXTILE-001` | `1.0.0` | `approved` | `spec/acceptance/AC-TEXTILE-001__v1.0.0.json` |
+| `AC-TEXTILE-003` | `1.0.0` | `approved` | `spec/acceptance/AC-TEXTILE-003__v1.0.0.json` |
 | `ATC-ALLOC-001` | `1.0.0` | `approved` | `spec/stories/ATC-ALLOC-001__v1.0.0.json` |
 | `ATC-PLT-000` | `0.1.0` | `proposed` | `spec/stories/ATC-PLT-000__v0.1.0.json` |
 | `ATC-PLT-000` | `1.0.0` | `proposed` | `spec/stories/ATC-PLT-000__v1.0.0.json` |
@@ -46,6 +47,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `ATC-REC-006` | `2.0.0` | `approved` | `spec/stories/ATC-REC-006__v2.0.0.json` |
 | `ATC-SCP-001` | `1.0.0` | `approved` | `spec/stories/ATC-SCP-001__v1.0.0.json` |
 | `ATC-TEX-001` | `1.0.0` | `approved` | `spec/stories/ATC-TEX-001__v1.0.0.json` |
+| `ATC-TEX-003` | `1.0.0` | `approved` | `spec/stories/ATC-TEX-003__v1.0.0.json` |
 | `BUS-ALLOC-001` | `1.0.0` | `approved` | `spec/requirements/BUS-ALLOC-001__v1.0.0.json` |
 | `BUS-ALLOC-002` | `1.0.0` | `approved` | `spec/requirements/BUS-ALLOC-002__v1.0.0.json` |
 | `BUS-ALLOC-003` | `1.0.0` | `approved` | `spec/requirements/BUS-ALLOC-003__v1.0.0.json` |
@@ -60,6 +62,8 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `BUS-TEX-001` | `1.0.0` | `approved` | `spec/requirements/BUS-TEX-001__v1.0.0.json` |
 | `BUS-TEX-002` | `1.0.0` | `approved` | `spec/requirements/BUS-TEX-002__v1.0.0.json` |
 | `BUS-TEX-003` | `1.0.0` | `approved` | `spec/requirements/BUS-TEX-003__v1.0.0.json` |
+| `BUS-TEX-004` | `1.0.0` | `approved` | `spec/requirements/BUS-TEX-004__v1.0.0.json` |
+| `BUS-TEX-005` | `1.0.0` | `approved` | `spec/requirements/BUS-TEX-005__v1.0.0.json` |
 | `ED-001` | `0.1.0` | `proposed` | `spec/decisions/ED-001__v0.1.0.json` |
 | `ED-001` | `1.0.0` | `proposed` | `spec/decisions/ED-001__v1.0.0.json` |
 | `ED-001` | `2.0.0` | `approved` | `spec/decisions/ED-001__v2.0.0.json` |

@@ -34,3 +34,9 @@ pwsh -File scripts/verify.ps1 -Profile task -Module textile
 ```
 
 规则为纯函数（无 IO、无时钟、无随机），契约回归由序列化冻结测试在 CI 固定。后续 ATC-TEX-002（CuttingPlan 工作流）与 ATC-TEX-003（调湿/洗涤及超差）在纺织包获批进入发布前同样只应交付契约层。
+
+## DEV-012 追加：调湿/洗涤及超差（OPS-TEXTILE-004 / AC-TEXTILE-003）
+
+- `TextilePreconditioningRecord`：类型（CONDITIONING/WASHING）+ 计划/实际条件分离（温度、时长；调湿另需湿度，洗涤另需程序、洗涤剂、干燥方式）+ 显式公差 + 来源布批/CuttingPlan/生成试样关联链 + 可选超差批准引用。
+- `TextilePreconditioningRules`：逐字段偏差与公差比较；任一超差即 `OUT_OF_TOLERANCE` 并阻断报告（`reportingAllowed=false`）；批准引用只解锁报告许可，超差事实保留；规则集版本未知返回 `UNKNOWN`。
+- ATC-TEX-002（CuttingPlan 工作流）按用户决定跳过——CuttingPlan 契约与校验已在 DEV-011 冻结。

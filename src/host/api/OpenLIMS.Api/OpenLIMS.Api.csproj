@@ -20,5 +20,6 @@
     <ProjectReference Include="../../../modules/billing/OpenLIMS.Modules.Billing/OpenLIMS.Modules.Billing.csproj" />
     <ProjectReference Include="../../../modules/instrument/OpenLIMS.Modules.Instrument/OpenLIMS.Modules.Instrument.csproj" />
     <ProjectReference Include="../../../modules/qc/OpenLIMS.Modules.Qc/OpenLIMS.Modules.Qc.csproj" />
+    <ProjectReference Include="../../../modules/report/OpenLIMS.Modules.Report/OpenLIMS.Modules.Report.csproj" />
   </ItemGroup>
 </Project>

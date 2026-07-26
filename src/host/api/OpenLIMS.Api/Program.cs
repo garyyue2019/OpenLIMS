@@ -9,6 +9,7 @@ using OpenLIMS.Modules.Allocation;
 using OpenLIMS.Modules.Billing;
 using OpenLIMS.Modules.Instrument;
 using OpenLIMS.Modules.Qc;
+using OpenLIMS.Modules.Report;
 using OpenLIMS.Modules.Batch;
 using OpenLIMS.Modules.Labeling;
 using OpenLIMS.Modules.Quantity;
@@ -41,7 +42,8 @@ IOpenLimsServerModule[] modules =
     new ResultModule(deploymentOptions.PostgresConnectionString!),
     new BillingModule(deploymentOptions.PostgresConnectionString!),
     new InstrumentModule(deploymentOptions.PostgresConnectionString!),
-    new QcModule(deploymentOptions.PostgresConnectionString!)
+    new QcModule(deploymentOptions.PostgresConnectionString!),
+    new ReportModule(deploymentOptions.PostgresConnectionString!)
 ];
 var moduleCatalog = OpenLimsModuleCatalog.Create(modules);
 var organizationScope = new OrganizationScope(deploymentOptions.OrganizationGroupId!);
@@ -239,6 +241,12 @@ app.MapGet("/openapi/v1.json", () => Results.Json(new
         ["/api/v1/qc-runs/{id}/release"] = new { post = new { operationId = "releaseQcBlock", responses = new { created = new { description = "Block released once all five gates are satisfied" } } } },
         ["/api/v1/qc-runs/{id}"] = new { get = new { operationId = "getQcRun", responses = new { ok = new { description = "QC run with results, impact scope, gates and deviations" } } } },
         ["/api/v1/qc-runs/{id}/reportability"] = new { get = new { operationId = "getQcReportability", responses = new { ok = new { description = "Version-pinned QC reportability decision for a target" } } } },
+        ["/api/v1/reports"] = new { post = new { operationId = "createReport", responses = new { created = new { description = "Report draft created" } } } },
+        ["/api/v1/reports/{id}/lines"] = new { post = new { operationId = "addReportLine", responses = new { created = new { description = "Report line pinned to a current adoption with its full contribution chain" } } } },
+        ["/api/v1/reports/{id}/gate-evaluation"] = new { post = new { operationId = "evaluateReportGate", responses = new { created = new { description = "Issuance gate evaluated across every upstream source with itemised blockers" } } } },
+        ["/api/v1/reports/{id}/submit-for-approval"] = new { post = new { operationId = "submitReportForApproval", responses = new { created = new { description = "Report advanced to pending approval once the gate allowed it" } } } },
+        ["/api/v1/reports/{id}"] = new { get = new { operationId = "getReport", responses = new { ok = new { description = "Immutable report with lines, contribution chain and gate evaluations" } } } },
+        ["/api/v1/reports/{id}/issuance-gate"] = new { get = new { operationId = "getReportIssuanceGate", responses = new { ok = new { description = "Version-pinned issuance readiness with itemised blockers" } } } },
         ["/api/v1/label-jobs"] = new { post = new { operationId = "createLabelPrintJobs", responses = new { accepted = new { description = "Label print jobs accepted" } } } },
         ["/api/v1/label-jobs/{printJobId}"] = new { get = new { operationId = "getLabelPrintJob", responses = new { ok = new { description = "Label print job state" } } } },
         ["/api/v1/label-jobs/{printJobId}/reprint"] = new { post = new { operationId = "reprintLabel", responses = new { accepted = new { description = "Controlled reprint accepted" } } } },

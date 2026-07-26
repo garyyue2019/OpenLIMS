@@ -1,0 +1,33 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-RPT-001",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "报告装配与报告行全链追溯",
+  "summary": "报告由报告行组成，每行必须引用一个当前有效的结果采用（经 ResultAdoptionPort 门禁固定），并携带完整、无歧义的贡献链引用；报告必须区分实际测试对象、经批准覆盖对象、未评价范围、客户声明与实验室结论五类；报告与报告行为追加式事实。",
+  "owners": ["技术负责人", "质量负责人", "授权签字人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "RPT-TRACE-001"},
+    {"document": "PRD-MAIN", "item": "RPT-SCOPE-001"},
+    {"document": "PRD-MAIN", "item": "RULE-005"}
+  ],
+  "depends_on": ["OD-011@1.0.0", "OD-030@1.0.0", "ATC-RESULT-001@1.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0"],
+  "affects": ["report", "traceability", "result", "scope-partition", "audit"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {
+    "mode": "core",
+    "applicability": "ENABLED",
+    "condition": "DEV-022 报告签发门禁切片启用"
+  },
+  "approval_evidence": "用户于 2026-07-27 定下 OD-011/022/029 与'门禁优先/签署其次'切分并在全流程授权下批准本切片基线。",
+  "invariants": [
+    "每个报告行必须引用恰好一个当前有效的结果采用，且该采用经 ResultAdoptionPort 以 ALLOWED + 精确组版本固定（RPT-TRACE-001、RULE-005）",
+    "报告行必须携带贡献链引用：结果组、采用目标、批次、试样分配、收样项、范围行与要求选择快照，缺任一必需引用即不可签发",
+    "报告行的范围分区恰为五类之一：ACTUAL_TESTED（实际测试对象）、APPROVED_COVERAGE（经批准覆盖对象）、NOT_EVALUATED（未评价范围）、CUSTOMER_DECLARED（客户声明）、LABORATORY_CONCLUSION（实验室结论）（RPT-SCOPE-001）",
+    "同一报告内同一范围行+采用目标不得重复成行，防止重复归属（RULE-005 无歧义要求）",
+    "报告与报告行追加式不可变，由数据库触发器强制（errcode 55000）；事实、平台审计意图与发件箱同事务提交"
+  ]
+}

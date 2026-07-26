@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>OpenLIMS.Contracts.Report</AssemblyName>
+    <RootNamespace>OpenLIMS.Contracts.Report</RootNamespace>
+  </PropertyGroup>
+</Project>

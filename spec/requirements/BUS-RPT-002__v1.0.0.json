@@ -1,0 +1,35 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-RPT-002",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "签发前门禁与逐项阻断说明",
+  "summary": "报告在进入待批准前必须通过签发门禁：计划完整性、结果唯一性、QC 可报告性、收样放行、范围生产资格、分配与批次状态、仪器导入完成度与签字授权逐项校验；每个阻断项必须返回受影响对象、规则版本、原因码与允许的下一步，不得聚合为单一布尔值。",
+  "owners": ["技术负责人", "质量负责人", "授权签字人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "RPT-GATE-001"},
+    {"document": "PRD-MAIN", "item": "RPT-GATE-002"},
+    {"document": "PRD-MAIN", "item": "RULE-010"}
+  ],
+  "depends_on": ["BUS-RPT-001@1.0.0", "ATC-QC-001@1.0.0", "ATC-BATCH-001@1.0.0", "ATC-INST-001@1.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0"],
+  "affects": ["report", "release-gate", "qc", "batch", "result", "instrument", "scope", "receiving"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {
+    "mode": "core",
+    "applicability": "ENABLED",
+    "condition": "DEV-022 报告签发门禁切片启用"
+  },
+  "approval_evidence": "用户于 2026-07-27 定下 OD-011/022/029 与'门禁优先/签署其次'切分并在全流程授权下批准本切片基线。",
+  "invariants": [
+    "门禁逐项评估全部来源：结果采用、QC 可报告性、收样放行、范围生产资格、分配状态、批次状态、仪器导入状态与签字授权（RPT-GATE-001）",
+    "QC 可报告性必须询问涉及该目标的每一个 QC 运行，任一运行 BLOCKED 即该行阻断（IQcReportabilityPort 按运行作用域）",
+    "任一来源端口返回 BLOCKED 或 UNKNOWN 均构成阻断，UNKNOWN 一律视为阻断（失败关闭）",
+    "每个阻断项返回 {受影响对象引用, 规则集版本, 原因码, 允许的下一步}，逐项列出不聚合（RPT-GATE-002）",
+    "跨模块端口调用一律在本模块事务之外完成（gate-then-commit），决策与版本原样固定进门禁评估事实",
+    "EVALUATED 模式报告行必须追溯 ConformityDecision；该对象依赖未决 OD-034，因此门禁对 EVALUATED 行一律阻断并返回明确原因，不得以默认假设放行（PRD 待决事项规则）",
+    "门禁通过才允许进入待批准；门禁评估本身为追加式事实"
+  ]
+}

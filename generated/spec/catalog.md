@@ -8,6 +8,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 
 | 版本键 | 类型 | 状态 | 标题 | 变更级别 | 影响模块 | 指纹 |
 |---|---|---|---|---|---|---|
+| `AC-ACC-001@1.0.0` | `acceptance` | `approved` | 报告行认可门禁 | `major` | report, accreditation, claim, release-gate, automated-test | `d592b7d9d08e` |
 | `AC-AI-003@1.0.0` | `acceptance` | `approved` | AI 输出失败关闭 | `major` | ai, fail-closed, automated-test | `cd7af0fa22c9` |
 | `AC-BATCH-001@1.0.0` | `acceptance` | `approved` | 批次 QC 影响传播 | `major` | batch, qc, freeze-propagation, audit, automated-test | `6edaaa437d6e` |
 | `AC-BILL-001@1.0.0` | `acceptance` | `approved` | 防重复计费 | `major` | billing, audit, automated-test | `8d0d6511cad8` |
@@ -21,11 +22,13 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `AC-REC-001@0.1.0` | `acceptance` | `in_review` | 隔离控制 | `major` | receiving, sample-preparation, task-allocation, audit, automated-test | `8e184359a694` |
 | `AC-REC-001@1.0.0` | `acceptance` | `approved` | 隔离资格统一失败关闭 | `major` | receiving, sample-preparation, task-allocation, audit, automated-test | `9d4fdb3bf6b8` |
 | `AC-RETEST-001@1.0.0` | `acceptance` | `approved` | 复测采用 | `major` | result, retest, adoption, audit, automated-test | `578ffe8b2ade` |
+| `AC-RPT-001@1.0.0` | `acceptance` | `approved` | 签发关口 | `major` | report, release-gate, receiving, qc, signature-authority, automated-test | `1ed56a51a81c` |
 | `AC-SCOPE-001@1.0.0` | `acceptance` | `approved` | ScopeLine 完整链与生产资格门禁 | `major` | test-scope, production-gate, audit, automated-test | `0a563aaed598` |
 | `AC-SEC-001@0.1.0` | `acceptance` | `in_review` | 集团内多维越权防护 | `major` | authorization, search, export, object-storage, ai-retrieval, automated-test | `e762dae769c4` |
 | `AC-SEC-001@1.0.0` | `acceptance` | `approved` | 集团内收样多维越权防护 | `major` | authorization, receiving, automated-test, audit | `da7cd0c5db0a` |
 | `AC-TEXTILE-001@1.0.0` | `acceptance` | `approved` | 样品不足与互斥裁样契约验收 | `major` | textile, sample-requirement, destructive-exclusion, automated-test | `5bf4aeacf8ab` |
 | `AC-TEXTILE-003@1.0.0` | `acceptance` | `approved` | 裁样方向与预处理超差契约验收 | `major` | textile, preconditioning, cutting-plan, automated-test | `7f112061a2b3` |
+| `AC-TRACE-001@1.0.0` | `acceptance` | `approved` | 全链追溯 | `major` | report, traceability, result, release-gate, automated-test | `a99b23ae81a0` |
 | `ATC-AI-001@1.0.0` | `story` | `approved` | 实施 DEV-016 AI 资料抽取与缺口建议契约切片 | `major` | ai, run-control, fact-class, extraction, gap-suggestion, human-review, contracts, serialization, automated-test | `ba2fc8779dce` |
 | `ATC-ALLOC-001@1.0.0` | `story` | `approved` | 实施 DEV-010 任务分配资格 | `major` | allocation, receiving, scope, quantity, eligibility-gate, authorization, audit, outbox, automated-test | `d8e63c13c345` |
 | `ATC-BATCH-001@1.0.0` | `story` | `approved` | 实施 DEV-013 制备/分析批最小切片 | `major` | batch, allocation, qc, raw-data, authorization, audit, outbox, automated-test | `6028422fb5b0` |
@@ -57,6 +60,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `ATC-REC-006@1.0.0` | `story` | `proposed` | 受控解除隔离并发布执行资格 | `major` | receiving, identity, exception, outbox, lab-execution, audit, automated-test | `e40cd4a7c107` |
 | `ATC-REC-006@2.0.0` | `story` | `approved` | 实施 DEV-007 受控放行与版本固定资格 | `major` | receiving, identity, exception, authorization, audit, outbox, lab-execution-gate, automated-test | `fdf0bc2308e1` |
 | `ATC-RESULT-001@1.0.0` | `story` | `approved` | 实施 DEV-014 结果来源与采用 | `major` | result, batch, raw-data, provenance, adoption, retest, authorization, audit, outbox, automated-test | `89ae098800fc` |
+| `ATC-RPT-001@1.0.0` | `story` | `approved` | 实施 DEV-022 报告签发门禁 | `major` | report, release-gate, traceability, accreditation, qc, result, batch, instrument, scope, receiving, audit, outbox, authorization, automated-test | `86ba2b232321` |
 | `ATC-SCP-001@1.0.0` | `story` | `approved` | 实施 DEV-008 ScopeLine 生产可用门禁 | `major` | scope, authorization, audit, outbox, production-gate, automated-test | `1ae1eaf0c359` |
 | `ATC-TEX-001@1.0.0` | `story` | `approved` | 实施 DEV-011 纺织样品需求未来适配契约切片 | `major` | textile, sample-requirement, cutting-plan, contracts, serialization, automated-test | `2174f31c3221` |
 | `ATC-TEX-003@1.0.0` | `story` | `approved` | 实施 DEV-012 纺织调湿/洗涤及超差契约切片 | `major` | textile, preconditioning, out-of-tolerance, contracts, serialization, automated-test | `d39d389de0fb` |
@@ -89,6 +93,9 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `BUS-RES-001@1.0.0` | `requirement` | `approved` | 不可变结果观测与原始证据引用 | `major` | result, raw-data, batch, versioning, audit, outbox | `9a52d7f4d3a1` |
 | `BUS-RES-002@1.0.0` | `requirement` | `approved` | 追加式结果来源图 | `major` | result, provenance, versioning, audit | `236b56d1fb85` |
 | `BUS-RES-003@1.0.0` | `requirement` | `approved` | 预先采用规则与唯一有效采用结果 | `major` | result, adoption, retest, versioning, audit | `5259ecca35c5` |
+| `BUS-RPT-001@1.0.0` | `requirement` | `approved` | 报告装配与报告行全链追溯 | `major` | report, traceability, result, scope-partition, audit | `1649d6809ee6` |
+| `BUS-RPT-002@1.0.0` | `requirement` | `approved` | 签发前门禁与逐项阻断说明 | `major` | report, release-gate, qc, batch, result, instrument, scope, receiving | `b4c0d447f99e` |
+| `BUS-RPT-003@1.0.0` | `requirement` | `approved` | 行级认可校验与混合范围报告 | `major` | report, accreditation, release-gate, claim | `7299643d02f1` |
 | `BUS-SCOPE-001@1.0.0` | `requirement` | `approved` | 版本化 TestScopeMatrix 批准基线 | `major` | test-scope, versioning, authorization, audit, outbox | `b1fc752a6298` |
 | `BUS-SCOPE-002@1.0.0` | `requirement` | `approved` | ScopeLine 完整引用与 EvaluationMode 条件语义 | `major` | scope-line, method, sample-requirement, evaluation, production-gate | `b416895da744` |
 | `BUS-SCOPE-003@1.0.0` | `requirement` | `approved` | 未经批准候选不得获得生产资格 | `major` | production-gate, quotation-candidate, ai-candidate, authorization, audit | `7fc3f3b546ee` |
@@ -114,11 +121,14 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `OD-009@0.1.0` | `decision` | `proposed` | 收到实物唯一识别粒度 | `major` | receiving, identifier, barcode, lineage | `962080700bba` |
 | `OD-009@1.0.0` | `decision` | `approved` | 试点玩具收到实物唯一识别粒度 | `major` | receiving, identifier, barcode, lineage, toy-pilot | `d207509591d2` |
 | `OD-010@1.0.0` | `decision` | `approved` | DEV-009 数量账户计量口径与轻量过账 | `major` | quantity, measurement, authorization, audit, outbox | `5c8856d87619` |
+| `OD-011@1.0.0` | `decision` | `approved` | DEV-022 适用认可体系、电子记录与报告保留 | `major` | report, accreditation, electronic-signature, electronic-record, retention, release-gate | `bc85a331e27c` |
 | `OD-020@0.1.0` | `decision` | `proposed` | 容量、并发与部署拓扑基线 | `major` | architecture, performance, availability, disaster-recovery | `aec2558b472f` |
+| `OD-022@1.0.0` | `decision` | `approved` | DEV-022 报告更正、补充、撤回、作废与替代语义 | `major` | report, version-chain, correction, withdrawal, supersession, delivery | `6a378b2d1dc9` |
 | `OD-025@0.1.0` | `decision` | `proposed` | 平台内核、行业包与技术包边界 | `major` | modular-monolith, industry-packs, technical-packs, configuration | `d29f5f9dc805` |
 | `OD-027@0.1.0` | `decision` | `proposed` | TestScopeMatrix 范围行粒度与变更影响 | `major` | test-scope, quotation, planning, reporting | `3b8ac36dfd16` |
 | `OD-027@1.0.0` | `decision` | `approved` | DEV-008 ScopeLine 最小粒度与轻量批准 | `major` | test-scope, production-gate, authorization, audit, outbox | `ba8bd756a337` |
 | `OD-029@0.1.0` | `decision` | `proposed` | 认可范围数据粒度与签发门禁 | `major` | accreditation, result-review, reporting, signature | `85e197b51ea7` |
+| `OD-029@1.0.0` | `decision` | `approved` | DEV-022 认可范围数据粒度与行级签发门禁 | `major` | accreditation, result-review, reporting, signature, release-gate | `18d466483a2c` |
 | `OD-030@0.1.0` | `decision` | `proposed` | 各方法族最小执行记录与外部系统边界 | `major` | execution, batch, qc, raw-data, instrument-integration | `03dbc6d00f58` |
 | `OD-030@1.0.0` | `decision` | `approved` | DEV-013 最小执行记录与外部系统边界 | `major` | execution, batch, qc, raw-data, instrument-integration | `15d19e324c5b` |
 | `OD-031@0.1.0` | `decision` | `proposed` | 首期条码、移动流程和仪器接口清单 | `major` | barcode, mobile, instrument-integration, validation-data | `3626d4882314` |

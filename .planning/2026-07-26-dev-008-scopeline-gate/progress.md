@@ -56,3 +56,5 @@
 - Phase 6 门禁全部完成；按约束等待用户的提交/推送指令。
 - 用户指示提交并推送；已提交 `d84a79d`（59 个文件，全部在 allowed_paths 内，无构建产物），推送到 `origin/codex/dev-008-scopeline-gate`。
 - 本机无 `gh` CLI；使用 git 凭据经 GitHub API 创建 PR：https://github.com/garyyue2019/OpenLIMS/pull/8。Phase 6 完成，等待远端 CI 与合并。
+- 用户指示合并；PR #8 以 squash 方式合并为 `main@33fc357`，标题沿用既往 `(#N)` 惯例，远端分支按惯例保留。
+- 合并后 main 的 Specification governance 与 Application CI 均 success；本地 main 已快进并切换，DEV-008 全部完成。

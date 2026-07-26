@@ -11,7 +11,7 @@
 3. [completed] 创建后继规格与任务卡，生成派生物并 READY。
 4. [completed] 在 contracts/textile 内扩展预处理契约与纯规则。
 5. [completed] 契约测试（计划/实际、超差评估、报告阻断、序列化冻结）。
-6. [in_progress] 完整门禁，CI 全绿后按授权自动提交/PR/合并。
+6. [completed] 完整门禁通过；已按授权自动提交、PR #12、CI 全绿并 squash 合并为 `main@fc17aea`。
 
 ## 约束
 

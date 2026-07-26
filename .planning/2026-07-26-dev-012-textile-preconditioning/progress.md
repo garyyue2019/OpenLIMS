@@ -10,3 +10,4 @@
 - 已扩展 contracts/textile：TextilePreconditioningRecord（计划/实际分离 + 关联链 + 显式公差 + 批准引用）与 TextilePreconditioningRules 纯规则；新增 8 个契约测试（Textile 合计 17/17）。
 - 全量门禁：strict validate、SOURCE CURRENT、HISTORY PASSED、check、written=0、locked restore、全解决方案 20 个测试项目全部通过（含 Textile 17）。
 - 路径审计：23 个变更文件全部在 allowed_paths，outside_allowed=0。按授权自动提交/PR/合并。
+- PR #12 CI 全绿后按授权以 squash 合并为 `main@fc17aea`；本地 main 已快进。main 现包含 12 个已交付切片，DEV-012 全部完成。

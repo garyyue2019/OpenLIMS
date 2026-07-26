@@ -532,6 +532,7 @@
           "OpenLIMS.BuildingBlocks.Platform": "[1.0.0, )",
           "OpenLIMS.Contracts.Platform": "[1.0.0, )",
           "OpenLIMS.Modules.Labeling": "[1.0.0, )",
+          "OpenLIMS.Modules.Quantity": "[1.0.0, )",
           "OpenLIMS.Modules.Receiving": "[1.0.0, )",
           "OpenLIMS.Modules.Scope": "[1.0.0, )",
           "OpenTelemetry.Extensions.Hosting": "[1.17.0, )",
@@ -556,6 +557,9 @@
       "openlims.contracts.platform": {
         "type": "Project"
       },
+      "openlims.contracts.quantity": {
+        "type": "Project"
+      },
       "openlims.contracts.receiving": {
         "type": "Project"
       },
@@ -570,6 +574,15 @@
           "OpenLIMS.Contracts.Labeling": "[1.0.0, )",
           "OpenLIMS.Contracts.Platform": "[1.0.0, )",
           "OpenLIMS.Contracts.Receiving": "[1.0.0, )"
+        }
+      },
+      "openlims.modules.quantity": {
+        "type": "Project",
+        "dependencies": {
+          "Npgsql": "[10.0.3, )",
+          "OpenLIMS.BuildingBlocks.Platform": "[1.0.0, )",
+          "OpenLIMS.Contracts.Platform": "[1.0.0, )",
+          "OpenLIMS.Contracts.Quantity": "[1.0.0, )"
         }
       },
       "openlims.modules.receiving": {
@@ -603,6 +616,7 @@
           "OpenLIMS.BuildingBlocks.Platform": "[1.0.0, )",
           "OpenLIMS.Contracts.Platform": "[1.0.0, )",
           "OpenLIMS.Modules.Labeling": "[1.0.0, )",
+          "OpenLIMS.Modules.Quantity": "[1.0.0, )",
           "OpenLIMS.Modules.Receiving": "[1.0.0, )",
           "OpenLIMS.Modules.Scope": "[1.0.0, )",
           "OpenTelemetry.Extensions.Hosting": "[1.17.0, )"

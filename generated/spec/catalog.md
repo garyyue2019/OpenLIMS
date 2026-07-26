@@ -12,6 +12,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `AC-DEPLOY-001@1.0.0` | `acceptance` | `in_review` | 集团间独立数据平面真实交叉访问验收 | `major` | deployment-test, runtime-security-test, identity-test, telemetry-test, disaster-recovery, infrastructure-evidence | `d09e3a7d43b1` |
 | `AC-ID-001@0.1.0` | `acceptance` | `in_review` | 身份错配 | `major` | identity, exception, conditional-acceptance, audit, automated-test | `a56a740130e6` |
 | `AC-ID-001@1.0.0` | `acceptance` | `approved` | 身份评估三层事实和冲突事件 | `major` | identity-assessment, receiving, audit, automated-test | `8bc40f09987e` |
+| `AC-QTY-001@1.0.0` | `acceptance` | `approved` | 并发超分配阻断与不可变流水链 | `major` | quantity, concurrency, availability-gate, audit, automated-test | `2491d853f11e` |
 | `AC-REC-001@0.1.0` | `acceptance` | `in_review` | 隔离控制 | `major` | receiving, sample-preparation, task-allocation, audit, automated-test | `8e184359a694` |
 | `AC-REC-001@1.0.0` | `acceptance` | `approved` | 隔离资格统一失败关闭 | `major` | receiving, sample-preparation, task-allocation, audit, automated-test | `9d4fdb3bf6b8` |
 | `AC-SCOPE-001@1.0.0` | `acceptance` | `approved` | ScopeLine 完整链与生产资格门禁 | `major` | test-scope, production-gate, audit, automated-test | `0a563aaed598` |
@@ -20,6 +21,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `ATC-PLT-000@0.1.0` | `story` | `proposed` | 建立可验证的模块化单体工程骨架 | `major` | engineering-skeleton, repository, api-host, worker-host, web-shell, module-boundaries, postgresql, identity, object-storage, outbox, audit, observability, ci, deployment, automated-test | `af9924a0b1fa` |
 | `ATC-PLT-000@1.0.0` | `story` | `proposed` | 建立可验证的模块化单体工程骨架 | `major` | engineering-skeleton, repository, api-host, worker-host, web-shell, module-boundaries, postgresql, identity, object-storage, outbox, audit, observability, ci, deployment, automated-test | `f45a6ee6de5f` |
 | `ATC-PLT-003@1.0.0` | `story` | `approved` | 建立业务模块接入与验证通道 | `major` | module-composition, api-host, worker-host, web-composition, architecture-tests, verification | `b2a7af44a3db` |
+| `ATC-QTY-001@1.0.0` | `story` | `approved` | 实施 DEV-009 不可变数量流水与并发预留 | `major` | quantity, authorization, audit, outbox, availability-gate, automated-test | `29b0d4a4add0` |
 | `ATC-REC-001@0.1.0` | `story` | `proposed` | 登记到货批、包装单元和收到实物 | `minor` | receiving, authorization, audit, receiving-ui, automated-test | `9b8952decd3e` |
 | `ATC-REC-001@1.0.0` | `story` | `proposed` | 登记到货批、包装单元和收到实物 | `minor` | receiving, authorization, audit, receiving-ui, automated-test | `2c78ba34a872` |
 | `ATC-REC-001@2.0.0` | `story` | `approved` | 登记到货批、包装单元和收到实物 | `major` | receiving, authorization, audit, outbox, receiving-ui, automated-test | `5f5d2d7c7e2f` |
@@ -39,6 +41,9 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `ATC-REC-006@2.0.0` | `story` | `approved` | 实施 DEV-007 受控放行与版本固定资格 | `major` | receiving, identity, exception, authorization, audit, outbox, lab-execution-gate, automated-test | `fdf0bc2308e1` |
 | `ATC-SCP-001@1.0.0` | `story` | `approved` | 实施 DEV-008 ScopeLine 生产可用门禁 | `major` | scope, authorization, audit, outbox, production-gate, automated-test | `1ae1eaf0c359` |
 | `BUS-PROD-003@0.1.0` | `requirement` | `in_review` | 被业务引用的产品版本禁止原地修改 | `major` | product, product-variant, versioning, impact-analysis, evidence | `faf2128cf612` |
+| `BUS-QTY-001@1.0.0` | `requirement` | `approved` | 不可变数量流水与冲销重记 | `major` | quantity, versioning, authorization, audit, outbox | `47e4cca52ccf` |
+| `BUS-QTY-002@1.0.0` | `requirement` | `approved` | 账户级计量维度、精度与守恒公差配置 | `major` | quantity, measurement, authorization, audit | `a35cedb07b7f` |
+| `BUS-QTY-003@1.0.0` | `requirement` | `approved` | 负余额、超分配与并发预留阻断 | `major` | quantity, concurrency, availability-gate, authorization, audit | `519b56d09ba9` |
 | `BUS-REQ-003@0.1.0` | `requirement` | `in_review` | 要求更新生成影响清单且不改写冻结委托 | `major` | requirements, impact-analysis, service-order, report-template, migration | `344c1c5fe26c` |
 | `BUS-SCOPE-001@1.0.0` | `requirement` | `approved` | 版本化 TestScopeMatrix 批准基线 | `major` | test-scope, versioning, authorization, audit, outbox | `b1fc752a6298` |
 | `BUS-SCOPE-002@1.0.0` | `requirement` | `approved` | ScopeLine 完整引用与 EvaluationMode 条件语义 | `major` | scope-line, method, sample-requirement, evaluation, production-gate | `b416895da744` |
@@ -58,6 +63,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `OD-005@1.0.0` | `decision` | `approved` | DEV-006 精简条件接收与异常审批矩阵 | `major` | receiving, identity, exception, authorization, audit | `3796fceb3efe` |
 | `OD-009@0.1.0` | `decision` | `proposed` | 收到实物唯一识别粒度 | `major` | receiving, identifier, barcode, lineage | `962080700bba` |
 | `OD-009@1.0.0` | `decision` | `approved` | 试点玩具收到实物唯一识别粒度 | `major` | receiving, identifier, barcode, lineage, toy-pilot | `d207509591d2` |
+| `OD-010@1.0.0` | `decision` | `approved` | DEV-009 数量账户计量口径与轻量过账 | `major` | quantity, measurement, authorization, audit, outbox | `5c8856d87619` |
 | `OD-020@0.1.0` | `decision` | `proposed` | 容量、并发与部署拓扑基线 | `major` | architecture, performance, availability, disaster-recovery | `aec2558b472f` |
 | `OD-025@0.1.0` | `decision` | `proposed` | 平台内核、行业包与技术包边界 | `major` | modular-monolith, industry-packs, technical-packs, configuration | `d29f5f9dc805` |
 | `OD-027@0.1.0` | `decision` | `proposed` | TestScopeMatrix 范围行粒度与变更影响 | `major` | test-scope, quotation, planning, reporting | `3b8ac36dfd16` |

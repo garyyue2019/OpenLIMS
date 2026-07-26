@@ -13,5 +13,6 @@
     <ProjectReference Include="../../../modules/receiving/OpenLIMS.Modules.Receiving/OpenLIMS.Modules.Receiving.csproj" />
     <ProjectReference Include="../../../modules/labeling/OpenLIMS.Modules.Labeling/OpenLIMS.Modules.Labeling.csproj" />
     <ProjectReference Include="../../../modules/scope/OpenLIMS.Modules.Scope/OpenLIMS.Modules.Scope.csproj" />
+    <ProjectReference Include="../../../modules/quantity/OpenLIMS.Modules.Quantity/OpenLIMS.Modules.Quantity.csproj" />
   </ItemGroup>
 </Project>

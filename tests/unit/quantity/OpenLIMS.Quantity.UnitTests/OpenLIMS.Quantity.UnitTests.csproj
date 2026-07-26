@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>OpenLIMS.Quantity.UnitTests</AssemblyName>
+    <RootNamespace>OpenLIMS.Quantity.UnitTests</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+    <ProjectReference Include="../../../../src/modules/quantity/OpenLIMS.Modules.Quantity/OpenLIMS.Modules.Quantity.csproj" />
+    <ProjectReference Include="../../../../contracts/quantity/OpenLIMS.Contracts.Quantity/OpenLIMS.Contracts.Quantity.csproj" />
+    <ProjectReference Include="../../../../contracts/platform/OpenLIMS.Contracts.Platform/OpenLIMS.Contracts.Platform.csproj" />
+  </ItemGroup>
+</Project>

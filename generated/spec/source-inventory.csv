@@ -30,7 +30,7 @@ PRD-MAIN,AC-LONGRUN-001,acceptance-block,19.2 收样、拆解和谱系,1199,长�
 PRD-MAIN,AC-PAY-001,acceptance-block,19.4 发票、应收和对账,1244,收款最终性,608904ee5fd74c97253c0abf399ac4ea50c2cadc3b0f2f3ae6f40624ef0c22d2,
 PRD-MAIN,AC-PROD-001,acceptance-block,19.1 产品、AI 和报价,1122,对象区分,3c97f0e25d1f07effbce046584fc6453f88281b2af632413c8ab1332beb0b658,
 PRD-MAIN,AC-QC-001,acceptance-block,19.3 检测、QC 和报告,1213,QC 阻断,3fb399d4e09306619dc091c62a8cf9332415c116ab435d125c5e6a86f71bb287,
-PRD-MAIN,AC-QTY-001,acceptance-block,19.2 收样、拆解和谱系,1151,并发超分配,7181e6405ac3b428de292379613393cde5ccc667b848aae38b9c2e4681fd47c0,
+PRD-MAIN,AC-QTY-001,acceptance-block,19.2 收样、拆解和谱系,1151,并发超分配,7181e6405ac3b428de292379613393cde5ccc667b848aae38b9c2e4681fd47c0,AC-QTY-001@1.0.0;ATC-QTY-001@1.0.0
 PRD-MAIN,AC-QTY-002,acceptance-block,19.2 收样、拆解和谱系,1154,允许损耗,e0105ab2978b889b752a46a36235fa35847f99ee837ea38f68ab1b144b4c786f,
 PRD-MAIN,AC-QUOTE-001,acceptance-block,19.1 产品、AI 和报价,1134,近似与正式报价分离,b6daa626666efa3681e0b60d38b5d3beed5391d09ede99f663e4eef1d4e4e531,
 PRD-MAIN,AC-REC-001,acceptance-block,19.2 收样、拆解和谱系,1139,隔离控制,8f4060da7e31c38cd465032f764298fe9bed0ee06b450bbea3ccd03a71eb91da,AC-REC-001@0.1.0;AC-REC-001@1.0.0;ATC-REC-003@0.1.0;ATC-REC-003@1.0.0;ATC-REC-003@2.0.0;ATC-REC-006@2.0.0
@@ -82,7 +82,7 @@ PRD-MAIN,BP-014,table-row,5. 业务原则,168,客户 BOM、图片、AI 推断或
 PRD-MAIN,BP-015,table-row,5. 业务原则,169,标准发布日期、实施日期、废止/替代、过渡期、客户指定版和委托冻结版必须分别管理；新版本不得静默改变进行中委托,13849fd9aa5fa2f39bada2f6f611012d021c7eb227a30a84357646b177c041bc,
 PRD-MAIN,BP-016,table-row,5. 业务原则,170,代表性覆盖必须记录被测对象、被覆盖对象、危险域/项目范围、依据、批准人、排除项和失效条件,7124328af516982ad22b018158cc3c736383122e2ac49ab20aabb9e176497a32,
 PRD-MAIN,BP-017,table-row,5. 业务原则,171,原始/计算结果、符合性判定和已测试范围结论必须分层；外部或另行授权的全面法规评估/认证状态只可作为独立受控引用，不得由检测报告自动推导，检测报告不得等同于认证证书或全面合规声明,62377e2147866beb0d9b6bc65143968b9640e58bccb1c9e58c8f794860b4393c,
-PRD-MAIN,BP-018,table-row,5. 业务原则,172,样品追踪粒度、计量维度和守恒精度按方法风险配置；不得对非破坏性或不可合理计量场景制造伪精确数量,c81bae0b8328000c5bb801b7f02c53cbb2dbb53412c30d88f9f67297ca565e1a,
+PRD-MAIN,BP-018,table-row,5. 业务原则,172,样品追踪粒度、计量维度和守恒精度按方法风险配置；不得对非破坏性或不可合理计量场景制造伪精确数量,c81bae0b8328000c5bb801b7f02c53cbb2dbb53412c30d88f9f67297ca565e1a,BUS-QTY-002@1.0.0
 PRD-MAIN,BP-019,table-row,5. 业务原则,173,行业包和技术包不得另建平行的委托、结果、报告、权限或审计状态机，也不得绕过平台关口,b73f6b1ad86b8f08ad15e6cee5f72260d2e2de466f0926d8f4289b81bcb23a76,
 PRD-MAIN,BP-020,table-row,5. 业务原则,174,认可标识和授权必须按报告行涉及的实验室、方法版本、产品/基质、参数/量程、有效期和签字人校验，不得使用机构级布尔值替代,9d918742a05a751fc1c708f02599c75c6409a3d09864617cb4c7aab235852fff,
 PRD-MAIN,BUS-CAP-001,table-row,12.1 范围、产品与结构,692,系统必须在正式报价前记录实验室能力、认可范围、方法、人员/设备、分包、样品量、交期和保密评审结果,50ec533080267a33bc75342ec02df8ee74d225093bc7bf2f9f9f2a04b327f169,
@@ -226,7 +226,7 @@ PRD-MAIN,OD-006,table-row,23. 明确待决策事项,1452,客户 BOM 和图片的
 PRD-MAIN,OD-007,table-row,23. 明确待决策事项,1453,AI 近似报价 BOM 的首期品类、人工复核阈值和业务停止条件,9fa8dfe21710408de84053ba92af994e77b463b6eef44bd4354bfa39c5d90022,
 PRD-MAIN,OD-008,table-row,23. 明确待决策事项,1454,逻辑产品 BOM 与检测分解的批准岗位及变更影响规则,b618cbec80e9a21fbbb9c077055aa50d77ffb42fbcdebc45876799a3046d91c1,
 PRD-MAIN,OD-009,table-row,23. 明确待决策事项,1455,收到的实物唯一识别粒度按件、序列号、包装或同质组如何决定,34b3188b79c0e362e82833dfa41a70174e5028d226016385ddc76901e1964ac7,ATC-REC-001@2.0.0;OD-009@0.1.0;OD-009@1.0.0
-PRD-MAIN,OD-010,table-row,23. 明确待决策事项,1456,各样品类型的计量维度、精度、损耗和容差,58d1f16668067087e90042ff5a89ab5cfe8d78356ebda1f5f10450e22dc203d0,
+PRD-MAIN,OD-010,table-row,23. 明确待决策事项,1456,各样品类型的计量维度、精度、损耗和容差,58d1f16668067087e90042ff5a89ab5cfe8d78356ebda1f5f10450e22dc203d0,ATC-QTY-001@1.0.0;OD-010@1.0.0
 PRD-MAIN,OD-011,table-row,23. 明确待决策事项,1457,适用认可体系、电子记录、电子签名、报告保留和撤回规则,9587de5de83003b910f2539f84a98cc768fa17cbb27e03fdc2707565801d6590,
 PRD-MAIN,OD-012,table-row,23. 明确待决策事项,1458,方法、规格、资质、人员资格和设备状态的权威来源,2e1fa8ddbe587214fb7394eb0daf94eb1f96da4cd71dbf94166405f649f68b19,
 PRD-MAIN,OD-013,table-row,23. 明确待决策事项,1459,分包方必须回传正式报告、原始数据、QC、偏差和处置证明中的哪些内容,bcd2470daebc9a0784dd71e510f7bb6879bfe62bee31d17073d09d2bcbce9ca7,
@@ -290,13 +290,13 @@ PRD-MAIN,OPS-GROUP-001,table-row,12.5 谱系、数量和任务分配,803,Receive
 PRD-MAIN,OPS-IDENTITY-001,table-row,12.4 收样、身份和拆解,746,系统必须分别保存客户声明身份、实验室观察身份和匹配结论,1186729cc44cf6f13e74ac666fc09f3001f90bc5ce1bfdbfb577f6e61fded98f,ATC-REC-003@2.0.0;ATC-REC-004@0.1.0;ATC-REC-004@1.0.0;OD-035@1.0.0;OPS-IDENTITY-001@0.1.0;OPS-IDENTITY-001@1.0.0
 PRD-MAIN,OPS-IDENTITY-002,table-row,12.4 收样、身份和拆解,747,系统必须使每个可检测实物关联其实际送检项、实际变体/特征和适用受试配置；同一实物可映射其真实多个部件/材料特征，但不得借身份映射代表未收到型号，归属歧义时必须阻断,54f7c368e0c5d2e9bfef8fad15204a6a693a6fbd3bda1c59b63df3c094b736c0,ATC-REC-003@2.0.0;ATC-REC-004@0.1.0;ATC-REC-004@1.0.0;OD-035@1.0.0;OPS-IDENTITY-002@0.1.0;OPS-IDENTITY-002@1.0.0
 PRD-MAIN,OPS-IDENTITY-003,table-row,12.4 收样、身份和拆解,748,系统必须阻止未匹配、身份待定、隔离、拒收或安全封存对象进入制样和检测,d601328d0279f11d9750c7ca7efba283114d28b738fd2d153f9fc5fbefc0833a,ATC-REC-003@0.1.0;ATC-REC-003@1.0.0;ATC-REC-003@2.0.0;ATC-REC-006@0.1.0;ATC-REC-006@1.0.0;ATC-REC-006@2.0.0;OD-035@1.0.0;OPS-IDENTITY-003@0.1.0;OPS-IDENTITY-003@1.0.0
-PRD-MAIN,OPS-LIN-001,table-row,12.5 谱系、数量和任务分配,792,系统必须分别管理产品语义关系、物理来源关系、任务使用关系、数量流水和保管责任链,8c05655a152f3bfe3c3ae0040ca133ffac69fc43e6433f6974e8b097afefa478,
+PRD-MAIN,OPS-LIN-001,table-row,12.5 谱系、数量和任务分配,792,系统必须分别管理产品语义关系、物理来源关系、任务使用关系、数量流水和保管责任链,8c05655a152f3bfe3c3ae0040ca133ffac69fc43e6433f6974e8b097afefa478,BUS-QTY-001@1.0.0
 PRD-MAIN,OPS-LIN-002,table-row,12.5 谱系、数量和任务分配,793,系统必须禁止物理谱系循环、自引用和无授权换父,ea70768bb5f53a87f48161361f27f1bb1ab848f8c664d70c7b2860c64e8f81e6,
 PRD-MAIN,OPS-LIN-003,table-row,12.5 谱系、数量和任务分配,794,系统必须支持多来源复合样和一试样多次非破坏性使用,2e7d1d427b2850c804fcdf6495b5866bed5b0b8bec7b88c23be79b44eac56430,
-PRD-MAIN,OPS-QTY-001,table-row,12.5 谱系、数量和任务分配,795,系统必须使用不可变数量流水记录收货、产出、预留、分配、消耗、归还、损耗和处置,705ab67a4f520766972c55056a5b3364bfc1539d8bd2a9e1bea469d44a7653c6,
-PRD-MAIN,OPS-QTY-002,table-row,12.5 谱系、数量和任务分配,796,系统必须按对象配置计量维度、单位、测量方法、精度、允许损耗和守恒公差,09ba863f4ddf78cb15c33c6a499e66212335aa6313f248686c61b9d59ff9053f,
-PRD-MAIN,OPS-QTY-003,table-row,12.5 谱系、数量和任务分配,797,系统必须阻止负余额、超分配和无依据跨物理量换算,359f7746c28e69d08ea427d2b617a63b0230afcbf92139a03481f011b1b69f4a,
-PRD-MAIN,OPS-QTY-004,table-row,12.5 谱系、数量和任务分配,798,系统必须通过冲销和重记更正已过账数量流水,62e8771a4a6111ac841db861299083bbb1180b1adc148eda8e4ed84f0a87098d,
+PRD-MAIN,OPS-QTY-001,table-row,12.5 谱系、数量和任务分配,795,系统必须使用不可变数量流水记录收货、产出、预留、分配、消耗、归还、损耗和处置,705ab67a4f520766972c55056a5b3364bfc1539d8bd2a9e1bea469d44a7653c6,ATC-QTY-001@1.0.0;BUS-QTY-001@1.0.0
+PRD-MAIN,OPS-QTY-002,table-row,12.5 谱系、数量和任务分配,796,系统必须按对象配置计量维度、单位、测量方法、精度、允许损耗和守恒公差,09ba863f4ddf78cb15c33c6a499e66212335aa6313f248686c61b9d59ff9053f,ATC-QTY-001@1.0.0;BUS-QTY-002@1.0.0
+PRD-MAIN,OPS-QTY-003,table-row,12.5 谱系、数量和任务分配,797,系统必须阻止负余额、超分配和无依据跨物理量换算,359f7746c28e69d08ea427d2b617a63b0230afcbf92139a03481f011b1b69f4a,ATC-QTY-001@1.0.0;BUS-QTY-003@1.0.0
+PRD-MAIN,OPS-QTY-004,table-row,12.5 谱系、数量和任务分配,798,系统必须通过冲销和重记更正已过账数量流水,62e8771a4a6111ac841db861299083bbb1180b1adc148eda8e4ed84f0a87098d,ATC-QTY-001@1.0.0;BUS-QTY-001@1.0.0
 PRD-MAIN,OPS-RECEIPT-001,table-row,12.4 收样、身份和拆解,743,系统必须分别登记到货批、包装单元和收到的实物,7c5ac0cbc8b80f7778fdc3240ffd9bd7633839bacefe88c4896b3ebc05cad965,ATC-REC-001@0.1.0;ATC-REC-001@1.0.0;ATC-REC-001@2.0.0;OPS-RECEIPT-001@0.1.0;OPS-RECEIPT-001@1.0.0
 PRD-MAIN,OPS-RECEIPT-002,table-row,12.4 收样、身份和拆解,744,系统必须为每个包装单元和收到的实物分配唯一标识,5d23e65500b33f3b281878f7ddcb2400a6b44748d2509ed551723a9a6422a96f,ATC-REC-002@0.1.0;ATC-REC-002@1.0.0;ATC-REC-002@2.0.0;OPS-RECEIPT-002@0.1.0;OPS-RECEIPT-002@1.0.0
 PRD-MAIN,OPS-RECEIPT-003,table-row,12.4 收样、身份和拆解,745,系统必须在身份评估完成前保持实物隔离,389923bc1881370792e1984f9e1bf9f994f3341583475592c9b903bedb3b12e8,ATC-REC-003@0.1.0;ATC-REC-003@1.0.0;ATC-REC-003@2.0.0;ATC-REC-006@0.1.0;ATC-REC-006@1.0.0;ATC-REC-006@2.0.0;OD-035@1.0.0;OPS-RECEIPT-003@0.1.0;OPS-RECEIPT-003@1.0.0

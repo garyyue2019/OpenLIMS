@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>OpenLIMS.Modules.Quantity</AssemblyName>
+    <RootNamespace>OpenLIMS.Modules.Quantity</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Npgsql" />
+    <ProjectReference Include="../../../../contracts/quantity/OpenLIMS.Contracts.Quantity/OpenLIMS.Contracts.Quantity.csproj" />
+    <ProjectReference Include="../../../building-blocks/OpenLIMS.BuildingBlocks.Platform/OpenLIMS.BuildingBlocks.Platform.csproj" />
+    <ProjectReference Include="../../../../contracts/platform/OpenLIMS.Contracts.Platform/OpenLIMS.Contracts.Platform.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="OpenLIMS.Quantity.UnitTests" />
+    <InternalsVisibleTo Include="OpenLIMS.Quantity.IntegrationTests" />
+    <InternalsVisibleTo Include="OpenLIMS.Quantity.ContractTests" />
+  </ItemGroup>
+</Project>

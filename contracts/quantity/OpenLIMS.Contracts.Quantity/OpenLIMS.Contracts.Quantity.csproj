@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>OpenLIMS.Contracts.Quantity</AssemblyName>
+    <RootNamespace>OpenLIMS.Contracts.Quantity</RootNamespace>
+  </PropertyGroup>
+</Project>

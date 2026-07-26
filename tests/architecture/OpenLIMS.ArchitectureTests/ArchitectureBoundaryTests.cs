@@ -93,6 +93,7 @@ public sealed partial class ArchitectureBoundaryTests
             Path.Combine(RepositoryRoot, "contracts", "receiving"),
             Path.Combine(RepositoryRoot, "contracts", "labeling"),
             Path.Combine(RepositoryRoot, "contracts", "scope"),
+            Path.Combine(RepositoryRoot, "contracts", "quantity"),
             Path.Combine(RepositoryRoot, "src", "modules")
         };
         var violations = contractRoots
@@ -128,6 +129,7 @@ public sealed partial class ArchitectureBoundaryTests
         Assert.All(hostPrograms, program => Assert.Matches(ReceivingModuleManifestPattern(), File.ReadAllText(program)));
         Assert.All(hostPrograms, program => Assert.Contains("new LabelingModule(", File.ReadAllText(program), StringComparison.Ordinal));
         Assert.All(hostPrograms, program => Assert.Contains("new ScopeModule(", File.ReadAllText(program), StringComparison.Ordinal));
+        Assert.All(hostPrograms, program => Assert.Contains("new QuantityModule(", File.ReadAllText(program), StringComparison.Ordinal));
         Assert.All(hostPrograms, program => Assert.DoesNotContain("Assembly.Load", File.ReadAllText(program), StringComparison.Ordinal));
     }
 
@@ -168,6 +170,19 @@ public sealed partial class ArchitectureBoundaryTests
 
         Assert.NotEmpty(sql);
         Assert.All(sql, schema => Assert.Equal("scope", schema, ignoreCase: true));
+    }
+
+    [Fact]
+    public void Quantity_persistence_accesses_only_its_private_schema()
+    {
+        var moduleRoot = Path.Combine(RepositoryRoot, "src", "modules", "quantity");
+        var sql = Directory.EnumerateFiles(moduleRoot, "*.cs", SearchOption.AllDirectories)
+            .SelectMany(file => SchemaAccessPattern().Matches(File.ReadAllText(file)))
+            .Select(match => match.Groups[1].Value)
+            .ToArray();
+
+        Assert.NotEmpty(sql);
+        Assert.All(sql, schema => Assert.Equal("quantity", schema, ignoreCase: true));
     }
 
     private static Dictionary<string, ProductionProject> LoadProductionProjects()

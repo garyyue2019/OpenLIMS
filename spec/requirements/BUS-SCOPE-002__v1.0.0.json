@@ -1,0 +1,22 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-SCOPE-002",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "ScopeLine 完整引用与 EvaluationMode 条件语义",
+  "summary": "每个范围行固定对象或特征、市场、要求条款、项目、方法、样品需求、评价模式、工作中心和报告位置；仅 EVALUATED 要求限值与判定规则。",
+  "owners": ["技术负责人", "质量负责人", "实验室运营"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "BUS-SCOPE-002"}],
+  "depends_on": ["BUS-SCOPE-001@1.0.0", "OD-027@1.0.0"],
+  "affects": ["scope-line", "method", "sample-requirement", "evaluation", "production-gate"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "core", "applicability": "ENABLED", "condition": "DEV-008 已批准 TestScopeMatrix 版本"},
+  "approval_evidence": "用户于 2026-07-26 明确回复‘批准 DEV-008 业务基线’。",
+  "evaluation_modes": ["MEASURED_ONLY", "EVALUATED", "NOT_EVALUATED", "WAIVED"],
+  "required_references": ["subjectType/ref/version", "targetMarketRef/version", "requirementClauseRef/version", "testItemRef/version", "methodRef/version", "methodOption", "sampleRequirementRef/version", "evaluationMode", "workCenterRef/version", "reportPosition"],
+  "conditional_references": {"EVALUATED": ["limitRuleRef/version", "decisionRuleRef/version"], "MEASURED_ONLY": [], "NOT_EVALUATED": ["nonEvaluationReason"], "WAIVED": ["waiverApprovalRef/version"]},
+  "invariants": ["一个范围行只绑定一个对象或特征、市场、要求条款、项目和方法选项", "EVALUATED 缺少限值或判定规则时失败关闭", "非 EVALUATED 不得形成符合性决定", "未知评价模式或引用版本为 UNKNOWN 并阻断", "身份映射、任务分配和代表性覆盖不存入 ScopeLine"]
+}

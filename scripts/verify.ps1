@@ -3,7 +3,7 @@ param(
     [Parameter(Mandatory = $true)]
     [ValidateSet('task', 'architecture', 'contracts', 'all')]
     [string]$Profile,
-    [ValidateSet('platform', 'module-onboarding', 'receiving', 'labeling')]
+    [ValidateSet('platform', 'module-onboarding', 'receiving', 'labeling', 'scope')]
     [string]$Module
 )
 
@@ -35,8 +35,9 @@ switch ($Profile) {
             'module-onboarding' = 'Profile=module-onboarding'
             'receiving' = 'Profile=receiving'
             'labeling' = 'Profile=labeling'
+            'scope' = 'Profile=scope'
         }
-        if ([string]::IsNullOrWhiteSpace($Module) -or -not $moduleFilters.ContainsKey($Module)) { throw "The task profile requires -Module platform, -Module module-onboarding, -Module receiving, or -Module labeling." }
+        if ([string]::IsNullOrWhiteSpace($Module) -or -not $moduleFilters.ContainsKey($Module)) { throw "The task profile requires -Module platform, -Module module-onboarding, -Module receiving, -Module labeling, or -Module scope." }
         Require-Command dotnet
         Invoke-Gate 'dotnet restore (locked)' { dotnet restore OpenLIMS.slnx --locked-mode }
         Invoke-Gate 'dotnet build' { dotnet build OpenLIMS.slnx -c Release --no-restore -warnaserror }

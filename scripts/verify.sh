@@ -26,7 +26,8 @@ case "$profile" in
       module-onboarding) test_filter='Profile=module-onboarding' ;;
       receiving) test_filter='Profile=receiving' ;;
       labeling) test_filter='Profile=labeling' ;;
-      *) echo "The task profile requires --module platform, --module module-onboarding, --module receiving, or --module labeling." >&2; exit 2 ;;
+      scope) test_filter='Profile=scope' ;;
+      *) echo "The task profile requires --module platform, --module module-onboarding, --module receiving, --module labeling, or --module scope." >&2; exit 2 ;;
     esac
     require_command dotnet
     gate "dotnet restore (locked)" dotnet restore OpenLIMS.slnx --locked-mode

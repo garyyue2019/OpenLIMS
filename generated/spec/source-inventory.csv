@@ -39,7 +39,7 @@ PRD-MAIN,AC-REQ-001,acceptance-block,19.0 要求、范围、覆盖和认可,1105
 PRD-MAIN,AC-RETEST-001,acceptance-block,19.3 检测、QC 和报告,1216,复测采用,8ef4c7c023eb8cf25f2cf837df0fba2b99bc4a79056ba322bd479ab14dc07a91,
 PRD-MAIN,AC-RPT-001,acceptance-block,19.3 检测、QC 和报告,1222,签发关口,895c36ef837a7a548b3c15351bfbbe2a9b2845f6a0b6afd9a3c49e661b3459de,
 PRD-MAIN,AC-RPT-002,acceptance-block,19.3 检测、QC 和报告,1225,更正版本,c53fe5580be1fb5b91e9fe5044bf77dc2c685aa2173eb78a3d8bdc1519194811,
-PRD-MAIN,AC-SCOPE-001,acceptance-block,19.0 要求、范围、覆盖和认可,1108,范围行全链,884daaf2c6b97bd4789897da9c19c98543e3fa0f96197509c7389308a48d96a4,
+PRD-MAIN,AC-SCOPE-001,acceptance-block,19.0 要求、范围、覆盖和认可,1108,范围行全链,884daaf2c6b97bd4789897da9c19c98543e3fa0f96197509c7389308a48d96a4,AC-SCOPE-001@1.0.0;ATC-SCP-001@1.0.0
 PRD-MAIN,AC-SEC-001,acceptance-block,19.5 安全、AI 降级和恢复,1258,集团内多维越权防护,7f1ff95a65eb1d1fcc23e6d55d3f8acfb9c70c794c7bd7a1a0512b1ab1fee267,AC-SEC-001@0.1.0;AC-SEC-001@1.0.0
 PRD-MAIN,AC-SEC-002,acceptance-block,19.5 安全、AI 降级和恢复,1264,间接提示注入,ce6a60d3d1a43cae0b99bcb5b6b52341d79a7eeafd20253a510df048a7fa96c4,
 PRD-MAIN,AC-STATE-001,acceptance-block,19.2 收样、拆解和谱系,1157,顺序性试验状态,8aff0645546f3fd33231331914f8c8f0d4424fde518b9ab9bee1614bb77b9dd3,
@@ -110,9 +110,9 @@ PRD-MAIN,BUS-REQ-001,table-row,12.1 范围、产品与结构,687,系统必须分
 PRD-MAIN,BUS-REQ-002,table-row,12.1 范围、产品与结构,688,系统必须阻止没有受控适用依据的文档版本自动用于新范围；受控依据可来自法规/认证过渡、客户/OEM 指定、研究/比对目的或其他批准规则,9839145ae7e2a057815ef7ee5138829699f9b5023c44179c41e692c36c9c3476,
 PRD-MAIN,BUS-REQ-003,table-row,12.1 范围、产品与结构,689,系统必须使要求或客户协议更新生成受影响套餐、范围、进行中任务和报告模板清单，不得静默改写已冻结委托,b25305f7c4995ae01cdf259084e2fea5f3e8309c6c172c4a9090de21fd64119a,BUS-REQ-003@0.1.0
 PRD-MAIN,BUS-REQ-004,table-row,12.1 范围、产品与结构,690,系统必须将出版文档版本、文档关系、采用/适用规则、委托适用性评估和最终选择快照分层管理；不得把文档发布日期直接当作委托生效日期,688179ec44d7abd570632e32affd122d139e23a2350a017eebaf09e1b0e10793,
-PRD-MAIN,BUS-SCOPE-001,table-row,12.1 范围、产品与结构,693,系统必须为正式报价和执行建立版本化 TestScopeMatrix,934f5ba7c567fafa7bf251a73567c6421ef577938300b12118193d49695eee41,
-PRD-MAIN,BUS-SCOPE-002,table-row,12.1 范围、产品与结构,694,每个范围行必须引用送检对象/特征、目标市场、要求条款、项目、方法版本、样品需求、EvaluationMode、工作中心和报告位置；只有 `EVALUATED` 模式才强制限值和判定规则,0aa4825ab53bf78f89f06c7ceebd4006b5c5b05f3d90418c44f970bcfcb81063,
-PRD-MAIN,BUS-SCOPE-003,table-row,12.1 范围、产品与结构,695,系统必须阻止客户勾选、历史套餐、BOM 或 AI 候选未经技术批准直接生成生产任务,201e85031829f77a5738a30c4d23a868feb2ffb17e60622efd2b25cbc1e17da4,
+PRD-MAIN,BUS-SCOPE-001,table-row,12.1 范围、产品与结构,693,系统必须为正式报价和执行建立版本化 TestScopeMatrix,934f5ba7c567fafa7bf251a73567c6421ef577938300b12118193d49695eee41,ATC-SCP-001@1.0.0;BUS-SCOPE-001@1.0.0
+PRD-MAIN,BUS-SCOPE-002,table-row,12.1 范围、产品与结构,694,每个范围行必须引用送检对象/特征、目标市场、要求条款、项目、方法版本、样品需求、EvaluationMode、工作中心和报告位置；只有 `EVALUATED` 模式才强制限值和判定规则,0aa4825ab53bf78f89f06c7ceebd4006b5c5b05f3d90418c44f970bcfcb81063,ATC-SCP-001@1.0.0;BUS-SCOPE-002@1.0.0
+PRD-MAIN,BUS-SCOPE-003,table-row,12.1 范围、产品与结构,695,系统必须阻止客户勾选、历史套餐、BOM 或 AI 候选未经技术批准直接生成生产任务,201e85031829f77a5738a30c4d23a868feb2ffb17e60622efd2b25cbc1e17da4,ATC-SCP-001@1.0.0;BUS-SCOPE-003@1.0.0
 PRD-MAIN,EX-001,table-row,4.2 明确排除,132,实验室人员执行的现场采样、采样路线、采样点和现场采样团队调度,6422675259c3b84f8ab4d72516eb9daebcdf64d61ead08945f54ff27576177a0,
 PRD-MAIN,EX-002,table-row,4.2 明确排除,133,环境、空气、水体、表面或人员监测样品,a7a2e197bc81828ef2bf79a15ec8933b2d429c9591fe72e5a46f718da4b9780e,
 PRD-MAIN,EX-003,table-row,4.2 明确排除,134,人体、临床、患者、受试者、生物样本或生物样本库,aa327146c73bd2c8caa8de5fea66762b46cebbd8e0d2e6ae17532029554ff022,
@@ -243,7 +243,7 @@ PRD-MAIN,OD-023,table-row,23. 明确待决策事项,1469,历史系统迁移范�
 PRD-MAIN,OD-024,table-row,23. 明确待决策事项,1470,客户长期不回复时的最大等待期、终止、退回和处置路径,2cd619048af8cd5510c934e6266580336b562d6193c6ec5623778617892b048d,
 PRD-MAIN,OD-025,table-row,23. 明确待决策事项,1471,平台内核、五个行业包与六类横向技术包的产品边界、版本策略和扩展契约,4560bd80b4b4a04f8d951025237f962a5d73fa899b338c06ffc66c1952985535,ATC-PLT-000@0.1.0;OD-025@0.1.0
 PRD-MAIN,OD-026,table-row,23. 明确待决策事项,1472,要求/标准内容来源、版权许可、发布日期/实施日/过渡期维护责任和更新 SLA,cf5f45cdb3ba889b2de89c604975d92c1e9bb2b78820b2dcee5c0b5b987c8863,
-PRD-MAIN,OD-027,table-row,23. 明确待决策事项,1473,TestScopeMatrix 最小范围行粒度、必需维度、审批岗位和报价/任务/报告变更影响规则,eb18a5b0d1428c2a736482c1234855f9a1fb7940f0903d5998b6a61685bd08f5,OD-027@0.1.0
+PRD-MAIN,OD-027,table-row,23. 明确待决策事项,1473,TestScopeMatrix 最小范围行粒度、必需维度、审批岗位和报价/任务/报告变更影响规则,eb18a5b0d1428c2a736482c1234855f9a1fb7940f0903d5998b6a61685bd08f5,ATC-SCP-001@1.0.0;OD-027@0.1.0;OD-027@1.0.0
 PRD-MAIN,OD-028,table-row,23. 明确待决策事项,1474,各行业代表性/最不利覆盖允许的危险域、项目、证据、批准岗位，以及何时自动停止后续复用、何时进入待评估的规则,555ef67a2f0c76f32dd55edafafa328854358d6b3b962882f0d33d9810beca21,
 PRD-MAIN,OD-029,table-row,23. 明确待决策事项,1475,认可范围的数据粒度、权威来源、混合认可报告展示和行级签发门禁,fcd51de1b1bd263119ceb86f45a59d766730784adc2167d883fd3d1f80e53ace,OD-029@0.1.0
 PRD-MAIN,OD-030,table-row,23. 明确待决策事项,1476,各方法族最小执行记录、制备/分析批、QC、原始数据与 ELN/CDS 的权威边界,9e114c6bc26b6bbdcefde2f3427acaaf9cc7ba9855d8196f5be7b116cb96c321,OD-030@0.1.0

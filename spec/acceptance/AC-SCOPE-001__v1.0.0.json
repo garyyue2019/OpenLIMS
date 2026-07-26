@@ -1,0 +1,22 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "acceptance",
+  "id": "AC-SCOPE-001",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "ScopeLine 完整链与生产资格门禁",
+  "summary": "完整批准范围行可由固定版本重建并获得生产资格；缺失、越权、旧版本或未知语义统一失败关闭。",
+  "owners": ["技术负责人", "质量负责人", "QA负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "AC-SCOPE-001"}],
+  "depends_on": ["OD-027@1.0.0", "BUS-SCOPE-001@1.0.0", "BUS-SCOPE-002@1.0.0", "BUS-SCOPE-003@1.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0"],
+  "affects": ["test-scope", "production-gate", "audit", "automated-test"],
+  "change_class": "major",
+  "approval_evidence": "用户于 2026-07-26 明确回复‘批准 DEV-008 业务基线’。",
+  "scenario": {
+    "given": ["调用人具有 scope.approve 及对象范围", "提交的矩阵版本包含完整 ScopeLine 引用", "EvaluationMode 条件字段满足批准基线"],
+    "when": ["提交初始或后继批准版本并查询固定版本生产资格"],
+    "then": ["原子创建不可变 APPROVED 矩阵版本、范围行、审计和 Outbox", "完整当前版本返回 ALLOWED 和固定规则版本", "EVALUATED 可重建限值与判定规则引用", "非 EVALUATED 不伪造符合性决定", "缺失引用、候选、越权、并发冲突、旧版本和 UNKNOWN 均阻断且无生产副作用"]
+  },
+  "automation": ["领域规则单元测试", "HTTP 与公共端口契约测试", "PostgreSQL 事务与并发测试", "对象范围授权测试", "不可变历史测试", "审计与 Outbox 回滚测试", "UNKNOWN 失败关闭测试"]
+}

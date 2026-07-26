@@ -9,6 +9,9 @@
   <Folder Name="/contracts/labeling/">
     <Project Path="contracts/labeling/OpenLIMS.Contracts.Labeling/OpenLIMS.Contracts.Labeling.csproj" />
   </Folder>
+  <Folder Name="/contracts/scope/">
+    <Project Path="contracts/scope/OpenLIMS.Contracts.Scope/OpenLIMS.Contracts.Scope.csproj" />
+  </Folder>
   <Folder Name="/src/" />
   <Folder Name="/src/building-blocks/">
     <Project Path="src/building-blocks/OpenLIMS.BuildingBlocks.Platform/OpenLIMS.BuildingBlocks.Platform.csproj" />
@@ -27,6 +30,9 @@
   <Folder Name="/src/modules/labeling/">
     <Project Path="src/modules/labeling/OpenLIMS.Modules.Labeling/OpenLIMS.Modules.Labeling.csproj" />
   </Folder>
+  <Folder Name="/src/modules/scope/">
+    <Project Path="src/modules/scope/OpenLIMS.Modules.Scope/OpenLIMS.Modules.Scope.csproj" />
+  </Folder>
   <Folder Name="/tests/" />
   <Folder Name="/tests/architecture/">
     <Project Path="tests/architecture/OpenLIMS.ArchitectureTests/OpenLIMS.ArchitectureTests.csproj" />
@@ -40,6 +46,9 @@
   </Folder>
   <Folder Name="/tests/contract/labeling/">
     <Project Path="tests/contract/labeling/OpenLIMS.Labeling.ContractTests/OpenLIMS.Labeling.ContractTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/contract/scope/">
+    <Project Path="tests/contract/scope/OpenLIMS.Scope.ContractTests/OpenLIMS.Scope.ContractTests.csproj" />
   </Folder>
   <Folder Name="/tests/e2e/" />
   <Folder Name="/tests/e2e/smoke/">
@@ -59,6 +68,9 @@
   <Folder Name="/tests/integration/labeling/">
     <Project Path="tests/integration/labeling/OpenLIMS.Labeling.IntegrationTests/OpenLIMS.Labeling.IntegrationTests.csproj" />
   </Folder>
+  <Folder Name="/tests/integration/scope/">
+    <Project Path="tests/integration/scope/OpenLIMS.Scope.IntegrationTests/OpenLIMS.Scope.IntegrationTests.csproj" />
+  </Folder>
   <Folder Name="/tests/unit/" />
   <Folder Name="/tests/unit/platform/">
     <Project Path="tests/unit/platform/OpenLIMS.Platform.UnitTests/OpenLIMS.Platform.UnitTests.csproj" />
@@ -68,5 +80,8 @@
   </Folder>
   <Folder Name="/tests/unit/labeling/">
     <Project Path="tests/unit/labeling/OpenLIMS.Labeling.UnitTests/OpenLIMS.Labeling.UnitTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/unit/scope/">
+    <Project Path="tests/unit/scope/OpenLIMS.Scope.UnitTests/OpenLIMS.Scope.UnitTests.csproj" />
   </Folder>
 </Solution>

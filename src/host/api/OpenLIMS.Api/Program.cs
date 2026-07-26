@@ -7,6 +7,7 @@ using OpenLIMS.Contracts.Labeling;
 using OpenLIMS.Contracts.Platform;
 using OpenLIMS.Modules.Labeling;
 using OpenLIMS.Modules.Receiving;
+using OpenLIMS.Modules.Scope;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
 
@@ -25,7 +26,8 @@ var labelPrinters = builder.Configuration.GetSection("Labeling:Printers").Get<Lo
 IOpenLimsServerModule[] modules =
 [
     new ReceivingModule(deploymentOptions.PostgresConnectionString!),
-    new LabelingModule(deploymentOptions.PostgresConnectionString!, labelPrinters)
+    new LabelingModule(deploymentOptions.PostgresConnectionString!, labelPrinters),
+    new ScopeModule(deploymentOptions.PostgresConnectionString!)
 ];
 var moduleCatalog = OpenLimsModuleCatalog.Create(modules);
 var organizationScope = new OrganizationScope(deploymentOptions.OrganizationGroupId!);
@@ -180,6 +182,10 @@ app.MapGet("/openapi/v1.json", () => Results.Json(new
         ["/api/v1/exceptions/{id}"] = new { get = new { operationId = "getReceivingException", responses = new { ok = new { description = "Receiving exception facts, state, versions, and decisions" } } } },
         ["/api/v1/exceptions/{id}/decisions"] = new { post = new { operationId = "submitReceivingExceptionDecision", responses = new { created = new { description = "Authorized exception decision recorded without releasing quarantine" } } } },
         ["/api/v1/received-items/{id}/release-decisions"] = new { post = new { operationId = "submitReceivingReleaseDecision", responses = new { created = new { description = "Immutable normal or constrained release decision recorded atomically" } } } },
+        ["/api/v1/scope-matrices"] = new { post = new { operationId = "createScopeMatrix", responses = new { created = new { description = "Immutable approved scope matrix version created atomically" } } } },
+        ["/api/v1/scope-matrices/{id}/versions"] = new { post = new { operationId = "reviseScopeMatrix", responses = new { created = new { description = "Append-only approved scope matrix revision created atomically" } } } },
+        ["/api/v1/scope-matrices/{id}/versions/{version}"] = new { get = new { operationId = "getScopeMatrixVersion", responses = new { ok = new { description = "Immutable scope matrix version and complete scope lines" } } } },
+        ["/api/v1/scope-matrices/{id}/production-eligibility"] = new { get = new { operationId = "getScopeProductionEligibility", responses = new { ok = new { description = "Version-pinned production eligibility decision" } } } },
         ["/api/v1/label-jobs"] = new { post = new { operationId = "createLabelPrintJobs", responses = new { accepted = new { description = "Label print jobs accepted" } } } },
         ["/api/v1/label-jobs/{printJobId}"] = new { get = new { operationId = "getLabelPrintJob", responses = new { ok = new { description = "Label print job state" } } } },
         ["/api/v1/label-jobs/{printJobId}/reprint"] = new { post = new { operationId = "reprintLabel", responses = new { accepted = new { description = "Controlled reprint accepted" } } } },

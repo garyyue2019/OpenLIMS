@@ -37,7 +37,7 @@ class RepositoryContractTests(unittest.TestCase):
             check=False,
         )
         self.assertEqual(0, result.returncode, result.stderr.decode("utf-8", errors="replace"))
-        self.assertIn("87 个规格版本", result.stdout.decode("utf-8"))
+        self.assertIn("93 个规格版本", result.stdout.decode("utf-8"))
 
     def test_git_checkout_keeps_deterministic_lf_bytes(self) -> None:
         attributes = (ROOT / ".gitattributes").read_text(encoding="utf-8")
@@ -60,9 +60,10 @@ class RepositoryContractTests(unittest.TestCase):
             "ATC-REC-003__v2.0.0.md",
             "ATC-REC-005__v2.0.0.md",
             "ATC-REC-006__v2.0.0.md",
+            "ATC-SCP-001__v1.0.0.md",
         }
         self.assertEqual(expected_tasks, {path.name for path in tasks})
-        self.assertEqual(28, len(features))
+        self.assertEqual(30, len(features))
         self.assertTrue(
             {
                 "ATC-PLT-000__v0.1.0.feature",
@@ -72,6 +73,8 @@ class RepositoryContractTests(unittest.TestCase):
                 "ATC-REC-003__v2.0.0.feature",
                 "ATC-REC-005__v2.0.0.feature",
                 "ATC-REC-006__v2.0.0.feature",
+                "AC-SCOPE-001__v1.0.0.feature",
+                "ATC-SCP-001__v1.0.0.feature",
             }.issubset({path.name for path in features})
         )
         self.assertFalse(any(path.name.startswith("R1-REC-") for path in (*tasks, *features)))
@@ -312,6 +315,12 @@ class RepositoryContractTests(unittest.TestCase):
             "OD-005@1.0.0",
             "OPS-EXC-001@1.0.0",
             "OPS-EXC-002@1.0.0",
+            "OD-027@1.0.0",
+            "BUS-SCOPE-001@1.0.0",
+            "BUS-SCOPE-002@1.0.0",
+            "BUS-SCOPE-003@1.0.0",
+            "AC-SCOPE-001@1.0.0",
+            "ATC-SCP-001@1.0.0",
         }
         self.assertEqual(
             planned_refs | approved_delivery_v1_refs,
@@ -324,7 +333,11 @@ class RepositoryContractTests(unittest.TestCase):
         for ref in approved_delivery_v1_refs:
             with self.subTest(approved_delivery_dependency=ref):
                 self.assertEqual("approved", objects[ref]["status"])
-                self.assertIn("用户", objects[ref]["approval_evidence"])
+                approval_evidence = objects[ref].get(
+                    "approval_evidence",
+                    objects[ref].get("body", {}).get("approval_evidence", ""),
+                )
+                self.assertIn("用户", approval_evidence)
 
         decision_states = {
             "ED-001@1.0.0": ("proposed", "open"),
@@ -380,6 +393,24 @@ class RepositoryContractTests(unittest.TestCase):
             with self.subTest(dev005_dependency=dependency):
                 self.assertEqual("approved", objects[dependency]["status"])
         self.assertIn("用户", dev005["body"]["approval_evidence"])
+
+        dev008 = objects["ATC-SCP-001@1.0.0"]
+        self.assertEqual("approved", dev008["status"])
+        self.assertEqual("ready", dev008["body"]["readiness"])
+        self.assertEqual("DEV-008", dev008["body"]["implementation_task_id"])
+        self.assertIn("OD-027@1.0.0", dev008["depends_on"])
+        self.assertEqual(
+            {"scope.approve"},
+            {
+                capability
+                for permission in dev008["body"]["permissions"]
+                for capability in re.findall(r"scope\.[a-z]+", permission)
+            },
+        )
+        for dependency in dev008["depends_on"]:
+            with self.subTest(dev008_dependency=dependency):
+                self.assertEqual("approved", objects[dependency]["status"])
+        self.assertIn("用户", dev008["body"]["approval_evidence"])
 
         expected_platform_dependencies = {
             "ED-002@1.0.0": {"OD-002@1.0.0"},

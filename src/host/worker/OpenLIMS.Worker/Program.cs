@@ -4,6 +4,7 @@ using OpenLIMS.Contracts.Labeling;
 using OpenLIMS.Contracts.Platform;
 using OpenLIMS.Modules.Labeling;
 using OpenLIMS.Modules.Receiving;
+using OpenLIMS.Modules.Scope;
 using OpenLIMS.Worker;
 
 var builder = Host.CreateApplicationBuilder(args);
@@ -21,7 +22,8 @@ var labelPrinters = builder.Configuration.GetSection("Labeling:Printers").Get<Lo
 IOpenLimsServerModule[] modules =
 [
     new ReceivingModule(postgresConnectionString),
-    new LabelingModule(postgresConnectionString, labelPrinters)
+    new LabelingModule(postgresConnectionString, labelPrinters),
+    new ScopeModule(postgresConnectionString)
 ];
 var moduleCatalog = OpenLimsModuleCatalog.Create(modules);
 

@@ -14,6 +14,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `AC-ID-001@1.0.0` | `acceptance` | `approved` | 身份评估三层事实和冲突事件 | `major` | identity-assessment, receiving, audit, automated-test | `8bc40f09987e` |
 | `AC-REC-001@0.1.0` | `acceptance` | `in_review` | 隔离控制 | `major` | receiving, sample-preparation, task-allocation, audit, automated-test | `8e184359a694` |
 | `AC-REC-001@1.0.0` | `acceptance` | `approved` | 隔离资格统一失败关闭 | `major` | receiving, sample-preparation, task-allocation, audit, automated-test | `9d4fdb3bf6b8` |
+| `AC-SCOPE-001@1.0.0` | `acceptance` | `approved` | ScopeLine 完整链与生产资格门禁 | `major` | test-scope, production-gate, audit, automated-test | `0a563aaed598` |
 | `AC-SEC-001@0.1.0` | `acceptance` | `in_review` | 集团内多维越权防护 | `major` | authorization, search, export, object-storage, ai-retrieval, automated-test | `e762dae769c4` |
 | `AC-SEC-001@1.0.0` | `acceptance` | `approved` | 集团内收样多维越权防护 | `major` | authorization, receiving, automated-test, audit | `da7cd0c5db0a` |
 | `ATC-PLT-000@0.1.0` | `story` | `proposed` | 建立可验证的模块化单体工程骨架 | `major` | engineering-skeleton, repository, api-host, worker-host, web-shell, module-boundaries, postgresql, identity, object-storage, outbox, audit, observability, ci, deployment, automated-test | `af9924a0b1fa` |
@@ -36,8 +37,12 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `ATC-REC-006@0.1.0` | `story` | `proposed` | 受控解除隔离并发布执行资格 | `major` | receiving, identity, exception, outbox, lab-execution, audit, automated-test | `d385a6cf535d` |
 | `ATC-REC-006@1.0.0` | `story` | `proposed` | 受控解除隔离并发布执行资格 | `major` | receiving, identity, exception, outbox, lab-execution, audit, automated-test | `e40cd4a7c107` |
 | `ATC-REC-006@2.0.0` | `story` | `approved` | 实施 DEV-007 受控放行与版本固定资格 | `major` | receiving, identity, exception, authorization, audit, outbox, lab-execution-gate, automated-test | `fdf0bc2308e1` |
+| `ATC-SCP-001@1.0.0` | `story` | `approved` | 实施 DEV-008 ScopeLine 生产可用门禁 | `major` | scope, authorization, audit, outbox, production-gate, automated-test | `1ae1eaf0c359` |
 | `BUS-PROD-003@0.1.0` | `requirement` | `in_review` | 被业务引用的产品版本禁止原地修改 | `major` | product, product-variant, versioning, impact-analysis, evidence | `faf2128cf612` |
 | `BUS-REQ-003@0.1.0` | `requirement` | `in_review` | 要求更新生成影响清单且不改写冻结委托 | `major` | requirements, impact-analysis, service-order, report-template, migration | `344c1c5fe26c` |
+| `BUS-SCOPE-001@1.0.0` | `requirement` | `approved` | 版本化 TestScopeMatrix 批准基线 | `major` | test-scope, versioning, authorization, audit, outbox | `b1fc752a6298` |
+| `BUS-SCOPE-002@1.0.0` | `requirement` | `approved` | ScopeLine 完整引用与 EvaluationMode 条件语义 | `major` | scope-line, method, sample-requirement, evaluation, production-gate | `b416895da744` |
+| `BUS-SCOPE-003@1.0.0` | `requirement` | `approved` | 未经批准候选不得获得生产资格 | `major` | production-gate, quotation-candidate, ai-candidate, authorization, audit | `7fc3f3b546ee` |
 | `ED-001@0.1.0` | `decision` | `proposed` | 应用技术栈与工程仓库基线 | `major` | repository, backend, frontend, database, ci, deployment | `1f7d1cb22b55` |
 | `ED-001@1.0.0` | `decision` | `proposed` | 工程技术栈、仓库与版本锁基线 | `major` | repository, backend, frontend, database, ci, non-production-deployment, supply-chain | `0bb0bcc2f006` |
 | `ED-001@2.0.0` | `decision` | `approved` | 已验证的工程技术栈与版本锁基线 | `major` | repository, backend, frontend, database, ci, non-production-deployment, supply-chain | `fad2f23d20bd` |
@@ -56,6 +61,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `OD-020@0.1.0` | `decision` | `proposed` | 容量、并发与部署拓扑基线 | `major` | architecture, performance, availability, disaster-recovery | `aec2558b472f` |
 | `OD-025@0.1.0` | `decision` | `proposed` | 平台内核、行业包与技术包边界 | `major` | modular-monolith, industry-packs, technical-packs, configuration | `d29f5f9dc805` |
 | `OD-027@0.1.0` | `decision` | `proposed` | TestScopeMatrix 范围行粒度与变更影响 | `major` | test-scope, quotation, planning, reporting | `3b8ac36dfd16` |
+| `OD-027@1.0.0` | `decision` | `approved` | DEV-008 ScopeLine 最小粒度与轻量批准 | `major` | test-scope, production-gate, authorization, audit, outbox | `ba8bd756a337` |
 | `OD-029@0.1.0` | `decision` | `proposed` | 认可范围数据粒度与签发门禁 | `major` | accreditation, result-review, reporting, signature | `85e197b51ea7` |
 | `OD-030@0.1.0` | `decision` | `proposed` | 各方法族最小执行记录与外部系统边界 | `major` | execution, batch, qc, raw-data, instrument-integration | `03dbc6d00f58` |
 | `OD-031@0.1.0` | `decision` | `proposed` | 首期条码、移动流程和仪器接口清单 | `major` | barcode, mobile, instrument-integration, validation-data | `3626d4882314` |

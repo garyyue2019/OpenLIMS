@@ -4,7 +4,7 @@ namespace OpenLIMS.BuildingBlocks.Platform;
 
 public static class PlatformMigrationRunner
 {
-    public const string CurrentMigrationId = "platform-0001";
+    public const string CurrentMigrationId = "platform-0002";
 
     public static async Task ApplyAsync(string connectionString, CancellationToken cancellationToken = default)
     {
@@ -51,6 +51,49 @@ public static class PlatformMigrationRunner
             insert into platform.migration_history (migration_id, applied_at)
             values ('platform-0001', now())
             on conflict (migration_id) do nothing;
+
+            create or replace function platform.reject_audit_intent_mutation()
+            returns trigger language plpgsql as $$
+            begin
+              raise exception 'PLT.AUDIT_APPEND_ONLY' using errcode = '55000';
+            end;
+            $$;
+
+            create or replace function platform.restrict_outbox_mutation()
+            returns trigger language plpgsql as $$
+            begin
+              if tg_op = 'DELETE' then
+                raise exception 'PLT.OUTBOX_DISPATCH_ONLY' using errcode = '55000';
+              end if;
+              if old.dispatched_at is not null
+                 or new.dispatched_at is null
+                 or new.id is distinct from old.id
+                 or new.message_type is distinct from old.message_type
+                 or new.occurred_at is distinct from old.occurred_at then
+                raise exception 'PLT.OUTBOX_DISPATCH_ONLY' using errcode = '55000';
+              end if;
+              return new;
+            end;
+            $$;
+
+            do $$
+            begin
+              if not exists (select 1 from pg_trigger where tgname = 'trg_platform_audit_intent_append_only') then
+                create trigger trg_platform_audit_intent_append_only
+                before update or delete on platform.audit_intent
+                for each row execute function platform.reject_audit_intent_mutation();
+              end if;
+              if not exists (select 1 from pg_trigger where tgname = 'trg_platform_outbox_dispatch_only') then
+                create trigger trg_platform_outbox_dispatch_only
+                before update or delete on platform.outbox
+                for each row execute function platform.restrict_outbox_mutation();
+              end if;
+            end;
+            $$;
+
+            insert into platform.migration_history (migration_id, applied_at)
+            values ('platform-0002', now())
+            on conflict (migration_id) do nothing;
             """;
         await command.ExecuteNonQueryAsync(cancellationToken);
         await transaction.CommitAsync(cancellationToken);
@@ -67,11 +110,11 @@ public static class PlatformMigrationRunner
                 and to_regclass('platform.outbox') is not null
                 and to_regclass('platform.inbox') is not null
                 and to_regclass('platform.audit_intent') is not null
-                and exists (
-                    select 1
+                and (
+                    select count(*)
                     from platform.migration_history
-                    where migration_id = 'platform-0001'
-                )
+                    where migration_id in ('platform-0001', 'platform-0002')
+                ) = 2
             """);
         command.CommandTimeout = commandTimeoutSeconds;
         return (bool)(await command.ExecuteScalarAsync(cancellationToken) ?? false);

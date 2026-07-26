@@ -771,6 +771,59 @@
       "status": "proposed",
       "title": "建立可验证的模块化单体工程骨架"
     },
+    "ATC-PLT-002@1.0.0": {
+      "affects": [
+        "platform",
+        "audit",
+        "outbox",
+        "migration",
+        "cross-module",
+        "scope",
+        "quantity",
+        "allocation",
+        "batch",
+        "result",
+        "billing",
+        "automated-test"
+      ],
+      "depends_on": [
+        "ED-001@2.0.0",
+        "OD-002@1.0.0",
+        "BUS-PLT-001@1.0.0",
+        "SEC-AUD-001@2.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "AC-SEC-001@1.0.0",
+        "NFR-ARCH-001@2.0.0",
+        "ATC-SCP-001@1.0.0",
+        "ATC-QTY-001@1.0.0",
+        "ATC-ALLOC-001@1.0.0",
+        "ATC-BATCH-001@1.0.0",
+        "ATC-RESULT-001@1.0.0",
+        "ATC-BILL-001@1.0.0"
+      ],
+      "fingerprint": "83df7240aff412e3206daa84239bf8c70f7598e80c810c4a3f31cabce984a433",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "SEC-AUD-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "SEC-AUD-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "NFR-ARCH-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-SEC-001"
+        }
+      ],
+      "status": "approved",
+      "title": "实施 DEV-017 事务内审计和发件箱正式化与全链验证"
+    },
     "ATC-PLT-003@1.0.0": {
       "affects": [
         "module-composition",
@@ -2212,6 +2265,35 @@
       ],
       "status": "approved",
       "title": "正负调整证据更正"
+    },
+    "BUS-PLT-001@1.0.0": {
+      "affects": [
+        "platform",
+        "audit",
+        "outbox",
+        "migration",
+        "cross-module",
+        "transaction"
+      ],
+      "depends_on": [
+        "ATC-PLT-003@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "23725a2fb414bd645af82a33f111bf79e23577b494a358904069bce933a3d6e0",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "SEC-AUD-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "SEC-AUD-002"
+        }
+      ],
+      "status": "approved",
+      "title": "平台审计与发件箱组合不变量"
     },
     "BUS-PROD-003@0.1.0": {
       "affects": [

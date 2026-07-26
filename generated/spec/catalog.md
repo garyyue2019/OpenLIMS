@@ -31,6 +31,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `ATC-BILL-001@1.0.0` | `story` | `approved` | 实施 DEV-015 唯一计费事实 | `major` | billing, result, authorization, audit, outbox, automated-test | `b6802a9d2521` |
 | `ATC-PLT-000@0.1.0` | `story` | `proposed` | 建立可验证的模块化单体工程骨架 | `major` | engineering-skeleton, repository, api-host, worker-host, web-shell, module-boundaries, postgresql, identity, object-storage, outbox, audit, observability, ci, deployment, automated-test | `af9924a0b1fa` |
 | `ATC-PLT-000@1.0.0` | `story` | `proposed` | 建立可验证的模块化单体工程骨架 | `major` | engineering-skeleton, repository, api-host, worker-host, web-shell, module-boundaries, postgresql, identity, object-storage, outbox, audit, observability, ci, deployment, automated-test | `f45a6ee6de5f` |
+| `ATC-PLT-002@1.0.0` | `story` | `approved` | 实施 DEV-017 事务内审计和发件箱正式化与全链验证 | `major` | platform, audit, outbox, migration, cross-module, scope, quantity, allocation, batch, result, billing, automated-test | `83df7240aff4` |
 | `ATC-PLT-003@1.0.0` | `story` | `approved` | 建立业务模块接入与验证通道 | `major` | module-composition, api-host, worker-host, web-composition, architecture-tests, verification | `b2a7af44a3db` |
 | `ATC-QTY-001@1.0.0` | `story` | `approved` | 实施 DEV-009 不可变数量流水与并发预留 | `major` | quantity, authorization, audit, outbox, availability-gate, automated-test | `29b0d4a4add0` |
 | `ATC-REC-001@0.1.0` | `story` | `proposed` | 登记到货批、包装单元和收到实物 | `minor` | receiving, authorization, audit, receiving-ui, automated-test | `9b8952decd3e` |
@@ -66,6 +67,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `BUS-BILL-001@1.0.0` | `requirement` | `approved` | 服务完成事实生成唯一计费候选 | `major` | billing, result, versioning, authorization, audit, outbox | `1ea66d5b70f1` |
 | `BUS-BILL-002@1.0.0` | `requirement` | `approved` | 零金额证据与原因 | `major` | billing, audit | `e8ad36abf78c` |
 | `BUS-BILL-003@1.0.0` | `requirement` | `approved` | 正负调整证据更正 | `major` | billing, versioning, audit | `58850683ebc9` |
+| `BUS-PLT-001@1.0.0` | `requirement` | `approved` | 平台审计与发件箱组合不变量 | `major` | platform, audit, outbox, migration, cross-module, transaction | `23725a2fb414` |
 | `BUS-PROD-003@0.1.0` | `requirement` | `in_review` | 被业务引用的产品版本禁止原地修改 | `major` | product, product-variant, versioning, impact-analysis, evidence | `faf2128cf612` |
 | `BUS-QTY-001@1.0.0` | `requirement` | `approved` | 不可变数量流水与冲销重记 | `major` | quantity, versioning, authorization, audit, outbox | `47e4cca52ccf` |
 | `BUS-QTY-002@1.0.0` | `requirement` | `approved` | 账户级计量维度、精度与守恒公差配置 | `major` | quantity, measurement, authorization, audit | `a35cedb07b7f` |

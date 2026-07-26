@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>OpenLIMS.Platform.ChainE2ETests</AssemblyName>
+    <RootNamespace>OpenLIMS.Platform.ChainE2ETests</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+    <PackageReference Include="Npgsql" />
+    <ProjectReference Include="../../../../src/building-blocks/OpenLIMS.BuildingBlocks.Platform/OpenLIMS.BuildingBlocks.Platform.csproj" />
+    <ProjectReference Include="../../../../src/modules/scope/OpenLIMS.Modules.Scope/OpenLIMS.Modules.Scope.csproj" />
+    <ProjectReference Include="../../../../src/modules/quantity/OpenLIMS.Modules.Quantity/OpenLIMS.Modules.Quantity.csproj" />
+    <ProjectReference Include="../../../../src/modules/allocation/OpenLIMS.Modules.Allocation/OpenLIMS.Modules.Allocation.csproj" />
+    <ProjectReference Include="../../../../src/modules/batch/OpenLIMS.Modules.Batch/OpenLIMS.Modules.Batch.csproj" />
+    <ProjectReference Include="../../../../src/modules/result/OpenLIMS.Modules.Result/OpenLIMS.Modules.Result.csproj" />
+    <ProjectReference Include="../../../../src/modules/billing/OpenLIMS.Modules.Billing/OpenLIMS.Modules.Billing.csproj" />
+    <ProjectReference Include="../../../../contracts/platform/OpenLIMS.Contracts.Platform/OpenLIMS.Contracts.Platform.csproj" />
+    <ProjectReference Include="../../../../contracts/scope/OpenLIMS.Contracts.Scope/OpenLIMS.Contracts.Scope.csproj" />
+    <ProjectReference Include="../../../../contracts/quantity/OpenLIMS.Contracts.Quantity/OpenLIMS.Contracts.Quantity.csproj" />
+    <ProjectReference Include="../../../../contracts/allocation/OpenLIMS.Contracts.Allocation/OpenLIMS.Contracts.Allocation.csproj" />
+    <ProjectReference Include="../../../../contracts/receiving/OpenLIMS.Contracts.Receiving/OpenLIMS.Contracts.Receiving.csproj" />
+    <ProjectReference Include="../../../../contracts/batch/OpenLIMS.Contracts.Batch/OpenLIMS.Contracts.Batch.csproj" />
+    <ProjectReference Include="../../../../contracts/result/OpenLIMS.Contracts.Result/OpenLIMS.Contracts.Result.csproj" />
+    <ProjectReference Include="../../../../contracts/billing/OpenLIMS.Contracts.Billing/OpenLIMS.Contracts.Billing.csproj" />
+  </ItemGroup>
+</Project>

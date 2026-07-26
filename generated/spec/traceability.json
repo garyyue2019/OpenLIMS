@@ -4,6 +4,28 @@
     "generator": "openlims-specgen@0.1.0"
   },
   "specs": {
+    "AC-AI-003@1.0.0": {
+      "affects": [
+        "ai",
+        "fail-closed",
+        "automated-test"
+      ],
+      "depends_on": [
+        "BUS-AI-001@1.0.0",
+        "BUS-AI-002@1.0.0",
+        "BUS-AI-003@1.0.0"
+      ],
+      "fingerprint": "cd7af0fa22c97abfd7e6bb3c964e497c86fb8196164872febeb8ea5127542392",
+      "kind": "acceptance",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-AI-003"
+        }
+      ],
+      "status": "approved",
+      "title": "AI 输出失败关闭"
+    },
     "AC-BATCH-001@1.0.0": {
       "affects": [
         "batch",
@@ -402,6 +424,62 @@
       ],
       "status": "approved",
       "title": "裁样方向与预处理超差契约验收"
+    },
+    "ATC-AI-001@1.0.0": {
+      "affects": [
+        "ai",
+        "run-control",
+        "fact-class",
+        "extraction",
+        "gap-suggestion",
+        "human-review",
+        "contracts",
+        "serialization",
+        "automated-test"
+      ],
+      "depends_on": [
+        "ED-001@2.0.0",
+        "OD-002@1.0.0",
+        "BUS-AI-001@1.0.0",
+        "BUS-AI-002@1.0.0",
+        "BUS-AI-003@1.0.0",
+        "AC-AI-003@1.0.0",
+        "NFR-ARCH-001@2.0.0"
+      ],
+      "fingerprint": "ba2fc8779dceef1736e9ab0f9e0921a9fb41427daf28e2adbef266e17787ce6a",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "AI-BOM-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AI-BOM-004"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AI-BOM-007"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AI-BOM-008"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AI-BOM-009"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AI-BOM-010"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-AI-003"
+        }
+      ],
+      "status": "approved",
+      "title": "实施 DEV-016 AI 资料抽取与缺口建议契约切片"
     },
     "ATC-ALLOC-001@1.0.0": {
       "affects": [
@@ -1808,6 +1886,88 @@
       ],
       "status": "approved",
       "title": "实施 DEV-012 纺织调湿/洗涤及超差契约切片"
+    },
+    "BUS-AI-001@1.0.0": {
+      "affects": [
+        "ai",
+        "run-control",
+        "contracts",
+        "serialization"
+      ],
+      "depends_on": [
+        "ED-001@2.0.0"
+      ],
+      "fingerprint": "95e7831fe908fd3f626ef4dffd33caf94d2e7ac220254d565e44fa1951bf9cbd",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "AI-BOM-007"
+        }
+      ],
+      "status": "approved",
+      "title": "AI 运行控制封套契约"
+    },
+    "BUS-AI-002@1.0.0": {
+      "affects": [
+        "ai",
+        "fact-class",
+        "rules"
+      ],
+      "depends_on": [
+        "ED-001@2.0.0",
+        "BUS-AI-001@1.0.0"
+      ],
+      "fingerprint": "89380e537235534a17c22ab0d7c689c6919d2dabfceb0ee7b1f4e0abf912ddc2",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "AI-BOM-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-AI-002"
+        }
+      ],
+      "status": "approved",
+      "title": "事实类别与不得提升规则"
+    },
+    "BUS-AI-003@1.0.0": {
+      "affects": [
+        "ai",
+        "extraction",
+        "gap-suggestion",
+        "human-review",
+        "rules"
+      ],
+      "depends_on": [
+        "ED-001@2.0.0",
+        "BUS-AI-001@1.0.0",
+        "BUS-AI-002@1.0.0"
+      ],
+      "fingerprint": "442696dd4fdfde9b8d2da4b69d958ba3c5ce2ccf709474baae5a8984f024f0d5",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "AI-BOM-004"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AI-BOM-008"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AI-BOM-009"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AI-BOM-010"
+        }
+      ],
+      "status": "approved",
+      "title": "抽取候选、缺口建议与人工处置契约及失败关闭"
     },
     "BUS-ALLOC-001@1.0.0": {
       "affects": [

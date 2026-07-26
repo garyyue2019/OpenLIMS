@@ -1,0 +1,22 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-AI-002",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "事实类别与不得提升规则",
+  "summary": "每项 AI 内容分类为 OBSERVATION、ASSUMPTION、AI_INFERENCE 或 VERIFIED_FACT；AI_INFERENCE 在无权威来源和验证方法时永不提升为 VERIFIED_FACT，人工接受也不改变类别。",
+  "owners": ["技术负责人", "质量负责人", "AI负责人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "AI-BOM-002"},
+    {"document": "PRD-MAIN", "item": "AC-AI-002"}
+  ],
+  "depends_on": ["ED-001@2.0.0", "BUS-AI-001@1.0.0"],
+  "affects": ["ai", "fact-class", "rules"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "conditional", "applicability": "DISABLED", "condition": "OD-006 数据许可与 OD-007 品类/复核阈值批准且 AI 旁路启用后生效；本切片仅契约与校验层"},
+  "approval_evidence": "用户于 2026-07-26 明确选择'AI 降级为契约切片'并在全流程授权下批准本契约。",
+  "invariants": ["事实类别仅允许 OBSERVATION、ASSUMPTION、AI_INFERENCE、VERIFIED_FACT 显式枚举", "VERIFIED_FACT 必须同时携带权威来源引用和验证方法引用，缺一即拒绝", "人工接受 AI_INFERENCE 候选不改变其类别（不得提升）", "不确定输入必须表达为候选分支、范围或弃权，不得伪装为单一确定答案"]
+}

@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>OpenLIMS.Contracts.Ai</AssemblyName>
+    <RootNamespace>OpenLIMS.Contracts.Ai</RootNamespace>
+  </PropertyGroup>
+</Project>

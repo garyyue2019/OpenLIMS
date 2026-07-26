@@ -1,0 +1,24 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-AI-003",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "抽取候选、缺口建议与人工处置契约及失败关闭",
+  "summary": "字段抽取候选携带来源定位与事实类别，缺口/澄清建议独立表达；未知字段、非法单位或必需来源缺失时输出整体隔离；人工处置（接受/修改/拆分/合并/拒绝）保留 AI 原值、人工值、原因和责任人。",
+  "owners": ["技术负责人", "质量负责人", "AI负责人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "AI-BOM-004"},
+    {"document": "PRD-MAIN", "item": "AI-BOM-008"},
+    {"document": "PRD-MAIN", "item": "AI-BOM-009"},
+    {"document": "PRD-MAIN", "item": "AI-BOM-010"}
+  ],
+  "depends_on": ["ED-001@2.0.0", "BUS-AI-001@1.0.0", "BUS-AI-002@1.0.0"],
+  "affects": ["ai", "extraction", "gap-suggestion", "human-review", "rules"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "conditional", "applicability": "DISABLED", "condition": "OD-006 数据许可与 OD-007 品类/复核阈值批准且 AI 旁路启用后生效；本切片仅契约与校验层"},
+  "approval_evidence": "用户于 2026-07-26 明确选择'AI 降级为契约切片'并在全流程授权下批准本契约。",
+  "invariants": ["每个字段候选固定目标字段、值、单位、事实类别、置信度和来源定位（文档引用+页/区域）", "输出模式校验失败（未知字段、非法单位、缺必需来源）时整体 QUARANTINED，不产生任何下游产物", "缺口/澄清建议独立于候选表达且不得自动写入受控对象", "人工处置类型仅允许 ACCEPT、MODIFY、SPLIT、MERGE、REJECT 显式枚举", "MODIFY 处置必须同时保留 AI 原值、人工值、原因和责任人", "处置不改变候选的事实类别（配合不得提升规则）"]
+}

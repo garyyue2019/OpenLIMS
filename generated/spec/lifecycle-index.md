@@ -10,6 +10,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 
 | 逻辑 ID | 版本 | 状态 | 文件 |
 |---|---|---|---|
+| `AC-AI-003` | `1.0.0` | `approved` | `spec/acceptance/AC-AI-003__v1.0.0.json` |
 | `AC-BATCH-001` | `1.0.0` | `approved` | `spec/acceptance/AC-BATCH-001__v1.0.0.json` |
 | `AC-BILL-001` | `1.0.0` | `approved` | `spec/acceptance/AC-BILL-001__v1.0.0.json` |
 | `AC-DEPLOY-001` | `0.1.0` | `in_review` | `spec/acceptance/AC-DEPLOY-001__v0.1.0.json` |
@@ -26,6 +27,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `AC-SEC-001` | `1.0.0` | `approved` | `spec/acceptance/AC-SEC-001__v1.0.0.json` |
 | `AC-TEXTILE-001` | `1.0.0` | `approved` | `spec/acceptance/AC-TEXTILE-001__v1.0.0.json` |
 | `AC-TEXTILE-003` | `1.0.0` | `approved` | `spec/acceptance/AC-TEXTILE-003__v1.0.0.json` |
+| `ATC-AI-001` | `1.0.0` | `approved` | `spec/stories/ATC-AI-001__v1.0.0.json` |
 | `ATC-ALLOC-001` | `1.0.0` | `approved` | `spec/stories/ATC-ALLOC-001__v1.0.0.json` |
 | `ATC-BATCH-001` | `1.0.0` | `approved` | `spec/stories/ATC-BATCH-001__v1.0.0.json` |
 | `ATC-BILL-001` | `1.0.0` | `approved` | `spec/stories/ATC-BILL-001__v1.0.0.json` |
@@ -54,6 +56,9 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `ATC-SCP-001` | `1.0.0` | `approved` | `spec/stories/ATC-SCP-001__v1.0.0.json` |
 | `ATC-TEX-001` | `1.0.0` | `approved` | `spec/stories/ATC-TEX-001__v1.0.0.json` |
 | `ATC-TEX-003` | `1.0.0` | `approved` | `spec/stories/ATC-TEX-003__v1.0.0.json` |
+| `BUS-AI-001` | `1.0.0` | `approved` | `spec/requirements/BUS-AI-001__v1.0.0.json` |
+| `BUS-AI-002` | `1.0.0` | `approved` | `spec/requirements/BUS-AI-002__v1.0.0.json` |
+| `BUS-AI-003` | `1.0.0` | `approved` | `spec/requirements/BUS-AI-003__v1.0.0.json` |
 | `BUS-ALLOC-001` | `1.0.0` | `approved` | `spec/requirements/BUS-ALLOC-001__v1.0.0.json` |
 | `BUS-ALLOC-002` | `1.0.0` | `approved` | `spec/requirements/BUS-ALLOC-002__v1.0.0.json` |
 | `BUS-ALLOC-003` | `1.0.0` | `approved` | `spec/requirements/BUS-ALLOC-003__v1.0.0.json` |

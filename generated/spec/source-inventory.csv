@@ -1,8 +1,8 @@
 document,source_id,kind,section,line,title,fingerprint,curated_specs
 PRD-MAIN,AC-ACC-001,acceptance-block,19.0 要求、范围、覆盖和认可,1114,报告行认可门禁,9b7be2403049c63fdf055647613828f460e721735c353a6f942a829a992f1580,
 PRD-MAIN,AC-AI-001,acceptance-block,19.1 产品、AI 和报价,1125,图片近似报价 BOM,676dbda64b4c6536eb85066479998b6a011bb8a0cf7fcbfd81b0547e2b9718dd,
-PRD-MAIN,AC-AI-002,acceptance-block,19.1 产品、AI 和报价,1128,事实类别不得提升,5074e591582962940fc63667d45787b057ded0d9b7cdb6aa00013513025f7767,
-PRD-MAIN,AC-AI-003,acceptance-block,19.1 产品、AI 和报价,1131,失败关闭,7a97051a9a9b190367ff7dcf5da8fb2b92e764f8647d377f414cff857e68f3bc,
+PRD-MAIN,AC-AI-002,acceptance-block,19.1 产品、AI 和报价,1128,事实类别不得提升,5074e591582962940fc63667d45787b057ded0d9b7cdb6aa00013513025f7767,BUS-AI-002@1.0.0
+PRD-MAIN,AC-AI-003,acceptance-block,19.1 产品、AI 和报价,1131,失败关闭,7a97051a9a9b190367ff7dcf5da8fb2b92e764f8647d377f414cff857e68f3bc,AC-AI-003@1.0.0;ATC-AI-001@1.0.0
 PRD-MAIN,AC-ALLOC-001,acceptance-block,19.4 发票、应收和对账,1247,核销原子性,a7c076694646a1250f0223e128158209cdcdfbe48309544dd92849b3804039cc,
 PRD-MAIN,AC-AR-001,acceptance-block,19.4 发票、应收和对账,1241,唯一余额影响,67c2767b800c68391ce3e922a038e6a7c8fb6b5235e361591e66a025d729e1b1,
 PRD-MAIN,AC-AUTO-001,acceptance-block,19.2 收样、拆解和谱系,1202,DVP&R 多对多闭环,b6146605fc8a267d1a4a472d1d509239861ae4a80c98d6a5b1be13b8d2fa8b42,
@@ -52,15 +52,15 @@ PRD-MAIN,AC-TOY-001,acceptance-block,19.2 收样、拆解和谱系,1178,年龄�
 PRD-MAIN,AC-TOY-002,acceptance-block,19.2 收样、拆解和谱系,1181,可接触性与测试单元,0b2f59ece33db722429c13f5289952bbc1bb2a551bcb96c52344d9d1efe89c44,
 PRD-MAIN,AC-TRACE-001,acceptance-block,19.3 检测、QC 和报告,1210,全链追溯,038a16685546a484445437c4a3c6ce3ca5b4d9f8e3bf085169938d3450b9b4a2,
 PRD-MAIN,AI-BOM-001,table-row,12.3 可选 AI 近似报价 BOM,724,系统必须把 AI 近似报价 BOM 标识为近似、非约束、未验证且仅用于报价支持,1a02ec48f5afea9417286205f5f8c26f8ea5f6078cd4fb0f5dc39d82a27a9f78,
-PRD-MAIN,AI-BOM-002,table-row,12.3 可选 AI 近似报价 BOM,725,系统必须将每项内容分类为观察、假设或验证事实,682aad03e63521804f5cbdb68bbd79e910eb53657c34d52850975dda03523787,
+PRD-MAIN,AI-BOM-002,table-row,12.3 可选 AI 近似报价 BOM,725,系统必须将每项内容分类为观察、假设或验证事实,682aad03e63521804f5cbdb68bbd79e910eb53657c34d52850975dda03523787,ATC-AI-001@1.0.0;BUS-AI-002@1.0.0
 PRD-MAIN,AI-BOM-003,table-row,12.3 可选 AI 近似报价 BOM,726,系统必须为图片观察保存原图哈希、页帧号和归一化证据区域坐标,66c8e129bc8f82e4193624de0ce2775cc20335e0391dd17596acaca5bd567b25,
-PRD-MAIN,AI-BOM-004,table-row,12.3 可选 AI 近似报价 BOM,727,系统必须为不确定输入生成候选分支、范围或弃权，不得隐藏为单一确定答案,bcfde77caaecd463627a0938fb63a87e9ae67025f51136fd8b66f0c8c85b91ce,
+PRD-MAIN,AI-BOM-004,table-row,12.3 可选 AI 近似报价 BOM,727,系统必须为不确定输入生成候选分支、范围或弃权，不得隐藏为单一确定答案,bcfde77caaecd463627a0938fb63a87e9ae67025f51136fd8b66f0c8c85b91ce,ATC-AI-001@1.0.0;BUS-AI-003@1.0.0
 PRD-MAIN,AI-BOM-005,table-row,12.3 可选 AI 近似报价 BOM,728,系统必须分别记录可见数量、推断数量和未知数量,57bf497010dd09bf3cabbf972fbe4af91bafea8d39d31513833f13dda643d5a3,
 PRD-MAIN,AI-BOM-006,table-row,12.3 可选 AI 近似报价 BOM,729,系统必须阻止 AI 推断形成正式测试任务、采购动作、结果或财务交易,29f204073257d4522af3d5cf7006fb6882b1c329bf9627c739ae2da7a2651e8c,
-PRD-MAIN,AI-BOM-007,table-row,12.3 可选 AI 近似报价 BOM,730,系统必须保存模型、网关路由、提示模板、输出模式、输入版本和人工处置记录,670dbe4169d0c68822406d4990a02463e9b6a1f619ddb1ca5416bbb11f499f65,
-PRD-MAIN,AI-BOM-008,table-row,12.3 可选 AI 近似报价 BOM,731,系统必须在输出模式验证或必需来源缺失时失败关闭,e4c946bfc67ab4d2be58ce452345cff669ac5313defd1c3ec5905b8f278246b1,
-PRD-MAIN,AI-BOM-009,table-row,12.3 可选 AI 近似报价 BOM,732,系统必须支持评估员接受、修改、拆分、合并和拒绝候选项,61ea3234b3d4e84cfdd49c2150c4f0b70655f1c2f5dbf9caa0fa9c5276101da0,
-PRD-MAIN,AI-BOM-010,table-row,12.3 可选 AI 近似报价 BOM,733,系统必须在人工修改后保留 AI 原值、人工值、原因和责任人,718abd4a301be8e21b768ba9f109c400827cfd3f9de07cfc831484c22ad4103b,
+PRD-MAIN,AI-BOM-007,table-row,12.3 可选 AI 近似报价 BOM,730,系统必须保存模型、网关路由、提示模板、输出模式、输入版本和人工处置记录,670dbe4169d0c68822406d4990a02463e9b6a1f619ddb1ca5416bbb11f499f65,ATC-AI-001@1.0.0;BUS-AI-001@1.0.0
+PRD-MAIN,AI-BOM-008,table-row,12.3 可选 AI 近似报价 BOM,731,系统必须在输出模式验证或必需来源缺失时失败关闭,e4c946bfc67ab4d2be58ce452345cff669ac5313defd1c3ec5905b8f278246b1,ATC-AI-001@1.0.0;BUS-AI-003@1.0.0
+PRD-MAIN,AI-BOM-009,table-row,12.3 可选 AI 近似报价 BOM,732,系统必须支持评估员接受、修改、拆分、合并和拒绝候选项,61ea3234b3d4e84cfdd49c2150c4f0b70655f1c2f5dbf9caa0fa9c5276101da0,ATC-AI-001@1.0.0;BUS-AI-003@1.0.0
+PRD-MAIN,AI-BOM-010,table-row,12.3 可选 AI 近似报价 BOM,733,系统必须在人工修改后保留 AI 原值、人工值、原因和责任人,718abd4a301be8e21b768ba9f109c400827cfd3f9de07cfc831484c22ad4103b,ATC-AI-001@1.0.0;BUS-AI-003@1.0.0
 PRD-MAIN,AI-BOM-011,table-row,12.3 可选 AI 近似报价 BOM,734,系统应当展示 AI 近似报价 BOM 与观察结构的差异，但不得覆盖任一历史版本,744e80990a7d7a41cc26e36d25e67756f8a0e86add8e598ed3726dcb9398c2ad,
 PRD-MAIN,AI-BOM-012,table-row,12.3 可选 AI 近似报价 BOM,735,系统不得将 AI 近似报价 BOM 用于发布、采购、检测执行或受控记录修改,561e271054f4b29125399532d95828a70b5ee0a17850dc0d958d7c3a4d3b2b85,
 PRD-MAIN,AI-BOM-013,table-row,12.3 可选 AI 近似报价 BOM,736,系统必须阻止 AI 近似报价 BOM 自动形成 RequirementSet、TestScopeMatrix、CoverageDecision、限值、判定或认可声明,1b4b368bbecdda754258f8de7e060df32e13056d165f482ad432929d5384d36f,

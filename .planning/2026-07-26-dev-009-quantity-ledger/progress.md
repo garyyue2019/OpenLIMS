@@ -27,3 +27,4 @@
 - Phase 6 门禁全部完成；按约束等待用户的提交/推送指令。
 - 用户指示提交并推送；已提交 `351c12c`（60 个文件，全部在 allowed_paths 内，无构建产物），推送到 `origin/codex/dev-009-quantity-ledger`。
 - 经 GitHub API 创建 PR：https://github.com/garyyue2019/OpenLIMS/pull/9，等待远端 CI。
+- 两个提交的 Specification governance 与 Application CI（含 Linux PostgreSQL 集成测试和专用数据库隔离修复）均 success。等待用户合并指令。

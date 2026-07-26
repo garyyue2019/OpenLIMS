@@ -24,3 +24,5 @@
 - 全解决方案 19 个测试项目 277/277 全部通过（含五组真实 PostgreSQL 集成回归）；allocation 专用数据库隔离从首次全量运行即无跨程序集干扰。
 - 路径审计：60 个变更文件全部位于任务卡 allowed_paths，outside_allowed=0；PRD 未修改，generated/spec 只经生成器更新。
 - Phase 6 门禁全部完成；按约束等待用户的提交/推送指令。
+- 用户指示提交并推送；已提交（60 个文件，全部在 allowed_paths 内，无构建产物），推送到 `origin/codex/dev-010-allocation-eligibility`。
+- 经 GitHub API 创建 PR：https://github.com/garyyue2019/OpenLIMS/pull/10，等待远端 CI。

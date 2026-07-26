@@ -1,0 +1,22 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-TEX-001",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "纺织样品需求契约模型",
+  "summary": "纺织样品需求以款号、颜色、部件、材料、部位、方向、平行数、预处理、互斥破坏组、复测预留和留样为维度的版本化契约模型表达；本切片仅交付领域模型与序列化契约，不生产化。",
+  "owners": ["实验室技术负责人", "技术负责人", "产品负责人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "OPS-TEXTILE-001"},
+    {"document": "PRD-MAIN", "item": "OPS-TEXTILE-002"}
+  ],
+  "depends_on": ["ED-001@2.0.0", "OD-027@1.0.0"],
+  "affects": ["textile", "sample-requirement", "contracts", "serialization"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "enabled_pack", "applicability": "DISABLED", "condition": "纺织行业包纳入发布并经 OD-001 后继决定批准后启用；本切片仅契约与序列化层"},
+  "approval_evidence": "用户于 2026-07-26 明确选择‘纺织降级为契约切片’并在全流程授权下批准：按 PRD 未来适配要求仅交付领域模型、规则接口与序列化契约测试，不生产化、不触碰 OD-001。",
+  "invariants": ["需求行维度为款号、颜色、部件、材料、部位、方向、检测项目、平行数、预处理、互斥破坏组、复测预留和留样", "方向仅允许 WARP、WEFT、LENGTHWISE、CROSSWISE 最小枚举", "所有引用为稳定 ID 加版本的版本固定引用", "序列化字段名与 JSON 形状被契约测试冻结", "本切片不注册模块、schema、HTTP 端点或运行时端口"]
+}

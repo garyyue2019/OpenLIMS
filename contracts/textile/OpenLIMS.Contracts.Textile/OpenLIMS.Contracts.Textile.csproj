@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>OpenLIMS.Contracts.Textile</AssemblyName>
+    <RootNamespace>OpenLIMS.Contracts.Textile</RootNamespace>
+  </PropertyGroup>
+</Project>

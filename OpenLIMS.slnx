@@ -18,6 +18,9 @@
   <Folder Name="/contracts/allocation/">
     <Project Path="contracts/allocation/OpenLIMS.Contracts.Allocation/OpenLIMS.Contracts.Allocation.csproj" />
   </Folder>
+  <Folder Name="/contracts/textile/">
+    <Project Path="contracts/textile/OpenLIMS.Contracts.Textile/OpenLIMS.Contracts.Textile.csproj" />
+  </Folder>
   <Folder Name="/src/" />
   <Folder Name="/src/building-blocks/">
     <Project Path="src/building-blocks/OpenLIMS.BuildingBlocks.Platform/OpenLIMS.BuildingBlocks.Platform.csproj" />
@@ -67,6 +70,9 @@
   </Folder>
   <Folder Name="/tests/contract/allocation/">
     <Project Path="tests/contract/allocation/OpenLIMS.Allocation.ContractTests/OpenLIMS.Allocation.ContractTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/contract/textile/">
+    <Project Path="tests/contract/textile/OpenLIMS.Textile.ContractTests/OpenLIMS.Textile.ContractTests.csproj" />
   </Folder>
   <Folder Name="/tests/e2e/" />
   <Folder Name="/tests/e2e/smoke/">

@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>OpenLIMS.Textile.ContractTests</AssemblyName>
+    <RootNamespace>OpenLIMS.Textile.ContractTests</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+    <ProjectReference Include="../../../../contracts/textile/OpenLIMS.Contracts.Textile/OpenLIMS.Contracts.Textile.csproj" />
+  </ItemGroup>
+</Project>

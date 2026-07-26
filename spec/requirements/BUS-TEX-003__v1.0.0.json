@@ -1,0 +1,21 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-TEX-003",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "CuttingPlan 序列化契约",
+  "summary": "CuttingPlan 契约记录来源实物/布批、取样部位、方向、尺寸、数量、距布边要求、模板版本、操作人和生成试样；结构校验为纯函数并被序列化契约测试冻结。",
+  "owners": ["实验室技术负责人", "技术负责人", "质量负责人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "OPS-TEXTILE-003"}
+  ],
+  "depends_on": ["ED-001@2.0.0", "BUS-TEX-001@1.0.0"],
+  "affects": ["textile", "cutting-plan", "contracts", "serialization"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "enabled_pack", "applicability": "DISABLED", "condition": "纺织行业包纳入发布并经 OD-001 后继决定批准后启用；本切片仅契约与序列化层"},
+  "approval_evidence": "用户于 2026-07-26 明确选择‘纺织降级为契约切片’并在全流程授权下批准。",
+  "invariants": ["CuttingPlan 必录来源实物/布批引用、取样部位、经纬或纵横方向、长宽尺寸、数量、距布边最小距离、模板版本、操作人和生成试样", "尺寸与数量必须为正，距布边距离非负，生成试样数量与计划数量一致", "方向未知或必录字段缺失即校验失败", "契约不承载执行工作流、审批或仪器接口"]
+}

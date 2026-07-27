@@ -14,6 +14,10 @@ internal static class ReportTelemetry
     private static readonly Counter<long> Submissions = Meter.CreateCounter<long>("report_submission_total");
     private static readonly Counter<long> IssuanceGate = Meter.CreateCounter<long>("report_issuance_gate_total");
     private static readonly Counter<long> Rejected = Meter.CreateCounter<long>("report_rejected_total");
+    private static readonly Counter<long> Issued = Meter.CreateCounter<long>("report_issued_total");
+    private static readonly Counter<long> ControlledActions = Meter.CreateCounter<long>("report_controlled_action_total");
+    private static readonly Counter<long> Verifications = Meter.CreateCounter<long>("report_verification_total");
+    private static readonly Counter<long> VersionChain = Meter.CreateCounter<long>("report_version_chain_total");
 
     public static void RecordReport() => Reports.Add(1);
 
@@ -41,4 +45,14 @@ internal static class ReportTelemetry
 
     public static void RecordRejected(string reason) =>
         Rejected.Add(1, new KeyValuePair<string, object?>("reason", reason));
+
+    public static void RecordIssued() => Issued.Add(1);
+
+    public static void RecordControlledAction(string kind) =>
+        ControlledActions.Add(1, new KeyValuePair<string, object?>("kind", kind));
+
+    public static void RecordVerification() => Verifications.Add(1);
+
+    public static void RecordVersionChain(string decision) =>
+        VersionChain.Add(1, new KeyValuePair<string, object?>("decision", decision));
 }

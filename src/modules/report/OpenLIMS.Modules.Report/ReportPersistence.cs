@@ -404,7 +404,11 @@ internal sealed class ReportStore(
         var evaluations = new List<ReportGateEvaluationResult>();
         await using (var command = new NpgsqlCommand("""
             select evaluation_id, report_version, decision, signatory_id, evaluated_by, evaluated_at
-            from report.gate_evaluation where report_id = @id order by evaluated_at, evaluation_id
+            from report.gate_evaluation where report_id = @id
+            -- report_version increases with every appended fact, so it orders
+            -- evaluations deterministically even when two land on the same
+            -- clock reading. "Latest" must never be a coin flip.
+            order by report_version, evaluation_id
             """, connection, transaction))
         {
             command.Parameters.AddWithValue("id", reportId);

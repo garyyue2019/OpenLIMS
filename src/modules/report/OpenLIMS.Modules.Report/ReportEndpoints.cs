@@ -23,6 +23,16 @@ internal static class ReportEndpoints
             .WithName("getReport").RequireAuthorization();
         endpoints.MapGet(ReportContract.IssuanceGatePath, GetIssuanceGateAsync)
             .WithName("getReportIssuanceGate").RequireAuthorization();
+        endpoints.MapGet(ReportContract.PendingContentHashPath, GetPendingContentHashAsync)
+            .WithName("getReportPendingContentHash").RequireAuthorization();
+        endpoints.MapPost(ReportContract.IssuancePath, IssueAsync)
+            .WithName("issueReport").RequireAuthorization();
+        endpoints.MapPost(ReportContract.ControlledActionPath, PerformControlledActionAsync)
+            .WithName("performReportControlledAction").RequireAuthorization();
+        endpoints.MapGet(ReportContract.VerificationPath, GetVerificationAsync)
+            .WithName("getReportVerification").RequireAuthorization();
+        endpoints.MapGet(ReportContract.VersionDetailPath, GetVersionAsync)
+            .WithName("getReportVersion").RequireAuthorization();
     }
 
     private static Task<IResult> CreateAsync(
@@ -88,6 +98,87 @@ internal static class ReportEndpoints
         }
     }
 
+    private static async Task<IResult> GetPendingContentHashAsync(
+        string id, HttpContext context, IReportVersionService service, CancellationToken cancellationToken)
+    {
+        var correlationId = Correlation(context);
+        try
+        {
+            return Results.Json(
+                await service.GetPendingContentHashAsync(id, correlationId, cancellationToken), ReportJson.Options);
+        }
+        catch (ReportDomainException exception)
+        {
+            return Problem(exception.ErrorCode, correlationId, exception.GateSource);
+        }
+    }
+
+    private static async Task<IResult> IssueAsync(
+        string id, HttpContext context, IReportVersionService service, CancellationToken cancellationToken)
+    {
+        var correlationId = Correlation(context);
+        var request = await ReadBodyAsync<IssueReportRequest>(context, cancellationToken);
+        if (request is null) return Problem(ReportErrorCodes.ValidationFailed, correlationId);
+        try
+        {
+            var result = await service.IssueAsync(id, request, correlationId, cancellationToken);
+            return Results.Json(result, ReportJson.Options, statusCode: StatusCodes.Status201Created);
+        }
+        catch (ReportDomainException exception)
+        {
+            return Problem(exception.ErrorCode, correlationId, exception.GateSource);
+        }
+    }
+
+    private static async Task<IResult> PerformControlledActionAsync(
+        string id, HttpContext context, IReportVersionService service, CancellationToken cancellationToken)
+    {
+        var correlationId = Correlation(context);
+        var request = await ReadBodyAsync<PerformControlledActionRequest>(context, cancellationToken);
+        if (request is null) return Problem(ReportErrorCodes.ValidationFailed, correlationId);
+        try
+        {
+            var result = await service.PerformControlledActionAsync(id, request, correlationId, cancellationToken);
+            return Results.Json(result, ReportJson.Options, statusCode: StatusCodes.Status201Created);
+        }
+        catch (ReportDomainException exception)
+        {
+            return Problem(exception.ErrorCode, correlationId, exception.GateSource);
+        }
+    }
+
+    private static async Task<IResult> GetVerificationAsync(
+        string id, HttpContext context, IReportVersionService service, CancellationToken cancellationToken)
+    {
+        var correlationId = Correlation(context);
+        try
+        {
+            return Results.Json(
+                await service.GetVerificationAsync(id, correlationId, cancellationToken), ReportJson.Options);
+        }
+        catch (ReportDomainException exception)
+        {
+            return Problem(exception.ErrorCode, correlationId, exception.GateSource);
+        }
+    }
+
+    private static async Task<IResult> GetVersionAsync(
+        string id, int versionNumber, HttpContext context, IReportVersionService service,
+        CancellationToken cancellationToken)
+    {
+        var correlationId = Correlation(context);
+        try
+        {
+            return Results.Json(
+                await service.GetVersionAsync(id, versionNumber, correlationId, cancellationToken),
+                ReportJson.Options);
+        }
+        catch (ReportDomainException exception)
+        {
+            return Problem(exception.ErrorCode, correlationId, exception.GateSource);
+        }
+    }
+
     private static async Task<IResult> PostAsync<TRequest>(
         HttpContext context,
         CancellationToken cancellationToken,
@@ -141,12 +232,19 @@ internal static class ReportEndpoints
             ReportErrorCodes.NotAuthorized => StatusCodes.Status403Forbidden,
             ReportErrorCodes.ObjectNotAccessible => StatusCodes.Status404NotFound,
             ReportErrorCodes.ExpectedVersionConflict or
-                ReportErrorCodes.DuplicateAttribution => StatusCodes.Status409Conflict,
+                ReportErrorCodes.DuplicateAttribution or
+                ReportErrorCodes.VersionAlreadyIssued or
+                ReportErrorCodes.VersionChainClosed => StatusCodes.Status409Conflict,
             ReportErrorCodes.EligibilityBlocked or
                 ReportErrorCodes.ApplicabilityUnknown or
                 ReportErrorCodes.AccreditationBlocked or
                 ReportErrorCodes.ConformityDecisionUnavailable or
-                ReportErrorCodes.TraceIncomplete => StatusCodes.Status422UnprocessableEntity,
+                ReportErrorCodes.TraceIncomplete or
+                ReportErrorCodes.IssuanceGateNotSatisfied or
+                ReportErrorCodes.SignatureRequirementsUnmet or
+                ReportErrorCodes.ContentHashMismatch or
+                ReportErrorCodes.ImpactAssessmentRequired or
+                ReportErrorCodes.VersionNotIssued => StatusCodes.Status422UnprocessableEntity,
             ReportErrorCodes.PersistenceUnavailable => StatusCodes.Status503ServiceUnavailable,
             _ => StatusCodes.Status400BadRequest
         };

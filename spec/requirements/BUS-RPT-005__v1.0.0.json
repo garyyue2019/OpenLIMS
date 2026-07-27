@@ -1,0 +1,38 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-RPT-005",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "不可变版本链与五种受控动作",
+  "summary": "已签发版本永不删除或覆盖；更正与补充通过新版本执行并需影响评估引用，撤回只标记指定版本停止被依赖，作废终止整条报告链，替代以新报告号记录取代关系；验证页按版本号返回该版本本身与其历史状态，旧引用永不静默返回不同内容。",
+  "owners": ["质量负责人", "授权签字人", "法务负责人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "RPT-VERS-001"},
+    {"document": "PRD-MAIN", "item": "RPT-VERS-002"},
+    {"document": "PRD-MAIN", "item": "RPT-VERS-003"},
+    {"document": "PRD-MAIN", "item": "RPT-VERS-004"},
+    {"document": "PRD-MAIN", "item": "RULE-011"}
+  ],
+  "depends_on": ["OD-022@1.0.0", "BUS-RPT-004@1.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0"],
+  "affects": ["report", "version-chain", "correction", "withdrawal", "supersession", "verification-page"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {
+    "mode": "core",
+    "applicability": "ENABLED",
+    "condition": "DEV-023 报告签名与版本链切片启用"
+  },
+  "approval_evidence": "用户于 2026-07-27 明确选择'版本链取代'（OD-022）作为报告受控动作语义，据此批准本切片基线。",
+  "invariants": [
+    "已签发版本的快照、哈希与签名不得删除或覆盖，由数据库触发器强制（RPT-VERS-002、errcode 55000）",
+    "更正（CORRECTION）与补充（SUPPLEMENT）产生序号加一的新版本并必须携带影响评估引用；就地修改被拒绝（RPT-VERS-001）",
+    "撤回（WITHDRAWAL）标记某个特定版本停止继续被依赖，不产生新版本、不删除记录；被撤回版本仍可按其版本号取回并显示已撤回状态（RULE-011、RPT-VERS-004）",
+    "作废（VOID）终止整条报告链，此后不得再产生任何新版本或受控动作",
+    "替代（SUPERSESSION）以新报告号建立取代关系，用于原链作废或范围实质变化；取代关系为显式记录",
+    "受控动作只能作用于已签发版本；对未签发版本或已作废链的动作被拒绝",
+    "同一版本的同一受控动作不得重复；撤回后不得再撤回",
+    "验证页读模型返回当前有效版本、全部历史版本及其状态与取代关系（RPT-VERS-003）；按版本号取回始终返回该版本自身的快照与哈希（RPT-VERS-004）"
+  ]
+}

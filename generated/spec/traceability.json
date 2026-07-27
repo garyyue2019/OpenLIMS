@@ -382,6 +382,33 @@
       "status": "approved",
       "title": "签发关口"
     },
+    "AC-RPT-002@1.0.0": {
+      "affects": [
+        "report",
+        "version-chain",
+        "correction",
+        "signature",
+        "verification-page",
+        "automated-test"
+      ],
+      "depends_on": [
+        "OD-022@1.0.0",
+        "BUS-RPT-004@1.0.0",
+        "BUS-RPT-005@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "2d98ab932e3da46e37f42cbd3a7e63232078eaeeed05219a561c7e1ab53d76c9",
+      "kind": "acceptance",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-RPT-002"
+        }
+      ],
+      "status": "approved",
+      "title": "更正版本"
+    },
     "AC-SCOPE-001@1.0.0": {
       "affects": [
         "test-scope",
@@ -2187,6 +2214,74 @@
       "status": "approved",
       "title": "实施 DEV-022 报告签发门禁"
     },
+    "ATC-RPT-002@1.0.0": {
+      "affects": [
+        "report",
+        "electronic-signature",
+        "content-hash",
+        "version-chain",
+        "correction",
+        "withdrawal",
+        "supersession",
+        "verification-page",
+        "audit",
+        "outbox",
+        "authorization",
+        "automated-test"
+      ],
+      "depends_on": [
+        "ED-001@2.0.0",
+        "OD-002@1.0.0",
+        "OD-001@1.0.0",
+        "OD-011@1.0.0",
+        "OD-022@1.0.0",
+        "BUS-RPT-004@1.0.0",
+        "BUS-RPT-005@1.0.0",
+        "AC-RPT-002@1.0.0",
+        "ATC-RPT-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0",
+        "NFR-ARCH-001@2.0.0"
+      ],
+      "fingerprint": "be1df834b2701d4d88f9277375391711e55fd283441f32e6e04873cba3ff1082",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "RPT-SIGN-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "RPT-VERS-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "RPT-VERS-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "RPT-VERS-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "RPT-VERS-004"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "SEC-SIGN-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "SEC-SIGN-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-RPT-002"
+        }
+      ],
+      "status": "approved",
+      "title": "实施 DEV-023 报告签名与不可变版本链"
+    },
     "ATC-SCP-001@1.0.0": {
       "affects": [
         "scope",
@@ -3256,6 +3351,82 @@
       ],
       "status": "approved",
       "title": "行级认可校验与混合范围报告"
+    },
+    "BUS-RPT-004@1.0.0": {
+      "affects": [
+        "report",
+        "electronic-signature",
+        "content-hash",
+        "release-gate",
+        "audit"
+      ],
+      "depends_on": [
+        "OD-011@1.0.0",
+        "BUS-RPT-001@1.0.0",
+        "BUS-RPT-002@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "fdcfec0bff6b0526c58f8f95963c737c2dfd82ba6a89b52d2d0c4af6169b2d17",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "RPT-SIGN-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "SEC-SIGN-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "SEC-SIGN-002"
+        }
+      ],
+      "status": "approved",
+      "title": "受控签发与内容哈希绑定的电子签名"
+    },
+    "BUS-RPT-005@1.0.0": {
+      "affects": [
+        "report",
+        "version-chain",
+        "correction",
+        "withdrawal",
+        "supersession",
+        "verification-page"
+      ],
+      "depends_on": [
+        "OD-022@1.0.0",
+        "BUS-RPT-004@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "c66322a9ff16921b2995b4e3f44525efa52cccfc565edd31ec54c32f5a57ddad",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "RPT-VERS-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "RPT-VERS-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "RPT-VERS-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "RPT-VERS-004"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "RULE-011"
+        }
+      ],
+      "status": "approved",
+      "title": "不可变版本链与五种受控动作"
     },
     "BUS-SCOPE-001@1.0.0": {
       "affects": [

@@ -1,0 +1,123 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "story",
+  "id": "ATC-RPT-002",
+  "version": "1.0.0",
+  "status": "approved",
+  "target_release": "REL-R1-RECEIVING-PILOT@1.0.0",
+  "epic_id": "EP-REPORT",
+  "feature_id": "FEAT-RPT-VERSION-CHAIN",
+  "title": "实施 DEV-023 报告签名与不可变版本链",
+  "summary": "交付 report 模块后半：不可变版本快照与 SHA-256 内容哈希、以三要素（重新认证、签署意图、期望哈希）绑定哈希的受控签发、OD-022 五种受控动作（更正/补充/撤回/作废/替代）与验证页读模型，公开 IReportVersionChainPort；不接外部签章、不渲染报告文件。",
+  "owners": ["授权签字人", "质量负责人", "技术负责人", "QA负责人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "RPT-SIGN-001"},
+    {"document": "PRD-MAIN", "item": "RPT-VERS-001"},
+    {"document": "PRD-MAIN", "item": "RPT-VERS-002"},
+    {"document": "PRD-MAIN", "item": "RPT-VERS-003"},
+    {"document": "PRD-MAIN", "item": "RPT-VERS-004"},
+    {"document": "PRD-MAIN", "item": "SEC-SIGN-001"},
+    {"document": "PRD-MAIN", "item": "SEC-SIGN-002"},
+    {"document": "PRD-MAIN", "item": "AC-RPT-002"}
+  ],
+  "depends_on": [
+    "ED-001@2.0.0",
+    "OD-002@1.0.0",
+    "OD-001@1.0.0",
+    "OD-011@1.0.0",
+    "OD-022@1.0.0",
+    "BUS-RPT-004@1.0.0",
+    "BUS-RPT-005@1.0.0",
+    "AC-RPT-002@1.0.0",
+    "ATC-RPT-001@1.0.0",
+    "SEC-AUTH-001@1.0.0",
+    "SEC-AUD-001@2.0.0",
+    "NFR-ARCH-001@2.0.0"
+  ],
+  "affects": ["report", "electronic-signature", "content-hash", "version-chain", "correction", "withdrawal", "supersession", "verification-page", "audit", "outbox", "authorization", "automated-test"],
+  "change_class": "major",
+  "body": {
+    "readiness": "ready",
+    "implementation_task_id": "DEV-023",
+    "approval_evidence": "用户于 2026-07-27 决定 OD-011（CNAS/CMA + 电子签名法）与 OD-022（版本链取代）并选择'门禁优先/签署其次'切分；DEV-022 交付门禁后用户指示继续，本卡为约定的后半，无需新决策。",
+    "business_outcome": "报告获得可验证的不可变历史：每个已签发版本都有自己的快照、哈希与签名，改一个字就换一个哈希从而使旧签名对不上；旧引用永远取回它当初对应的那一版，更正只能以新版本表达。这正是 RPT-VERS-002/004 与 SEC-SIGN-002 要防的三件事——覆盖历史、静默换件、改内容不重签。",
+    "actor": "授权签字人（report.manage 能力 + 重新认证证据）与质量放行审核者",
+    "preconditions": ["DEV-022 的报告装配与签发门禁已交付", "报告处于待批准且最新门禁评估 ALLOWED 并覆盖全部行", "OD-011/OD-022 已决定"],
+    "trigger": "签字人对通过门禁的报告执行签发；此后质量人员按 SOP 执行五种受控动作之一",
+    "happy_path": [
+      "GET 版本快照预览：服务端按规范化规则算出当前内容哈希供签字人核对",
+      "POST 签发：携带重新认证证据引用、签署意图文本与期望内容哈希；服务端重算一致则落快照+哈希+签名，版本进入 ISSUED",
+      "POST 更正/补充：携带影响评估引用产生序号加一的新版本（回到 DRAFT 语义，需重新门禁与重新签发）",
+      "POST 撤回：标记指定版本停止被依赖，记录原因与执行人，不产生新版本",
+      "POST 替代：以新报告号记录取代关系",
+      "POST 作废：终止整条报告链，此后不再接受任何动作",
+      "GET 验证页：返回当前有效版本、全部历史版本状态与取代关系",
+      "GET 指定版本：始终返回该版本自身的快照与哈希"
+    ],
+    "failure_paths": [
+      "无 ALLOWED 门禁评估、或评估未覆盖当前全部行 → RPT.ISSUANCE_GATE_NOT_SATISFIED",
+      "缺重新认证证据、签署意图为空或缺期望哈希 → RPT.SIGNATURE_REQUIREMENTS_UNMET",
+      "期望内容哈希与服务端重算不一致 → RPT.CONTENT_HASH_MISMATCH（被签内容已变，原签名失效）",
+      "重复签发同一版本 → RPT.VERSION_ALREADY_ISSUED",
+      "更正或补充缺影响评估引用 → RPT.IMPACT_ASSESSMENT_REQUIRED",
+      "对未签发版本执行受控动作 → RPT.VERSION_NOT_ISSUED",
+      "对已作废链执行任何动作、或重复撤回同一版本 → RPT.VERSION_CHAIN_CLOSED / RPT.VALIDATION_FAILED",
+      "UPDATE/DELETE 任何版本快照、签名或受控动作 → 数据库 55000（RPT.REPORT_APPEND_ONLY）",
+      "行为人缺失/组织不匹配/能力拒绝 → RPT.NOT_AUTHORIZED，仅 audit_attempt 留痕",
+      "平台审计或发件箱写入失败 → 整体回滚，业务事实不产生"
+    ],
+    "invariants": [
+      "已签发版本的快照、哈希与签名不可删除或覆盖（RPT-VERS-002，DB 触发器强制）",
+      "内容哈希对规范化快照计算并绑定签名（RPT-SIGN-001）；内容变化即哈希变化即签名失效（SEC-SIGN-002）",
+      "签发三要素齐备才允许签发（SEC-SIGN-001）",
+      "更正/补充只能以新版本表达，不得就地修改（RPT-VERS-001）",
+      "按版本号取回始终返回该版本自身内容，旧引用永不静默返回不同内容（RPT-VERS-004）",
+      "撤回与作废不删除已发生事实（RULE-011）",
+      "全部事实追加式；乐观并发 expectedCurrentVersion + advisory lock；事实、平台审计与发件箱同事务",
+      "本卡不接外部签章系统（OD-011 明确 Release 1 不接入）、不渲染报告文件、不实现交付渠道"
+    ],
+    "data_contract": {
+      "versionSnapshot": ["snapshotId", "reportId", "versionNumber", "contentHash(SHA-256)", "canonicalContent", "lineCount", "createdBy", "createdAt"],
+      "signature": ["signatureId", "reportId", "versionNumber", "contentHash", "reauthenticationRef{id, version}", "signingIntent", "signatoryId", "signedAt"],
+      "controlledAction": ["actionId", "reportId", "versionNumber", "kind(CORRECTION/SUPPLEMENT/WITHDRAWAL/VOID/SUPERSESSION)", "impactAssessmentRef?", "supersedingReportNumber?", "reason", "performedBy", "performedAt"],
+      "versionState": ["ISSUED", "SUPERSEDED", "WITHDRAWN", "VOIDED"],
+      "verificationPage": ["reportId", "reportNumber", "currentVersion?", "chainState(ACTIVE/VOIDED)", "versions[{versionNumber, state, contentHash, signedAt, supersededBy?}]", "supersedingReportNumber?", "ruleSetVersion"]
+    },
+    "api_contract": {
+      "operations": [
+        "GET /api/v1/reports/{id}/pending-content-hash → 200 待签内容哈希预览",
+        "POST /api/v1/reports/{id}/issuance → 201 受控签发（三要素 + 哈希绑定）",
+        "POST /api/v1/reports/{id}/controlled-actions → 201 执行一种受控动作",
+        "GET /api/v1/reports/{id}/verification → 200 验证页读模型",
+        "GET /api/v1/reports/{id}/versions/{versionNumber} → 200 该版本自身的快照与签名"
+      ],
+      "publicPort": "IReportVersionChainPort.EvaluateAsync(ReportVersionChainRequest) → 当前有效版本、链状态与指定版本状态，版本+规则集固定，供交付与计费链消费",
+      "errors": ["RPT.VALIDATION_FAILED", "RPT.ISSUANCE_GATE_NOT_SATISFIED", "RPT.SIGNATURE_REQUIREMENTS_UNMET", "RPT.CONTENT_HASH_MISMATCH", "RPT.VERSION_ALREADY_ISSUED", "RPT.VERSION_NOT_ISSUED", "RPT.IMPACT_ASSESSMENT_REQUIRED", "RPT.VERSION_CHAIN_CLOSED", "RPT.EXPECTED_VERSION_CONFLICT", "RPT.NOT_AUTHORIZED", "RPT.OBJECT_NOT_ACCESSIBLE", "RPT.PERSISTENCE_UNAVAILABLE"]
+    },
+    "state_transitions": [
+      "版本：（门禁 ALLOWED + 三要素）→ ISSUED；ISSUED →（更正/补充产生下一版本）SUPERSEDED；ISSUED →（撤回）WITHDRAWN；任一版本 →（作废整链）VOIDED",
+      "报告链：ACTIVE →（作废）VOIDED，不可逆且此后拒绝一切动作"
+    ],
+    "permissions": ["沿用 report.manage 能力，不新增能力；签发额外要求重新认证证据引用（SEC-SIGN-001），其权威校验属外部身份体系", "受控动作与签发均经对象级授权端口"],
+    "audit": ["每个命令写平台 audit_intent（同事务）+ outbox 事件（Report.Issued/Corrected/Supplemented/Withdrawn/Voided/Superseded）", "失败尝试写 report.audit_attempt", "读取验证页与指定版本写 READ_REPORT_VERIFICATION 审计"],
+    "observability": ["计数器：签发数、哈希不匹配拒绝数、各受控动作数、验证页查询数", "结构化日志固定 correlationId 与错误码"],
+    "ui_states": ["本卡不新增前端页面", "验证页为读模型 API——面向公众的页面渲染属后续卡"],
+    "test_cases": [
+      {"id": "TC-RPT-002-01", "title": "三要素受控签发", "type": "positive", "given": ["门禁 ALLOWED 且覆盖全部行"], "when": ["携带重认证证据、签署意图与期望哈希签发"], "then": ["版本 ISSUED", "快照+哈希+签名落为不可变事实", "审计+发件箱同事务"]},
+      {"id": "TC-RPT-002-02", "title": "SEC-SIGN-002 内容变化使签名失效", "type": "negative", "given": ["已取得内容哈希预览"], "when": ["报告行发生变化后仍以旧哈希签发"], "then": ["RPT.CONTENT_HASH_MISMATCH", "不产生签名", "audit_attempt 留痕"]},
+      {"id": "TC-RPT-002-03", "title": "签发三要素缺一不可", "type": "negative", "given": ["门禁 ALLOWED"], "when": ["分别缺重认证证据、缺签署意图、缺期望哈希"], "then": ["逐项 RPT.SIGNATURE_REQUIREMENTS_UNMET"]},
+      {"id": "TC-RPT-002-04", "title": "AC-RPT-002 更正版本", "type": "positive", "given": ["V1 已签发"], "when": ["带影响评估引用更正并重新签发得 V2", "分别按 V1/V2 版本号取回"], "then": ["V2 序号加一且有自己的哈希与签名", "V1 快照哈希签名原样保留", "按 V1 取回仍返回 V1 内容与历史状态", "验证页显示当前版本与取代关系"]},
+      {"id": "TC-RPT-002-05", "title": "更正必须带影响评估", "type": "negative", "given": ["V1 已签发"], "when": ["无影响评估引用地更正"], "then": ["RPT.IMPACT_ASSESSMENT_REQUIRED", "不产生新版本"]},
+      {"id": "TC-RPT-002-06", "title": "撤回不删除且可取回", "type": "boundary", "given": ["V1 已签发"], "when": ["撤回 V1 并再次按版本号取回", "重复撤回"], "then": ["V1 状态 WITHDRAWN 但快照与签名保留", "取回返回 V1 自身与已撤回状态", "重复撤回被拒绝"]},
+      {"id": "TC-RPT-002-07", "title": "作废终止整链", "type": "negative", "given": ["已签发版本"], "when": ["作废后再尝试任何受控动作或签发"], "then": ["链状态 VOIDED", "后续动作一律 RPT.VERSION_CHAIN_CLOSED"]},
+      {"id": "TC-RPT-002-08", "title": "追加式与并发", "type": "negative", "given": ["已有签名与快照"], "when": ["UPDATE/DELETE 及并发同版本签发"], "then": ["55000 拒绝", "恰一个成功，另一方冲突"]},
+      {"id": "TC-RPT-002-09", "title": "平台证据失败回滚", "type": "negative", "given": ["审计或发件箱注入失败"], "when": ["签发"], "then": ["签名与快照回滚为零", "audit_attempt 恰一次"]},
+      {"id": "TC-RPT-002-10", "title": "版本链端口固定", "type": "boundary", "given": ["含历史版本的报告"], "when": ["正确/过期版本与未知规则集查询"], "then": ["返回当前有效版本与链状态 / UNKNOWN[VERSION_MISMATCH] / UNKNOWN[RULE_SET_VERSION_UNKNOWN]"]}
+    ],
+    "non_goals": ["不接入外部签章系统或 CA 证书（OD-011 明确 Release 1 不接入）", "不渲染报告 PDF 或任何文件产物", "不实现客户交付渠道、通知或下载链接托管", "不实现面向公众的验证页前端", "不实现 ConformityDecision（OD-034 未决）", "不实现分包方回传（OD-013 未决）", "不修改 DEV-022 已交付的装配与门禁语义", "不创建 Seal、tag、GitHub Release 或部署"],
+    "allowed_paths": ["spec/requirements/BUS-RPT-004__v1.0.0.json", "spec/requirements/BUS-RPT-005__v1.0.0.json", "spec/acceptance/AC-RPT-002__v1.0.0.json", "spec/stories/ATC-RPT-002__v1.0.0.json", "generated/spec/**", ".planning/2026-07-27-dev-023-report-signature-version-chain/**", "contracts/report/**", "src/modules/report/**", "src/host/api/**", "tests/unit/report/**", "tests/contract/report/**", "tests/integration/report/**", "tests/architecture/**", "tests/test_repository_contract.py", "docs/domain/report/**"],
+    "verification_commands": ["python -m tools.specgen ready --story ATC-RPT-002@1.0.0", "pwsh -File scripts/verify.ps1 -Profile task -Module report", "pwsh -File scripts/verify.ps1 -Profile architecture", "python -m tools.specgen check"],
+    "definition_of_done": ["内容哈希、三要素签发、五种受控动作、验证页读模型与版本链端口全部落地且追加式 DB 强制", "AC-RPT-002 的 V1→V2 全程与旧版本号取回各有回归测试", "全部既有测试项目保持绿色", "全仓验证通过且二次 generate written=0", "所有变更位于 allowed_paths"]
+  }
+}

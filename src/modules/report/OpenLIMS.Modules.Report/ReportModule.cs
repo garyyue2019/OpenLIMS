@@ -30,6 +30,9 @@ public sealed class ReportModule(string postgresConnectionString) :
         services.TryAddScoped<IAccreditationScopePort, UnresolvedAccreditationScopePort>();
         services.TryAddScoped<IReportService, ReportService>();
         services.TryAddScoped<IReportIssuanceGatePort, ReportIssuanceGatePort>();
+        services.TryAddScoped<IReportVersionService, ReportVersionService>();
+        services.TryAddScoped<IReportVersionChainPort, ReportVersionChainPort>();
+        services.TryAddScoped<ReportVersionStore>();
         services.TryAddScoped<ReportStore>();
         services.TryAddScoped<ReportAttemptAuditWriter>();
     }
@@ -42,8 +45,11 @@ public sealed class ReportModule(string postgresConnectionString) :
         AddPersistence(services);
     }
 
-    public Task ApplyMigrationAsync(CancellationToken cancellationToken) =>
-        ReportMigrator.ApplyAsync(_options.ConnectionString, cancellationToken);
+    public async Task ApplyMigrationAsync(CancellationToken cancellationToken)
+    {
+        await ReportMigrator.ApplyAsync(_options.ConnectionString, cancellationToken);
+        await ReportVersionMigrator.ApplyAsync(_options.ConnectionString, cancellationToken);
+    }
 
     private void AddPersistence(IServiceCollection services)
     {

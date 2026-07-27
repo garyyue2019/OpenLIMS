@@ -5,6 +5,11 @@ public static class ReportContract
     public const string Version = "1.0.0";
     public const string RuleSetVersion = "RPT-ISSUANCE@1.0.0";
     public const string CreateReportPath = "/api/v1/reports";
+    public const string PendingContentHashPath = "/api/v1/reports/{id}/pending-content-hash";
+    public const string IssuancePath = "/api/v1/reports/{id}/issuance";
+    public const string ControlledActionPath = "/api/v1/reports/{id}/controlled-actions";
+    public const string VerificationPath = "/api/v1/reports/{id}/verification";
+    public const string VersionDetailPath = "/api/v1/reports/{id}/versions/{versionNumber}";
     public const string AddLinePath = "/api/v1/reports/{id}/lines";
     public const string GateEvaluationPath = "/api/v1/reports/{id}/gate-evaluation";
     public const string SubmitForApprovalPath = "/api/v1/reports/{id}/submit-for-approval";
@@ -152,6 +157,13 @@ public static class ReportErrorCodes
     public const string NotAuthorized = "RPT.NOT_AUTHORIZED";
     public const string ObjectNotAccessible = "RPT.OBJECT_NOT_ACCESSIBLE";
     public const string PersistenceUnavailable = "RPT.PERSISTENCE_UNAVAILABLE";
+    public const string IssuanceGateNotSatisfied = "RPT.ISSUANCE_GATE_NOT_SATISFIED";
+    public const string SignatureRequirementsUnmet = "RPT.SIGNATURE_REQUIREMENTS_UNMET";
+    public const string ContentHashMismatch = "RPT.CONTENT_HASH_MISMATCH";
+    public const string VersionAlreadyIssued = "RPT.VERSION_ALREADY_ISSUED";
+    public const string VersionNotIssued = "RPT.VERSION_NOT_ISSUED";
+    public const string ImpactAssessmentRequired = "RPT.IMPACT_ASSESSMENT_REQUIRED";
+    public const string VersionChainClosed = "RPT.VERSION_CHAIN_CLOSED";
 }
 
 public sealed record ReportVersionedReference(string Id, long Version);
@@ -390,5 +402,182 @@ public interface ISignatoryAuthorityPort
 {
     ValueTask<SignatoryAuthorityDecision> EvaluateAsync(
         SignatoryAuthorityRequest request,
+        CancellationToken cancellationToken = default);
+}
+
+// ---------------------------------------------------------------------------
+// DEV-023 — signature and immutable version chain (ATC-RPT-002)
+// ---------------------------------------------------------------------------
+
+public static class ReportVersionStates
+{
+    public const string Issued = "ISSUED";
+    public const string Superseded = "SUPERSEDED";
+    public const string Withdrawn = "WITHDRAWN";
+    public const string Voided = "VOIDED";
+}
+
+public static class ReportChainStates
+{
+    public const string Active = "ACTIVE";
+    public const string Voided = "VOIDED";
+}
+
+/// <summary>
+/// OD-022@1.0.0: the five controlled actions an institution's SOP recognises.
+/// Correction and supplement produce a new version; withdrawal marks one
+/// version as no longer to be relied on; void ends the chain; supersession
+/// points at a different report number.
+/// </summary>
+public static class ReportControlledActionKinds
+{
+    public const string Correction = "CORRECTION";
+    public const string Supplement = "SUPPLEMENT";
+    public const string Withdrawal = "WITHDRAWAL";
+    public const string Void = "VOID";
+    public const string Supersession = "SUPERSESSION";
+
+    public static readonly IReadOnlyList<string> All =
+    [
+        Correction, Supplement, Withdrawal, Void, Supersession
+    ];
+
+    /// <summary>The two kinds that must produce a new version (RPT-VERS-001).</summary>
+    public static readonly IReadOnlyList<string> ProduceNewVersion = [Correction, Supplement];
+}
+
+public static class ReportVersionChainDecisions
+{
+    public const string Allowed = "ALLOWED";
+    public const string Blocked = "BLOCKED";
+    public const string Unknown = "UNKNOWN";
+}
+
+public static class ReportVersionChainReasons
+{
+    public const string NoIssuedVersion = "NO_ISSUED_VERSION";
+    public const string VersionWithdrawn = "VERSION_WITHDRAWN";
+    public const string VersionSuperseded = "VERSION_SUPERSEDED";
+    public const string ChainVoided = "CHAIN_VOIDED";
+    public const string VersionMismatch = "VERSION_MISMATCH";
+    public const string RuleSetVersionUnknown = "RULE_SET_VERSION_UNKNOWN";
+    public const string ReportUnavailable = "REPORT_UNAVAILABLE";
+}
+
+public sealed record IssueReportRequest(
+    long ExpectedCurrentVersion,
+    string RuleSetVersion,
+    ReportVersionedReference ReauthenticationRef,
+    string SigningIntent,
+    string ExpectedContentHash,
+    string SignatoryId);
+
+public sealed record PerformControlledActionRequest(
+    long ExpectedCurrentVersion,
+    string RuleSetVersion,
+    int VersionNumber,
+    string Kind,
+    string Reason,
+    ReportVersionedReference? ImpactAssessmentRef = null,
+    string? SupersedingReportNumber = null);
+
+public sealed record ReportVersionSnapshotResult(
+    string SnapshotId,
+    string ReportId,
+    int VersionNumber,
+    string ContentHash,
+    string CanonicalContent,
+    int LineCount,
+    string CreatedBy,
+    DateTimeOffset CreatedAt);
+
+public sealed record ReportSignatureResult(
+    string SignatureId,
+    string ReportId,
+    int VersionNumber,
+    string ContentHash,
+    ReportVersionedReference ReauthenticationRef,
+    string SigningIntent,
+    string SignatoryId,
+    DateTimeOffset SignedAt);
+
+public sealed record ReportControlledActionResult(
+    string ActionId,
+    string ReportId,
+    int VersionNumber,
+    string Kind,
+    ReportVersionedReference? ImpactAssessmentRef,
+    string? SupersedingReportNumber,
+    string Reason,
+    string PerformedBy,
+    DateTimeOffset PerformedAt);
+
+public sealed record ReportVersionEntry(
+    int VersionNumber,
+    string State,
+    string ContentHash,
+    DateTimeOffset SignedAt,
+    int? SupersededBy);
+
+/// <summary>
+/// RPT-VERS-003: the verification surface shows which version is current, what
+/// every historical version's state is, and any supersession relationship.
+/// </summary>
+public sealed record ReportVerificationResult(
+    string ReportId,
+    string ReportNumber,
+    int? CurrentVersionNumber,
+    string ChainState,
+    IReadOnlyList<ReportVersionEntry> Versions,
+    string? SupersedingReportNumber,
+    string RuleSetVersion);
+
+/// <summary>
+/// RPT-VERS-004: fetching by version number always returns that version's own
+/// snapshot and signature — an old reference never silently yields new content.
+/// </summary>
+public sealed record ReportVersionDetailResult(
+    string ReportId,
+    int VersionNumber,
+    string State,
+    ReportVersionSnapshotResult Snapshot,
+    ReportSignatureResult Signature,
+    IReadOnlyList<ReportControlledActionResult> Actions,
+    string RuleSetVersion);
+
+public sealed record PendingContentHashResult(
+    string ReportId,
+    int NextVersionNumber,
+    string ContentHash,
+    string CanonicalContent,
+    int LineCount,
+    string RuleSetVersion);
+
+public sealed record ReportVersionChainRequest(
+    string OrganizationGroupId,
+    string ReportId,
+    int ExpectedVersionNumber,
+    string RuleSetVersion)
+{
+    public string? CorrelationId { get; init; }
+}
+
+public sealed record ReportVersionChainResult(
+    string Decision,
+    IReadOnlyList<string> ReasonCodes,
+    string ReportId,
+    int? CurrentVersionNumber,
+    string ChainState,
+    string? ContentHash,
+    string RuleSetVersion);
+
+/// <summary>
+/// Version-pinned view of a report's issued chain for downstream consumers
+/// (delivery, billing). UNKNOWN always counts as blocked.
+/// </summary>
+public interface IReportVersionChainPort
+{
+    ValueTask<ReportVersionChainResult> EvaluateAsync(
+        ReportVersionChainRequest request,
         CancellationToken cancellationToken = default);
 }

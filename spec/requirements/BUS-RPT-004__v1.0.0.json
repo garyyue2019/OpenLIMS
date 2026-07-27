@@ -1,0 +1,34 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-RPT-004",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "受控签发与内容哈希绑定的电子签名",
+  "summary": "签发必须在签发门禁 ALLOWED 且该评估覆盖当前全部报告行时执行；签名要求重新认证证据、显式签署意图与调用方声明的期望内容哈希，服务端重算的不可变版本快照哈希必须与之一致；被签内容任何变化都使原签名对不上从而失效。",
+  "owners": ["授权签字人", "质量负责人", "技术负责人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "RPT-SIGN-001"},
+    {"document": "PRD-MAIN", "item": "SEC-SIGN-001"},
+    {"document": "PRD-MAIN", "item": "SEC-SIGN-002"}
+  ],
+  "depends_on": ["OD-011@1.0.0", "BUS-RPT-001@1.0.0", "BUS-RPT-002@1.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0"],
+  "affects": ["report", "electronic-signature", "content-hash", "release-gate", "audit"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {
+    "mode": "core",
+    "applicability": "ENABLED",
+    "condition": "DEV-023 报告签名与版本链切片启用"
+  },
+  "approval_evidence": "用户于 2026-07-27 明确选择'CNAS/CMA + 电子签名法'（OD-011）与'门禁优先/签署其次'切分，据此批准本切片基线。",
+  "invariants": [
+    "签发前必须存在 ALLOWED 的签发门禁评估，且该评估的认可判定条数与当前报告行数一致（评估后追加的行使签发失效）",
+    "版本内容哈希对规范化快照计算：报告号、版本号、以及按行号排序的每行采用目标+组版本+范围分区+认可判定+贡献链引用；快照与哈希为不可变事实（RPT-SIGN-001）",
+    "签发请求必须同时携带重新认证证据引用、非空签署意图文本与期望内容哈希（SEC-SIGN-001 三要素）",
+    "调用方声明的期望内容哈希与服务端重算不一致即拒绝签发；被签内容变化后原签名因哈希不匹配而失效并需重新审批（SEC-SIGN-002）",
+    "同一报告版本只能签发一次；签发为追加式事实并记录签字人、意图、哈希与时间",
+    "外部签章系统不在本切片接入（OD-011：Release 1 内部受控签署即构成可靠电子签名）"
+  ]
+}

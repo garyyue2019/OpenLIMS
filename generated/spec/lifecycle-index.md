@@ -25,6 +25,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `AC-REC-001` | `1.0.0` | `approved` | `spec/acceptance/AC-REC-001__v1.0.0.json` |
 | `AC-RETEST-001` | `1.0.0` | `approved` | `spec/acceptance/AC-RETEST-001__v1.0.0.json` |
 | `AC-RPT-001` | `1.0.0` | `approved` | `spec/acceptance/AC-RPT-001__v1.0.0.json` |
+| `AC-RPT-002` | `1.0.0` | `approved` | `spec/acceptance/AC-RPT-002__v1.0.0.json` |
 | `AC-SCOPE-001` | `1.0.0` | `approved` | `spec/acceptance/AC-SCOPE-001__v1.0.0.json` |
 | `AC-SEC-001` | `0.1.0` | `in_review` | `spec/acceptance/AC-SEC-001__v0.1.0.json` |
 | `AC-SEC-001` | `1.0.0` | `approved` | `spec/acceptance/AC-SEC-001__v1.0.0.json` |
@@ -63,6 +64,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `ATC-REC-006` | `2.0.0` | `approved` | `spec/stories/ATC-REC-006__v2.0.0.json` |
 | `ATC-RESULT-001` | `1.0.0` | `approved` | `spec/stories/ATC-RESULT-001__v1.0.0.json` |
 | `ATC-RPT-001` | `1.0.0` | `approved` | `spec/stories/ATC-RPT-001__v1.0.0.json` |
+| `ATC-RPT-002` | `1.0.0` | `approved` | `spec/stories/ATC-RPT-002__v1.0.0.json` |
 | `ATC-SCP-001` | `1.0.0` | `approved` | `spec/stories/ATC-SCP-001__v1.0.0.json` |
 | `ATC-TEX-001` | `1.0.0` | `approved` | `spec/stories/ATC-TEX-001__v1.0.0.json` |
 | `ATC-TEX-003` | `1.0.0` | `approved` | `spec/stories/ATC-TEX-003__v1.0.0.json` |
@@ -98,6 +100,8 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `BUS-RPT-001` | `1.0.0` | `approved` | `spec/requirements/BUS-RPT-001__v1.0.0.json` |
 | `BUS-RPT-002` | `1.0.0` | `approved` | `spec/requirements/BUS-RPT-002__v1.0.0.json` |
 | `BUS-RPT-003` | `1.0.0` | `approved` | `spec/requirements/BUS-RPT-003__v1.0.0.json` |
+| `BUS-RPT-004` | `1.0.0` | `approved` | `spec/requirements/BUS-RPT-004__v1.0.0.json` |
+| `BUS-RPT-005` | `1.0.0` | `approved` | `spec/requirements/BUS-RPT-005__v1.0.0.json` |
 | `BUS-SCOPE-001` | `1.0.0` | `approved` | `spec/requirements/BUS-SCOPE-001__v1.0.0.json` |
 | `BUS-SCOPE-002` | `1.0.0` | `approved` | `spec/requirements/BUS-SCOPE-002__v1.0.0.json` |
 | `BUS-SCOPE-003` | `1.0.0` | `approved` | `spec/requirements/BUS-SCOPE-003__v1.0.0.json` |

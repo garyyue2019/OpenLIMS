@@ -23,6 +23,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `AC-REC-001@1.0.0` | `acceptance` | `approved` | 隔离资格统一失败关闭 | `major` | receiving, sample-preparation, task-allocation, audit, automated-test | `9d4fdb3bf6b8` |
 | `AC-RETEST-001@1.0.0` | `acceptance` | `approved` | 复测采用 | `major` | result, retest, adoption, audit, automated-test | `578ffe8b2ade` |
 | `AC-RPT-001@1.0.0` | `acceptance` | `approved` | 签发关口 | `major` | report, release-gate, receiving, qc, signature-authority, automated-test | `1ed56a51a81c` |
+| `AC-RPT-002@1.0.0` | `acceptance` | `approved` | 更正版本 | `major` | report, version-chain, correction, signature, verification-page, automated-test | `2d98ab932e3d` |
 | `AC-SCOPE-001@1.0.0` | `acceptance` | `approved` | ScopeLine 完整链与生产资格门禁 | `major` | test-scope, production-gate, audit, automated-test | `0a563aaed598` |
 | `AC-SEC-001@0.1.0` | `acceptance` | `in_review` | 集团内多维越权防护 | `major` | authorization, search, export, object-storage, ai-retrieval, automated-test | `e762dae769c4` |
 | `AC-SEC-001@1.0.0` | `acceptance` | `approved` | 集团内收样多维越权防护 | `major` | authorization, receiving, automated-test, audit | `da7cd0c5db0a` |
@@ -61,6 +62,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `ATC-REC-006@2.0.0` | `story` | `approved` | 实施 DEV-007 受控放行与版本固定资格 | `major` | receiving, identity, exception, authorization, audit, outbox, lab-execution-gate, automated-test | `fdf0bc2308e1` |
 | `ATC-RESULT-001@1.0.0` | `story` | `approved` | 实施 DEV-014 结果来源与采用 | `major` | result, batch, raw-data, provenance, adoption, retest, authorization, audit, outbox, automated-test | `89ae098800fc` |
 | `ATC-RPT-001@1.0.0` | `story` | `approved` | 实施 DEV-022 报告签发门禁 | `major` | report, release-gate, traceability, accreditation, qc, result, batch, instrument, scope, receiving, audit, outbox, authorization, automated-test | `86ba2b232321` |
+| `ATC-RPT-002@1.0.0` | `story` | `approved` | 实施 DEV-023 报告签名与不可变版本链 | `major` | report, electronic-signature, content-hash, version-chain, correction, withdrawal, supersession, verification-page, audit, outbox, authorization, automated-test | `be1df834b270` |
 | `ATC-SCP-001@1.0.0` | `story` | `approved` | 实施 DEV-008 ScopeLine 生产可用门禁 | `major` | scope, authorization, audit, outbox, production-gate, automated-test | `1ae1eaf0c359` |
 | `ATC-TEX-001@1.0.0` | `story` | `approved` | 实施 DEV-011 纺织样品需求未来适配契约切片 | `major` | textile, sample-requirement, cutting-plan, contracts, serialization, automated-test | `2174f31c3221` |
 | `ATC-TEX-003@1.0.0` | `story` | `approved` | 实施 DEV-012 纺织调湿/洗涤及超差契约切片 | `major` | textile, preconditioning, out-of-tolerance, contracts, serialization, automated-test | `d39d389de0fb` |
@@ -96,6 +98,8 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `BUS-RPT-001@1.0.0` | `requirement` | `approved` | 报告装配与报告行全链追溯 | `major` | report, traceability, result, scope-partition, audit | `1649d6809ee6` |
 | `BUS-RPT-002@1.0.0` | `requirement` | `approved` | 签发前门禁与逐项阻断说明 | `major` | report, release-gate, qc, batch, result, instrument, scope, receiving | `b4c0d447f99e` |
 | `BUS-RPT-003@1.0.0` | `requirement` | `approved` | 行级认可校验与混合范围报告 | `major` | report, accreditation, release-gate, claim | `7299643d02f1` |
+| `BUS-RPT-004@1.0.0` | `requirement` | `approved` | 受控签发与内容哈希绑定的电子签名 | `major` | report, electronic-signature, content-hash, release-gate, audit | `fdcfec0bff6b` |
+| `BUS-RPT-005@1.0.0` | `requirement` | `approved` | 不可变版本链与五种受控动作 | `major` | report, version-chain, correction, withdrawal, supersession, verification-page | `c66322a9ff16` |
 | `BUS-SCOPE-001@1.0.0` | `requirement` | `approved` | 版本化 TestScopeMatrix 批准基线 | `major` | test-scope, versioning, authorization, audit, outbox | `b1fc752a6298` |
 | `BUS-SCOPE-002@1.0.0` | `requirement` | `approved` | ScopeLine 完整引用与 EvaluationMode 条件语义 | `major` | scope-line, method, sample-requirement, evaluation, production-gate | `b416895da744` |
 | `BUS-SCOPE-003@1.0.0` | `requirement` | `approved` | 未经批准候选不得获得生产资格 | `major` | production-gate, quotation-candidate, ai-candidate, authorization, audit | `7fc3f3b546ee` |

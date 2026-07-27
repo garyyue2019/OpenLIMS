@@ -38,7 +38,7 @@ PRD-MAIN,AC-RECOVERY-001,acceptance-block,19.5 安全、AI 降级和恢复,1270,
 PRD-MAIN,AC-REQ-001,acceptance-block,19.0 要求、范围、覆盖和认可,1105,标准生命周期,9a2f1a74ecfcc58ab59dbb904063fcf8e60ed7193360425469af953b1eef2055,
 PRD-MAIN,AC-RETEST-001,acceptance-block,19.3 检测、QC 和报告,1216,复测采用,8ef4c7c023eb8cf25f2cf837df0fba2b99bc4a79056ba322bd479ab14dc07a91,AC-RETEST-001@1.0.0;ATC-RESULT-001@1.0.0
 PRD-MAIN,AC-RPT-001,acceptance-block,19.3 检测、QC 和报告,1222,签发关口,895c36ef837a7a548b3c15351bfbbe2a9b2845f6a0b6afd9a3c49e661b3459de,AC-RPT-001@1.0.0;ATC-RPT-001@1.0.0
-PRD-MAIN,AC-RPT-002,acceptance-block,19.3 检测、QC 和报告,1225,更正版本,c53fe5580be1fb5b91e9fe5044bf77dc2c685aa2173eb78a3d8bdc1519194811,
+PRD-MAIN,AC-RPT-002,acceptance-block,19.3 检测、QC 和报告,1225,更正版本,c53fe5580be1fb5b91e9fe5044bf77dc2c685aa2173eb78a3d8bdc1519194811,AC-RPT-002@1.0.0;ATC-RPT-002@1.0.0
 PRD-MAIN,AC-SCOPE-001,acceptance-block,19.0 要求、范围、覆盖和认可,1108,范围行全链,884daaf2c6b97bd4789897da9c19c98543e3fa0f96197509c7389308a48d96a4,AC-SCOPE-001@1.0.0;ATC-SCP-001@1.0.0
 PRD-MAIN,AC-SEC-001,acceptance-block,19.5 安全、AI 降级和恢复,1258,集团内多维越权防护,7f1ff95a65eb1d1fcc23e6d55d3f8acfb9c70c794c7bd7a1a0512b1ab1fee267,AC-SEC-001@0.1.0;AC-SEC-001@1.0.0;ATC-PLT-001@1.0.0;ATC-PLT-002@1.0.0;BUS-PLT-002@1.0.0
 PRD-MAIN,AC-SEC-002,acceptance-block,19.5 安全、AI 降级和恢复,1264,间接提示注入,ce6a60d3d1a43cae0b99bcb5b6b52341d79a7eeafd20253a510df048a7fa96c4,
@@ -344,12 +344,12 @@ PRD-MAIN,RPT-CLAIM-001,table-row,12.7 报告,844,系统必须逐报告行校验�
 PRD-MAIN,RPT-GATE-001,table-row,12.7 报告,842,系统必须在签发前校验计划完整性、结果唯一性、QC、异常、身份、方法、规格、分包披露和签字授权,8bde4f795440c06545729b77af4fa3c6d4aa2c3abd2547e2ba58b314713da876,ATC-RPT-001@1.0.0;BUS-RPT-002@1.0.0
 PRD-MAIN,RPT-GATE-002,table-row,12.7 报告,843,系统必须为每个阻断项返回对象、规则版本和允许的下一步,550ce5283de481ef11a01becdc2a1af62b233d7e5ceeed4dd02f25a677e006cc,ATC-RPT-001@1.0.0;BUS-RPT-002@1.0.0
 PRD-MAIN,RPT-SCOPE-001,table-row,12.7 报告,845,报告必须区分实际测试对象、经批准覆盖对象、未评价范围、客户声明和实验室结论,d1812a9e6bf49cab5eb23addb908056b1527c3d29ca6a5d3cc62970de9951a8d,ATC-RPT-001@1.0.0;BUS-RPT-001@1.0.0
-PRD-MAIN,RPT-SIGN-001,table-row,12.7 报告,846,系统必须将电子签名绑定到不可变报告内容哈希,2fa2718923ddc25ec9f0d081517772d85396f664891d5c53512ba97a4921630e,
+PRD-MAIN,RPT-SIGN-001,table-row,12.7 报告,846,系统必须将电子签名绑定到不可变报告内容哈希,2fa2718923ddc25ec9f0d081517772d85396f664891d5c53512ba97a4921630e,ATC-RPT-002@1.0.0;BUS-RPT-004@1.0.0
 PRD-MAIN,RPT-TRACE-001,table-row,12.7 报告,841,系统必须使每个报告行引用一个当前有效 ResultAdoption，并完整、无歧义地重建其全部 ResultInput/来源边、观测、运行、原始证据、贡献试样/实物、身份、范围行和要求选择快照；只有 `EVALUATED` 模式才必须追溯 ConformityDecision,1e46e966e8935c7a618355752cc738cecba6b86b172349c40560a0b46ac88d45,ATC-RPT-001@1.0.0;BUS-RPT-001@1.0.0
-PRD-MAIN,RPT-VERS-001,table-row,12.7 报告,847,系统必须通过新版本执行更正或补充,ee93aa9c97cb6522f79b5545c8581b6c9a6f59a9625917304e0e9142bff7fb03,
-PRD-MAIN,RPT-VERS-002,table-row,12.7 报告,848,系统必须禁止删除或覆盖已签发报告版本,77230b8c13c59de0b11d5f73b45d4b34e2045813b163d806f0fc58c796853492,
-PRD-MAIN,RPT-VERS-003,table-row,12.7 报告,849,系统必须使验证页显示当前有效版本、历史状态和替代关系,c9c418b030106162ada6f0a906ac53af2f233c12b9d6b05e6829273260ffa510,
-PRD-MAIN,RPT-VERS-004,table-row,12.7 报告,850,系统不得使旧下载链接静默返回不同报告文件,2695601c1db8f669b4117b95077b37c0602e3e119914539e95515f0d2e96d792,
+PRD-MAIN,RPT-VERS-001,table-row,12.7 报告,847,系统必须通过新版本执行更正或补充,ee93aa9c97cb6522f79b5545c8581b6c9a6f59a9625917304e0e9142bff7fb03,ATC-RPT-002@1.0.0;BUS-RPT-005@1.0.0
+PRD-MAIN,RPT-VERS-002,table-row,12.7 报告,848,系统必须禁止删除或覆盖已签发报告版本,77230b8c13c59de0b11d5f73b45d4b34e2045813b163d806f0fc58c796853492,ATC-RPT-002@1.0.0;BUS-RPT-005@1.0.0
+PRD-MAIN,RPT-VERS-003,table-row,12.7 报告,849,系统必须使验证页显示当前有效版本、历史状态和替代关系,c9c418b030106162ada6f0a906ac53af2f233c12b9d6b05e6829273260ffa510,ATC-RPT-002@1.0.0;BUS-RPT-005@1.0.0
+PRD-MAIN,RPT-VERS-004,table-row,12.7 报告,850,系统不得使旧下载链接静默返回不同报告文件,2695601c1db8f669b4117b95077b37c0602e3e119914539e95515f0d2e96d792,ATC-RPT-002@1.0.0;BUS-RPT-005@1.0.0
 PRD-MAIN,RULE-001,table-row,18. 核心业务规则,1070,AI 近似报价 BOM 不得自动转为逻辑产品 BOM、检测分解或观察结构,0d1c4025a850250fae261c4603f1792b71873c86d6445f44a1b2d6f6683c2715,
 PRD-MAIN,RULE-002,table-row,18. 核心业务规则,1071,客户 BOM 不得自动成为检测分解,a69b9da57f46e6ce9aa27725c1274bba4c304dae82db1833e8fb87485ac05ce1,
 PRD-MAIN,RULE-003,table-row,18. 核心业务规则,1072,观察结构只表达已观察范围，不表达未观察内部结构,9a18657fe6a15936ed89ce677ef48cded4f3c8e8db5dc2c925a41b2737b37f41,
@@ -360,7 +360,7 @@ PRD-MAIN,RULE-007,table-row,18. 核心业务规则,1076,非破坏性使用不得
 PRD-MAIN,RULE-008,table-row,18. 核心业务规则,1077,数量守恒公式为“输入＝可计量输出＋已记录损耗±允许公差”,28cb43ccc90d98a9883532d897212af5bb79289b7609057fc91735823a3f3842,
 PRD-MAIN,RULE-009,table-row,18. 核心业务规则,1078,结果出现后不得临时选择有利的复测采用规则,f140900d36b13adca8f3dc7e5d333b381f32a50d862a6b37f6a2cd87b224d539,
 PRD-MAIN,RULE-010,table-row,18. 核心业务规则,1079,QC 偏差获批不等于结果可报告,058c5b657bccdd67b9777a6f0ea99b1eedc3101be8e544618bad28008ff781bc,ATC-QC-001@1.0.0;BUS-QC-003@1.0.0;BUS-RPT-002@1.0.0
-PRD-MAIN,RULE-011,table-row,18. 核心业务规则,1080,取消、终止、撤回或关闭不得删除已发生事实和数量消耗,301e0b87321368cb4d1dcc381729a461506969753d3415ac7912b1636b8af4a9,
+PRD-MAIN,RULE-011,table-row,18. 核心业务规则,1080,取消、终止、撤回或关闭不得删除已发生事实和数量消耗,301e0b87321368cb4d1dcc381729a461506969753d3415ac7912b1636b8af4a9,BUS-RPT-005@1.0.0
 PRD-MAIN,RULE-012,table-row,18. 核心业务规则,1081,报告签发不自动等同于会计收入确认,f03a90964f6b57d323b2fa6bc369a5dfdb1f6dcfbd94951373759d26c5d64b7f,
 PRD-MAIN,RULE-013,table-row,18. 核心业务规则,1082,一项经济冲减只能产生一次运营应收余额影响,5a617ace9dfd679ad459807426eddc94d1c573b728e76bf7196d3978a84bba53,
 PRD-MAIN,RULE-014,table-row,18. 核心业务规则,1083,争议不改变原应收余额、法定到期日或法定账龄,ba3f6181972d078f0538fd28a494f7107f7a045a3a251c7d0f320f4d329cb3b9,
@@ -386,5 +386,5 @@ PRD-MAIN,SEC-AUTH-004,table-row,14. 权限、职责分离与电子签名,967,系
 PRD-MAIN,SEC-AUTH-005,table-row,14. 权限、职责分离与电子签名,968,系统必须阻止退款账户维护人与退款最终审批或执行人为同一人,30276f305b250159de928aa92e5ea11a03dd4445736e950b2ced986dc3f094ef,
 PRD-MAIN,SEC-AUTH-006,table-row,14. 权限、职责分离与电子签名,969,系统必须按累计金额执行审批限额和反拆单控制,140324f6c728a82032d75d103e151f263d32e0aaa949dbb3dfd0e8f0c4aa1cd8,
 PRD-MAIN,SEC-DEPLOY-001,table-row,14. 权限、职责分离与电子签名,963,每个生产部署必须只绑定一个 OrganizationGroup；不同集团的运行环境、数据库、对象存储、密钥、队列、检索/AI 和备份恢复必须独立，禁止共享 SaaS 多租户数据平面,c16fdea96ddb5b659a3504e6a8cbb2cf6d25fa9de71dabbf7c4202155a496cc9,ATC-PLT-000@0.1.0;ATC-PLT-000@1.0.0;SEC-DEPLOY-001@0.1.0;SEC-DEPLOY-001@1.0.0;SEC-DEPLOY-001@2.0.0
-PRD-MAIN,SEC-SIGN-001,table-row,14. 权限、职责分离与电子签名,970,系统必须要求受控批准或签发时重新认证并记录签署意图,b60fb7bad706e42254348c4aa485bb60edf2476c6a13a936a223c963a87e7f92,
-PRD-MAIN,SEC-SIGN-002,table-row,14. 权限、职责分离与电子签名,971,系统必须在被签内容变化后使原签名失效并触发重新审批,804dcfa0d80e05b815f7075677509d2c62eb0db0389ccd68c96934fc5aa729c0,
+PRD-MAIN,SEC-SIGN-001,table-row,14. 权限、职责分离与电子签名,970,系统必须要求受控批准或签发时重新认证并记录签署意图,b60fb7bad706e42254348c4aa485bb60edf2476c6a13a936a223c963a87e7f92,ATC-RPT-002@1.0.0;BUS-RPT-004@1.0.0
+PRD-MAIN,SEC-SIGN-002,table-row,14. 权限、职责分离与电子签名,971,系统必须在被签内容变化后使原签名失效并触发重新审批,804dcfa0d80e05b815f7075677509d2c62eb0db0389ccd68c96934fc5aa729c0,ATC-RPT-002@1.0.0;BUS-RPT-004@1.0.0

@@ -29,6 +29,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `AC-SEC-001@1.0.0` | `acceptance` | `approved` | 集团内收样多维越权防护 | `major` | authorization, receiving, automated-test, audit | `da7cd0c5db0a` |
 | `AC-TEXTILE-001@1.0.0` | `acceptance` | `approved` | 样品不足与互斥裁样契约验收 | `major` | textile, sample-requirement, destructive-exclusion, automated-test | `5bf4aeacf8ab` |
 | `AC-TEXTILE-003@1.0.0` | `acceptance` | `approved` | 裁样方向与预处理超差契约验收 | `major` | textile, preconditioning, cutting-plan, automated-test | `7f112061a2b3` |
+| `AC-TOY-001@1.0.0` | `acceptance` | `approved` | 年龄改判与新暴露部件 | `major` | toy, age-grade, accessibility, scope-reassessment, automated-test | `35015245e394` |
 | `AC-TRACE-001@1.0.0` | `acceptance` | `approved` | 全链追溯 | `major` | report, traceability, result, release-gate, automated-test | `a99b23ae81a0` |
 | `ATC-AI-001@1.0.0` | `story` | `approved` | 实施 DEV-016 AI 资料抽取与缺口建议契约切片 | `major` | ai, run-control, fact-class, extraction, gap-suggestion, human-review, contracts, serialization, automated-test | `ba2fc8779dce` |
 | `ATC-ALLOC-001@1.0.0` | `story` | `approved` | 实施 DEV-010 任务分配资格 | `major` | allocation, receiving, scope, quantity, eligibility-gate, authorization, audit, outbox, automated-test | `d8e63c13c345` |
@@ -66,6 +67,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `ATC-SCP-001@1.0.0` | `story` | `approved` | 实施 DEV-008 ScopeLine 生产可用门禁 | `major` | scope, authorization, audit, outbox, production-gate, automated-test | `1ae1eaf0c359` |
 | `ATC-TEX-001@1.0.0` | `story` | `approved` | 实施 DEV-011 纺织样品需求未来适配契约切片 | `major` | textile, sample-requirement, cutting-plan, contracts, serialization, automated-test | `2174f31c3221` |
 | `ATC-TEX-003@1.0.0` | `story` | `approved` | 实施 DEV-012 纺织调湿/洗涤及超差契约切片 | `major` | textile, preconditioning, out-of-tolerance, contracts, serialization, automated-test | `d39d389de0fb` |
+| `ATC-TOY-001@1.0.0` | `story` | `approved` | 实施 DEV-024 玩具年龄分级判定与可触及性评估 | `major` | toy, age-grade, declaration, accessibility, abuse-event, scope-reassessment, audit, outbox, authorization, automated-test | `9378943c2fa4` |
 | `BUS-AI-001@1.0.0` | `requirement` | `approved` | AI 运行控制封套契约 | `major` | ai, run-control, contracts, serialization | `95e7831fe908` |
 | `BUS-AI-002@1.0.0` | `requirement` | `approved` | 事实类别与不得提升规则 | `major` | ai, fact-class, rules | `89380e537235` |
 | `BUS-AI-003@1.0.0` | `requirement` | `approved` | 抽取候选、缺口建议与人工处置契约及失败关闭 | `major` | ai, extraction, gap-suggestion, human-review, rules | `442696dd4fdf` |
@@ -108,6 +110,8 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `BUS-TEX-003@1.0.0` | `requirement` | `approved` | CuttingPlan 序列化契约 | `major` | textile, cutting-plan, contracts, serialization | `f727ac469a11` |
 | `BUS-TEX-004@1.0.0` | `requirement` | `approved` | 调湿与洗涤计划/实际契约模型 | `major` | textile, preconditioning, contracts, serialization | `71df32f58af7` |
 | `BUS-TEX-005@1.0.0` | `requirement` | `approved` | 预处理超差评估与报告阻断规则 | `major` | textile, preconditioning, out-of-tolerance, rules | `4be32afd90e8` |
+| `BUS-TOY-001@1.0.0` | `requirement` | `approved` | 客户年龄声明与实验室年龄分级判定分离 | `major` | toy, age-grade, declaration, versioning, audit | `a9f2b3cf0bcb` |
+| `BUS-TOY-002@1.0.0` | `requirement` | `approved` | 可触及性评估版本化与新暴露部件触发范围重评 | `major` | toy, accessibility, abuse-event, scope-reassessment, audit | `68ff61319394` |
 | `ED-001@0.1.0` | `decision` | `proposed` | 应用技术栈与工程仓库基线 | `major` | repository, backend, frontend, database, ci, deployment | `1f7d1cb22b55` |
 | `ED-001@1.0.0` | `decision` | `proposed` | 工程技术栈、仓库与版本锁基线 | `major` | repository, backend, frontend, database, ci, non-production-deployment, supply-chain | `0bb0bcc2f006` |
 | `ED-001@2.0.0` | `decision` | `approved` | 已验证的工程技术栈与版本锁基线 | `major` | repository, backend, frontend, database, ci, non-production-deployment, supply-chain | `fad2f23d20bd` |

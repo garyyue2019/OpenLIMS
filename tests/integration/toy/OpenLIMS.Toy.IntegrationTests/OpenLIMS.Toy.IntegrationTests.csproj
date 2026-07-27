@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>OpenLIMS.Toy.IntegrationTests</AssemblyName>
+    <RootNamespace>OpenLIMS.Toy.IntegrationTests</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+    <PackageReference Include="Npgsql" />
+    <ProjectReference Include="../../../../src/modules/toy/OpenLIMS.Modules.Toy/OpenLIMS.Modules.Toy.csproj" />
+    <ProjectReference Include="../../../../contracts/toy/OpenLIMS.Contracts.Toy/OpenLIMS.Contracts.Toy.csproj" />
+    <ProjectReference Include="../../../../src/building-blocks/OpenLIMS.BuildingBlocks.Platform/OpenLIMS.BuildingBlocks.Platform.csproj" />
+    <ProjectReference Include="../../../../contracts/platform/OpenLIMS.Contracts.Platform/OpenLIMS.Contracts.Platform.csproj" />
+  </ItemGroup>
+</Project>

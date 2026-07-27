@@ -7,7 +7,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 # AI 开发就绪报告
 
 - 未批准 PRD 来源漂移：**0** 个文档
-- Story 数量：**36**
+- Story 数量：**37**
 
 | Story | 规格状态 | 就绪度 | 结论 | 阻塞原因 |
 |---|---|---|---|---|
@@ -47,5 +47,6 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `ATC-SCP-001@1.0.0` | `approved` | `ready` | **READY** | 无 |
 | `ATC-TEX-001@1.0.0` | `approved` | `ready` | **READY** | 无 |
 | `ATC-TEX-003@1.0.0` | `approved` | `ready` | **READY** | 无 |
+| `ATC-TOY-001@1.0.0` | `approved` | `ready` | **READY** | 无 |
 
 > BLOCKED 是预期的诚实状态。当前 PRD 仍待联合评审，生成任务卡不等于批准进入生产开发。

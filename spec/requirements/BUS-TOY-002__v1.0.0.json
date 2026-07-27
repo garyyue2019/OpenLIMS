@@ -1,0 +1,49 @@
+{
+ "$schema": "../schema/spec-object.schema.json",
+ "schema_version": 1,
+ "kind": "requirement",
+ "id": "BUS-TOY-002",
+ "version": "1.0.0",
+ "status": "approved",
+ "title": "可触及性评估版本化与新暴露部件触发范围重评",
+ "summary": "AccessibilityAssessment 按初始状态、正常使用后、以及每一次使用滥用事件后分别版本化保存。任一版本相对其前序版本新增了可触及部件，就必须记录一条覆盖机械/化学/标签三个范围的重评触发；重评未结清前，受影响范围视为未确定。",
+ "owners": [
+  "技术负责人",
+  "玩具行业包负责人"
+ ],
+ "source_refs": [
+  {
+   "document": "PRD-MAIN",
+   "item": "OPS-TOY-003"
+  }
+ ],
+ "depends_on": [
+  "OD-001@1.0.0",
+  "BUS-TOY-001@1.0.0",
+  "SEC-AUTH-001@1.0.0",
+  "SEC-AUD-001@2.0.0"
+ ],
+ "affects": [
+  "toy",
+  "accessibility",
+  "abuse-event",
+  "scope-reassessment",
+  "audit"
+ ],
+ "change_class": "major",
+ "priority": "Must",
+ "activation": {
+  "mode": "enabled_pack",
+  "applicability": "ENABLED",
+  "condition": "OD-001 将玩具/婴童用品定为 Release 1 唯一试点行业包"
+ },
+ "approval_evidence": "用户于 2026-07-27 决定 OD-001 为'玩具 + 机械物理方法族'；可触及性评估是该方法族的入口判定，按该决定纳入本切片基线。",
+ "invariants": [
+  "评估阶段限于 INITIAL、AFTER_NORMAL_USE、AFTER_ABUSE 三种；AFTER_ABUSE 必须给出滥用事件标识，另两种不得携带（OPS-TOY-003）",
+  "同一产品的评估版本号自 1 起单调递增，且 INITIAL 必须是版本 1；每个版本记录该阶段的完整可触及部件集合，而不是相对上一版的增量",
+  "已落库的评估版本与其部件集合不可修改或删除，由数据库触发器强制（errcode 55000）",
+  "某版本的可触及部件集合相对其前序版本存在新增项时，必须为机械、化学、标签三个范围各追加一条 PENDING 状态的重评触发；无新增项时不得产生触发",
+  "重评触发只能由已批准的重评结论结清；存在未结清触发时，该产品对应范围的可触及性状态为 REASSESSMENT_PENDING",
+  "评估与重评触发的写入产生审计意图与发件箱事件"
+ ]
+}

@@ -116,3 +116,9 @@
 - 最终门禁通过：strict validate 178/389、SOURCE CURRENT、impact 为空、history passed、check passed、两次 generate 均 `written=0 unchanged=119`、`git diff --check` clean。
 - 生成 readiness-report 与三张任务文档均准确显示 proposed/blocked；新增 `docs/domain/toy/follow-up-spec-review.md` 作为人工评审导航，不修改 PRD。
 - **Phase 8 complete**：10 个 proposed 草案、生成物、精确契约测试和评审清单完成。Phase 9 仅剩提交、推送和 Draft PR。
+- 草案提交 `f1a7c21` 已推送到 `origin/codex/toy-follow-up-spec-drafts`；GitHub 比较页确认 1 commit / 33 files 且可自动合并。
+- Draft PR 描述已填写，明确所有新规格均 proposed、DEV-027 受 OD-034 阻断、验证证据和人工评审路径；已打开 PR 类型菜单等待选择 Draft。
+- 已选择 `Create draft pull request` 菜单项，但主提交按钮的可访问名称未按预期变化，首次直接按新名称点击超时；尚未创建 PR，将检查实际名称后提交。
+- 菜单选择后实际按钮名称为 `Draft pull request`；按该名称提交成功，等待 GitHub/API 核验 PR 编号与 draft 状态。
+- GitHub API 核验 PR #25 为 open、draft=true，head=`f1a7c21`、base=`main`。确定性规格门禁已 success，Windows 与应用 CI 正在运行。
+- **Phase 9 complete**：DEV-024 已合并；全部可安全推进的后续规格草案、验证、提交、推送和 Draft PR 已完成。实现继续被 proposed/OD-034 门禁诚实阻断，等待人工评审。

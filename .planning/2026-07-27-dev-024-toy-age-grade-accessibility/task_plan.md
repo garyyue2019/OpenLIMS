@@ -6,7 +6,7 @@
 
 ## Current Phase
 
-Phase 8: 后续规格工作边界与草案
+Complete
 
 ## Phases
 
@@ -86,6 +86,7 @@ Phase 8: 后续规格工作边界与草案
 | 尝试 `browser.tabs.open` 新建标签页时 API 不存在 | 1 | 检查当前浏览器绑定公开的 tabs/user 方法，使用受支持的新建标签方式；不猜测重复调用 |
 | 带未提交 planning 续作记录切换 `main` 被 Git 阻止，后续误在特性分支尝试 ff-only 也因分叉失败 | 1 | 不丢弃记录；先把仅 planning 的自有变更提交为临时本地提交，再同步 main 并 cherry-pick 该提交 |
 | 新增草案后 Python 仓库契约 3 项失败：规格总数/生成任务精确基线未更新，ATC-TOY-004 缺 OD-002 组织上下文依赖 | 1 | 保持严格断言；补精确基线与缺失依赖后重新生成并重跑，不放宽测试 |
+| GitHub 选择 Draft 类型后按预期名称查找 `Create draft pull request` 按钮超时 | 1 | 不重复同一 selector；检查选择后的实际按钮可访问名称，再提交 |
 
 ## Continuation: 2026-07-27 全部后续任务收尾
 
@@ -109,5 +110,5 @@ Phase 8: 后续规格工作边界与草案
 
 - [x] 汇总已合并实现、草案文件、验证证据和剩余人工决策
 - [x] 确保没有越过 Story `allowed_paths`、没有直接编辑 `generated/spec/`、没有改写已封存历史
-- [ ] 提交、推送草案分支并创建 Draft PR 供人工评审
-- **Status:** in_progress
+- [x] 提交、推送草案分支并创建 Draft PR 供人工评审
+- **Status:** complete

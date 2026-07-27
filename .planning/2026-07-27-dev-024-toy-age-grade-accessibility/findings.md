@@ -72,3 +72,5 @@
 - 生成 readiness-report 明确区分：DEV-025/026 只待 proposed 规格人工批准；DEV-027 同时受 OD-034 open/proposed、完整 AC-TOY-002 和前序 DEV-025 阻断。
 - `tests/test_repository_contract.py` 只更新三个精确事实：规格版本 168→178、feature 60→66、生成任务新增 ATC-TOY-002/003/004；其余门禁保持严格。
 - `docs/domain/toy/follow-up-spec-review.md` 列出 DEV-025/026 的具体评审问题和 DEV-027 的 OD-034 exit criteria，且明确该文档不是 PRD 或批准证据。
+- GitHub 新 PR 页面已识别 `main...codex/toy-follow-up-spec-drafts`，标题默认正确、分支可自动合并；应选择 Draft PR，避免把草案合并动作误读为业务批准。
+- Draft PR #25 已由 GitHub API 复核：open、draft=true、base main、head `f1a7c21`。该 PR 是评审载体，不是 approval_evidence，也不授权 DEV-025～027 实现。

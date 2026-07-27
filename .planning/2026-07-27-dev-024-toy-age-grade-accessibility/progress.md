@@ -82,3 +82,21 @@
 | `scripts/verify.ps1 -Profile all` | ENV STOP after .NET/frontend gates: Docker executable unavailable; frontend 19 files / 47 tests passed and production build passed |
 | `dotnet test OpenLIMS.slnx -c Release --no-build --no-restore` with test PostgreSQL | PASS: every .NET test project green |
 | final path/spec/diff audit | PASS: outside allowed paths `<none>`, `diff --check` clean, spec check passed, Story READY |
+
+## Session: 2026-07-27 全部后续任务收尾
+
+### Phase 7: 合并 DEV-024
+
+- **Status:** in_progress
+- 已恢复前序会话与磁盘计划；工作区位于 `codex/dev-024-toy-age-grade-accessibility`，HEAD 与远端均为 `05e8b0e`。
+- GitHub PR #24 为 open/clean/mergeable，`verify`、`deterministic-specification-gate`、`verify-module-onboarding-windows` 已全部 success。
+- 下一步：通过已登录的 GitHub 界面执行 Squash and merge，随后同步并核验 `main`。
+- 第一次按按钮角色点击 `Squash and merge` 在页面执行层超时，尚无合并状态变化；将先刷新页面状态再换定位方式。
+- 第二次改用精确文本 locator 仍在相同页面执行层超时；API 状态尚未变化。下一步刷新/重新导航标签页，避免复用陈旧交互上下文。
+- 第三次在重新导航、状态稳定且新建 locator 后仍失败，确认是标签页执行通道问题而非按钮/CI 状态问题；停止复用该标签页，转为同一登录浏览器的新标签页。
+- `browser.tabs.open` 并非当前绑定支持的方法；将先枚举公开 API，再按实际接口创建新标签页。
+- 使用 `tabs.new` 创建干净标签页后合并交互成功；GitHub API 复核 PR #24 为 closed/merged，合并提交 `3981eba4096bf8eb165713720f9f7d9c200b29ee`。
+- `git fetch origin --prune` 后 `origin/main` 已前进到 `3981eba`；下一步同步本地 `main`。
+- 直接切换 `main` 因三个 planning 文件的续作修改会被覆盖而被 Git 安全阻止；未丢失任何内容。将先提交这三个自有记录，再同步 main 并 cherry-pick。
+- 已在特性分支保存 planning 记录、切换 `main`、ff-only 到 `3981eba`，再 cherry-pick 并整理为 `docs(planning): record DEV-024 merge to main`。
+- **Phase 7 complete**：本地 `main` 已包含合并实现和独立 planning 记录；进入 Phase 8 后续规格草案。

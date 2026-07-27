@@ -43,3 +43,17 @@
 - toy 后续最小依赖顺序建议为：先 OPS-TOY-004/006（TestUnit 危险域、互斥破坏、样品需求与技术批准），再 OPS-TOY-007（LabelReview 版本失效与重审）。这些尚无 BUS/AC/Story 结构化规格，不能直接编码。
 - OPS-TOY-005（多 TestUnit 汇总结论）明确依赖 OD-034；当前只有 `OD-034@0.1.0`，状态 `proposed/open`，因此必须阻断，不能自行默认结论语义。
 - Git remote 为 `origin=https://github.com/garyyue2019/OpenLIMS.git`；当前环境没有 `gh` 命令。
+
+## Continuation Findings: 2026-07-27
+
+- 会话恢复脚本报告前序上下文未完全写入计划；已依据 Git 与 GitHub 实时状态补记。
+- PR #24 的三项 GitHub checks 均已完成并成功；PR 状态为 open、mergeable=true、mergeable_state=clean。
+- 本地工作树无未提交变更，分支与 `origin/codex/dev-024-toy-age-grade-accessibility` 同步。
+- 后续业务项仍无获批 READY Story；可继续完成的是 DEV-024 合并和 `proposed`/`in_review` 规格草案，不能在没有人工批准的情况下进入实现。
+- 当前浏览器会话已保留 GitHub 登录态，并存在 PR #24 页面标签，可直接用于合并操作。
+- 旧标签页能读取 DOM 但点击在页面执行层超时；重新导航后页面进入正常的 merge-status 重载流程，应等待状态组件稳定后重新定位按钮。
+- 当前浏览器 tabs 接口支持 `new/selected/list/content/get`，不支持 `open`；已改用受支持的 `tabs.new` 创建干净标签页。
+- 新标签页 id=2 已加载同一 PR，登录态、3/3 checks、无冲突和 `Squash and merge` 均正常；可在干净执行上下文重试一次交互。
+- 干净标签页点击成功，GitHub 已显示最终确认页；提交标题为 `feat(toy): deliver DEV-024 age grade accessibility (#24)`，未添加额外描述。
+- GitHub API 与 Git fetch 双重确认合并完成：PR #24 merged=true，merge SHA 为 `3981eba4096bf8eb165713720f9f7d9c200b29ee`，`origin/main` 指向该提交。
+- 本地 `main` 已快进到 `3981eba`；续作 planning 记录已独立提交，保持与 DEV-024 业务合并提交分离。

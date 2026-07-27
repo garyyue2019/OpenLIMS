@@ -6,7 +6,7 @@
 
 ## Current Phase
 
-Complete
+Phase 8: 后续规格工作边界与草案
 
 ## Phases
 
@@ -79,3 +79,33 @@ Complete
 | 更新任务集合后，同一测试继续执行并显出 feature 精确总数仍为 58 | 2 | 两个新 toy feature 使总数变为 60；同步精确计数后重跑 |
 | 仓库级 `Profile all` 在通过 .NET/前端门禁后因本机无 Docker 停止 | 1 | 记录环境限制，直接运行解决方案全部 .NET 测试并核对 Docker 阶段；不弱化验证脚本 |
 | 当前环境无 `gh` 命令 | 1 | Git 提交/推送可继续；创建或管理 PR 需改用浏览器或 GitHub API |
+| 首次追加续作计划时 progress 锚点重复，补丁未应用 | 1 | 读取三个计划文件尾部并按精确 EOF 上下文分别追加；未影响仓库内容 |
+| 首次按可访问角色点击 GitHub `Squash and merge` 超时 | 1 | 不重复同一点击；重新检查页面状态并改用页面当前元素引用或更精确定位 |
+| 改用精确文本定位点击仍在同一 CDP Runtime.evaluate 层超时 | 2 | 判断标签页交互上下文陈旧；下一次重新导航/刷新后再取新元素，不继续复用旧 locator |
+| 重新导航并等待状态稳定后，第三次新 locator 点击仍在 CDP Runtime.evaluate 层超时 | 3 | 停止在该标签页重试；改用同一登录浏览器的新标签页，若仍失败则不绕过 GitHub 合并审计而报告外部 UI 阻断 |
+| 尝试 `browser.tabs.open` 新建标签页时 API 不存在 | 1 | 检查当前浏览器绑定公开的 tabs/user 方法，使用受支持的新建标签方式；不猜测重复调用 |
+| 带未提交 planning 续作记录切换 `main` 被 Git 阻止，后续误在特性分支尝试 ff-only 也因分叉失败 | 1 | 不丢弃记录；先把仅 planning 的自有变更提交为临时本地提交，再同步 main 并 cherry-pick 该提交 |
+
+## Continuation: 2026-07-27 全部后续任务收尾
+
+### Phase 7: 合并 DEV-024
+
+- [x] 恢复前序会话、分支、PR 与 CI 上下文
+- [x] 确认 PR #24 三项检查全部成功且可无冲突合并
+- [x] 以 Squash and merge 合并 PR #24
+- [x] 同步本地 `main` 并核实合并提交
+- **Status:** complete
+
+### Phase 8: 后续规格工作边界与草案
+
+- [ ] 在最新 `main` 上重跑规格开始门禁
+- [ ] 复核 OPS-TOY-004/006、OPS-TOY-007、OPS-TOY-005 与 OD-034 的来源、依赖和开放决策
+- [ ] 按仓库现有版本与状态惯例起草可评审的 BUS/AC/Story；所有新稿保持 `proposed`/`in_review`，绝不自批 `approved`
+- [ ] 对每张草案运行适用的 validate/source-status/impact；记录仍需人工批准或业务决策的阻断项
+- **Status:** in_progress
+
+### Phase 9: 最终交付
+
+- [ ] 汇总已合并实现、草案文件、验证证据和剩余人工决策
+- [ ] 确保没有越过 Story `allowed_paths`、没有直接编辑 `generated/spec/`、没有改写已封存历史
+- **Status:** pending

@@ -85,6 +85,7 @@ Phase 8: 后续规格工作边界与草案
 | 重新导航并等待状态稳定后，第三次新 locator 点击仍在 CDP Runtime.evaluate 层超时 | 3 | 停止在该标签页重试；改用同一登录浏览器的新标签页，若仍失败则不绕过 GitHub 合并审计而报告外部 UI 阻断 |
 | 尝试 `browser.tabs.open` 新建标签页时 API 不存在 | 1 | 检查当前浏览器绑定公开的 tabs/user 方法，使用受支持的新建标签方式；不猜测重复调用 |
 | 带未提交 planning 续作记录切换 `main` 被 Git 阻止，后续误在特性分支尝试 ff-only 也因分叉失败 | 1 | 不丢弃记录；先把仅 planning 的自有变更提交为临时本地提交，再同步 main 并 cherry-pick 该提交 |
+| 新增草案后 Python 仓库契约 3 项失败：规格总数/生成任务精确基线未更新，ATC-TOY-004 缺 OD-002 组织上下文依赖 | 1 | 保持严格断言；补精确基线与缺失依赖后重新生成并重跑，不放宽测试 |
 
 ## Continuation: 2026-07-27 全部后续任务收尾
 
@@ -98,14 +99,15 @@ Phase 8: 后续规格工作边界与草案
 
 ### Phase 8: 后续规格工作边界与草案
 
-- [ ] 在最新 `main` 上重跑规格开始门禁
-- [ ] 复核 OPS-TOY-004/006、OPS-TOY-007、OPS-TOY-005 与 OD-034 的来源、依赖和开放决策
-- [ ] 按仓库现有版本与状态惯例起草可评审的 BUS/AC/Story；所有新稿保持 `proposed`/`in_review`，绝不自批 `approved`
-- [ ] 对每张草案运行适用的 validate/source-status/impact；记录仍需人工批准或业务决策的阻断项
-- **Status:** in_progress
+- [x] 在最新 `main` 上重跑规格开始门禁
+- [x] 复核 OPS-TOY-004/006、OPS-TOY-007、OPS-TOY-005 与 OD-034 的来源、依赖和开放决策
+- [x] 按仓库现有版本与状态惯例起草可评审的 BUS/AC/Story；所有新稿保持 `proposed`/`in_review`，绝不自批 `approved`
+- [x] 对每张草案运行适用的 validate/source-status/impact；记录仍需人工批准或业务决策的阻断项
+- **Status:** complete
 
 ### Phase 9: 最终交付
 
-- [ ] 汇总已合并实现、草案文件、验证证据和剩余人工决策
-- [ ] 确保没有越过 Story `allowed_paths`、没有直接编辑 `generated/spec/`、没有改写已封存历史
-- **Status:** pending
+- [x] 汇总已合并实现、草案文件、验证证据和剩余人工决策
+- [x] 确保没有越过 Story `allowed_paths`、没有直接编辑 `generated/spec/`、没有改写已封存历史
+- [ ] 提交、推送草案分支并创建 Draft PR 供人工评审
+- **Status:** in_progress

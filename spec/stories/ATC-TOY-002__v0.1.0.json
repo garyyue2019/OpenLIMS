@@ -1,0 +1,172 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "story",
+  "id": "ATC-TOY-002",
+  "version": "0.1.0",
+  "status": "proposed",
+  "target_release": "REL-R1-RECEIVING-PILOT@1.0.0",
+  "epic_id": "EP-EXECUTION",
+  "feature_id": "FEAT-TOY-TEST-UNIT-SAMPLE-DEMAND",
+  "title": "实施 DEV-025 玩具 TestUnit 计划与样品需求批准",
+  "summary": "在已交付的玩具年龄/可触及性、数量和任务分配公共端口之上，建立版本固定的 TestUnit 危险域、平行和有序序列计划；按互斥破坏、化学最低取样量、复测预留与留样计算样品需求，技术批准后方可预留和分配。",
+  "owners": ["实验室技术负责人", "玩具行业包负责人", "质量负责人", "QA负责人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "OPS-TOY-004"},
+    {"document": "PRD-MAIN", "item": "OPS-TOY-006"},
+    {"document": "PRD-MAIN", "item": "AC-TOY-002"}
+  ],
+  "depends_on": [
+    "ED-001@2.0.0",
+    "OD-001@1.0.0",
+    "OD-002@1.0.0",
+    "BUS-TOY-003@0.1.0",
+    "BUS-TOY-004@0.1.0",
+    "AC-TOY-003@0.1.0",
+    "ATC-TOY-001@1.0.0",
+    "ATC-QTY-001@1.0.0",
+    "ATC-ALLOC-001@1.0.0",
+    "SEC-AUTH-001@1.0.0",
+    "SEC-AUD-001@2.0.0",
+    "NFR-ARCH-001@2.0.0"
+  ],
+  "affects": ["toy", "test-unit", "hazard-domain", "sample-requirement", "destructive-exclusion", "quantity", "allocation", "technical-approval", "audit", "automated-test"],
+  "change_class": "major",
+  "body": {
+    "readiness": "blocked",
+    "implementation_task_id": "DEV-025",
+    "review_blockers": [
+      "BUS-TOY-003@0.1.0、BUS-TOY-004@0.1.0、AC-TOY-003@0.1.0 与本卡均为 proposed，必须由人工评审并发布后继 approved 版本",
+      "必须人工确认危险域代码权威来源、非破坏共享规则边界，以及 toy.sample-demand.approve 权限归属"
+    ],
+    "business_outcome": "玩具任务在开始前就能证明使用了哪些 TestUnit、覆盖哪些危险域、为何需要这些样品量，以及哪些破坏试验不能共享实物；技术人员对自动计算承担明确批准责任，数量不足或规则未知不会被默认成零需求。",
+    "actor": "编制 TestUnit 计划的玩具技术人员、批准样品需求的技术负责人，以及消费批准计划的数量/分配服务",
+    "preconditions": [
+      "ATC-TOY-001、ATC-QTY-001 与 ATC-ALLOC-001 已交付并只通过版本化公共端口协作",
+      "批准范围和方法/样品规则能提供精确版本的危险域、化学最低取样量及必要共享规则",
+      "本卡及三项拟议依赖经人工批准为精确后继版本后，重新生成本卡并运行 ready"
+    ],
+    "trigger": "批准范围需要形成玩具 TestUnit 计划和样品需求，或范围/年龄判定/规则变化要求追加新计划版本",
+    "happy_path": [
+      "创建 TestUnit 计划草案，固定产品、AgeGradeDecision、AccessibilityAssessment、ScopeLine、方法/样品规则和规则集版本",
+      "为每个 TestUnit 固定实物对象版本、危险域引用、平行号以及从 1 连续编号的试验序列",
+      "把互斥破坏任务拆到不同 TestUnit；非破坏共享只有在输入携带批准 shareRuleRef@version 时才允许",
+      "确定性计算基础需求、平行增量、互斥破坏增量、化学最低量、复测预留与留样，并逐分量保留来源",
+      "技术负责人核对输入哈希、规则集、单位与分量后批准；批准版本冻结",
+      "以批准版本调用 QuantityAvailabilityPort@v1 校验/预留，再调用 AllocationStatusPort@v1 创建版本固定分配",
+      "返回计划、需求、批准、端口决定和下游引用的可重建概览"
+    ],
+    "failure_paths": [
+      "危险域、规则版本、化学最低量、单位或必要引用缺失 → TOY.SAMPLE_REQUIREMENT_UNKNOWN，不生成可批准结果",
+      "平行号非正数、序列不连续/重复、任务未绑定序列步骤 → TOY.TEST_UNIT_PLAN_INVALID",
+      "互斥破坏任务复用同一 TestUnit，包括已释放的历史分配 → TOY.DESTRUCTIVE_TEST_UNIT_CONFLICT",
+      "未批准需求调用数量或分配端口 → TOY.SAMPLE_REQUIREMENT_NOT_APPROVED",
+      "Quantity/Allocation 返回 BLOCKED、UNKNOWN、过期或异常 → TOY.DOWNSTREAM_ELIGIBILITY_BLOCKED，不产生半完成分配",
+      "expectedCurrentVersion 不匹配或并发追加 → TOY.EXPECTED_VERSION_CONFLICT",
+      "行为人无 toy.manage 或无拟议 toy.sample-demand.approve → TOY.NOT_AUTHORIZED",
+      "审计、发件箱或本模块持久化失败 → 整体回滚并保留独立失败尝试证据"
+    ],
+    "invariants": [
+      "危险域与样品规则只来自精确版本输入；UNKNOWN 等同阻断",
+      "互斥破坏组在历史上永久禁止同一 TestUnit 复用，不因通用 Allocation 释放而解除",
+      "需求分量可解释且不可用静默合并掩盖化学最低量、复测或留样",
+      "技术批准是追加式事实，批准后计划/需求不可原地修改；变化必须新版本",
+      "toy 模块不访问 quantity/allocation 私表，只保存公共端口决定及其对象/规则版本",
+      "本卡不实现 OPS-TOY-005 多 TestUnit 产品结论，也不解除 OD-034 阻断"
+    ],
+    "data_contract": {
+      "testUnitPlan": ["planId", "productId/productVersion", "planVersion", "ageGradeDecisionVersion", "accessibilityAssessmentVersion", "scopeMatrixId/matrixVersion/scopeLineRefs", "sampleRuleRefs@version", "ruleSetVersion", "state(DRAFT/APPROVED/SUPERSEDED)", "inputHash", "createdBy", "createdAt"],
+      "testUnit": ["testUnitId", "planId/planVersion", "physicalObjectRef/version", "hazardDomainRefs@version[]", "parallelNumber", "sequenceSteps[]"],
+      "sequenceStep": ["stepId", "sequenceOrder", "taskRef/version", "destructive", "exclusiveDestructiveGroupId?", "shareRuleRef@version?"],
+      "demandComponent": ["componentId", "kind(BASE/PARALLEL/EXCLUSIVE_DESTRUCTIVE/CHEMICAL_MINIMUM/RETEST_RESERVE/RETENTION)", "hazardDomainRef@version?", "testUnitId?", "amount", "dimension", "unit", "sourceRuleRef@version"],
+      "sampleRequirement": ["requirementId", "planId/planVersion", "requirementVersion", "components[]", "totalsByDimensionAndUnit", "decision(PENDING_TECHNICAL_APPROVAL/APPROVED/UNKNOWN/SUPERSEDED)", "reasonCodes", "inputHash", "ruleSetVersion"],
+      "technicalApproval": ["requirementId/version", "approvedBy", "approvedAt", "approvalComment", "inputHash", "ruleSetVersion"],
+      "downstreamDecision": ["quantityDecision/accountVersion/ruleSetVersion", "reservationRefs[]", "allocationDecision/allocationVersion/ruleSetVersion"]
+    },
+    "api_contract": {
+      "operations": [
+        "POST /api/v1/toy/products/{id}/test-unit-plans → 201 创建计划草案并计算需求",
+        "POST /api/v1/toy/products/{id}/test-unit-plans/{planVersion}/approval → 200 技术批准并冻结",
+        "POST /api/v1/toy/products/{id}/test-unit-plans/{planVersion}/allocations → 201 经 Quantity/Allocation 端口预留和分配",
+        "GET /api/v1/toy/products/{id}/test-unit-plans/{planVersion} → 200 返回固定计划、分量、批准和端口决定"
+      ],
+      "publicPort": "IToyTestUnitPlanStatusPort@v1：按 productId、planVersion、ruleSetVersion 返回 ALLOWED/BLOCKED/UNKNOWN 和批准需求/分配引用；UNKNOWN 视为拒绝",
+      "errors": ["TOY.TEST_UNIT_PLAN_INVALID", "TOY.SAMPLE_REQUIREMENT_UNKNOWN", "TOY.DESTRUCTIVE_TEST_UNIT_CONFLICT", "TOY.SAMPLE_REQUIREMENT_NOT_APPROVED", "TOY.DOWNSTREAM_ELIGIBILITY_BLOCKED", "TOY.EXPECTED_VERSION_CONFLICT", "TOY.NOT_AUTHORIZED", "TOY.OBJECT_NOT_ACCESSIBLE", "TOY.PERSISTENCE_UNAVAILABLE"]
+    },
+    "state_transitions": [
+      "TestUnitPlan：DRAFT → APPROVED；APPROVED → SUPERSEDED 只由后继版本批准派生，旧内容不改写",
+      "SampleRequirement：PENDING_TECHNICAL_APPROVAL → APPROVED；输入未知时为 UNKNOWN 且不可批准",
+      "分配编排：APPROVED → RESERVING → ALLOCATED；端口失败进入 BLOCKED/RETRYABLE 证据状态，不伪造成功"
+    ],
+    "permissions": [
+      "拟议：计划草案与查询要求既有 toy.manage 和对象级授权",
+      "拟议：技术批准额外要求 toy.sample-demand.approve；本人是否可批准本人草案需人工评审，本草案不默认",
+      "Quantity/Allocation 端口继续执行各自已批准权限，本卡不复制或放宽",
+      "客户端不得提交 OrganizationGroup、approvedBy 或任何受信端口决定"
+    ],
+    "audit": [
+      "记录 CREATE_TEST_UNIT_PLAN、APPROVE_SAMPLE_REQUIREMENT、REQUEST_TOY_ALLOCATION 及 before/after version、输入哈希、规则集和 correlationId",
+      "本模块事实、audit_intent 与 outbox 同事务；跨模块调用保存请求/响应版本和重试证据，不覆盖失败记录",
+      "未授权、UNKNOWN、互斥冲突、数量不足与并发失败走独立追加 audit_attempt"
+    ],
+    "observability": ["计划/批准/UNKNOWN 计数", "按稳定原因码统计互斥冲突、数量不足和端口失败", "结构化日志固定 correlationId 且不记录图片正文、客户敏感内容或 Secret"],
+    "ui_states": ["本卡不新增前端页面；API/端口先行，未来 UI 必须显示需求分量、规则版本和批准状态"],
+    "test_cases": [
+      {"id": "TC-TOY-002-01", "title": "危险域、平行与有序序列", "type": "positive", "given": ["批准范围和样品规则版本完整"], "when": ["创建含两个平行和多步骤的计划"], "then": ["TestUnit 固定危险域/平行/连续序列", "计划和需求可重建"]},
+      {"id": "TC-TOY-002-02", "title": "互斥破坏任务分离", "type": "negative", "given": ["两个任务属于同一互斥破坏组"], "when": ["先分配到不同 TestUnit，再尝试复用同一 TestUnit"], "then": ["不同 TestUnit 成功", "复用以 TOY.DESTRUCTIVE_TEST_UNIT_CONFLICT 拒绝"]},
+      {"id": "TC-TOY-002-03", "title": "历史释放不解除互斥", "type": "recovery", "given": ["互斥任务已使用并释放 TestUnit"], "when": ["重试把同组任务分配给该 TestUnit"], "then": ["仍被拒绝", "历史证据保留"]},
+      {"id": "TC-TOY-002-04", "title": "需求分量与技术批准", "type": "positive", "given": ["基础、化学最低、复测和留样规则完整"], "when": ["计算并由技术人员批准"], "then": ["每个分量及来源独立可见", "批准版本冻结后可调用端口"]},
+      {"id": "TC-TOY-002-05", "title": "未知规则和单位冲突", "type": "boundary", "given": ["缺化学最低规则或维度/单位冲突"], "when": ["计算并尝试批准"], "then": ["返回 UNKNOWN", "不批准、不预留、不分配"]},
+      {"id": "TC-TOY-002-06", "title": "技术批准权限", "type": "permission", "given": ["有 toy.manage 但无拟议批准能力的行为人"], "when": ["批准需求"], "then": ["TOY.NOT_AUTHORIZED", "业务事实为零且失败尝试留痕"]},
+      {"id": "TC-TOY-002-07", "title": "并发计划版本", "type": "concurrency", "given": ["同一产品两个请求使用相同 expectedCurrentVersion"], "when": ["并发追加计划"], "then": ["恰一个成功", "另一方 TOY.EXPECTED_VERSION_CONFLICT"]},
+      {"id": "TC-TOY-002-08", "title": "下游端口失败关闭", "type": "negative", "given": ["需求已批准但 Quantity 返回不足或 Allocation 返回 UNKNOWN"], "when": ["请求分配"], "then": ["TOY.DOWNSTREAM_ELIGIBILITY_BLOCKED", "无半完成分配且决定版本留痕"]},
+      {"id": "TC-TOY-002-09", "title": "审计或 Outbox 失败回滚", "type": "audit", "given": ["注入证据写入失败"], "when": ["创建或批准"], "then": ["计划/批准与证据全部回滚", "独立失败尝试恰一条"]}
+    ],
+    "non_goals": [
+      "不实现 OPS-TOY-005 多 TestUnit 汇总结论或任何 ConformityDecision",
+      "不实现 OPS-TOY-007 LabelReview",
+      "不定义危险域代码、化学最低量或共享规则的业务默认值",
+      "不访问 Quantity/Allocation 私表，不修改其已批准状态机",
+      "不实现前端工作台、Seal、tag、GitHub Release、部署或生产迁移执行"
+    ],
+    "allowed_paths": [
+      "spec/requirements/BUS-TOY-003__v0.1.0.json",
+      "spec/requirements/BUS-TOY-004__v0.1.0.json",
+      "spec/acceptance/AC-TOY-003__v0.1.0.json",
+      "spec/stories/ATC-TOY-002__v0.1.0.json",
+      "generated/spec/**",
+      ".planning/2026-07-27-dev-025-toy-test-unit-sample-demand/**",
+      "OpenLIMS.slnx",
+      "contracts/toy/**",
+      "src/modules/toy/**",
+      "src/host/api/**",
+      "src/host/worker/**",
+      "tests/unit/toy/**",
+      "tests/contract/toy/**",
+      "tests/integration/toy/**",
+      "tests/architecture/**",
+      "tests/test_repository_contract.py",
+      "docs/domain/toy/**",
+      "scripts/verify.ps1",
+      "scripts/verify.sh",
+      "contracts/**/packages.lock.json",
+      "src/modules/**/packages.lock.json",
+      "src/host/**/packages.lock.json",
+      "tests/**/packages.lock.json"
+    ],
+    "verification_commands": [
+      "python -m tools.specgen ready --story ATC-TOY-002@0.1.0",
+      "pwsh -File scripts/verify.ps1 -Profile task -Module toy",
+      "pwsh -File scripts/verify.ps1 -Profile architecture",
+      "python -m tools.specgen check"
+    ],
+    "definition_of_done": [
+      "人工批准后继 BUS/AC/Story 精确版本且 ready 为 READY 后才编码",
+      "TestUnit 危险域、平行、序列和互斥破坏历史约束有领域与 PostgreSQL 强制测试",
+      "样品需求各分量、UNKNOWN、技术批准和不可变版本有自动测试",
+      "Quantity/Allocation 仅经公共端口协作且版本决定原样固定",
+      "权限、并发、恢复、审计/Outbox 回滚和失败证据测试齐全",
+      "全仓门禁通过、二次 generate written=0、所有改动位于 approved Story allowed_paths"
+    ]
+  }
+}

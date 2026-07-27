@@ -100,3 +100,19 @@
 - 直接切换 `main` 因三个 planning 文件的续作修改会被覆盖而被 Git 安全阻止；未丢失任何内容。将先提交这三个自有记录，再同步 main 并 cherry-pick。
 - 已在特性分支保存 planning 记录、切换 `main`、ff-only 到 `3981eba`，再 cherry-pick 并整理为 `docs(planning): record DEV-024 merge to main`。
 - **Phase 7 complete**：本地 `main` 已包含合并实现和独立 planning 记录；进入 Phase 8 后续规格草案。
+
+### Phase 8: 后续规格工作边界与草案
+
+- **Status:** in_progress
+- 从最新 `main` 创建 `codex/toy-follow-up-spec-drafts`。
+- 开始门禁通过：validate 168/389、SOURCE CURRENT、impact 无直接或传递影响。
+- 检索确认 OPS-TOY-004/005/006/007 只存在于 PRD 来源与基线，尚无结构化 requirement；OD-034 仍仅有 `0.1.0 proposed/open`。
+- 已新增 10 个 `0.1.0 proposed` 草案：BUS-TOY-003～006、AC-TOY-002～004、ATC-TOY-002～004（DEV-025～027）。
+- validate 通过（178 个规格版本/389 来源），SOURCE CURRENT，impact 仅列出 10 个新增 MAJOR 草案，`git diff --check` 通过。
+- 三张 Story 的 ready 均按预期 BLOCKED：DEV-025 仅被三项 proposed 草案阻断；DEV-026 仅被两项 proposed 草案阻断；DEV-027 还被 OD-034 proposed/open 与前序卡阻断。
+- 严格 validate/source/history/check 通过；首次 generate `written=18`，第二次 `written=0 unchanged=119`。
+- Python 41 项有 3 项严格契约失败：期望规格数仍为 168、生成任务集合缺三张新卡、ATC-TOY-004 缺所有 Story 必需的 `OD-002@1.0.0` 依赖。均为草案接入缺口，未出现业务逻辑或生成器故障。
+- 已补精确规格/feature/task 基线和 OD-002 依赖，Python 41/41 通过；未放宽任何仓库契约。
+- 最终门禁通过：strict validate 178/389、SOURCE CURRENT、impact 为空、history passed、check passed、两次 generate 均 `written=0 unchanged=119`、`git diff --check` clean。
+- 生成 readiness-report 与三张任务文档均准确显示 proposed/blocked；新增 `docs/domain/toy/follow-up-spec-review.md` 作为人工评审导航，不修改 PRD。
+- **Phase 8 complete**：10 个 proposed 草案、生成物、精确契约测试和评审清单完成。Phase 9 仅剩提交、推送和 Draft PR。

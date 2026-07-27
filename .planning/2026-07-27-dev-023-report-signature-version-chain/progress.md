@@ -14,3 +14,4 @@
   另外 30 项被反驳者否决，其中多数是变异覆盖偏好或对已批准规格的改写请求（例如要求把签署人放进哈希、要求验证页返回取代关系数组），均与 ATC-RPT-002 冻结的数据契约相悖。
 - 复核后回归：单元 42 + 契约 16 + 集成 27 = 报告模块 85 全绿；全仓 40 个项目、553 个测试全绿。
 - 全量门禁：validate --strict-warnings=164、check、verify-history、二次 generate written=0、仓库契约测试 18 项全绿；路径审计 32 文件 outside_allowed=0。
+- PR #23 三项 CI 全绿后 squash 合并入 main（cdd1a28）。

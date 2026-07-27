@@ -307,9 +307,9 @@ PRD-MAIN,OPS-TEXTILE-002,table-row,12.4 收样、身份和拆解,777,纺织样�
 PRD-MAIN,OPS-TEXTILE-003,table-row,12.4 收样、身份和拆解,778,CuttingPlan 必须记录来源实物/布批、取样部位、经纬或纵横方向、尺寸、数量、距布边要求、模板版本、操作人及生成试样,4d29e9a52e12b6cae2634946302c11d9ceeea8238fbfba4200a9cf0b5dd693d2,ATC-TEX-001@1.0.0;BUS-TEX-003@1.0.0
 PRD-MAIN,OPS-TEXTILE-004,table-row,12.4 收样、身份和拆解,779,调湿和洗涤必须分别保存计划与实际温湿度、时长、程序、洗涤剂、干燥方式和超差影响；影响未批准前不得报告,de626ac9b5e178ce40799e35f98111d5c8c51f465c3cf8accb4f293fc5c1ecf1,ATC-TEX-003@1.0.0;BUS-TEX-004@1.0.0;BUS-TEX-005@1.0.0
 PRD-MAIN,OPS-TEXTILE-005,table-row,12.4 收样、身份和拆解,780,CoverageDecision 必须明确款号、颜色、尺码、材料、部件、部位、供应商/染批和项目范围；不得默认以“最深色”代表全部颜色,fffe0a3310f7e29aad85f369b9427f3c48059f8264ebd660c5858f0d1de87652,
-PRD-MAIN,OPS-TOY-001,table-row,12.4 收样、身份和拆解,769,系统必须分别保存客户年龄/用途声明和实验室 AgeGradeDecision；年龄决定必须有依据、批准、版本和冻结状态,faffa70bc7e55c965adc3e1ac61ac1b13666dc78427c30533aa2e1cfe1c8ead4,
-PRD-MAIN,OPS-TOY-002,table-row,12.4 收样、身份和拆解,770,年龄或用途决定变化时，系统必须重新计算受影响要求条款、样品需求、测试单元、标签审查和已执行任务/结果影响，不得原地改写原决定,c746ed28dec9b412910d212b31b3e8057e3d63428c36bdebe0955b6874dc5320,
-PRD-MAIN,OPS-TOY-003,table-row,12.4 收样、身份和拆解,771,AccessibilityAssessment 必须按初始、正常使用后和各使用滥用事件后分别版本化；新暴露部件必须触发机械/化学/标签范围重新评估,4d43cb0393ca940e8c129f9f7bc86625c5b3299297d6e717b9aeb13ee49bb13e,
+PRD-MAIN,OPS-TOY-001,table-row,12.4 收样、身份和拆解,769,系统必须分别保存客户年龄/用途声明和实验室 AgeGradeDecision；年龄决定必须有依据、批准、版本和冻结状态,faffa70bc7e55c965adc3e1ac61ac1b13666dc78427c30533aa2e1cfe1c8ead4,ATC-TOY-001@1.0.0;BUS-TOY-001@1.0.0
+PRD-MAIN,OPS-TOY-002,table-row,12.4 收样、身份和拆解,770,年龄或用途决定变化时，系统必须重新计算受影响要求条款、样品需求、测试单元、标签审查和已执行任务/结果影响，不得原地改写原决定,c746ed28dec9b412910d212b31b3e8057e3d63428c36bdebe0955b6874dc5320,AC-TOY-001@1.0.0;ATC-TOY-001@1.0.0;BUS-TOY-001@1.0.0
+PRD-MAIN,OPS-TOY-003,table-row,12.4 收样、身份和拆解,771,AccessibilityAssessment 必须按初始、正常使用后和各使用滥用事件后分别版本化；新暴露部件必须触发机械/化学/标签范围重新评估,4d43cb0393ca940e8c129f9f7bc86625c5b3299297d6e717b9aeb13ee49bb13e,AC-TOY-001@1.0.0;ATC-TOY-001@1.0.0;BUS-TOY-002@1.0.0
 PRD-MAIN,OPS-TOY-004,table-row,12.4 收样、身份和拆解,772,每个 TestUnit 必须唯一分配适用危险域、平行号和有序试验序列；互斥破坏性任务不得复用同一测试单元,321b9154e2a8eb0a5c9714461b5e51c92c11a34d6b932693ee704c3228496f5a,
 PRD-MAIN,OPS-TOY-005,table-row,12.4 收样、身份和拆解,773,多测试单元结果汇总为产品/型号结论时必须引用批准的危险域覆盖，不得拼接成未实际存在的“同一整件全部通过”,5412fbcaff83246885136efdfab13b870c3aa8a1d23871d9fdeb17a904196858,
 PRD-MAIN,OPS-TOY-006,table-row,12.4 收样、身份和拆解,774,玩具样品需求必须按危险域 × 测试单元 × 平行 × 互斥破坏试验，加化学最低取样量、复测预留和留样确定；自动计算结果必须由技术人员批准,9f483f4725b5970b3367b459dad1ea58327c58e25836d8fe091b3a4666b69504,

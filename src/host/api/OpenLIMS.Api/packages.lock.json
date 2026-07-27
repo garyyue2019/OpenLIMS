@@ -172,6 +172,9 @@
       "openlims.contracts.scope": {
         "type": "Project"
       },
+      "openlims.contracts.toy": {
+        "type": "Project"
+      },
       "openlims.modules.allocation": {
         "type": "Project",
         "dependencies": {
@@ -284,6 +287,15 @@
           "OpenLIMS.BuildingBlocks.Platform": "[1.0.0, )",
           "OpenLIMS.Contracts.Platform": "[1.0.0, )",
           "OpenLIMS.Contracts.Scope": "[1.0.0, )"
+        }
+      },
+      "openlims.modules.toy": {
+        "type": "Project",
+        "dependencies": {
+          "Npgsql": "[10.0.3, )",
+          "OpenLIMS.BuildingBlocks.Platform": "[1.0.0, )",
+          "OpenLIMS.Contracts.Platform": "[1.0.0, )",
+          "OpenLIMS.Contracts.Toy": "[1.0.0, )"
         }
       },
       "AWSSDK.S3": {

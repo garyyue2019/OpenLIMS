@@ -9,6 +9,7 @@ using OpenLIMS.Modules.Allocation;
 using OpenLIMS.Modules.Billing;
 using OpenLIMS.Modules.Instrument;
 using OpenLIMS.Modules.Qc;
+using OpenLIMS.Modules.Toy;
 using OpenLIMS.Modules.Report;
 using OpenLIMS.Modules.Batch;
 using OpenLIMS.Modules.Labeling;
@@ -43,6 +44,7 @@ IOpenLimsServerModule[] modules =
     new BillingModule(deploymentOptions.PostgresConnectionString!),
     new InstrumentModule(deploymentOptions.PostgresConnectionString!),
     new QcModule(deploymentOptions.PostgresConnectionString!),
+    new ToyModule(deploymentOptions.PostgresConnectionString!),
     new ReportModule(deploymentOptions.PostgresConnectionString!)
 ];
 var moduleCatalog = OpenLimsModuleCatalog.Create(modules);
@@ -241,6 +243,12 @@ app.MapGet("/openapi/v1.json", () => Results.Json(new
         ["/api/v1/qc-runs/{id}/release"] = new { post = new { operationId = "releaseQcBlock", responses = new { created = new { description = "Block released once all five gates are satisfied" } } } },
         ["/api/v1/qc-runs/{id}"] = new { get = new { operationId = "getQcRun", responses = new { ok = new { description = "QC run with results, impact scope, gates and deviations" } } } },
         ["/api/v1/qc-runs/{id}/reportability"] = new { get = new { operationId = "getQcReportability", responses = new { ok = new { description = "Version-pinned QC reportability decision for a target" } } } },
+        ["/api/v1/toy/products/{id}/age-declarations"] = new { post = new { operationId = "recordToyAgeDeclaration", responses = new { created = new { description = "Customer age and intended-use claim recorded as its own fact" } } } },
+        ["/api/v1/toy/products/{id}/age-grade-decisions"] = new { post = new { operationId = "recordToyAgeGradeDecision", responses = new { created = new { description = "Laboratory age grade determination appended as a new version" } } } },
+        ["/api/v1/toy/products/{id}/age-grade-decisions/{versionNumber}/freeze"] = new { post = new { operationId = "freezeToyAgeGradeDecision", responses = new { ok = new { description = "Determination frozen into force; the previous one becomes superseded" } } } },
+        ["/api/v1/toy/products/{id}/accessibility-assessments"] = new { post = new { operationId = "recordToyAccessibilityAssessment", responses = new { created = new { description = "Accessibility assessed for one stage; newly exposed parts raise scope reassessments" } } } },
+        ["/api/v1/toy/products/{id}/reassessment-triggers/{triggerId}/resolution"] = new { post = new { operationId = "resolveToyReassessmentTrigger", responses = new { ok = new { description = "Reassessment trigger settled by an approved conclusion" } } } },
+        ["/api/v1/toy/products/{id}/overview"] = new { get = new { operationId = "getToyProductOverview", responses = new { ok = new { description = "Effective determination, assessment history and outstanding reassessments" } } } },
         ["/api/v1/reports"] = new { post = new { operationId = "createReport", responses = new { created = new { description = "Report draft created" } } } },
         ["/api/v1/reports/{id}/lines"] = new { post = new { operationId = "addReportLine", responses = new { created = new { description = "Report line pinned to a current adoption with its full contribution chain" } } } },
         ["/api/v1/reports/{id}/gate-evaluation"] = new { post = new { operationId = "evaluateReportGate", responses = new { created = new { description = "Issuance gate evaluated across every upstream source with itemised blockers" } } } },

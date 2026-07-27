@@ -530,6 +530,36 @@
       "status": "approved",
       "title": "裁样方向与预处理超差契约验收"
     },
+    "AC-TOY-001@1.0.0": {
+      "affects": [
+        "toy",
+        "age-grade",
+        "accessibility",
+        "scope-reassessment",
+        "automated-test"
+      ],
+      "depends_on": [
+        "OD-001@1.0.0",
+        "BUS-TOY-001@1.0.0",
+        "BUS-TOY-002@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "35015245e39461e6ba73683a3b323b64e0d3c0ee3315af83b31379188a7ebef4",
+      "kind": "acceptance",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TOY-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TOY-003"
+        }
+      ],
+      "status": "approved",
+      "title": "年龄改判与新暴露部件"
+    },
     "AC-TRACE-001@1.0.0": {
       "affects": [
         "report",
@@ -2407,6 +2437,51 @@
       "status": "approved",
       "title": "实施 DEV-012 纺织调湿/洗涤及超差契约切片"
     },
+    "ATC-TOY-001@1.0.0": {
+      "affects": [
+        "toy",
+        "age-grade",
+        "declaration",
+        "accessibility",
+        "abuse-event",
+        "scope-reassessment",
+        "audit",
+        "outbox",
+        "authorization",
+        "automated-test"
+      ],
+      "depends_on": [
+        "ED-001@2.0.0",
+        "OD-001@1.0.0",
+        "OD-002@1.0.0",
+        "BUS-TOY-001@1.0.0",
+        "BUS-TOY-002@1.0.0",
+        "AC-TOY-001@1.0.0",
+        "ATC-PLT-001@1.0.0",
+        "ATC-PLT-002@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0",
+        "NFR-ARCH-001@2.0.0"
+      ],
+      "fingerprint": "9378943c2fa4dd87ff918c12953d127006619a49d31a41286c1965fcd9cfc70b",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TOY-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TOY-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TOY-003"
+        }
+      ],
+      "status": "approved",
+      "title": "实施 DEV-024 玩具年龄分级判定与可触及性评估"
+    },
     "BUS-AI-001@1.0.0": {
       "affects": [
         "ai",
@@ -3615,6 +3690,60 @@
       ],
       "status": "approved",
       "title": "预处理超差评估与报告阻断规则"
+    },
+    "BUS-TOY-001@1.0.0": {
+      "affects": [
+        "toy",
+        "age-grade",
+        "declaration",
+        "versioning",
+        "audit"
+      ],
+      "depends_on": [
+        "OD-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0",
+        "NFR-ARCH-001@2.0.0"
+      ],
+      "fingerprint": "a9f2b3cf0bcb669c330eb81a36b5916489a38c4b5a17ed967669e6d22430d034",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TOY-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TOY-002"
+        }
+      ],
+      "status": "approved",
+      "title": "客户年龄声明与实验室年龄分级判定分离"
+    },
+    "BUS-TOY-002@1.0.0": {
+      "affects": [
+        "toy",
+        "accessibility",
+        "abuse-event",
+        "scope-reassessment",
+        "audit"
+      ],
+      "depends_on": [
+        "OD-001@1.0.0",
+        "BUS-TOY-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "68ff61319394bb08a951620022efea5e339d14f53dd64a4fdb4b957ee5f54ef0",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TOY-003"
+        }
+      ],
+      "status": "approved",
+      "title": "可触及性评估版本化与新暴露部件触发范围重评"
     },
     "ED-001@0.1.0": {
       "affects": [

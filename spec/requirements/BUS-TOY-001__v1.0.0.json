@@ -1,0 +1,53 @@
+{
+ "$schema": "../schema/spec-object.schema.json",
+ "schema_version": 1,
+ "kind": "requirement",
+ "id": "BUS-TOY-001",
+ "version": "1.0.0",
+ "status": "approved",
+ "title": "客户年龄声明与实验室年龄分级判定分离",
+ "summary": "客户申报的年龄/用途声明与实验室做出的 AgeGradeDecision 是两个独立事实，分别保存、互不覆盖。年龄判定必须携带依据、批准人、版本号与冻结状态；冻结后不得原地修改，任何改判只能追加新版本。",
+ "owners": [
+  "技术负责人",
+  "玩具行业包负责人"
+ ],
+ "source_refs": [
+  {
+   "document": "PRD-MAIN",
+   "item": "OPS-TOY-001"
+  },
+  {
+   "document": "PRD-MAIN",
+   "item": "OPS-TOY-002"
+  }
+ ],
+ "depends_on": [
+  "OD-001@1.0.0",
+  "SEC-AUTH-001@1.0.0",
+  "SEC-AUD-001@2.0.0",
+  "NFR-ARCH-001@2.0.0"
+ ],
+ "affects": [
+  "toy",
+  "age-grade",
+  "declaration",
+  "versioning",
+  "audit"
+ ],
+ "change_class": "major",
+ "priority": "Must",
+ "activation": {
+  "mode": "enabled_pack",
+  "applicability": "ENABLED",
+  "condition": "OD-001 将玩具/婴童用品定为 Release 1 唯一试点行业包"
+ },
+ "approval_evidence": "用户于 2026-07-27 决定 OD-001 为'玩具 + 机械物理方法族'，试点行业包由此确定；本切片按该决定交付玩具包的年龄分级基线。",
+ "invariants": [
+  "客户年龄/用途声明与实验室 AgeGradeDecision 存于不同事实表，声明的任何变更都不得改写既有判定（OPS-TOY-001）",
+  "每条 AgeGradeDecision 必须携带判定依据文本、适用标准引用及其版本、批准人与批准时间；缺任一项拒绝落库",
+  "AgeGradeDecision 版本号自 1 起单调递增；冻结（FROZEN）后该版本的判定内容不可变，由数据库触发器强制（errcode 55000）",
+  "同一产品在任一时刻至多有一条生效（EFFECTIVE）年龄判定：生效状态由追加式冻结日志派生为'编号最大的已冻结版本'，不存可变状态列，因而结构上不可能出现两条生效；前一版本按其版本号取回时仍返回其自身内容",
+  "未冻结（DRAFT）的判定不得被下游引用；引用方读到 DRAFT 时按未知处理并拒绝放行",
+  "声明与判定的每次写入都产生审计意图，且判定的写入同时产生发件箱事件"
+ ]
+}

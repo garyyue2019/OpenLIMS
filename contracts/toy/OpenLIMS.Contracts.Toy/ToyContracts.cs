@@ -12,9 +12,20 @@ public static class ToyContract
     public const string OverviewPath = "/api/v1/toy/products/{id}/overview";
 }
 
+public static class ToyTestUnitPlanContract
+{
+    public const string Version = "1.0.0";
+    public const string RuleSetVersion = "TOY-TEST-UNIT-SAMPLE-DEMAND@1.0.0";
+    public const string PlanPath = "/api/v1/toy/products/{id}/test-unit-plans";
+    public const string ApprovalPath = "/api/v1/toy/products/{id}/test-unit-plans/{planVersion}/approval";
+    public const string AllocationPath = "/api/v1/toy/products/{id}/test-unit-plans/{planVersion}/allocations";
+    public const string DetailPath = "/api/v1/toy/products/{id}/test-unit-plans/{planVersion}";
+}
+
 public static class ToyCapabilities
 {
     public const string Manage = "toy.manage";
+    public const string SampleDemandApprove = "toy.sample-demand.approve";
 }
 
 public static class ToyClaimTypes
@@ -97,11 +108,302 @@ public static class ToyErrorCodes
     public const string NotAuthorized = "TOY.NOT_AUTHORIZED";
     public const string ObjectNotAccessible = "TOY.OBJECT_NOT_ACCESSIBLE";
     public const string PersistenceUnavailable = "TOY.PERSISTENCE_UNAVAILABLE";
+    public const string TestUnitPlanInvalid = "TOY.TEST_UNIT_PLAN_INVALID";
+    public const string SampleRequirementUnknown = "TOY.SAMPLE_REQUIREMENT_UNKNOWN";
+    public const string DestructiveTestUnitConflict = "TOY.DESTRUCTIVE_TEST_UNIT_CONFLICT";
+    public const string SampleRequirementNotApproved = "TOY.SAMPLE_REQUIREMENT_NOT_APPROVED";
+    public const string DownstreamEligibilityBlocked = "TOY.DOWNSTREAM_ELIGIBILITY_BLOCKED";
+}
+
+public static class ToyTestUnitPlanStates
+{
+    public const string Draft = "DRAFT";
+    public const string Approved = "APPROVED";
+    public const string Superseded = "SUPERSEDED";
+}
+
+public static class ToySampleRequirementDecisions
+{
+    public const string PendingTechnicalApproval = "PENDING_TECHNICAL_APPROVAL";
+    public const string Approved = "APPROVED";
+    public const string Unknown = "UNKNOWN";
+    public const string Superseded = "SUPERSEDED";
+}
+
+public static class ToySampleDemandKinds
+{
+    public const string Base = "BASE";
+    public const string Parallel = "PARALLEL";
+    public const string ExclusiveDestructive = "EXCLUSIVE_DESTRUCTIVE";
+    public const string ChemicalMinimum = "CHEMICAL_MINIMUM";
+    public const string RetestReserve = "RETEST_RESERVE";
+    public const string Retention = "RETENTION";
+
+    public static readonly IReadOnlyList<string> All =
+        [Base, Parallel, ExclusiveDestructive, ChemicalMinimum, RetestReserve, Retention];
+}
+
+public static class ToyApplicabilityDecisions
+{
+    public const string Allowed = "ALLOWED";
+    public const string Blocked = "BLOCKED";
+    public const string Unknown = "UNKNOWN";
+}
+
+public static class ToyTestUnitPlanStatusDecisions
+{
+    public const string Allowed = "ALLOWED";
+    public const string Blocked = "BLOCKED";
+    public const string Unknown = "UNKNOWN";
+}
+
+public static class ToyTestUnitPlanStatusReasons
+{
+    public const string PlanRequired = "PLAN_REQUIRED";
+    public const string PlanVersionMismatch = "PLAN_VERSION_MISMATCH";
+    public const string RuleSetVersionUnknown = "RULE_SET_VERSION_UNKNOWN";
+    public const string RequirementNotApproved = "REQUIREMENT_NOT_APPROVED";
+    public const string DownstreamAllocationRequired = "DOWNSTREAM_ALLOCATION_REQUIRED";
+    public const string ToyUnavailable = "TOY_UNAVAILABLE";
 }
 
 public sealed record ToyVersionedReference(string Id, long Version);
 
 public sealed record ToyObjectContext(string LegalEntityId, string LaboratoryId);
+
+public sealed record CreateToySequenceStepInput(
+    string StepId,
+    int SequenceOrder,
+    ToyVersionedReference TaskRef,
+    bool Destructive,
+    string? ExclusiveDestructiveGroupId,
+    ToyVersionedReference? ShareRuleRef);
+
+public sealed record CreateToyTestUnitInput(
+    string TestUnitId,
+    ToyVersionedReference PhysicalObjectRef,
+    IReadOnlyList<ToyVersionedReference> HazardDomainRefs,
+    int ParallelNumber,
+    IReadOnlyList<CreateToySequenceStepInput> SequenceSteps);
+
+public sealed record ToySampleDemandInput(
+    string ComponentId,
+    string Kind,
+    ToyVersionedReference? HazardDomainRef,
+    string? TestUnitId,
+    decimal Amount,
+    string Dimension,
+    string Unit,
+    ToyVersionedReference SourceRuleRef,
+    string Applicability);
+
+public sealed record CreateToyTestUnitPlanRequest(
+    string RuleSetVersion,
+    ToyObjectContext ObjectScope,
+    long ExpectedCurrentVersion,
+    long ProductVersion,
+    long AgeGradeDecisionVersion,
+    long AccessibilityAssessmentVersion,
+    string ScopeMatrixId,
+    long ScopeMatrixVersion,
+    IReadOnlyList<ToyVersionedReference> ScopeLineRefs,
+    IReadOnlyList<ToyVersionedReference> SampleRuleRefs,
+    IReadOnlyList<CreateToyTestUnitInput> TestUnits,
+    IReadOnlyList<ToySampleDemandInput> DemandInputs);
+
+public sealed record ApproveToySampleRequirementRequest(
+    long ExpectedCurrentVersion,
+    string RuleSetVersion,
+    string InputHash,
+    string ApprovalComment);
+
+public sealed record ToyQuantityGateInput(
+    string QuantityAccountId,
+    long ExpectedAccountVersion,
+    string RuleSetVersion,
+    decimal Amount,
+    string Dimension,
+    string Unit,
+    string ReservationRef);
+
+public sealed record ToyAllocationGateInput(
+    string AllocationId,
+    long ExpectedSubjectAllocationVersion,
+    string RuleSetVersion,
+    string TestUnitId,
+    string SequenceStepId);
+
+public sealed record RequestToyAllocationRequest(
+    long ExpectedCurrentVersion,
+    string RuleSetVersion,
+    IReadOnlyList<ToyQuantityGateInput> QuantityChecks,
+    IReadOnlyList<ToyAllocationGateInput> AllocationChecks);
+
+public sealed record ToySequenceStepEntry(
+    string StepId,
+    int SequenceOrder,
+    ToyVersionedReference TaskRef,
+    bool Destructive,
+    string? ExclusiveDestructiveGroupId,
+    ToyVersionedReference? ShareRuleRef);
+
+public sealed record ToyTestUnitEntry(
+    string TestUnitId,
+    ToyVersionedReference PhysicalObjectRef,
+    IReadOnlyList<ToyVersionedReference> HazardDomainRefs,
+    int ParallelNumber,
+    IReadOnlyList<ToySequenceStepEntry> SequenceSteps);
+
+public sealed record ToySampleDemandComponent(
+    string ComponentId,
+    string Kind,
+    ToyVersionedReference? HazardDomainRef,
+    string? TestUnitId,
+    decimal Amount,
+    string Dimension,
+    string Unit,
+    ToyVersionedReference SourceRuleRef);
+
+public sealed record ToySampleDemandTotal(
+    string Dimension,
+    string Unit,
+    decimal Amount);
+
+public sealed record ToySampleDemandCalculation(
+    IReadOnlyList<ToySampleDemandComponent> Components,
+    IReadOnlyList<ToySampleDemandTotal> Totals,
+    string Decision,
+    IReadOnlyList<string> ReasonCodes,
+    string InputHash,
+    string RuleSetVersion);
+
+public sealed record ToyTechnicalApprovalEntry(
+    string RequirementId,
+    long RequirementVersion,
+    string ApprovedBy,
+    DateTimeOffset ApprovedAt,
+    string ApprovalComment,
+    string InputHash,
+    string RuleSetVersion);
+
+public sealed record ToyQuantityDecisionEntry(
+    string QuantityAccountId,
+    long ExpectedAccountVersion,
+    long CurrentAccountVersion,
+    decimal RequestedAmount,
+    decimal AvailableAmount,
+    string Dimension,
+    string Unit,
+    string ReservationRef,
+    string Decision,
+    IReadOnlyList<string> ReasonCodes,
+    string RuleSetVersion);
+
+public sealed record ToyAllocationDecisionEntry(
+    string AllocationId,
+    long ExpectedSubjectAllocationVersion,
+    long CurrentSubjectAllocationVersion,
+    string State,
+    string TestUnitId,
+    string SequenceStepId,
+    string Decision,
+    IReadOnlyList<string> ReasonCodes,
+    string RuleSetVersion);
+
+public sealed record ToyDownstreamDecisionEntry(
+    string RequestId,
+    IReadOnlyList<ToyQuantityDecisionEntry> QuantityDecisions,
+    IReadOnlyList<ToyAllocationDecisionEntry> AllocationDecisions,
+    string RequestedBy,
+    DateTimeOffset RequestedAt);
+
+public sealed record ToySampleRequirementEntry(
+    string RequirementId,
+    long RequirementVersion,
+    IReadOnlyList<ToySampleDemandComponent> Components,
+    IReadOnlyList<ToySampleDemandTotal> Totals,
+    string Decision,
+    IReadOnlyList<string> ReasonCodes,
+    string InputHash,
+    string RuleSetVersion);
+
+public sealed record ToyTestUnitPlanResult(
+    string PlanId,
+    string ProductId,
+    long ProductVersion,
+    long PlanVersion,
+    long AgeGradeDecisionVersion,
+    long AccessibilityAssessmentVersion,
+    string ScopeMatrixId,
+    long ScopeMatrixVersion,
+    IReadOnlyList<ToyVersionedReference> ScopeLineRefs,
+    IReadOnlyList<ToyVersionedReference> SampleRuleRefs,
+    string RuleSetVersion,
+    string State,
+    string InputHash,
+    ToyObjectContext ObjectScope,
+    IReadOnlyList<ToyTestUnitEntry> TestUnits,
+    ToySampleRequirementEntry Requirement,
+    ToyTechnicalApprovalEntry? TechnicalApproval,
+    IReadOnlyList<ToyDownstreamDecisionEntry> DownstreamDecisions,
+    string CreatedBy,
+    DateTimeOffset CreatedAt);
+
+public sealed record ToyTestUnitPlanStatusRequest(
+    string OrganizationGroupId,
+    string ProductId,
+    long PlanVersion,
+    string RuleSetVersion)
+{
+    public string? CorrelationId { get; init; }
+}
+
+public sealed record ToyTestUnitPlanStatusResult(
+    string Decision,
+    IReadOnlyList<string> ReasonCodes,
+    string ProductId,
+    long? CurrentPlanVersion,
+    string? RequirementId,
+    long? RequirementVersion,
+    IReadOnlyList<string> ReservationRefs,
+    IReadOnlyList<string> AllocationIds,
+    string RuleSetVersion);
+
+public interface IToyTestUnitPlanStatusPort
+{
+    ValueTask<ToyTestUnitPlanStatusResult> EvaluateAsync(
+        ToyTestUnitPlanStatusRequest request,
+        CancellationToken cancellationToken = default);
+}
+
+public interface IToyTestUnitPlanService
+{
+    Task<ToyTestUnitPlanResult> CreatePlanAsync(
+        string productId,
+        CreateToyTestUnitPlanRequest request,
+        string correlationId,
+        CancellationToken cancellationToken = default);
+
+    Task<ToyTestUnitPlanResult> ApproveAsync(
+        string productId,
+        long planVersion,
+        ApproveToySampleRequirementRequest request,
+        string correlationId,
+        CancellationToken cancellationToken = default);
+
+    Task<ToyTestUnitPlanResult> RequestAllocationAsync(
+        string productId,
+        long planVersion,
+        RequestToyAllocationRequest request,
+        string correlationId,
+        CancellationToken cancellationToken = default);
+
+    Task<ToyTestUnitPlanResult> GetAsync(
+        string productId,
+        long planVersion,
+        string correlationId,
+        CancellationToken cancellationToken = default);
+}
 
 public sealed record RecordAgeDeclarationRequest(
     string RuleSetVersion,

@@ -21,7 +21,13 @@
           "OpenLIMS.Contracts.Platform": "[1.0.0, )"
         }
       },
+      "openlims.contracts.allocation": {
+        "type": "Project"
+      },
       "openlims.contracts.platform": {
+        "type": "Project"
+      },
+      "openlims.contracts.quantity": {
         "type": "Project"
       },
       "openlims.contracts.toy": {

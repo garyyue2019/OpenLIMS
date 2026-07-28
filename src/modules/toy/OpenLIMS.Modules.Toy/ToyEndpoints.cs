@@ -23,6 +23,14 @@ internal static class ToyEndpoints
             .WithName("resolveToyReassessmentTrigger").RequireAuthorization();
         endpoints.MapGet(ToyContract.OverviewPath, GetOverviewAsync)
             .WithName("getToyProductOverview").RequireAuthorization();
+        endpoints.MapPost(ToyTestUnitPlanContract.PlanPath, CreateTestUnitPlanAsync)
+            .WithName("createToyTestUnitPlan").RequireAuthorization();
+        endpoints.MapPost(ToyTestUnitPlanContract.ApprovalPath, ApproveSampleRequirementAsync)
+            .WithName("approveToySampleRequirement").RequireAuthorization();
+        endpoints.MapPost(ToyTestUnitPlanContract.AllocationPath, RequestToyAllocationAsync)
+            .WithName("requestToyAllocation").RequireAuthorization();
+        endpoints.MapGet(ToyTestUnitPlanContract.DetailPath, GetTestUnitPlanAsync)
+            .WithName("getToyTestUnitPlan").RequireAuthorization();
     }
 
     private static Task<IResult> RecordDeclarationAsync(
@@ -77,10 +85,65 @@ internal static class ToyEndpoints
         }
     }
 
-    private static async Task<IResult> PostAsync<TRequest>(
+    private static Task<IResult> CreateTestUnitPlanAsync(
+        string id,
+        HttpContext context,
+        IToyTestUnitPlanService service,
+        CancellationToken cancellationToken) =>
+        PostAsync<CreateToyTestUnitPlanRequest, ToyTestUnitPlanResult>(
+            context,
+            cancellationToken,
+            (request, correlationId) =>
+                service.CreatePlanAsync(id, request, correlationId, cancellationToken));
+
+    private static Task<IResult> ApproveSampleRequirementAsync(
+        string id,
+        long planVersion,
+        HttpContext context,
+        IToyTestUnitPlanService service,
+        CancellationToken cancellationToken) =>
+        PostAsync<ApproveToySampleRequirementRequest, ToyTestUnitPlanResult>(
+            context,
+            cancellationToken,
+            (request, correlationId) =>
+                service.ApproveAsync(id, planVersion, request, correlationId, cancellationToken),
+            StatusCodes.Status200OK);
+
+    private static Task<IResult> RequestToyAllocationAsync(
+        string id,
+        long planVersion,
+        HttpContext context,
+        IToyTestUnitPlanService service,
+        CancellationToken cancellationToken) =>
+        PostAsync<RequestToyAllocationRequest, ToyTestUnitPlanResult>(
+            context,
+            cancellationToken,
+            (request, correlationId) =>
+                service.RequestAllocationAsync(id, planVersion, request, correlationId, cancellationToken));
+
+    private static async Task<IResult> GetTestUnitPlanAsync(
+        string id,
+        long planVersion,
+        HttpContext context,
+        IToyTestUnitPlanService service,
+        CancellationToken cancellationToken)
+    {
+        var correlationId = Correlation(context);
+        try
+        {
+            return Results.Json(
+                await service.GetAsync(id, planVersion, correlationId, cancellationToken), ToyJson.Options);
+        }
+        catch (ToyDomainException exception)
+        {
+            return Problem(exception.ErrorCode, correlationId);
+        }
+    }
+
+    private static async Task<IResult> PostAsync<TRequest, TResult>(
         HttpContext context,
         CancellationToken cancellationToken,
-        Func<TRequest, string, Task<ToyProductOverview>> handle,
+        Func<TRequest, string, Task<TResult>> handle,
         int successStatusCode = StatusCodes.Status201Created)
     {
         var correlationId = Correlation(context);
@@ -96,6 +159,14 @@ internal static class ToyEndpoints
             return Problem(exception.ErrorCode, correlationId);
         }
     }
+
+    private static Task<IResult> PostAsync<TRequest>(
+        HttpContext context,
+        CancellationToken cancellationToken,
+        Func<TRequest, string, Task<ToyProductOverview>> handle,
+        int successStatusCode = StatusCodes.Status201Created) =>
+        PostAsync<TRequest, ToyProductOverview>(
+            context, cancellationToken, handle, successStatusCode);
 
     private static async Task<T?> ReadBodyAsync<T>(HttpContext context, CancellationToken cancellationToken)
     {
@@ -121,7 +192,10 @@ internal static class ToyEndpoints
                 ToyErrorCodes.DecisionNotFound => StatusCodes.Status404NotFound,
             ToyErrorCodes.ExpectedVersionConflict => StatusCodes.Status409Conflict,
             ToyErrorCodes.DecisionFrozen or
-                ToyErrorCodes.ReassessmentNotPending => StatusCodes.Status422UnprocessableEntity,
+                ToyErrorCodes.ReassessmentNotPending or
+                ToyErrorCodes.DestructiveTestUnitConflict or
+                ToyErrorCodes.SampleRequirementNotApproved or
+                ToyErrorCodes.DownstreamEligibilityBlocked => StatusCodes.Status422UnprocessableEntity,
             ToyErrorCodes.PersistenceUnavailable => StatusCodes.Status503ServiceUnavailable,
             _ => StatusCodes.Status400BadRequest
         };

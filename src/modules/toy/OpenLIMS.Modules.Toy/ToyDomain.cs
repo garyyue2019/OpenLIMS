@@ -1,5 +1,6 @@
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
 using OpenLIMS.Contracts.Toy;
 
 namespace OpenLIMS.Modules.Toy;
@@ -7,6 +8,257 @@ namespace OpenLIMS.Modules.Toy;
 public sealed class ToyDomainException(string errorCode) : Exception(errorCode)
 {
     public string ErrorCode { get; } = errorCode;
+}
+
+internal static class ToyTestUnitPlanDomain
+{
+    public static ToySampleDemandCalculation CalculateDraft(CreateToyTestUnitPlanRequest? request)
+    {
+        ValidateRequest(request);
+        var input = request!;
+        ValidateTestUnits(input.TestUnits);
+        ValidateDemand(input);
+
+        var components = input.DemandInputs
+            .Select(item => new ToySampleDemandComponent(
+                item.ComponentId,
+                item.Kind,
+                item.HazardDomainRef,
+                item.TestUnitId,
+                item.Amount,
+                item.Dimension,
+                item.Unit,
+                item.SourceRuleRef))
+            .OrderBy(component => component.Kind, StringComparer.Ordinal)
+            .ThenBy(component => component.ComponentId, StringComparer.Ordinal)
+            .ToArray();
+        var totals = components
+            .GroupBy(component => (component.Dimension, component.Unit))
+            .Select(group => new ToySampleDemandTotal(group.Key.Dimension, group.Key.Unit, group.Sum(item => item.Amount)))
+            .OrderBy(total => total.Dimension, StringComparer.Ordinal)
+            .ThenBy(total => total.Unit, StringComparer.Ordinal)
+            .ToArray();
+
+        return new ToySampleDemandCalculation(
+            components,
+            totals,
+            ToySampleRequirementDecisions.PendingTechnicalApproval,
+            [],
+            HashCanonical(input),
+            input.RuleSetVersion);
+    }
+
+    public static void RequireApprovable(string decision, string frozenInputHash, string suppliedInputHash)
+    {
+        if (!string.Equals(decision, ToySampleRequirementDecisions.PendingTechnicalApproval, StringComparison.Ordinal))
+            throw new ToyDomainException(ToyErrorCodes.SampleRequirementUnknown);
+        if (string.IsNullOrWhiteSpace(suppliedInputHash) ||
+            !string.Equals(frozenInputHash, suppliedInputHash, StringComparison.Ordinal))
+        {
+            throw new ToyDomainException(ToyErrorCodes.ValidationFailed);
+        }
+    }
+
+    public static void ValidateDownstreamRequest(
+        string requirementDecision,
+        IReadOnlyList<ToySampleDemandTotal> totals,
+        IReadOnlyList<ToyQuantityGateInput>? quantityChecks)
+    {
+        if (!string.Equals(requirementDecision, ToySampleRequirementDecisions.Approved, StringComparison.Ordinal))
+            throw new ToyDomainException(ToyErrorCodes.SampleRequirementNotApproved);
+        if (quantityChecks is null || quantityChecks.Count == 0 ||
+            quantityChecks.Any(item =>
+                string.IsNullOrWhiteSpace(item.QuantityAccountId) ||
+                item.ExpectedAccountVersion < 1 ||
+                string.IsNullOrWhiteSpace(item.RuleSetVersion) ||
+                item.Amount < 0m ||
+                string.IsNullOrWhiteSpace(item.Dimension) ||
+                string.IsNullOrWhiteSpace(item.Unit) ||
+                string.IsNullOrWhiteSpace(item.ReservationRef)) ||
+            quantityChecks.Select(item => item.ReservationRef).Distinct(StringComparer.Ordinal).Count() != quantityChecks.Count)
+        {
+            throw new ToyDomainException(ToyErrorCodes.SampleRequirementUnknown);
+        }
+
+        var requested = quantityChecks
+            .GroupBy(item => (item.Dimension, item.Unit))
+            .ToDictionary(group => group.Key, group => group.Sum(item => item.Amount));
+        var required = totals.ToDictionary(item => (item.Dimension, item.Unit), item => item.Amount);
+        if (requested.Count != required.Count ||
+            required.Any(item => !requested.TryGetValue(item.Key, out var amount) || amount != item.Value))
+        {
+            throw new ToyDomainException(ToyErrorCodes.SampleRequirementUnknown);
+        }
+    }
+
+    public static void ValidateAllocationChecks(
+        IReadOnlyList<ToyTestUnitEntry> testUnits,
+        IReadOnlyList<ToyAllocationGateInput>? allocationChecks)
+    {
+        if (allocationChecks is null || allocationChecks.Count == 0 ||
+            allocationChecks.Any(item =>
+                string.IsNullOrWhiteSpace(item.AllocationId) ||
+                item.ExpectedSubjectAllocationVersion < 1 ||
+                string.IsNullOrWhiteSpace(item.RuleSetVersion) ||
+                string.IsNullOrWhiteSpace(item.TestUnitId) ||
+                string.IsNullOrWhiteSpace(item.SequenceStepId)) ||
+            allocationChecks.Select(item => item.AllocationId).Distinct(StringComparer.Ordinal).Count() != allocationChecks.Count)
+        {
+            throw new ToyDomainException(ToyErrorCodes.TestUnitPlanInvalid);
+        }
+
+        var knownSteps = testUnits
+            .SelectMany(unit => unit.SequenceSteps.Select(step => (unit.TestUnitId, step.StepId)))
+            .ToHashSet();
+        if (allocationChecks.Any(item => !knownSteps.Contains((item.TestUnitId, item.SequenceStepId))))
+            throw new ToyDomainException(ToyErrorCodes.TestUnitPlanInvalid);
+    }
+
+    private static void ValidateRequest(CreateToyTestUnitPlanRequest? request)
+    {
+        if (request is null ||
+            !string.Equals(request.RuleSetVersion, ToyTestUnitPlanContract.RuleSetVersion, StringComparison.Ordinal) ||
+            request.ObjectScope is null ||
+            string.IsNullOrWhiteSpace(request.ObjectScope.LegalEntityId) ||
+            string.IsNullOrWhiteSpace(request.ObjectScope.LaboratoryId) ||
+            request.ExpectedCurrentVersion < 0 ||
+            request.ProductVersion < 1 ||
+            request.AgeGradeDecisionVersion < 1 ||
+            request.AccessibilityAssessmentVersion < 1 ||
+            string.IsNullOrWhiteSpace(request.ScopeMatrixId) ||
+            request.ScopeMatrixVersion < 1 ||
+            !ValidReferences(request.ScopeLineRefs) ||
+            !ValidReferences(request.SampleRuleRefs) ||
+            request.TestUnits is null || request.TestUnits.Count == 0 ||
+            request.DemandInputs is null || request.DemandInputs.Count == 0)
+        {
+            throw new ToyDomainException(ToyErrorCodes.TestUnitPlanInvalid);
+        }
+    }
+
+    private static void ValidateTestUnits(IReadOnlyList<CreateToyTestUnitInput> testUnits)
+    {
+        if (testUnits.Select(item => item.TestUnitId).Distinct(StringComparer.Ordinal).Count() != testUnits.Count ||
+            testUnits.Select(item => item.ParallelNumber).Distinct().Count() != testUnits.Count)
+        {
+            throw new ToyDomainException(ToyErrorCodes.TestUnitPlanInvalid);
+        }
+
+        foreach (var unit in testUnits)
+        {
+            if (!Guid.TryParse(unit.TestUnitId, out _) ||
+                unit.PhysicalObjectRef is null || !ValidReference(unit.PhysicalObjectRef) ||
+                !ValidReferences(unit.HazardDomainRefs) ||
+                unit.ParallelNumber < 1 ||
+                unit.SequenceSteps is null || unit.SequenceSteps.Count == 0)
+            {
+                throw new ToyDomainException(ToyErrorCodes.TestUnitPlanInvalid);
+            }
+
+            var ordered = unit.SequenceSteps.Select(step => step.SequenceOrder).Order().ToArray();
+            if (!ordered.SequenceEqual(Enumerable.Range(1, unit.SequenceSteps.Count)) ||
+                unit.SequenceSteps.Select(step => step.StepId).Distinct(StringComparer.Ordinal).Count() != unit.SequenceSteps.Count)
+            {
+                throw new ToyDomainException(ToyErrorCodes.TestUnitPlanInvalid);
+            }
+
+            foreach (var step in unit.SequenceSteps)
+            {
+                var hasExclusiveGroup = !string.IsNullOrWhiteSpace(step.ExclusiveDestructiveGroupId);
+                if (string.IsNullOrWhiteSpace(step.StepId) ||
+                    step.TaskRef is null || !ValidReference(step.TaskRef) ||
+                    (hasExclusiveGroup && !step.Destructive) ||
+                    (step.Destructive && step.ShareRuleRef is not null) ||
+                    (!step.Destructive && step.ShareRuleRef is not null && !ValidReference(step.ShareRuleRef)))
+                {
+                    throw new ToyDomainException(ToyErrorCodes.TestUnitPlanInvalid);
+                }
+            }
+
+            var duplicateExclusiveGroup = unit.SequenceSteps
+                .Where(step => step.Destructive && !string.IsNullOrWhiteSpace(step.ExclusiveDestructiveGroupId))
+                .GroupBy(step => step.ExclusiveDestructiveGroupId!, StringComparer.Ordinal)
+                .Any(group => group.Count() > 1);
+            if (duplicateExclusiveGroup)
+                throw new ToyDomainException(ToyErrorCodes.DestructiveTestUnitConflict);
+        }
+    }
+
+    private static void ValidateDemand(CreateToyTestUnitPlanRequest request)
+    {
+        if (request.DemandInputs.Select(item => item.ComponentId).Distinct(StringComparer.Ordinal).Count() !=
+            request.DemandInputs.Count ||
+            ToySampleDemandKinds.All.Any(kind =>
+                !request.DemandInputs.Any(item => string.Equals(item.Kind, kind, StringComparison.Ordinal))))
+        {
+            throw new ToyDomainException(ToyErrorCodes.SampleRequirementUnknown);
+        }
+
+        var knownUnits = request.TestUnits.Select(item => item.TestUnitId).ToHashSet(StringComparer.Ordinal);
+        var knownHazards = request.TestUnits
+            .SelectMany(item => item.HazardDomainRefs)
+            .Select(ReferenceKey)
+            .ToHashSet(StringComparer.Ordinal);
+        foreach (var input in request.DemandInputs)
+        {
+            var strictlyPositive = input.Kind is ToySampleDemandKinds.Base or ToySampleDemandKinds.ChemicalMinimum;
+            if (string.IsNullOrWhiteSpace(input.ComponentId) ||
+                !ToySampleDemandKinds.All.Contains(input.Kind, StringComparer.Ordinal) ||
+                !string.Equals(input.Applicability, ToyApplicabilityDecisions.Allowed, StringComparison.Ordinal) ||
+                (strictlyPositive ? input.Amount <= 0m : input.Amount < 0m) ||
+                string.IsNullOrWhiteSpace(input.Dimension) ||
+                string.IsNullOrWhiteSpace(input.Unit) ||
+                input.SourceRuleRef is null || !ValidReference(input.SourceRuleRef) ||
+                (input.HazardDomainRef is not null &&
+                    (!ValidReference(input.HazardDomainRef) || !knownHazards.Contains(ReferenceKey(input.HazardDomainRef)))) ||
+                (input.TestUnitId is not null && !knownUnits.Contains(input.TestUnitId)))
+            {
+                throw new ToyDomainException(ToyErrorCodes.SampleRequirementUnknown);
+            }
+        }
+
+        var ruleUnitConflict = request.DemandInputs
+            .GroupBy(item => ReferenceKey(item.SourceRuleRef), StringComparer.Ordinal)
+            .Any(group => group.Select(item => (item.Dimension, item.Unit)).Distinct().Count() > 1);
+        if (ruleUnitConflict)
+            throw new ToyDomainException(ToyErrorCodes.SampleRequirementUnknown);
+    }
+
+    private static string HashCanonical(CreateToyTestUnitPlanRequest request)
+    {
+        var canonical = new
+        {
+            request.RuleSetVersion,
+            request.ProductVersion,
+            request.AgeGradeDecisionVersion,
+            request.AccessibilityAssessmentVersion,
+            request.ScopeMatrixId,
+            request.ScopeMatrixVersion,
+            ScopeLineRefs = request.ScopeLineRefs.OrderBy(ReferenceKey).ToArray(),
+            SampleRuleRefs = request.SampleRuleRefs.OrderBy(ReferenceKey).ToArray(),
+            TestUnits = request.TestUnits.OrderBy(item => item.TestUnitId, StringComparer.Ordinal).Select(unit => new
+            {
+                unit.TestUnitId,
+                unit.PhysicalObjectRef,
+                HazardDomainRefs = unit.HazardDomainRefs.OrderBy(ReferenceKey).ToArray(),
+                unit.ParallelNumber,
+                SequenceSteps = unit.SequenceSteps.OrderBy(step => step.SequenceOrder).ToArray()
+            }).ToArray(),
+            DemandInputs = request.DemandInputs.OrderBy(item => item.ComponentId, StringComparer.Ordinal).ToArray()
+        };
+        return ToyDomain.HashTarget(JsonSerializer.Serialize(canonical));
+    }
+
+    private static bool ValidReferences(IReadOnlyList<ToyVersionedReference>? references) =>
+        references is { Count: > 0 } &&
+        references.All(ValidReference) &&
+        references.Select(ReferenceKey).Distinct(StringComparer.Ordinal).Count() == references.Count;
+
+    private static bool ValidReference(ToyVersionedReference reference) =>
+        !string.IsNullOrWhiteSpace(reference.Id) && reference.Version > 0;
+
+    private static string ReferenceKey(ToyVersionedReference reference) =>
+        $"{reference.Id}@{reference.Version}";
 }
 
 /// <summary>

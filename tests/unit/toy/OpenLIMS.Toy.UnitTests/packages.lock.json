@@ -170,7 +170,13 @@
           "OpenLIMS.Contracts.Platform": "[1.0.0, )"
         }
       },
+      "openlims.contracts.allocation": {
+        "type": "Project"
+      },
       "openlims.contracts.platform": {
+        "type": "Project"
+      },
+      "openlims.contracts.quantity": {
         "type": "Project"
       },
       "openlims.contracts.toy": {
@@ -181,7 +187,9 @@
         "dependencies": {
           "Npgsql": "[10.0.3, )",
           "OpenLIMS.BuildingBlocks.Platform": "[1.0.0, )",
+          "OpenLIMS.Contracts.Allocation": "[1.0.0, )",
           "OpenLIMS.Contracts.Platform": "[1.0.0, )",
+          "OpenLIMS.Contracts.Quantity": "[1.0.0, )",
           "OpenLIMS.Contracts.Toy": "[1.0.0, )"
         }
       },

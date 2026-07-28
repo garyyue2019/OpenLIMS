@@ -28,6 +28,9 @@ public static class ToyCapabilities
     public const string SampleDemandApprove = "toy.sample-demand.approve";
     public const string LabelManage = "toy.label.manage";
     public const string LabelReview = "toy.label.review";
+    // OD-034@1.0.0: Conclusion approval capabilities
+    public const string ConclusionApproveItem = "toy.conclusion.approve-item";
+    public const string ConclusionApproveScope = "toy.conclusion.approve-scope";
 }
 
 public static class ToyClaimTypes
@@ -119,6 +122,11 @@ public static class ToyErrorCodes
     public const string LabelReviewInvalid = "TOY.LABEL_REVIEW_INVALID";
     public const string LabelImpactUnknown = "TOY.LABEL_IMPACT_UNKNOWN";
     public const string LabelReviewNotValid = "TOY.LABEL_REVIEW_NOT_VALID";
+    // OD-034@1.0.0: Conclusion error codes
+    public const string ConclusionEvidenceIncomplete = "TOY.CONCLUSION_EVIDENCE_INCOMPLETE";
+    public const string ConclusionPolicyUnknown = "TOY.CONCLUSION_POLICY_UNKNOWN";
+    public const string FictitiousWholeItemConclusion = "TOY.FICTITIOUS_WHOLE_ITEM_CONCLUSION";
+    public const string ConclusionSodViolation = "TOY.CONCLUSION_SOD_VIOLATION";
 }
 
 public static class ToyTestUnitPlanStates
@@ -586,6 +594,119 @@ public interface IToyProductService
 
     Task<ToyProductOverview> GetOverviewAsync(
         string productId,
+        string correlationId,
+        CancellationToken cancellationToken = default);
+}
+
+// OD-034@1.0.0: Two-level conclusion hierarchy
+public static class ToyConclusionContract
+{
+    public const string Version = "1.0.0";
+    public const string RuleSetVersion = "TOY-CONCLUSION-COVERAGE@1.0.0";
+    public const string ItemConformityPath = "/api/v1/toy/conclusions/item-conformity";
+    public const string TestedScopeConformityPath = "/api/v1/toy/conclusions/tested-scope-conformity";
+    public const string GetConclusionPath = "/api/v1/toy/conclusions/{id}";
+    public const string GetConclusionsByProductPath = "/api/v1/toy/conclusions";
+}
+
+/// <summary>
+/// OD-034@1.0.0: Exactly two conclusion levels.
+/// WHOLE_PRODUCT_COMPLIANCE is permanently prohibited.
+/// </summary>
+public static class ToyConclusionLevels
+{
+    public const string ItemConformity = "ITEM_CONFORMITY";
+    public const string TestedScopeConformity = "TESTED_SCOPE_CONFORMITY";
+    // WHOLE_PRODUCT_COMPLIANCE: permanently prohibited, no enum value, no interface
+}
+
+/// <summary>
+/// OD-034@1.0.0: Uncovered scope reasons for mandatory disclosure
+/// </summary>
+public static class ToyUncoveredReasons
+{
+    public const string NotTested = "NOT_TESTED";
+    public const string Unknown = "UNKNOWN";
+    public const string NotApplicable = "NOT_APPLICABLE";
+}
+
+public sealed record TestUnitEvidenceInput(
+    string TestUnitId,
+    string PhysicalObjectRef,
+    long PhysicalObjectVersion,
+    string HazardDomainRef,
+    long HazardDomainVersion,
+    string AdoptedResultRef,
+    long AdoptedResultVersion,
+    string ResultProvenanceGraphRef,
+    long ResultProvenanceGraphVersion,
+    string? CoverageDecisionRef,
+    long CoverageDecisionVersion,
+    IReadOnlyList<string>? RequirementRefs);
+
+public sealed record UncoveredScopeInput(
+    string Scope,
+    string Reason,
+    string Detail);
+
+public sealed record ExternalReferenceInput(
+    string Issuer,
+    string Reference,
+    string StatedScope,
+    bool NotPartOfThisConclusion);
+
+public sealed record CreateItemConformityConclusionRequest(
+    string RuleSetVersion,
+    string AdoptedResultRef,
+    long AdoptedResultVersion,
+    string RequirementRef,
+    long RequirementVersion,
+    string? CustomStatement);
+
+public sealed record CreateTestedScopeConformityConclusionRequest(
+    string RuleSetVersion,
+    string ProductRef,
+    long ProductVersion,
+    string TestUnitPlanRef,
+    long TestUnitPlanVersion,
+    IReadOnlyList<TestUnitEvidenceInput> TestUnits,
+    IReadOnlyList<UncoveredScopeInput> UncoveredScopes,
+    IReadOnlyList<ExternalReferenceInput>? ExternalReferences,
+    string? CustomStatement,
+    bool? IsFictitiousWholeItemConclusion);
+
+public sealed record ToyConclusionResult(
+    string ConclusionId,
+    string ConclusionLevel,
+    string Statement,
+    string ApprovedBy,
+    DateTimeOffset ApprovedAt,
+    long Version,
+    string? SignatureRef,
+    IReadOnlyList<string>? CoveredHazardDomains,
+    IReadOnlyList<UncoveredScopeInput>? UncoveredScopes,
+    IReadOnlyList<ExternalReferenceInput>? ExternalReferences);
+
+public interface IToyConclusionService
+{
+    Task<ToyConclusionResult> CreateItemConformityConclusionAsync(
+        CreateItemConformityConclusionRequest request,
+        string correlationId,
+        CancellationToken cancellationToken = default);
+
+    Task<ToyConclusionResult> CreateTestedScopeConformityConclusionAsync(
+        CreateTestedScopeConformityConclusionRequest request,
+        string correlationId,
+        CancellationToken cancellationToken = default);
+
+    Task<ToyConclusionResult> GetConclusionAsync(
+        string conclusionId,
+        string correlationId,
+        CancellationToken cancellationToken = default);
+
+    Task<IReadOnlyList<ToyConclusionResult>> GetConclusionsByProductAsync(
+        string productRef,
+        long productVersion,
         string correlationId,
         CancellationToken cancellationToken = default);
 }

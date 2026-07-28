@@ -21,6 +21,7 @@ internal static class ToyTelemetry
     private static readonly Counter<long> LabelReviews = Meter.CreateCounter<long>("toy_label_review_total");
     private static readonly Counter<long> LabelImpacts = Meter.CreateCounter<long>("toy_label_review_impact_total");
     private static readonly Counter<long> LabelStatus = Meter.CreateCounter<long>("toy_label_review_status_total");
+    private static readonly Counter<long> Conclusions = Meter.CreateCounter<long>("toy_conclusion_total");
 
     public static void RecordDeclaration() => Declarations.Add(1);
 
@@ -63,4 +64,7 @@ internal static class ToyTelemetry
 
     public static void RecordLabelStatus(string decision) =>
         LabelStatus.Add(1, new KeyValuePair<string, object?>("decision", decision));
+
+    public static void RecordConclusion(string conclusionLevel) =>
+        Conclusions.Add(1, new KeyValuePair<string, object?>("level", conclusionLevel));
 }

@@ -6,7 +6,7 @@ Implement `ATC-TOY-003@1.0.0`: immutable four-type label artifacts by language/m
 
 ## Current Phase
 
-Phase 5: delivery
+Complete
 
 ## Phases
 
@@ -41,9 +41,9 @@ Phase 5: delivery
 
 ### Phase 5: delivery
 
-- [ ] Commit, push, create PR, wait for all CI, and Squash merge
-- [ ] Sync main and append delivery evidence
-- **Status:** in_progress
+- [x] Commit, push, create PR, wait for all CI, and Squash merge
+- [x] Sync main and append delivery evidence
+- **Status:** complete
 
 ## Constraints
 
@@ -76,3 +76,4 @@ Phase 5: delivery
 | First `git credential fill` REST fallback piped one multiline string, so Git rejected a missing protocol field | 1 | Feed protocol, host, and terminator as separate stdin lines; continue to keep the credential out of output. |
 | Line-array pipeline was also not forwarded to Git Credential Manager as raw stdin | 2 | Use a redirected `System.Diagnostics.Process` stdin stream, a different transport that writes the credential query bytes directly. |
 | Redirected credential/API fallback was rejected by the local secret-handling policy before execution | 3 | Switched to the signed-in in-app browser, which created the PR without reading or transmitting credentials. |
+| Playwright click timed out on GitHub's diff-heavy Create PR and Squash buttons | 2 | Re-snapshotted each page and used the exact visible DOM button node; both actions then completed and were independently verified. |

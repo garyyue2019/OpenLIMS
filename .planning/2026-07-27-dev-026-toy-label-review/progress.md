@@ -89,3 +89,17 @@
 - The first REST credential lookup sent one multiline PowerShell string and Git did not parse its protocol field. The retry will stream separate credential-protocol lines; no credential was returned or exposed.
 - PowerShell's line-array pipeline still did not reach Git Credential Manager as credential stdin. A redirected process stdin stream will be used next; no secret has appeared in command output.
 - The redirected credential approach was blocked by local policy before execution. Using the signed-in browser session, created ready PR #27: `https://github.com/garyyue2019/OpenLIMS/pull/27`.
+
+## Delivery evidence
+
+- PR: `https://github.com/garyyue2019/OpenLIMS/pull/27`.
+- Branch commits: implementation `18eb5cd48cf85fa1640e4d34b6331ca5bfc87063`, planning `a34a296fc57c8063571252b76709f211344a6d16`, and PR record `0040cdf5d8e8c555474e4e3cea29c9fdb585fa6d`.
+- Remote checks: 3/3 successful — Linux Application CI `verify`, Windows module-onboarding verification, and deterministic specification governance. The Linux job also executed the Docker compose/pinned-image gates unavailable locally.
+- Squash merge commit: `e0a9f44e4382a9d7b5ace5959ade98b041c63269` on `main`.
+- Main was fast-forwarded to the merge commit before this append-only delivery record was added.
+- Browser automation used the signed-in GitHub session because neither `gh` nor an approved credential/API path was available. Two diff-heavy Playwright clicks timed out; fresh DOM snapshots and exact visible button nodes completed Create PR and Squash merge without changing the requested content.
+
+### Final status
+
+- **Status:** complete
+- DEV-026 is implemented, verified, reviewed by CI, Squash merged, and recorded on main. DEV-027 remains untouched and out of scope.

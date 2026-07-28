@@ -1,0 +1,76 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "acceptance",
+  "id": "AC-TOY-003",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "TestUnit 计划与样品需求技术批准",
+  "summary": "给定批准范围与版本化样品规则，系统按危险域、TestUnit、平行、序列、互斥破坏试验、化学最低取样量、复测预留和留样产生可解释草案；技术批准后方可驱动数量预留和任务分配。",
+  "owners": [
+    "玩具行业包负责人",
+    "实验室技术负责人",
+    "质量负责人",
+    "QA负责人"
+  ],
+  "source_refs": [
+    {
+      "document": "PRD-MAIN",
+      "item": "OPS-TOY-004"
+    },
+    {
+      "document": "PRD-MAIN",
+      "item": "OPS-TOY-006"
+    },
+    {
+      "document": "PRD-MAIN",
+      "item": "AC-TOY-002"
+    }
+  ],
+  "depends_on": [
+    "OD-001@1.0.0",
+    "BUS-TOY-003@1.0.0",
+    "BUS-TOY-004@1.0.0",
+    "ATC-ALLOC-001@1.0.0",
+    "ATC-QTY-001@1.0.0",
+    "SEC-AUTH-001@1.0.0",
+    "SEC-AUD-001@2.0.0"
+  ],
+  "affects": [
+    "toy",
+    "test-unit",
+    "sample-requirement",
+    "destructive-exclusion",
+    "technical-approval",
+    "quantity",
+    "automated-test"
+  ],
+  "change_class": "major",
+  "scenario": {
+    "given": [
+      "批准范围固定了危险域与方法/样品规则版本",
+      "任务包含两个平行、两个互斥破坏试验、化学最低取样量、复测预留和留样",
+      "可用实物与 Quantity 账户版本已知"
+    ],
+    "when": [
+      "系统生成 TestUnit 计划和样品需求草案",
+      "技术人员检查输入、规则、分量和单位后批准",
+      "系统据批准版本请求数量校验/预留并创建分配"
+    ],
+    "then": [
+      "每个 TestUnit 固定危险域、平行号和连续序列；互斥破坏任务使用不同 TestUnit",
+      "需求分别展示基础量、化学最低量、平行增量、互斥增量、复测预留和留样，不丢失来源",
+      "批准记录固定输入哈希、规则集、批准人和时间，批准后内容不可改写",
+      "只有 APPROVED 版本可以调用 Quantity/Allocation 公共端口，端口决定与对象版本原样固定",
+      "缺规则、UNKNOWN 适用性、单位冲突、数量不足或并发版本冲突均失败关闭且不产生半完成分配"
+    ]
+  },
+  "automation": [
+    "确定性计算与分量可解释性单元测试",
+    "互斥破坏 TestUnit 分离与历史复用拒绝测试",
+    "技术批准、不可变版本和重算失效集成测试",
+    "Quantity/Allocation 端口版本固定契约测试",
+    "缺失规则、UNKNOWN、单位冲突、并发与证据回滚测试"
+  ],
+  "approval_evidence": "用户于 2026-07-28 明确声明“DEV-025/026 现在 approved”，批准 PR #25 当前 DEV-025/026 草案中的业务语义、评审项、权限边界和 allowed_paths；本规格据此由受控流程发布 approved 后继版本，批准主体为用户而非 AI。"
+}

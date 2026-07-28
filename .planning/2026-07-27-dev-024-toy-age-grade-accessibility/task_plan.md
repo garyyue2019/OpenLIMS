@@ -6,7 +6,7 @@
 
 ## Current Phase
 
-Phase 8: 后续规格工作边界与草案
+Phase 11: 合并批准规格
 
 ## Phases
 
@@ -85,6 +85,9 @@ Phase 8: 后续规格工作边界与草案
 | 重新导航并等待状态稳定后，第三次新 locator 点击仍在 CDP Runtime.evaluate 层超时 | 3 | 停止在该标签页重试；改用同一登录浏览器的新标签页，若仍失败则不绕过 GitHub 合并审计而报告外部 UI 阻断 |
 | 尝试 `browser.tabs.open` 新建标签页时 API 不存在 | 1 | 检查当前浏览器绑定公开的 tabs/user 方法，使用受支持的新建标签方式；不猜测重复调用 |
 | 带未提交 planning 续作记录切换 `main` 被 Git 阻止，后续误在特性分支尝试 ff-only 也因分叉失败 | 1 | 不丢弃记录；先把仅 planning 的自有变更提交为临时本地提交，再同步 main 并 cherry-pick 该提交 |
+| 新增草案后 Python 仓库契约 3 项失败：规格总数/生成任务精确基线未更新，ATC-TOY-004 缺 OD-002 组织上下文依赖 | 1 | 保持严格断言；补精确基线与缺失依赖后重新生成并重跑，不放宽测试 |
+| GitHub 选择 Draft 类型后按预期名称查找 `Create draft pull request` 按钮超时 | 1 | 不重复同一 selector；检查选择后的实际按钮可访问名称，再提交 |
+| 发布七个 approved 后继后 Python 仓库契约 3 项精确基线失败 | 1 | 更新规格数、生成 task/feature 数和 approved delivery 引用集合；保持精确断言，不放宽测试 |
 
 ## Continuation: 2026-07-27 全部后续任务收尾
 
@@ -98,14 +101,53 @@ Phase 8: 后续规格工作边界与草案
 
 ### Phase 8: 后续规格工作边界与草案
 
-- [ ] 在最新 `main` 上重跑规格开始门禁
-- [ ] 复核 OPS-TOY-004/006、OPS-TOY-007、OPS-TOY-005 与 OD-034 的来源、依赖和开放决策
-- [ ] 按仓库现有版本与状态惯例起草可评审的 BUS/AC/Story；所有新稿保持 `proposed`/`in_review`，绝不自批 `approved`
-- [ ] 对每张草案运行适用的 validate/source-status/impact；记录仍需人工批准或业务决策的阻断项
-- **Status:** in_progress
+- [x] 在最新 `main` 上重跑规格开始门禁
+- [x] 复核 OPS-TOY-004/006、OPS-TOY-007、OPS-TOY-005 与 OD-034 的来源、依赖和开放决策
+- [x] 按仓库现有版本与状态惯例起草可评审的 BUS/AC/Story；所有新稿保持 `proposed`/`in_review`，绝不自批 `approved`
+- [x] 对每张草案运行适用的 validate/source-status/impact；记录仍需人工批准或业务决策的阻断项
+- **Status:** complete
 
 ### Phase 9: 最终交付
 
-- [ ] 汇总已合并实现、草案文件、验证证据和剩余人工决策
-- [ ] 确保没有越过 Story `allowed_paths`、没有直接编辑 `generated/spec/`、没有改写已封存历史
+- [x] 汇总已合并实现、草案文件、验证证据和剩余人工决策
+- [x] 确保没有越过 Story `allowed_paths`、没有直接编辑 `generated/spec/`、没有改写已封存历史
+- [x] 提交、推送草案分支并创建 Draft PR 供人工评审
+- **Status:** complete
+
+## Continuation: 2026-07-28 DEV-025/026 人工批准与实施
+
+### Phase 10: 发布 DEV-025/026 批准规格
+
+- [x] 接收用户对 DEV-025/026 当前草案语义和评审项的人工批准；明确不包含 DEV-027/OD-034
+- [x] 在不改写 `0.1.0 proposed` 历史的前提下发布 BUS/AC/Story `1.0.0 approved` 后继版本
+- [x] 运行 validate/source-status/impact/ready，确认 DEV-025/026 为 READY 且 DEV-027 继续 BLOCKED
+- [x] 更新生成物、严格契约基线和评审文档，完成两次确定性生成及 Python 门禁
+- **Status:** complete
+
+### Phase 11: 合并批准规格
+
+- [ ] 更新 PR #25 为 ready-for-review 并让全部 CI 通过
+- [ ] 合并 PR #25，同步最新 `main`，保留独立规格批准提交
+- **Status:** in_progress
+
+### Phase 12: 实施 DEV-025
+
+- [ ] 从最新 `main` 创建 DEV-025 分支并重跑四项开始门禁
+- [ ] 只在 `ATC-TOY-002@1.0.0` 的 `allowed_paths` 内实现 TestUnit 计划、样品需求批准、公共端口及全维度测试
+- [ ] 完成任务级、架构、严格规格、历史、两次生成、Python、全量 .NET/前端适用门禁
+- [ ] 提交、推送、创建 PR、等待 CI 并合并
+- **Status:** pending
+
+### Phase 13: 实施 DEV-026
+
+- [ ] 从包含 DEV-025 的最新 `main` 创建 DEV-026 分支并重跑四项开始门禁
+- [ ] 只在 `ATC-TOY-003@1.0.0` 的 `allowed_paths` 内实现 LabelArtifact/LabelReview 版本、失效重审、公共端口及全维度测试
+- [ ] 完成任务级、架构、严格规格、历史、两次生成、Python、全量 .NET/前端适用门禁
+- [ ] 提交、推送、创建 PR、等待 CI 并合并
+- **Status:** pending
+
+### Phase 14: 最终交付
+
+- [ ] 汇总 DEV-025/026 的合并提交、CI、测试和剩余 DEV-027/OD-034 阻断
+- [ ] 确认工作树干净、主干同步、生成物确定且无越界改动
 - **Status:** pending

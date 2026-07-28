@@ -1,0 +1,40 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-TOY-003",
+  "version": "0.1.0",
+  "status": "proposed",
+  "title": "TestUnit 危险域、平行号与破坏序列固定",
+  "summary": "每个玩具 TestUnit 必须以不可变计划版本固定适用危险域、平行号和有序试验序列。互斥破坏性任务必须分配到不同 TestUnit，不能因前一分配释放或任务完成而复用同一实物。",
+  "owners": ["实验室技术负责人", "玩具行业包负责人", "质量负责人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "OPS-TOY-004"},
+    {"document": "PRD-MAIN", "item": "AC-TOY-002"}
+  ],
+  "depends_on": [
+    "OD-001@1.0.0",
+    "ATC-TOY-001@1.0.0",
+    "ATC-ALLOC-001@1.0.0",
+    "SEC-AUTH-001@1.0.0",
+    "SEC-AUD-001@2.0.0"
+  ],
+  "affects": ["toy", "test-unit", "hazard-domain", "parallel", "test-sequence", "destructive-exclusion", "allocation", "audit"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {
+    "mode": "enabled_pack",
+    "applicability": "ENABLED",
+    "condition": "OD-001@1.0.0 已启用玩具行业包；本草案的字段和门禁语义仍需人工批准"
+  },
+  "invariants": [
+    "TestUnit 具有稳定 testUnitId，并固定产品、范围快照和实物对象的精确版本引用；不得从运行中对象解析最新版",
+    "每个 TestUnit 必须固定至少一个来自已批准范围/方法规则的 hazardDomainRef@version、正整数 parallelNumber 与从 1 开始连续且无重复的 sequenceOrder",
+    "危险域代码来自版本化规则输入；系统不得自创默认危险域枚举，也不得在危险域未知时继续分配",
+    "任务必须引用 TestUnit 计划版本及对应序列步骤；同一 TestUnit 不得跳过未满足的前置序列步骤",
+    "具有相同 exclusiveDestructiveGroupId 的互斥破坏性任务必须分配到不同 TestUnit；历史上已用于该互斥组的 TestUnit 在分配释放后仍不得复用",
+    "玩具计划门禁通过后才调用版本化 Allocation 公共端口；不得读取或写入 allocation 私表",
+    "TestUnit 计划批准后不可修改或删除；范围、危险域、平行或序列变化必须追加新计划版本并保留旧版引用",
+    "计划、分配绑定、审计意图与发件箱证据在各自模块事务内原子提交；跨模块失败使用明确补偿/重试状态而非半完成事实"
+  ]
+}

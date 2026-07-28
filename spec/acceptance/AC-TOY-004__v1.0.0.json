@@ -1,0 +1,71 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "acceptance",
+  "id": "AC-TOY-004",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "LabelReview 版本失效与重审",
+  "summary": "给定按类型、语言、市场和图片证据版本化的玩具工件，当产品事实或年龄判定变化影响既有审查范围时，旧 LabelReview 必须追加失效并阻断继续使用；新审查引用变更和旧版本，历史不得改写。",
+  "owners": [
+    "玩具行业包负责人",
+    "法规负责人",
+    "质量负责人",
+    "QA负责人"
+  ],
+  "source_refs": [
+    {
+      "document": "PRD-MAIN",
+      "item": "OPS-TOY-002"
+    },
+    {
+      "document": "PRD-MAIN",
+      "item": "OPS-TOY-007"
+    }
+  ],
+  "depends_on": [
+    "OD-001@1.0.0",
+    "BUS-TOY-001@1.0.0",
+    "BUS-TOY-005@1.0.0",
+    "ATC-TOY-001@1.0.0",
+    "SEC-AUTH-001@1.0.0",
+    "SEC-AUD-001@2.0.0"
+  ],
+  "affects": [
+    "toy",
+    "label-artifact",
+    "label-review",
+    "age-grade",
+    "impact-invalidation",
+    "photo-evidence",
+    "automated-test"
+  ],
+  "change_class": "major",
+  "scenario": {
+    "given": [
+      "同一玩具有中文/中国市场和英文/另一市场的标签工件版本，均带不可变图片证据",
+      "中文工件 V1 的 LabelReview 已批准并固定 AgeGradeDecision V1",
+      "英文工件审查范围不与本次中文声明变更重叠"
+    ],
+    "when": [
+      "AgeGradeDecision V2 冻结，并通过版本化影响规则判定中文市场年龄声明受影响",
+      "尝试继续使用中文 V1 审查",
+      "提交中文工件 V2 并完成引用旧审查与变更原因的新审查"
+    ],
+    "then": [
+      "中文 V1 审查追加 INVALIDATED 事实并进入 RE_REVIEW_REQUIRED，旧审查不可继续作为有效证据",
+      "英文审查因范围不重叠保持原状态，且影响评估证据可重建",
+      "中文工件 V1、图片、旧审查和失效原因原样保留；V2 与新审查形成新不可变版本",
+      "影响规则 UNKNOWN 时旧审查按 UNKNOWN 阻断，不得静默保持 APPROVED",
+      "工件、审查、失效、审计与 Outbox 同事务提交或一起回滚"
+    ]
+  },
+  "automation": [
+    "工件类型/语言/市场/图片证据版本化契约测试",
+    "年龄判定变化的范围命中与局部失效测试",
+    "无关市场/语言不失效的反向测试",
+    "UNKNOWN 影响失败关闭测试",
+    "不可变历史、并发版本与审计/Outbox 回滚测试"
+  ],
+  "approval_evidence": "用户于 2026-07-28 明确声明“DEV-025/026 现在 approved”，批准 PR #25 当前 DEV-025/026 草案中的业务语义、评审项、权限边界和 allowed_paths；本规格据此由受控流程发布 approved 后继版本，批准主体为用户而非 AI。"
+}

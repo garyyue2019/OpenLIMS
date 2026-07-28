@@ -1,0 +1,49 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "acceptance",
+  "id": "AC-TOY-002",
+  "version": "0.1.0",
+  "status": "proposed",
+  "title": "可接触性、互斥 TestUnit 与危险域覆盖",
+  "summary": "完整保留 PRD 的组合验收：滥用后新暴露部件须保存前后可接触性与照片并触发范围评估，互斥破坏任务不得复用 TestUnit；多 TestUnit 汇总结论还须逐一展示危险域与覆盖依据。汇总结论部分受 OD-034 阻断。",
+  "owners": ["玩具行业包负责人", "实验室技术负责人", "质量负责人", "QA负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "AC-TOY-002"}],
+  "depends_on": [
+    "OD-001@1.0.0",
+    "OD-034@0.1.0",
+    "BUS-TOY-002@1.0.0",
+    "BUS-TOY-003@0.1.0",
+    "BUS-TOY-006@0.1.0",
+    "ATC-RESULT-001@1.0.0",
+    "SEC-AUTH-001@1.0.0",
+    "SEC-AUD-001@2.0.0"
+  ],
+  "affects": ["toy", "accessibility", "photo-evidence", "test-unit", "destructive-exclusion", "hazard-coverage", "conformity", "automated-test"],
+  "change_class": "major",
+  "scenario": {
+    "given": [
+      "一个玩具在 INITIAL 评估时内部件不可接触，并保存初始图片证据",
+      "扭力/拉力后该部件暴露，后续跌落会破坏样品",
+      "同一产品计划使用多个 TestUnit 覆盖不同危险域"
+    ],
+    "when": [
+      "记录扭力/拉力后的可接触性版本及图片证据",
+      "尝试把互斥的破坏性任务分配给同一 TestUnit",
+      "尝试把多个 TestUnit 结果汇总为产品/型号结论"
+    ],
+    "then": [
+      "事件前后可接触性版本和图片证据均不可变保存，新暴露部件触发受影响机械与化学范围评估",
+      "同一 TestUnit 的互斥破坏任务分配被稳定错误码拒绝，失败不产生分配事实",
+      "汇总证据逐 TestUnit 显示实际危险域、结果版本与批准覆盖依据，并披露未覆盖项",
+      "不得把多个 TestUnit 拼接成未实际存在的同一整件全部通过",
+      "OD-034 未批准前，结论生成保持 BLOCKED/UNKNOWN，不能产生可签发 ConformityDecision"
+    ]
+  },
+  "automation": [
+    "事件前后图片证据与新暴露范围触发集成测试",
+    "互斥破坏任务跨 TestUnit 分配正向测试与同 TestUnit 拒绝测试",
+    "危险域覆盖来源图与未覆盖项披露契约测试",
+    "OD-034 未决时结论失败关闭回归测试"
+  ]
+}

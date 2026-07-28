@@ -1,0 +1,39 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-TOY-004",
+  "version": "0.1.0",
+  "status": "proposed",
+  "title": "玩具样品需求确定性计算与技术批准",
+  "summary": "玩具样品需求必须按危险域、TestUnit、平行、互斥破坏试验、化学最低取样量、复测预留和留样逐项计算。自动结果只是待批准草案，必须由技术人员批准后才能驱动数量预留或任务分配。",
+  "owners": ["实验室技术负责人", "玩具行业包负责人", "质量负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "OPS-TOY-006"}],
+  "depends_on": [
+    "OD-001@1.0.0",
+    "BUS-TOY-003@0.1.0",
+    "ATC-QTY-001@1.0.0",
+    "ATC-ALLOC-001@1.0.0",
+    "SEC-AUTH-001@1.0.0",
+    "SEC-AUD-001@2.0.0"
+  ],
+  "affects": ["toy", "sample-requirement", "test-unit", "chemical-minimum", "retest-reserve", "retention", "technical-approval", "quantity"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {
+    "mode": "enabled_pack",
+    "applicability": "ENABLED",
+    "condition": "OD-001@1.0.0 已启用玩具行业包；本草案的计算输入和批准边界仍需人工批准"
+  },
+  "invariants": [
+    "计算输入必须固定产品/年龄判定、批准范围、方法/样品规则、危险域、TestUnit、平行、序列与互斥破坏组的精确版本",
+    "化学最低取样量必须来自批准的版本化方法/规则输入并携带 dimension、unit 和 ruleRef@version；系统不得提供隐含数值或零默认值",
+    "复测预留与留样必须作为独立需求分量保留来源和数值，不能并入基础量后丢失解释性",
+    "不同互斥破坏组不得以共享同一 TestUnit 的方式抵扣需求；只有批准规则明确允许的非破坏共享才能合并，并保留 shareRuleRef@version",
+    "任一必要输入缺失、规则版本未知、单位/维度不兼容或适用性 UNKNOWN 时，计算结果为 UNKNOWN 并阻断批准和下游预留",
+    "自动计算结果初始为 PENDING_TECHNICAL_APPROVAL；批准必须记录技术人员、时间、输入哈希、规则集版本和批准说明",
+    "技术批准后需求版本不可修改或删除；输入变化必须追加新版本并使旧版不再适用于新分配，但不得静默替换在制引用",
+    "只有 APPROVED 需求版本可以通过 QuantityAvailabilityPort@v1 请求版本固定的数量校验/预留；不得直接读写 quantity 私表",
+    "计算、批准、审计意图与发件箱证据同事务提交；批准或证据失败不得留下可被下游使用的需求版本"
+  ]
+}

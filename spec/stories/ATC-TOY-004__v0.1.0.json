@@ -1,0 +1,122 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "story",
+  "id": "ATC-TOY-004",
+  "version": "0.1.0",
+  "status": "proposed",
+  "target_release": "REL-R1-RECEIVING-PILOT@1.0.0",
+  "epic_id": "EP-QUALITY",
+  "feature_id": "FEAT-TOY-CONCLUSION-COVERAGE",
+  "title": "阻断 DEV-027 多 TestUnit 危险域覆盖结论",
+  "summary": "为 OPS-TOY-005 和 AC-TOY-002 建立显式阻断任务卡：可以先冻结逐 TestUnit 的证据输入边界，但在 OD-034 决定结论层级、批准权限、措辞和全面合规引用前，不得实现或发布产品/型号 ConformityDecision。",
+  "owners": ["法规负责人", "实验室技术负责人", "质量负责人", "法务负责人", "授权签字人", "QA负责人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "OPS-TOY-005"},
+    {"document": "PRD-MAIN", "item": "AC-TOY-002"},
+    {"document": "PRD-MAIN", "item": "OD-034"}
+  ],
+  "depends_on": [
+    "ED-001@2.0.0",
+    "OD-001@1.0.0",
+    "OD-002@1.0.0",
+    "OD-034@0.1.0",
+    "BUS-TOY-006@0.1.0",
+    "AC-TOY-002@0.1.0",
+    "ATC-TOY-002@0.1.0",
+    "ATC-RESULT-001@1.0.0",
+    "ATC-RPT-001@1.0.0",
+    "SEC-AUTH-001@1.0.0",
+    "SEC-AUD-001@2.0.0",
+    "NFR-ARCH-001@2.0.0"
+  ],
+  "affects": ["toy", "test-unit", "hazard-coverage", "result-provenance", "conformity", "reporting", "authorization", "disclosure", "automated-test"],
+  "change_class": "major",
+  "body": {
+    "readiness": "blocked",
+    "implementation_task_id": "DEV-027",
+    "review_blockers": [
+      "OD-034@0.1.0 为 proposed/open 且 decision=null；必须由法规、技术、质量、法务和授权签字人完成决定",
+      "BUS-TOY-006@0.1.0、AC-TOY-002@0.1.0 与本卡均为 proposed",
+      "结论层级、允许措辞、批准权限、外部全面评估/认证引用和未覆盖项披露尚未批准"
+    ],
+    "business_outcome": "在开放决策被正式解决前，仓库对多 TestUnit 产品结论保持可见且可验证的阻断，防止代理把多个实物的局部结果拼成一件并不存在的全面通过；决定后可以从已冻结证据边界创建新的 MAJOR 任务版本。",
+    "actor": "负责 OD-034 的法规/技术/质量/法务/授权签字人，以及检查任务 readiness 的工程代理",
+    "preconditions": [
+      "OD-034 发布后继 approved/decided 版本并满足行业措辞、权限、报告样例和反向场景 exit criteria",
+      "BUS-TOY-006 与 AC-TOY-002 依据该决定发布后继 approved MAJOR 版本",
+      "ATC-TOY-002 的 TestUnit/危险域证据边界已批准并交付",
+      "本卡按决定结果创建后继 MAJOR 版本，重新指定精确依赖和 allowed_paths"
+    ],
+    "trigger": "当前仅由规格门禁触发阻断；OD-034 完成后才允许触发实现规划",
+    "happy_path": [
+      "当前版本运行 ready 时明确列出 proposed/open 决策和未批准依赖并返回 BLOCKED",
+      "任何实现代理在 BLOCKED 状态停止编码，不创建结论接口、数据库迁移或报告放行",
+      "决策完成后由人工评审创建 BUS/AC/Story 的后继 MAJOR 版本，填入批准的语义和权限",
+      "后继版本才可定义逐 TestUnit 输入到产品/型号结论的状态机、接口、措辞和验收"
+    ],
+    "failure_paths": [
+      "运行时尝试使用当前 proposed/open OD-034 → TOY.CONCLUSION_POLICY_UNKNOWN",
+      "缺 TestUnit、结果、危险域覆盖、来源图或未覆盖项披露 → TOY.CONCLUSION_EVIDENCE_INCOMPLETE",
+      "尝试把多个 TestUnit 描述为同一整件全部通过 → TOY.FICTITIOUS_WHOLE_ITEM_CONCLUSION",
+      "报告链尝试绕过既有 ConformityDecision 阻断 → 保持 RPT.CONFORMITY_DECISION_UNAVAILABLE",
+      "代理试图自行选择结论措辞、批准角色或外部证书语义 → 规格评审拒绝，不进入实现"
+    ],
+    "invariants": [
+      "当前版本不提供可执行结论语义、默认批准角色或全面合规措辞",
+      "逐 TestUnit 证据必须保留实物身份、危险域、结果版本、覆盖依据和未覆盖项，不能合成虚构实物",
+      "OD-034 未决定时 UNKNOWN 等同阻断，报告模块现有阻断不得放宽",
+      "任何后继实现必须使用新 MAJOR 规格，不能原地修改本 0.1.0 历史"
+    ],
+    "data_contract": {
+      "evidenceEnvelopeOnly": ["productRef/version", "testUnitPlanRef/version", "testUnits[{testUnitId, physicalObjectRef/version, hazardDomainRefs@version, adoptedResultRefs@version, coverageDecisionRef@version?}]", "untestedOrUnknownScopes[]", "resultProvenanceGraphRef/version", "ruleSetVersion"],
+      "undecidedByOD034": ["conclusionLevel", "conclusionStatement", "approvalRole", "signatureRequirement", "externalComprehensiveAssessmentRef", "certificationStatusRef", "mandatoryDisclosureText"],
+      "runtimeDecision": "BLOCKED/UNKNOWN until an approved successor specification exists"
+    },
+    "api_contract": {
+      "operations": [],
+      "publicPort": "NONE in this blocked version; no ConformityDecision endpoint or port may be registered",
+      "errors": ["TOY.CONCLUSION_POLICY_UNKNOWN", "TOY.CONCLUSION_EVIDENCE_INCOMPLETE", "TOY.FICTITIOUS_WHOLE_ITEM_CONCLUSION", "RPT.CONFORMITY_DECISION_UNAVAILABLE"]
+    },
+    "state_transitions": ["无运行时状态机；当前仅允许规格状态 BLOCKED，直到 approved successor 替代"],
+    "permissions": ["不新增能力或批准角色；OD-034 必须决定谁可批准何种结论", "现有管理员、技术人员或授权签字人身份均不得被代理推断为默认结论批准权"],
+    "audit": ["当前无业务写入；任何阻断探测仅记录稳定错误码和 correlationId，不伪造 ConformityDecision 审计"],
+    "observability": ["ready/运行时阻断计数按 OD-034 与证据缺失原因区分", "不得记录未批准的结论正文或把日志冒充审批证据"],
+    "ui_states": ["不新增 UI；现有 EVALUATED/ConformityDecision 入口保持不可用并展示明确阻断原因"],
+    "test_cases": [
+      {"id": "TC-TOY-004-01", "title": "readiness 明确阻断", "type": "governance", "given": ["OD-034@0.1.0 proposed/open"], "when": ["运行 ready"], "then": ["BLOCKED", "列出 open decision 与 proposed dependencies"]},
+      {"id": "TC-TOY-004-02", "title": "无结论接口或迁移", "type": "scope-boundary", "given": ["当前 blocked 规格"], "when": ["扫描路由、公共端口、迁移和报告门禁"], "then": ["不存在 toy ConformityDecision 写接口", "RPT.CONFORMITY_DECISION_UNAVAILABLE 保持"]},
+      {"id": "TC-TOY-004-03", "title": "虚构整件结论拒绝", "type": "negative", "given": ["多个 TestUnit 分别覆盖不同危险域"], "when": ["请求描述为同一整件全部通过"], "then": ["TOY.FICTITIOUS_WHOLE_ITEM_CONCLUSION", "不产生业务事实"]},
+      {"id": "TC-TOY-004-04", "title": "未知策略失败关闭", "type": "negative", "given": ["调用方提供自选结论措辞或角色"], "when": ["请求结论"], "then": ["TOY.CONCLUSION_POLICY_UNKNOWN", "不得采用调用方默认值"]}
+    ],
+    "non_goals": [
+      "不决定或批准 OD-034",
+      "不实现任何 ConformityDecision、结论措辞、批准流、报告放行、外部认证或证书引用",
+      "不放宽现有报告 EVALUATED 分区阻断",
+      "不创建代码、迁移、前端、Seal、tag、GitHub Release 或部署"
+    ],
+    "allowed_paths": [
+      "spec/decisions/OD-034__v0.1.0.json",
+      "spec/requirements/BUS-TOY-006__v0.1.0.json",
+      "spec/acceptance/AC-TOY-002__v0.1.0.json",
+      "spec/stories/ATC-TOY-004__v0.1.0.json",
+      "generated/spec/**",
+      ".planning/2026-07-27-dev-027-toy-conclusion-blocked/**",
+      "tests/test_repository_contract.py",
+      "docs/domain/toy/**"
+    ],
+    "verification_commands": [
+      "python -m tools.specgen validate --strict-warnings",
+      "python -m tools.specgen source-status",
+      "python -m tools.specgen impact",
+      "python -m tools.specgen ready --story ATC-TOY-004@0.1.0",
+      "python -m tools.specgen check"
+    ],
+    "definition_of_done": [
+      "ready 稳定返回 BLOCKED 并列出 OD-034 open/proposed 与未批准依赖",
+      "仓库不存在当前版本授权的结论实现、接口、迁移或报告放行",
+      "完整 AC-TOY-002 不因拆分可实施切片而丢失汇总结论阻断",
+      "OD-034 决定后使用后继 MAJOR 规格，不修改本版本历史"
+    ]
+  }
+}

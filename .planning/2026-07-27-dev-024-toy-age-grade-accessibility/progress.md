@@ -100,3 +100,44 @@
 - 直接切换 `main` 因三个 planning 文件的续作修改会被覆盖而被 Git 安全阻止；未丢失任何内容。将先提交这三个自有记录，再同步 main 并 cherry-pick。
 - 已在特性分支保存 planning 记录、切换 `main`、ff-only 到 `3981eba`，再 cherry-pick 并整理为 `docs(planning): record DEV-024 merge to main`。
 - **Phase 7 complete**：本地 `main` 已包含合并实现和独立 planning 记录；进入 Phase 8 后续规格草案。
+
+### Phase 8: 后续规格工作边界与草案
+
+- **Status:** in_progress
+- 从最新 `main` 创建 `codex/toy-follow-up-spec-drafts`。
+- 开始门禁通过：validate 168/389、SOURCE CURRENT、impact 无直接或传递影响。
+- 检索确认 OPS-TOY-004/005/006/007 只存在于 PRD 来源与基线，尚无结构化 requirement；OD-034 仍仅有 `0.1.0 proposed/open`。
+- 已新增 10 个 `0.1.0 proposed` 草案：BUS-TOY-003～006、AC-TOY-002～004、ATC-TOY-002～004（DEV-025～027）。
+- validate 通过（178 个规格版本/389 来源），SOURCE CURRENT，impact 仅列出 10 个新增 MAJOR 草案，`git diff --check` 通过。
+- 三张 Story 的 ready 均按预期 BLOCKED：DEV-025 仅被三项 proposed 草案阻断；DEV-026 仅被两项 proposed 草案阻断；DEV-027 还被 OD-034 proposed/open 与前序卡阻断。
+- 严格 validate/source/history/check 通过；首次 generate `written=18`，第二次 `written=0 unchanged=119`。
+- Python 41 项有 3 项严格契约失败：期望规格数仍为 168、生成任务集合缺三张新卡、ATC-TOY-004 缺所有 Story 必需的 `OD-002@1.0.0` 依赖。均为草案接入缺口，未出现业务逻辑或生成器故障。
+- 已补精确规格/feature/task 基线和 OD-002 依赖，Python 41/41 通过；未放宽任何仓库契约。
+- 最终门禁通过：strict validate 178/389、SOURCE CURRENT、impact 为空、history passed、check passed、两次 generate 均 `written=0 unchanged=119`、`git diff --check` clean。
+- 生成 readiness-report 与三张任务文档均准确显示 proposed/blocked；新增 `docs/domain/toy/follow-up-spec-review.md` 作为人工评审导航，不修改 PRD。
+- **Phase 8 complete**：10 个 proposed 草案、生成物、精确契约测试和评审清单完成。Phase 9 仅剩提交、推送和 Draft PR。
+- 草案提交 `f1a7c21` 已推送到 `origin/codex/toy-follow-up-spec-drafts`；GitHub 比较页确认 1 commit / 33 files 且可自动合并。
+- Draft PR 描述已填写，明确所有新规格均 proposed、DEV-027 受 OD-034 阻断、验证证据和人工评审路径；已打开 PR 类型菜单等待选择 Draft。
+- 已选择 `Create draft pull request` 菜单项，但主提交按钮的可访问名称未按预期变化，首次直接按新名称点击超时；尚未创建 PR，将检查实际名称后提交。
+- 菜单选择后实际按钮名称为 `Draft pull request`；按该名称提交成功，等待 GitHub/API 核验 PR 编号与 draft 状态。
+- GitHub API 核验 PR #25 为 open、draft=true，head=`f1a7c21`、base=`main`。确定性规格门禁已 success，Windows 与应用 CI 正在运行。
+- **Phase 9 complete**：DEV-024 已合并；全部可安全推进的后续规格草案、验证、提交、推送和 Draft PR 已完成。实现继续被 proposed/OD-034 门禁诚实阻断，等待人工评审。
+
+## Session: 2026-07-28 DEV-025/026 人工批准与实施
+
+### Phase 10: 发布批准规格
+
+- **Status:** in_progress
+- 用户明确声明“DEV-025/026 现在 approved”。该声明作为人工批准主体对 PR #25 当前 DEV-025/026 草案语义和评审项的批准证据。
+- 批准范围不包含 DEV-027、BUS-TOY-006、完整 AC-TOY-002 或 OD-034；这些继续保持 proposed/open/BLOCKED。
+- 将发布 `1.0.0 approved` 后继文件并保留 `0.1.0 proposed` 历史，不原地改写 AI 草案。
+- 前一会话 PR #25 的三项 GitHub CI 最终均 success；该结果未写入旧计划，现补记。
+- 本轮开始门禁通过：validate 178/389、SOURCE CURRENT、impact 空；PR #25 仍 open/draft/clean，head 与本地一致。
+- specgen 无自动 promote/approve 命令；`scaffold` 仅用于新版本骨架，批准后继必须显式创建并验证，不能原地翻转状态。
+- 规范再次确认：一版本一文件、旧版本永久保留、AI Task Card Ready 需 Story 与依赖批准。将以确定性复制草案语义、替换版本/状态/精确依赖并加入用户批准证据，实际文件写入仍通过 `apply_patch`。
+- 已新增七个 `1.0.0 approved` 后继文件并保留全部 `0.1.0 proposed` 历史；validate 185/389、SOURCE CURRENT、impact 仅列新增 MAJOR 规格。
+- `ATC-TOY-002@1.0.0` 与 `ATC-TOY-003@1.0.0` 均 READY；`ATC-TOY-004@0.1.0` 继续因 OD-034/BUS-TOY-006/AC-TOY-002 proposed 和前序草案引用而 BLOCKED。
+- 首次批准生成写入 14 个派生文件并通过 check/history；Python 41 项有 3 个精确基线失败：178→185、生成任务新增两个 1.0.0、approved delivery 集合缺七个新引用。均为预期接入基线，未放宽门禁。
+- 已更新精确仓库契约和批准记录文档；Python 41/41 通过。
+- Phase 10 最终门禁：strict validate 185/389、SOURCE CURRENT、history passed、check passed、两次 generate 均 `written=0 unchanged=125`、DEV-025/026 READY、DEV-027 BLOCKED、`git diff --check` clean。
+- **Phase 10 complete**：进入 PR #25 ready-for-review、CI 与合并。

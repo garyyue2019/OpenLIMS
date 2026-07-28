@@ -57,3 +57,32 @@
 - 干净标签页点击成功，GitHub 已显示最终确认页；提交标题为 `feat(toy): deliver DEV-024 age grade accessibility (#24)`，未添加额外描述。
 - GitHub API 与 Git fetch 双重确认合并完成：PR #24 merged=true，merge SHA 为 `3981eba4096bf8eb165713720f9f7d9c200b29ee`，`origin/main` 指向该提交。
 - 本地 `main` 已快进到 `3981eba`；续作 planning 记录已独立提交，保持与 DEV-024 业务合并提交分离。
+- 最新 `main` 的规格开始门禁通过：168 个规格版本、389 个来源条目、SOURCE CURRENT、impact 为空。
+- OPS-TOY-004/005/006/007 当前只出现在 PRD/source-baseline 和 ATC-TOY-001 non-goals 中，`spec/requirements` 尚无对应结构化对象。
+- OPS-TOY-005 必须继续排除在可实施草案外，因为 OD-034 只有 `OD-034@0.1.0` 且 `proposed/open`；现有报告门禁也依赖这一阻断语义。
+- PRD 已有稳定 `AC-TOY-002`，其原文同时覆盖：事件前后可接触性/照片、互斥破坏 TestUnit 阻断，以及多 TestUnit 汇总结论显示危险域与覆盖依据。该验收不可被缩写成只覆盖 OPS-TOY-004/006 的“通过”版本，否则会掩盖 OD-034 阻断。
+- 已交付的 Allocation 模块已有通用破坏性互斥和版本固定分配；玩具草案应复用公共分配端口并新增 TestUnit/危险域/平行/序列语义，不直接访问 allocation 私表。
+- 已交付 Quantity 模块已有不可变流水、计量维度和并发预留；玩具样品需求计算只应产出版本固定需求及数量预留请求，不复制数量余额逻辑。
+- 现有 Labeling 模块服务于收样标签打印/扫描，不包含产品包装、说明书或营销声明审查。OPS-TOY-007 的行业语义宜由 toy 模块拥有，通过公共契约协作，避免把样品条码模块扩成产品合规主数据模块。
+- 草案拆分为：DEV-025（BUS-TOY-003/004 + AC-TOY-003，TestUnit/样品需求）、DEV-026（BUS-TOY-005 + AC-TOY-004，LabelReview）、DEV-027（BUS-TOY-006 + 完整 AC-TOY-002，多 TestUnit 结论显式阻断）。
+- 完整 AC-TOY-002 保留 PRD 汇总结论要求并依赖 OD-034；DEV-025 使用单独 AC-TOY-003，因此未来可在不伪装结论已决定的情况下独立批准。
+- 所有新规格均为 `0.1.0 proposed`，没有 approval_evidence、没有被 AI 标记 approved；ready 输出精确列出人工评审边界。
+- 生成器为 3 张新 acceptance、3 张新 Story 及目录/追溯文件写入 18 个派生文件，二次生成稳定为 `written=0`。
+- 仓库契约要求每张 Story（即使 blocked/proposed）显式依赖 `OD-002@1.0.0`，以维持服务端组织上下文与禁止客户端选择集团的全局边界；ATC-TOY-004 需补齐。
+- 生成 readiness-report 明确区分：DEV-025/026 只待 proposed 规格人工批准；DEV-027 同时受 OD-034 open/proposed、完整 AC-TOY-002 和前序 DEV-025 阻断。
+- `tests/test_repository_contract.py` 只更新三个精确事实：规格版本 168→178、feature 60→66、生成任务新增 ATC-TOY-002/003/004；其余门禁保持严格。
+- `docs/domain/toy/follow-up-spec-review.md` 列出 DEV-025/026 的具体评审问题和 DEV-027 的 OD-034 exit criteria，且明确该文档不是 PRD 或批准证据。
+- GitHub 新 PR 页面已识别 `main...codex/toy-follow-up-spec-drafts`，标题默认正确、分支可自动合并；应选择 Draft PR，避免把草案合并动作误读为业务批准。
+- Draft PR #25 已由 GitHub API 复核：open、draft=true、base main、head `f1a7c21`。该 PR 是评审载体，不是 approval_evidence，也不授权 DEV-025～027 实现。
+
+## Approval Findings: 2026-07-28
+
+- 用户现已成为 DEV-025/026 的最终人工批准主体；批准对象是 PR #25 当前的 BUS-TOY-003/004/005、AC-TOY-003/004 和 ATC-TOY-002/003 草案语义及评审清单中的相关选择。
+- 为遵守版本历史，批准落地方式是新增 `1.0.0 approved` 后继规格并在 Story 中记录本次用户声明，不修改 `0.1.0 proposed` 文件。
+- DEV-027 的 BUS-TOY-006、完整 AC-TOY-002 和 ATC-TOY-004 未被本次声明批准；OD-034 仍为 proposed/open。
+- PR #25 在上一会话最终状态为三项 checks 全部 success、draft=true、mergeable=true/clean；本轮变更后必须重新验证。
+- 2026-07-28 开始门禁确认规格基线仍为 178/389、来源当前、impact 为空；PR #25 仍处于 open/draft/mergeable clean。
+- 当前 specgen CLI 没有 promotion 子命令；仓库文档明确要求受控流程创建 SemVer 后继版本，因此必须保留 proposed 0.1.0 并新增 approved 1.0.0。
+- `scaffold` 只能按 kind/id/version 创建空骨架，不能继承前一版本。为避免手工漏掉长 Story 语义，批准后继应由草案 JSON 做确定性字段变换，再由 `apply_patch` 独占文件写入。
+- 批准变换结果满足目标边界：DEV-025/026 的 requirement、acceptance 和 Story 形成精确 1.0.0 approved 闭包，Story readiness=ready；DEV-027 没有被连带批准。
+- 批准规格完成后总版本数 185、生成文件 125；仓库契约只更新明确计数、两张 1.0 task/四个 feature 和七个 approved delivery 引用，未放宽任何断言。

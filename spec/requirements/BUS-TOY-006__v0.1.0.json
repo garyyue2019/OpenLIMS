@@ -1,0 +1,39 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-TOY-006",
+  "version": "0.1.0",
+  "status": "proposed",
+  "title": "多 TestUnit 结论的危险域覆盖证据边界",
+  "summary": "多 TestUnit 结果汇总为产品或型号结论时，必须逐一引用实际 TestUnit、结果版本和批准的危险域覆盖，明确未覆盖项，不得拼接成一件并不存在的“同一整件全部通过”。结论措辞、权限和全面合规引用继续由 OD-034 决定。",
+  "owners": ["法规负责人", "实验室技术负责人", "质量负责人", "授权签字人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "OPS-TOY-005"},
+    {"document": "PRD-MAIN", "item": "AC-TOY-002"},
+    {"document": "PRD-MAIN", "item": "OD-034"}
+  ],
+  "depends_on": [
+    "OD-001@1.0.0",
+    "OD-034@0.1.0",
+    "BUS-TOY-003@0.1.0",
+    "ATC-RESULT-001@1.0.0",
+    "SEC-AUTH-001@1.0.0",
+    "SEC-AUD-001@2.0.0"
+  ],
+  "affects": ["toy", "test-unit", "hazard-coverage", "conformity", "reporting", "disclosure"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {
+    "mode": "enabled_pack",
+    "applicability": "UNKNOWN",
+    "condition": "OD-034@0.1.0 仍为 proposed/open；结论层级、批准权限、措辞与全面合规引用未决定"
+  },
+  "invariants": [
+    "任何汇总输入都必须固定 TestUnit 计划版本、危险域、采用结果版本、覆盖决定版本、规则集版本及其来源图",
+    "输出必须逐 TestUnit 展示实际执行危险域与覆盖依据，并明确 NOT_TESTED、UNKNOWN 和不适用项；不得把多个实物描述成同一整件的检测事实",
+    "缺任一输入版本、覆盖批准、未覆盖项披露或来源图时必须失败关闭，不能生成可签发结论",
+    "OD-034 决定前，不定义或实现 SINGLE_ITEM_CONFORMITY、TESTED_SCOPE_CONFORMITY 或全面法规符合措辞，不给出批准角色默认值",
+    "本草案不得解除报告模块对 ConformityDecision 的现有阻断；只有 OD-034 的后继 approved/decided 版本及相应 MAJOR 规格才能启用"
+  ]
+}

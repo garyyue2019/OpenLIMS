@@ -1,0 +1,369 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "story",
+  "id": "ATC-TOY-003",
+  "version": "1.0.0",
+  "status": "approved",
+  "target_release": "REL-R1-RECEIVING-PILOT@1.0.0",
+  "epic_id": "EP-QUALITY",
+  "feature_id": "FEAT-TOY-LABEL-REVIEW",
+  "title": "实施 DEV-026 玩具 LabelReview 版本失效与重审",
+  "summary": "在 toy 模块内版本化包装、标签、说明书和营销年龄声明工件，固定语言、市场、图片证据与内容哈希；产品事实或年龄判定变化命中审查范围时追加失效并阻断旧审查，完成引用变更原因的新审查。",
+  "owners": [
+    "玩具行业包负责人",
+    "法规负责人",
+    "技术负责人",
+    "质量负责人",
+    "QA负责人"
+  ],
+  "source_refs": [
+    {
+      "document": "PRD-MAIN",
+      "item": "OPS-TOY-002"
+    },
+    {
+      "document": "PRD-MAIN",
+      "item": "OPS-TOY-007"
+    }
+  ],
+  "depends_on": [
+    "ED-001@2.0.0",
+    "OD-001@1.0.0",
+    "OD-002@1.0.0",
+    "BUS-TOY-001@1.0.0",
+    "BUS-TOY-002@1.0.0",
+    "BUS-TOY-005@1.0.0",
+    "AC-TOY-004@1.0.0",
+    "ATC-TOY-001@1.0.0",
+    "SEC-AUTH-001@1.0.0",
+    "SEC-AUD-001@2.0.0",
+    "NFR-ARCH-001@2.0.0"
+  ],
+  "affects": [
+    "toy",
+    "label-artifact",
+    "packaging",
+    "instruction",
+    "marketing-age-claim",
+    "label-review",
+    "impact-invalidation",
+    "photo-evidence",
+    "authorization",
+    "audit",
+    "automated-test"
+  ],
+  "change_class": "major",
+  "body": {
+    "readiness": "ready",
+    "implementation_task_id": "DEV-026",
+    "business_outcome": "实验室能证明某一市场和语言的包装/标签/说明书/营销年龄声明究竟审过哪个不可变版本；年龄决定或产品事实变化后，受影响旧审查不会继续悄悄放行，新审查与变更原因完整串联。",
+    "actor": "提交工件版本的玩具技术人员、执行 LabelReview 的法规/技术审查人，以及查询有效审查状态的下游服务",
+    "preconditions": [
+      "ATC-TOY-001 已提供版本化 AgeGradeDecision、AccessibilityAssessment 与产品聚合版本",
+      "图片证据使用平台不可变对象引用和哈希，不把二进制正文写入 toy 数据库",
+      "拟议 requirement、acceptance、权限和影响匹配语义经人工批准为精确后继版本"
+    ],
+    "trigger": "提交新工件版本、批准/拒绝审查，或产品/年龄判定变化需要评估既有审查是否失效",
+    "happy_path": [
+      "创建 artifactId 并追加工件版本，固定类型、语言、市场、内容哈希和图片证据引用",
+      "创建 LabelReview 草案，固定工件版本、产品版本、AgeGradeDecision 版本、审查范围和规则集",
+      "获准审查人批准或拒绝，形成不可变 reviewVersion",
+      "产品或 AgeGradeDecision 新版本形成时，以固定 impactRuleRef@version 比对 changeScopeRefs 与 reviewScopeRefs",
+      "命中范围的 APPROVED 审查追加 INVALIDATED 事实并进入 RE_REVIEW_REQUIRED；不命中的审查保留状态且记录影响评估",
+      "提交新工件/审查版本，引用触发变更、前一 reviewVersion 与失效原因",
+      "版本固定公共端口返回 VALID/RE_REVIEW_REQUIRED/REJECTED/UNKNOWN，UNKNOWN 视为拒绝"
+    ],
+    "failure_paths": [
+      "缺工件类型、语言、市场、内容哈希或图片证据 → TOY.LABEL_ARTIFACT_INVALID",
+      "审查未固定工件/产品/年龄决定/规则版本 → TOY.LABEL_REVIEW_INVALID",
+      "影响规则缺失、版本未知或无法判定范围重叠 → TOY.LABEL_IMPACT_UNKNOWN，旧审查按 UNKNOWN 阻断",
+      "尝试使用 INVALIDATED/REJECTED/UNKNOWN 审查 → TOY.LABEL_REVIEW_NOT_VALID",
+      "修改/删除已保存工件、审查或失效事实 → 数据库 55000（TOY.TOY_APPEND_ONLY）",
+      "expectedCurrentVersion 不匹配或并发审查 → TOY.EXPECTED_VERSION_CONFLICT",
+      "缺拟议 toy.label.manage 或 toy.label.review 能力 → TOY.NOT_AUTHORIZED",
+      "对象证据、审计、发件箱或持久化失败 → 整体回滚"
+    ],
+    "invariants": [
+      "工件、图片引用、审查与失效事实全部追加式且精确版本固定",
+      "受影响 APPROVED 审查必须失效；UNKNOWN 不能沿用旧批准",
+      "不受影响的语言/市场/范围不做全局失效，但影响评估证据必须可重建",
+      "新审查引用触发变更和旧审查，历史内容与原因永不覆盖",
+      "产品合规 LabelReview 归 toy 模块所有，不访问 labeling 模块的 print_job/scan 私表",
+      "本卡不实现通用产品主数据编辑、报告 ConformityDecision 或多 TestUnit 汇总结论"
+    ],
+    "data_contract": {
+      "labelArtifact": [
+        "artifactId",
+        "productId",
+        "artifactType(PACKAGING/LABEL/INSTRUCTION/MARKETING_AGE_CLAIM)",
+        "versionNumber",
+        "language",
+        "market",
+        "contentHash",
+        "imageEvidenceRefs[{objectRef, hash}]",
+        "createdBy",
+        "createdAt"
+      ],
+      "labelReview": [
+        "reviewId",
+        "artifactId/artifactVersion",
+        "reviewVersion",
+        "productVersion",
+        "ageGradeDecisionVersion",
+        "reviewScopeRefs[]",
+        "impactRuleRef@version",
+        "ruleSetVersion",
+        "state(DRAFT/APPROVED/REJECTED/INVALIDATED)",
+        "reviewedBy?",
+        "reviewedAt?",
+        "decisionReason?"
+      ],
+      "reviewInvalidation": [
+        "reviewId/reviewVersion",
+        "changeType(PRODUCT_VERSION/AGE_GRADE_DECISION)",
+        "changeRef/version",
+        "matchedScopeRefs[]",
+        "impactRuleRef@version",
+        "reason",
+        "invalidatedAt"
+      ],
+      "reviewStatus": [
+        "decision(VALID/RE_REVIEW_REQUIRED/REJECTED/UNKNOWN)",
+        "reasonCodes",
+        "artifactVersion",
+        "reviewVersion",
+        "productVersion",
+        "ageGradeDecisionVersion",
+        "ruleSetVersion"
+      ]
+    },
+    "api_contract": {
+      "operations": [
+        "POST /api/v1/toy/products/{id}/label-artifacts → 201 创建工件首版",
+        "POST /api/v1/toy/products/{id}/label-artifacts/{artifactId}/versions → 201 追加工件版本",
+        "POST /api/v1/toy/products/{id}/label-artifacts/{artifactId}/reviews → 201 创建审查草案",
+        "POST /api/v1/toy/products/{id}/label-reviews/{reviewId}/decision → 200 批准或拒绝",
+        "GET /api/v1/toy/products/{id}/label-reviews/status → 200 按市场/语言/工件类型返回版本固定状态"
+      ],
+      "publicPort": "IToyLabelReviewStatusPort@v1：固定 productVersion、ageGradeDecisionVersion、market、language、artifactType、ruleSetVersion，返回 VALID/BLOCKED/UNKNOWN；UNKNOWN 视为拒绝",
+      "errors": [
+        "TOY.LABEL_ARTIFACT_INVALID",
+        "TOY.LABEL_REVIEW_INVALID",
+        "TOY.LABEL_IMPACT_UNKNOWN",
+        "TOY.LABEL_REVIEW_NOT_VALID",
+        "TOY.EXPECTED_VERSION_CONFLICT",
+        "TOY.NOT_AUTHORIZED",
+        "TOY.OBJECT_NOT_ACCESSIBLE",
+        "TOY.PERSISTENCE_UNAVAILABLE"
+      ]
+    },
+    "state_transitions": [
+      "工件：ARTIFACT@Vn → ARTIFACT@Vn+1，仅追加",
+      "审查：DRAFT → APPROVED 或 REJECTED；APPROVED → INVALIDATED 由追加失效事实派生；终态不可逆",
+      "状态：VALID → RE_REVIEW_REQUIRED 在命中变更后；新批准 reviewVersion 才恢复 VALID；影响 UNKNOWN 时保持 UNKNOWN"
+    ],
+    "permissions": [
+      "拟议：创建工件/草案要求 toy.label.manage 与对象范围",
+      "拟议：批准/拒绝要求 toy.label.review；起草人与批准人是否允许同人需人工评审，本草案不默认",
+      "系统失效动作来自受信产品/年龄版本事件，不接受客户端伪造 approvedBy、invalidatedAt 或 changeRef",
+      "图片对象读取仍经平台对象授权；客户端不得提交 OrganizationGroup"
+    ],
+    "audit": [
+      "记录 CREATE_LABEL_ARTIFACT_VERSION、CREATE_LABEL_REVIEW、DECIDE_LABEL_REVIEW、INVALIDATE_LABEL_REVIEW 与精确 before/after version",
+      "失效审计包含 changeRef/version、匹配范围、影响规则版本和 correlationId",
+      "业务事实、audit_intent、outbox 同事务；失败/拒绝/UNKNOWN 独立追加 audit_attempt"
+    ],
+    "observability": [
+      "各类型/市场/语言工件与审查计数",
+      "失效、重审待办、UNKNOWN 影响和拒绝原因计数",
+      "结构化日志不含工件正文、图片二进制或客户敏感内容"
+    ],
+    "ui_states": [
+      "本卡不新增前端页面；未来 UI 必须区分工件版本、审查版本、失效原因与重审状态"
+    ],
+    "test_cases": [
+      {
+        "id": "TC-TOY-003-01",
+        "title": "工件四维版本化",
+        "type": "positive",
+        "given": [
+          "两种语言和市场的四类工件"
+        ],
+        "when": [
+          "分别创建和追加版本"
+        ],
+        "then": [
+          "类型/语言/市场/图片证据与内容哈希固定",
+          "旧版本原样可取回"
+        ]
+      },
+      {
+        "id": "TC-TOY-003-02",
+        "title": "年龄变化局部失效",
+        "type": "positive",
+        "given": [
+          "中文与英文审查均批准"
+        ],
+        "when": [
+          "年龄 V2 只命中中文审查范围"
+        ],
+        "then": [
+          "中文 INVALIDATED/RE_REVIEW_REQUIRED",
+          "英文保持 VALID 且影响证据存在"
+        ]
+      },
+      {
+        "id": "TC-TOY-003-03",
+        "title": "UNKNOWN 影响失败关闭",
+        "type": "negative",
+        "given": [
+          "影响规则版本未知"
+        ],
+        "when": [
+          "年龄决定变化并查询旧审查"
+        ],
+        "then": [
+          "TOY.LABEL_IMPACT_UNKNOWN 或 UNKNOWN",
+          "旧审查不能继续放行"
+        ]
+      },
+      {
+        "id": "TC-TOY-003-04",
+        "title": "重审引用完整",
+        "type": "positive",
+        "given": [
+          "旧审查已失效"
+        ],
+        "when": [
+          "新工件和新审查批准"
+        ],
+        "then": [
+          "新审查引用旧版本与触发变更",
+          "旧历史未改写"
+        ]
+      },
+      {
+        "id": "TC-TOY-003-05",
+        "title": "非法工件边界",
+        "type": "boundary",
+        "given": [
+          "缺语言、市场、哈希、图片或非法工件类型"
+        ],
+        "when": [
+          "提交版本"
+        ],
+        "then": [
+          "逐项 TOY.LABEL_ARTIFACT_INVALID",
+          "业务事实为零"
+        ]
+      },
+      {
+        "id": "TC-TOY-003-06",
+        "title": "审查权限",
+        "type": "permission",
+        "given": [
+          "有工件管理但无审查能力"
+        ],
+        "when": [
+          "批准审查"
+        ],
+        "then": [
+          "TOY.NOT_AUTHORIZED",
+          "失败尝试留痕"
+        ]
+      },
+      {
+        "id": "TC-TOY-003-07",
+        "title": "并发审查决定",
+        "type": "concurrency",
+        "given": [
+          "两个请求决定同一 DRAFT reviewVersion"
+        ],
+        "when": [
+          "并发批准/拒绝"
+        ],
+        "then": [
+          "恰一个成功",
+          "另一方 TOY.EXPECTED_VERSION_CONFLICT"
+        ]
+      },
+      {
+        "id": "TC-TOY-003-08",
+        "title": "证据失败回滚",
+        "type": "audit",
+        "given": [
+          "图片对象确认、审计或 Outbox 注入失败"
+        ],
+        "when": [
+          "创建工件、决定或失效"
+        ],
+        "then": [
+          "对应事实整体回滚",
+          "失败证据保留"
+        ]
+      },
+      {
+        "id": "TC-TOY-003-09",
+        "title": "不可变数据库强制",
+        "type": "database-boundary",
+        "given": [
+          "工件、审查和失效已保存"
+        ],
+        "when": [
+          "UPDATE/DELETE 任一行"
+        ],
+        "then": [
+          "数据库 55000 拒绝",
+          "历史仍完整"
+        ]
+      }
+    ],
+    "non_goals": [
+      "不修改既有 Labeling 收样标签打印/扫描语义或访问其私表",
+      "不实现产品主数据通用编辑器、外部法规内容库或图像 OCR/AI 判断",
+      "不实现 OPS-TOY-005 汇总结论、报告签发或认证状态",
+      "不定义影响范围、权限或职责分离的未批准默认值",
+      "不新增前端页面、Seal、tag、GitHub Release、部署或生产迁移执行"
+    ],
+    "allowed_paths": [
+      "spec/requirements/BUS-TOY-005__v1.0.0.json",
+      "spec/acceptance/AC-TOY-004__v1.0.0.json",
+      "spec/stories/ATC-TOY-003__v1.0.0.json",
+      "generated/spec/**",
+      ".planning/2026-07-27-dev-026-toy-label-review/**",
+      "OpenLIMS.slnx",
+      "contracts/toy/**",
+      "src/modules/toy/**",
+      "src/host/api/**",
+      "src/host/worker/**",
+      "tests/unit/toy/**",
+      "tests/contract/toy/**",
+      "tests/integration/toy/**",
+      "tests/architecture/**",
+      "tests/test_repository_contract.py",
+      "docs/domain/toy/**",
+      "scripts/verify.ps1",
+      "scripts/verify.sh",
+      "contracts/**/packages.lock.json",
+      "src/modules/**/packages.lock.json",
+      "src/host/**/packages.lock.json",
+      "tests/**/packages.lock.json"
+    ],
+    "verification_commands": [
+      "python -m tools.specgen ready --story ATC-TOY-003@1.0.0",
+      "pwsh -File scripts/verify.ps1 -Profile task -Module toy",
+      "pwsh -File scripts/verify.ps1 -Profile architecture",
+      "python -m tools.specgen check"
+    ],
+    "definition_of_done": [
+      "本 1.0.0 Story 及全部精确依赖均为 approved，且 ready 门禁返回 READY 后才编码",
+      "四类工件、语言、市场、图片证据与内容哈希版本化且数据库不可变",
+      "产品/年龄变化的命中、局部失效、UNKNOWN 和重审链有完整自动测试",
+      "toy 与 labeling 模块私表边界通过架构和数据库测试",
+      "权限、并发、恢复、审计/Outbox 回滚和失败证据测试齐全",
+      "全仓门禁通过、二次 generate written=0、所有改动位于 approved Story allowed_paths"
+    ],
+    "approval_evidence": "用户于 2026-07-28 明确声明“DEV-025/026 现在 approved”，批准 PR #25 当前 DEV-025/026 草案中的业务语义、评审项、权限边界和 allowed_paths；本规格据此由受控流程发布 approved 后继版本，批准主体为用户而非 AI。"
+  }
+}

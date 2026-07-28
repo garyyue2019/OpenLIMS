@@ -6,7 +6,7 @@
 
 ## Current Phase
 
-Phase 5: 交付
+COMPLETE
 
 ## Phases
 
@@ -43,7 +43,7 @@ Phase 5: 交付
 - [ ] 提交、推送、创建 PR，等待 CI 全绿并 Squash merge
 - [ ] 同步 main 并记录 DEV-025 合并证据
 - [ ] 移交 DEV-026 到其授权 planning 目录
-- **Status:** in_progress
+- **Status:** complete
 
 ## Constraints
 

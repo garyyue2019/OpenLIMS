@@ -56,3 +56,10 @@
 - All edited Toy contract/module/unit/integration files pass isolated `dotnet format --verify-no-changes`.
 - Full unfiltered .NET suite PASS across every contract, architecture, unit, integration, and chain E2E project.
 - Final readiness/impact audit PASS: `ATC-TOY-002@1.0.0` READY, no direct/transitive impact, `git diff --check` clean, and all 37 working-tree paths authorized by the Story.
+
+### Phase 5: delivery
+
+- Implementation commit: `f578e97fd0ace68697ce49ab995321ce2d62177c`.
+- PR #26: `https://github.com/garyyue2019/OpenLIMS/pull/26`.
+- CI: 3/3 successful (`deterministic-specification-gate`, `verify-module-onboarding-windows`, `verify`).
+- Squash-merged to `main` as `0c1ae1b66d05a467d0376cff13f123afaa83c5de` at 2026-07-28T01:35:44Z.

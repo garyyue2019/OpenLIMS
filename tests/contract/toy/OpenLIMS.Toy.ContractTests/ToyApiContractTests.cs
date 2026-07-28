@@ -62,6 +62,45 @@ public sealed class ToyApiContractTests
         Assert.Equal(ToyAccessibilityStatuses.Settled, body.AccessibilityStatus);
     }
 
+    [Fact]
+    public async Task Four_test_unit_plan_operations_expose_versioned_contracts()
+    {
+        using var factory = new ToyApiFactory();
+        using var client = factory.CreateClient();
+        using var created = await client.PostAsJsonAsync(
+            $"/api/v1/toy/products/{ProductId}/test-unit-plans",
+            TestUnitPlanRequest(), TestContext.Current.CancellationToken);
+        using var approved = await client.PostAsJsonAsync(
+            $"/api/v1/toy/products/{ProductId}/test-unit-plans/1/approval",
+            new ApproveToySampleRequirementRequest(
+                1, ToyTestUnitPlanContract.RuleSetVersion, "input-hash", "checked"),
+            TestContext.Current.CancellationToken);
+        using var allocated = await client.PostAsJsonAsync(
+            $"/api/v1/toy/products/{ProductId}/test-unit-plans/1/allocations",
+            new RequestToyAllocationRequest(
+                1,
+                ToyTestUnitPlanContract.RuleSetVersion,
+                [new ToyQuantityGateInput(
+                    "qty-1", 3, "SAMPLE-QUANTITY@1.0.0", 1m, "COUNT", "piece", "reserve-1")],
+                [new ToyAllocationGateInput(
+                    "allocation-1", 2, "TASK-ALLOCATION@1.0.0",
+                    "00000000000000000000000000000301", "step-1")]),
+            TestContext.Current.CancellationToken);
+        using var detail = await client.GetAsync(
+            $"/api/v1/toy/products/{ProductId}/test-unit-plans/1",
+            TestContext.Current.CancellationToken);
+
+        Assert.Equal(HttpStatusCode.Created, created.StatusCode);
+        Assert.Equal(HttpStatusCode.OK, approved.StatusCode);
+        Assert.Equal(HttpStatusCode.Created, allocated.StatusCode);
+        Assert.Equal(HttpStatusCode.OK, detail.StatusCode);
+        var body = await detail.Content.ReadFromJsonAsync<ToyTestUnitPlanResult>(
+            TestContext.Current.CancellationToken);
+        Assert.NotNull(body);
+        Assert.Equal(ToyTestUnitPlanContract.RuleSetVersion, body.RuleSetVersion);
+        Assert.Equal(ToySampleRequirementDecisions.Approved, body.Requirement.Decision);
+    }
+
     [Theory]
     [InlineData(ToyErrorCodes.NotAuthorized, HttpStatusCode.Forbidden)]
     [InlineData(ToyErrorCodes.ObjectNotAccessible, HttpStatusCode.NotFound)]
@@ -71,6 +110,11 @@ public sealed class ToyApiContractTests
     [InlineData(ToyErrorCodes.ReassessmentNotPending, HttpStatusCode.UnprocessableEntity)]
     [InlineData(ToyErrorCodes.ValidationFailed, HttpStatusCode.BadRequest)]
     [InlineData(ToyErrorCodes.PersistenceUnavailable, HttpStatusCode.ServiceUnavailable)]
+    [InlineData(ToyErrorCodes.TestUnitPlanInvalid, HttpStatusCode.BadRequest)]
+    [InlineData(ToyErrorCodes.SampleRequirementUnknown, HttpStatusCode.BadRequest)]
+    [InlineData(ToyErrorCodes.DestructiveTestUnitConflict, HttpStatusCode.UnprocessableEntity)]
+    [InlineData(ToyErrorCodes.SampleRequirementNotApproved, HttpStatusCode.UnprocessableEntity)]
+    [InlineData(ToyErrorCodes.DownstreamEligibilityBlocked, HttpStatusCode.UnprocessableEntity)]
     public async Task Toy_errors_map_to_stable_problem_contracts(string errorCode, HttpStatusCode status)
     {
         using var factory = new ToyApiFactory(errorCode);
@@ -109,7 +153,9 @@ public sealed class ToyApiContractTests
         foreach (var operation in new[]
         {
             "recordToyAgeDeclaration", "recordToyAgeGradeDecision", "freezeToyAgeGradeDecision",
-            "recordToyAccessibilityAssessment", "resolveToyReassessmentTrigger", "getToyProductOverview"
+            "recordToyAccessibilityAssessment", "resolveToyReassessmentTrigger", "getToyProductOverview",
+            "createToyTestUnitPlan", "approveToySampleRequirement", "requestToyAllocation",
+            "getToyTestUnitPlan"
         })
         {
             Assert.Contains(operation, content, StringComparison.Ordinal);
@@ -163,6 +209,40 @@ public sealed class ToyApiContractTests
     private static RecordAccessibilityAssessmentRequest Assessment() => new(
         ToyContract.RuleSetVersion, new ToyObjectContext("LEGAL-A", "LAB-A"), 4,
         ToyAssessmentStages.Initial, null, ["shell", "wheels"]);
+
+    private static CreateToyTestUnitPlanRequest TestUnitPlanRequest() => new(
+        ToyTestUnitPlanContract.RuleSetVersion,
+        new ToyObjectContext("LEGAL-A", "LAB-A"),
+        0,
+        6,
+        1,
+        1,
+        "scope-1",
+        2,
+        [new ToyVersionedReference("line-1", 1)],
+        [new ToyVersionedReference("sample-rule", 1)],
+        [new CreateToyTestUnitInput(
+            "00000000000000000000000000000301",
+            new ToyVersionedReference("physical-1", 1),
+            [new ToyVersionedReference("MECHANICAL", 1)],
+            1,
+            [new CreateToySequenceStepInput(
+                "step-1", 1, new ToyVersionedReference("DROP", 1), true, "GROUP-1", null)])],
+        [
+            Demand("base", ToySampleDemandKinds.Base, 1m),
+            Demand("parallel", ToySampleDemandKinds.Parallel, 0m),
+            Demand("exclusive", ToySampleDemandKinds.ExclusiveDestructive, 0m),
+            Demand("chemical", ToySampleDemandKinds.ChemicalMinimum, 1m, "MASS", "g"),
+            Demand("retest", ToySampleDemandKinds.RetestReserve, 0m),
+            Demand("retention", ToySampleDemandKinds.Retention, 0m)
+        ]);
+
+    private static ToySampleDemandInput Demand(
+        string id, string kind, decimal amount, string dimension = "COUNT", string unit = "piece") =>
+        new(
+            id, kind, new ToyVersionedReference("MECHANICAL", 1), null,
+            amount, dimension, unit, new ToyVersionedReference($"{id}-rule", 1),
+            ToyApplicabilityDecisions.Allowed);
 }
 
 internal sealed class ToyApiFactory(string? errorCode = null) : WebApplicationFactory<Program>
@@ -194,7 +274,71 @@ internal sealed class ToyApiFactory(string? errorCode = null) : WebApplicationFa
                     ToyTestAuthenticationHandler.SchemeName, _ => { });
             services.RemoveAll<IToyProductService>();
             services.AddSingleton<IToyProductService>(new StubToyProductService(errorCode));
+            services.RemoveAll<IToyTestUnitPlanService>();
+            services.AddSingleton<IToyTestUnitPlanService>(new StubToyTestUnitPlanService(errorCode));
         });
+    }
+}
+
+internal sealed class StubToyTestUnitPlanService(string? errorCode) : IToyTestUnitPlanService
+{
+    private static readonly DateTimeOffset Now = new(2026, 7, 28, 9, 0, 0, TimeSpan.Zero);
+
+    public Task<ToyTestUnitPlanResult> CreatePlanAsync(
+        string productId, CreateToyTestUnitPlanRequest request, string correlationId,
+        CancellationToken cancellationToken = default) => Result(productId, approved: false, cancellationToken);
+
+    public Task<ToyTestUnitPlanResult> ApproveAsync(
+        string productId, long planVersion, ApproveToySampleRequirementRequest request,
+        string correlationId, CancellationToken cancellationToken = default) =>
+        Result(productId, approved: true, cancellationToken);
+
+    public Task<ToyTestUnitPlanResult> RequestAllocationAsync(
+        string productId, long planVersion, RequestToyAllocationRequest request,
+        string correlationId, CancellationToken cancellationToken = default) =>
+        Result(productId, approved: true, cancellationToken);
+
+    public Task<ToyTestUnitPlanResult> GetAsync(
+        string productId, long planVersion, string correlationId,
+        CancellationToken cancellationToken = default) => Result(productId, approved: true, cancellationToken);
+
+    private Task<ToyTestUnitPlanResult> Result(
+        string productId, bool approved, CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        if (errorCode is not null) throw new ToyDomainException(errorCode);
+        var requirement = new ToySampleRequirementEntry(
+            "requirement-1",
+            1,
+            [new ToySampleDemandComponent(
+                "base", ToySampleDemandKinds.Base, null, null, 1m, "COUNT", "piece",
+                new ToyVersionedReference("base-rule", 1))],
+            [new ToySampleDemandTotal("COUNT", "piece", 1m)],
+            approved
+                ? ToySampleRequirementDecisions.Approved
+                : ToySampleRequirementDecisions.PendingTechnicalApproval,
+            [],
+            "input-hash",
+            ToyTestUnitPlanContract.RuleSetVersion);
+        var result = new ToyTestUnitPlanResult(
+            "plan-1", productId, 6, 1, 1, 1, "scope-1", 2,
+            [new ToyVersionedReference("line-1", 1)],
+            [new ToyVersionedReference("sample-rule", 1)],
+            ToyTestUnitPlanContract.RuleSetVersion,
+            approved ? ToyTestUnitPlanStates.Approved : ToyTestUnitPlanStates.Draft,
+            "input-hash",
+            new ToyObjectContext("LEGAL-A", "LAB-A"),
+            [],
+            requirement,
+            approved
+                ? new ToyTechnicalApprovalEntry(
+                    "requirement-1", 1, "approver", Now, "checked", "input-hash",
+                    ToyTestUnitPlanContract.RuleSetVersion)
+                : null,
+            [],
+            "creator",
+            Now);
+        return Task.FromResult(result);
     }
 }
 

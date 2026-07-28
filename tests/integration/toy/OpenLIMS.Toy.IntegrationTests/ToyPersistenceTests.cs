@@ -2,7 +2,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Npgsql;
 using OpenLIMS.BuildingBlocks.Platform;
+using OpenLIMS.Contracts.Allocation;
 using OpenLIMS.Contracts.Platform;
+using OpenLIMS.Contracts.Quantity;
 using OpenLIMS.Contracts.Toy;
 using OpenLIMS.Modules.Toy;
 using Xunit;
@@ -192,7 +194,8 @@ public sealed class ToyPersistenceTests
         var afterAbuse = await service.RecordAssessmentAsync(
             productId,
             Assessment(initial.Version, ToyAssessmentStages.AfterAbuse, ["shell", "wheels", "battery-compartment"])
-                with { AbuseEventRef = "DROP-TEST-1" },
+                with
+            { AbuseEventRef = "DROP-TEST-1" },
             "corr-abuse", TestContext.Current.CancellationToken);
 
         Assert.Empty(initial.Triggers);
@@ -267,7 +270,8 @@ public sealed class ToyPersistenceTests
         var normalWithEvent = await CaptureAsync(service.RecordAssessmentAsync(
             productId,
             Assessment(initial.Version, ToyAssessmentStages.AfterNormalUse, ["shell"])
-                with { AbuseEventRef = "DROP-TEST-1" },
+                with
+            { AbuseEventRef = "DROP-TEST-1" },
             "corr-normal-with-event", TestContext.Current.CancellationToken));
 
         Assert.Equal(ToyErrorCodes.ValidationFailed, notInitialFirst.Error!.ErrorCode);
@@ -311,7 +315,8 @@ public sealed class ToyPersistenceTests
         var current = await service.RecordAssessmentAsync(
             productId,
             Assessment(initial.Version, ToyAssessmentStages.AfterAbuse, ["shell", "spring"])
-                with { AbuseEventRef = "TORQUE-TEST-1" },
+                with
+            { AbuseEventRef = "TORQUE-TEST-1" },
             "corr-abuse", TestContext.Current.CancellationToken);
 
         var blocked = await port.EvaluateAsync(new ToyAgeGradeStatusRequest(
@@ -429,6 +434,258 @@ public sealed class ToyPersistenceTests
         }
     }
 
+    [Fact]
+    public async Task Test_unit_plan_demand_approval_and_downstream_decisions_are_reconstructable()
+    {
+        var connectionString = ConnectionString();
+        await PrepareAsync(connectionString);
+        await using var provider = BuildProvider(connectionString);
+        using var scope = provider.CreateScope();
+        var productService = scope.ServiceProvider.GetRequiredService<IToyProductService>();
+        var planService = scope.ServiceProvider.GetRequiredService<IToyTestUnitPlanService>();
+        var productId = NewProductId();
+        var product = await PrepareProductAsync(productService, productId);
+
+        var draft = await planService.CreatePlanAsync(
+            productId, TestUnitPlan(product.Version, 0), "corr-plan",
+            TestContext.Current.CancellationToken);
+        var approved = await planService.ApproveAsync(
+            productId,
+            draft.PlanVersion,
+            new ApproveToySampleRequirementRequest(
+                draft.PlanVersion,
+                ToyTestUnitPlanContract.RuleSetVersion,
+                draft.InputHash,
+                "components and units checked"),
+            "corr-approve",
+            TestContext.Current.CancellationToken);
+        var allocated = await planService.RequestAllocationAsync(
+            productId,
+            draft.PlanVersion,
+            Downstream(draft.PlanVersion),
+            "corr-allocate",
+            TestContext.Current.CancellationToken);
+        var reconstructed = await planService.GetAsync(
+            productId, draft.PlanVersion, "corr-read-plan", TestContext.Current.CancellationToken);
+        var status = await scope.ServiceProvider.GetRequiredService<IToyTestUnitPlanStatusPort>()
+            .EvaluateAsync(new ToyTestUnitPlanStatusRequest(
+                "group-a", productId, draft.PlanVersion, ToyTestUnitPlanContract.RuleSetVersion)
+            {
+                CorrelationId = "corr-plan-status"
+            }, TestContext.Current.CancellationToken);
+
+        Assert.Equal(ToyTestUnitPlanStates.Draft, draft.State);
+        Assert.Equal(ToySampleRequirementDecisions.PendingTechnicalApproval, draft.Requirement.Decision);
+        Assert.Equal(6, draft.Requirement.Components.Count);
+        Assert.Equal(ToyTestUnitPlanStates.Approved, approved.State);
+        Assert.Equal(ToySampleRequirementDecisions.Approved, approved.Requirement.Decision);
+        Assert.Equal("technician-a", approved.TechnicalApproval!.ApprovedBy);
+        Assert.Single(allocated.DownstreamDecisions);
+        Assert.Equal(2, allocated.DownstreamDecisions[0].QuantityDecisions.Count);
+        Assert.Single(allocated.DownstreamDecisions[0].AllocationDecisions);
+        Assert.Equal(allocated.PlanId, reconstructed.PlanId);
+        Assert.Equal(allocated.InputHash, reconstructed.InputHash);
+        Assert.Equal(allocated.State, reconstructed.State);
+        Assert.Equal(
+            allocated.Requirement.Components.Select(item => (item.ComponentId, item.Kind, item.Amount)),
+            reconstructed.Requirement.Components.Select(item => (item.ComponentId, item.Kind, item.Amount)));
+        Assert.Equal(
+            allocated.DownstreamDecisions[0].AllocationDecisions.Select(item => item.AllocationId),
+            reconstructed.DownstreamDecisions[0].AllocationDecisions.Select(item => item.AllocationId));
+        Assert.Equal(ToyTestUnitPlanStatusDecisions.Allowed, status.Decision);
+        Assert.Equal(["reserve-count", "reserve-mass"], status.ReservationRefs.Order(StringComparer.Ordinal));
+        Assert.Equal(["allocation-1"], status.AllocationIds);
+        Assert.Equal(1, await CountAsync(connectionString, "select count(*) from toy.test_unit_plan"));
+        Assert.Equal(6, await CountAsync(connectionString, "select count(*) from toy.sample_demand_component"));
+        Assert.Equal(1, await CountAsync(connectionString, "select count(*) from toy.technical_approval"));
+        Assert.Equal(1, await CountAsync(connectionString, "select count(*) from toy.downstream_request"));
+    }
+
+    [Fact]
+    public async Task Historical_exclusive_destructive_use_survives_plan_versions_and_changed_test_unit_ids()
+    {
+        var connectionString = ConnectionString();
+        await PrepareAsync(connectionString);
+        await using var provider = BuildProvider(connectionString);
+        using var scope = provider.CreateScope();
+        var productService = scope.ServiceProvider.GetRequiredService<IToyProductService>();
+        var planService = scope.ServiceProvider.GetRequiredService<IToyTestUnitPlanService>();
+        var productId = NewProductId();
+        var product = await PrepareProductAsync(productService, productId);
+        var first = await planService.CreatePlanAsync(
+            productId, TestUnitPlan(product.Version, 0), "corr-plan-1",
+            TestContext.Current.CancellationToken);
+        var firstApproved = await planService.ApproveAsync(
+            productId,
+            first.PlanVersion,
+            new ApproveToySampleRequirementRequest(
+                first.PlanVersion, ToyTestUnitPlanContract.RuleSetVersion,
+                first.InputHash, "checked"),
+            "corr-approve-1",
+            TestContext.Current.CancellationToken);
+        await planService.RequestAllocationAsync(
+            productId, firstApproved.PlanVersion, Downstream(firstApproved.PlanVersion),
+            "corr-allocate-1", TestContext.Current.CancellationToken);
+
+        var second = await planService.CreatePlanAsync(
+            productId,
+            TestUnitPlan(product.Version, first.PlanVersion, testUnitSuffix: "b"),
+            "corr-plan-2",
+            TestContext.Current.CancellationToken);
+        var secondApproved = await planService.ApproveAsync(
+            productId,
+            second.PlanVersion,
+            new ApproveToySampleRequirementRequest(
+                second.PlanVersion, ToyTestUnitPlanContract.RuleSetVersion,
+                second.InputHash, "checked"),
+            "corr-approve-2",
+            TestContext.Current.CancellationToken);
+        var conflict = await CaptureAsync(planService.RequestAllocationAsync(
+            productId,
+            secondApproved.PlanVersion,
+            Downstream(
+                secondApproved.PlanVersion,
+                "00000000000000000000000000000311",
+                "step-drop",
+                "allocation-2"),
+            "corr-allocation-reuse",
+            TestContext.Current.CancellationToken));
+
+        Assert.Equal(ToyErrorCodes.DestructiveTestUnitConflict, conflict.Error!.ErrorCode);
+        Assert.Equal(2, await CountAsync(connectionString, "select count(*) from toy.test_unit_plan"));
+        Assert.Equal(1, await CountAsync(connectionString, "select count(*) from toy.downstream_request"));
+        Assert.Equal(1, await CountAsync(connectionString,
+            "select count(*) from toy.audit_attempt where outcome = 'TOY.DESTRUCTIVE_TEST_UNIT_CONFLICT'"));
+    }
+
+    [Fact]
+    public async Task Concurrent_plan_append_has_one_winner_and_one_expected_version_conflict()
+    {
+        var connectionString = ConnectionString();
+        await PrepareAsync(connectionString);
+        await using var provider = BuildProvider(connectionString);
+        var productId = NewProductId();
+        ToyProductOverview product;
+        using (var setupScope = provider.CreateScope())
+        {
+            product = await PrepareProductAsync(
+                setupScope.ServiceProvider.GetRequiredService<IToyProductService>(), productId);
+        }
+
+        using var firstScope = provider.CreateScope();
+        using var secondScope = provider.CreateScope();
+        var firstService = firstScope.ServiceProvider.GetRequiredService<IToyTestUnitPlanService>();
+        var secondService = secondScope.ServiceProvider.GetRequiredService<IToyTestUnitPlanService>();
+        var calls = new[]
+        {
+            CaptureAsync(firstService.CreatePlanAsync(
+                productId, TestUnitPlan(product.Version, 0), "corr-concurrent-a",
+                TestContext.Current.CancellationToken)),
+            CaptureAsync(secondService.CreatePlanAsync(
+                productId, TestUnitPlan(product.Version, 0, physicalPrefix: "other"), "corr-concurrent-b",
+                TestContext.Current.CancellationToken))
+        };
+
+        var results = await Task.WhenAll(calls);
+
+        Assert.Single(results, item => item.Result is not null);
+        Assert.Single(results, item => item.Error?.ErrorCode == ToyErrorCodes.ExpectedVersionConflict);
+        Assert.Equal(1, await CountAsync(connectionString, "select count(*) from toy.test_unit_plan"));
+    }
+
+    [Fact]
+    public async Task Approval_permission_and_blocked_downstream_fail_without_partial_facts()
+    {
+        var connectionString = ConnectionString();
+        await PrepareAsync(connectionString);
+        var productId = NewProductId();
+        ToyTestUnitPlanResult draft;
+        await using (var provider = BuildProvider(connectionString, approve: false))
+        {
+            using var scope = provider.CreateScope();
+            var product = await PrepareProductAsync(
+                scope.ServiceProvider.GetRequiredService<IToyProductService>(), productId);
+            var service = scope.ServiceProvider.GetRequiredService<IToyTestUnitPlanService>();
+            draft = await service.CreatePlanAsync(
+                productId, TestUnitPlan(product.Version, 0), "corr-plan",
+                TestContext.Current.CancellationToken);
+            var denied = await CaptureAsync(service.ApproveAsync(
+                productId,
+                draft.PlanVersion,
+                new ApproveToySampleRequirementRequest(
+                    draft.PlanVersion, ToyTestUnitPlanContract.RuleSetVersion,
+                    draft.InputHash, "checked"),
+                "corr-denied-approval",
+                TestContext.Current.CancellationToken));
+            Assert.Equal(ToyErrorCodes.NotAuthorized, denied.Error!.ErrorCode);
+        }
+
+        await using (var provider = BuildProvider(
+                         connectionString,
+                         quantityDecision: QuantityAvailabilityDecisions.Blocked))
+        {
+            using var scope = provider.CreateScope();
+            var service = scope.ServiceProvider.GetRequiredService<IToyTestUnitPlanService>();
+            var approved = await service.ApproveAsync(
+                productId,
+                draft.PlanVersion,
+                new ApproveToySampleRequirementRequest(
+                    draft.PlanVersion, ToyTestUnitPlanContract.RuleSetVersion,
+                    draft.InputHash, "checked"),
+                "corr-approved",
+                TestContext.Current.CancellationToken);
+            var blocked = await CaptureAsync(service.RequestAllocationAsync(
+                productId, approved.PlanVersion, Downstream(approved.PlanVersion),
+                "corr-blocked-downstream", TestContext.Current.CancellationToken));
+            Assert.Equal(ToyErrorCodes.DownstreamEligibilityBlocked, blocked.Error!.ErrorCode);
+        }
+
+        Assert.Equal(1, await CountAsync(connectionString, "select count(*) from toy.technical_approval"));
+        Assert.Equal(0, await CountAsync(connectionString, "select count(*) from toy.downstream_request"));
+        Assert.Equal(2, await CountAsync(connectionString, "select count(*) from toy.audit_attempt"));
+    }
+
+    [Fact]
+    public async Task Test_unit_plan_rows_are_database_append_only_and_evidence_failure_rolls_back()
+    {
+        var connectionString = ConnectionString();
+        await PrepareAsync(connectionString);
+        await using var provider = BuildProvider(connectionString);
+        using var scope = provider.CreateScope();
+        var productService = scope.ServiceProvider.GetRequiredService<IToyProductService>();
+        var service = scope.ServiceProvider.GetRequiredService<IToyTestUnitPlanService>();
+        var productId = NewProductId();
+        var product = await PrepareProductAsync(productService, productId);
+        var draft = await service.CreatePlanAsync(
+            productId, TestUnitPlan(product.Version, 0), "corr-plan",
+            TestContext.Current.CancellationToken);
+
+        var rewrite = await Assert.ThrowsAsync<PostgresException>(() => ExecuteAsync(
+            connectionString, "update toy.test_unit_plan set input_hash = 'rewritten';"));
+        var erase = await Assert.ThrowsAsync<PostgresException>(() => ExecuteAsync(
+            connectionString, "delete from toy.sample_requirement;"));
+        Assert.Equal("55000", rewrite.SqlState);
+        Assert.Equal("55000", erase.SqlState);
+
+        await InstallFailureTriggerAsync(connectionString, "outbox");
+        try
+        {
+            var failed = await CaptureAsync(service.CreatePlanAsync(
+                productId,
+                TestUnitPlan(product.Version, draft.PlanVersion, physicalPrefix: "fresh"),
+                "corr-evidence-fail",
+                TestContext.Current.CancellationToken));
+            Assert.Equal(ToyErrorCodes.PersistenceUnavailable, failed.Error!.ErrorCode);
+            Assert.Equal(1, await CountAsync(connectionString, "select count(*) from toy.test_unit_plan"));
+            Assert.Equal(1, await CountAsync(connectionString,
+                "select count(*) from toy.audit_attempt where outcome = 'TOY.PERSISTENCE_UNAVAILABLE'"));
+        }
+        finally
+        {
+            await RemoveFailureTriggerAsync(connectionString, "outbox");
+        }
+    }
+
     private static async Task<(object? Result, ToyDomainException? Error)> CaptureAsync<T>(Task<T> task)
     {
         try
@@ -442,7 +699,12 @@ public sealed class ToyPersistenceTests
     }
 
     private static ServiceProvider BuildProvider(
-        string connectionString, bool permit = true, string actorId = "technician-a")
+        string connectionString,
+        bool permit = true,
+        string actorId = "technician-a",
+        bool approve = true,
+        string quantityDecision = QuantityAvailabilityDecisions.Allowed,
+        string allocationDecision = AllocationStatusDecisions.Allowed)
     {
         var services = new ServiceCollection();
         services.AddLogging();
@@ -467,7 +729,11 @@ public sealed class ToyPersistenceTests
         services.AddSingleton<IIdGenerator, GuidIdGenerator>();
         new ToyModule(connectionString).AddApiServices(services);
         services.RemoveAll<IToyAuthorizationPort>();
-        services.AddSingleton<IToyAuthorizationPort>(new FixedAuthorizationPort(permit));
+        services.AddSingleton<IToyAuthorizationPort>(new FixedAuthorizationPort(permit, approve));
+        services.RemoveAll<IQuantityAvailabilityPort>();
+        services.AddSingleton<IQuantityAvailabilityPort>(new FixedQuantityPort(quantityDecision));
+        services.RemoveAll<IAllocationStatusPort>();
+        services.AddSingleton<IAllocationStatusPort>(new FixedAllocationPort(allocationDecision));
         return services.BuildServiceProvider(validateScopes: true);
     }
 
@@ -488,6 +754,109 @@ public sealed class ToyPersistenceTests
 
     private static ResolveReassessmentTriggerRequest ToyResolution(long expectedVersion) => new(
         ToyContract.RuleSetVersion, expectedVersion, new ToyVersionedReference("REASSESS-1", 1));
+
+    private static async Task<ToyProductOverview> PrepareProductAsync(
+        IToyProductService service, string productId)
+    {
+        var decided = await service.RecordDecisionAsync(
+            productId, Decision(0, 36), "corr-age", TestContext.Current.CancellationToken);
+        var frozen = await service.FreezeDecisionAsync(
+            productId,
+            1,
+            new FreezeAgeGradeDecisionRequest(ToyContract.RuleSetVersion, decided.Version),
+            "corr-age-freeze",
+            TestContext.Current.CancellationToken);
+        return await service.RecordAssessmentAsync(
+            productId,
+            Assessment(frozen.Version, ToyAssessmentStages.Initial, ["shell"]),
+            "corr-accessibility",
+            TestContext.Current.CancellationToken);
+    }
+
+    private static CreateToyTestUnitPlanRequest TestUnitPlan(
+        long productVersion,
+        long expectedPlanVersion,
+        string physicalPrefix = "physical",
+        string testUnitSuffix = "a")
+    {
+        var hazard = new ToyVersionedReference("MECHANICAL", 3);
+        return new CreateToyTestUnitPlanRequest(
+            ToyTestUnitPlanContract.RuleSetVersion,
+            new ToyObjectContext("LEGAL-A", "LAB-A"),
+            expectedPlanVersion,
+            productVersion,
+            1,
+            1,
+            "scope-matrix-1",
+            5,
+            [new ToyVersionedReference("scope-line-1", 2)],
+            [new ToyVersionedReference("sample-rules", 4)],
+            [
+                new CreateToyTestUnitInput(
+                    testUnitSuffix == "a"
+                        ? "00000000000000000000000000000301"
+                        : "00000000000000000000000000000311",
+                    new ToyVersionedReference($"{physicalPrefix}-1", 7),
+                    [hazard],
+                    1,
+                    [
+                        new CreateToySequenceStepInput(
+                            "step-drop", 1, new ToyVersionedReference("DROP", 2),
+                            true, "DROP-CRUSH", null),
+                        new CreateToySequenceStepInput(
+                            "step-visual", 2, new ToyVersionedReference("VISUAL", 1),
+                            false, null, new ToyVersionedReference("NONDESTRUCTIVE-SHARE", 1))
+                    ]),
+                new CreateToyTestUnitInput(
+                    testUnitSuffix == "a"
+                        ? "00000000000000000000000000000302"
+                        : "00000000000000000000000000000312",
+                    new ToyVersionedReference($"{physicalPrefix}-2", 4),
+                    [hazard],
+                    2,
+                    [new CreateToySequenceStepInput(
+                        "step-crush", 1, new ToyVersionedReference("CRUSH", 2),
+                        true, "DROP-CRUSH", null)])
+            ],
+            [
+                Demand("base", ToySampleDemandKinds.Base, 4m, "COUNT", "piece", "base-rule", 1),
+                Demand("parallel", ToySampleDemandKinds.Parallel, 4m, "COUNT", "piece", "parallel-rule", 1),
+                Demand("exclusive", ToySampleDemandKinds.ExclusiveDestructive, 2m, "COUNT", "piece", "exclusive-rule", 2),
+                Demand("chemical", ToySampleDemandKinds.ChemicalMinimum, 10m, "MASS", "g", "chemical-rule", 3),
+                Demand("retest", ToySampleDemandKinds.RetestReserve, 3m, "COUNT", "piece", "retest-rule", 1),
+                Demand("retention", ToySampleDemandKinds.Retention, 2m, "COUNT", "piece", "retention-rule", 1)
+            ]);
+    }
+
+    private static ToySampleDemandInput Demand(
+        string id, string kind, decimal amount, string dimension, string unit, string rule, long version) =>
+        new(
+            id,
+            kind,
+            new ToyVersionedReference("MECHANICAL", 3),
+            null,
+            amount,
+            dimension,
+            unit,
+            new ToyVersionedReference(rule, version),
+            ToyApplicabilityDecisions.Allowed);
+
+    private static RequestToyAllocationRequest Downstream(
+        long expectedPlanVersion,
+        string testUnitId = "00000000000000000000000000000301",
+        string sequenceStepId = "step-drop",
+        string allocationId = "allocation-1") => new(
+        expectedPlanVersion,
+        ToyTestUnitPlanContract.RuleSetVersion,
+        [
+            new ToyQuantityGateInput(
+                "qty-count", 4, QuantityContract.RuleSetVersion, 15m, "COUNT", "piece", "reserve-count"),
+            new ToyQuantityGateInput(
+                "qty-mass", 2, QuantityContract.RuleSetVersion, 10m, "MASS", "g", "reserve-mass")
+        ],
+        [new ToyAllocationGateInput(
+            allocationId, 3, AllocationContract.RuleSetVersion,
+            testUnitId, sequenceStepId)]);
 
     private static string AdminConnectionString() =>
         Environment.GetEnvironmentVariable("OPENLIMS_TEST_POSTGRES_CONNECTION")
@@ -530,6 +899,19 @@ public sealed class ToyPersistenceTests
         await ExecuteAsync(connectionString, """
             truncate table
               toy.audit_attempt,
+              toy.allocation_decision,
+              toy.quantity_decision,
+              toy.downstream_request,
+              toy.technical_approval,
+              toy.destructive_test_unit_usage,
+              toy.sample_demand_component,
+              toy.sample_requirement,
+              toy.test_unit_sequence_step,
+              toy.test_unit_hazard_domain,
+              toy.test_unit,
+              toy.test_unit_plan_sample_rule,
+              toy.test_unit_plan_scope_line,
+              toy.test_unit_plan,
               toy.reassessment_resolution,
               toy.reassessment_trigger,
               toy.accessible_part,
@@ -606,11 +988,41 @@ public sealed class ToyPersistenceTests
         return Convert.ToInt64(await command.ExecuteScalarAsync(TestContext.Current.CancellationToken));
     }
 
-    private sealed class FixedAuthorizationPort(bool allowed) : IToyAuthorizationPort
+    private sealed class FixedAuthorizationPort(bool allowed, bool approve) : IToyAuthorizationPort
     {
         public ValueTask<ToyAuthorizationDecision> AuthorizeAsync(
-            ToyAuthorizationRequest request, CancellationToken cancellationToken = default) =>
-            ValueTask.FromResult(allowed ? ToyAuthorizationDecision.Permit : ToyAuthorizationDecision.Deny);
+            ToyAuthorizationRequest request, CancellationToken cancellationToken = default)
+        {
+            var permitted = allowed &&
+                (!string.Equals(request.Capability, ToyCapabilities.SampleDemandApprove, StringComparison.Ordinal) || approve);
+            return ValueTask.FromResult(permitted ? ToyAuthorizationDecision.Permit : ToyAuthorizationDecision.Deny);
+        }
+    }
+
+    private sealed class FixedQuantityPort(string decision) : IQuantityAvailabilityPort
+    {
+        public ValueTask<QuantityAvailabilityResult> EvaluateAsync(
+            QuantityAvailabilityRequest request, CancellationToken cancellationToken = default) =>
+            ValueTask.FromResult(new QuantityAvailabilityResult(
+                decision,
+                decision == QuantityAvailabilityDecisions.Allowed ? [] : ["INSUFFICIENT_AVAILABLE"],
+                request.QuantityAccountId,
+                request.ExpectedAccountVersion,
+                decision == QuantityAvailabilityDecisions.Allowed ? request.RequestedAmount + 1m : 0m,
+                request.RuleSetVersion));
+    }
+
+    private sealed class FixedAllocationPort(string decision) : IAllocationStatusPort
+    {
+        public ValueTask<AllocationStatusResult> EvaluateAsync(
+            AllocationStatusRequest request, CancellationToken cancellationToken = default) =>
+            ValueTask.FromResult(new AllocationStatusResult(
+                decision,
+                decision == AllocationStatusDecisions.Allowed ? [] : ["ALLOCATION_UNAVAILABLE"],
+                request.AllocationId,
+                decision == AllocationStatusDecisions.Allowed ? AllocationStates.Active : null,
+                request.ExpectedSubjectAllocationVersion,
+                request.RuleSetVersion));
     }
 
     private sealed class FixedActorContext(ActorContext actor) : ICurrentActorContext

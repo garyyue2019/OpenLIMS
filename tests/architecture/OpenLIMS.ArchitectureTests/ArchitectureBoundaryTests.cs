@@ -103,6 +103,7 @@ public sealed partial class ArchitectureBoundaryTests
             Path.Combine(RepositoryRoot, "contracts", "instrument"),
             Path.Combine(RepositoryRoot, "contracts", "qc"),
             Path.Combine(RepositoryRoot, "contracts", "report"),
+            Path.Combine(RepositoryRoot, "contracts", "toy"),
             Path.Combine(RepositoryRoot, "src", "modules")
         };
         var violations = contractRoots

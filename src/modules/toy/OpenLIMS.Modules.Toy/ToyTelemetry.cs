@@ -13,6 +13,10 @@ internal static class ToyTelemetry
     private static readonly Counter<long> TriggersResolved = Meter.CreateCounter<long>("toy_reassessment_resolved_total");
     private static readonly Counter<long> Status = Meter.CreateCounter<long>("toy_age_grade_status_total");
     private static readonly Counter<long> Rejected = Meter.CreateCounter<long>("toy_rejected_total");
+    private static readonly Counter<long> TestUnitPlans = Meter.CreateCounter<long>("toy_test_unit_plan_total");
+    private static readonly Counter<long> SampleDemandApprovals = Meter.CreateCounter<long>("toy_sample_demand_approval_total");
+    private static readonly Counter<long> DownstreamDecisions = Meter.CreateCounter<long>("toy_downstream_decision_total");
+    private static readonly Counter<long> TestUnitPlanStatus = Meter.CreateCounter<long>("toy_test_unit_plan_status_total");
 
     public static void RecordDeclaration() => Declarations.Add(1);
 
@@ -33,4 +37,14 @@ internal static class ToyTelemetry
 
     public static void RecordRejected(string reason) =>
         Rejected.Add(1, new KeyValuePair<string, object?>("reason", reason));
+
+    public static void RecordTestUnitPlan() => TestUnitPlans.Add(1);
+
+    public static void RecordSampleDemandApproval() => SampleDemandApprovals.Add(1);
+
+    public static void RecordDownstreamDecision(string decision) =>
+        DownstreamDecisions.Add(1, new KeyValuePair<string, object?>("decision", decision));
+
+    public static void RecordTestUnitPlanStatus(string decision) =>
+        TestUnitPlanStatus.Add(1, new KeyValuePair<string, object?>("decision", decision));
 }

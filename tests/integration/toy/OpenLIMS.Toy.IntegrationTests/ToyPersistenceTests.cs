@@ -1,3 +1,5 @@
+using System.Security.Cryptography;
+using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Npgsql;
@@ -686,6 +688,324 @@ public sealed class ToyPersistenceTests
         }
     }
 
+    [Fact]
+    public async Task Four_label_artifact_types_append_versions_verify_images_and_reject_database_mutation()
+    {
+        var connectionString = ConnectionString();
+        await PrepareAsync(connectionString);
+        var storage = new FixedObjectStoragePort();
+        await using var provider = BuildProvider(connectionString, objectStorage: storage);
+        using var scope = provider.CreateScope();
+        var productService = scope.ServiceProvider.GetRequiredService<IToyProductService>();
+        var service = scope.ServiceProvider.GetRequiredService<IToyLabelReviewService>();
+        var productId = NewProductId();
+        await PrepareProductAsync(productService, productId);
+
+        var artifacts = new List<ToyLabelArtifactResult>();
+        foreach (var artifactType in ToyLabelArtifactTypes.All)
+        {
+            var evidence = storage.Add($"{artifactType.ToLowerInvariant()}-v1");
+            artifacts.Add(await service.CreateArtifactAsync(
+                productId,
+                LabelArtifact(artifactType, "zh-CN", "CN", evidence),
+                $"corr-{artifactType}",
+                TestContext.Current.CancellationToken));
+        }
+
+        var label = artifacts.Single(item => item.ArtifactType == ToyLabelArtifactTypes.Label);
+        var v2Evidence = storage.Add("label-v2");
+        var versioned = await service.AppendArtifactVersionAsync(
+            productId,
+            label.ArtifactId,
+            new AppendToyLabelArtifactVersionRequest(1, Hash("label-content-v2"), [v2Evidence]),
+            "corr-label-v2",
+            TestContext.Current.CancellationToken);
+
+        Assert.Equal(4, artifacts.Count);
+        Assert.Equal([1L, 2L], versioned.Versions.Select(item => item.VersionNumber));
+        Assert.Equal(Hash("label-content"), versioned.Versions[0].ContentHash);
+        Assert.Equal(v2Evidence.Hash, Assert.Single(versioned.Versions[1].ImageEvidenceRefs).Hash);
+        Assert.Equal(5, await CountAsync(connectionString, "select count(*) from toy.label_artifact"));
+        Assert.Equal(5, await CountAsync(connectionString, "select count(*) from toy.label_artifact_image"));
+
+        var rewrite = await Assert.ThrowsAsync<PostgresException>(() => ExecuteAsync(
+            connectionString, "update toy.label_artifact set content_hash = repeat('0', 64);"));
+        var erase = await Assert.ThrowsAsync<PostgresException>(() => ExecuteAsync(
+            connectionString, "delete from toy.label_artifact_image;"));
+        Assert.Equal("55000", rewrite.SqlState);
+        Assert.Equal("55000", erase.SqlState);
+
+        var inaccessible = new ToyLabelImageEvidenceInput(
+            new ToyImageObjectReference("toy-evidence", "missing.png"), Hash("missing"));
+        var failed = await CaptureAsync(service.CreateArtifactAsync(
+            productId,
+            LabelArtifact(ToyLabelArtifactTypes.Label, "en-US", "US", inaccessible),
+            "corr-missing-image",
+            TestContext.Current.CancellationToken));
+        Assert.Equal(ToyErrorCodes.ObjectNotAccessible, failed.Error!.ErrorCode);
+        var existingButWrongHash = storage.Add("hash-mismatch") with { Hash = Hash("different-bytes") };
+        var mismatch = await CaptureAsync(service.CreateArtifactAsync(
+            productId,
+            LabelArtifact(ToyLabelArtifactTypes.Label, "fr-FR", "FR", existingButWrongHash),
+            "corr-image-hash-mismatch",
+            TestContext.Current.CancellationToken));
+        Assert.Equal(ToyErrorCodes.ObjectNotAccessible, mismatch.Error!.ErrorCode);
+        Assert.Equal(5, await CountAsync(connectionString, "select count(*) from toy.label_artifact"));
+    }
+
+    [Fact]
+    public async Task Age_change_invalidates_only_exact_chinese_scope_and_preserves_english_review()
+    {
+        var connectionString = ConnectionString();
+        await PrepareAsync(connectionString);
+        var storage = new FixedObjectStoragePort();
+        await using var provider = BuildProvider(connectionString, objectStorage: storage);
+        using var scope = provider.CreateScope();
+        var productService = scope.ServiceProvider.GetRequiredService<IToyProductService>();
+        var service = scope.ServiceProvider.GetRequiredService<IToyLabelReviewService>();
+        var impactPort = scope.ServiceProvider.GetRequiredService<IToyLabelReviewImpactPort>();
+        var statusPort = scope.ServiceProvider.GetRequiredService<IToyLabelReviewStatusPort>();
+        var productId = NewProductId();
+        var product = await PrepareProductAsync(productService, productId);
+
+        var chinese = await CreateApprovedReviewAsync(
+            service, productId, product, "zh-CN", "CN", "AGE-CLAIM-ZH-CN", storage);
+        var english = await CreateApprovedReviewAsync(
+            service, productId, product, "en-US", "US", "AGE-CLAIM-EN-US", storage);
+        var changed = await ChangeAgeAsync(productService, productId, product);
+        var changeRef = new ToyVersionedReference(changed.EffectiveDecision!.DecisionId, 2);
+        var impact = await impactPort.EvaluateAsync(new ToyLabelReviewImpactRequest(
+            "group-a",
+            productId,
+            ToyLabelChangeTypes.AgeGradeDecision,
+            changeRef,
+            changed.Version,
+            2,
+            [new ToyVersionedReference("AGE-CLAIM-ZH-CN", 1)],
+            ToyLabelReviewContract.SupportedImpactRule,
+            ToyLabelReviewContract.RuleSetVersion)
+        {
+            CorrelationId = "corr-impact"
+        }, TestContext.Current.CancellationToken);
+
+        var chineseStatus = await statusPort.EvaluateAsync(LabelStatus(
+            productId, changed.Version, 2, "CN", "zh-CN"), TestContext.Current.CancellationToken);
+        var englishStatus = await statusPort.EvaluateAsync(LabelStatus(
+            productId, changed.Version, 2, "US", "en-US"), TestContext.Current.CancellationToken);
+
+        Assert.Equal(2, impact.Evaluations.Count);
+        Assert.Contains(impact.Evaluations, item => item.Result == ToyLabelImpactResults.Impacted);
+        Assert.Contains(impact.Evaluations, item => item.Result == ToyLabelImpactResults.NotImpacted);
+        Assert.Equal(ToyLabelReviewStatusDecisions.ReReviewRequired, chineseStatus.Decision);
+        Assert.Equal(chinese.ArtifactId, chineseStatus.ArtifactId);
+        Assert.Equal(ToyLabelReviewStatusDecisions.Valid, englishStatus.Decision);
+        Assert.Equal(english.ArtifactId, englishStatus.ArtifactId);
+        Assert.Equal(2, await CountAsync(connectionString, "select count(*) from toy.label_review_impact_evaluation"));
+        Assert.Equal(1, await CountAsync(connectionString, "select count(*) from toy.label_review_invalidation"));
+    }
+
+    [Fact]
+    public async Task Missing_impact_rule_and_scope_are_recorded_unknown_and_block_old_approval()
+    {
+        var connectionString = ConnectionString();
+        await PrepareAsync(connectionString);
+        var storage = new FixedObjectStoragePort();
+        await using var provider = BuildProvider(connectionString, objectStorage: storage);
+        using var scope = provider.CreateScope();
+        var productService = scope.ServiceProvider.GetRequiredService<IToyProductService>();
+        var service = scope.ServiceProvider.GetRequiredService<IToyLabelReviewService>();
+        var impactPort = scope.ServiceProvider.GetRequiredService<IToyLabelReviewImpactPort>();
+        var statusPort = scope.ServiceProvider.GetRequiredService<IToyLabelReviewStatusPort>();
+        var productId = NewProductId();
+        var product = await PrepareProductAsync(productService, productId);
+        await CreateApprovedReviewAsync(
+            service, productId, product, "zh-CN", "CN", "AGE-CLAIM-ZH-CN", storage);
+        var changed = await ChangeAgeAsync(productService, productId, product);
+
+        var attempt = await CaptureAsync(impactPort.EvaluateAsync(
+            new ToyLabelReviewImpactRequest(
+                "group-a",
+                productId,
+                ToyLabelChangeTypes.AgeGradeDecision,
+                new ToyVersionedReference(changed.EffectiveDecision!.DecisionId, 2),
+                changed.Version,
+                2,
+                null,
+                null,
+                ToyLabelReviewContract.RuleSetVersion)
+            {
+                CorrelationId = "corr-unknown-impact"
+            },
+            TestContext.Current.CancellationToken).AsTask());
+        var status = await statusPort.EvaluateAsync(LabelStatus(
+            productId, changed.Version, 2, "CN", "zh-CN"), TestContext.Current.CancellationToken);
+
+        Assert.Equal(ToyErrorCodes.LabelImpactUnknown, attempt.Error!.ErrorCode);
+        Assert.Equal(ToyLabelReviewStatusDecisions.Unknown, status.Decision);
+        Assert.Equal(1, await CountAsync(connectionString,
+            "select count(*) from toy.label_review_impact_evaluation where result = 'UNKNOWN'"));
+        Assert.Equal(0, await CountAsync(connectionString, "select count(*) from toy.label_review_invalidation"));
+    }
+
+    [Fact]
+    public async Task Re_review_cites_the_old_review_and_change_without_rewriting_history()
+    {
+        var connectionString = ConnectionString();
+        await PrepareAsync(connectionString);
+        var storage = new FixedObjectStoragePort();
+        await using var provider = BuildProvider(connectionString, objectStorage: storage);
+        using var scope = provider.CreateScope();
+        var productService = scope.ServiceProvider.GetRequiredService<IToyProductService>();
+        var service = scope.ServiceProvider.GetRequiredService<IToyLabelReviewService>();
+        var impactPort = scope.ServiceProvider.GetRequiredService<IToyLabelReviewImpactPort>();
+        var productId = NewProductId();
+        var product = await PrepareProductAsync(productService, productId);
+        var first = await CreateApprovedReviewAsync(
+            service, productId, product, "zh-CN", "CN", "AGE-CLAIM-ZH-CN", storage);
+        var changed = await ChangeAgeAsync(productService, productId, product);
+        var changeRef = new ToyVersionedReference(changed.EffectiveDecision!.DecisionId, 2);
+        await impactPort.EvaluateAsync(new ToyLabelReviewImpactRequest(
+            "group-a", productId, ToyLabelChangeTypes.AgeGradeDecision, changeRef,
+            changed.Version, 2, [new ToyVersionedReference("AGE-CLAIM-ZH-CN", 1)],
+            ToyLabelReviewContract.SupportedImpactRule, ToyLabelReviewContract.RuleSetVersion),
+            TestContext.Current.CancellationToken);
+        var artifact = await service.AppendArtifactVersionAsync(
+            productId,
+            first.ArtifactId,
+            new AppendToyLabelArtifactVersionRequest(1, Hash("label-content-v2"), [storage.Add("label-v2")]),
+            "corr-artifact-v2",
+            TestContext.Current.CancellationToken);
+        var draft = await service.CreateReviewAsync(
+            productId,
+            artifact.ArtifactId,
+            LabelReview(
+                1,
+                2,
+                changed.Version,
+                2,
+                "CN",
+                "zh-CN",
+                "AGE-CLAIM-ZH-CN",
+                ToyLabelReviewContract.SupportedImpactRule,
+                1,
+                new ToyLabelReviewChangeReference(ToyLabelChangeTypes.AgeGradeDecision, changeRef)),
+            "corr-review-v2",
+            TestContext.Current.CancellationToken);
+        var approved = await service.DecideReviewAsync(
+            productId,
+            draft.ReviewId,
+            new DecideToyLabelReviewRequest(
+                2, ToyLabelReviewDecisionValues.Approved, "new artifact and age decision reviewed"),
+            "corr-decision-v2",
+            TestContext.Current.CancellationToken);
+        var status = await service.GetStatusAsync(
+            productId,
+            new ToyLabelReviewStatusQuery(
+                changed.Version, 2, "CN", "zh-CN", ToyLabelArtifactTypes.Label,
+                ToyLabelReviewContract.RuleSetVersion),
+            "corr-status-v2",
+            TestContext.Current.CancellationToken);
+
+        Assert.Equal([1L, 2L], approved.Versions.Select(item => item.ReviewVersion));
+        Assert.Equal(ToyLabelReviewStates.Invalidated, approved.Versions[0].State);
+        Assert.Equal(ToyLabelReviewStates.Approved, approved.Versions[1].State);
+        Assert.Equal(1, approved.Versions[1].PreviousReviewVersion);
+        Assert.Equal(changeRef, approved.Versions[1].TriggerChange!.ChangeRef);
+        Assert.Equal(ToyLabelReviewStatusDecisions.Valid, status.Decision);
+        Assert.Equal(2, await CountAsync(connectionString, "select count(*) from toy.label_artifact"));
+        Assert.Equal(2, await CountAsync(connectionString, "select count(*) from toy.label_review"));
+    }
+
+    [Fact]
+    public async Task Label_review_permission_concurrency_and_evidence_failure_fail_closed()
+    {
+        var connectionString = ConnectionString();
+        await PrepareAsync(connectionString);
+        var storage = new FixedObjectStoragePort();
+        var productId = NewProductId();
+        ToyLabelReviewResult draft;
+        await using (var provider = BuildProvider(connectionString, objectStorage: storage))
+        {
+            using var scope = provider.CreateScope();
+            var productService = scope.ServiceProvider.GetRequiredService<IToyProductService>();
+            var service = scope.ServiceProvider.GetRequiredService<IToyLabelReviewService>();
+            var product = await PrepareProductAsync(productService, productId);
+            var artifact = await service.CreateArtifactAsync(
+                productId,
+                LabelArtifact(ToyLabelArtifactTypes.Label, "zh-CN", "CN", storage.Add("label-v1")),
+                "corr-artifact",
+                TestContext.Current.CancellationToken);
+            draft = await service.CreateReviewAsync(
+                productId,
+                artifact.ArtifactId,
+                LabelReview(0, 1, product.Version, 1, "CN", "zh-CN", "AGE-CLAIM-ZH-CN"),
+                "corr-review",
+                TestContext.Current.CancellationToken);
+        }
+
+        await using (var deniedProvider = BuildProvider(
+            connectionString, labelReview: false, objectStorage: storage))
+        {
+            using var scope = deniedProvider.CreateScope();
+            var deniedService = scope.ServiceProvider.GetRequiredService<IToyLabelReviewService>();
+            var denied = await CaptureAsync(deniedService.DecideReviewAsync(
+                productId,
+                draft.ReviewId,
+                new DecideToyLabelReviewRequest(1, ToyLabelReviewDecisionValues.Approved, "checked"),
+                "corr-denied",
+                TestContext.Current.CancellationToken));
+            Assert.Equal(ToyErrorCodes.NotAuthorized, denied.Error!.ErrorCode);
+        }
+
+        await using (var concurrentProvider = BuildProvider(connectionString, objectStorage: storage))
+        {
+            using var firstScope = concurrentProvider.CreateScope();
+            using var secondScope = concurrentProvider.CreateScope();
+            var first = firstScope.ServiceProvider.GetRequiredService<IToyLabelReviewService>();
+            var second = secondScope.ServiceProvider.GetRequiredService<IToyLabelReviewService>();
+            var outcomes = await Task.WhenAll(
+                CaptureAsync(first.DecideReviewAsync(
+                    productId, draft.ReviewId,
+                    new DecideToyLabelReviewRequest(1, ToyLabelReviewDecisionValues.Approved, "approved"),
+                    "corr-concurrent-a", TestContext.Current.CancellationToken)),
+                CaptureAsync(second.DecideReviewAsync(
+                    productId, draft.ReviewId,
+                    new DecideToyLabelReviewRequest(1, ToyLabelReviewDecisionValues.Rejected, "rejected"),
+                    "corr-concurrent-b", TestContext.Current.CancellationToken)));
+            Assert.Single(outcomes, item => item.Result is not null);
+            Assert.Single(outcomes, item => item.Error?.ErrorCode == ToyErrorCodes.ExpectedVersionConflict);
+        }
+
+        foreach (var failedWriter in new[] { "audit", "outbox" })
+        {
+            await InstallFailureTriggerAsync(connectionString, failedWriter);
+            try
+            {
+                await using var failedProvider = BuildProvider(connectionString, objectStorage: storage);
+                using var scope = failedProvider.CreateScope();
+                var service = scope.ServiceProvider.GetRequiredService<IToyLabelReviewService>();
+                var failed = await CaptureAsync(service.CreateArtifactAsync(
+                    productId,
+                    LabelArtifact(
+                        ToyLabelArtifactTypes.Instruction,
+                        failedWriter == "audit" ? "zh-CN" : "en-US",
+                        failedWriter == "audit" ? "CN" : "US",
+                        storage.Add($"instruction-{failedWriter}")),
+                    $"corr-{failedWriter}-fail",
+                    TestContext.Current.CancellationToken));
+                Assert.Equal(ToyErrorCodes.PersistenceUnavailable, failed.Error!.ErrorCode);
+                Assert.Equal(1, await CountAsync(connectionString, "select count(*) from toy.label_artifact"));
+            }
+            finally
+            {
+                await RemoveFailureTriggerAsync(connectionString, failedWriter);
+            }
+        }
+
+        Assert.Equal(1, await CountAsync(connectionString, "select count(*) from toy.label_review_decision"));
+        Assert.True(await CountAsync(connectionString, "select count(*) from toy.audit_attempt") >= 3);
+    }
+
     private static async Task<(object? Result, ToyDomainException? Error)> CaptureAsync<T>(Task<T> task)
     {
         try
@@ -704,7 +1024,9 @@ public sealed class ToyPersistenceTests
         string actorId = "technician-a",
         bool approve = true,
         string quantityDecision = QuantityAvailabilityDecisions.Allowed,
-        string allocationDecision = AllocationStatusDecisions.Allowed)
+        string allocationDecision = AllocationStatusDecisions.Allowed,
+        bool labelReview = true,
+        IObjectStoragePort? objectStorage = null)
     {
         var services = new ServiceCollection();
         services.AddLogging();
@@ -729,7 +1051,9 @@ public sealed class ToyPersistenceTests
         services.AddSingleton<IIdGenerator, GuidIdGenerator>();
         new ToyModule(connectionString).AddApiServices(services);
         services.RemoveAll<IToyAuthorizationPort>();
-        services.AddSingleton<IToyAuthorizationPort>(new FixedAuthorizationPort(permit, approve));
+        services.AddSingleton<IToyAuthorizationPort>(new FixedAuthorizationPort(permit, approve, labelReview));
+        services.RemoveAll<IObjectStoragePort>();
+        services.AddSingleton<IObjectStoragePort>(objectStorage ?? new FixedObjectStoragePort());
         services.RemoveAll<IQuantityAvailabilityPort>();
         services.AddSingleton<IQuantityAvailabilityPort>(new FixedQuantityPort(quantityDecision));
         services.RemoveAll<IAllocationStatusPort>();
@@ -772,6 +1096,108 @@ public sealed class ToyPersistenceTests
             "corr-accessibility",
             TestContext.Current.CancellationToken);
     }
+
+    private static async Task<ToyProductOverview> ChangeAgeAsync(
+        IToyProductService service,
+        string productId,
+        ToyProductOverview product)
+    {
+        var decided = await service.RecordDecisionAsync(
+            productId,
+            Decision(product.Version, 48),
+            "corr-age-v2",
+            TestContext.Current.CancellationToken);
+        return await service.FreezeDecisionAsync(
+            productId,
+            2,
+            new FreezeAgeGradeDecisionRequest(ToyContract.RuleSetVersion, decided.Version),
+            "corr-age-freeze-v2",
+            TestContext.Current.CancellationToken);
+    }
+
+    private static CreateToyLabelArtifactRequest LabelArtifact(
+        string artifactType,
+        string language,
+        string market,
+        ToyLabelImageEvidenceInput evidence) => new(
+        new ToyObjectContext("LEGAL-A", "LAB-A"),
+        0,
+        artifactType,
+        language,
+        market,
+        Hash("label-content"),
+        [evidence]);
+
+    private static CreateToyLabelReviewRequest LabelReview(
+        long expectedReviewVersion,
+        long artifactVersion,
+        long productVersion,
+        long ageGradeDecisionVersion,
+        string market,
+        string language,
+        string scope,
+        ToyVersionedReference? impactRule = null,
+        long? previousReviewVersion = null,
+        ToyLabelReviewChangeReference? triggerChange = null) => new(
+        expectedReviewVersion,
+        artifactVersion,
+        productVersion,
+        ageGradeDecisionVersion,
+        market,
+        language,
+        [new ToyVersionedReference(scope, 1)],
+        impactRule ?? ToyLabelReviewContract.SupportedImpactRule,
+        ToyLabelReviewContract.RuleSetVersion,
+        previousReviewVersion,
+        triggerChange);
+
+    private static async Task<ToyLabelReviewResult> CreateApprovedReviewAsync(
+        IToyLabelReviewService service,
+        string productId,
+        ToyProductOverview product,
+        string language,
+        string market,
+        string reviewScope,
+        FixedObjectStoragePort storage,
+        ToyVersionedReference? impactRule = null)
+    {
+        var artifact = await service.CreateArtifactAsync(
+            productId,
+            LabelArtifact(ToyLabelArtifactTypes.Label, language, market, storage.Add($"{language}-{market}-v1")),
+            $"corr-artifact-{language}",
+            TestContext.Current.CancellationToken);
+        var draft = await service.CreateReviewAsync(
+            productId,
+            artifact.ArtifactId,
+            LabelReview(0, 1, product.Version, 1, market, language, reviewScope, impactRule),
+            $"corr-review-{language}",
+            TestContext.Current.CancellationToken);
+        return await service.DecideReviewAsync(
+            productId,
+            draft.ReviewId,
+            new DecideToyLabelReviewRequest(
+                1, ToyLabelReviewDecisionValues.Approved, "reviewed against pinned evidence"),
+            $"corr-decision-{language}",
+            TestContext.Current.CancellationToken);
+    }
+
+    private static ToyLabelReviewStatusRequest LabelStatus(
+        string productId,
+        long productVersion,
+        long ageGradeDecisionVersion,
+        string market,
+        string language) => new(
+        "group-a",
+        productId,
+        productVersion,
+        ageGradeDecisionVersion,
+        market,
+        language,
+        ToyLabelArtifactTypes.Label,
+        ToyLabelReviewContract.RuleSetVersion);
+
+    private static string Hash(string value) =>
+        Convert.ToHexStringLower(SHA256.HashData(Encoding.UTF8.GetBytes(value)));
 
     private static CreateToyTestUnitPlanRequest TestUnitPlan(
         long productVersion,
@@ -934,7 +1360,7 @@ public sealed class ToyPersistenceTests
                 drop function if exists platform.fail_toy_audit();
                 create or replace function platform.fail_toy_audit() returns trigger language plpgsql as $$
                 begin
-                  if new.action like '%TOY%' then
+                  if new.action like '%TOY%' or new.action like '%LABEL%' then
                     raise exception 'forced toy audit failure';
                   end if;
                   return new;
@@ -988,15 +1414,55 @@ public sealed class ToyPersistenceTests
         return Convert.ToInt64(await command.ExecuteScalarAsync(TestContext.Current.CancellationToken));
     }
 
-    private sealed class FixedAuthorizationPort(bool allowed, bool approve) : IToyAuthorizationPort
+    private sealed class FixedAuthorizationPort(bool allowed, bool approve, bool labelReview) : IToyAuthorizationPort
     {
         public ValueTask<ToyAuthorizationDecision> AuthorizeAsync(
             ToyAuthorizationRequest request, CancellationToken cancellationToken = default)
         {
-            var permitted = allowed &&
-                (!string.Equals(request.Capability, ToyCapabilities.SampleDemandApprove, StringComparison.Ordinal) || approve);
+            var permitted = allowed && request.Capability switch
+            {
+                ToyCapabilities.SampleDemandApprove => approve,
+                ToyCapabilities.LabelReview => labelReview,
+                _ => true
+            };
             return ValueTask.FromResult(permitted ? ToyAuthorizationDecision.Permit : ToyAuthorizationDecision.Deny);
         }
+    }
+
+    private sealed class FixedObjectStoragePort : IObjectStoragePort
+    {
+        private readonly Dictionary<ObjectReference, byte[]> _objects = [];
+
+        public ToyLabelImageEvidenceInput Add(string value)
+        {
+            var bytes = Encoding.UTF8.GetBytes(value);
+            var reference = new ObjectReference("toy-evidence", $"{value}.png");
+            _objects[reference] = bytes;
+            return new ToyLabelImageEvidenceInput(
+                new ToyImageObjectReference(reference.Bucket, reference.ObjectKey),
+                Convert.ToHexStringLower(SHA256.HashData(bytes)));
+        }
+
+        public Task PutAsync(
+            ObjectReference reference,
+            Stream content,
+            CancellationToken cancellationToken = default) =>
+            throw new NotSupportedException();
+
+        public Task<Stream> OpenReadAsync(
+            ObjectReference reference,
+            CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            if (!_objects.TryGetValue(reference, out var bytes))
+                throw new InvalidOperationException("OBJECT_NOT_FOUND");
+            return Task.FromResult<Stream>(new MemoryStream(bytes, writable: false));
+        }
+
+        public Task DeleteAsync(
+            ObjectReference reference,
+            CancellationToken cancellationToken = default) =>
+            throw new NotSupportedException();
     }
 
     private sealed class FixedQuantityPort(string decision) : IQuantityAvailabilityPort

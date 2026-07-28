@@ -276,6 +276,8 @@ internal sealed class ToyApiFactory(string? errorCode = null) : WebApplicationFa
             services.AddSingleton<IToyProductService>(new StubToyProductService(errorCode));
             services.RemoveAll<IToyTestUnitPlanService>();
             services.AddSingleton<IToyTestUnitPlanService>(new StubToyTestUnitPlanService(errorCode));
+            services.RemoveAll<IToyLabelReviewService>();
+            services.AddSingleton<IToyLabelReviewService>(new StubToyLabelReviewService(errorCode));
         });
     }
 }

@@ -30,8 +30,12 @@ public sealed class ToyModule(string postgresConnectionString) :
         services.TryAddScoped<IToyAgeGradeStatusPort, ToyAgeGradeStatusPort>();
         services.TryAddScoped<IToyTestUnitPlanService, ToyTestUnitPlanService>();
         services.TryAddScoped<IToyTestUnitPlanStatusPort, ToyTestUnitPlanStatusPort>();
+        services.TryAddScoped<IToyLabelReviewService, ToyLabelReviewService>();
+        services.TryAddScoped<IToyLabelReviewStatusPort, ToyLabelReviewStatusPort>();
+        services.TryAddScoped<IToyLabelReviewImpactPort, ToyLabelReviewImpactPort>();
         services.TryAddScoped<ToyStore>();
         services.TryAddScoped<ToyTestUnitPlanStore>();
+        services.TryAddScoped<ToyLabelReviewStore>();
         services.TryAddScoped<ToyAttemptAuditWriter>();
     }
 
@@ -47,6 +51,7 @@ public sealed class ToyModule(string postgresConnectionString) :
     {
         await ToyMigrator.ApplyAsync(_options.ConnectionString, cancellationToken);
         await ToyTestUnitPlanMigrator.ApplyAsync(_options.ConnectionString, cancellationToken);
+        await ToyLabelReviewMigrator.ApplyAsync(_options.ConnectionString, cancellationToken);
     }
 
     private void AddPersistence(IServiceCollection services)

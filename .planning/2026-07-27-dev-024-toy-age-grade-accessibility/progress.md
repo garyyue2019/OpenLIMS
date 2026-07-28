@@ -141,3 +141,5 @@
 - 已更新精确仓库契约和批准记录文档；Python 41/41 通过。
 - Phase 10 最终门禁：strict validate 185/389、SOURCE CURRENT、history passed、check passed、两次 generate 均 `written=0 unchanged=125`、DEV-025/026 READY、DEV-027 BLOCKED、`git diff --check` clean。
 - **Phase 10 complete**：进入 PR #25 ready-for-review、CI 与合并。
+- PR #25 已转为 Ready for review；三项 GitHub CI 全部 success，Squash merge 为 `26bf6f3cc5654112f1b936835342dfbdd0d63403`。
+- 本地 `main` 已 ff-only 同步到 `26bf6f3`。为遵守各 Story `allowed_paths`，DEV-025/026 实施将分别使用任务卡列出的专用 planning 目录，本计划完成审批与移交后不再修改。

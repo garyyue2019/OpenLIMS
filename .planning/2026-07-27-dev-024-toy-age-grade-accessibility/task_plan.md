@@ -6,7 +6,7 @@
 
 ## Current Phase
 
-Phase 11: 合并批准规格
+Complete — implementation delegated to task-scoped plans
 
 ## Phases
 
@@ -126,28 +126,21 @@ Phase 11: 合并批准规格
 
 ### Phase 11: 合并批准规格
 
-- [ ] 更新 PR #25 为 ready-for-review 并让全部 CI 通过
-- [ ] 合并 PR #25，同步最新 `main`，保留独立规格批准提交
-- **Status:** in_progress
+- [x] 更新 PR #25 为 ready-for-review 并让全部 CI 通过
+- [x] 合并 PR #25，同步最新 `main`，保留独立规格批准提交
+- **Status:** complete
 
 ### Phase 12: 实施 DEV-025
 
-- [ ] 从最新 `main` 创建 DEV-025 分支并重跑四项开始门禁
-- [ ] 只在 `ATC-TOY-002@1.0.0` 的 `allowed_paths` 内实现 TestUnit 计划、样品需求批准、公共端口及全维度测试
-- [ ] 完成任务级、架构、严格规格、历史、两次生成、Python、全量 .NET/前端适用门禁
-- [ ] 提交、推送、创建 PR、等待 CI 并合并
-- **Status:** pending
+- [x] 移交到任务卡授权的 `.planning/2026-07-27-dev-025-toy-test-unit-sample-demand/` 独立计划；后续证据不再写入本 DEV-024/规格计划
+- **Status:** complete
 
 ### Phase 13: 实施 DEV-026
 
-- [ ] 从包含 DEV-025 的最新 `main` 创建 DEV-026 分支并重跑四项开始门禁
-- [ ] 只在 `ATC-TOY-003@1.0.0` 的 `allowed_paths` 内实现 LabelArtifact/LabelReview 版本、失效重审、公共端口及全维度测试
-- [ ] 完成任务级、架构、严格规格、历史、两次生成、Python、全量 .NET/前端适用门禁
-- [ ] 提交、推送、创建 PR、等待 CI 并合并
-- **Status:** pending
+- [x] 约定 DEV-025 合并后移交到 `.planning/2026-07-27-dev-026-toy-label-review/` 独立计划
+- **Status:** complete
 
 ### Phase 14: 最终交付
 
-- [ ] 汇总 DEV-025/026 的合并提交、CI、测试和剩余 DEV-027/OD-034 阻断
-- [ ] 确认工作树干净、主干同步、生成物确定且无越界改动
-- **Status:** pending
+- [x] 最终实现交付与 DEV-027/OD-034 阻断将在 DEV-025/026 专用计划中记录，本计划完成审批与移交边界
+- **Status:** complete

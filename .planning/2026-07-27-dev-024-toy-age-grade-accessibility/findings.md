@@ -86,3 +86,5 @@
 - `scaffold` 只能按 kind/id/version 创建空骨架，不能继承前一版本。为避免手工漏掉长 Story 语义，批准后继应由草案 JSON 做确定性字段变换，再由 `apply_patch` 独占文件写入。
 - 批准变换结果满足目标边界：DEV-025/026 的 requirement、acceptance 和 Story 形成精确 1.0.0 approved 闭包，Story readiness=ready；DEV-027 没有被连带批准。
 - 批准规格完成后总版本数 185、生成文件 125；仓库契约只更新明确计数、两张 1.0 task/四个 feature 和七个 approved delivery 引用，未放宽任何断言。
+- PR #25 最终三项 checks 全部 success，merged=true，主干提交 `26bf6f3`；DEV-025/026 已具备从主干开始实施的正式规格基础。
+- 任务卡授权的 planning 路径分别是 `.planning/2026-07-27-dev-025-toy-test-unit-sample-demand/**` 与 `.planning/2026-07-27-dev-026-toy-label-review/**`；后续不能继续改本 DEV-024 计划文件。

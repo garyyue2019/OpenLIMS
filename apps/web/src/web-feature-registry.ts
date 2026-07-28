@@ -2,6 +2,7 @@ import AuthCallbackView from './views/AuthCallbackView.vue'
 import HomeView from './views/HomeView.vue'
 import SystemStatusView from './views/SystemStatusView.vue'
 import { receivingFeature } from './features/receiving/receiving-feature'
+import { labWorkbenchFeature } from './features/lab-workbench/lab-workbench-feature'
 import {
   composeWebFeatures,
   type WebFeatureDescriptor
@@ -20,11 +21,12 @@ export const platformShellFeature = {
   ]
 } as const satisfies WebFeatureDescriptor
 
-// Production features are registered explicitly at build time. DEV-003 adds only
-// the approved receiving registration slice; no runtime feature discovery is used.
+// Production features are registered explicitly at build time. Receiving and the
+// approved laboratory workbench are composed here; no runtime discovery is used.
 export const webFeatureRegistry: readonly WebFeatureDescriptor[] = [
   platformShellFeature,
-  receivingFeature
+  receivingFeature,
+  labWorkbenchFeature
 ]
 
 export const webFeatureComposition = composeWebFeatures(webFeatureRegistry)

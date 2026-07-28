@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useRoute } from 'vue-router'
+import { RouterLink, useRoute } from 'vue-router'
 import { authSnapshot, runtimeConfig, signIn } from '../auth-store'
 
 const route = useRoute()
@@ -10,7 +10,7 @@ const route = useRoute()
     <a-card :bordered="false" class="hero-card">
       <p class="eyebrow">SYSTEM SHELL</p>
       <h1 id="page-title">OpenLIMS</h1>
-      <p>This technical shell contains no LIMS business data or navigation.</p>
+      <p>通过受保护的工作台执行收样、范围、数量、分配与批次操作。</p>
       <a-alert v-if="authSnapshot.status === 'configuration-error'" type="error" show-icon message="Configuration error" description="Sign-in is unavailable until the protected runtime configuration is completed." role="alert" />
       <a-spin v-else-if="authSnapshot.status === 'loading'" tip="Restoring secure session…" />
       <a-alert v-else-if="authSnapshot.status === 'expired'" type="warning" show-icon message="Session expired" description="Sign in again to continue." role="status">
@@ -22,6 +22,16 @@ const route = useRoute()
       <a-descriptions v-else-if="authSnapshot.status === 'authenticated' && runtimeConfig" :column="1" size="small" title="Session restored">
         <a-descriptions-item label="Environment">{{ runtimeConfig.environmentLabel }}</a-descriptions-item>
       </a-descriptions>
+      <section v-if="authSnapshot.status === 'authenticated'" class="operator-launchpad" aria-labelledby="operator-launchpad-title">
+        <h2 id="operator-launchpad-title">实验室操作入口</h2>
+        <div class="operator-grid">
+          <RouterLink :to="{ name: 'receiving.registration' }"><strong>到货登记</strong><span>建立收样实物和包装身份</span></RouterLink>
+          <RouterLink :to="{ name: 'workbench.scope' }"><strong>范围矩阵</strong><span>批准检测范围并检查生产资格</span></RouterLink>
+          <RouterLink :to="{ name: 'workbench.quantity' }"><strong>数量账</strong><span>维护数量流水与可用量</span></RouterLink>
+          <RouterLink :to="{ name: 'workbench.allocation' }"><strong>样品分配</strong><span>绑定门控版本并分配测试对象</span></RouterLink>
+          <RouterLink :to="{ name: 'workbench.batch' }"><strong>批次管理</strong><span>组织成员、证据与冻结状态</span></RouterLink>
+        </div>
+      </section>
     </a-card>
   </main>
 </template>

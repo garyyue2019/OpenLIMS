@@ -3085,6 +3085,110 @@
       "status": "approved",
       "title": "修复并验收 DEV-027 Toy 结论运行时"
     },
+    "ATC-WEB-001@1.0.0": {
+      "affects": [
+        "web",
+        "scope",
+        "quantity",
+        "allocation",
+        "batch",
+        "operator-workbench",
+        "accessibility",
+        "automated-test"
+      ],
+      "depends_on": [
+        "ATC-PLT-003@1.0.0",
+        "ATC-SCP-001@1.0.0",
+        "ATC-QTY-001@1.0.0",
+        "ATC-ALLOC-001@1.0.0",
+        "ATC-BATCH-001@1.0.0",
+        "OD-002@1.0.0",
+        "AC-SCOPE-001@1.0.0",
+        "AC-QTY-001@1.0.0",
+        "AC-ELEC-003@1.0.0",
+        "AC-BATCH-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "NFR-ARCH-001@2.0.0"
+      ],
+      "fingerprint": "8e37afc7bc27fbcd69cbc2abc5e171a47f8a2cc6d9714f3c0c5ae2d84aef323e",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "BUS-SCOPE-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "BUS-SCOPE-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "BUS-SCOPE-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-SCOPE-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-QTY-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-QTY-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-QTY-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-QTY-004"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-QTY-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-ALLOC-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-ALLOC-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-ALLOC-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-ALLOC-004"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-ELEC-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-BATCH-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-BATCH-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-BATCH-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-BATCH-001"
+        }
+      ],
+      "status": "approved",
+      "title": "实施 Scope、Quantity、Allocation 与 Batch 实验室工作台"
+    },
     "BUS-AI-001@1.0.0": {
       "affects": [
         "ai",

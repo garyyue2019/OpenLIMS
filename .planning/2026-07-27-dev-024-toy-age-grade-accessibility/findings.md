@@ -74,3 +74,15 @@
 - `docs/domain/toy/follow-up-spec-review.md` 列出 DEV-025/026 的具体评审问题和 DEV-027 的 OD-034 exit criteria，且明确该文档不是 PRD 或批准证据。
 - GitHub 新 PR 页面已识别 `main...codex/toy-follow-up-spec-drafts`，标题默认正确、分支可自动合并；应选择 Draft PR，避免把草案合并动作误读为业务批准。
 - Draft PR #25 已由 GitHub API 复核：open、draft=true、base main、head `f1a7c21`。该 PR 是评审载体，不是 approval_evidence，也不授权 DEV-025～027 实现。
+
+## Approval Findings: 2026-07-28
+
+- 用户现已成为 DEV-025/026 的最终人工批准主体；批准对象是 PR #25 当前的 BUS-TOY-003/004/005、AC-TOY-003/004 和 ATC-TOY-002/003 草案语义及评审清单中的相关选择。
+- 为遵守版本历史，批准落地方式是新增 `1.0.0 approved` 后继规格并在 Story 中记录本次用户声明，不修改 `0.1.0 proposed` 文件。
+- DEV-027 的 BUS-TOY-006、完整 AC-TOY-002 和 ATC-TOY-004 未被本次声明批准；OD-034 仍为 proposed/open。
+- PR #25 在上一会话最终状态为三项 checks 全部 success、draft=true、mergeable=true/clean；本轮变更后必须重新验证。
+- 2026-07-28 开始门禁确认规格基线仍为 178/389、来源当前、impact 为空；PR #25 仍处于 open/draft/mergeable clean。
+- 当前 specgen CLI 没有 promotion 子命令；仓库文档明确要求受控流程创建 SemVer 后继版本，因此必须保留 proposed 0.1.0 并新增 approved 1.0.0。
+- `scaffold` 只能按 kind/id/version 创建空骨架，不能继承前一版本。为避免手工漏掉长 Story 语义，批准后继应由草案 JSON 做确定性字段变换，再由 `apply_patch` 独占文件写入。
+- 批准变换结果满足目标边界：DEV-025/026 的 requirement、acceptance 和 Story 形成精确 1.0.0 approved 闭包，Story readiness=ready；DEV-027 没有被连带批准。
+- 批准规格完成后总版本数 185、生成文件 125；仓库契约只更新明确计数、两张 1.0 task/四个 feature 和七个 approved delivery 引用，未放宽任何断言。

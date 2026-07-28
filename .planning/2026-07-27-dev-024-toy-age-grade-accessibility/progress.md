@@ -122,3 +122,22 @@
 - 菜单选择后实际按钮名称为 `Draft pull request`；按该名称提交成功，等待 GitHub/API 核验 PR 编号与 draft 状态。
 - GitHub API 核验 PR #25 为 open、draft=true，head=`f1a7c21`、base=`main`。确定性规格门禁已 success，Windows 与应用 CI 正在运行。
 - **Phase 9 complete**：DEV-024 已合并；全部可安全推进的后续规格草案、验证、提交、推送和 Draft PR 已完成。实现继续被 proposed/OD-034 门禁诚实阻断，等待人工评审。
+
+## Session: 2026-07-28 DEV-025/026 人工批准与实施
+
+### Phase 10: 发布批准规格
+
+- **Status:** in_progress
+- 用户明确声明“DEV-025/026 现在 approved”。该声明作为人工批准主体对 PR #25 当前 DEV-025/026 草案语义和评审项的批准证据。
+- 批准范围不包含 DEV-027、BUS-TOY-006、完整 AC-TOY-002 或 OD-034；这些继续保持 proposed/open/BLOCKED。
+- 将发布 `1.0.0 approved` 后继文件并保留 `0.1.0 proposed` 历史，不原地改写 AI 草案。
+- 前一会话 PR #25 的三项 GitHub CI 最终均 success；该结果未写入旧计划，现补记。
+- 本轮开始门禁通过：validate 178/389、SOURCE CURRENT、impact 空；PR #25 仍 open/draft/clean，head 与本地一致。
+- specgen 无自动 promote/approve 命令；`scaffold` 仅用于新版本骨架，批准后继必须显式创建并验证，不能原地翻转状态。
+- 规范再次确认：一版本一文件、旧版本永久保留、AI Task Card Ready 需 Story 与依赖批准。将以确定性复制草案语义、替换版本/状态/精确依赖并加入用户批准证据，实际文件写入仍通过 `apply_patch`。
+- 已新增七个 `1.0.0 approved` 后继文件并保留全部 `0.1.0 proposed` 历史；validate 185/389、SOURCE CURRENT、impact 仅列新增 MAJOR 规格。
+- `ATC-TOY-002@1.0.0` 与 `ATC-TOY-003@1.0.0` 均 READY；`ATC-TOY-004@0.1.0` 继续因 OD-034/BUS-TOY-006/AC-TOY-002 proposed 和前序草案引用而 BLOCKED。
+- 首次批准生成写入 14 个派生文件并通过 check/history；Python 41 项有 3 个精确基线失败：178→185、生成任务新增两个 1.0.0、approved delivery 集合缺七个新引用。均为预期接入基线，未放宽门禁。
+- 已更新精确仓库契约和批准记录文档；Python 41/41 通过。
+- Phase 10 最终门禁：strict validate 185/389、SOURCE CURRENT、history passed、check passed、两次 generate 均 `written=0 unchanged=125`、DEV-025/026 READY、DEV-027 BLOCKED、`git diff --check` clean。
+- **Phase 10 complete**：进入 PR #25 ready-for-review、CI 与合并。

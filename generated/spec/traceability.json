@@ -630,6 +630,44 @@
       "status": "proposed",
       "title": "TestUnit 计划与样品需求技术批准"
     },
+    "AC-TOY-003@1.0.0": {
+      "affects": [
+        "toy",
+        "test-unit",
+        "sample-requirement",
+        "destructive-exclusion",
+        "technical-approval",
+        "quantity",
+        "automated-test"
+      ],
+      "depends_on": [
+        "OD-001@1.0.0",
+        "BUS-TOY-003@1.0.0",
+        "BUS-TOY-004@1.0.0",
+        "ATC-ALLOC-001@1.0.0",
+        "ATC-QTY-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "3ec688ceb9e9cceef64eb00727ee71769306409f24b991ece2bebfcc49a0194a",
+      "kind": "acceptance",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TOY-004"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TOY-006"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-TOY-002"
+        }
+      ],
+      "status": "approved",
+      "title": "TestUnit 计划与样品需求技术批准"
+    },
     "AC-TOY-004@0.1.0": {
       "affects": [
         "toy",
@@ -661,6 +699,39 @@
         }
       ],
       "status": "proposed",
+      "title": "LabelReview 版本失效与重审"
+    },
+    "AC-TOY-004@1.0.0": {
+      "affects": [
+        "toy",
+        "label-artifact",
+        "label-review",
+        "age-grade",
+        "impact-invalidation",
+        "photo-evidence",
+        "automated-test"
+      ],
+      "depends_on": [
+        "OD-001@1.0.0",
+        "BUS-TOY-001@1.0.0",
+        "BUS-TOY-005@1.0.0",
+        "ATC-TOY-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "d997fdc12a11667ac07b47dcefc63904bdf887cd174f02b11ee54aee005889f2",
+      "kind": "acceptance",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TOY-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TOY-007"
+        }
+      ],
+      "status": "approved",
       "title": "LabelReview 版本失效与重审"
     },
     "AC-TRACE-001@1.0.0": {
@@ -2631,6 +2702,52 @@
       "status": "proposed",
       "title": "实施 DEV-025 玩具 TestUnit 计划与样品需求批准"
     },
+    "ATC-TOY-002@1.0.0": {
+      "affects": [
+        "toy",
+        "test-unit",
+        "hazard-domain",
+        "sample-requirement",
+        "destructive-exclusion",
+        "quantity",
+        "allocation",
+        "technical-approval",
+        "audit",
+        "automated-test"
+      ],
+      "depends_on": [
+        "ED-001@2.0.0",
+        "OD-001@1.0.0",
+        "OD-002@1.0.0",
+        "BUS-TOY-003@1.0.0",
+        "BUS-TOY-004@1.0.0",
+        "AC-TOY-003@1.0.0",
+        "ATC-TOY-001@1.0.0",
+        "ATC-QTY-001@1.0.0",
+        "ATC-ALLOC-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0",
+        "NFR-ARCH-001@2.0.0"
+      ],
+      "fingerprint": "fe06ad5b5c30ab08e6e2b76434437a16a8e6b7d54940aa412a81aad6ddb19fe4",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TOY-004"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TOY-006"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-TOY-002"
+        }
+      ],
+      "status": "approved",
+      "title": "实施 DEV-025 玩具 TestUnit 计划与样品需求批准"
+    },
     "ATC-TOY-003@0.1.0": {
       "affects": [
         "toy",
@@ -2671,6 +2788,48 @@
         }
       ],
       "status": "proposed",
+      "title": "实施 DEV-026 玩具 LabelReview 版本失效与重审"
+    },
+    "ATC-TOY-003@1.0.0": {
+      "affects": [
+        "toy",
+        "label-artifact",
+        "packaging",
+        "instruction",
+        "marketing-age-claim",
+        "label-review",
+        "impact-invalidation",
+        "photo-evidence",
+        "authorization",
+        "audit",
+        "automated-test"
+      ],
+      "depends_on": [
+        "ED-001@2.0.0",
+        "OD-001@1.0.0",
+        "OD-002@1.0.0",
+        "BUS-TOY-001@1.0.0",
+        "BUS-TOY-002@1.0.0",
+        "BUS-TOY-005@1.0.0",
+        "AC-TOY-004@1.0.0",
+        "ATC-TOY-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0",
+        "NFR-ARCH-001@2.0.0"
+      ],
+      "fingerprint": "2c7e575c9f013854f1911b551591c1eb06e6812de39af4df261a400b0fd69b05",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TOY-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TOY-007"
+        }
+      ],
+      "status": "approved",
       "title": "实施 DEV-026 玩具 LabelReview 版本失效与重审"
     },
     "ATC-TOY-004@0.1.0": {
@@ -4014,6 +4173,39 @@
       "status": "proposed",
       "title": "TestUnit 危险域、平行号与破坏序列固定"
     },
+    "BUS-TOY-003@1.0.0": {
+      "affects": [
+        "toy",
+        "test-unit",
+        "hazard-domain",
+        "parallel",
+        "test-sequence",
+        "destructive-exclusion",
+        "allocation",
+        "audit"
+      ],
+      "depends_on": [
+        "OD-001@1.0.0",
+        "ATC-TOY-001@1.0.0",
+        "ATC-ALLOC-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "a8a01d4a703dd61364b7a879d6d3a6c8fd10870be284ba0621f63e44227b3373",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TOY-004"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-TOY-002"
+        }
+      ],
+      "status": "approved",
+      "title": "TestUnit 危险域、平行号与破坏序列固定"
+    },
     "BUS-TOY-004@0.1.0": {
       "affects": [
         "toy",
@@ -4042,6 +4234,36 @@
         }
       ],
       "status": "proposed",
+      "title": "玩具样品需求确定性计算与技术批准"
+    },
+    "BUS-TOY-004@1.0.0": {
+      "affects": [
+        "toy",
+        "sample-requirement",
+        "test-unit",
+        "chemical-minimum",
+        "retest-reserve",
+        "retention",
+        "technical-approval",
+        "quantity"
+      ],
+      "depends_on": [
+        "OD-001@1.0.0",
+        "BUS-TOY-003@1.0.0",
+        "ATC-QTY-001@1.0.0",
+        "ATC-ALLOC-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "8bf6cb53ff5da75bf7ef61beb96ff7af0429ff36ca8d60353bfb77aeaff46d58",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TOY-006"
+        }
+      ],
+      "status": "approved",
       "title": "玩具样品需求确定性计算与技术批准"
     },
     "BUS-TOY-005@0.1.0": {
@@ -4077,6 +4299,41 @@
         }
       ],
       "status": "proposed",
+      "title": "玩具标签工件版本与 LabelReview 失效重审"
+    },
+    "BUS-TOY-005@1.0.0": {
+      "affects": [
+        "toy",
+        "packaging",
+        "label",
+        "instruction",
+        "marketing-age-claim",
+        "artifact-version",
+        "label-review",
+        "impact-invalidation",
+        "audit"
+      ],
+      "depends_on": [
+        "OD-001@1.0.0",
+        "BUS-TOY-001@1.0.0",
+        "BUS-TOY-002@1.0.0",
+        "ATC-TOY-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "611b7d306b04eff8d520c32c9f7c83d1882e84458258a658e9691b64fd4b6b39",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TOY-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TOY-007"
+        }
+      ],
+      "status": "approved",
       "title": "玩具标签工件版本与 LabelReview 失效重审"
     },
     "BUS-TOY-006@0.1.0": {

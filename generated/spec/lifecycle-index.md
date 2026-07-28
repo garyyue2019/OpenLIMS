@@ -34,7 +34,9 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `AC-TOY-001` | `1.0.0` | `approved` | `spec/acceptance/AC-TOY-001__v1.0.0.json` |
 | `AC-TOY-002` | `0.1.0` | `proposed` | `spec/acceptance/AC-TOY-002__v0.1.0.json` |
 | `AC-TOY-003` | `0.1.0` | `proposed` | `spec/acceptance/AC-TOY-003__v0.1.0.json` |
+| `AC-TOY-003` | `1.0.0` | `approved` | `spec/acceptance/AC-TOY-003__v1.0.0.json` |
 | `AC-TOY-004` | `0.1.0` | `proposed` | `spec/acceptance/AC-TOY-004__v0.1.0.json` |
+| `AC-TOY-004` | `1.0.0` | `approved` | `spec/acceptance/AC-TOY-004__v1.0.0.json` |
 | `AC-TRACE-001` | `1.0.0` | `approved` | `spec/acceptance/AC-TRACE-001__v1.0.0.json` |
 | `ATC-AI-001` | `1.0.0` | `approved` | `spec/stories/ATC-AI-001__v1.0.0.json` |
 | `ATC-ALLOC-001` | `1.0.0` | `approved` | `spec/stories/ATC-ALLOC-001__v1.0.0.json` |
@@ -74,7 +76,9 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `ATC-TEX-003` | `1.0.0` | `approved` | `spec/stories/ATC-TEX-003__v1.0.0.json` |
 | `ATC-TOY-001` | `1.0.0` | `approved` | `spec/stories/ATC-TOY-001__v1.0.0.json` |
 | `ATC-TOY-002` | `0.1.0` | `proposed` | `spec/stories/ATC-TOY-002__v0.1.0.json` |
+| `ATC-TOY-002` | `1.0.0` | `approved` | `spec/stories/ATC-TOY-002__v1.0.0.json` |
 | `ATC-TOY-003` | `0.1.0` | `proposed` | `spec/stories/ATC-TOY-003__v0.1.0.json` |
+| `ATC-TOY-003` | `1.0.0` | `approved` | `spec/stories/ATC-TOY-003__v1.0.0.json` |
 | `ATC-TOY-004` | `0.1.0` | `proposed` | `spec/stories/ATC-TOY-004__v0.1.0.json` |
 | `BUS-AI-001` | `1.0.0` | `approved` | `spec/requirements/BUS-AI-001__v1.0.0.json` |
 | `BUS-AI-002` | `1.0.0` | `approved` | `spec/requirements/BUS-AI-002__v1.0.0.json` |
@@ -121,8 +125,11 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `BUS-TOY-001` | `1.0.0` | `approved` | `spec/requirements/BUS-TOY-001__v1.0.0.json` |
 | `BUS-TOY-002` | `1.0.0` | `approved` | `spec/requirements/BUS-TOY-002__v1.0.0.json` |
 | `BUS-TOY-003` | `0.1.0` | `proposed` | `spec/requirements/BUS-TOY-003__v0.1.0.json` |
+| `BUS-TOY-003` | `1.0.0` | `approved` | `spec/requirements/BUS-TOY-003__v1.0.0.json` |
 | `BUS-TOY-004` | `0.1.0` | `proposed` | `spec/requirements/BUS-TOY-004__v0.1.0.json` |
+| `BUS-TOY-004` | `1.0.0` | `approved` | `spec/requirements/BUS-TOY-004__v1.0.0.json` |
 | `BUS-TOY-005` | `0.1.0` | `proposed` | `spec/requirements/BUS-TOY-005__v0.1.0.json` |
+| `BUS-TOY-005` | `1.0.0` | `approved` | `spec/requirements/BUS-TOY-005__v1.0.0.json` |
 | `BUS-TOY-006` | `0.1.0` | `proposed` | `spec/requirements/BUS-TOY-006__v0.1.0.json` |
 | `ED-001` | `0.1.0` | `proposed` | `spec/decisions/ED-001__v0.1.0.json` |
 | `ED-001` | `1.0.0` | `proposed` | `spec/decisions/ED-001__v1.0.0.json` |

@@ -79,6 +79,7 @@
         "ATC-TOY-004@0.1.0",
         "ATC-TOY-004@1.0.0",
         "ATC-TOY-005@1.0.0",
+        "ATC-WEB-001@1.0.0",
         "BUS-AI-001@1.0.0",
         "BUS-AI-002@1.0.0",
         "BUS-AI-003@1.0.0",
@@ -280,6 +281,7 @@
         "ATC-TOY-004@0.1.0",
         "ATC-TOY-004@1.0.0",
         "ATC-TOY-005@1.0.0",
+        "ATC-WEB-001@1.0.0",
         "BUS-AI-001@1.0.0",
         "BUS-AI-002@1.0.0",
         "BUS-AI-003@1.0.0",
@@ -481,6 +483,7 @@
         "ATC-TOY-004@0.1.0",
         "ATC-TOY-004@1.0.0",
         "ATC-TOY-005@1.0.0",
+        "ATC-WEB-001@1.0.0",
         "BUS-AI-001@1.0.0",
         "BUS-AI-002@1.0.0",
         "BUS-AI-003@1.0.0",
@@ -603,7 +606,7 @@
         "SEC-DEPLOY-001@1.0.0",
         "SEC-DEPLOY-001@2.0.0"
       ],
-      "sha256": "a18748bbb04a0b5073c5938db4e88bce7ff9897c373fb64e3bc15574a3bd70f9"
+      "sha256": "b3eb72b68292c6108ed0d9c77816f858020d608825d7814a40f9f4cee68bcb63"
     },
     "generated/spec/dependency-graph.mmd": {
       "owners": [
@@ -682,6 +685,7 @@
         "ATC-TOY-004@0.1.0",
         "ATC-TOY-004@1.0.0",
         "ATC-TOY-005@1.0.0",
+        "ATC-WEB-001@1.0.0",
         "BUS-AI-001@1.0.0",
         "BUS-AI-002@1.0.0",
         "BUS-AI-003@1.0.0",
@@ -804,7 +808,7 @@
         "SEC-DEPLOY-001@1.0.0",
         "SEC-DEPLOY-001@2.0.0"
       ],
-      "sha256": "182cf25d9a104baf83b0dc25aae5cdd6c904ddca10c0af2dcd6e94f328568543"
+      "sha256": "9c0215997eb2892efa8be2e33d92e512d0212943ddb93e4b2697a15ae25aea80"
     },
     "generated/spec/features/AC-ACC-001__v1.0.0.feature": {
       "owners": [
@@ -1906,6 +1910,24 @@
       ],
       "sha256": "dae7186e27190dc8ae78ea4185b06e96bea84f6b5aca70d2ef1075625ee272a4"
     },
+    "generated/spec/features/ATC-WEB-001__v1.0.0.feature": {
+      "owners": [
+        "AC-BATCH-001@1.0.0",
+        "AC-ELEC-003@1.0.0",
+        "AC-QTY-001@1.0.0",
+        "AC-SCOPE-001@1.0.0",
+        "ATC-ALLOC-001@1.0.0",
+        "ATC-BATCH-001@1.0.0",
+        "ATC-PLT-003@1.0.0",
+        "ATC-QTY-001@1.0.0",
+        "ATC-SCP-001@1.0.0",
+        "ATC-WEB-001@1.0.0",
+        "NFR-ARCH-001@2.0.0",
+        "OD-002@1.0.0",
+        "SEC-AUTH-001@1.0.0"
+      ],
+      "sha256": "d95f5c6e27cac818f6df822945e2c8840b18b082742e492512f73ad425a5be15"
+    },
     "generated/spec/lifecycle-index.md": {
       "owners": [
         "AC-ACC-001@1.0.0",
@@ -1983,6 +2005,7 @@
         "ATC-TOY-004@0.1.0",
         "ATC-TOY-004@1.0.0",
         "ATC-TOY-005@1.0.0",
+        "ATC-WEB-001@1.0.0",
         "BUS-AI-001@1.0.0",
         "BUS-AI-002@1.0.0",
         "BUS-AI-003@1.0.0",
@@ -2105,7 +2128,7 @@
         "SEC-DEPLOY-001@1.0.0",
         "SEC-DEPLOY-001@2.0.0"
       ],
-      "sha256": "d66089ba60409dd8aecce33e38c904dfd4e95572e19bccf912bc76627be9b2bd"
+      "sha256": "419a2c4772cec87644bd95dd417b49e466bea3adb41c3b4e14477ad7493f9fc2"
     },
     "generated/spec/readiness-report.md": {
       "owners": [
@@ -2184,6 +2207,7 @@
         "ATC-TOY-004@0.1.0",
         "ATC-TOY-004@1.0.0",
         "ATC-TOY-005@1.0.0",
+        "ATC-WEB-001@1.0.0",
         "BUS-AI-001@1.0.0",
         "BUS-AI-002@1.0.0",
         "BUS-AI-003@1.0.0",
@@ -2306,7 +2330,7 @@
         "SEC-DEPLOY-001@1.0.0",
         "SEC-DEPLOY-001@2.0.0"
       ],
-      "sha256": "5861b0d97faf37b39b875f546daaa6ab0b58da6b74b9ce2942be031d4b58f656"
+      "sha256": "1c800c1418f7d89953922ecf3b8e04c685349a1ed0ebe4cad43c2f7bb1cd7a94"
     },
     "generated/spec/releases/REL-R1-RECEIVING-PILOT__v0.1.0.requirements-lock.json": {
       "owners": [
@@ -2484,6 +2508,7 @@
         "ATC-TOY-004@0.1.0",
         "ATC-TOY-004@1.0.0",
         "ATC-TOY-005@1.0.0",
+        "ATC-WEB-001@1.0.0",
         "BUS-AI-001@1.0.0",
         "BUS-AI-002@1.0.0",
         "BUS-AI-003@1.0.0",
@@ -2685,6 +2710,7 @@
         "ATC-TOY-004@0.1.0",
         "ATC-TOY-004@1.0.0",
         "ATC-TOY-005@1.0.0",
+        "ATC-WEB-001@1.0.0",
         "BUS-AI-001@1.0.0",
         "BUS-AI-002@1.0.0",
         "BUS-AI-003@1.0.0",
@@ -2807,7 +2833,7 @@
         "SEC-DEPLOY-001@1.0.0",
         "SEC-DEPLOY-001@2.0.0"
       ],
-      "sha256": "169a890e2637f0b81557897bf9e4b68a05eaeae48977ec142de17e415f2fa3f7"
+      "sha256": "296196e9d7f092a6fcb9555601572d090c8bd50a04091d0e208de3cfb64dfb71"
     },
     "generated/spec/tasks/ATC-AI-001__v1.0.0.md": {
       "owners": [
@@ -3582,6 +3608,24 @@
       ],
       "sha256": "20f749a299ad56f98b4e8766480bede6532d46b52ab763d6b4d00ad4c3626668"
     },
+    "generated/spec/tasks/ATC-WEB-001__v1.0.0.md": {
+      "owners": [
+        "AC-BATCH-001@1.0.0",
+        "AC-ELEC-003@1.0.0",
+        "AC-QTY-001@1.0.0",
+        "AC-SCOPE-001@1.0.0",
+        "ATC-ALLOC-001@1.0.0",
+        "ATC-BATCH-001@1.0.0",
+        "ATC-PLT-003@1.0.0",
+        "ATC-QTY-001@1.0.0",
+        "ATC-SCP-001@1.0.0",
+        "ATC-WEB-001@1.0.0",
+        "NFR-ARCH-001@2.0.0",
+        "OD-002@1.0.0",
+        "SEC-AUTH-001@1.0.0"
+      ],
+      "sha256": "4fb127ef6bbebce99e95f6047ec9dffee7f140d78b9638bb1763bf7419635e2a"
+    },
     "generated/spec/traceability.csv": {
       "owners": [
         "AC-ACC-001@1.0.0",
@@ -3659,6 +3703,7 @@
         "ATC-TOY-004@0.1.0",
         "ATC-TOY-004@1.0.0",
         "ATC-TOY-005@1.0.0",
+        "ATC-WEB-001@1.0.0",
         "BUS-AI-001@1.0.0",
         "BUS-AI-002@1.0.0",
         "BUS-AI-003@1.0.0",
@@ -3781,7 +3826,7 @@
         "SEC-DEPLOY-001@1.0.0",
         "SEC-DEPLOY-001@2.0.0"
       ],
-      "sha256": "0170b06b69a47f675e022b1efd6cdae44e664a304592ae0892478fbad8902541"
+      "sha256": "b3056f715281070d3ad480a833f1667077182f258df5d4a219822279524bbb0b"
     },
     "generated/spec/traceability.json": {
       "owners": [
@@ -3860,6 +3905,7 @@
         "ATC-TOY-004@0.1.0",
         "ATC-TOY-004@1.0.0",
         "ATC-TOY-005@1.0.0",
+        "ATC-WEB-001@1.0.0",
         "BUS-AI-001@1.0.0",
         "BUS-AI-002@1.0.0",
         "BUS-AI-003@1.0.0",
@@ -3982,7 +4028,7 @@
         "SEC-DEPLOY-001@1.0.0",
         "SEC-DEPLOY-001@2.0.0"
       ],
-      "sha256": "7290e06cbff7c7935ad3f1566149485bc9abe6ed571a10e1056b805e825649ea"
+      "sha256": "0d2cdd66f6ea8632a3ad6b4fbcc320e5c38761ecb7ed834a7324efff79ee8fff"
     }
   },
   "schema_version": 1,
@@ -7000,6 +7046,103 @@
         {
           "document": "PRD-MAIN",
           "item": "SEC-SIGN-001"
+        }
+      ],
+      "status": "approved",
+      "version": "1.0.0"
+    },
+    "ATC-WEB-001@1.0.0": {
+      "behavior_fingerprint": "b934cfc6f20ccc298f4582c7b1253d4f5b3f8fcfce2102edb95b4579d26344a1",
+      "change_class": "major",
+      "depends_on": [
+        "ATC-PLT-003@1.0.0",
+        "ATC-SCP-001@1.0.0",
+        "ATC-QTY-001@1.0.0",
+        "ATC-ALLOC-001@1.0.0",
+        "ATC-BATCH-001@1.0.0",
+        "OD-002@1.0.0",
+        "AC-SCOPE-001@1.0.0",
+        "AC-QTY-001@1.0.0",
+        "AC-ELEC-003@1.0.0",
+        "AC-BATCH-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "NFR-ARCH-001@2.0.0"
+      ],
+      "fingerprint": "8e37afc7bc27fbcd69cbc2abc5e171a47f8a2cc6d9714f3c0c5ae2d84aef323e",
+      "id": "ATC-WEB-001",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "BUS-SCOPE-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "BUS-SCOPE-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "BUS-SCOPE-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-SCOPE-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-QTY-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-QTY-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-QTY-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-QTY-004"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-QTY-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-ALLOC-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-ALLOC-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-ALLOC-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-ALLOC-004"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-ELEC-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-BATCH-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-BATCH-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-BATCH-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-BATCH-001"
         }
       ],
       "status": "approved",

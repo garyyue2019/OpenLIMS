@@ -8,6 +8,7 @@ import {
 } from './web-feature'
 import { platformShellFeature, webFeatureComposition, webFeatureRegistry } from './web-feature-registry'
 import { receivingFeature } from './features/receiving/receiving-feature'
+import { labWorkbenchFeature } from './features/lab-workbench/lab-workbench-feature'
 
 const component = {} as Component
 
@@ -125,17 +126,25 @@ describe('composeWebFeatures', () => {
 })
 
 describe('production web feature registry', () => {
-  it('contains the platform shell and only the approved receiving registration slice', () => {
-    expect(webFeatureRegistry).toEqual([platformShellFeature, receivingFeature])
+  it('contains the platform shell and all explicitly approved production features', () => {
+    expect(webFeatureRegistry).toEqual([platformShellFeature, receivingFeature, labWorkbenchFeature])
     expect(webFeatureComposition.routes.map((route) => [route.name, route.path])).toEqual([
       ['platform.home', '/'],
       ['platform.system-status', '/system/status'],
       ['platform.auth-callback', '/auth/callback'],
-      ['receiving.registration', '/receiving/receipts/new']
+      ['receiving.registration', '/receiving/receipts/new'],
+      ['workbench.scope', '/workbench/scope'],
+      ['workbench.quantity', '/workbench/quantity'],
+      ['workbench.allocation', '/workbench/allocation'],
+      ['workbench.batch', '/workbench/batch']
     ])
     expect(webFeatureComposition.navigationEntries).toEqual([
       { id: 'platform.system-status', label: 'System status', routeName: 'platform.system-status' },
-      { id: 'receiving.registration', label: '到货登记', routeName: 'receiving.registration' }
+      { id: 'receiving.registration', label: '到货登记', routeName: 'receiving.registration' },
+      { id: 'workbench.scope', label: '范围矩阵', routeName: 'workbench.scope' },
+      { id: 'workbench.quantity', label: '数量账', routeName: 'workbench.quantity' },
+      { id: 'workbench.allocation', label: '样品分配', routeName: 'workbench.allocation' },
+      { id: 'workbench.batch', label: '批次管理', routeName: 'workbench.batch' }
     ])
   })
 })

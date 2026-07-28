@@ -55,6 +55,7 @@ public sealed class ToyModule(string postgresConnectionString) :
         await ToyTestUnitPlanMigrator.ApplyAsync(_options.ConnectionString, cancellationToken);
         await ToyLabelReviewMigrator.ApplyAsync(_options.ConnectionString, cancellationToken);
         await ToyConclusionMigrator.ApplyAsync(_options.ConnectionString, cancellationToken);
+        await ToyConclusionRemediationMigrator.ApplyAsync(_options.ConnectionString, cancellationToken);
     }
 
     private void AddPersistence(IServiceCollection services)

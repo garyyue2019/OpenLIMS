@@ -124,6 +124,8 @@ public static class ToyErrorCodes
     public const string LabelReviewNotValid = "TOY.LABEL_REVIEW_NOT_VALID";
     // OD-034@1.0.0: Conclusion error codes
     public const string ConclusionEvidenceIncomplete = "TOY.CONCLUSION_EVIDENCE_INCOMPLETE";
+    public const string ConclusionEvidenceUnknown = "TOY.CONCLUSION_EVIDENCE_UNKNOWN";
+    public const string ConclusionSignatureInvalid = "TOY.CONCLUSION_SIGNATURE_INVALID";
     public const string ConclusionPolicyUnknown = "TOY.CONCLUSION_POLICY_UNKNOWN";
     public const string FictitiousWholeItemConclusion = "TOY.FICTITIOUS_WHOLE_ITEM_CONCLUSION";
     public const string ConclusionSodViolation = "TOY.CONCLUSION_SOD_VIOLATION";
@@ -673,7 +675,10 @@ public sealed record CreateTestedScopeConformityConclusionRequest(
     IReadOnlyList<UncoveredScopeInput> UncoveredScopes,
     IReadOnlyList<ExternalReferenceInput>? ExternalReferences,
     string? CustomStatement,
-    bool? IsFictitiousWholeItemConclusion);
+    bool? IsFictitiousWholeItemConclusion,
+    ToyVersionedReference? ReauthenticationRef = null,
+    string? SigningIntent = null,
+    string? SignedContentHash = null);
 
 public sealed record ToyConclusionResult(
     string ConclusionId,
@@ -685,7 +690,8 @@ public sealed record ToyConclusionResult(
     string? SignatureRef,
     IReadOnlyList<string>? CoveredHazardDomains,
     IReadOnlyList<UncoveredScopeInput>? UncoveredScopes,
-    IReadOnlyList<ExternalReferenceInput>? ExternalReferences);
+    IReadOnlyList<ExternalReferenceInput>? ExternalReferences,
+    string? ContentHash = null);
 
 public interface IToyConclusionService
 {

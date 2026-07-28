@@ -2,6 +2,7 @@ using System.Net;
 using System.Net.Http.Json;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
+using System.Text.Json;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -101,6 +102,74 @@ public sealed class ToyApiContractTests
         Assert.Equal(ToySampleRequirementDecisions.Approved, body.Requirement.Decision);
     }
 
+    [Fact]
+    public async Task Four_conclusion_operations_expose_immutable_evidence_contracts()
+    {
+        using var factory = new ToyApiFactory();
+        using var client = factory.CreateClient();
+        using var item = await client.PostAsJsonAsync(
+            ToyConclusionContract.ItemConformityPath,
+            new CreateItemConformityConclusionRequest(
+                ToyConclusionContract.RuleSetVersion,
+                "result-group-item",
+                1,
+                "requirement-item",
+                2,
+                null),
+            TestContext.Current.CancellationToken);
+        using var scope = await client.PostAsJsonAsync(
+            ToyConclusionContract.TestedScopeConformityPath,
+            new CreateTestedScopeConformityConclusionRequest(
+                ToyConclusionContract.RuleSetVersion,
+                ProductId,
+                1,
+                "test-unit-plan-1",
+                1,
+                [new TestUnitEvidenceInput(
+                    "test-unit-1",
+                    "physical-1",
+                    1,
+                    "MECHANICAL",
+                    1,
+                    "result-group-scope",
+                    1,
+                    "provenance-1",
+                    1,
+                    "coverage-1",
+                    1,
+                    ["requirement-scope@1"])],
+                [new UncoveredScopeInput("CHEMICAL", ToyUncoveredReasons.NotTested, "not ordered")],
+                null,
+                null,
+                false,
+                new ToyVersionedReference("reauth-1", 1),
+                "approve tested scope",
+                new string('a', 64)),
+            TestContext.Current.CancellationToken);
+        using var detail = await client.GetAsync(
+            "/api/v1/toy/conclusions/conclusion-item",
+            TestContext.Current.CancellationToken);
+        using var history = await client.GetAsync(
+            $"/api/v1/toy/conclusions?productRef={ProductId}&productVersion=1",
+            TestContext.Current.CancellationToken);
+
+        Assert.Equal(HttpStatusCode.Created, item.StatusCode);
+        Assert.Equal(HttpStatusCode.Created, scope.StatusCode);
+        Assert.Equal(HttpStatusCode.OK, detail.StatusCode);
+        Assert.Equal(HttpStatusCode.OK, history.StatusCode);
+        var itemBody = await item.Content.ReadFromJsonAsync<ToyConclusionResult>(
+            TestContext.Current.CancellationToken);
+        var scopeBody = await scope.Content.ReadFromJsonAsync<ToyConclusionResult>(
+            TestContext.Current.CancellationToken);
+        Assert.NotNull(itemBody);
+        Assert.NotNull(scopeBody);
+        Assert.Equal(ToyConclusionLevels.ItemConformity, itemBody.ConclusionLevel);
+        Assert.Equal("item-content-hash", itemBody.ContentHash);
+        Assert.Equal(ToyConclusionLevels.TestedScopeConformity, scopeBody.ConclusionLevel);
+        Assert.Equal("reauth-1@1", scopeBody.SignatureRef);
+        Assert.Equal("scope-content-hash", scopeBody.ContentHash);
+    }
+
     [Theory]
     [InlineData(ToyErrorCodes.NotAuthorized, HttpStatusCode.Forbidden)]
     [InlineData(ToyErrorCodes.ObjectNotAccessible, HttpStatusCode.NotFound)]
@@ -115,6 +184,12 @@ public sealed class ToyApiContractTests
     [InlineData(ToyErrorCodes.DestructiveTestUnitConflict, HttpStatusCode.UnprocessableEntity)]
     [InlineData(ToyErrorCodes.SampleRequirementNotApproved, HttpStatusCode.UnprocessableEntity)]
     [InlineData(ToyErrorCodes.DownstreamEligibilityBlocked, HttpStatusCode.UnprocessableEntity)]
+    [InlineData(ToyErrorCodes.ConclusionEvidenceIncomplete, HttpStatusCode.UnprocessableEntity)]
+    [InlineData(ToyErrorCodes.ConclusionEvidenceUnknown, HttpStatusCode.UnprocessableEntity)]
+    [InlineData(ToyErrorCodes.ConclusionSignatureInvalid, HttpStatusCode.UnprocessableEntity)]
+    [InlineData(ToyErrorCodes.ConclusionPolicyUnknown, HttpStatusCode.UnprocessableEntity)]
+    [InlineData(ToyErrorCodes.FictitiousWholeItemConclusion, HttpStatusCode.UnprocessableEntity)]
+    [InlineData(ToyErrorCodes.ConclusionSodViolation, HttpStatusCode.UnprocessableEntity)]
     public async Task Toy_errors_map_to_stable_problem_contracts(string errorCode, HttpStatusCode status)
     {
         using var factory = new ToyApiFactory(errorCode);
@@ -149,16 +224,37 @@ public sealed class ToyApiContractTests
         using var client = factory.CreateClient();
         using var response = await client.GetAsync("/openapi/v1.json", TestContext.Current.CancellationToken);
         var content = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
+        using var document = JsonDocument.Parse(content);
+        var operationIds = document.RootElement.GetProperty("paths")
+            .EnumerateObject()
+            .SelectMany(path => path.Value.EnumerateObject())
+            .Select(operation => operation.Value.TryGetProperty("operationId", out var value)
+                ? value.GetString()
+                : null)
+            .Where(value => value is not null)
+            .ToArray();
+        var conclusionOperations = document.RootElement.GetProperty("paths")
+            .EnumerateObject()
+            .Where(path => path.Name.Contains("/toy/conclusions", StringComparison.Ordinal))
+            .SelectMany(path => path.Value.EnumerateObject().Select(operation =>
+                $"{operation.Name} {path.Name} => " +
+                (operation.Value.TryGetProperty("operationId", out var value)
+                    ? value.GetString()
+                    : "<none>")))
+            .ToArray();
 
         foreach (var operation in new[]
         {
             "recordToyAgeDeclaration", "recordToyAgeGradeDecision", "freezeToyAgeGradeDecision",
             "recordToyAccessibilityAssessment", "resolveToyReassessmentTrigger", "getToyProductOverview",
             "createToyTestUnitPlan", "approveToySampleRequirement", "requestToyAllocation",
-            "getToyTestUnitPlan"
+            "getToyTestUnitPlan", "createItemConformityConclusion",
+            "createTestedScopeConformityConclusion", "getToyConclusion", "getToyConclusions"
         })
         {
-            Assert.Contains(operation, content, StringComparison.Ordinal);
+            Assert.True(
+                operationIds.Contains(operation, StringComparer.Ordinal),
+                $"Missing {operation}; conclusion operations: {string.Join(" | ", conclusionOperations)}");
         }
     }
 
@@ -278,7 +374,70 @@ internal sealed class ToyApiFactory(string? errorCode = null) : WebApplicationFa
             services.AddSingleton<IToyTestUnitPlanService>(new StubToyTestUnitPlanService(errorCode));
             services.RemoveAll<IToyLabelReviewService>();
             services.AddSingleton<IToyLabelReviewService>(new StubToyLabelReviewService(errorCode));
+            services.RemoveAll<IToyConclusionService>();
+            services.AddSingleton<IToyConclusionService>(new StubToyConclusionService(errorCode));
         });
+    }
+}
+
+internal sealed class StubToyConclusionService(string? errorCode) : IToyConclusionService
+{
+    private static readonly DateTimeOffset Now = new(2026, 7, 28, 10, 0, 0, TimeSpan.Zero);
+
+    public Task<ToyConclusionResult> CreateItemConformityConclusionAsync(
+        CreateItemConformityConclusionRequest request,
+        string correlationId,
+        CancellationToken cancellationToken = default) =>
+        Result(ToyConclusionLevels.ItemConformity, "conclusion-item", null, "item-content-hash", cancellationToken);
+
+    public Task<ToyConclusionResult> CreateTestedScopeConformityConclusionAsync(
+        CreateTestedScopeConformityConclusionRequest request,
+        string correlationId,
+        CancellationToken cancellationToken = default) =>
+        Result(ToyConclusionLevels.TestedScopeConformity, "conclusion-scope", "reauth-1@1", "scope-content-hash", cancellationToken);
+
+    public Task<ToyConclusionResult> GetConclusionAsync(
+        string conclusionId,
+        string correlationId,
+        CancellationToken cancellationToken = default) =>
+        Result(ToyConclusionLevels.ItemConformity, conclusionId, null, "item-content-hash", cancellationToken);
+
+    public async Task<IReadOnlyList<ToyConclusionResult>> GetConclusionsByProductAsync(
+        string productRef,
+        long productVersion,
+        string correlationId,
+        CancellationToken cancellationToken = default) =>
+        [await Result(
+            ToyConclusionLevels.TestedScopeConformity,
+            "conclusion-scope",
+            "reauth-1@1",
+            "scope-content-hash",
+            cancellationToken)];
+
+    private Task<ToyConclusionResult> Result(
+        string level,
+        string conclusionId,
+        string? signatureRef,
+        string contentHash,
+        CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        if (errorCode is not null)
+            throw new ToyDomainException(errorCode);
+        return Task.FromResult(new ToyConclusionResult(
+            conclusionId,
+            level,
+            "fixed conclusion statement",
+            "contract-actor",
+            Now,
+            1,
+            signatureRef,
+            level == ToyConclusionLevels.TestedScopeConformity ? ["MECHANICAL"] : null,
+            level == ToyConclusionLevels.TestedScopeConformity
+                ? [new UncoveredScopeInput("CHEMICAL", ToyUncoveredReasons.NotTested, "not ordered")]
+                : null,
+            null,
+            contentHash));
     }
 }
 

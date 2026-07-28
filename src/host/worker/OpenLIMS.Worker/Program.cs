@@ -3,16 +3,18 @@ using OpenLIMS.BuildingBlocks.Platform;
 using OpenLIMS.Contracts.Labeling;
 using OpenLIMS.Contracts.Platform;
 using OpenLIMS.Modules.Allocation;
+using OpenLIMS.Modules.Batch;
 using OpenLIMS.Modules.Billing;
 using OpenLIMS.Modules.Instrument;
-using OpenLIMS.Modules.Qc;
-using OpenLIMS.Modules.Report;
-using OpenLIMS.Modules.Batch;
 using OpenLIMS.Modules.Labeling;
+using OpenLIMS.Modules.Qc;
 using OpenLIMS.Modules.Quantity;
 using OpenLIMS.Modules.Receiving;
+using OpenLIMS.Modules.Report;
 using OpenLIMS.Modules.Result;
 using OpenLIMS.Modules.Scope;
+using OpenLIMS.Modules.Textile;
+using OpenLIMS.Modules.Toy;
 using OpenLIMS.Worker;
 
 var builder = Host.CreateApplicationBuilder(args);
@@ -39,6 +41,8 @@ IOpenLimsServerModule[] modules =
     new BillingModule(postgresConnectionString),
     new InstrumentModule(postgresConnectionString),
     new QcModule(postgresConnectionString),
+    new TextileModule(postgresConnectionString),
+    new ToyModule(postgresConnectionString),
     new ReportModule(postgresConnectionString)
 ];
 var moduleCatalog = OpenLimsModuleCatalog.Create(modules);

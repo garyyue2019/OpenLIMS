@@ -1,210 +1,98 @@
-# DEV-028 纺织品 TestUnit 与样品需求实施计划
+# Task Plan: DEV-028 纺织运行时启用与 TestUnit 实施
 
-## 任务概述
+## Goal
 
-将 DEV-011 的契约层实现为完整的可运行纺织品模块，支持样品需求计算、CuttingPlan 管理和技术批准流程。
+在不复用稳定 ID、不改写已封存规格、不改变玩具作为 Release 1 唯一生产试点的前提下，把既有纺织契约切片生产化为可运行模块：样品需求、CuttingPlan、技术批准、持久化、HTTP、权限、审计、遥测和完整测试。
 
-## 背景
+## User approval
 
-**已完成**：
-- DEV-011 (ATC-TEX-001@1.0.0) - 纺织样品需求契约切片
-  - `OpenLIMS.Contracts.Textile` 契约模型
-  - `TextileSampleRequirementRules` 纯规则
-  - CuttingPlan 结构与校验
-  - 契约测试与序列化冻结
+- 2026-07-28 用户在获知 OD-001 当前禁用纺织运行时、且 DEV-028 需要先做治理后，明确回复：`启用纺织运行`。
+- 该批准授权纺织模块的运行时实现与注册；它不自动构成真实付费灯塔、生产部署或替换玩具唯一 R1 试点的证据。
+- 2026-07-28 用户在获知 DEV-027 Toy 结论运行时编译、签署/SoD 与测试缺口，以及现有任务卡路径失配后回复：`按你建议的做`。该授权允许先隔离 DEV-028，再为同一 DEV-027 创建 SemVer 后继修复卡并完成受控修复；不授权虚构签署、SoD 或生产证据。
 
-**本任务目标**：
-- 将契约层实现为完整模块
-- 实现运行时业务逻辑
-- 注册模块、schema、HTTP 端点
-- 权限验证和审计集成
+## Current Phase
 
-## 相关规格
+Complete
 
-### 业务需求
-- BUS-TEX-001@1.0.0 - 纺织样品需求契约模型
-- BUS-TEX-002@1.0.0 - 互斥裁样与样品不足失败关闭规则
-- BUS-TEX-003@1.0.0 - CuttingPlan 序列化契约
+## Phases
 
-### 验收标准
-- AC-TEXTILE-001@1.0.0 - 互斥共享、不足缺口与 UNKNOWN 失败关闭
+### Phase 1: governance and READY task card
 
-### Story
-- 需要创建 ATC-TEX-002@1.0.0 (DEV-028 实施 Story)
+- [x] 恢复计划上下文并确认工作树干净
+- [x] 运行 validate、source-status、impact
+- [x] 确认旧计划错误：OD-035 已分配给 DEV-005；ATC-TEX-002 已在批准规格中记录为跳过
+- [x] 创建 OD-036 决策，启用纺织运行时实现/受控验证但保留 OD-001 玩具唯一生产试点边界
+- [x] 创建新的稳定 Story（不复用 ATC-TEX-002），声明完整 allowed_paths、测试与非目标
+- [x] 通过 strict validate、source-status、impact、ready、generate/check，并追加不可覆盖 snapshot
+- **Status:** complete
 
-## 实施范围
+### Phase 2: test-first contract and domain extension
 
-### 1. 领域层
-- `TextileSampleRequirementDomain.cs`
-  - 样品需求计算逻辑（基于 DEV-011 契约规则）
-  - 互斥裁样验证
-  - 样品不足检测
-  - CuttingPlan 验证
+- [x] 先添加领域/HTTP 正向、反向和边界测试；权限、并发、恢复和审计由 Phase 3 PostgreSQL RED 覆盖
+- [x] 扩展 Textile 公共契约，保持既有序列化兼容
+- [x] 实现样品需求、CuttingPlan 与技术批准领域规则
+- **Status:** complete
 
-### 2. 应用服务层
-- `TextileTestUnitService.cs`
-  - `CalculateSampleRequirementAsync` - 计算样品需求
-  - `CreateCuttingPlanAsync` - 创建裁样计划
-  - `ApproveCuttingPlanAsync` - 技术批准裁样计划
-  - `GetCuttingPlanAsync` - 查询裁样计划
-  - 权限验证：`textile.sample-requirement.calculate`、`textile.cutting-plan.approve`
-  - 事务协调与审计集成
+### Phase 3: runtime module
 
-### 3. 持久化层
-- `TextileTestUnitPersistence.cs`
-  - `textile.sample_requirement` - 样品需求记录表
-  - `textile.sample_requirement_line` - 需求行明细表
-  - `textile.cutting_plan` - 裁样计划表
-  - `textile.cutting_plan_item` - 裁样项表
-  - 追加式不可变（审计字段）
+- [x] 实现应用服务、追加式持久化和新迁移
+- [x] 实现 HTTP 端点、能力校验、审计/Outbox 和遥测
+- [x] 注册 Textile 模块及公共状态端口，不访问其他模块私表
+- **Status:** complete
 
-- `TextileTestUnitMigration.cs`
-  - 数据库迁移脚本
-  - 约束和索引
+### Phase 4: verification and handoff
 
-### 4. 端点层
-- `TextileEndpoints.cs`
-  - `POST /api/v1/textile/sample-requirements` - 计算样品需求
-  - `POST /api/v1/textile/cutting-plans` - 创建裁样计划
-  - `POST /api/v1/textile/cutting-plans/{id}/approve` - 批准裁样计划
-  - `GET /api/v1/textile/cutting-plans/{id}` - 查询裁样计划
-  - 错误码映射
+- [x] 使全解决方案 task gate 通过；DEV-031 合入后原 ToyConclusionPersistence 阻断已解除
+- [x] 运行 Textile unit/contract/PostgreSQL integration、architecture/contracts profile 与 Python 全量测试
+- [x] 运行严格规格/来源/影响/ready/历史/双 generate/check 门禁
+- [x] 核对所有变更均位于 Story allowed_paths，旧 Textile v1 字节无变化且 `git diff --check` 通过
+- **Status:** complete
 
-### 5. 模块注册
-- `TextileModule.cs`
-  - 服务注册：`ITextileTestUnitService`、`TextileTestUnitStore`
-  - 迁移注册：`TextileTestUnitMigrator`
-  - 模块描述符
+### Phase 5: cross-task unblock handoff
 
-- `TextileTelemetry.cs`
-  - 遥测计数器：`textile_sample_requirement_total`、`textile_cutting_plan_total`
+- [x] 把当前 DEV-028 工作树切到独立 `codex/dev-028-textile-runtime` 分支并创建可审查保存点
+- [x] 从干净 main 建立 DEV-027 修复分支与独立 planning 目录
+- [x] 以 SemVer 后继 Story 修正真实 allowed_paths，完成 Toy 修复和验收
+- [x] 返回 DEV-028，重跑 full-solution task gate 并完成交付
+- **Status:** complete
 
-### 6. 合约层
-- `TextileContracts.cs`（扩展现有）
-  - 错误码：`TEXTILE_MUTUAL_EXCLUSION_VIOLATED`、`TEXTILE_SAMPLE_INSUFFICIENT`、`TEXTILE_CUTTING_PLAN_NOT_APPROVED`
-  - 能力：`textile.sample-requirement.calculate`、`textile.cutting-plan.approve`
-  - 请求/响应 DTO
-  - `ITextileTestUnitService` 接口
+## Constraints
 
-## 关键不变式
+- 不编辑 `docs/AI原生第三方产品检测LIMS产品需求文档.md` 或 `generated/spec/**`。
+- OD-035 永久属于 DEV-005，不得复用或改写。
+- ATC-TEX-002 已在 ATC-TEX-003 的批准证据中明确跳过；新运行时工作使用新的 Story ID。
+- 已发布迁移和完成任务证据只追加。
+- 未获得新的真实灯塔/生产批准证据，不宣称纺织成为 R1 唯一生产试点。
 
-基于 BUS-TEX-001/002/003 和 AC-TEXTILE-001：
+## Errors Encountered
 
-1. **样品需求维度完整性**
-   - 需求行必须包含：款号、颜色、部件、材料、部位、方向、平行数、预处理、互斥破坏组
-   - 方向仅允许：WARP、WEFT、LENGTHWISE、CROSSWISE
+- Cherry-picking DEV-031 commit `3ff16b5` into DEV-028 produced expected conflicts in two generated spec files, Worker Textile/Toy composition, two NuGet locks, architecture assertions, and repository inventory counts. Resolution: merge only source manifests/assertions, delete conflicted generator-owned/lock outputs with `apply_patch`, then regenerate them through specgen/NuGet before continuing the cherry-pick.
 
-2. **互斥裁样验证**
-   - 同一破坏组内的项目不得共享同一片样品
-   - 违反时以 `TEXTILE_MUTUAL_EXCLUSION_VIOLATED` 拒绝
-
-3. **样品不足失败关闭**
-   - 可用样品数量不足以满足所有需求时失败关闭
-   - 返回缺口清单和缺失数量
-
-4. **版本固定引用**
-   - 所有引用为稳定 ID + 版本的版本固定引用
-   - 检测项目引用、规则集版本必须明确
-
-5. **技术批准门禁**
-   - CuttingPlan 必须经技术负责人批准后才能执行
-   - 批准人不得是创建人（SoD）
-
-## 参考实现
-
-- **DEV-025 (玩具 TestUnit)**: 服务架构、权限模型、审计集成
-- **DEV-011 (纺织契约)**: 领域规则、数据模型
-- **DEV-027 (玩具结论)**: 不可变性、版本固定
-
-## 实施步骤
-
-### Phase 1: 规格批准
-1. [ ] 创建 OD-035 (纺织品模块正式化架构决策)
-2. [ ] 创建 ATC-TEX-002@1.0.0 (DEV-028 实施 Story)
-3. [ ] 运行 `specgen validate` 和 `specgen ready`
-
-### Phase 2: 合约层扩展
-1. [ ] 扩展 `TextileContracts.cs` 添加错误码、能力、DTO
-2. [ ] 定义 `ITextileTestUnitService` 接口
-
-### Phase 3: 领域层
-1. [ ] 创建 `TextileSampleRequirementDomain.cs`
-2. [ ] 实现样品需求计算逻辑
-3. [ ] 实现互斥裁样验证
-4. [ ] 实现样品不足检测
-
-### Phase 4: 应用服务层
-1. [ ] 创建 `TextileTestUnitService.cs`
-2. [ ] 实现服务方法
-3. [ ] 集成权限验证
-4. [ ] 集成事务协调和审计
-
-### Phase 5: 持久化层
-1. [ ] 创建 `TextileTestUnitPersistence.cs`
-2. [ ] 创建 `TextileTestUnitMigration.cs`
-3. [ ] 实现数据库操作
-
-### Phase 6: 端点层
-1. [ ] 创建 `TextileEndpoints.cs`
-2. [ ] 实现 API 端点
-3. [ ] 错误码映射
-
-### Phase 7: 模块注册
-1. [ ] 创建/更新 `TextileModule.cs`
-2. [ ] 创建 `TextileTelemetry.cs`
-3. [ ] 服务和迁移注册
-
-### Phase 8: 测试与交付
-1. [ ] 单元测试（待后续补充）
-2. [ ] 集成测试（待后续补充）
-3. [ ] 文档更新
-4. [ ] 创建 PR 并合并
-
-## 已知依赖
-
-- ✅ DEV-011 契约层已完成
-- ✅ 平台审计和授权基础设施（DEV-017, DEV-018）
-- ✅ 事务协调器
-
-## 验收标准
-
-- [ ] 样品需求计算正确（覆盖所有维度）
-- [ ] 互斥裁样验证正确拒绝违规
-- [ ] 样品不足时失败关闭并返回缺口
-- [ ] 技术批准流程完整（权限、SoD）
-- [ ] 数据库不可变性（审计字段）
-- [ ] 所有端点返回正确的 HTTP 状态码
-- [ ] 遥测计数器正常工作
-- [ ] 规格验证通过
-- [ ] 生成的规格文档更新
-
-## 交付物清单
-
-### 规格文件
-- `spec/decisions/OD-035__v1.0.0.json` (新建)
-- `spec/stories/ATC-TEX-002__v1.0.0.json` (新建)
-
-### 源代码
-- `contracts/textile/OpenLIMS.Contracts.Textile/TextileContracts.cs` (修改)
-- `src/modules/textile/OpenLIMS.Modules.Textile/TextileSampleRequirementDomain.cs` (新建)
-- `src/modules/textile/OpenLIMS.Modules.Textile/TextileTestUnitService.cs` (新建)
-- `src/modules/textile/OpenLIMS.Modules.Textile/TextileTestUnitPersistence.cs` (新建)
-- `src/modules/textile/OpenLIMS.Modules.Textile/TextileTestUnitMigration.cs` (新建)
-- `src/modules/textile/OpenLIMS.Modules.Textile/TextileEndpoints.cs` (新建)
-- `src/modules/textile/OpenLIMS.Modules.Textile/TextileModule.cs` (新建或修改)
-- `src/modules/textile/OpenLIMS.Modules.Textile/TextileTelemetry.cs` (新建)
-
-### 规划文档
-- `.planning/2026-07-28-dev-028-textile-test-unit/task_plan.md` (本文件)
-- `.planning/2026-07-28-dev-028-textile-test-unit/progress.md`
-- `.planning/2026-07-28-dev-028-textile-test-unit/findings.md`
-
-## 估算
-
-- **复杂度**: 中等（有契约基础，可参考 DEV-025）
-- **预计工作量**: 与 DEV-025 类似
-- **风险**: 低（模式已验证）
-
-## 下一步
-
-开始 Phase 1：创建规格文件
+| Error | Attempt | Resolution |
+|---|---:|---|
+| 旧 DEV-028 计划拟创建 OD-035，但该 ID 已于 DEV-005 分配 | 1 | 永久放弃复用；以新稳定 ID OD-036 表达纺织运行时边界 |
+| 预检 `ready --story ATC-TEX-004@1.0.0` 返回 Story 不存在 | 1 | 作为编码前预期阻断证据；先创建并验证新 Story |
+| PowerShell 中的 `rg` 引号/正则组合未匹配 applicability 并以 1 退出 | 1 | 不重复该命令；改为逐 JSON 解析 activation 字段 |
+| 首次 strict validate 对 OD-001、BUS-TEX-001/002/003、AC-TEXTILE-001 多个 approved 版本报警并退出 2 | 1 | 核对无 Seal 后，仅把旧 v1 生命周期转为 deprecated 并指向 v2；旧语义内容不改写 |
+| 读取猜测路径 `spec/specgen.config.json` 失败（实际配置不在该路径） | 1 | 不依赖猜测路径；直接依据已读取的 validation/snapshot 实现和仓库实际文件工作 |
+| 将 OD-001@1.0.0 转为 deprecated 后，校验器拒绝 decided + 非 approved 组合，连带 impact/ready/history 阻断 | 1 | 立即回滚 OD-001 v1 生命周期元数据；检查 decision_state 合法状态，禁止修改校验器绕过 |
+| 首次 Textile unit RED 编译混入缺失 `using Xunit` 的测试自身错误 | 1 | 添加显式 Xunit using 后重跑，确保 RED 只指向缺失生产类型 |
+| 首次 Textile HTTP RED 在到达路由前被主干 ToyConclusionPersistence 的缺失 `ITransactionToken` 编译错误阻断 | 1 | 确认该类型全仓无定义后，不修改越界 Toy；改用只引用 Textile 模块的 TestServer 契约测试 |
+| 模块级 TestServer 首次编译使用已弃用 `WebHostBuilder`，ASPDEPR004 被 warnings-as-errors 阻断 | 1 | 改用当前 `HostBuilder.ConfigureWebHost(...UseTestServer)` 模式后重跑纯 RED |
+| 首次 PostgreSQL RED 有两处状态端口调用未传 xUnit cancellation token，xUnit1051 阻断 | 1 | 为两个 EvaluateAsync 调用传入 `TestContext.Current.CancellationToken` 后重跑纯 RED |
+| 首次 Textile 基础设施编译缺少 `OpenLIMS.Contracts.Platform` using，无法解析 ServerModuleDescriptor | 1 | 在 TextileModule 添加正确公共 contract using |
+| TextileRuntimeService 防御性 `request?.` 导致领域调用前 nullable CS8604 | 1 | 在 Calculate 入口显式 null 失败关闭后再调用领域规则 |
+| Textile 集成测试编译成功后因未设置 `OPENLIMS_TEST_POSTGRES_CONNECTION` 8/8 停止 | 1 | 查找并验证仓库既有隔离 PostgreSQL 16 测试实例，显式设置环境变量后重跑，不跳过 |
+| 尝试用 `D:\pgtest\pgsql\bin\psql.exe` 探测 55442，但精简分发没有该客户端 | 1 | 已从进程/监听/pg_hba 确认 PG16 trust 实例；改用集成测试自身 Npgsql 直接验证 |
+| 组合搜索最后一段在 Python repository test 中未找到既有模块/OpenAPI断言，`rg` 以 1 退出 | 1 | 前两段宿主/架构结果有效；直接读取现有测试结构并新增专用断言，不重复无匹配搜索 |
+| 仓库测试证明旧 r1 snapshot 逐哈希冻结 BUS-TEX/AC v1，生命周期改为 deprecated 会破坏不可覆盖基线 | 1 | 恢复 v1 原字节；删除未封存 v2 草案，改用新稳定 ID BUS-TEX-006/007/008 与 AC-TEXTILE-004；保留首份 snapshot 并追加最终快照 |
+| 新 Textile 架构守卫把 C# `scope.LegalEntityId` 子串误判为 scope 私有 schema | 1 | 删除原始源码子串检查，保留既有 SQL schema 正则逐匹配断言 |
+| 全解决方案 `restore --locked-mode` 因 API/Worker 新增 Textile 项目引用后下游测试项目锁文件未刷新而返回 NU1004 | 1 | 不重复锁定还原；先用 `restore --force-evaluate` 机械更新任务卡允许的 `tests/**/packages.lock.json`，再重跑 locked-mode |
+| `restore --force-evaluate` 重写全部锁文件为 CRLF，Git 将无内容差异的文件标为修改；环境无 `dos2unix` | 1 | 任务卡允许所有 lock 路径；按 `.gitattributes eol=lf` 对本次触碰的 lock 文件做纯字节 CRLF→LF 规范化，只保留 17 个真实依赖图差异 |
+| 搜索格式门禁时把 PowerShell 不支持的字面路径 `Directory.*` 传给 `rg`，命令以 os error 123 退出 | 1 | 已读取 `scripts/verify.ps1`，仓库无显式格式 gate；不重复错误路径，改为对 Git changed/untracked C# 文件直接运行 `dotnet format --verify-no-changes --include` |
+| changed-file `dotnet format --verify-no-changes` 发现 Worker `Program.cs` 导入顺序不符合规则 | 1 | 用相同 `dotnet format --include` 仅机械格式化该允许路径，再对全部 15 个 changed C# 文件复验 |
+| Python 全量 unittest 42 个中 1 个失败：v1 规格全集断言的 `approved_delivery_v1_refs` 漏掉已批准 Toy 交付与本次 Textile 运行时 10 个引用 | 1 | 规格/生成门禁均已通过；核验这 10 个对象的 approved 状态和用户批准证据后，在允许的仓库契约测试中补齐显式集合并复跑全量 Python |
+| 首次 PowerShell 批量核验 10 个 v1 引用的单行嵌套脚本括号不平衡，解析失败且未读取/修改仓库 | 1 | 不重复嵌套管道写法；改用简单 `foreach` 多行脚本，逐对象收集后统一断言 |
+| 逐对象核验发现 `AC-TOY-002@1.0.0` 已 approved 但自身没有内联“用户”批准证据；证据位于精确依赖它的 approved `ATC-TOY-004@1.0.0` 顶层 | 1 | 不改 Toy 规格、不豁免证据；仓库契约对该唯一情况显式追踪 owning Story，要求 Story approved、精确依赖 AC 且含用户批准证据 |
+| 任务卡示例命令使用 `pwsh`，当前 Windows 环境未安装 PowerShell 7，命令在脚本启动前失败 | 1 | 不重复不可用命令；用系统 `powershell.exe -NoProfile -ExecutionPolicy Bypass -File` 执行同一 `verify.ps1` |
+| 系统 `powershell.exe` 启动脚本后从 PATH 解析到 .NET SDK 9.0.305，无法满足 `global.json` 10.0.302 | 1 | 已验证私有 `C:\Users\Administrator\.dotnet` SDK 10 可用；为子进程前置该目录后重跑同一脚本，不修改 global.json 或门禁 |

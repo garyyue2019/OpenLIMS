@@ -7,6 +7,7 @@ using OpenLIMS.BuildingBlocks.Platform;
 using OpenLIMS.Contracts.Allocation;
 using OpenLIMS.Contracts.Platform;
 using OpenLIMS.Contracts.Quantity;
+using OpenLIMS.Contracts.Result;
 using OpenLIMS.Contracts.Toy;
 using OpenLIMS.Modules.Toy;
 using Xunit;
@@ -1006,6 +1007,246 @@ public sealed class ToyPersistenceTests
         Assert.True(await CountAsync(connectionString, "select count(*) from toy.audit_attempt") >= 3);
     }
 
+    [Fact]
+    public async Task Conclusions_persist_resolved_evidence_audit_outbox_and_authorized_reads()
+    {
+        var connectionString = ConnectionString();
+        await PrepareAsync(connectionString);
+        var authorization = new RecordingAuthorizationPort(true);
+        await using var provider = BuildProvider(connectionString, authorizationPort: authorization);
+        using var scope = provider.CreateScope();
+        var service = scope.ServiceProvider.GetRequiredService<IToyConclusionService>();
+
+        var item = await service.CreateItemConformityConclusionAsync(
+            ItemConclusion(), "corr-conclusion-item", TestContext.Current.CancellationToken);
+        var tested = await service.CreateTestedScopeConformityConclusionAsync(
+            TestedScopeConclusion("result-group-a", "result-group-b"),
+            "corr-conclusion-scope",
+            TestContext.Current.CancellationToken);
+        var loaded = await service.GetConclusionAsync(
+            item.ConclusionId, "corr-conclusion-read", TestContext.Current.CancellationToken);
+        var history = await service.GetConclusionsByProductAsync(
+            "product-1", 5, "corr-conclusion-history", TestContext.Current.CancellationToken);
+
+        Assert.Equal(ToyConclusionLevels.ItemConformity, item.ConclusionLevel);
+        Assert.Equal(64, item.ContentHash?.Length);
+        Assert.Equal(ToyConclusionLevels.TestedScopeConformity, tested.ConclusionLevel);
+        Assert.Equal("REAUTH-1@3", tested.SignatureRef);
+        Assert.Equal(64, tested.ContentHash?.Length);
+        Assert.Equal(item, loaded);
+        Assert.Contains(history, conclusion => conclusion.ConclusionId == tested.ConclusionId);
+        Assert.Equal(2, await CountAsync(connectionString, "select count(*) from toy.conclusion"));
+        Assert.Equal(2, await CountAsync(connectionString, "select count(*) from toy.conclusion_test_unit"));
+        Assert.Equal(4, await CountAsync(connectionString, "select count(*) from platform.audit_intent"));
+        Assert.Equal(2, await CountAsync(connectionString, "select count(*) from platform.outbox"));
+        Assert.All(authorization.Requests, request =>
+        {
+            Assert.Equal("LEGAL-A", request.ObjectScope.LegalEntityId);
+            Assert.Equal("LAB-A", request.ObjectScope.LaboratoryId);
+        });
+        Assert.Contains(authorization.Requests, request => request.Capability == ToyCapabilities.ConclusionApproveItem);
+        Assert.Contains(authorization.Requests, request => request.Capability == ToyCapabilities.ConclusionApproveScope);
+    }
+
+    [Theory]
+    [InlineData(ResultConclusionEvidenceDecisions.Unknown)]
+    [InlineData(ResultConclusionEvidenceDecisions.Blocked)]
+    public async Task Unknown_or_blocked_result_evidence_fails_closed_without_conclusion(string decision)
+    {
+        var connectionString = ConnectionString();
+        await PrepareAsync(connectionString);
+        await using var provider = BuildProvider(
+            connectionString,
+            conclusionEvidencePort: new FixedResultConclusionEvidencePort(decision));
+        using var scope = provider.CreateScope();
+
+        var exception = await Assert.ThrowsAsync<ToyDomainException>(() =>
+            scope.ServiceProvider.GetRequiredService<IToyConclusionService>()
+                .CreateItemConformityConclusionAsync(
+                    ItemConclusion(), $"corr-evidence-{decision}", TestContext.Current.CancellationToken));
+
+        Assert.Equal(ToyErrorCodes.ConclusionEvidenceUnknown, exception.ErrorCode);
+        Assert.Equal(0, await CountAsync(connectionString, "select count(*) from toy.conclusion"));
+        Assert.Equal(0, await CountAsync(connectionString, "select count(*) from platform.audit_intent"));
+        Assert.Equal(0, await CountAsync(connectionString, "select count(*) from platform.outbox"));
+        Assert.Equal(1, await CountAsync(connectionString, "select count(*) from toy.audit_attempt"));
+    }
+
+    [Fact]
+    public async Task Result_evidence_exception_sod_and_mixed_object_scope_all_fail_closed()
+    {
+        var connectionString = ConnectionString();
+        await PrepareAsync(connectionString);
+
+        await using (var unavailable = BuildProvider(
+                         connectionString,
+                         conclusionEvidencePort: new FixedResultConclusionEvidencePort(
+                             ResultConclusionEvidenceDecisions.Allowed,
+                             throwOnEvaluate: true)))
+        {
+            using var unavailableScope = unavailable.CreateScope();
+            var exception = await Assert.ThrowsAsync<ToyDomainException>(() =>
+                unavailableScope.ServiceProvider.GetRequiredService<IToyConclusionService>()
+                    .CreateItemConformityConclusionAsync(
+                        ItemConclusion(), "corr-evidence-exception", TestContext.Current.CancellationToken));
+            Assert.Equal(ToyErrorCodes.ConclusionEvidenceUnknown, exception.ErrorCode);
+        }
+
+        await using (var sod = BuildProvider(
+                         connectionString,
+                         actorId: "recorder-a",
+                         conclusionEvidencePort: new FixedResultConclusionEvidencePort(
+                             ResultConclusionEvidenceDecisions.Allowed,
+                             recorderId: "recorder-a")))
+        {
+            using var sodScope = sod.CreateScope();
+            var exception = await Assert.ThrowsAsync<ToyDomainException>(() =>
+                sodScope.ServiceProvider.GetRequiredService<IToyConclusionService>()
+                    .CreateItemConformityConclusionAsync(
+                        ItemConclusion(), "corr-conclusion-sod", TestContext.Current.CancellationToken));
+            Assert.Equal(ToyErrorCodes.ConclusionSodViolation, exception.ErrorCode);
+        }
+
+        await using (var mixed = BuildProvider(
+                         connectionString,
+                         conclusionEvidencePort: new FixedResultConclusionEvidencePort(
+                             ResultConclusionEvidenceDecisions.Allowed,
+                             scopeFactory: request => new ResultObjectContext(
+                                 "LEGAL-A",
+                                 request.ResultGroupId.EndsWith("b", StringComparison.Ordinal) ? "LAB-B" : "LAB-A",
+                                 "CUSTOMER-A",
+                                 "ORDER-A",
+                                 "TOYS"))))
+        {
+            using var mixedScope = mixed.CreateScope();
+            var exception = await Assert.ThrowsAsync<ToyDomainException>(() =>
+                mixedScope.ServiceProvider.GetRequiredService<IToyConclusionService>()
+                    .CreateTestedScopeConformityConclusionAsync(
+                        TestedScopeConclusion("result-group-a", "result-group-b"),
+                        "corr-conclusion-mixed-scope",
+                        TestContext.Current.CancellationToken));
+            Assert.Equal(ToyErrorCodes.ObjectNotAccessible, exception.ErrorCode);
+        }
+
+        Assert.Equal(0, await CountAsync(connectionString, "select count(*) from toy.conclusion"));
+        Assert.Equal(3, await CountAsync(connectionString, "select count(*) from toy.audit_attempt"));
+    }
+
+    [Theory]
+    [InlineData("audit")]
+    [InlineData("outbox")]
+    public async Task Conclusion_platform_failure_rolls_back_and_correlation_retry_is_idempotent(string failedWriter)
+    {
+        var connectionString = ConnectionString();
+        await PrepareAsync(connectionString);
+        await InstallFailureTriggerAsync(connectionString, failedWriter);
+        try
+        {
+            await using var failingProvider = BuildProvider(connectionString);
+            using var failingScope = failingProvider.CreateScope();
+            var failure = await Assert.ThrowsAsync<ToyDomainException>(() =>
+                failingScope.ServiceProvider.GetRequiredService<IToyConclusionService>()
+                    .CreateItemConformityConclusionAsync(
+                        ItemConclusion(), "corr-conclusion-retry", TestContext.Current.CancellationToken));
+
+            Assert.Equal(ToyErrorCodes.PersistenceUnavailable, failure.ErrorCode);
+            Assert.Equal(0, await CountAsync(connectionString, "select count(*) from toy.conclusion"));
+            Assert.Equal(0, await CountAsync(connectionString, "select count(*) from platform.audit_intent"));
+            Assert.Equal(0, await CountAsync(connectionString, "select count(*) from platform.outbox"));
+        }
+        finally
+        {
+            await RemoveFailureTriggerAsync(connectionString, failedWriter);
+        }
+
+        await using var firstProvider = BuildProvider(connectionString);
+        await using var secondProvider = BuildProvider(connectionString);
+        using var firstScope = firstProvider.CreateScope();
+        using var secondScope = secondProvider.CreateScope();
+        var first = firstScope.ServiceProvider.GetRequiredService<IToyConclusionService>()
+            .CreateItemConformityConclusionAsync(
+                ItemConclusion(), "corr-conclusion-retry", TestContext.Current.CancellationToken);
+        var second = secondScope.ServiceProvider.GetRequiredService<IToyConclusionService>()
+            .CreateItemConformityConclusionAsync(
+                ItemConclusion(), "corr-conclusion-retry", TestContext.Current.CancellationToken);
+        var retries = await Task.WhenAll(first, second);
+
+        Assert.Equal(retries[0].ConclusionId, retries[1].ConclusionId);
+        Assert.Equal(1, await CountAsync(connectionString, "select count(*) from toy.conclusion"));
+        Assert.Equal(1, await CountAsync(connectionString, "select count(*) from platform.audit_intent"));
+        Assert.Equal(1, await CountAsync(connectionString, "select count(*) from platform.outbox"));
+        Assert.Equal(1, await CountAsync(connectionString, "select count(*) from toy.audit_attempt"));
+    }
+
+    [Fact]
+    public async Task Conclusion_and_children_are_immutable_and_new_coverage_is_mandatory()
+    {
+        var connectionString = ConnectionString();
+        await PrepareAsync(connectionString);
+        await using var provider = BuildProvider(connectionString);
+        using var scope = provider.CreateScope();
+        var conclusion = await scope.ServiceProvider.GetRequiredService<IToyConclusionService>()
+            .CreateTestedScopeConformityConclusionAsync(
+                TestedScopeConclusion("result-group-a"),
+                "corr-conclusion-immutable",
+                TestContext.Current.CancellationToken);
+
+        var parentUpdate = await Assert.ThrowsAsync<PostgresException>(() => ExecuteAsync(
+            connectionString,
+            $"update toy.conclusion set statement = 'rewritten' where conclusion_id = '{conclusion.ConclusionId}'"));
+        var childDelete = await Assert.ThrowsAsync<PostgresException>(() => ExecuteAsync(
+            connectionString,
+            $"delete from toy.conclusion_test_unit where conclusion_id = '{conclusion.ConclusionId}'"));
+        var missingCoverage = await Assert.ThrowsAsync<PostgresException>(() => ExecuteAsync(
+            connectionString,
+            $"""
+            insert into toy.conclusion_test_unit (
+                conclusion_id, test_unit_id, physical_object_ref, physical_object_version,
+                hazard_domain_ref, hazard_domain_version, adopted_result_ref, adopted_result_version,
+                result_provenance_graph_ref, result_provenance_graph_version,
+                coverage_decision_ref, coverage_decision_version,
+                resolved_target_ref, resolved_target_kind, result_recorded_by, result_group_version
+            ) values (
+                '{conclusion.ConclusionId}', 'missing-coverage', 'physical-x', 1,
+                'hazard-x', 1, 'result-group-x', 1,
+                'graph-x', 1, null, 1,
+                'target-x', 'INITIAL', 'recorder-x', 2
+            )
+            """));
+
+        Assert.Equal("55000", parentUpdate.SqlState);
+        Assert.Equal("55000", childDelete.SqlState);
+        Assert.Equal("23514", missingCoverage.SqlState);
+        Assert.Equal(1, await CountAsync(connectionString, "select count(*) from toy.conclusion"));
+        Assert.Equal(1, await CountAsync(connectionString, "select count(*) from toy.conclusion_test_unit"));
+    }
+
+    [Fact]
+    public async Task Conclusion_reads_require_persisted_scope_and_corresponding_capability()
+    {
+        var connectionString = ConnectionString();
+        await PrepareAsync(connectionString);
+        string conclusionId;
+        await using (var allowed = BuildProvider(connectionString))
+        {
+            using var allowedScope = allowed.CreateScope();
+            conclusionId = (await allowedScope.ServiceProvider.GetRequiredService<IToyConclusionService>()
+                .CreateItemConformityConclusionAsync(
+                    ItemConclusion(), "corr-conclusion-create-read", TestContext.Current.CancellationToken)).ConclusionId;
+        }
+
+        await using var denied = BuildProvider(connectionString, permit: false);
+        using var deniedScope = denied.CreateScope();
+        var exception = await Assert.ThrowsAsync<ToyDomainException>(() =>
+            deniedScope.ServiceProvider.GetRequiredService<IToyConclusionService>()
+                .GetConclusionAsync(
+                    conclusionId, "corr-conclusion-read-denied", TestContext.Current.CancellationToken));
+
+        Assert.Equal(ToyErrorCodes.NotAuthorized, exception.ErrorCode);
+        Assert.Equal(1, await CountAsync(connectionString, "select count(*) from toy.audit_attempt"));
+        Assert.Equal(1, await CountAsync(connectionString, "select count(*) from platform.audit_intent"));
+    }
+
     private static async Task<(object? Result, ToyDomainException? Error)> CaptureAsync<T>(Task<T> task)
     {
         try
@@ -1026,7 +1267,9 @@ public sealed class ToyPersistenceTests
         string quantityDecision = QuantityAvailabilityDecisions.Allowed,
         string allocationDecision = AllocationStatusDecisions.Allowed,
         bool labelReview = true,
-        IObjectStoragePort? objectStorage = null)
+        IObjectStoragePort? objectStorage = null,
+        IResultConclusionEvidencePort? conclusionEvidencePort = null,
+        IToyAuthorizationPort? authorizationPort = null)
     {
         var services = new ServiceCollection();
         services.AddLogging();
@@ -1051,7 +1294,12 @@ public sealed class ToyPersistenceTests
         services.AddSingleton<IIdGenerator, GuidIdGenerator>();
         new ToyModule(connectionString).AddApiServices(services);
         services.RemoveAll<IToyAuthorizationPort>();
-        services.AddSingleton<IToyAuthorizationPort>(new FixedAuthorizationPort(permit, approve, labelReview));
+        services.AddSingleton<IToyAuthorizationPort>(
+            authorizationPort ?? new FixedAuthorizationPort(permit, approve, labelReview));
+        services.RemoveAll<IResultConclusionEvidencePort>();
+        services.AddSingleton<IResultConclusionEvidencePort>(
+            conclusionEvidencePort ?? new FixedResultConclusionEvidencePort(
+                ResultConclusionEvidenceDecisions.Allowed));
         services.RemoveAll<IObjectStoragePort>();
         services.AddSingleton<IObjectStoragePort>(objectStorage ?? new FixedObjectStoragePort());
         services.RemoveAll<IQuantityAvailabilityPort>();
@@ -1062,6 +1310,50 @@ public sealed class ToyPersistenceTests
     }
 
     private static string NewProductId() => Guid.NewGuid().ToString("N");
+
+    private static CreateItemConformityConclusionRequest ItemConclusion() => new(
+        ToyConclusionContract.RuleSetVersion,
+        "result-group-item",
+        1,
+        "requirement-item",
+        2,
+        null);
+
+    private static CreateTestedScopeConformityConclusionRequest TestedScopeConclusion(
+        params string[] resultGroupIds)
+    {
+        var groups = resultGroupIds.Length == 0 ? ["result-group-a"] : resultGroupIds;
+        var request = new CreateTestedScopeConformityConclusionRequest(
+            ToyConclusionContract.RuleSetVersion,
+            "product-1",
+            5,
+            "plan-1",
+            3,
+            groups.Select((group, index) => new TestUnitEvidenceInput(
+                $"test-unit-{index + 1}",
+                $"physical-{index + 1}",
+                2,
+                $"hazard-{index + 1}",
+                4,
+                group,
+                index + 1,
+                $"graph-{index + 1}",
+                3,
+                $"coverage-{index + 1}",
+                2,
+                ["REQ-1@4"])).ToArray(),
+            [new UncoveredScopeInput("CHEMICAL", ToyUncoveredReasons.NotTested, "not ordered")],
+            [new ExternalReferenceInput("CERTIFIER", "CERT-1", "market access", true)],
+            null,
+            false,
+            new ToyVersionedReference("REAUTH-1", 3),
+            "I approve the tested scope conclusion",
+            new string('0', 64));
+        return request with
+        {
+            SignedContentHash = ToyConclusionDomain.CalculateTestedScopeContentHash(request)
+        };
+    }
 
     private static RecordAgeDeclarationRequest Declaration(long expectedVersion) => new(
         ToyContract.RuleSetVersion, new ToyObjectContext("LEGAL-A", "LAB-A"), expectedVersion,
@@ -1325,6 +1617,11 @@ public sealed class ToyPersistenceTests
         await ExecuteAsync(connectionString, """
             truncate table
               toy.audit_attempt,
+              toy.conclusion_external_reference,
+              toy.conclusion_uncovered_scope,
+              toy.conclusion_hazard_domain,
+              toy.conclusion_test_unit,
+              toy.conclusion,
               toy.allocation_decision,
               toy.quantity_decision,
               toy.downstream_request,
@@ -1426,6 +1723,52 @@ public sealed class ToyPersistenceTests
                 _ => true
             };
             return ValueTask.FromResult(permitted ? ToyAuthorizationDecision.Permit : ToyAuthorizationDecision.Deny);
+        }
+    }
+
+    private sealed class RecordingAuthorizationPort(bool allowed) : IToyAuthorizationPort
+    {
+        public List<ToyAuthorizationRequest> Requests { get; } = [];
+
+        public ValueTask<ToyAuthorizationDecision> AuthorizeAsync(
+            ToyAuthorizationRequest request,
+            CancellationToken cancellationToken = default)
+        {
+            Requests.Add(request);
+            return ValueTask.FromResult(allowed
+                ? ToyAuthorizationDecision.Permit
+                : ToyAuthorizationDecision.Deny);
+        }
+    }
+
+    private sealed class FixedResultConclusionEvidencePort(
+        string decision,
+        string recorderId = "recorder-a",
+        Func<ResultConclusionEvidenceRequest, ResultObjectContext>? scopeFactory = null,
+        bool throwOnEvaluate = false) : IResultConclusionEvidencePort
+    {
+        public ValueTask<ResultConclusionEvidenceResult> EvaluateAsync(
+            ResultConclusionEvidenceRequest request,
+            CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            if (throwOnEvaluate)
+                throw new InvalidOperationException("forced result evidence failure");
+            var objectScope = (scopeFactory ?? (_ => new ResultObjectContext(
+                "LEGAL-A", "LAB-A", "CUSTOMER-A", "ORDER-A", "TOYS")))(request);
+            var allowed = string.Equals(
+                decision, ResultConclusionEvidenceDecisions.Allowed, StringComparison.Ordinal);
+            return ValueTask.FromResult(new ResultConclusionEvidenceResult(
+                decision,
+                allowed ? [] : [ResultConclusionEvidenceReasons.EvidenceUnavailable],
+                request.ResultGroupId,
+                request.AdoptionVersion + 10,
+                request.AdoptionVersion,
+                allowed ? $"target-{request.ResultGroupId}" : null,
+                allowed ? ResultObservationKinds.Initial : null,
+                allowed ? recorderId : null,
+                allowed ? objectScope : null,
+                ResultContract.RuleSetVersion));
         }
     }
 

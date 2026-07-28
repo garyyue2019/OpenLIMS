@@ -224,6 +224,50 @@ public interface IResultAdoptionPort
         CancellationToken cancellationToken = default);
 }
 
+public static class ResultConclusionEvidenceDecisions
+{
+    public const string Allowed = "ALLOWED";
+    public const string Blocked = "BLOCKED";
+    public const string Unknown = "UNKNOWN";
+}
+
+public static class ResultConclusionEvidenceReasons
+{
+    public const string GroupUnavailable = "GROUP_UNAVAILABLE";
+    public const string AdoptionVersionMissing = "ADOPTION_VERSION_MISSING";
+    public const string TargetUnavailable = "TARGET_UNAVAILABLE";
+    public const string RuleSetVersionUnknown = "RULE_SET_VERSION_UNKNOWN";
+    public const string EvidenceUnavailable = "EVIDENCE_UNAVAILABLE";
+}
+
+public sealed record ResultConclusionEvidenceRequest(
+    string OrganizationGroupId,
+    string ResultGroupId,
+    long AdoptionVersion,
+    string RuleSetVersion)
+{
+    public string? CorrelationId { get; init; }
+}
+
+public sealed record ResultConclusionEvidenceResult(
+    string Decision,
+    IReadOnlyList<string> ReasonCodes,
+    string? ResultGroupId,
+    long? CurrentGroupVersion,
+    long? AdoptionVersion,
+    string? TargetId,
+    string? TargetKind,
+    string? RecordedBy,
+    ResultObjectContext? ObjectScope,
+    string RuleSetVersion);
+
+public interface IResultConclusionEvidencePort
+{
+    ValueTask<ResultConclusionEvidenceResult> EvaluateAsync(
+        ResultConclusionEvidenceRequest request,
+        CancellationToken cancellationToken = default);
+}
+
 public sealed record ResultAuthorizationRequest(
     string OrganizationGroupId,
     string ActorId,

@@ -1,0 +1,42 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "decision",
+  "id": "OD-036",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "DEV-028 纺织运行时实现与受控验证边界",
+  "summary": "在不改变 OD-001@1.0.0 玩具 + 物理机械唯一生产试点的前提下，批准纺织行业包从纯契约切片进入运行时实现与受控验证；生产部署、真实灯塔和正式 UAT 仍需独立证据批准。",
+  "owners": ["产品负责人", "实验室负责人", "纺织行业包负责人", "质量负责人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "OPS-TEXTILE-001"},
+    {"document": "PRD-MAIN", "item": "OPS-TEXTILE-002"},
+    {"document": "PRD-MAIN", "item": "OPS-TEXTILE-003"}
+  ],
+  "depends_on": ["OD-001@1.0.0", "ED-001@2.0.0", "OD-002@1.0.0", "OD-027@1.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0", "NFR-ARCH-001@2.0.0"],
+  "affects": ["applicability", "textile", "industry-pack", "runtime-module", "controlled-validation"],
+  "change_class": "major",
+  "decision_state": "decided",
+  "options": [
+    "保持纺织纯契约且不实现运行时",
+    "启用纺织运行时实现与受控验证，同时保留玩具唯一生产试点",
+    "用纺织替换玩具成为 Release 1 唯一生产试点"
+  ],
+  "decision": "采用启用纺织运行时实现与受控验证，同时保留玩具唯一生产试点。纺织样品需求与 CuttingPlan 可以注册模块、schema、HTTP、权限、审计、Outbox、遥测和公共状态端口，并在开发、自动化测试和受控验证环境运行。OD-001@1.0.0 决定的 Release 1 唯一生产试点仍为玩具婴童产品 × 3岁及以上常规硬质塑胶非电动玩具 × 中国内销 × 物理机械方法族；本决定不替换该切片，也不构成真实付费灯塔、正式 UAT、生产主体核验或生产部署批准。DEV-028 首个运行时切片只生产化 OPS-TEXTILE-001/002/003 的样品需求与 CuttingPlan；OPS-TEXTILE-004 调湿/洗涤超差和 OPS-TEXTILE-005 CoverageDecision 仍需独立后继 Story。未知规则、样品不足、互斥裁样或缺失版本引用一律失败关闭，不得用默认值补齐。",
+  "approval_evidence": "用户于 2026-07-28 在被明确告知纺织运行时当前禁用、DEV-028 必须先做治理且不得复用 OD-035 后，明确回复‘启用纺织运行’。本决定由 AI 起草，启用运行时实现方向由用户批准；未提供的生产上线证据不作推断。",
+  "activation_boundary": {
+    "textileRuntime": "ENABLED_FOR_IMPLEMENTATION_AND_CONTROLLED_VALIDATION",
+    "release1ProductionPilot": "OD-001@1.0.0 TOY_PHYSICAL_MECHANICAL_UNCHANGED",
+    "productionDeployment": "NOT_APPROVED_BY_THIS_DECISION",
+    "firstRuntimeSlice": ["OPS-TEXTILE-001", "OPS-TEXTILE-002", "OPS-TEXTILE-003"],
+    "deferredRuntimeSlices": ["OPS-TEXTILE-004", "OPS-TEXTILE-005"]
+  },
+  "revision_rule": "本决定为追加式记录；纺织运行时实现范围、受控验证边界或生产部署状态的任何后续变化必须创建 OD-036 后继 MAJOR 版本并重新获得用户批准。OD-001 继续独立拥有唯一生产试点边界。",
+  "non_goals": [
+    "不修改或替换 OD-001@1.0.0 的唯一生产试点",
+    "不批准真实付费灯塔、正式 UAT 或生产部署",
+    "不在 DEV-028 生产化调湿/洗涤超差或 CoverageDecision",
+    "不修改 OD-035 或任何已封存版本",
+    "不创建 Release、Seal、tag 或部署"
+  ]
+}

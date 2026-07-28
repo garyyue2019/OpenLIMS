@@ -31,6 +31,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `AC-SEC-001` | `1.0.0` | `approved` | `spec/acceptance/AC-SEC-001__v1.0.0.json` |
 | `AC-TEXTILE-001` | `1.0.0` | `approved` | `spec/acceptance/AC-TEXTILE-001__v1.0.0.json` |
 | `AC-TEXTILE-003` | `1.0.0` | `approved` | `spec/acceptance/AC-TEXTILE-003__v1.0.0.json` |
+| `AC-TEXTILE-004` | `1.0.0` | `approved` | `spec/acceptance/AC-TEXTILE-004__v1.0.0.json` |
 | `AC-TOY-001` | `1.0.0` | `approved` | `spec/acceptance/AC-TOY-001__v1.0.0.json` |
 | `AC-TOY-002` | `0.1.0` | `proposed` | `spec/acceptance/AC-TOY-002__v0.1.0.json` |
 | `AC-TOY-002` | `1.0.0` | `approved` | `spec/acceptance/AC-TOY-002__v1.0.0.json` |
@@ -75,6 +76,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `ATC-SCP-001` | `1.0.0` | `approved` | `spec/stories/ATC-SCP-001__v1.0.0.json` |
 | `ATC-TEX-001` | `1.0.0` | `approved` | `spec/stories/ATC-TEX-001__v1.0.0.json` |
 | `ATC-TEX-003` | `1.0.0` | `approved` | `spec/stories/ATC-TEX-003__v1.0.0.json` |
+| `ATC-TEX-004` | `1.0.0` | `approved` | `spec/stories/ATC-TEX-004__v1.0.0.json` |
 | `ATC-TOY-001` | `1.0.0` | `approved` | `spec/stories/ATC-TOY-001__v1.0.0.json` |
 | `ATC-TOY-002` | `0.1.0` | `proposed` | `spec/stories/ATC-TOY-002__v0.1.0.json` |
 | `ATC-TOY-002` | `1.0.0` | `approved` | `spec/stories/ATC-TOY-002__v1.0.0.json` |
@@ -82,6 +84,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `ATC-TOY-003` | `1.0.0` | `approved` | `spec/stories/ATC-TOY-003__v1.0.0.json` |
 | `ATC-TOY-004` | `0.1.0` | `proposed` | `spec/stories/ATC-TOY-004__v0.1.0.json` |
 | `ATC-TOY-004` | `1.0.0` | `approved` | `spec/stories/ATC-TOY-004__v1.0.0.json` |
+| `ATC-TOY-005` | `1.0.0` | `approved` | `spec/stories/ATC-TOY-005__v1.0.0.json` |
 | `BUS-AI-001` | `1.0.0` | `approved` | `spec/requirements/BUS-AI-001__v1.0.0.json` |
 | `BUS-AI-002` | `1.0.0` | `approved` | `spec/requirements/BUS-AI-002__v1.0.0.json` |
 | `BUS-AI-003` | `1.0.0` | `approved` | `spec/requirements/BUS-AI-003__v1.0.0.json` |
@@ -124,6 +127,9 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `BUS-TEX-003` | `1.0.0` | `approved` | `spec/requirements/BUS-TEX-003__v1.0.0.json` |
 | `BUS-TEX-004` | `1.0.0` | `approved` | `spec/requirements/BUS-TEX-004__v1.0.0.json` |
 | `BUS-TEX-005` | `1.0.0` | `approved` | `spec/requirements/BUS-TEX-005__v1.0.0.json` |
+| `BUS-TEX-006` | `1.0.0` | `approved` | `spec/requirements/BUS-TEX-006__v1.0.0.json` |
+| `BUS-TEX-007` | `1.0.0` | `approved` | `spec/requirements/BUS-TEX-007__v1.0.0.json` |
+| `BUS-TEX-008` | `1.0.0` | `approved` | `spec/requirements/BUS-TEX-008__v1.0.0.json` |
 | `BUS-TOY-001` | `1.0.0` | `approved` | `spec/requirements/BUS-TOY-001__v1.0.0.json` |
 | `BUS-TOY-002` | `1.0.0` | `approved` | `spec/requirements/BUS-TOY-002__v1.0.0.json` |
 | `BUS-TOY-003` | `0.1.0` | `proposed` | `spec/requirements/BUS-TOY-003__v0.1.0.json` |
@@ -167,6 +173,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `OD-034` | `0.1.0` | `proposed` | `spec/decisions/OD-034__v0.1.0.json` |
 | `OD-034` | `1.0.0` | `approved` | `spec/decisions/OD-034__v1.0.0.json` |
 | `OD-035` | `1.0.0` | `approved` | `spec/decisions/OD-035__v1.0.0.json` |
+| `OD-036` | `1.0.0` | `approved` | `spec/decisions/OD-036__v1.0.0.json` |
 | `OPS-EXC-001` | `0.1.0` | `in_review` | `spec/requirements/OPS-EXC-001__v0.1.0.json` |
 | `OPS-EXC-001` | `1.0.0` | `approved` | `spec/requirements/OPS-EXC-001__v1.0.0.json` |
 | `OPS-EXC-002` | `0.1.0` | `in_review` | `spec/requirements/OPS-EXC-002__v0.1.0.json` |

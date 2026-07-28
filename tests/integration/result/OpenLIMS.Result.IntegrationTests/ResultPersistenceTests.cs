@@ -86,6 +86,65 @@ public sealed class ResultPersistenceTests
     }
 
     [Fact]
+    public async Task Conclusion_evidence_port_returns_pinned_target_recorder_and_object_scope()
+    {
+        var connectionString = ConnectionString();
+        await PrepareAsync(connectionString);
+        await using var provider = BuildProvider(connectionString, BatchStatusDecisions.Allowed, "recorder-a");
+        using var scope = provider.CreateScope();
+        var service = scope.ServiceProvider.GetRequiredService<IResultGroupService>();
+        var group = await service.CreateGroupAsync(
+            GroupRequest(), "corr-evidence-group", TestContext.Current.CancellationToken);
+        var observation = await service.AddObservationAsync(
+            group.ResultGroupId,
+            Observation(1, ResultObservationKinds.Initial),
+            "corr-evidence-observation",
+            TestContext.Current.CancellationToken);
+        await service.RecordAdoptionRuleAsync(
+            group.ResultGroupId,
+            new RecordAdoptionRuleRequest(
+                2,
+                ResultContract.RuleSetVersion,
+                ResultAdoptionStrategies.RetestReplacesOriginal,
+                new ResultVersionedReference("RULE-EVIDENCE", 1)),
+            "corr-evidence-rule",
+            TestContext.Current.CancellationToken);
+        await service.AdoptAsync(
+            group.ResultGroupId,
+            new AdoptResultRequest(3, ResultContract.RuleSetVersion, observation.ObservationId),
+            "corr-evidence-adoption",
+            TestContext.Current.CancellationToken);
+        var port = scope.ServiceProvider.GetRequiredService<IResultConclusionEvidencePort>();
+
+        var evidence = await port.EvaluateAsync(
+            new ResultConclusionEvidenceRequest(
+                "group-a", group.ResultGroupId, 1, ResultContract.RuleSetVersion)
+            {
+                CorrelationId = "corr-evidence-read"
+            },
+            TestContext.Current.CancellationToken);
+        var missing = await port.EvaluateAsync(
+            new ResultConclusionEvidenceRequest(
+                "group-a", group.ResultGroupId, 2, ResultContract.RuleSetVersion)
+            {
+                CorrelationId = "corr-evidence-missing"
+            },
+            TestContext.Current.CancellationToken);
+
+        Assert.Equal(ResultConclusionEvidenceDecisions.Allowed, evidence.Decision);
+        Assert.Empty(evidence.ReasonCodes);
+        Assert.Equal(group.ResultGroupId, evidence.ResultGroupId);
+        Assert.Equal(4, evidence.CurrentGroupVersion);
+        Assert.Equal(1, evidence.AdoptionVersion);
+        Assert.Equal(observation.ObservationId, evidence.TargetId);
+        Assert.Equal(ResultObservationKinds.Initial, evidence.TargetKind);
+        Assert.Equal("recorder-a", evidence.RecordedBy);
+        Assert.Equal(new ResultObjectContext("LEGAL-A", "LAB-A", "CUSTOMER-A", "ORDER-A", "TOYS"), evidence.ObjectScope);
+        Assert.Equal(ResultConclusionEvidenceDecisions.Blocked, missing.Decision);
+        Assert.Contains(ResultConclusionEvidenceReasons.AdoptionVersionMissing, missing.ReasonCodes);
+    }
+
+    [Fact]
     public async Task Result_facts_reject_update_and_delete()
     {
         var connectionString = ConnectionString();

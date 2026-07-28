@@ -30,6 +30,9 @@
       "openlims.contracts.quantity": {
         "type": "Project"
       },
+      "openlims.contracts.result": {
+        "type": "Project"
+      },
       "openlims.contracts.toy": {
         "type": "Project"
       },

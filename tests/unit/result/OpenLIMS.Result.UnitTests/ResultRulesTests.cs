@@ -147,6 +147,82 @@ public sealed class ResultRulesTests
     }
 
     [Fact]
+    public void Conclusion_evidence_resolves_the_adopted_target_recorder_and_scope()
+    {
+        var group = Group() with
+        {
+            Version = 5,
+            Adoptions =
+            [
+                new ResultAdoptionResult(
+                    Group().ResultGroupId,
+                    5,
+                    1,
+                    ObservationRetest,
+                    1,
+                    null,
+                    "adopter",
+                    DateTimeOffset.MinValue)
+            ]
+        };
+        var request = new ResultConclusionEvidenceRequest(
+            "group-a",
+            group.ResultGroupId,
+            1,
+            ResultContract.RuleSetVersion);
+
+        var allowed = ResultRules.EvaluateConclusionEvidence(request, group);
+        var missingAdoption = ResultRules.EvaluateConclusionEvidence(
+            request with { AdoptionVersion = 9 }, group);
+        var unknownRule = ResultRules.EvaluateConclusionEvidence(
+            request with { RuleSetVersion = "RESULT-ADOPTION@latest" }, group);
+        var missingGroup = ResultRules.EvaluateConclusionEvidence(request, null);
+
+        Assert.Equal(ResultConclusionEvidenceDecisions.Allowed, allowed.Decision);
+        Assert.Equal(ObservationRetest, allowed.TargetId);
+        Assert.Equal(ResultObservationKinds.Retest, allowed.TargetKind);
+        Assert.Equal("a", allowed.RecordedBy);
+        Assert.Equal(group.ObjectScope, allowed.ObjectScope);
+        Assert.Equal(ResultConclusionEvidenceDecisions.Blocked, missingAdoption.Decision);
+        Assert.Contains(ResultConclusionEvidenceReasons.AdoptionVersionMissing, missingAdoption.ReasonCodes);
+        Assert.Equal(ResultConclusionEvidenceDecisions.Unknown, unknownRule.Decision);
+        Assert.Equal(ResultConclusionEvidenceDecisions.Unknown, missingGroup.Decision);
+    }
+
+    [Fact]
+    public void Conclusion_evidence_is_unknown_when_the_adopted_target_cannot_be_rebuilt()
+    {
+        var group = Group() with
+        {
+            Version = 5,
+            Adoptions =
+            [
+                new ResultAdoptionResult(
+                    Group().ResultGroupId,
+                    5,
+                    1,
+                    Guid.Parse("00000000-0000-0000-0000-000000000099").ToString("N"),
+                    1,
+                    null,
+                    "adopter",
+                    DateTimeOffset.MinValue)
+            ]
+        };
+
+        var result = ResultRules.EvaluateConclusionEvidence(
+            new ResultConclusionEvidenceRequest(
+                "group-a",
+                group.ResultGroupId,
+                1,
+                ResultContract.RuleSetVersion),
+            group);
+
+        Assert.Equal(ResultConclusionEvidenceDecisions.Unknown, result.Decision);
+        Assert.Contains(ResultConclusionEvidenceReasons.TargetUnavailable, result.ReasonCodes);
+        Assert.Null(result.RecordedBy);
+    }
+
+    [Fact]
     public async Task Authorization_requires_all_exact_scope_claims()
     {
         var context = new DefaultHttpContext { User = Principal(includeProductCategory: true) };

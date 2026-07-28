@@ -29,9 +29,10 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `AC-SEC-001@1.0.0` | `acceptance` | `approved` | 集团内收样多维越权防护 | `major` | authorization, receiving, automated-test, audit | `da7cd0c5db0a` |
 | `AC-TEXTILE-001@1.0.0` | `acceptance` | `approved` | 样品不足与互斥裁样契约验收 | `major` | textile, sample-requirement, destructive-exclusion, automated-test | `5bf4aeacf8ab` |
 | `AC-TEXTILE-003@1.0.0` | `acceptance` | `approved` | 裁样方向与预处理超差契约验收 | `major` | textile, preconditioning, cutting-plan, automated-test | `7f112061a2b3` |
+| `AC-TEXTILE-004@1.0.0` | `acceptance` | `approved` | 样品不足、互斥裁样与运行时批准门禁验收 | `major` | textile, sample-requirement, cutting-plan, approval-gate, automated-test | `8602bb7a5983` |
 | `AC-TOY-001@1.0.0` | `acceptance` | `approved` | 年龄改判与新暴露部件 | `major` | toy, age-grade, accessibility, scope-reassessment, automated-test | `35015245e394` |
 | `AC-TOY-002@0.1.0` | `acceptance` | `proposed` | 可接触性、互斥 TestUnit 与危险域覆盖 | `major` | toy, accessibility, photo-evidence, test-unit, destructive-exclusion, hazard-coverage, conformity, automated-test | `bd3aa9fd4405` |
-| `AC-TOY-002@1.0.0` | `acceptance` | `approved` | 可接触性、互斥 TestUnit 与危险域覆盖结论 | `major` | toy, accessibility, photo-evidence, test-unit, destructive-exclusion, hazard-coverage, conformity, disclosure, external-compliance-reference, automated-test | `01ccb68851a1` |
+| `AC-TOY-002@1.0.0` | `acceptance` | `approved` | 可接触性、互斥 TestUnit 与危险域覆盖结论 | `major` | toy, accessibility, photo-evidence, test-unit, destructive-exclusion, hazard-coverage, conformity, disclosure, external-compliance-reference, automated-test | `05c0c0e03bc1` |
 | `AC-TOY-003@0.1.0` | `acceptance` | `proposed` | TestUnit 计划与样品需求技术批准 | `major` | toy, test-unit, sample-requirement, destructive-exclusion, technical-approval, quantity, automated-test | `ee8738a92667` |
 | `AC-TOY-003@1.0.0` | `acceptance` | `approved` | TestUnit 计划与样品需求技术批准 | `major` | toy, test-unit, sample-requirement, destructive-exclusion, technical-approval, quantity, automated-test | `3ec688ceb9e9` |
 | `AC-TOY-004@0.1.0` | `acceptance` | `proposed` | LabelReview 版本失效与重审 | `major` | toy, label-artifact, label-review, age-grade, impact-invalidation, photo-evidence, automated-test | `1100697807f4` |
@@ -73,6 +74,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `ATC-SCP-001@1.0.0` | `story` | `approved` | 实施 DEV-008 ScopeLine 生产可用门禁 | `major` | scope, authorization, audit, outbox, production-gate, automated-test | `1ae1eaf0c359` |
 | `ATC-TEX-001@1.0.0` | `story` | `approved` | 实施 DEV-011 纺织样品需求未来适配契约切片 | `major` | textile, sample-requirement, cutting-plan, contracts, serialization, automated-test | `2174f31c3221` |
 | `ATC-TEX-003@1.0.0` | `story` | `approved` | 实施 DEV-012 纺织调湿/洗涤及超差契约切片 | `major` | textile, preconditioning, out-of-tolerance, contracts, serialization, automated-test | `d39d389de0fb` |
+| `ATC-TEX-004@1.0.0` | `story` | `approved` | 实施 DEV-028 纺织样品需求与 CuttingPlan 运行时 | `major` | textile, sample-requirement, cutting-plan, destructive-exclusion, technical-approval, runtime-module, audit, outbox, automated-test | `9e64c1aeb358` |
 | `ATC-TOY-001@1.0.0` | `story` | `approved` | 实施 DEV-024 玩具年龄分级判定与可触及性评估 | `major` | toy, age-grade, declaration, accessibility, abuse-event, scope-reassessment, audit, outbox, authorization, automated-test | `9378943c2fa4` |
 | `ATC-TOY-002@0.1.0` | `story` | `proposed` | 实施 DEV-025 玩具 TestUnit 计划与样品需求批准 | `major` | toy, test-unit, hazard-domain, sample-requirement, destructive-exclusion, quantity, allocation, technical-approval, audit, automated-test | `c812c38174f4` |
 | `ATC-TOY-002@1.0.0` | `story` | `approved` | 实施 DEV-025 玩具 TestUnit 计划与样品需求批准 | `major` | toy, test-unit, hazard-domain, sample-requirement, destructive-exclusion, quantity, allocation, technical-approval, audit, automated-test | `fe06ad5b5c30` |
@@ -80,6 +82,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `ATC-TOY-003@1.0.0` | `story` | `approved` | 实施 DEV-026 玩具 LabelReview 版本失效与重审 | `major` | toy, label-artifact, packaging, instruction, marketing-age-claim, label-review, impact-invalidation, photo-evidence, authorization, audit, automated-test | `2c7e575c9f01` |
 | `ATC-TOY-004@0.1.0` | `story` | `proposed` | 阻断 DEV-027 多 TestUnit 危险域覆盖结论 | `major` | toy, test-unit, hazard-coverage, result-provenance, conformity, reporting, authorization, disclosure, automated-test | `962b89343dbf` |
 | `ATC-TOY-004@1.0.0` | `story` | `approved` | DEV-027 多 TestUnit 危险域覆盖结论 | `major` | toy, test-unit, hazard-coverage, result-provenance, conformity, reporting, authorization, disclosure, automated-test | `f30a41219cb7` |
+| `ATC-TOY-005@1.0.0` | `story` | `approved` | 修复并验收 DEV-027 Toy 结论运行时 | `major` | toy, result, conclusion, separation-of-duty, reauthentication, transaction, audit, outbox, worker-migration, automated-test | `778312d5b716` |
 | `BUS-AI-001@1.0.0` | `requirement` | `approved` | AI 运行控制封套契约 | `major` | ai, run-control, contracts, serialization | `95e7831fe908` |
 | `BUS-AI-002@1.0.0` | `requirement` | `approved` | 事实类别与不得提升规则 | `major` | ai, fact-class, rules | `89380e537235` |
 | `BUS-AI-003@1.0.0` | `requirement` | `approved` | 抽取候选、缺口建议与人工处置契约及失败关闭 | `major` | ai, extraction, gap-suggestion, human-review, rules | `442696dd4fdf` |
@@ -122,6 +125,9 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `BUS-TEX-003@1.0.0` | `requirement` | `approved` | CuttingPlan 序列化契约 | `major` | textile, cutting-plan, contracts, serialization | `f727ac469a11` |
 | `BUS-TEX-004@1.0.0` | `requirement` | `approved` | 调湿与洗涤计划/实际契约模型 | `major` | textile, preconditioning, contracts, serialization | `71df32f58af7` |
 | `BUS-TEX-005@1.0.0` | `requirement` | `approved` | 预处理超差评估与报告阻断规则 | `major` | textile, preconditioning, out-of-tolerance, rules | `4be32afd90e8` |
+| `BUS-TEX-006@1.0.0` | `requirement` | `approved` | 纺织样品需求运行时事实 | `major` | textile, sample-requirement, runtime, persistence, audit | `866b895d575f` |
+| `BUS-TEX-007@1.0.0` | `requirement` | `approved` | 互斥裁样、样品不足与批准门禁运行时规则 | `major` | textile, sample-requirement, destructive-exclusion, approval-gate, outbox | `aaa88b7ad67e` |
+| `BUS-TEX-008@1.0.0` | `requirement` | `approved` | CuttingPlan 运行时版本与批准门禁 | `major` | textile, cutting-plan, runtime, technical-approval, audit | `7eb68bd72249` |
 | `BUS-TOY-001@1.0.0` | `requirement` | `approved` | 客户年龄声明与实验室年龄分级判定分离 | `major` | toy, age-grade, declaration, versioning, audit | `a9f2b3cf0bcb` |
 | `BUS-TOY-002@1.0.0` | `requirement` | `approved` | 可触及性评估版本化与新暴露部件触发范围重评 | `major` | toy, accessibility, abuse-event, scope-reassessment, audit | `68ff61319394` |
 | `BUS-TOY-003@0.1.0` | `requirement` | `proposed` | TestUnit 危险域、平行号与破坏序列固定 | `major` | toy, test-unit, hazard-domain, parallel, test-sequence, destructive-exclusion, allocation, audit | `c7e3993cf295` |
@@ -165,6 +171,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `OD-034@0.1.0` | `decision` | `proposed` | 检测结论层级与全面合规引用边界 | `major` | conformity, reporting, external-compliance-reference | `d9645e91b677` |
 | `OD-034@1.0.0` | `decision` | `approved` | DEV-027 检测结论层级与全面合规引用边界 | `major` | conformity, reporting, external-compliance-reference, toy, test-unit, hazard-coverage, disclosure | `7bb13c420a76` |
 | `OD-035@1.0.0` | `decision` | `approved` | DEV-005 隔离与身份评估边界 | `major` | receiving, identity-assessment, lab-execution-gate, audit | `2edfbe80e573` |
+| `OD-036@1.0.0` | `decision` | `approved` | DEV-028 纺织运行时实现与受控验证边界 | `major` | applicability, textile, industry-pack, runtime-module, controlled-validation | `8171e9d85299` |
 | `OPS-EXC-001@0.1.0` | `requirement` | `in_review` | 收样异常分类建档 | `minor` | exception, receiving, identity, evidence, workflow | `84fdb3643f7e` |
 | `OPS-EXC-001@1.0.0` | `requirement` | `approved` | DEV-006 收样异常分类建档 | `major` | exception, receiving, identity, evidence, workflow | `f04d497b0ec8` |
 | `OPS-EXC-002@0.1.0` | `requirement` | `in_review` | 异常不得自动降低范围或默认条件接收 | `major` | exception, scope-change, conditional-acceptance, authorization, audit | `8cf1d2cd7b59` |

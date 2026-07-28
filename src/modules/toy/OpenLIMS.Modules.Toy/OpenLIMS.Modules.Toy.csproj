@@ -9,6 +9,7 @@
     <ProjectReference Include="../../../../contracts/toy/OpenLIMS.Contracts.Toy/OpenLIMS.Contracts.Toy.csproj" />
     <ProjectReference Include="../../../../contracts/quantity/OpenLIMS.Contracts.Quantity/OpenLIMS.Contracts.Quantity.csproj" />
     <ProjectReference Include="../../../../contracts/allocation/OpenLIMS.Contracts.Allocation/OpenLIMS.Contracts.Allocation.csproj" />
+    <ProjectReference Include="../../../../contracts/result/OpenLIMS.Contracts.Result/OpenLIMS.Contracts.Result.csproj" />
     <ProjectReference Include="../../../../contracts/platform/OpenLIMS.Contracts.Platform/OpenLIMS.Contracts.Platform.csproj" />
     <ProjectReference Include="../../../building-blocks/OpenLIMS.BuildingBlocks.Platform/OpenLIMS.BuildingBlocks.Platform.csproj" />
   </ItemGroup>

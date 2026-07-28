@@ -530,6 +530,32 @@
       "status": "approved",
       "title": "裁样方向与预处理超差契约验收"
     },
+    "AC-TEXTILE-004@1.0.0": {
+      "affects": [
+        "textile",
+        "sample-requirement",
+        "cutting-plan",
+        "approval-gate",
+        "automated-test"
+      ],
+      "depends_on": [
+        "OD-036@1.0.0",
+        "AC-TEXTILE-001@1.0.0",
+        "BUS-TEX-006@1.0.0",
+        "BUS-TEX-007@1.0.0",
+        "BUS-TEX-008@1.0.0"
+      ],
+      "fingerprint": "8602bb7a5983e6bd61dcee99edccfc6b5560b782f663e0e912e0a8527195d0e4",
+      "kind": "acceptance",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-TEXTILE-001"
+        }
+      ],
+      "status": "approved",
+      "title": "样品不足、互斥裁样与运行时批准门禁验收"
+    },
     "AC-TOY-001@1.0.0": {
       "affects": [
         "toy",
@@ -615,7 +641,7 @@
         "SEC-AUTH-001@1.0.0",
         "SEC-AUD-001@2.0.0"
       ],
-      "fingerprint": "01ccb68851a1bebcb56572958c9618ed85b94fe04e2d363808f2f95fda6b5803",
+      "fingerprint": "05c0c0e03bc143956809b333c1b569c4c55938b09b65dd2b3b5e094cc17338a3",
       "kind": "acceptance",
       "source_refs": [
         {
@@ -2645,6 +2671,61 @@
       "status": "approved",
       "title": "实施 DEV-012 纺织调湿/洗涤及超差契约切片"
     },
+    "ATC-TEX-004@1.0.0": {
+      "affects": [
+        "textile",
+        "sample-requirement",
+        "cutting-plan",
+        "destructive-exclusion",
+        "technical-approval",
+        "runtime-module",
+        "audit",
+        "outbox",
+        "automated-test"
+      ],
+      "depends_on": [
+        "ED-001@2.0.0",
+        "OD-001@1.0.0",
+        "OD-036@1.0.0",
+        "OD-002@1.0.0",
+        "OD-027@1.0.0",
+        "BUS-TEX-001@1.0.0",
+        "BUS-TEX-002@1.0.0",
+        "BUS-TEX-003@1.0.0",
+        "AC-TEXTILE-001@1.0.0",
+        "BUS-TEX-006@1.0.0",
+        "BUS-TEX-007@1.0.0",
+        "BUS-TEX-008@1.0.0",
+        "AC-TEXTILE-004@1.0.0",
+        "ATC-TEX-001@1.0.0",
+        "ATC-PLT-003@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0",
+        "NFR-ARCH-001@2.0.0"
+      ],
+      "fingerprint": "9e64c1aeb3589b0f0dbbab8f6a2a73973d994526632f44f03ae7d534b2714989",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TEXTILE-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TEXTILE-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TEXTILE-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-TEXTILE-001"
+        }
+      ],
+      "status": "approved",
+      "title": "实施 DEV-028 纺织样品需求与 CuttingPlan 运行时"
+    },
     "ATC-TOY-001@1.0.0": {
       "affects": [
         "toy",
@@ -2957,6 +3038,52 @@
       ],
       "status": "approved",
       "title": "DEV-027 多 TestUnit 危险域覆盖结论"
+    },
+    "ATC-TOY-005@1.0.0": {
+      "affects": [
+        "toy",
+        "result",
+        "conclusion",
+        "separation-of-duty",
+        "reauthentication",
+        "transaction",
+        "audit",
+        "outbox",
+        "worker-migration",
+        "automated-test"
+      ],
+      "depends_on": [
+        "OD-001@1.0.0",
+        "OD-002@1.0.0",
+        "OD-034@1.0.0",
+        "BUS-TOY-006@1.0.0",
+        "AC-TOY-002@1.0.0",
+        "ATC-TOY-004@1.0.0",
+        "ATC-RESULT-001@1.0.0",
+        "ATC-PLT-002@1.0.0",
+        "ATC-PLT-003@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0",
+        "NFR-ARCH-001@2.0.0"
+      ],
+      "fingerprint": "778312d5b7161d5fade4cf88c4dcc59da95bf67532bf7c137cf130337cde2556",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TOY-005"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-TOY-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "SEC-SIGN-001"
+        }
+      ],
+      "status": "approved",
+      "title": "修复并验收 DEV-027 Toy 结论运行时"
     },
     "BUS-AI-001@1.0.0": {
       "affects": [
@@ -4167,6 +4294,98 @@
       "status": "approved",
       "title": "预处理超差评估与报告阻断规则"
     },
+    "BUS-TEX-006@1.0.0": {
+      "affects": [
+        "textile",
+        "sample-requirement",
+        "runtime",
+        "persistence",
+        "audit"
+      ],
+      "depends_on": [
+        "OD-036@1.0.0",
+        "ED-001@2.0.0",
+        "OD-027@1.0.0",
+        "BUS-TEX-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "866b895d575fb7c1f852e4508eed5044b449521afbf29187e6e9f28aafc6b699",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TEXTILE-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TEXTILE-002"
+        }
+      ],
+      "status": "approved",
+      "title": "纺织样品需求运行时事实"
+    },
+    "BUS-TEX-007@1.0.0": {
+      "affects": [
+        "textile",
+        "sample-requirement",
+        "destructive-exclusion",
+        "approval-gate",
+        "outbox"
+      ],
+      "depends_on": [
+        "OD-036@1.0.0",
+        "BUS-TEX-002@1.0.0",
+        "BUS-TEX-006@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "aaa88b7ad67e1c40c28e7b91f8c27321de15f1e38d8009d39b3f963ba6ae6a47",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TEXTILE-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-TEXTILE-001"
+        }
+      ],
+      "status": "approved",
+      "title": "互斥裁样、样品不足与批准门禁运行时规则"
+    },
+    "BUS-TEX-008@1.0.0": {
+      "affects": [
+        "textile",
+        "cutting-plan",
+        "runtime",
+        "technical-approval",
+        "audit"
+      ],
+      "depends_on": [
+        "OD-036@1.0.0",
+        "BUS-TEX-003@1.0.0",
+        "BUS-TEX-006@1.0.0",
+        "BUS-TEX-007@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "7eb68bd72249dbfffac735fc042350a754503de3478c196d841537f59eedc617",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TEXTILE-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-TEXTILE-001"
+        }
+      ],
+      "status": "approved",
+      "title": "CuttingPlan 运行时版本与批准门禁"
+    },
     "BUS-TOY-001@1.0.0": {
       "affects": [
         "toy",
@@ -5239,6 +5458,42 @@
       ],
       "status": "approved",
       "title": "DEV-005 隔离与身份评估边界"
+    },
+    "OD-036@1.0.0": {
+      "affects": [
+        "applicability",
+        "textile",
+        "industry-pack",
+        "runtime-module",
+        "controlled-validation"
+      ],
+      "depends_on": [
+        "OD-001@1.0.0",
+        "ED-001@2.0.0",
+        "OD-002@1.0.0",
+        "OD-027@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0",
+        "NFR-ARCH-001@2.0.0"
+      ],
+      "fingerprint": "8171e9d852996fa170a020094c600d8ac0d8a976813799f86abdde186e83c57a",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TEXTILE-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TEXTILE-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TEXTILE-003"
+        }
+      ],
+      "status": "approved",
+      "title": "DEV-028 纺织运行时实现与受控验证边界"
     },
     "OPS-EXC-001@0.1.0": {
       "affects": [

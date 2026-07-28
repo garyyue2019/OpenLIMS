@@ -1,6 +1,6 @@
 # GENERATED FILE — DO NOT EDIT. openlims-specgen@0.1.0
 # Source: AC-TOY-002@1.0.0
-# Spec-Fingerprint: 01ccb68851a1bebcb56572958c9618ed85b94fe04e2d363808f2f95fda6b5803
+# Spec-Fingerprint: 05c0c0e03bc143956809b333c1b569c4c55938b09b65dd2b3b5e094cc17338a3
 Feature: AC-TOY-002 可接触性、互斥 TestUnit 与危险域覆盖结论
   完整保留 PRD 的组合验收：滥用后新暴露部件须保存前后可接触性与照片并触发范围评估（DEV-024 已交付）；互斥破坏任务不得复用同一 TestUnit（DEV-025 已交付）；多 TestUnit 汇总必须逐一展示危险域覆盖依据、强制披露未覆盖项，且只能签发已测范围符合结论，永久拒绝整件产品全面合规表述。
 

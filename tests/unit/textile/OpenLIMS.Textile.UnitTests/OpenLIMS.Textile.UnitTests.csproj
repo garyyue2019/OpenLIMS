@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>OpenLIMS.Textile.UnitTests</AssemblyName>
+    <RootNamespace>OpenLIMS.Textile.UnitTests</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+    <ProjectReference Include="../../../../src/modules/textile/OpenLIMS.Modules.Textile/OpenLIMS.Modules.Textile.csproj" />
+    <ProjectReference Include="../../../../contracts/textile/OpenLIMS.Contracts.Textile/OpenLIMS.Contracts.Textile.csproj" />
+  </ItemGroup>
+</Project>

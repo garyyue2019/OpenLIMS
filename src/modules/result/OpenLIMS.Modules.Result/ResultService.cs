@@ -372,3 +372,145 @@ internal sealed class ResultAdoptionPort(
         }
     }
 }
+
+internal sealed class ResultConclusionEvidencePort(
+    ICurrentOrganizationContext organizationContext,
+    ICurrentActorContext actorContext,
+    IClock clock,
+    IResultAuthorizationPort authorizationPort,
+    ITransactionCoordinator transactionCoordinator,
+    ResultStore store,
+    ResultAttemptAuditWriter attemptAuditWriter,
+    ILogger<ResultConclusionEvidencePort> logger) : IResultConclusionEvidencePort
+{
+    public async ValueTask<ResultConclusionEvidenceResult> EvaluateAsync(
+        ResultConclusionEvidenceRequest request,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(request);
+        var organizationGroupId = organizationContext.Current.OrganizationGroupId;
+        var actor = actorContext.Current;
+        var correlationId = string.IsNullOrWhiteSpace(request.CorrelationId)
+            ? Guid.NewGuid().ToString("N")
+            : request.CorrelationId;
+        if (actor is null ||
+            !string.Equals(actor.OrganizationGroupId, organizationGroupId, StringComparison.Ordinal) ||
+            !string.Equals(request.OrganizationGroupId, organizationGroupId, StringComparison.Ordinal))
+        {
+            await WriteDeniedAsync(
+                actor?.ActorId,
+                organizationGroupId,
+                request.ResultGroupId,
+                correlationId,
+                cancellationToken);
+            throw new ResultDomainException(ResultErrorCodes.NotAuthorized);
+        }
+
+        if (!Guid.TryParseExact(request.ResultGroupId, "N", out var groupId) &&
+            !Guid.TryParse(request.ResultGroupId, out groupId))
+        {
+            return Record(ResultRules.EvaluateConclusionEvidence(request, null));
+        }
+
+        try
+        {
+            ResultConclusionEvidenceResult? result = null;
+            await transactionCoordinator.ExecuteAsync(async transactionToken =>
+            {
+                var group = await store.LoadGroupAsync(organizationGroupId, groupId, transactionToken);
+                if (group is not null)
+                {
+                    var authorization = await authorizationPort.AuthorizeAsync(
+                        new ResultAuthorizationRequest(
+                            organizationGroupId,
+                            actor.ActorId,
+                            group.ObjectScope,
+                            ResultCapabilities.Record),
+                        transactionToken);
+                    if (!authorization.Allowed)
+                        throw new ResultDomainException(ResultErrorCodes.NotAuthorized);
+
+                    await store.WriteReadAuditAsync(
+                        group.ResultGroupId,
+                        group.Version,
+                        organizationGroupId,
+                        actor.ActorId,
+                        "EVALUATE_RESULT_CONCLUSION_EVIDENCE",
+                        correlationId,
+                        clock.UtcNow,
+                        transactionToken);
+                }
+
+                result = ResultRules.EvaluateConclusionEvidence(request, group);
+            }, cancellationToken);
+            return Record(result ?? ResultRules.EvaluateConclusionEvidence(request, null));
+        }
+        catch (ResultDomainException exception)
+            when (string.Equals(exception.ErrorCode, ResultErrorCodes.NotAuthorized, StringComparison.Ordinal))
+        {
+            await WriteDeniedAsync(
+                actor.ActorId,
+                organizationGroupId,
+                request.ResultGroupId,
+                correlationId,
+                cancellationToken);
+            throw;
+        }
+        catch (NpgsqlException)
+        {
+            logger.LogWarning(
+                "Result conclusion evidence failed closed because persistence is unavailable");
+            return Record(new ResultConclusionEvidenceResult(
+                ResultConclusionEvidenceDecisions.Unknown,
+                [ResultConclusionEvidenceReasons.EvidenceUnavailable],
+                request.ResultGroupId,
+                null,
+                request.AdoptionVersion,
+                null,
+                null,
+                null,
+                null,
+                ResultContract.RuleSetVersion));
+        }
+    }
+
+    private ResultConclusionEvidenceResult Record(ResultConclusionEvidenceResult result)
+    {
+        ResultTelemetry.RecordGate(result.Decision);
+        if (string.Equals(
+            result.Decision,
+            ResultConclusionEvidenceDecisions.Unknown,
+            StringComparison.Ordinal))
+        {
+            logger.LogWarning(
+                "Result conclusion evidence failed closed with reasons {ReasonCodes}",
+                string.Join(',', result.ReasonCodes));
+        }
+        return result;
+    }
+
+    private async Task WriteDeniedAsync(
+        string? actorId,
+        string organizationGroupId,
+        string target,
+        string correlationId,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            await attemptAuditWriter.WriteAsync(
+                "EvaluateResultConclusionEvidence",
+                actorId,
+                organizationGroupId,
+                ResultRules.HashTarget(target),
+                correlationId,
+                ResultErrorCodes.NotAuthorized,
+                clock.UtcNow,
+                cancellationToken);
+        }
+        catch (NpgsqlException)
+        {
+            throw new ResultDomainException(ResultErrorCodes.PersistenceUnavailable);
+        }
+    }
+}

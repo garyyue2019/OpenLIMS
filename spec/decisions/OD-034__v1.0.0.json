@@ -1,0 +1,66 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "decision",
+  "id": "OD-034",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "DEV-027 检测结论层级与全面合规引用边界",
+  "summary": "冻结两级结论：ITEM_CONFORMITY 单检测项目符合由技术负责人批准；TESTED_SCOPE_CONFORMITY 已测范围符合必须逐 TestUnit 列明已覆盖危险域与全部未覆盖项，由授权签字人经重认证签署批准。永久禁用整件产品全面合规结论。外部全面法规评估、认证状态或证书仅可作为不参与判定的信息性旁注引用。",
+  "owners": ["法规负责人", "技术负责人", "质量负责人", "法务负责人", "授权签字人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "OD-034"}],
+  "depends_on": ["OD-001@1.0.0", "OD-011@1.0.0", "OD-029@1.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0"],
+  "affects": ["conformity", "reporting", "external-compliance-reference", "toy", "test-unit", "hazard-coverage", "disclosure"],
+  "change_class": "major",
+  "decision_state": "decided",
+  "options": [
+    "仅已测范围符合：两级结论 ITEM/TESTED_SCOPE，永久禁用整件全面合规声明，外部证书仅信息性引用",
+    "允许整件产品符合结论：在覆盖充分时签发整件合规声明",
+    "仅单项符合：只出具逐项目结论，不做任何范围级汇总"
+  ],
+  "decision": "采用 仅已测范围符合。结论层级恰好两级且均为追加式不可变事实：（1）ITEM_CONFORMITY——单个检测项目对单个固定要求版本的符合性判定，输入必须固定 adoptedResultRef@version、requirementRef@version 与 ruleSetVersion，批准权限为技术负责人（TOY_CONCLUSION_APPROVE_ITEM 能力），不需要电子签名重认证；（2）TESTED_SCOPE_CONFORMITY——对一个产品版本在明确列举的已测危险域清单内的符合性判定，输入必须固定 productRef@version、testUnitPlanRef@version、参与汇总的全部 TestUnit 及其 physicalObjectRef@version、hazardDomainRef@version、adoptedResultRef@version、coverageDecisionRef@version 与 resultProvenanceGraphRef@version，输出必须同时携带 coveredHazardDomains[] 与 uncoveredScopes[]（每项标注 NOT_TESTED、UNKNOWN 或 NOT_APPLICABLE 及理由），批准权限为授权签字人（TOY_CONCLUSION_APPROVE_SCOPE 能力）并必须完成 SEC-SIGN-001 重认证与签署意图绑定内容哈希。整件产品全面合规结论（WHOLE_PRODUCT_COMPLIANCE）为永久禁用语义：系统不提供该层级枚举值、接口、措辞模板或批准角色，任何试图将多个 TestUnit 的局部结果表述为同一整件全部符合的请求必须以 TOY.FICTITIOUS_WHOLE_ITEM_CONCLUSION 拒绝且不产生业务事实。结论正文措辞必须由系统按固定模板确定性渲染，调用方不得传入自选措辞：TESTED_SCOPE_CONFORMITY 的法定表述为『所检 N 个 TestUnit 就下列已测危险域符合 <requirementRef 清单>；未覆盖项：<uncoveredScopes 清单>』，且未覆盖项段落不可省略、不可为空数组时隐藏。外部全面法规评估、认证状态或证书只能以 externalReferences[] 形式记录为 informational 旁注，必须携带 issuer、reference、statedScope 与 notPartOfThisConclusion=true，不参与任何判定、不进入结论层级、不得被渲染为本实验室的符合性意见；系统不负责核验其真实性与有效期。未覆盖项披露为强制项：uncoveredScopes 缺失、结论输入任一版本引用缺失、覆盖决定未批准、来源图不可重建或危险域适用性为 UNKNOWN 时，一律以 TOY.CONCLUSION_EVIDENCE_INCOMPLETE 或 TOY.CONCLUSION_POLICY_UNKNOWN 失败关闭，不得生成可签发结论。",
+  "approval_evidence": "用户于 2026-07-28 在结构化选择中明确选定『仅已测范围符合』方案（两级结论 ITEM/TESTED_SCOPE、整件全面合规永久禁用、外部证书仅信息性旁注、ITEM 由技术负责人批准而 SCOPE 由授权签字人重认证签署），并指示批准解锁剩余开发任务所需的全部规格。本决定内容由 AI 起草，语义边界与批准权限由用户确认。",
+  "conclusion_levels": {
+    "ITEM_CONFORMITY": "单检测项目对单要求版本的符合性；输入固定 adoptedResultRef@version + requirementRef@version + ruleSetVersion；批准角色 技术负责人；无需重认证签署",
+    "TESTED_SCOPE_CONFORMITY": "产品版本在列举的已测危险域清单内的符合性；必须逐 TestUnit 展示覆盖依据并披露全部未覆盖项；批准角色 授权签字人；必须重认证签署并绑定内容哈希",
+    "WHOLE_PRODUCT_COMPLIANCE": "永久禁用；不提供枚举、接口、措辞或批准角色；请求以 TOY.FICTITIOUS_WHOLE_ITEM_CONCLUSION 拒绝"
+  },
+  "approval_authority": {
+    "TOY_CONCLUSION_APPROVE_ITEM": "技术负责人；ITEM_CONFORMITY 批准",
+    "TOY_CONCLUSION_APPROVE_SCOPE": "授权签字人；TESTED_SCOPE_CONFORMITY 批准，必须叠加 SEC-SIGN-001 重认证与签署意图",
+    "separation_of_duty": "结论批准人不得同时是该结论所引用的任一 adoptedResult 的录入人；违反以 TOY.CONCLUSION_SOD_VIOLATION 拒绝"
+  },
+  "external_reference_policy": {
+    "allowed": "informational 旁注，字段 externalReferences[{issuer, reference, statedScope, notPartOfThisConclusion:true}]",
+    "forbidden": [
+      "把外部认证状态或证书渲染为本实验室符合性意见",
+      "以外部证书填补 uncoveredScopes 或减少必须披露的未覆盖项",
+      "把外部引用纳入结论层级判定或签发门禁通过条件"
+    ],
+    "verification_responsibility": "系统不核验外部引用真实性与有效期；由提交方与授权签字人负责"
+  },
+  "invariants_pinned": [
+    "结论层级恰好两级，永久无整件全面合规层级",
+    "未覆盖项披露不可省略；空缺即失败关闭",
+    "结论措辞由系统固定模板渲染，调用方不得传入自选措辞",
+    "TESTED_SCOPE_CONFORMITY 必须绑定重认证签署与内容哈希（SEC-SIGN-001/002）",
+    "外部证书引用为 informational，不参与判定（notPartOfThisConclusion=true）",
+    "已批准结论不可就地修改；变更走新版本并保留历史（RPT-VERS-002 同源语义）",
+    "报告行级签发门禁继续由 OD-029 拥有；本决定不放宽任何既有阻断"
+  ],
+  "boundary_with_sibling_decisions": "本决定拥有『结论层级、结论措辞模板、结论批准权限与外部合规引用边界』；电子签名可靠性要素与保留策略归 OD-011；认可范围粒度与报告行级签发门禁归 OD-029；报告版本链五种受控动作归 OD-022；代表性/最不利覆盖的允许危险域与覆盖批准岗位归 OD-028（未决，本决定不代其决定覆盖充分性规则，仅要求引用已批准的 coverageDecisionRef）。",
+  "revision_rule": "本决定为追加式记录；结论层级、措辞模板、批准权限或外部引用边界的任何变更必须以 OD-034 后继 MAJOR 版本记录并重新获得法规、技术、质量、法务与授权签字人批准。启用整件全面合规结论属 MAJOR 反向变更，需额外提交法务意见。",
+  "non_goals": [
+    "不定义电子签名可靠性要素（属 OD-011）",
+    "不定义认可范围粒度与行级签发门禁（属 OD-029）",
+    "不定义代表性覆盖充分性规则与覆盖批准岗位（属 OD-028，未决）",
+    "不核验外部认证证书真实性",
+    "不实现客户交付渠道、通知策略或证书管理",
+    "不创建发布、Seal、tag 或部署"
+  ],
+  "exit_criteria": [
+    "行业措辞批准：TESTED_SCOPE_CONFORMITY 固定模板含强制未覆盖项段落，已批准",
+    "权限批准：ITEM 技术负责人、SCOPE 授权签字人重认证签署、SoD 规则，已批准",
+    "报告样例和反向场景批准：整件全面合规拒绝、未覆盖项缺失失败关闭、外部证书不参与判定，均已批准"
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "acceptance",
+  "id": "AC-TOY-002",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "可接触性、互斥 TestUnit 与危险域覆盖结论",
+  "summary": "完整保留 PRD 的组合验收：滥用后新暴露部件须保存前后可接触性与照片并触发范围评估（DEV-024 已交付）；互斥破坏任务不得复用同一 TestUnit（DEV-025 已交付）；多 TestUnit 汇总必须逐一展示危险域覆盖依据、强制披露未覆盖项，且只能签发已测范围符合结论，永久拒绝整件产品全面合规表述。",
+  "owners": ["玩具行业包负责人", "实验室技术负责人", "质量负责人", "法规负责人", "授权签字人", "QA负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "AC-TOY-002"}],
+  "depends_on": [
+    "OD-001@1.0.0",
+    "OD-034@1.0.0",
+    "BUS-TOY-002@1.0.0",
+    "BUS-TOY-003@1.0.0",
+    "BUS-TOY-006@1.0.0",
+    "ATC-RESULT-001@1.0.0",
+    "SEC-AUTH-001@1.0.0",
+    "SEC-AUD-001@2.0.0"
+  ],
+  "affects": ["toy", "accessibility", "photo-evidence", "test-unit", "destructive-exclusion", "hazard-coverage", "conformity", "disclosure", "external-compliance-reference", "automated-test"],
+  "change_class": "major",
+  "scenario": {
+    "given": [
+      "一个玩具在 INITIAL 评估时内部件不可接触，并保存初始图片证据",
+      "扭力/拉力后该部件暴露，后续跌落会破坏样品",
+      "同一产品版本的 TestUnit 计划固定了 3 个 TestUnit，分别覆盖机械物理不同危险域，化学迁移危险域本次未测",
+      "每个 TestUnit 均已固定物理实物版本、危险域版本、采用结果版本与已批准的覆盖决定"
+    ],
+    "when": [
+      "记录扭力/拉力后的可接触性版本及图片证据",
+      "尝试把互斥的破坏性任务分配给同一 TestUnit",
+      "由技术负责人对单个检测项目请求 ITEM_CONFORMITY 结论",
+      "由授权签字人对产品版本请求 TESTED_SCOPE_CONFORMITY 结论并完成重认证签署",
+      "尝试请求整件产品全面合规结论或传入自选结论措辞",
+      "提交仅带外部认证证书而缺少 uncoveredScopes 的汇总请求"
+    ],
+    "then": [
+      "事件前后可接触性版本和图片证据均不可变保存，新暴露部件触发受影响机械与化学范围评估",
+      "同一 TestUnit 的互斥破坏任务分配被稳定错误码拒绝，失败不产生分配事实",
+      "ITEM_CONFORMITY 以固定的 adoptedResultRef@version 与 requirementRef@version 生成，无需重认证，SoD 校验通过",
+      "TESTED_SCOPE_CONFORMITY 逐 TestUnit 显示实际危险域、结果版本与批准覆盖依据，coveredHazardDomains 列出 3 个已测危险域，uncoveredScopes 显式披露化学迁移为 NOT_TESTED",
+      "结论正文按固定模板渲染为『所检 3 个 TestUnit 就下列已测危险域符合…；未覆盖项：…』，未覆盖项段落存在且不可省略",
+      "整件产品全面合规请求以 TOY.FICTITIOUS_WHOLE_ITEM_CONCLUSION 拒绝，不产生业务事实",
+      "自选措辞、自选批准角色或未知结论层级以 TOY.CONCLUSION_POLICY_UNKNOWN 拒绝",
+      "缺少 uncoveredScopes 的请求以 TOY.CONCLUSION_EVIDENCE_INCOMPLETE 拒绝；外部证书不得填补未覆盖项",
+      "外部认证引用以 notPartOfThisConclusion=true 记录为信息性旁注，不参与判定且不出现在符合性意见中",
+      "结论批准人同时是所引用结果录入人时以 TOY.CONCLUSION_SOD_VIOLATION 拒绝",
+      "已批准结论不可就地修改，UPDATE/DELETE 被数据库层拒绝，审计与发件箱在同一事务写入"
+    ]
+  },
+  "automation": [
+    "事件前后图片证据与新暴露范围触发集成测试（DEV-024 已覆盖）",
+    "互斥破坏任务跨 TestUnit 分配正向测试与同 TestUnit 拒绝测试（DEV-025 已覆盖）",
+    "危险域覆盖来源图与未覆盖项强制披露契约测试",
+    "两级结论层级正向测试与整件全面合规拒绝反向测试",
+    "固定措辞模板确定性渲染测试与自选措辞拒绝测试",
+    "外部证书 informational 旁注不参与判定测试",
+    "ITEM 技术负责人、SCOPE 授权签字人重认证签署权限测试与 SoD 拒绝测试",
+    "结论追加式不可变性与同事务审计/发件箱回滚测试"
+  ]
+}

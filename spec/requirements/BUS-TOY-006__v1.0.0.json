@@ -1,0 +1,48 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-TOY-006",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "多 TestUnit 结论的危险域覆盖与未覆盖项披露",
+  "summary": "多 TestUnit 结果汇总为已测范围符合结论时，必须逐一引用实际 TestUnit、物理实物版本、危险域版本、采用结果版本与批准的覆盖决定，并强制披露全部未覆盖项；结论层级恰好 ITEM_CONFORMITY 与 TESTED_SCOPE_CONFORMITY 两级，永久不得生成整件产品全面合规结论。措辞由系统固定模板渲染，外部认证证书仅作不参与判定的信息性旁注。",
+  "owners": ["法规负责人", "实验室技术负责人", "质量负责人", "授权签字人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "OPS-TOY-005"},
+    {"document": "PRD-MAIN", "item": "AC-TOY-002"},
+    {"document": "PRD-MAIN", "item": "OD-034"}
+  ],
+  "depends_on": [
+    "OD-001@1.0.0",
+    "OD-034@1.0.0",
+    "BUS-TOY-002@1.0.0",
+    "BUS-TOY-003@1.0.0",
+    "ATC-RESULT-001@1.0.0",
+    "SEC-AUTH-001@1.0.0",
+    "SEC-AUD-001@2.0.0"
+  ],
+  "affects": ["toy", "test-unit", "hazard-coverage", "conformity", "reporting", "disclosure", "external-compliance-reference"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {
+    "mode": "enabled_pack",
+    "applicability": "ENABLED",
+    "condition": "OD-001@1.0.0 已启用玩具行业包，且 OD-034@1.0.0 已冻结结论层级、措辞模板与批准权限"
+  },
+  "approval_evidence": "用户于 2026-07-28 选定 OD-034 『仅已测范围符合』方案并指示批准解锁剩余开发任务所需的全部规格。本 MAJOR 后继版本据此将 activation 由 UNKNOWN 收敛为 ENABLED，语义边界由用户确认，AI 仅起草。",
+  "invariants": [
+    "任何汇总输入都必须固定 productRef@version、testUnitPlanRef@version、每个 TestUnit 的 physicalObjectRef@version、hazardDomainRef@version、adoptedResultRef@version、coverageDecisionRef@version、resultProvenanceGraphRef@version 与 ruleSetVersion；缺任一版本引用即失败关闭",
+    "输出必须逐 TestUnit 展示实际执行的危险域与覆盖依据，并以 coveredHazardDomains[] 与 uncoveredScopes[] 双清单形式呈现；uncoveredScopes 每项必须标注 NOT_TESTED、UNKNOWN 或 NOT_APPLICABLE 及理由",
+    "未覆盖项披露段落不可省略且不可隐藏；uncoveredScopes 未提供时以 TOY.CONCLUSION_EVIDENCE_INCOMPLETE 拒绝，不得以空数组默认视为全覆盖",
+    "结论层级恰好 ITEM_CONFORMITY 与 TESTED_SCOPE_CONFORMITY 两级；不存在整件产品全面合规层级的枚举、接口、措辞模板或批准角色",
+    "任何试图把多个 TestUnit 的局部结果表述为同一整件全部符合的请求必须以 TOY.FICTITIOUS_WHOLE_ITEM_CONCLUSION 拒绝且不产生业务事实",
+    "结论正文措辞由系统按 OD-034 固定模板确定性渲染；调用方传入自选措辞、批准角色或结论层级默认值时以 TOY.CONCLUSION_POLICY_UNKNOWN 拒绝",
+    "危险域适用性为 UNKNOWN、覆盖决定未批准或来源图不可重建时一律失败关闭，UNKNOWN 等同阻断",
+    "ITEM_CONFORMITY 由技术负责人能力批准；TESTED_SCOPE_CONFORMITY 由授权签字人能力批准并必须完成重认证与签署意图绑定内容哈希",
+    "结论批准人不得同时是所引用任一 adoptedResult 的录入人，违反以 TOY.CONCLUSION_SOD_VIOLATION 拒绝",
+    "已批准结论为追加式不可变事实，不得就地修改或删除；变更通过新结论版本表达并保留完整历史",
+    "外部全面法规评估、认证状态或证书仅以 externalReferences[] 记录且必须携带 notPartOfThisConclusion=true，不参与判定、不减少未覆盖项披露、不得渲染为本实验室符合性意见",
+    "本要求不放宽报告模块既有阻断；报告行级签发门禁语义继续归 OD-029"
+  ]
+}

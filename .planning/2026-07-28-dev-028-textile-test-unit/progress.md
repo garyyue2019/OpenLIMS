@@ -64,6 +64,8 @@
 - 用户回复“按你建议的做”，授权按顺序隔离 DEV-028、创建 DEV-027 SemVer 后继修复卡、完成 Toy 修复后返回纺织任务。续作开工门禁再次通过：validate 195/389、source current、impact empty、ATC-TEX-004 READY。
 - 已从 main 当前提交创建 `codex/dev-028-textile-runtime` 并保留全部工作树内容；下一步在该分支创建可审查保存提交，然后从干净 main 开始 Toy 修复。
 - 已在 `codex/dev-028-textile-runtime` 创建 DEV-028 保存提交；66 个文件的纺织规格、实现、测试、生成物与计划证据已脱离 main 安全保存。
+- DEV-031 Toy 修复已完整验收并提交为 `3ff16b5`；开始将该提交整合回 DEV-028。
+- Cherry-pick 出现预期并行改动冲突：生成物交给 specgen 重建，NuGet lock 交给 restore 重建，Worker/architecture/repository contract 将显式保留 Textile 与 Toy 两侧语义。
 
 ## Test Results
 
@@ -106,3 +108,18 @@
 | `verify.ps1 -Profile architecture` | PASS: 19/19 |
 | `verify.ps1 -Profile contracts` | PASS: all matched tests; Textile 28/28 |
 | final allowed-path / whitespace / frozen-v1 audit | PASS: 66 paths, 0 violations; diff-check clean; old Textile v1 unchanged |
+| DEV-031 independent remediation | PASS: committed as `3ff16b5`; Toy unit 45/45, PostgreSQL 29/29, contract 32/32, Result unit 10/10, Result PostgreSQL 9/9, architecture 18/18, contracts profile, Python 41/41, Release build and Worker migration all passed |
+| DEV-031 into DEV-028 cherry-pick preparation | IN PROGRESS: all expected conflicts resolved; specgen regenerated outputs and NuGet force-evaluate restore refreshed locks; cherry-pick not yet continued |
+| combined Python repository suite | PASS: 42/42 |
+| combined locked restore | PASS with .NET SDK 10.0.302 |
+| combined full-solution Release warnings-as-errors build | PASS: 0 warnings / 0 errors |
+| combined Textile task gate | PASS: unit 6/6, contract 28/28, PostgreSQL integration 8/8; build 0 warnings / 0 errors |
+| combined Toy task gate | PASS: unit 45/45, contract 32/32, PostgreSQL integration 29/29; build 0 warnings / 0 errors |
+| combined architecture profile | PASS: 19/19 |
+| combined contracts profile | PASS: all matched contract tests, including Textile 28/28 and Toy 32/32 |
+| combined final governance chain | PASS: strict validate 196/389, SOURCE CURRENT, empty impact, Textile/Toy READY, history passed, both generate runs `written=0 unchanged=133`, check passed, Python 42/42 |
+| Worker migration command audit | Worker composes both `TextileModule` and `ToyModule`; `--apply-module-migration textile` uses `Platform__OrganizationGroupId` and `Platform__PostgresConnectionString` configuration |
+| combined allowed-path audit preparation | Final changed-path audit must evaluate the union of `body.allowed_paths` from `ATC-TEX-004@1.0.0` and `ATC-TOY-005@1.0.0` |
+| Worker Textile migration command | PASS against local PostgreSQL test instance; exit code 0 |
+| combined final allowed-path and whitespace audit | PASS: 63 changed paths, 56 approved patterns, 0 violations; `git diff --check HEAD` clean; no unmerged files |
+| final cherry-pick staging audit | PASS: 63 staged paths, 0 unstaged paths, 0 unmerged paths; staged diff check clean |

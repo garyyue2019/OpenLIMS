@@ -84,6 +84,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `ATC-TOY-003` | `1.0.0` | `approved` | `spec/stories/ATC-TOY-003__v1.0.0.json` |
 | `ATC-TOY-004` | `0.1.0` | `proposed` | `spec/stories/ATC-TOY-004__v0.1.0.json` |
 | `ATC-TOY-004` | `1.0.0` | `approved` | `spec/stories/ATC-TOY-004__v1.0.0.json` |
+| `ATC-TOY-005` | `1.0.0` | `approved` | `spec/stories/ATC-TOY-005__v1.0.0.json` |
 | `BUS-AI-001` | `1.0.0` | `approved` | `spec/requirements/BUS-AI-001__v1.0.0.json` |
 | `BUS-AI-002` | `1.0.0` | `approved` | `spec/requirements/BUS-AI-002__v1.0.0.json` |
 | `BUS-AI-003` | `1.0.0` | `approved` | `spec/requirements/BUS-AI-003__v1.0.0.json` |

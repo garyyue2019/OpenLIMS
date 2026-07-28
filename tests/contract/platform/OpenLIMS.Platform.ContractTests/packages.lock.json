@@ -733,6 +733,7 @@
           "OpenLIMS.Contracts.Allocation": "[1.0.0, )",
           "OpenLIMS.Contracts.Platform": "[1.0.0, )",
           "OpenLIMS.Contracts.Quantity": "[1.0.0, )",
+          "OpenLIMS.Contracts.Result": "[1.0.0, )",
           "OpenLIMS.Contracts.Toy": "[1.0.0, )"
         }
       },
@@ -760,6 +761,7 @@
           "OpenLIMS.Modules.Result": "[1.0.0, )",
           "OpenLIMS.Modules.Scope": "[1.0.0, )",
           "OpenLIMS.Modules.Textile": "[1.0.0, )",
+          "OpenLIMS.Modules.Toy": "[1.0.0, )",
           "OpenTelemetry.Extensions.Hosting": "[1.17.0, )"
         }
       },

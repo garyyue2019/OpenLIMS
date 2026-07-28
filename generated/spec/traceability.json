@@ -641,7 +641,7 @@
         "SEC-AUTH-001@1.0.0",
         "SEC-AUD-001@2.0.0"
       ],
-      "fingerprint": "01ccb68851a1bebcb56572958c9618ed85b94fe04e2d363808f2f95fda6b5803",
+      "fingerprint": "05c0c0e03bc143956809b333c1b569c4c55938b09b65dd2b3b5e094cc17338a3",
       "kind": "acceptance",
       "source_refs": [
         {
@@ -3038,6 +3038,52 @@
       ],
       "status": "approved",
       "title": "DEV-027 多 TestUnit 危险域覆盖结论"
+    },
+    "ATC-TOY-005@1.0.0": {
+      "affects": [
+        "toy",
+        "result",
+        "conclusion",
+        "separation-of-duty",
+        "reauthentication",
+        "transaction",
+        "audit",
+        "outbox",
+        "worker-migration",
+        "automated-test"
+      ],
+      "depends_on": [
+        "OD-001@1.0.0",
+        "OD-002@1.0.0",
+        "OD-034@1.0.0",
+        "BUS-TOY-006@1.0.0",
+        "AC-TOY-002@1.0.0",
+        "ATC-TOY-004@1.0.0",
+        "ATC-RESULT-001@1.0.0",
+        "ATC-PLT-002@1.0.0",
+        "ATC-PLT-003@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0",
+        "NFR-ARCH-001@2.0.0"
+      ],
+      "fingerprint": "778312d5b7161d5fade4cf88c4dcc59da95bf67532bf7c137cf130337cde2556",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TOY-005"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-TOY-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "SEC-SIGN-001"
+        }
+      ],
+      "status": "approved",
+      "title": "修复并验收 DEV-027 Toy 结论运行时"
     },
     "BUS-AI-001@1.0.0": {
       "affects": [

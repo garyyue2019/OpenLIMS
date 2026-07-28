@@ -147,6 +147,7 @@ public sealed partial class ArchitectureBoundaryTests
         Assert.All(hostPrograms, program => Assert.Contains("new InstrumentModule(", File.ReadAllText(program), StringComparison.Ordinal));
         Assert.All(hostPrograms, program => Assert.Contains("new QcModule(", File.ReadAllText(program), StringComparison.Ordinal));
         Assert.All(hostPrograms, program => Assert.Contains("new TextileModule(", File.ReadAllText(program), StringComparison.Ordinal));
+        Assert.All(hostPrograms, program => Assert.Contains("new ToyModule(", File.ReadAllText(program), StringComparison.Ordinal));
         Assert.All(hostPrograms, program => Assert.Contains("new ReportModule(", File.ReadAllText(program), StringComparison.Ordinal));
         Assert.All(hostPrograms, program => Assert.DoesNotContain("Assembly.Load", File.ReadAllText(program), StringComparison.Ordinal));
     }

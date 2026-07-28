@@ -185,6 +185,9 @@
       "openlims.contracts.quantity": {
         "type": "Project"
       },
+      "openlims.contracts.result": {
+        "type": "Project"
+      },
       "openlims.contracts.toy": {
         "type": "Project"
       },
@@ -196,6 +199,7 @@
           "OpenLIMS.Contracts.Allocation": "[1.0.0, )",
           "OpenLIMS.Contracts.Platform": "[1.0.0, )",
           "OpenLIMS.Contracts.Quantity": "[1.0.0, )",
+          "OpenLIMS.Contracts.Result": "[1.0.0, )",
           "OpenLIMS.Contracts.Toy": "[1.0.0, )"
         }
       },

@@ -32,7 +32,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `AC-TEXTILE-004@1.0.0` | `acceptance` | `approved` | 样品不足、互斥裁样与运行时批准门禁验收 | `major` | textile, sample-requirement, cutting-plan, approval-gate, automated-test | `8602bb7a5983` |
 | `AC-TOY-001@1.0.0` | `acceptance` | `approved` | 年龄改判与新暴露部件 | `major` | toy, age-grade, accessibility, scope-reassessment, automated-test | `35015245e394` |
 | `AC-TOY-002@0.1.0` | `acceptance` | `proposed` | 可接触性、互斥 TestUnit 与危险域覆盖 | `major` | toy, accessibility, photo-evidence, test-unit, destructive-exclusion, hazard-coverage, conformity, automated-test | `bd3aa9fd4405` |
-| `AC-TOY-002@1.0.0` | `acceptance` | `approved` | 可接触性、互斥 TestUnit 与危险域覆盖结论 | `major` | toy, accessibility, photo-evidence, test-unit, destructive-exclusion, hazard-coverage, conformity, disclosure, external-compliance-reference, automated-test | `01ccb68851a1` |
+| `AC-TOY-002@1.0.0` | `acceptance` | `approved` | 可接触性、互斥 TestUnit 与危险域覆盖结论 | `major` | toy, accessibility, photo-evidence, test-unit, destructive-exclusion, hazard-coverage, conformity, disclosure, external-compliance-reference, automated-test | `05c0c0e03bc1` |
 | `AC-TOY-003@0.1.0` | `acceptance` | `proposed` | TestUnit 计划与样品需求技术批准 | `major` | toy, test-unit, sample-requirement, destructive-exclusion, technical-approval, quantity, automated-test | `ee8738a92667` |
 | `AC-TOY-003@1.0.0` | `acceptance` | `approved` | TestUnit 计划与样品需求技术批准 | `major` | toy, test-unit, sample-requirement, destructive-exclusion, technical-approval, quantity, automated-test | `3ec688ceb9e9` |
 | `AC-TOY-004@0.1.0` | `acceptance` | `proposed` | LabelReview 版本失效与重审 | `major` | toy, label-artifact, label-review, age-grade, impact-invalidation, photo-evidence, automated-test | `1100697807f4` |
@@ -82,6 +82,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `ATC-TOY-003@1.0.0` | `story` | `approved` | 实施 DEV-026 玩具 LabelReview 版本失效与重审 | `major` | toy, label-artifact, packaging, instruction, marketing-age-claim, label-review, impact-invalidation, photo-evidence, authorization, audit, automated-test | `2c7e575c9f01` |
 | `ATC-TOY-004@0.1.0` | `story` | `proposed` | 阻断 DEV-027 多 TestUnit 危险域覆盖结论 | `major` | toy, test-unit, hazard-coverage, result-provenance, conformity, reporting, authorization, disclosure, automated-test | `962b89343dbf` |
 | `ATC-TOY-004@1.0.0` | `story` | `approved` | DEV-027 多 TestUnit 危险域覆盖结论 | `major` | toy, test-unit, hazard-coverage, result-provenance, conformity, reporting, authorization, disclosure, automated-test | `f30a41219cb7` |
+| `ATC-TOY-005@1.0.0` | `story` | `approved` | 修复并验收 DEV-027 Toy 结论运行时 | `major` | toy, result, conclusion, separation-of-duty, reauthentication, transaction, audit, outbox, worker-migration, automated-test | `778312d5b716` |
 | `BUS-AI-001@1.0.0` | `requirement` | `approved` | AI 运行控制封套契约 | `major` | ai, run-control, contracts, serialization | `95e7831fe908` |
 | `BUS-AI-002@1.0.0` | `requirement` | `approved` | 事实类别与不得提升规则 | `major` | ai, fact-class, rules | `89380e537235` |
 | `BUS-AI-003@1.0.0` | `requirement` | `approved` | 抽取候选、缺口建议与人工处置契约及失败关闭 | `major` | ai, extraction, gap-suggestion, human-review, rules | `442696dd4fdf` |

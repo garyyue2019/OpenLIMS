@@ -733,6 +733,7 @@
           "OpenLIMS.Contracts.Allocation": "[1.0.0, )",
           "OpenLIMS.Contracts.Platform": "[1.0.0, )",
           "OpenLIMS.Contracts.Quantity": "[1.0.0, )",
+          "OpenLIMS.Contracts.Result": "[1.0.0, )",
           "OpenLIMS.Contracts.Toy": "[1.0.0, )"
         }
       },

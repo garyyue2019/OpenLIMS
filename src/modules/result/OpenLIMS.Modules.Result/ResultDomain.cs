@@ -222,6 +222,84 @@ internal static class ResultRules
             ResultContract.RuleSetVersion);
     }
 
+    public static ResultConclusionEvidenceResult EvaluateConclusionEvidence(
+        ResultConclusionEvidenceRequest request,
+        ResultGroupResult? group)
+    {
+        ArgumentNullException.ThrowIfNull(request);
+        if (!string.Equals(request.RuleSetVersion, ResultContract.RuleSetVersion, StringComparison.Ordinal))
+        {
+            return UnknownConclusionEvidence(
+                group,
+                request.AdoptionVersion,
+                ResultConclusionEvidenceReasons.RuleSetVersionUnknown);
+        }
+
+        if (group is null)
+        {
+            return UnknownConclusionEvidence(
+                null,
+                request.AdoptionVersion,
+                ResultConclusionEvidenceReasons.GroupUnavailable);
+        }
+
+        var adoption = group.Adoptions.SingleOrDefault(candidate =>
+            candidate.AdoptionVersion == request.AdoptionVersion);
+        if (adoption is null)
+        {
+            return new ResultConclusionEvidenceResult(
+                ResultConclusionEvidenceDecisions.Blocked,
+                [ResultConclusionEvidenceReasons.AdoptionVersionMissing],
+                group.ResultGroupId,
+                group.Version,
+                request.AdoptionVersion,
+                null,
+                null,
+                null,
+                group.ObjectScope,
+                ResultContract.RuleSetVersion);
+        }
+
+        var observation = group.Observations.SingleOrDefault(candidate =>
+            string.Equals(candidate.ObservationId, adoption.TargetId, StringComparison.Ordinal));
+        if (observation is not null)
+        {
+            return new ResultConclusionEvidenceResult(
+                ResultConclusionEvidenceDecisions.Allowed,
+                [],
+                group.ResultGroupId,
+                group.Version,
+                adoption.AdoptionVersion,
+                adoption.TargetId,
+                observation.Kind,
+                observation.RecordedBy,
+                group.ObjectScope,
+                ResultContract.RuleSetVersion);
+        }
+
+        var derivation = group.Derivations.SingleOrDefault(candidate =>
+            string.Equals(candidate.DerivationId, adoption.TargetId, StringComparison.Ordinal));
+        if (derivation is not null)
+        {
+            return new ResultConclusionEvidenceResult(
+                ResultConclusionEvidenceDecisions.Allowed,
+                [],
+                group.ResultGroupId,
+                group.Version,
+                adoption.AdoptionVersion,
+                adoption.TargetId,
+                "DERIVATION",
+                derivation.RecordedBy,
+                group.ObjectScope,
+                ResultContract.RuleSetVersion);
+        }
+
+        return UnknownConclusionEvidence(
+            group,
+            adoption.AdoptionVersion,
+            ResultConclusionEvidenceReasons.TargetUnavailable);
+    }
+
     public static string HashTarget(string value) =>
         Convert.ToHexStringLower(SHA256.HashData(Encoding.UTF8.GetBytes(value)));
 
@@ -272,5 +350,20 @@ internal static class ResultRules
 
     private static ResultAdoptionStatusResult Unknown(ResultGroupResult? group, string reason) => new(
         ResultAdoptionDecisions.Unknown, [reason], group?.ResultGroupId, group?.Version, null, null,
+        ResultContract.RuleSetVersion);
+
+    private static ResultConclusionEvidenceResult UnknownConclusionEvidence(
+        ResultGroupResult? group,
+        long adoptionVersion,
+        string reason) => new(
+        ResultConclusionEvidenceDecisions.Unknown,
+        [reason],
+        group?.ResultGroupId,
+        group?.Version,
+        adoptionVersion,
+        null,
+        null,
+        null,
+        group?.ObjectScope,
         ResultContract.RuleSetVersion);
 }

@@ -12,7 +12,7 @@
 
 ## Current Phase
 
-Phase 5: cross-task unblock handoff
+Complete
 
 ## Phases
 
@@ -42,19 +42,19 @@ Phase 5: cross-task unblock handoff
 
 ### Phase 4: verification and handoff
 
-- [ ] 使全解决方案 task gate 通过；当前仅被范围外 ToyConclusionPersistence 两处缺失 `ITransactionToken` 阻断
+- [x] 使全解决方案 task gate 通过；DEV-031 合入后原 ToyConclusionPersistence 阻断已解除
 - [x] 运行 Textile unit/contract/PostgreSQL integration、architecture/contracts profile 与 Python 全量测试
 - [x] 运行严格规格/来源/影响/ready/历史/双 generate/check 门禁
 - [x] 核对所有变更均位于 Story allowed_paths，旧 Textile v1 字节无变化且 `git diff --check` 通过
-- **Status:** blocked
+- **Status:** complete
 
 ### Phase 5: cross-task unblock handoff
 
 - [x] 把当前 DEV-028 工作树切到独立 `codex/dev-028-textile-runtime` 分支并创建可审查保存点
-- [ ] 从干净 main 建立 DEV-027 修复分支与独立 planning 目录
-- [ ] 以 SemVer 后继 Story 修正真实 allowed_paths，完成 Toy 修复和验收
-- [ ] 返回 DEV-028，重跑 full-solution task gate 并完成交付
-- **Status:** in_progress
+- [x] 从干净 main 建立 DEV-027 修复分支与独立 planning 目录
+- [x] 以 SemVer 后继 Story 修正真实 allowed_paths，完成 Toy 修复和验收
+- [x] 返回 DEV-028，重跑 full-solution task gate 并完成交付
+- **Status:** complete
 
 ## Constraints
 
@@ -65,6 +65,8 @@ Phase 5: cross-task unblock handoff
 - 未获得新的真实灯塔/生产批准证据，不宣称纺织成为 R1 唯一生产试点。
 
 ## Errors Encountered
+
+- Cherry-picking DEV-031 commit `3ff16b5` into DEV-028 produced expected conflicts in two generated spec files, Worker Textile/Toy composition, two NuGet locks, architecture assertions, and repository inventory counts. Resolution: merge only source manifests/assertions, delete conflicted generator-owned/lock outputs with `apply_patch`, then regenerate them through specgen/NuGet before continuing the cherry-pick.
 
 | Error | Attempt | Resolution |
 |---|---:|---|

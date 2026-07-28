@@ -375,6 +375,8 @@ internal static class ToyEndpoints
                 ToyErrorCodes.LabelImpactUnknown or
                 ToyErrorCodes.LabelReviewNotValid or
                 ToyErrorCodes.ConclusionEvidenceIncomplete or
+                ToyErrorCodes.ConclusionEvidenceUnknown or
+                ToyErrorCodes.ConclusionSignatureInvalid or
                 ToyErrorCodes.ConclusionPolicyUnknown or
                 ToyErrorCodes.FictitiousWholeItemConclusion or
                 ToyErrorCodes.ConclusionSodViolation => StatusCodes.Status422UnprocessableEntity,

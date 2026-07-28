@@ -14,6 +14,7 @@ using OpenLIMS.Modules.Report;
 using OpenLIMS.Modules.Result;
 using OpenLIMS.Modules.Scope;
 using OpenLIMS.Modules.Textile;
+using OpenLIMS.Modules.Toy;
 using OpenLIMS.Worker;
 
 var builder = Host.CreateApplicationBuilder(args);
@@ -41,6 +42,7 @@ IOpenLimsServerModule[] modules =
     new InstrumentModule(postgresConnectionString),
     new QcModule(postgresConnectionString),
     new TextileModule(postgresConnectionString),
+    new ToyModule(postgresConnectionString),
     new ReportModule(postgresConnectionString)
 ];
 var moduleCatalog = OpenLimsModuleCatalog.Create(modules);

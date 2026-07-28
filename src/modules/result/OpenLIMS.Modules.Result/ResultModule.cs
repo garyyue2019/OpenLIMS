@@ -28,6 +28,7 @@ public sealed class ResultModule(string postgresConnectionString) :
         services.TryAddScoped<IResultAuthorizationPort, HttpClaimsResultAuthorizationPort>();
         services.TryAddScoped<IResultGroupService, ResultGroupService>();
         services.TryAddScoped<IResultAdoptionPort, ResultAdoptionPort>();
+        services.TryAddScoped<IResultConclusionEvidencePort, ResultConclusionEvidencePort>();
         services.TryAddScoped<ResultStore>();
         services.TryAddScoped<ResultAttemptAuditWriter>();
     }

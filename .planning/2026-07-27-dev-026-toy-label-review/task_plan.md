@@ -72,3 +72,4 @@ Phase 5: delivery
 | Full-solution format verification reported import ordering in API `Program.cs` plus two untouched pre-existing files | 1 | Format and re-verify only DEV-026 changed C# files; do not mutate out-of-scope Worker or platform contract-test files. |
 | Combined verification search treated an expected no-match `rg` exit code as tool failure | 1 | Run path and source scans independently and normalize no-match to a successful empty result. |
 | Static quality scan passed a quoted wildcard as a literal path to `rg` | 1 | Use an `rg -g` file glob rooted at the approved directory. |
+| GitHub CLI `gh` is not installed on this host | 1 | Use authenticated GitHub REST calls through the existing Git credential without printing credentials. |

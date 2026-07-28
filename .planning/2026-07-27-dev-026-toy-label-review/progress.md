@@ -81,3 +81,8 @@
 - Exact allowed-path audit reports no violations. Changed-source quality scan has no TODO/FIXME/NotImplemented/latest markers, and Toy contracts/implementation contain no Labeling private-table references.
 - Final post-format task profile passed again: Release build 0 warnings/errors, Toy unit 38/38, contract 25/25, integration 21/21.
 - Phase 4 is complete. The only unavailable local all-profile subgate is Docker compose configuration/image audit; the same locked gate remains required in GitHub CI. All code, database, frontend, spec, Python, formatting, boundary, and path gates available on this host are green.
+
+## Phase 5 delivery progress
+
+- Created implementation commit `18eb5cd` and pushed `codex/dev-026-toy-label-review` to origin.
+- GitHub CLI is unavailable; PR creation, checks, and merge will use the authenticated GitHub REST API with credentials kept out of logs.

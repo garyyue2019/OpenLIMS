@@ -41,6 +41,14 @@ internal static class ToyEndpoints
             .WithName("decideToyLabelReview").RequireAuthorization();
         endpoints.MapGet(ToyLabelReviewContract.StatusPath, GetLabelReviewStatusAsync)
             .WithName("getToyLabelReviewStatus").RequireAuthorization();
+        endpoints.MapPost(ToyConclusionContract.ItemConformityPath, CreateItemConformityConclusionAsync)
+            .WithName("createItemConformityConclusion").RequireAuthorization();
+        endpoints.MapPost(ToyConclusionContract.TestedScopeConformityPath, CreateTestedScopeConformityConclusionAsync)
+            .WithName("createTestedScopeConformityConclusion").RequireAuthorization();
+        endpoints.MapGet(ToyConclusionContract.GetConclusionPath, GetConclusionAsync)
+            .WithName("getToyConclusion").RequireAuthorization();
+        endpoints.MapGet(ToyConclusionContract.GetConclusionsByProductPath, GetConclusionsByProductAsync)
+            .WithName("getToyConclusions").RequireAuthorization();
     }
 
     private static Task<IResult> RecordDeclarationAsync(
@@ -232,6 +240,82 @@ internal static class ToyEndpoints
         }
     }
 
+    private static async Task<IResult> CreateItemConformityConclusionAsync(
+        HttpContext context,
+        IToyConclusionService service,
+        CancellationToken cancellationToken)
+    {
+        var correlationId = Correlation(context);
+        var request = await ReadBodyAsync<CreateItemConformityConclusionRequest>(context, cancellationToken);
+        if (request is null) return Problem(ToyErrorCodes.ValidationFailed, correlationId);
+        try
+        {
+            var result = await service.CreateItemConformityConclusionAsync(request, correlationId, cancellationToken);
+            return Results.Json(result, ToyJson.Options, statusCode: StatusCodes.Status201Created);
+        }
+        catch (ToyDomainException exception)
+        {
+            return Problem(exception.ErrorCode, correlationId);
+        }
+    }
+
+    private static async Task<IResult> CreateTestedScopeConformityConclusionAsync(
+        HttpContext context,
+        IToyConclusionService service,
+        CancellationToken cancellationToken)
+    {
+        var correlationId = Correlation(context);
+        var request = await ReadBodyAsync<CreateTestedScopeConformityConclusionRequest>(context, cancellationToken);
+        if (request is null) return Problem(ToyErrorCodes.ValidationFailed, correlationId);
+        try
+        {
+            var result = await service.CreateTestedScopeConformityConclusionAsync(request, correlationId, cancellationToken);
+            return Results.Json(result, ToyJson.Options, statusCode: StatusCodes.Status201Created);
+        }
+        catch (ToyDomainException exception)
+        {
+            return Problem(exception.ErrorCode, correlationId);
+        }
+    }
+
+    private static async Task<IResult> GetConclusionAsync(
+        string id,
+        HttpContext context,
+        IToyConclusionService service,
+        CancellationToken cancellationToken)
+    {
+        var correlationId = Correlation(context);
+        try
+        {
+            var result = await service.GetConclusionAsync(id, correlationId, cancellationToken);
+            return Results.Json(result, ToyJson.Options);
+        }
+        catch (ToyDomainException exception)
+        {
+            return Problem(exception.ErrorCode, correlationId);
+        }
+    }
+
+    private static async Task<IResult> GetConclusionsByProductAsync(
+        string productRef,
+        long productVersion,
+        HttpContext context,
+        IToyConclusionService service,
+        CancellationToken cancellationToken)
+    {
+        var correlationId = Correlation(context);
+        try
+        {
+            var results = await service.GetConclusionsByProductAsync(
+                productRef, productVersion, correlationId, cancellationToken);
+            return Results.Json(results, ToyJson.Options);
+        }
+        catch (ToyDomainException exception)
+        {
+            return Problem(exception.ErrorCode, correlationId);
+        }
+    }
+
     private static async Task<IResult> PostAsync<TRequest, TResult>(
         HttpContext context,
         CancellationToken cancellationToken,
@@ -289,7 +373,11 @@ internal static class ToyEndpoints
                 ToyErrorCodes.SampleRequirementNotApproved or
                 ToyErrorCodes.DownstreamEligibilityBlocked or
                 ToyErrorCodes.LabelImpactUnknown or
-                ToyErrorCodes.LabelReviewNotValid => StatusCodes.Status422UnprocessableEntity,
+                ToyErrorCodes.LabelReviewNotValid or
+                ToyErrorCodes.ConclusionEvidenceIncomplete or
+                ToyErrorCodes.ConclusionPolicyUnknown or
+                ToyErrorCodes.FictitiousWholeItemConclusion or
+                ToyErrorCodes.ConclusionSodViolation => StatusCodes.Status422UnprocessableEntity,
             ToyErrorCodes.PersistenceUnavailable => StatusCodes.Status503ServiceUnavailable,
             _ => StatusCodes.Status400BadRequest
         };

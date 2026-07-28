@@ -1,0 +1,42 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "acceptance",
+  "id": "AC-TEXTILE-004",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "样品不足、互斥裁样与运行时批准门禁验收",
+  "summary": "在 AC-TEXTILE-001 契约验收上追加运行时证据：面积不足显示缺口并阻断 CuttingPlan 批准，互斥任务不得共享裁片，补样/范围变更证据、权限、并发和回滚可追溯。",
+  "owners": ["实验室技术负责人", "质量负责人", "QA负责人"],
+  "source_refs": [{"document": "PRD-MAIN", "item": "AC-TEXTILE-001"}],
+  "depends_on": ["OD-036@1.0.0", "AC-TEXTILE-001@1.0.0", "BUS-TEX-006@1.0.0", "BUS-TEX-007@1.0.0", "BUS-TEX-008@1.0.0"],
+  "affects": ["textile", "sample-requirement", "cutting-plan", "approval-gate", "automated-test"],
+  "change_class": "major",
+  "approval_evidence": "用户于 2026-07-28 明确回复‘启用纺织运行’，批准把既有契约验收落实为运行时验收；业务场景保持 PRD AC-TEXTILE-001 原意。",
+  "scenario": {
+    "given": [
+      "同一块面料的两个互斥破坏项目需求行，每行三个平行并含复测预留和留样",
+      "该款色部位可用面积不足",
+      "行为人具备或缺少精确的纺织管理/批准能力"
+    ],
+    "when": [
+      "运行时计算并保存样品需求",
+      "创建 CuttingPlan 并尝试批准",
+      "尝试跨互斥组共享、使用未知方向/规则集、并发追加同一计划版本或注入审计失败"
+    ],
+    "then": [
+      "结果为 INSUFFICIENT，缺口按款号、颜色、部件、部位聚合并列明方向与项目",
+      "CuttingPlan 批准被阻断，补样/范围变更 Outbox 证据与失败审计可追溯",
+      "互斥共享、UNKNOWN、无权限、并发冲突均失败关闭且不产生半完成批准",
+      "SUFFICIENT 且结构有效的计划可由具备 textile.cutting-plan.approve 的行为人批准并冻结",
+      "UPDATE/DELETE 已发布事实被数据库拒绝，事务/审计/Outbox 失败整体回滚"
+    ]
+  },
+  "automation": [
+    "领域正向、反向和边界测试",
+    "HTTP 状态码与稳定错误码契约测试",
+    "PostgreSQL 权限、并发、恢复、审计/Outbox 回滚和追加式约束测试",
+    "JSON 序列化兼容测试",
+    "架构私表边界测试"
+  ]
+}

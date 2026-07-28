@@ -1,0 +1,29 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-TEX-007",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "互斥裁样、样品不足与批准门禁运行时规则",
+  "summary": "运行时复用 BUS-TEX-002 确定性规则；互斥破坏任务不得共享裁片，样品不足或 UNKNOWN 必须在 CuttingPlan 批准前阻断，并发布可追溯的补样/范围变更需求证据。",
+  "owners": ["实验室技术负责人", "质量负责人", "产品负责人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "OPS-TEXTILE-002"},
+    {"document": "PRD-MAIN", "item": "AC-TEXTILE-001"}
+  ],
+  "depends_on": ["OD-036@1.0.0", "BUS-TEX-002@1.0.0", "BUS-TEX-006@1.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0"],
+  "affects": ["textile", "sample-requirement", "destructive-exclusion", "approval-gate", "outbox"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "enabled_pack", "applicability": "ENABLED", "condition": "OD-036@1.0.0 已批准纺织运行时实现与受控验证；OD-001@1.0.0 唯一生产试点和生产部署门禁不变"},
+  "approval_evidence": "用户于 2026-07-28 明确回复‘启用纺织运行’；运行时阻断语义直接继承 OPS-TEXTILE-002、AC-TEXTILE-001 与 BUS-TEX-002@1.0.0，不新增业务默认值。",
+  "invariants": [
+    "每行所需试样数等于平行数加复测预留加留样",
+    "共享组内出现不同互斥破坏组或多条破坏性行即拒绝；仅非破坏性且规格一致的行允许共享",
+    "面积不足返回 INSUFFICIENT 和含方向、项目的缺口清单",
+    "INSUFFICIENT 或 UNKNOWN 的样品需求不得批准 CuttingPlan，不得产生可执行状态",
+    "样品不足必须追加审计与 Outbox 证据供补样或范围变更消费者处理；本模块不写其他模块私表",
+    "缺失引用、未知规则集或权限适用性一律失败关闭"
+  ]
+}

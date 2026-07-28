@@ -90,6 +90,9 @@
   <Folder Name="/src/modules/toy/">
     <Project Path="src/modules/toy/OpenLIMS.Modules.Toy/OpenLIMS.Modules.Toy.csproj" />
   </Folder>
+  <Folder Name="/src/modules/textile/">
+    <Project Path="src/modules/textile/OpenLIMS.Modules.Textile/OpenLIMS.Modules.Textile.csproj" />
+  </Folder>
   <Folder Name="/src/modules/report/">
     <Project Path="src/modules/report/OpenLIMS.Modules.Report/OpenLIMS.Modules.Report.csproj" />
   </Folder>
@@ -191,6 +194,9 @@
   <Folder Name="/tests/integration/toy/">
     <Project Path="tests/integration/toy/OpenLIMS.Toy.IntegrationTests/OpenLIMS.Toy.IntegrationTests.csproj" />
   </Folder>
+  <Folder Name="/tests/integration/textile/">
+    <Project Path="tests/integration/textile/OpenLIMS.Textile.IntegrationTests/OpenLIMS.Textile.IntegrationTests.csproj" />
+  </Folder>
   <Folder Name="/tests/integration/report/">
     <Project Path="tests/integration/report/OpenLIMS.Report.IntegrationTests/OpenLIMS.Report.IntegrationTests.csproj" />
   </Folder>
@@ -230,6 +236,9 @@
   </Folder>
   <Folder Name="/tests/unit/toy/">
     <Project Path="tests/unit/toy/OpenLIMS.Toy.UnitTests/OpenLIMS.Toy.UnitTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/unit/textile/">
+    <Project Path="tests/unit/textile/OpenLIMS.Textile.UnitTests/OpenLIMS.Textile.UnitTests.csproj" />
   </Folder>
   <Folder Name="/tests/unit/report/">
     <Project Path="tests/unit/report/OpenLIMS.Report.UnitTests/OpenLIMS.Report.UnitTests.csproj" />

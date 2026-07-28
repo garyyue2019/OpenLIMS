@@ -37,7 +37,7 @@ class RepositoryContractTests(unittest.TestCase):
             check=False,
         )
         self.assertEqual(0, result.returncode, result.stderr.decode("utf-8", errors="replace"))
-        self.assertIn("185 个规格版本", result.stdout.decode("utf-8"))
+        self.assertIn("195 个规格版本", result.stdout.decode("utf-8"))
 
     def test_git_checkout_keeps_deterministic_lf_bytes(self) -> None:
         attributes = (ROOT / ".gitattributes").read_text(encoding="utf-8")
@@ -65,6 +65,7 @@ class RepositoryContractTests(unittest.TestCase):
             "ATC-ALLOC-001__v1.0.0.md",
             "ATC-TEX-001__v1.0.0.md",
             "ATC-TEX-003__v1.0.0.md",
+            "ATC-TEX-004__v1.0.0.md",
             "ATC-BATCH-001__v1.0.0.md",
             "ATC-RESULT-001__v1.0.0.md",
             "ATC-BILL-001__v1.0.0.md",
@@ -82,9 +83,10 @@ class RepositoryContractTests(unittest.TestCase):
             "ATC-TOY-004__v0.1.0.md",
             "ATC-TOY-002__v1.0.0.md",
             "ATC-TOY-003__v1.0.0.md",
+            "ATC-TOY-004__v1.0.0.md",
         }
         self.assertEqual(expected_tasks, {path.name for path in tasks})
-        self.assertEqual(70, len(features))
+        self.assertEqual(74, len(features))
         self.assertTrue(
             {
                 "ATC-PLT-000__v0.1.0.feature",
@@ -104,6 +106,8 @@ class RepositoryContractTests(unittest.TestCase):
                 "ATC-TEX-001__v1.0.0.feature",
                 "AC-TEXTILE-003__v1.0.0.feature",
                 "ATC-TEX-003__v1.0.0.feature",
+                "AC-TEXTILE-004__v1.0.0.feature",
+                "ATC-TEX-004__v1.0.0.feature",
                 "AC-BATCH-001__v1.0.0.feature",
                 "ATC-BATCH-001__v1.0.0.feature",
                 "AC-RETEST-001__v1.0.0.feature",
@@ -139,6 +143,41 @@ class RepositoryContractTests(unittest.TestCase):
             text = raw.decode("utf-8")
             if path.name != ".specgen-lock.json" and path.suffix != ".csv":
                 self.assertIn("generated", text.lower(), str(path))
+
+    def test_textile_runtime_is_registered_with_versioned_openapi_and_projects(self) -> None:
+        api_program = (
+            ROOT / "src" / "host" / "api" / "OpenLIMS.Api" / "Program.cs"
+        ).read_text(encoding="utf-8")
+        worker_program = (
+            ROOT / "src" / "host" / "worker" / "OpenLIMS.Worker" / "Program.cs"
+        ).read_text(encoding="utf-8")
+        solution = (ROOT / "OpenLIMS.slnx").read_text(encoding="utf-8")
+        migration = (
+            ROOT
+            / "src"
+            / "modules"
+            / "textile"
+            / "OpenLIMS.Modules.Textile"
+            / "TextileMigration.cs"
+        ).read_text(encoding="utf-8")
+
+        self.assertIn("new TextileModule(", api_program)
+        self.assertIn("new TextileModule(", worker_program)
+        for operation in (
+            "calculateTextileSampleRequirement",
+            "createTextileCuttingPlan",
+            "approveTextileCuttingPlan",
+            "getTextileCuttingPlan",
+        ):
+            self.assertIn(f'operationId = "{operation}"', api_program)
+        for project in (
+            "src/modules/textile/OpenLIMS.Modules.Textile/OpenLIMS.Modules.Textile.csproj",
+            "tests/unit/textile/OpenLIMS.Textile.UnitTests/OpenLIMS.Textile.UnitTests.csproj",
+            "tests/integration/textile/OpenLIMS.Textile.IntegrationTests/OpenLIMS.Textile.IntegrationTests.csproj",
+        ):
+            self.assertIn(project, solution)
+        self.assertIn("20260728_001_textile_runtime", migration)
+        self.assertIn("reject_textile_mutation", migration)
 
     def test_local_markdown_links_in_ai_manual_and_decision_packets_exist(self) -> None:
         pattern = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
@@ -392,6 +431,12 @@ class RepositoryContractTests(unittest.TestCase):
             "BUS-TEX-005@1.0.0",
             "AC-TEXTILE-003@1.0.0",
             "ATC-TEX-003@1.0.0",
+            "OD-036@1.0.0",
+            "BUS-TEX-006@1.0.0",
+            "BUS-TEX-007@1.0.0",
+            "BUS-TEX-008@1.0.0",
+            "AC-TEXTILE-004@1.0.0",
+            "ATC-TEX-004@1.0.0",
             "OD-030@1.0.0",
             "BUS-BATCH-001@1.0.0",
             "BUS-BATCH-002@1.0.0",
@@ -450,10 +495,14 @@ class RepositoryContractTests(unittest.TestCase):
             "BUS-TOY-003@1.0.0",
             "BUS-TOY-004@1.0.0",
             "BUS-TOY-005@1.0.0",
+            "OD-034@1.0.0",
+            "BUS-TOY-006@1.0.0",
+            "AC-TOY-002@1.0.0",
             "AC-TOY-003@1.0.0",
             "AC-TOY-004@1.0.0",
             "ATC-TOY-002@1.0.0",
             "ATC-TOY-003@1.0.0",
+            "ATC-TOY-004@1.0.0",
         }
         self.assertEqual(
             planned_refs | approved_delivery_v1_refs,
@@ -463,12 +512,20 @@ class RepositoryContractTests(unittest.TestCase):
                 if ref.endswith("@1.0.0") and ref != "OD-002@1.0.0"
             },
         )
+        approval_evidence_sources = {
+            "AC-TOY-002@1.0.0": "ATC-TOY-004@1.0.0",
+        }
         for ref in approved_delivery_v1_refs:
             with self.subTest(approved_delivery_dependency=ref):
                 self.assertEqual("approved", objects[ref]["status"])
-                approval_evidence = objects[ref].get(
+                evidence_source_ref = approval_evidence_sources.get(ref, ref)
+                evidence_source = objects[evidence_source_ref]
+                self.assertEqual("approved", evidence_source["status"])
+                if evidence_source_ref != ref:
+                    self.assertIn(ref, evidence_source["depends_on"])
+                approval_evidence = evidence_source.get(
                     "approval_evidence",
-                    objects[ref].get("body", {}).get("approval_evidence", ""),
+                    evidence_source.get("body", {}).get("approval_evidence", ""),
                 )
                 self.assertIn("用户", approval_evidence)
 

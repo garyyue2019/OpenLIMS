@@ -1,0 +1,29 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-TEX-006",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "纺织样品需求运行时事实",
+  "summary": "在已冻结的 BUS-TEX-001 契约上追加运行时事实：固定款号、颜色、部件、材料、部位、方向、平行数、预处理、互斥破坏组、复测预留、留样、规则集、输入哈希和不可变计算结果。",
+  "owners": ["实验室技术负责人", "技术负责人", "产品负责人", "质量负责人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "OPS-TEXTILE-001"},
+    {"document": "PRD-MAIN", "item": "OPS-TEXTILE-002"}
+  ],
+  "depends_on": ["OD-036@1.0.0", "ED-001@2.0.0", "OD-027@1.0.0", "BUS-TEX-001@1.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0"],
+  "affects": ["textile", "sample-requirement", "runtime", "persistence", "audit"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "enabled_pack", "applicability": "ENABLED", "condition": "OD-036@1.0.0 已批准纺织运行时实现与受控验证；OD-001@1.0.0 唯一生产试点和生产部署门禁不变"},
+  "approval_evidence": "用户于 2026-07-28 在获知纺织当前仅契约且运行时禁用后明确回复‘启用纺织运行’，批准将已冻结契约用于运行时实现与受控验证；生产部署不作推断。",
+  "invariants": [
+    "需求行严格复用 BUS-TEX-001@1.0.0 已冻结维度和 JSON 形状，不就地修改旧契约",
+    "所有业务引用和规则引用必须固定为稳定 ID 加精确版本，不解析最新版",
+    "每次计算保存不可变输入、结果、输入哈希、规则集版本、行为人和时间；更正只能追加新版本",
+    "方向未知、规则集未知或引用缺失失败关闭",
+    "运行时新增 DTO 只能通过新类型表达，v1 序列化契约保持兼容",
+    "本要求不构成生产部署批准"
+  ]
+}

@@ -4,9 +4,11 @@
     <RootNamespace>OpenLIMS.Textile.ContractTests</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="xunit.v3" />
     <PackageReference Include="xunit.runner.visualstudio" />
+    <ProjectReference Include="../../../../src/modules/textile/OpenLIMS.Modules.Textile/OpenLIMS.Modules.Textile.csproj" />
     <ProjectReference Include="../../../../contracts/textile/OpenLIMS.Contracts.Textile/OpenLIMS.Contracts.Textile.csproj" />
   </ItemGroup>
 </Project>

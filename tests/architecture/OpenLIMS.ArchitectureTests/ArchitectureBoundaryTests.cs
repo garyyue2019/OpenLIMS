@@ -146,6 +146,7 @@ public sealed partial class ArchitectureBoundaryTests
         Assert.All(hostPrograms, program => Assert.Contains("new AllocationModule(", File.ReadAllText(program), StringComparison.Ordinal));
         Assert.All(hostPrograms, program => Assert.Contains("new InstrumentModule(", File.ReadAllText(program), StringComparison.Ordinal));
         Assert.All(hostPrograms, program => Assert.Contains("new QcModule(", File.ReadAllText(program), StringComparison.Ordinal));
+        Assert.All(hostPrograms, program => Assert.Contains("new TextileModule(", File.ReadAllText(program), StringComparison.Ordinal));
         Assert.All(hostPrograms, program => Assert.Contains("new ReportModule(", File.ReadAllText(program), StringComparison.Ordinal));
         Assert.All(hostPrograms, program => Assert.DoesNotContain("Assembly.Load", File.ReadAllText(program), StringComparison.Ordinal));
     }
@@ -217,6 +218,20 @@ public sealed partial class ArchitectureBoundaryTests
 
         Assert.NotEmpty(sql);
         Assert.All(sql, schema => Assert.Equal("billing", schema, ignoreCase: true));
+    }
+
+    [Fact]
+    public void Textile_persistence_accesses_only_its_private_schema()
+    {
+        var moduleRoot = Path.Combine(RepositoryRoot, "src", "modules", "textile");
+        var files = Directory.EnumerateFiles(moduleRoot, "*.cs", SearchOption.AllDirectories).ToArray();
+        var sql = files
+            .SelectMany(file => SchemaAccessPattern().Matches(File.ReadAllText(file)))
+            .Select(match => match.Groups[1].Value)
+            .ToArray();
+
+        Assert.NotEmpty(sql);
+        Assert.All(sql, schema => Assert.Equal("textile", schema, ignoreCase: true));
     }
 
     [Fact]

@@ -1,0 +1,29 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "requirement",
+  "id": "BUS-TEX-008",
+  "version": "1.0.0",
+  "status": "approved",
+  "title": "CuttingPlan 运行时版本与批准门禁",
+  "summary": "在 BUS-TEX-003 已冻结契约之上追加 CuttingPlan 运行时版本：固定来源实物/布批、取样部位、方向、尺寸、数量、距布边要求、模板版本、操作人和生成试样；只有绑定 SUFFICIENT 样品需求的版本可批准。",
+  "owners": ["实验室技术负责人", "技术负责人", "质量负责人"],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "OPS-TEXTILE-003"},
+    {"document": "PRD-MAIN", "item": "AC-TEXTILE-001"}
+  ],
+  "depends_on": ["OD-036@1.0.0", "BUS-TEX-003@1.0.0", "BUS-TEX-006@1.0.0", "BUS-TEX-007@1.0.0", "SEC-AUTH-001@1.0.0", "SEC-AUD-001@2.0.0"],
+  "affects": ["textile", "cutting-plan", "runtime", "technical-approval", "audit"],
+  "change_class": "major",
+  "priority": "Must",
+  "activation": {"mode": "enabled_pack", "applicability": "ENABLED", "condition": "OD-036@1.0.0 已批准纺织运行时实现与受控验证；OD-001@1.0.0 唯一生产试点和生产部署门禁不变"},
+  "approval_evidence": "用户于 2026-07-28 明确回复‘启用纺织运行’；CuttingPlan 字段与批准前样品不足阻断直接来自 OPS-TEXTILE-002/003、BUS-TEX-003@1.0.0 和 AC-TEXTILE-001。",
+  "invariants": [
+    "CuttingPlan 严格复用 BUS-TEX-003@1.0.0 已冻结字段与结构校验",
+    "计划版本只能 DRAFT → APPROVED；已批准版本不可修改或删除，变化必须追加后继版本",
+    "批准必须绑定同组织范围内 SUFFICIENT 样品需求的精确版本、输入哈希和规则集版本",
+    "创建/查询要求 textile.sample-requirement.manage，批准要求 textile.cutting-plan.approve",
+    "本要求不默认自批是否允许或禁止，由授权策略决定",
+    "持久化、审计和 Outbox 同事务；失败整体回滚并追加独立失败尝试证据"
+  ]
+}

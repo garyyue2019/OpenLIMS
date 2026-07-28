@@ -16,6 +16,7 @@ using OpenLIMS.Modules.Receiving;
 using OpenLIMS.Modules.Report;
 using OpenLIMS.Modules.Result;
 using OpenLIMS.Modules.Scope;
+using OpenLIMS.Modules.Textile;
 using OpenLIMS.Modules.Toy;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
@@ -44,6 +45,7 @@ IOpenLimsServerModule[] modules =
     new BillingModule(deploymentOptions.PostgresConnectionString!),
     new InstrumentModule(deploymentOptions.PostgresConnectionString!),
     new QcModule(deploymentOptions.PostgresConnectionString!),
+    new TextileModule(deploymentOptions.PostgresConnectionString!),
     new ToyModule(deploymentOptions.PostgresConnectionString!),
     new ReportModule(deploymentOptions.PostgresConnectionString!)
 ];
@@ -243,6 +245,10 @@ app.MapGet("/openapi/v1.json", () => Results.Json(new
         ["/api/v1/qc-runs/{id}/release"] = new { post = new { operationId = "releaseQcBlock", responses = new { created = new { description = "Block released once all five gates are satisfied" } } } },
         ["/api/v1/qc-runs/{id}"] = new { get = new { operationId = "getQcRun", responses = new { ok = new { description = "QC run with results, impact scope, gates and deviations" } } } },
         ["/api/v1/qc-runs/{id}/reportability"] = new { get = new { operationId = "getQcReportability", responses = new { ok = new { description = "Version-pinned QC reportability decision for a target" } } } },
+        ["/api/v1/textile/sample-requirements"] = new { post = new { operationId = "calculateTextileSampleRequirement", responses = new { created = new { description = "Immutable version-pinned textile sample requirement calculated" } } } },
+        ["/api/v1/textile/cutting-plans"] = new { post = new { operationId = "createTextileCuttingPlan", responses = new { created = new { description = "Immutable CuttingPlan draft pinned to an exact sample requirement" } } } },
+        ["/api/v1/textile/cutting-plans/{id}/versions/{version}/approval"] = new { post = new { operationId = "approveTextileCuttingPlan", responses = new { ok = new { description = "Sufficient CuttingPlan version approved and frozen" } } } },
+        ["/api/v1/textile/cutting-plans/{id}/versions/{version}"] = new { get = new { operationId = "getTextileCuttingPlan", responses = new { ok = new { description = "Immutable CuttingPlan, demand gaps and approval evidence" } } } },
         ["/api/v1/toy/products/{id}/age-declarations"] = new { post = new { operationId = "recordToyAgeDeclaration", responses = new { created = new { description = "Customer age and intended-use claim recorded as its own fact" } } } },
         ["/api/v1/toy/products/{id}/age-grade-decisions"] = new { post = new { operationId = "recordToyAgeGradeDecision", responses = new { created = new { description = "Laboratory age grade determination appended as a new version" } } } },
         ["/api/v1/toy/products/{id}/age-grade-decisions/{versionNumber}/freeze"] = new { post = new { operationId = "freezeToyAgeGradeDecision", responses = new { ok = new { description = "Determination frozen into force; the previous one becomes superseded" } } } },

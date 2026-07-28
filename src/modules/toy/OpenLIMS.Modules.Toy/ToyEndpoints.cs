@@ -31,6 +31,16 @@ internal static class ToyEndpoints
             .WithName("requestToyAllocation").RequireAuthorization();
         endpoints.MapGet(ToyTestUnitPlanContract.DetailPath, GetTestUnitPlanAsync)
             .WithName("getToyTestUnitPlan").RequireAuthorization();
+        endpoints.MapPost(ToyLabelReviewContract.ArtifactPath, CreateLabelArtifactAsync)
+            .WithName("createToyLabelArtifact").RequireAuthorization();
+        endpoints.MapPost(ToyLabelReviewContract.ArtifactVersionPath, AppendLabelArtifactVersionAsync)
+            .WithName("appendToyLabelArtifactVersion").RequireAuthorization();
+        endpoints.MapPost(ToyLabelReviewContract.ReviewPath, CreateLabelReviewAsync)
+            .WithName("createToyLabelReview").RequireAuthorization();
+        endpoints.MapPost(ToyLabelReviewContract.DecisionPath, DecideLabelReviewAsync)
+            .WithName("decideToyLabelReview").RequireAuthorization();
+        endpoints.MapGet(ToyLabelReviewContract.StatusPath, GetLabelReviewStatusAsync)
+            .WithName("getToyLabelReviewStatus").RequireAuthorization();
     }
 
     private static Task<IResult> RecordDeclarationAsync(
@@ -140,6 +150,88 @@ internal static class ToyEndpoints
         }
     }
 
+    private static Task<IResult> CreateLabelArtifactAsync(
+        string id,
+        HttpContext context,
+        IToyLabelReviewService service,
+        CancellationToken cancellationToken) =>
+        PostAsync<CreateToyLabelArtifactRequest, ToyLabelArtifactResult>(
+            context,
+            cancellationToken,
+            (request, correlationId) =>
+                service.CreateArtifactAsync(id, request, correlationId, cancellationToken));
+
+    private static Task<IResult> AppendLabelArtifactVersionAsync(
+        string id,
+        string artifactId,
+        HttpContext context,
+        IToyLabelReviewService service,
+        CancellationToken cancellationToken) =>
+        PostAsync<AppendToyLabelArtifactVersionRequest, ToyLabelArtifactResult>(
+            context,
+            cancellationToken,
+            (request, correlationId) =>
+                service.AppendArtifactVersionAsync(
+                    id, artifactId, request, correlationId, cancellationToken));
+
+    private static Task<IResult> CreateLabelReviewAsync(
+        string id,
+        string artifactId,
+        HttpContext context,
+        IToyLabelReviewService service,
+        CancellationToken cancellationToken) =>
+        PostAsync<CreateToyLabelReviewRequest, ToyLabelReviewResult>(
+            context,
+            cancellationToken,
+            (request, correlationId) =>
+                service.CreateReviewAsync(id, artifactId, request, correlationId, cancellationToken));
+
+    private static Task<IResult> DecideLabelReviewAsync(
+        string id,
+        string reviewId,
+        HttpContext context,
+        IToyLabelReviewService service,
+        CancellationToken cancellationToken) =>
+        PostAsync<DecideToyLabelReviewRequest, ToyLabelReviewResult>(
+            context,
+            cancellationToken,
+            (request, correlationId) =>
+                service.DecideReviewAsync(id, reviewId, request, correlationId, cancellationToken),
+            StatusCodes.Status200OK);
+
+    private static async Task<IResult> GetLabelReviewStatusAsync(
+        string id,
+        long productVersion,
+        long ageGradeDecisionVersion,
+        string market,
+        string language,
+        string artifactType,
+        string ruleSetVersion,
+        HttpContext context,
+        IToyLabelReviewService service,
+        CancellationToken cancellationToken)
+    {
+        var correlationId = Correlation(context);
+        try
+        {
+            return Results.Json(await service.GetStatusAsync(
+                id,
+                new ToyLabelReviewStatusQuery(
+                    productVersion,
+                    ageGradeDecisionVersion,
+                    market,
+                    language,
+                    artifactType,
+                    ruleSetVersion),
+                correlationId,
+                cancellationToken), ToyJson.Options);
+        }
+        catch (ToyDomainException exception)
+        {
+            return Problem(exception.ErrorCode, correlationId);
+        }
+    }
+
     private static async Task<IResult> PostAsync<TRequest, TResult>(
         HttpContext context,
         CancellationToken cancellationToken,
@@ -195,7 +287,9 @@ internal static class ToyEndpoints
                 ToyErrorCodes.ReassessmentNotPending or
                 ToyErrorCodes.DestructiveTestUnitConflict or
                 ToyErrorCodes.SampleRequirementNotApproved or
-                ToyErrorCodes.DownstreamEligibilityBlocked => StatusCodes.Status422UnprocessableEntity,
+                ToyErrorCodes.DownstreamEligibilityBlocked or
+                ToyErrorCodes.LabelImpactUnknown or
+                ToyErrorCodes.LabelReviewNotValid => StatusCodes.Status422UnprocessableEntity,
             ToyErrorCodes.PersistenceUnavailable => StatusCodes.Status503ServiceUnavailable,
             _ => StatusCodes.Status400BadRequest
         };

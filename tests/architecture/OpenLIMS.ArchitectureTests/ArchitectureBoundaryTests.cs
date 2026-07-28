@@ -177,6 +177,23 @@ public sealed partial class ArchitectureBoundaryTests
     }
 
     [Fact]
+    public void Toy_persistence_owns_label_reviews_without_accessing_labeling_private_tables()
+    {
+        var moduleRoot = Path.Combine(RepositoryRoot, "src", "modules", "toy");
+        var files = Directory.EnumerateFiles(moduleRoot, "*.cs", SearchOption.AllDirectories).ToArray();
+        var sql = files
+            .SelectMany(file => SchemaAccessPattern().Matches(File.ReadAllText(file)))
+            .Select(match => match.Groups[1].Value)
+            .ToArray();
+        var source = string.Join('\n', files.Select(File.ReadAllText));
+
+        Assert.NotEmpty(sql);
+        Assert.All(sql, schema => Assert.Equal("toy", schema, ignoreCase: true));
+        Assert.DoesNotContain("labeling.print_job", source, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("labeling.scan", source, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
     public void Scope_persistence_accesses_only_its_private_schema()
     {
         var moduleRoot = Path.Combine(RepositoryRoot, "src", "modules", "scope");

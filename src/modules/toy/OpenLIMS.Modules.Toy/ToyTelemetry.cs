@@ -17,6 +17,10 @@ internal static class ToyTelemetry
     private static readonly Counter<long> SampleDemandApprovals = Meter.CreateCounter<long>("toy_sample_demand_approval_total");
     private static readonly Counter<long> DownstreamDecisions = Meter.CreateCounter<long>("toy_downstream_decision_total");
     private static readonly Counter<long> TestUnitPlanStatus = Meter.CreateCounter<long>("toy_test_unit_plan_status_total");
+    private static readonly Counter<long> LabelArtifacts = Meter.CreateCounter<long>("toy_label_artifact_version_total");
+    private static readonly Counter<long> LabelReviews = Meter.CreateCounter<long>("toy_label_review_total");
+    private static readonly Counter<long> LabelImpacts = Meter.CreateCounter<long>("toy_label_review_impact_total");
+    private static readonly Counter<long> LabelStatus = Meter.CreateCounter<long>("toy_label_review_status_total");
 
     public static void RecordDeclaration() => Declarations.Add(1);
 
@@ -47,4 +51,16 @@ internal static class ToyTelemetry
 
     public static void RecordTestUnitPlanStatus(string decision) =>
         TestUnitPlanStatus.Add(1, new KeyValuePair<string, object?>("decision", decision));
+
+    public static void RecordLabelArtifact(string artifactType) =>
+        LabelArtifacts.Add(1, new KeyValuePair<string, object?>("artifact_type", artifactType));
+
+    public static void RecordLabelReview(string state) =>
+        LabelReviews.Add(1, new KeyValuePair<string, object?>("state", state));
+
+    public static void RecordLabelImpact(string result) =>
+        LabelImpacts.Add(1, new KeyValuePair<string, object?>("result", result));
+
+    public static void RecordLabelStatus(string decision) =>
+        LabelStatus.Add(1, new KeyValuePair<string, object?>("decision", decision));
 }

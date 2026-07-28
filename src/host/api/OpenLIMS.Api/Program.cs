@@ -6,17 +6,17 @@ using OpenLIMS.BuildingBlocks.Platform;
 using OpenLIMS.Contracts.Labeling;
 using OpenLIMS.Contracts.Platform;
 using OpenLIMS.Modules.Allocation;
+using OpenLIMS.Modules.Batch;
 using OpenLIMS.Modules.Billing;
 using OpenLIMS.Modules.Instrument;
-using OpenLIMS.Modules.Qc;
-using OpenLIMS.Modules.Toy;
-using OpenLIMS.Modules.Report;
-using OpenLIMS.Modules.Batch;
 using OpenLIMS.Modules.Labeling;
+using OpenLIMS.Modules.Qc;
 using OpenLIMS.Modules.Quantity;
 using OpenLIMS.Modules.Receiving;
+using OpenLIMS.Modules.Report;
 using OpenLIMS.Modules.Result;
 using OpenLIMS.Modules.Scope;
+using OpenLIMS.Modules.Toy;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
 
@@ -253,6 +253,11 @@ app.MapGet("/openapi/v1.json", () => Results.Json(new
         ["/api/v1/toy/products/{id}/test-unit-plans/{planVersion}/approval"] = new { post = new { operationId = "approveToySampleRequirement", responses = new { ok = new { description = "Technical approval appended and the demand version frozen" } } } },
         ["/api/v1/toy/products/{id}/test-unit-plans/{planVersion}/allocations"] = new { post = new { operationId = "requestToyAllocation", responses = new { created = new { description = "Quantity and Allocation public-port decisions pinned to the approved demand" } } } },
         ["/api/v1/toy/products/{id}/test-unit-plans/{planVersion}"] = new { get = new { operationId = "getToyTestUnitPlan", responses = new { ok = new { description = "Immutable plan, demand components, approval and downstream decision evidence" } } } },
+        ["/api/v1/toy/products/{id}/label-artifacts"] = new { post = new { operationId = "createToyLabelArtifact", responses = new { created = new { description = "Immutable packaging, label, instruction or marketing-age-claim artifact version created after image-hash verification" } } } },
+        ["/api/v1/toy/products/{id}/label-artifacts/{artifactId}/versions"] = new { post = new { operationId = "appendToyLabelArtifactVersion", responses = new { created = new { description = "New immutable content and image-evidence version appended without rewriting history" } } } },
+        ["/api/v1/toy/products/{id}/label-artifacts/{artifactId}/reviews"] = new { post = new { operationId = "createToyLabelReview", responses = new { created = new { description = "Review draft pins artifact, product, age decision, exact scopes, impact rule and rule set" } } } },
+        ["/api/v1/toy/products/{id}/label-reviews/{reviewId}/decision"] = new { post = new { operationId = "decideToyLabelReview", responses = new { ok = new { description = "Immutable APPROVED or REJECTED decision appended by an authorized reviewer" } } } },
+        ["/api/v1/toy/products/{id}/label-reviews/status"] = new { get = new { operationId = "getToyLabelReviewStatus", responses = new { ok = new { description = "Version-pinned VALID, RE_REVIEW_REQUIRED, REJECTED or UNKNOWN status" } } } },
         ["/api/v1/reports"] = new { post = new { operationId = "createReport", responses = new { created = new { description = "Report draft created" } } } },
         ["/api/v1/reports/{id}/lines"] = new { post = new { operationId = "addReportLine", responses = new { created = new { description = "Report line pinned to a current adoption with its full contribution chain" } } } },
         ["/api/v1/reports/{id}/gate-evaluation"] = new { post = new { operationId = "evaluateReportGate", responses = new { created = new { description = "Issuance gate evaluated across every upstream source with itemised blockers" } } } },

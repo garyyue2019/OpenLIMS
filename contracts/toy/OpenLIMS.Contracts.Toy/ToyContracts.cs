@@ -26,6 +26,8 @@ public static class ToyCapabilities
 {
     public const string Manage = "toy.manage";
     public const string SampleDemandApprove = "toy.sample-demand.approve";
+    public const string LabelManage = "toy.label.manage";
+    public const string LabelReview = "toy.label.review";
 }
 
 public static class ToyClaimTypes
@@ -113,6 +115,10 @@ public static class ToyErrorCodes
     public const string DestructiveTestUnitConflict = "TOY.DESTRUCTIVE_TEST_UNIT_CONFLICT";
     public const string SampleRequirementNotApproved = "TOY.SAMPLE_REQUIREMENT_NOT_APPROVED";
     public const string DownstreamEligibilityBlocked = "TOY.DOWNSTREAM_ELIGIBILITY_BLOCKED";
+    public const string LabelArtifactInvalid = "TOY.LABEL_ARTIFACT_INVALID";
+    public const string LabelReviewInvalid = "TOY.LABEL_REVIEW_INVALID";
+    public const string LabelImpactUnknown = "TOY.LABEL_IMPACT_UNKNOWN";
+    public const string LabelReviewNotValid = "TOY.LABEL_REVIEW_NOT_VALID";
 }
 
 public static class ToyTestUnitPlanStates

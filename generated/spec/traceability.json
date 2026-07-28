@@ -592,6 +592,40 @@
       "status": "proposed",
       "title": "可接触性、互斥 TestUnit 与危险域覆盖"
     },
+    "AC-TOY-002@1.0.0": {
+      "affects": [
+        "toy",
+        "accessibility",
+        "photo-evidence",
+        "test-unit",
+        "destructive-exclusion",
+        "hazard-coverage",
+        "conformity",
+        "disclosure",
+        "external-compliance-reference",
+        "automated-test"
+      ],
+      "depends_on": [
+        "OD-001@1.0.0",
+        "OD-034@1.0.0",
+        "BUS-TOY-002@1.0.0",
+        "BUS-TOY-003@1.0.0",
+        "BUS-TOY-006@1.0.0",
+        "ATC-RESULT-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "01ccb68851a1bebcb56572958c9618ed85b94fe04e2d363808f2f95fda6b5803",
+      "kind": "acceptance",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-TOY-002"
+        }
+      ],
+      "status": "approved",
+      "title": "可接触性、互斥 TestUnit 与危险域覆盖结论"
+    },
     "AC-TOY-003@0.1.0": {
       "affects": [
         "toy",
@@ -2877,6 +2911,53 @@
       "status": "proposed",
       "title": "阻断 DEV-027 多 TestUnit 危险域覆盖结论"
     },
+    "ATC-TOY-004@1.0.0": {
+      "affects": [
+        "toy",
+        "test-unit",
+        "hazard-coverage",
+        "result-provenance",
+        "conformity",
+        "reporting",
+        "authorization",
+        "disclosure",
+        "automated-test"
+      ],
+      "depends_on": [
+        "ED-001@2.0.0",
+        "OD-001@1.0.0",
+        "OD-002@1.0.0",
+        "OD-034@1.0.0",
+        "BUS-TOY-002@1.0.0",
+        "BUS-TOY-003@1.0.0",
+        "BUS-TOY-006@1.0.0",
+        "AC-TOY-002@1.0.0",
+        "ATC-TOY-002@1.0.0",
+        "ATC-RESULT-001@1.0.0",
+        "ATC-RPT-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0",
+        "NFR-ARCH-001@2.0.0"
+      ],
+      "fingerprint": "f30a41219cb744920466ed9d3b638ec00ffb5a7fa6973f4e1c3a3686bcccbd85",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TOY-005"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-TOY-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-034"
+        }
+      ],
+      "status": "approved",
+      "title": "DEV-027 多 TestUnit 危险域覆盖结论"
+    },
     "BUS-AI-001@1.0.0": {
       "affects": [
         "ai",
@@ -4372,6 +4453,44 @@
       "status": "proposed",
       "title": "多 TestUnit 结论的危险域覆盖证据边界"
     },
+    "BUS-TOY-006@1.0.0": {
+      "affects": [
+        "toy",
+        "test-unit",
+        "hazard-coverage",
+        "conformity",
+        "reporting",
+        "disclosure",
+        "external-compliance-reference"
+      ],
+      "depends_on": [
+        "OD-001@1.0.0",
+        "OD-034@1.0.0",
+        "BUS-TOY-002@1.0.0",
+        "BUS-TOY-003@1.0.0",
+        "ATC-RESULT-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "0cf0fbbe0a7c7ecf8155c78237219605d9dada791f1aea4bbef3c92bac6a9f8c",
+      "kind": "requirement",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TOY-005"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-TOY-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-034"
+        }
+      ],
+      "status": "approved",
+      "title": "多 TestUnit 结论的危险域覆盖与未覆盖项披露"
+    },
     "ED-001@0.1.0": {
       "affects": [
         "repository",
@@ -5058,6 +5177,34 @@
       ],
       "status": "proposed",
       "title": "检测结论层级与全面合规引用边界"
+    },
+    "OD-034@1.0.0": {
+      "affects": [
+        "conformity",
+        "reporting",
+        "external-compliance-reference",
+        "toy",
+        "test-unit",
+        "hazard-coverage",
+        "disclosure"
+      ],
+      "depends_on": [
+        "OD-001@1.0.0",
+        "OD-011@1.0.0",
+        "OD-029@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "SEC-AUD-001@2.0.0"
+      ],
+      "fingerprint": "7bb13c420a76ca16be7d07863837ff4b6c5487f995929b039560d47905a1cdba",
+      "kind": "decision",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-034"
+        }
+      ],
+      "status": "approved",
+      "title": "DEV-027 检测结论层级与全面合规引用边界"
     },
     "OD-035@1.0.0": {
       "affects": [

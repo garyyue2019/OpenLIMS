@@ -31,6 +31,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `AC-TEXTILE-003@1.0.0` | `acceptance` | `approved` | 裁样方向与预处理超差契约验收 | `major` | textile, preconditioning, cutting-plan, automated-test | `7f112061a2b3` |
 | `AC-TOY-001@1.0.0` | `acceptance` | `approved` | 年龄改判与新暴露部件 | `major` | toy, age-grade, accessibility, scope-reassessment, automated-test | `35015245e394` |
 | `AC-TOY-002@0.1.0` | `acceptance` | `proposed` | 可接触性、互斥 TestUnit 与危险域覆盖 | `major` | toy, accessibility, photo-evidence, test-unit, destructive-exclusion, hazard-coverage, conformity, automated-test | `bd3aa9fd4405` |
+| `AC-TOY-002@1.0.0` | `acceptance` | `approved` | 可接触性、互斥 TestUnit 与危险域覆盖结论 | `major` | toy, accessibility, photo-evidence, test-unit, destructive-exclusion, hazard-coverage, conformity, disclosure, external-compliance-reference, automated-test | `01ccb68851a1` |
 | `AC-TOY-003@0.1.0` | `acceptance` | `proposed` | TestUnit 计划与样品需求技术批准 | `major` | toy, test-unit, sample-requirement, destructive-exclusion, technical-approval, quantity, automated-test | `ee8738a92667` |
 | `AC-TOY-003@1.0.0` | `acceptance` | `approved` | TestUnit 计划与样品需求技术批准 | `major` | toy, test-unit, sample-requirement, destructive-exclusion, technical-approval, quantity, automated-test | `3ec688ceb9e9` |
 | `AC-TOY-004@0.1.0` | `acceptance` | `proposed` | LabelReview 版本失效与重审 | `major` | toy, label-artifact, label-review, age-grade, impact-invalidation, photo-evidence, automated-test | `1100697807f4` |
@@ -78,6 +79,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `ATC-TOY-003@0.1.0` | `story` | `proposed` | 实施 DEV-026 玩具 LabelReview 版本失效与重审 | `major` | toy, label-artifact, packaging, instruction, marketing-age-claim, label-review, impact-invalidation, photo-evidence, authorization, audit, automated-test | `300d1a403de3` |
 | `ATC-TOY-003@1.0.0` | `story` | `approved` | 实施 DEV-026 玩具 LabelReview 版本失效与重审 | `major` | toy, label-artifact, packaging, instruction, marketing-age-claim, label-review, impact-invalidation, photo-evidence, authorization, audit, automated-test | `2c7e575c9f01` |
 | `ATC-TOY-004@0.1.0` | `story` | `proposed` | 阻断 DEV-027 多 TestUnit 危险域覆盖结论 | `major` | toy, test-unit, hazard-coverage, result-provenance, conformity, reporting, authorization, disclosure, automated-test | `962b89343dbf` |
+| `ATC-TOY-004@1.0.0` | `story` | `approved` | DEV-027 多 TestUnit 危险域覆盖结论 | `major` | toy, test-unit, hazard-coverage, result-provenance, conformity, reporting, authorization, disclosure, automated-test | `f30a41219cb7` |
 | `BUS-AI-001@1.0.0` | `requirement` | `approved` | AI 运行控制封套契约 | `major` | ai, run-control, contracts, serialization | `95e7831fe908` |
 | `BUS-AI-002@1.0.0` | `requirement` | `approved` | 事实类别与不得提升规则 | `major` | ai, fact-class, rules | `89380e537235` |
 | `BUS-AI-003@1.0.0` | `requirement` | `approved` | 抽取候选、缺口建议与人工处置契约及失败关闭 | `major` | ai, extraction, gap-suggestion, human-review, rules | `442696dd4fdf` |
@@ -129,6 +131,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `BUS-TOY-005@0.1.0` | `requirement` | `proposed` | 玩具标签工件版本与 LabelReview 失效重审 | `major` | toy, packaging, label, instruction, marketing-age-claim, artifact-version, label-review, impact-invalidation, audit | `830cc732c88d` |
 | `BUS-TOY-005@1.0.0` | `requirement` | `approved` | 玩具标签工件版本与 LabelReview 失效重审 | `major` | toy, packaging, label, instruction, marketing-age-claim, artifact-version, label-review, impact-invalidation, audit | `611b7d306b04` |
 | `BUS-TOY-006@0.1.0` | `requirement` | `proposed` | 多 TestUnit 结论的危险域覆盖证据边界 | `major` | toy, test-unit, hazard-coverage, conformity, reporting, disclosure | `7e39973c9b16` |
+| `BUS-TOY-006@1.0.0` | `requirement` | `approved` | 多 TestUnit 结论的危险域覆盖与未覆盖项披露 | `major` | toy, test-unit, hazard-coverage, conformity, reporting, disclosure, external-compliance-reference | `0cf0fbbe0a7c` |
 | `ED-001@0.1.0` | `decision` | `proposed` | 应用技术栈与工程仓库基线 | `major` | repository, backend, frontend, database, ci, deployment | `1f7d1cb22b55` |
 | `ED-001@1.0.0` | `decision` | `proposed` | 工程技术栈、仓库与版本锁基线 | `major` | repository, backend, frontend, database, ci, non-production-deployment, supply-chain | `0bb0bcc2f006` |
 | `ED-001@2.0.0` | `decision` | `approved` | 已验证的工程技术栈与版本锁基线 | `major` | repository, backend, frontend, database, ci, non-production-deployment, supply-chain | `fad2f23d20bd` |
@@ -160,6 +163,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `OD-031@1.0.0` | `decision` | `approved` | 首期条码、打印和扫码流程 | `major` | barcode, label-printing, receiving, scan-resolution, audit | `04a15707f209` |
 | `OD-032@0.1.0` | `decision` | `proposed` | 多方参与角色、访问和付款权限模型 | `major` | party, authorization, report-delivery, billing | `0664721d0fb0` |
 | `OD-034@0.1.0` | `decision` | `proposed` | 检测结论层级与全面合规引用边界 | `major` | conformity, reporting, external-compliance-reference | `d9645e91b677` |
+| `OD-034@1.0.0` | `decision` | `approved` | DEV-027 检测结论层级与全面合规引用边界 | `major` | conformity, reporting, external-compliance-reference, toy, test-unit, hazard-coverage, disclosure | `7bb13c420a76` |
 | `OD-035@1.0.0` | `decision` | `approved` | DEV-005 隔离与身份评估边界 | `major` | receiving, identity-assessment, lab-execution-gate, audit | `2edfbe80e573` |
 | `OPS-EXC-001@0.1.0` | `requirement` | `in_review` | 收样异常分类建档 | `minor` | exception, receiving, identity, evidence, workflow | `84fdb3643f7e` |
 | `OPS-EXC-001@1.0.0` | `requirement` | `approved` | DEV-006 收样异常分类建档 | `major` | exception, receiving, identity, evidence, workflow | `f04d497b0ec8` |

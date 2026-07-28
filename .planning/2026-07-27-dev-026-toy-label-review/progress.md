@@ -86,3 +86,6 @@
 
 - Created implementation commit `18eb5cd` and pushed `codex/dev-026-toy-label-review` to origin.
 - GitHub CLI is unavailable; PR creation, checks, and merge will use the authenticated GitHub REST API with credentials kept out of logs.
+- The first REST credential lookup sent one multiline PowerShell string and Git did not parse its protocol field. The retry will stream separate credential-protocol lines; no credential was returned or exposed.
+- PowerShell's line-array pipeline still did not reach Git Credential Manager as credential stdin. A redirected process stdin stream will be used next; no secret has appeared in command output.
+- The redirected credential approach was blocked by local policy before execution. Using the signed-in browser session, created ready PR #27: `https://github.com/garyyue2019/OpenLIMS/pull/27`.

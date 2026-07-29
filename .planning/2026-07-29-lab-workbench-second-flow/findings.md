@@ -73,3 +73,8 @@
 | PowerShell default text decoding produced mojibake and invalid JSON for Story inspection | Use explicit `Get-Content -Encoding UTF8` for repository JSON and source files. |
 | A combined planning-file patch used one stale context anchor and was rejected atomically | Re-read the current plan and split the update around exact current headings; no partial change occurred. |
 | The uncommitted `progress.md` file contained only NUL bytes after a session boundary | Code and specs were unaffected; reconstruct the log from the persisted plan and session facts, then verify nonzero UTF-8 bytes. |
+
+## Delivery Findings
+
+- GitHub PR #30 targets `main` from `codex/lab-workbench-second-flow`.
+- GitHub reports no conflicts and automatic mergeability; Application CI (Linux and Windows onboarding) plus the deterministic specification gate are running.

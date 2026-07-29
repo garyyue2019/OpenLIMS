@@ -9,6 +9,7 @@ import {
 import { platformShellFeature, webFeatureComposition, webFeatureRegistry } from './web-feature-registry'
 import { receivingFeature } from './features/receiving/receiving-feature'
 import { labWorkbenchFeature } from './features/lab-workbench/lab-workbench-feature'
+import { labWorkbenchSecondFeature } from './features/lab-workbench/lab-workbench-second-feature'
 
 const component = {} as Component
 
@@ -127,7 +128,9 @@ describe('composeWebFeatures', () => {
 
 describe('production web feature registry', () => {
   it('contains the platform shell and all explicitly approved production features', () => {
-    expect(webFeatureRegistry).toEqual([platformShellFeature, receivingFeature, labWorkbenchFeature])
+    expect(webFeatureRegistry).toEqual([
+      platformShellFeature, receivingFeature, labWorkbenchFeature, labWorkbenchSecondFeature
+    ])
     expect(webFeatureComposition.routes.map((route) => [route.name, route.path])).toEqual([
       ['platform.home', '/'],
       ['platform.system-status', '/system/status'],
@@ -136,7 +139,11 @@ describe('production web feature registry', () => {
       ['workbench.scope', '/workbench/scope'],
       ['workbench.quantity', '/workbench/quantity'],
       ['workbench.allocation', '/workbench/allocation'],
-      ['workbench.batch', '/workbench/batch']
+      ['workbench.batch', '/workbench/batch'],
+      ['workbench.instrument', '/workbench/instrument'],
+      ['workbench.result', '/workbench/result'],
+      ['workbench.qc', '/workbench/qc'],
+      ['workbench.report', '/workbench/report']
     ])
     expect(webFeatureComposition.navigationEntries).toEqual([
       { id: 'platform.system-status', label: 'System status', routeName: 'platform.system-status' },
@@ -144,7 +151,11 @@ describe('production web feature registry', () => {
       { id: 'workbench.scope', label: '范围矩阵', routeName: 'workbench.scope' },
       { id: 'workbench.quantity', label: '数量账', routeName: 'workbench.quantity' },
       { id: 'workbench.allocation', label: '样品分配', routeName: 'workbench.allocation' },
-      { id: 'workbench.batch', label: '批次管理', routeName: 'workbench.batch' }
+      { id: 'workbench.batch', label: '批次管理', routeName: 'workbench.batch' },
+      { id: 'workbench.instrument', label: '仪器导入', routeName: 'workbench.instrument' },
+      { id: 'workbench.result', label: '结果采用', routeName: 'workbench.result' },
+      { id: 'workbench.qc', label: 'QC 放行', routeName: 'workbench.qc' },
+      { id: 'workbench.report', label: '报告签发', routeName: 'workbench.report' }
     ])
   })
 })

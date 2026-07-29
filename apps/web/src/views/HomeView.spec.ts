@@ -17,7 +17,7 @@ vi.mock('vue-router', () => ({
 import HomeView from './HomeView.vue'
 
 describe('operator home view', () => {
-  it('links an authenticated operator to the complete receiving-through-batch flow', () => {
+  it('links an authenticated operator to the complete receiving-through-report flow', () => {
     const wrapper = mount(HomeView, {
       global: {
         stubs: {
@@ -34,7 +34,8 @@ describe('operator home view', () => {
 
     expect(wrapper.findAll('[data-route]').map(link => link.attributes('data-route'))).toEqual([
       'receiving.registration', 'workbench.scope', 'workbench.quantity',
-      'workbench.allocation', 'workbench.batch'
+      'workbench.allocation', 'workbench.batch', 'workbench.instrument',
+      'workbench.result', 'workbench.qc', 'workbench.report'
     ])
   })
 })

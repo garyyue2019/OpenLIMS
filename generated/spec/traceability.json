@@ -3189,6 +3189,143 @@
       "status": "approved",
       "title": "实施 Scope、Quantity、Allocation 与 Batch 实验室工作台"
     },
+    "ATC-WEB-002@1.0.0": {
+      "affects": [
+        "web",
+        "instrument",
+        "result",
+        "qc",
+        "report",
+        "operator-workbench",
+        "accessibility",
+        "automated-test"
+      ],
+      "depends_on": [
+        "ATC-PLT-003@1.0.0",
+        "ATC-INST-001@1.0.0",
+        "ATC-RESULT-001@1.0.0",
+        "ATC-QC-001@1.0.0",
+        "ATC-RPT-001@1.0.0",
+        "ATC-RPT-002@1.0.0",
+        "OD-002@1.0.0",
+        "AC-RETEST-001@1.0.0",
+        "AC-QC-001@1.0.0",
+        "AC-RPT-001@1.0.0",
+        "AC-RPT-002@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "NFR-ARCH-001@2.0.0"
+      ],
+      "fingerprint": "0959d0fd44400fbafe0d7227dd301a42792b5f4232f8ec0d1bef40b43cd1fc77",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "INT-INST-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "INT-INST-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "INT-DATA-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-RAW-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-RAW-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-PROV-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-PROV-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-RES-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-RES-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-RES-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-RES-004"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-RETEST-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-QC-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-QC-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "LAB-QC-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-QC-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "RPT-TRACE-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "RPT-GATE-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "RPT-GATE-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "RPT-SIGN-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "RPT-VERS-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "RPT-VERS-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "RPT-VERS-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "RPT-VERS-004"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-RPT-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-RPT-002"
+        }
+      ],
+      "status": "approved",
+      "title": "实施 Instrument、Result、QC 与 Report 实验室工作台"
+    },
     "BUS-AI-001@1.0.0": {
       "affects": [
         "ai",

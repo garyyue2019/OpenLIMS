@@ -61,6 +61,15 @@ h1 { color: #102a43; font-size: clamp(2rem, 6vw, 3.5rem); margin-block: .4rem 1r
 .lab-blocked { border-left-color: #d64545; background: #fff5f5; }
 .lab-line { border: 1px solid #d9e2ec; border-radius: .5rem; margin-top: .75rem; padding: .75rem; }
 .lab-validation { color: #b42318; font-weight: 600; }
+.lab-json-field { display: grid; gap: .4rem; color: #334e68; font-size: .875rem; font-weight: 600; }
+.lab-json-field small { color: #627d98; font-weight: 400; }
+.lab-json-editor, .lab-json-response { width: 100%; border: 1px solid #9fb3c8; border-radius: .4rem; padding: .75rem; background: #f8fbff; color: #102a43; font: .82rem/1.55 ui-monospace, SFMono-Regular, Consolas, monospace; tab-size: 2; }
+.lab-json-editor { min-height: 18rem; resize: vertical; }
+.lab-json-editor:disabled { background: #f0f4f8; color: #829ab1; }
+.lab-json-response { max-height: 32rem; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; }
+.lab-operation-note { color: #486581; margin-block: .4rem 0; }
+.lab-panel details { margin-top: .85rem; }
+.lab-panel summary { color: #1f6feb; cursor: pointer; font-weight: 600; }
 @media (max-width: 900px) { .lab-grid, .lab-details { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 480px) { .app-header { padding-inline: 1rem; } .app-header nav a { padding-right: 0; } .operator-grid { grid-template-columns: 1fr; } }
 @media (max-width: 720px) { .field-grid, .lab-grid, .lab-details { grid-template-columns: 1fr; } .field-grid .wide, .lab-grid .wide { grid-column: auto; } .form-actions { align-items: stretch; flex-direction: column; } }

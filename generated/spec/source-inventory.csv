@@ -29,16 +29,16 @@ PRD-MAIN,AC-LIN-001,acceptance-block,19.2 收样、拆解和谱系,1148,多关�
 PRD-MAIN,AC-LONGRUN-001,acceptance-block,19.2 收样、拆解和谱系,1199,长周期运行中断,37a4f4c91f8066f0486f02081dcf2b33e544ae95f1dcfd125ca62f38389d04d4,
 PRD-MAIN,AC-PAY-001,acceptance-block,19.4 发票、应收和对账,1244,收款最终性,608904ee5fd74c97253c0abf399ac4ea50c2cadc3b0f2f3ae6f40624ef0c22d2,
 PRD-MAIN,AC-PROD-001,acceptance-block,19.1 产品、AI 和报价,1122,对象区分,3c97f0e25d1f07effbce046584fc6453f88281b2af632413c8ab1332beb0b658,
-PRD-MAIN,AC-QC-001,acceptance-block,19.3 检测、QC 和报告,1213,QC 阻断,3fb399d4e09306619dc091c62a8cf9332415c116ab435d125c5e6a86f71bb287,AC-QC-001@1.0.0;ATC-QC-001@1.0.0;BUS-QC-003@1.0.0
+PRD-MAIN,AC-QC-001,acceptance-block,19.3 检测、QC 和报告,1213,QC 阻断,3fb399d4e09306619dc091c62a8cf9332415c116ab435d125c5e6a86f71bb287,AC-QC-001@1.0.0;ATC-QC-001@1.0.0;ATC-WEB-002@1.0.0;BUS-QC-003@1.0.0
 PRD-MAIN,AC-QTY-001,acceptance-block,19.2 收样、拆解和谱系,1151,并发超分配,7181e6405ac3b428de292379613393cde5ccc667b848aae38b9c2e4681fd47c0,AC-QTY-001@1.0.0;ATC-QTY-001@1.0.0;ATC-WEB-001@1.0.0
 PRD-MAIN,AC-QTY-002,acceptance-block,19.2 收样、拆解和谱系,1154,允许损耗,e0105ab2978b889b752a46a36235fa35847f99ee837ea38f68ab1b144b4c786f,
 PRD-MAIN,AC-QUOTE-001,acceptance-block,19.1 产品、AI 和报价,1134,近似与正式报价分离,b6daa626666efa3681e0b60d38b5d3beed5391d09ede99f663e4eef1d4e4e531,
 PRD-MAIN,AC-REC-001,acceptance-block,19.2 收样、拆解和谱系,1139,隔离控制,8f4060da7e31c38cd465032f764298fe9bed0ee06b450bbea3ccd03a71eb91da,AC-REC-001@0.1.0;AC-REC-001@1.0.0;ATC-REC-003@0.1.0;ATC-REC-003@1.0.0;ATC-REC-003@2.0.0;ATC-REC-006@2.0.0
 PRD-MAIN,AC-RECOVERY-001,acceptance-block,19.5 安全、AI 降级和恢复,1270,灾难恢复一致性,c81315fef58c3cce33f0132953a72a842d30d140ba7891bbb3f2b31f2e850a75,
 PRD-MAIN,AC-REQ-001,acceptance-block,19.0 要求、范围、覆盖和认可,1105,标准生命周期,9a2f1a74ecfcc58ab59dbb904063fcf8e60ed7193360425469af953b1eef2055,
-PRD-MAIN,AC-RETEST-001,acceptance-block,19.3 检测、QC 和报告,1216,复测采用,8ef4c7c023eb8cf25f2cf837df0fba2b99bc4a79056ba322bd479ab14dc07a91,AC-RETEST-001@1.0.0;ATC-RESULT-001@1.0.0
-PRD-MAIN,AC-RPT-001,acceptance-block,19.3 检测、QC 和报告,1222,签发关口,895c36ef837a7a548b3c15351bfbbe2a9b2845f6a0b6afd9a3c49e661b3459de,AC-RPT-001@1.0.0;ATC-RPT-001@1.0.0
-PRD-MAIN,AC-RPT-002,acceptance-block,19.3 检测、QC 和报告,1225,更正版本,c53fe5580be1fb5b91e9fe5044bf77dc2c685aa2173eb78a3d8bdc1519194811,AC-RPT-002@1.0.0;ATC-RPT-002@1.0.0
+PRD-MAIN,AC-RETEST-001,acceptance-block,19.3 检测、QC 和报告,1216,复测采用,8ef4c7c023eb8cf25f2cf837df0fba2b99bc4a79056ba322bd479ab14dc07a91,AC-RETEST-001@1.0.0;ATC-RESULT-001@1.0.0;ATC-WEB-002@1.0.0
+PRD-MAIN,AC-RPT-001,acceptance-block,19.3 检测、QC 和报告,1222,签发关口,895c36ef837a7a548b3c15351bfbbe2a9b2845f6a0b6afd9a3c49e661b3459de,AC-RPT-001@1.0.0;ATC-RPT-001@1.0.0;ATC-WEB-002@1.0.0
+PRD-MAIN,AC-RPT-002,acceptance-block,19.3 检测、QC 和报告,1225,更正版本,c53fe5580be1fb5b91e9fe5044bf77dc2c685aa2173eb78a3d8bdc1519194811,AC-RPT-002@1.0.0;ATC-RPT-002@1.0.0;ATC-WEB-002@1.0.0
 PRD-MAIN,AC-SCOPE-001,acceptance-block,19.0 要求、范围、覆盖和认可,1108,范围行全链,884daaf2c6b97bd4789897da9c19c98543e3fa0f96197509c7389308a48d96a4,AC-SCOPE-001@1.0.0;ATC-SCP-001@1.0.0;ATC-WEB-001@1.0.0
 PRD-MAIN,AC-SEC-001,acceptance-block,19.5 安全、AI 降级和恢复,1258,集团内多维越权防护,7f1ff95a65eb1d1fcc23e6d55d3f8acfb9c70c794c7bd7a1a0512b1ab1fee267,AC-SEC-001@0.1.0;AC-SEC-001@1.0.0;ATC-PLT-001@1.0.0;ATC-PLT-002@1.0.0;BUS-PLT-002@1.0.0
 PRD-MAIN,AC-SEC-002,acceptance-block,19.5 安全、AI 降级和恢复,1264,间接提示注入,ce6a60d3d1a43cae0b99bcb5b6b52341d79a7eeafd20253a510df048a7fa96c4,
@@ -170,13 +170,13 @@ PRD-MAIN,INT-BANK-001,table-row,15. 集成要求,991,[BusinessOps] 银行/支付
 PRD-MAIN,INT-CDS-001,table-row,15. 集成要求,989,CDS/专业数据系统,4fa4ae61e1d3866813291d8f9bfa359d02018c8293bd3e5cabd3ec17e0cde96e,
 PRD-MAIN,INT-CONTRACT-001,table-row,15. 集成要求,983,合同系统,5758463b4b7c707d49a13a3001b713654922a14e866b1db150954944f26187c4,
 PRD-MAIN,INT-CRM-001,table-row,15. 集成要求,982,CRM,43f5c499aaa4ff08213f6305566f47549df431a526a939daa9e6dd833c1f8dfd,
-PRD-MAIN,INT-DATA-001,table-row,15. 集成要求,986,对象存储/时序数据,f8fb92aac8ea6f37b4bb7d110ecfd4b47f26cecf50e29acae0f4ba5a8728854a,ATC-INST-001@1.0.0;BUS-INST-001@1.0.0
+PRD-MAIN,INT-DATA-001,table-row,15. 集成要求,986,对象存储/时序数据,f8fb92aac8ea6f37b4bb7d110ecfd4b47f26cecf50e29acae0f4ba5a8728854a,ATC-INST-001@1.0.0;ATC-WEB-002@1.0.0;BUS-INST-001@1.0.0
 PRD-MAIN,INT-EINV-001,table-row,15. 集成要求,990,[条件开票接口] 电子发票平台,e27bc4d78d1dfa216089ceac6e36a5cf5bb2d33b32b4933efe292dcbbdee33aa,
 PRD-MAIN,INT-ERP-001,table-row,15. 集成要求,992,[条件 ERP 接口] ERP,e513a74e7a196317e3b3c9d1ed42a86e455355b34c880768d980e41bc2463bb8,
 PRD-MAIN,INT-ESIGN-001,table-row,15. 集成要求,993,签章系统,2103908aa02ede16cada9a46877b29bc0e096263e04ac74cfd1628acadf16de7,
 PRD-MAIN,INT-IDP-001,table-row,15. 集成要求,994,身份源,4677f28905f08aa5d551c28d1a111ca431ea7250fd5d1e182c56f1a243f9371b,
-PRD-MAIN,INT-INST-001,table-row,15. 集成要求,984,仪器/数据系统,315f2d773ad9bea9c9cdaab57c502691e7a9f71654d07f523746832b9bcd012e,ATC-INST-001@1.0.0;BUS-INST-001@1.0.0
-PRD-MAIN,INT-INST-002,table-row,15. 集成要求,985,文件/CSV/中间件接入,845e1da093f1ad3d6d943ff93c25e3a0af38c17184c6169823e5dab2e031e6a9,ATC-INST-001@1.0.0;BUS-INST-002@1.0.0;BUS-INST-003@1.0.0
+PRD-MAIN,INT-INST-001,table-row,15. 集成要求,984,仪器/数据系统,315f2d773ad9bea9c9cdaab57c502691e7a9f71654d07f523746832b9bcd012e,ATC-INST-001@1.0.0;ATC-WEB-002@1.0.0;BUS-INST-001@1.0.0
+PRD-MAIN,INT-INST-002,table-row,15. 集成要求,985,文件/CSV/中间件接入,845e1da093f1ad3d6d943ff93c25e3a0af38c17184c6169823e5dab2e031e6a9,ATC-INST-001@1.0.0;ATC-WEB-002@1.0.0;BUS-INST-002@1.0.0;BUS-INST-003@1.0.0
 PRD-MAIN,INT-KB-001,table-row,15. 集成要求,987,标准/法规/客户知识源,b7a42b3f1b8809b23bc7ddcab99a3b43f232bce6bd8767d6c1e3c37bd7d3d81e,
 PRD-MAIN,INT-NOTIFY-001,table-row,15. 集成要求,995,邮件/短信,5c21e3f7f321117998b0d4f000abf16f06cad3b371146a693d528e62ae64f7c8,
 PRD-MAIN,INT-PLM-001,table-row,15. 集成要求,988,PLM/PDM/项目系统,e4691b0417178c8c48e332bc7a1d26b397e96b1224068bb1406a6eaba1d7e09c,
@@ -186,17 +186,17 @@ PRD-MAIN,LAB-CONF-001,table-row,12.6 检测、QC、结果采用和分包,823,系
 PRD-MAIN,LAB-CONF-002,table-row,12.6 检测、QC、结果采用和分包,824,每个 ConformityDecision 必须引用对象/变体、市场、委托要求选择快照、范围行、采用结果、限值和决策规则；`MEASURED_ONLY`、`NOT_EVALUATED` 或 `WAIVED` 模式不得强制生成该对象,101467aa2ad5b46d4e377b51dc0b52ed3898bc29785cdf322162ac27b8f94928,
 PRD-MAIN,LAB-CONF-003,table-row,12.6 检测、QC、结果采用和分包,825,`MEASURED_ONLY` 只报告值/观察且不得显示 Pass/Fail；`NOT_EVALUATED` 必须给出未评价原因；`WAIVED` 必须引用批准的放弃依据且不得伪造检测结果,4d008a36abc6bf71e7be6d9fc1face141e8c0591ee03283b29ae031d6032721f,
 PRD-MAIN,LAB-EXEC-001,table-row,12.6 检测、QC、结果采用和分包,816,系统必须在任务开始前校验方法版本、人员资格、设备状态和试样状态,bff07b9c92acb9c53ded5eea17570fe0ae2bcf02a473d03b4a17d1e7f7e4dac2,
-PRD-MAIN,LAB-PROV-001,table-row,12.6 检测、QC、结果采用和分包,826,派生、平均、最差值、统计或多样件汇总结果必须通过 ResultProvenanceEdge 引用全部纳入/排除输入、聚合规则版本和理由,f27bfdd39bee9641349b739e48b062f04c0dfb76aaeb9a1f1edb9ac711ef1d1b,ATC-RESULT-001@1.0.0;BUS-RES-002@1.0.0
-PRD-MAIN,LAB-PROV-002,table-row,12.6 检测、QC、结果采用和分包,827,结果来源图必须禁止循环、悬空输入、重复计入和无规则跨对象聚合；原始观测和被排除输入不得删除,637a2cf625e267f5f904200e57b6fbf63ad0005173a8257226c83571a907bce3,ATC-RESULT-001@1.0.0;BUS-RES-002@1.0.0
-PRD-MAIN,LAB-QC-001,table-row,12.6 检测、QC、结果采用和分包,819,系统必须按方法版本执行适用的 QC 规则,2691f319fcaec927d9c7f46a55e2d3f580d6ebb1e9232d3ca45170f4fb65874f,ATC-QC-001@1.0.0;BUS-QC-001@1.0.0
-PRD-MAIN,LAB-QC-002,table-row,12.6 检测、QC、结果采用和分包,820,系统必须在 QC 失败时将受影响结果保持为不可报告,722c3cb88f60288827b5281d707cfc47783a686fa3b6a2ab48f63fc8c5666389,ATC-QC-001@1.0.0;BUS-QC-002@1.0.0
-PRD-MAIN,LAB-QC-003,table-row,12.6 检测、QC、结果采用和分包,821,系统必须在调查、影响范围、有效性决定、采用规则和技术复核全部满足后才解除阻断,f9167517c83b3657dc47317e9c234db0d5ee833c78fa2f0a842f5b5d206ce9fb,ATC-QC-001@1.0.0;BUS-QC-003@1.0.0
-PRD-MAIN,LAB-RAW-001,table-row,12.6 检测、QC、结果采用和分包,817,系统必须保存原始数据或不可变引用、哈希、来源和解析器版本,db18978b62008a4a5d57ea019e118393f89461f4c7a2ad94976fbb1f8578544f,ATC-INST-001@1.0.0;ATC-RESULT-001@1.0.0;BUS-INST-001@1.0.0;BUS-INST-002@1.0.0;BUS-RES-001@1.0.0
-PRD-MAIN,LAB-RAW-002,table-row,12.6 检测、QC、结果采用和分包,818,系统必须禁止覆盖已提交原始观测和结果,b47214df135c16e3771fcdd58b5b33fb9bd15b68f26b8651437b9aca37ed7754,ATC-INST-001@1.0.0;ATC-RESULT-001@1.0.0;BUS-INST-001@1.0.0;BUS-INST-003@1.0.0;BUS-RES-001@1.0.0
-PRD-MAIN,LAB-RES-001,table-row,12.6 检测、QC、结果采用和分包,829,系统必须区分重复测定、复测、补测、重新制备和补样,2e768acff2db7ca4039252da3f850b9ecd496bdef3184b8a0e7a3d33e77cf040,ATC-RESULT-001@1.0.0;BUS-RES-001@1.0.0
-PRD-MAIN,LAB-RES-002,table-row,12.6 检测、QC、结果采用和分包,830,系统必须在上述事件中保留原数据、原结果、谱系、触发原因和批准记录,984a3e5d0ec7b3a17c20405e1d3d3e49ab06501db685c8c332af4a968d2df745,ATC-RESULT-001@1.0.0;BUS-RES-001@1.0.0
-PRD-MAIN,LAB-RES-003,table-row,12.6 检测、QC、结果采用和分包,831,系统必须在看到复测结果前记录结果采用规则,064e979a694c13f06fac9a05b4ef3d5de112def6a08cf4ff9056c7599397edf6,ATC-RESULT-001@1.0.0;BUS-RES-003@1.0.0
-PRD-MAIN,LAB-RES-004,table-row,12.6 检测、QC、结果采用和分包,832,系统必须确保每个报告结果只有一个有效采用结果,533114e581f0ed53b2a7f3725e2e3b8c5d24414b78a44e1cc91abb84ea1a3eb8,ATC-RESULT-001@1.0.0;BUS-RES-003@1.0.0
+PRD-MAIN,LAB-PROV-001,table-row,12.6 检测、QC、结果采用和分包,826,派生、平均、最差值、统计或多样件汇总结果必须通过 ResultProvenanceEdge 引用全部纳入/排除输入、聚合规则版本和理由,f27bfdd39bee9641349b739e48b062f04c0dfb76aaeb9a1f1edb9ac711ef1d1b,ATC-RESULT-001@1.0.0;ATC-WEB-002@1.0.0;BUS-RES-002@1.0.0
+PRD-MAIN,LAB-PROV-002,table-row,12.6 检测、QC、结果采用和分包,827,结果来源图必须禁止循环、悬空输入、重复计入和无规则跨对象聚合；原始观测和被排除输入不得删除,637a2cf625e267f5f904200e57b6fbf63ad0005173a8257226c83571a907bce3,ATC-RESULT-001@1.0.0;ATC-WEB-002@1.0.0;BUS-RES-002@1.0.0
+PRD-MAIN,LAB-QC-001,table-row,12.6 检测、QC、结果采用和分包,819,系统必须按方法版本执行适用的 QC 规则,2691f319fcaec927d9c7f46a55e2d3f580d6ebb1e9232d3ca45170f4fb65874f,ATC-QC-001@1.0.0;ATC-WEB-002@1.0.0;BUS-QC-001@1.0.0
+PRD-MAIN,LAB-QC-002,table-row,12.6 检测、QC、结果采用和分包,820,系统必须在 QC 失败时将受影响结果保持为不可报告,722c3cb88f60288827b5281d707cfc47783a686fa3b6a2ab48f63fc8c5666389,ATC-QC-001@1.0.0;ATC-WEB-002@1.0.0;BUS-QC-002@1.0.0
+PRD-MAIN,LAB-QC-003,table-row,12.6 检测、QC、结果采用和分包,821,系统必须在调查、影响范围、有效性决定、采用规则和技术复核全部满足后才解除阻断,f9167517c83b3657dc47317e9c234db0d5ee833c78fa2f0a842f5b5d206ce9fb,ATC-QC-001@1.0.0;ATC-WEB-002@1.0.0;BUS-QC-003@1.0.0
+PRD-MAIN,LAB-RAW-001,table-row,12.6 检测、QC、结果采用和分包,817,系统必须保存原始数据或不可变引用、哈希、来源和解析器版本,db18978b62008a4a5d57ea019e118393f89461f4c7a2ad94976fbb1f8578544f,ATC-INST-001@1.0.0;ATC-RESULT-001@1.0.0;ATC-WEB-002@1.0.0;BUS-INST-001@1.0.0;BUS-INST-002@1.0.0;BUS-RES-001@1.0.0
+PRD-MAIN,LAB-RAW-002,table-row,12.6 检测、QC、结果采用和分包,818,系统必须禁止覆盖已提交原始观测和结果,b47214df135c16e3771fcdd58b5b33fb9bd15b68f26b8651437b9aca37ed7754,ATC-INST-001@1.0.0;ATC-RESULT-001@1.0.0;ATC-WEB-002@1.0.0;BUS-INST-001@1.0.0;BUS-INST-003@1.0.0;BUS-RES-001@1.0.0
+PRD-MAIN,LAB-RES-001,table-row,12.6 检测、QC、结果采用和分包,829,系统必须区分重复测定、复测、补测、重新制备和补样,2e768acff2db7ca4039252da3f850b9ecd496bdef3184b8a0e7a3d33e77cf040,ATC-RESULT-001@1.0.0;ATC-WEB-002@1.0.0;BUS-RES-001@1.0.0
+PRD-MAIN,LAB-RES-002,table-row,12.6 检测、QC、结果采用和分包,830,系统必须在上述事件中保留原数据、原结果、谱系、触发原因和批准记录,984a3e5d0ec7b3a17c20405e1d3d3e49ab06501db685c8c332af4a968d2df745,ATC-RESULT-001@1.0.0;ATC-WEB-002@1.0.0;BUS-RES-001@1.0.0
+PRD-MAIN,LAB-RES-003,table-row,12.6 检测、QC、结果采用和分包,831,系统必须在看到复测结果前记录结果采用规则,064e979a694c13f06fac9a05b4ef3d5de112def6a08cf4ff9056c7599397edf6,ATC-RESULT-001@1.0.0;ATC-WEB-002@1.0.0;BUS-RES-003@1.0.0
+PRD-MAIN,LAB-RES-004,table-row,12.6 检测、QC、结果采用和分包,832,系统必须确保每个报告结果只有一个有效采用结果,533114e581f0ed53b2a7f3725e2e3b8c5d24414b78a44e1cc91abb84ea1a3eb8,ATC-RESULT-001@1.0.0;ATC-WEB-002@1.0.0;BUS-RES-003@1.0.0
 PRD-MAIN,LAB-SUB-001,table-row,12.6 检测、QC、结果采用和分包,833,系统必须把分包发出对象绑定数量、封识、运输条件和分包方接收标识,0ad4b4bec4cb22e7259f18703c97e86bbb4fc7eacaf5d41a5caf627f283e033a,
 PRD-MAIN,LAB-SUB-002,table-row,12.6 检测、QC、结果采用和分包,834,系统必须使外部结果引用分包任务、报告版本、方法和内部复核决定,f03c2972255d65ffd7417e5394090d8738bffaf3a0ec162738a0434fc480e36c,
 PRD-MAIN,LAB-SUB-003,table-row,12.6 检测、QC、结果采用和分包,835,系统必须在分包报告更正或撤回时触发内部报告影响评估,b92db704780fc084063ffe34be0373be1345c4e8ac7629dd6e68fb55491f20a5,
@@ -341,15 +341,15 @@ PRD-MAIN,RISK-022,table-row,21. 主要风险与缓解措施,1414,自定义配置
 PRD-MAIN,RISK-023,table-row,21. 主要风险与缓解措施,1415,集团多机构后补造成组织、责任归属、编号和权限重构,515c4583d3328b566f093533e14876af5ddb4750a5247d7ccbb9d7bc43a34a49,
 PRD-MAIN,RISK-024,table-row,21. 主要风险与缓解措施,1416,直接控制高风险设备或存储全部高频点位,087cf42920f67680fee9d92c38b602b68e4e803397d54937157db44f732ccb17,
 PRD-MAIN,RPT-CLAIM-001,table-row,12.7 报告,844,系统必须逐报告行校验认可标识、检测/符合性声明和分包披露；不得使用报告级单一“已认可”布尔值,399820baf9bcd3229d00623df3e84f41f3bee3ea754184c8fc8ece338d44ab9c,ATC-RPT-001@1.0.0;BUS-RPT-003@1.0.0
-PRD-MAIN,RPT-GATE-001,table-row,12.7 报告,842,系统必须在签发前校验计划完整性、结果唯一性、QC、异常、身份、方法、规格、分包披露和签字授权,8bde4f795440c06545729b77af4fa3c6d4aa2c3abd2547e2ba58b314713da876,ATC-RPT-001@1.0.0;BUS-RPT-002@1.0.0
-PRD-MAIN,RPT-GATE-002,table-row,12.7 报告,843,系统必须为每个阻断项返回对象、规则版本和允许的下一步,550ce5283de481ef11a01becdc2a1af62b233d7e5ceeed4dd02f25a677e006cc,ATC-RPT-001@1.0.0;BUS-RPT-002@1.0.0
+PRD-MAIN,RPT-GATE-001,table-row,12.7 报告,842,系统必须在签发前校验计划完整性、结果唯一性、QC、异常、身份、方法、规格、分包披露和签字授权,8bde4f795440c06545729b77af4fa3c6d4aa2c3abd2547e2ba58b314713da876,ATC-RPT-001@1.0.0;ATC-WEB-002@1.0.0;BUS-RPT-002@1.0.0
+PRD-MAIN,RPT-GATE-002,table-row,12.7 报告,843,系统必须为每个阻断项返回对象、规则版本和允许的下一步,550ce5283de481ef11a01becdc2a1af62b233d7e5ceeed4dd02f25a677e006cc,ATC-RPT-001@1.0.0;ATC-WEB-002@1.0.0;BUS-RPT-002@1.0.0
 PRD-MAIN,RPT-SCOPE-001,table-row,12.7 报告,845,报告必须区分实际测试对象、经批准覆盖对象、未评价范围、客户声明和实验室结论,d1812a9e6bf49cab5eb23addb908056b1527c3d29ca6a5d3cc62970de9951a8d,ATC-RPT-001@1.0.0;BUS-RPT-001@1.0.0
-PRD-MAIN,RPT-SIGN-001,table-row,12.7 报告,846,系统必须将电子签名绑定到不可变报告内容哈希,2fa2718923ddc25ec9f0d081517772d85396f664891d5c53512ba97a4921630e,ATC-RPT-002@1.0.0;BUS-RPT-004@1.0.0
-PRD-MAIN,RPT-TRACE-001,table-row,12.7 报告,841,系统必须使每个报告行引用一个当前有效 ResultAdoption，并完整、无歧义地重建其全部 ResultInput/来源边、观测、运行、原始证据、贡献试样/实物、身份、范围行和要求选择快照；只有 `EVALUATED` 模式才必须追溯 ConformityDecision,1e46e966e8935c7a618355752cc738cecba6b86b172349c40560a0b46ac88d45,ATC-RPT-001@1.0.0;BUS-RPT-001@1.0.0
-PRD-MAIN,RPT-VERS-001,table-row,12.7 报告,847,系统必须通过新版本执行更正或补充,ee93aa9c97cb6522f79b5545c8581b6c9a6f59a9625917304e0e9142bff7fb03,ATC-RPT-002@1.0.0;BUS-RPT-005@1.0.0
-PRD-MAIN,RPT-VERS-002,table-row,12.7 报告,848,系统必须禁止删除或覆盖已签发报告版本,77230b8c13c59de0b11d5f73b45d4b34e2045813b163d806f0fc58c796853492,ATC-RPT-002@1.0.0;BUS-RPT-005@1.0.0
-PRD-MAIN,RPT-VERS-003,table-row,12.7 报告,849,系统必须使验证页显示当前有效版本、历史状态和替代关系,c9c418b030106162ada6f0a906ac53af2f233c12b9d6b05e6829273260ffa510,ATC-RPT-002@1.0.0;BUS-RPT-005@1.0.0
-PRD-MAIN,RPT-VERS-004,table-row,12.7 报告,850,系统不得使旧下载链接静默返回不同报告文件,2695601c1db8f669b4117b95077b37c0602e3e119914539e95515f0d2e96d792,ATC-RPT-002@1.0.0;BUS-RPT-005@1.0.0
+PRD-MAIN,RPT-SIGN-001,table-row,12.7 报告,846,系统必须将电子签名绑定到不可变报告内容哈希,2fa2718923ddc25ec9f0d081517772d85396f664891d5c53512ba97a4921630e,ATC-RPT-002@1.0.0;ATC-WEB-002@1.0.0;BUS-RPT-004@1.0.0
+PRD-MAIN,RPT-TRACE-001,table-row,12.7 报告,841,系统必须使每个报告行引用一个当前有效 ResultAdoption，并完整、无歧义地重建其全部 ResultInput/来源边、观测、运行、原始证据、贡献试样/实物、身份、范围行和要求选择快照；只有 `EVALUATED` 模式才必须追溯 ConformityDecision,1e46e966e8935c7a618355752cc738cecba6b86b172349c40560a0b46ac88d45,ATC-RPT-001@1.0.0;ATC-WEB-002@1.0.0;BUS-RPT-001@1.0.0
+PRD-MAIN,RPT-VERS-001,table-row,12.7 报告,847,系统必须通过新版本执行更正或补充,ee93aa9c97cb6522f79b5545c8581b6c9a6f59a9625917304e0e9142bff7fb03,ATC-RPT-002@1.0.0;ATC-WEB-002@1.0.0;BUS-RPT-005@1.0.0
+PRD-MAIN,RPT-VERS-002,table-row,12.7 报告,848,系统必须禁止删除或覆盖已签发报告版本,77230b8c13c59de0b11d5f73b45d4b34e2045813b163d806f0fc58c796853492,ATC-RPT-002@1.0.0;ATC-WEB-002@1.0.0;BUS-RPT-005@1.0.0
+PRD-MAIN,RPT-VERS-003,table-row,12.7 报告,849,系统必须使验证页显示当前有效版本、历史状态和替代关系,c9c418b030106162ada6f0a906ac53af2f233c12b9d6b05e6829273260ffa510,ATC-RPT-002@1.0.0;ATC-WEB-002@1.0.0;BUS-RPT-005@1.0.0
+PRD-MAIN,RPT-VERS-004,table-row,12.7 报告,850,系统不得使旧下载链接静默返回不同报告文件,2695601c1db8f669b4117b95077b37c0602e3e119914539e95515f0d2e96d792,ATC-RPT-002@1.0.0;ATC-WEB-002@1.0.0;BUS-RPT-005@1.0.0
 PRD-MAIN,RULE-001,table-row,18. 核心业务规则,1070,AI 近似报价 BOM 不得自动转为逻辑产品 BOM、检测分解或观察结构,0d1c4025a850250fae261c4603f1792b71873c86d6445f44a1b2d6f6683c2715,
 PRD-MAIN,RULE-002,table-row,18. 核心业务规则,1071,客户 BOM 不得自动成为检测分解,a69b9da57f46e6ce9aa27725c1274bba4c304dae82db1833e8fb87485ac05ce1,
 PRD-MAIN,RULE-003,table-row,18. 核心业务规则,1072,观察结构只表达已观察范围，不表达未观察内部结构,9a18657fe6a15936ed89ce677ef48cded4f3c8e8db5dc2c925a41b2737b37f41,

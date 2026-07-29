@@ -84,6 +84,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `ATC-TOY-004@1.0.0` | `story` | `approved` | DEV-027 多 TestUnit 危险域覆盖结论 | `major` | toy, test-unit, hazard-coverage, result-provenance, conformity, reporting, authorization, disclosure, automated-test | `f30a41219cb7` |
 | `ATC-TOY-005@1.0.0` | `story` | `approved` | 修复并验收 DEV-027 Toy 结论运行时 | `major` | toy, result, conclusion, separation-of-duty, reauthentication, transaction, audit, outbox, worker-migration, automated-test | `778312d5b716` |
 | `ATC-WEB-001@1.0.0` | `story` | `approved` | 实施 Scope、Quantity、Allocation 与 Batch 实验室工作台 | `major` | web, scope, quantity, allocation, batch, operator-workbench, accessibility, automated-test | `8e37afc7bc27` |
+| `ATC-WEB-002@1.0.0` | `story` | `approved` | 实施 Instrument、Result、QC 与 Report 实验室工作台 | `major` | web, instrument, result, qc, report, operator-workbench, accessibility, automated-test | `0959d0fd4440` |
 | `BUS-AI-001@1.0.0` | `requirement` | `approved` | AI 运行控制封套契约 | `major` | ai, run-control, contracts, serialization | `95e7831fe908` |
 | `BUS-AI-002@1.0.0` | `requirement` | `approved` | 事实类别与不得提升规则 | `major` | ai, fact-class, rules | `89380e537235` |
 | `BUS-AI-003@1.0.0` | `requirement` | `approved` | 抽取候选、缺口建议与人工处置契约及失败关闭 | `major` | ai, extraction, gap-suggestion, human-review, rules | `442696dd4fdf` |

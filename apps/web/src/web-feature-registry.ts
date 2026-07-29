@@ -3,6 +3,7 @@ import HomeView from './views/HomeView.vue'
 import SystemStatusView from './views/SystemStatusView.vue'
 import { receivingFeature } from './features/receiving/receiving-feature'
 import { labWorkbenchFeature } from './features/lab-workbench/lab-workbench-feature'
+import { labWorkbenchSecondFeature } from './features/lab-workbench/lab-workbench-second-feature'
 import {
   composeWebFeatures,
   type WebFeatureDescriptor
@@ -21,12 +22,13 @@ export const platformShellFeature = {
   ]
 } as const satisfies WebFeatureDescriptor
 
-// Production features are registered explicitly at build time. Receiving and the
-// approved laboratory workbench are composed here; no runtime discovery is used.
+// Production features are registered explicitly at build time. Receiving and both
+// approved laboratory workbench slices are composed here; no runtime discovery is used.
 export const webFeatureRegistry: readonly WebFeatureDescriptor[] = [
   platformShellFeature,
   receivingFeature,
-  labWorkbenchFeature
+  labWorkbenchFeature,
+  labWorkbenchSecondFeature
 ]
 
 export const webFeatureComposition = composeWebFeatures(webFeatureRegistry)

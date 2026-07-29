@@ -10,7 +10,7 @@ const route = useRoute()
     <a-card :bordered="false" class="hero-card">
       <p class="eyebrow">SYSTEM SHELL</p>
       <h1 id="page-title">OpenLIMS</h1>
-      <p>通过受保护的工作台执行收样、范围、数量、分配与批次操作。</p>
+      <p>通过受保护的工作台执行从收样到受控报告签发的实验室全流程操作。</p>
       <a-alert v-if="authSnapshot.status === 'configuration-error'" type="error" show-icon message="Configuration error" description="Sign-in is unavailable until the protected runtime configuration is completed." role="alert" />
       <a-spin v-else-if="authSnapshot.status === 'loading'" tip="Restoring secure session…" />
       <a-alert v-else-if="authSnapshot.status === 'expired'" type="warning" show-icon message="Session expired" description="Sign in again to continue." role="status">
@@ -30,6 +30,10 @@ const route = useRoute()
           <RouterLink :to="{ name: 'workbench.quantity' }"><strong>数量账</strong><span>维护数量流水与可用量</span></RouterLink>
           <RouterLink :to="{ name: 'workbench.allocation' }"><strong>样品分配</strong><span>绑定门控版本并分配测试对象</span></RouterLink>
           <RouterLink :to="{ name: 'workbench.batch' }"><strong>批次管理</strong><span>组织成员、证据与冻结状态</span></RouterLink>
+          <RouterLink :to="{ name: 'workbench.instrument' }"><strong>仪器导入</strong><span>登记文件、解析行并处理异常</span></RouterLink>
+          <RouterLink :to="{ name: 'workbench.result' }"><strong>结果采用</strong><span>维护来源、推导、规则与采用版本</span></RouterLink>
+          <RouterLink :to="{ name: 'workbench.qc' }"><strong>QC 放行</strong><span>传播影响并满足五个放行门</span></RouterLink>
+          <RouterLink :to="{ name: 'workbench.report' }"><strong>报告签发</strong><span>评估门禁、签发并验证版本链</span></RouterLink>
         </div>
       </section>
     </a-card>

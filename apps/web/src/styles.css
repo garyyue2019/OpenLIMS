@@ -2,10 +2,10 @@
 * { box-sizing: border-box; }
 body { margin: 0; min-width: 320px; }
 .app-shell { min-height: 100vh; }
-.app-header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; background: #102a43; padding-inline: clamp(1rem, 5vw, 5rem); }
+.ant-layout-header.app-header { height: auto; min-height: 64px; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: .5rem 1.25rem; background: #102a43; padding: .65rem clamp(1rem, 5vw, 5rem); line-height: 1.4; }
 .brand { color: #fff; font-size: 1.25rem; font-weight: 700; letter-spacing: .03em; }
-.app-header nav { display: flex; flex-wrap: wrap; }
-.app-header nav a { color: #d9e2ec; padding: .5rem; }
+.app-header nav { min-width: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: .1rem .25rem; }
+.app-header nav a { color: #d9e2ec; padding: .35rem .45rem; line-height: 1.35; white-space: nowrap; }
 .session-actions { min-width: 5rem; text-align: right; }
 .app-header a:focus-visible, button:focus-visible { outline: 3px solid #f6c453; outline-offset: 3px; }
 .app-content { display: grid; place-items: center; padding: clamp(1rem, 5vw, 4rem); }
@@ -71,5 +71,9 @@ h1 { color: #102a43; font-size: clamp(2rem, 6vw, 3.5rem); margin-block: .4rem 1r
 .lab-panel details { margin-top: .85rem; }
 .lab-panel summary { color: #1f6feb; cursor: pointer; font-weight: 600; }
 @media (max-width: 900px) { .lab-grid, .lab-details { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 480px) { .app-header { padding-inline: 1rem; } .app-header nav a { padding-right: 0; } .operator-grid { grid-template-columns: 1fr; } }
+@media (max-width: 900px) {
+  .ant-layout-header.app-header { grid-template-columns: minmax(0, 1fr) auto; padding-inline: 1rem; }
+  .app-header nav { grid-column: 1 / -1; grid-row: 2; justify-content: flex-start; flex-wrap: nowrap; overflow-x: auto; padding-bottom: .2rem; scrollbar-width: thin; }
+}
+@media (max-width: 480px) { .app-header nav a { padding-inline: .35rem; } .operator-grid { grid-template-columns: 1fr; } }
 @media (max-width: 720px) { .field-grid, .lab-grid, .lab-details { grid-template-columns: 1fr; } .field-grid .wide, .lab-grid .wide { grid-column: auto; } .form-actions { align-items: stretch; flex-direction: column; } }

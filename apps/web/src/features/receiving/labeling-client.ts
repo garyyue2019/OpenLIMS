@@ -42,10 +42,18 @@ export interface LabelScanResolution {
 export class LabelingApiError extends Error {
   constructor(
     public readonly errorCode: string,
-    public readonly status: number
+    public readonly status: number,
+    public readonly correlationId = 'not-available',
+    public readonly detail?: string,
+    public readonly nextAction?: string,
+    public readonly title?: string
   ) {
-    super(errorCode)
+    super(detail || title || errorCode)
     this.name = 'LabelingApiError'
+  }
+
+  get retryable(): boolean {
+    return this.status === 0 || this.status >= 500
   }
 }
 
@@ -55,22 +63,69 @@ async function send<T>(
   init: RequestInit,
   fetcher: typeof fetch
 ): Promise<T> {
-  const response = await fetcher(path, {
-    ...init,
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      'Content-Type': 'application/json',
-      ...(init.headers ?? {})
-    }
-  })
-  const payload = await response.json() as Record<string, unknown>
+  const correlationId = createCorrelationId()
+  let response: Response
+  try {
+    response = await fetcher(path, {
+      ...init,
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+        'X-Correlation-Id': correlationId,
+        ...(init.headers ?? {})
+      }
+    })
+  } catch {
+    throw new LabelingApiError(
+      'WEB.NETWORK_ERROR',
+      0,
+      correlationId,
+      'The labeling service could not be reached.',
+      'Check the network connection and retry explicitly.'
+    )
+  }
+  const payload = await readJson(response)
   if (!response.ok) {
     throw new LabelingApiError(
-      typeof payload.errorCode === 'string' ? payload.errorCode : 'LABEL.UNEXPECTED_RESPONSE',
-      response.status
+      stringValue(payload.errorCode) ?? fallbackErrorCode(response.status),
+      response.status,
+      stringValue(payload.correlationId) ?? response.headers.get('X-Correlation-Id') ?? correlationId,
+      stringValue(payload.detail),
+      stringValue(payload.nextAction),
+      stringValue(payload.title)
     )
   }
   return payload as T
+}
+
+function createCorrelationId(): string {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+    return crypto.randomUUID()
+  }
+  throw new Error('Secure random UUID support is required.')
+}
+
+async function readJson(response: Response): Promise<Record<string, unknown>> {
+  try {
+    const payload = await response.json()
+    return payload && typeof payload === 'object' && !Array.isArray(payload)
+      ? payload as Record<string, unknown>
+      : {}
+  } catch {
+    return {}
+  }
+}
+
+function stringValue(value: unknown): string | undefined {
+  return typeof value === 'string' && value.trim() ? value : undefined
+}
+
+function fallbackErrorCode(status: number): string {
+  if (status === 401) return 'WEB.AUTH_REQUIRED'
+  if (status === 403) return 'WEB.FORBIDDEN'
+  if (status === 404) return 'WEB.OBJECT_NOT_ACCESSIBLE'
+  return 'LABEL.UNEXPECTED_RESPONSE'
 }
 
 export function createLabelJobs(

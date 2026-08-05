@@ -1,8 +1,8 @@
 import { flushPromises, mount } from '@vue/test-utils'
-import { describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-const { createReceivingException, submitReceivingExceptionDecision } = vi.hoisted(() => ({
-  createReceivingException: vi.fn(), submitReceivingExceptionDecision: vi.fn()
+const { createReceivingException, getReceivingException, submitReceivingExceptionDecision } = vi.hoisted(() => ({
+  createReceivingException: vi.fn(), getReceivingException: vi.fn(), submitReceivingExceptionDecision: vi.fn()
 }))
 
 vi.mock('../../auth-store', () => ({ authSnapshot: { value: {
@@ -13,10 +13,12 @@ vi.mock('../../auth-store', () => ({ authSnapshot: { value: {
 } } }))
 vi.mock('./exception-client', async (importOriginal) => ({
   ...await importOriginal<typeof import('./exception-client')>(),
-  createReceivingException, submitReceivingExceptionDecision
+  createReceivingException, getReceivingException, submitReceivingExceptionDecision
 }))
 
 import ReceivingExceptionPanel from './ReceivingExceptionPanel.vue'
+
+beforeEach(() => { vi.clearAllMocks() })
 
 describe('receiving exception panel', () => {
   it('creates a fact, submits explicit conditional constraints, and keeps quarantine visible', async () => {
@@ -63,6 +65,27 @@ describe('receiving exception panel', () => {
     }), 'token-a')
     expect(wrapper.text()).toContain('CONDITIONALLY_ACCEPTED')
     expect(wrapper.text()).toContain('仍保持 QUARANTINED')
+  })
+
+  it('loads an existing exception by stable id and rejects a mismatched item binding', async () => {
+    getReceivingException.mockResolvedValueOnce(exceptionResult())
+    const wrapper = mount(ReceivingExceptionPanel, {
+      props: { receivedItemId: 'item-a', itemVersion: 3, exceptionId: 'exception-a' },
+      global: { stubs: {
+        'a-alert': { props: ['message', 'description'], template: '<div>{{ message }} {{ description }}</div>' },
+        'a-button': { template: '<button :disabled="$attrs.disabled"><slot /></button>' }
+      } }
+    })
+    await flushPromises()
+    expect(getReceivingException).toHaveBeenCalledWith('exception-a', 'token-a')
+    expect(wrapper.text()).toContain('QUANTITY_SHORTAGE')
+    expect(wrapper.emitted('itemVersionChanged')).toEqual([[4]])
+
+    getReceivingException.mockResolvedValueOnce({ ...exceptionResult(), receivedItemId: 'item-b' })
+    await wrapper.setProps({ exceptionId: 'exception-b' })
+    await flushPromises()
+    expect(wrapper.text()).toContain('EXCEPTION_OBJECT_MISMATCH')
+    expect(wrapper.text()).not.toContain('item-b')
   })
 })
 

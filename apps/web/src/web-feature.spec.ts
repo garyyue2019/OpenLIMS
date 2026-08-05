@@ -10,6 +10,9 @@ import { platformShellFeature, webFeatureComposition, webFeatureRegistry } from 
 import { receivingFeature } from './features/receiving/receiving-feature'
 import { labWorkbenchFeature } from './features/lab-workbench/lab-workbench-feature'
 import { labWorkbenchSecondFeature } from './features/lab-workbench/lab-workbench-second-feature'
+import { businessWorkbenchFeature } from './features/business-workbench/business-workbench-feature'
+import { textileWorkbenchFeature } from './features/industry-workbench/textile-workbench-feature'
+import { toyWorkbenchFeature } from './features/toy-workbench/toy-workbench-feature'
 
 const component = {} as Component
 
@@ -129,13 +132,16 @@ describe('composeWebFeatures', () => {
 describe('production web feature registry', () => {
   it('contains the platform shell and all explicitly approved production features', () => {
     expect(webFeatureRegistry).toEqual([
-      platformShellFeature, receivingFeature, labWorkbenchFeature, labWorkbenchSecondFeature
+      platformShellFeature, receivingFeature, labWorkbenchFeature, labWorkbenchSecondFeature,
+      businessWorkbenchFeature, textileWorkbenchFeature, toyWorkbenchFeature
     ])
     expect(webFeatureComposition.routes.map((route) => [route.name, route.path])).toEqual([
       ['platform.home', '/'],
       ['platform.system-status', '/system/status'],
       ['platform.auth-callback', '/auth/callback'],
       ['receiving.registration', '/receiving/receipts/new'],
+      ['receiving.continuation', '/receiving/items/continue'],
+      ['receiving.item-continuation', '/receiving/items/:receivedItemId'],
       ['workbench.scope', '/workbench/scope'],
       ['workbench.quantity', '/workbench/quantity'],
       ['workbench.allocation', '/workbench/allocation'],
@@ -143,11 +149,19 @@ describe('production web feature registry', () => {
       ['workbench.instrument', '/workbench/instrument'],
       ['workbench.result', '/workbench/result'],
       ['workbench.qc', '/workbench/qc'],
-      ['workbench.report', '/workbench/report']
+      ['workbench.report', '/workbench/report'],
+      ['workbench.billing', '/workbench/billing'],
+      ['workbench.labeling', '/workbench/labeling'],
+      ['workbench.textile', '/workbench/textile'],
+      ['workbench.toy-product', '/workbench/toy/product'],
+      ['workbench.toy-test-units', '/workbench/toy/test-units'],
+      ['workbench.toy-label-review', '/workbench/toy/label-review'],
+      ['workbench.toy-conclusions', '/workbench/toy/conclusions']
     ])
     expect(webFeatureComposition.navigationEntries).toEqual([
       { id: 'platform.system-status', label: 'System status', routeName: 'platform.system-status' },
       { id: 'receiving.registration', label: '到货登记', routeName: 'receiving.registration' },
+      { id: 'receiving.continuation', label: '既有实物续办', routeName: 'receiving.continuation' },
       { id: 'workbench.scope', label: '范围矩阵', routeName: 'workbench.scope' },
       { id: 'workbench.quantity', label: '数量账', routeName: 'workbench.quantity' },
       { id: 'workbench.allocation', label: '样品分配', routeName: 'workbench.allocation' },
@@ -155,7 +169,14 @@ describe('production web feature registry', () => {
       { id: 'workbench.instrument', label: '仪器导入', routeName: 'workbench.instrument' },
       { id: 'workbench.result', label: '结果采用', routeName: 'workbench.result' },
       { id: 'workbench.qc', label: 'QC 放行', routeName: 'workbench.qc' },
-      { id: 'workbench.report', label: '报告签发', routeName: 'workbench.report' }
+      { id: 'workbench.report', label: '报告签发', routeName: 'workbench.report' },
+      { id: 'workbench.billing', label: '计费证据', routeName: 'workbench.billing' },
+      { id: 'workbench.labeling', label: '标签中心', routeName: 'workbench.labeling' },
+      { id: 'workbench.textile', label: '纺织裁样', routeName: 'workbench.textile' },
+      { id: 'workbench.toy-product', label: '玩具年龄与可及性', routeName: 'workbench.toy-product' },
+      { id: 'workbench.toy-test-units', label: '玩具 TestUnit', routeName: 'workbench.toy-test-units' },
+      { id: 'workbench.toy-label-review', label: '玩具标签审核', routeName: 'workbench.toy-label-review' },
+      { id: 'workbench.toy-conclusions', label: '玩具结论', routeName: 'workbench.toy-conclusions' }
     ])
   })
 })

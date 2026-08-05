@@ -3326,6 +3326,269 @@
       "status": "approved",
       "title": "实施 Instrument、Result、QC 与 Report 实验室工作台"
     },
+    "ATC-WEB-003@1.0.0": {
+      "affects": [
+        "web",
+        "billing",
+        "labeling",
+        "operator-workbench",
+        "accessibility",
+        "automated-test"
+      ],
+      "depends_on": [
+        "ATC-PLT-003@1.0.0",
+        "ATC-BILL-001@1.0.0",
+        "ATC-REC-002@2.0.0",
+        "ATC-WEB-001@1.0.0",
+        "ATC-WEB-002@1.0.0",
+        "OD-002@1.0.0",
+        "BUS-BILL-001@1.0.0",
+        "BUS-BILL-002@1.0.0",
+        "BUS-BILL-003@1.0.0",
+        "AC-BILL-001@1.0.0",
+        "OPS-RECEIPT-002@1.0.0",
+        "OD-031@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "NFR-ARCH-001@2.0.0"
+      ],
+      "fingerprint": "6581fa2f4d8344db3f30a1e45c09ca55b5d88baf035f5f210157feec78bd7a13",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "FIN-BILL-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "FIN-BILL-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "FIN-BILL-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "FIN-BILL-004"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "FIN-BILL-005"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-BILL-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-RECEIPT-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OD-031"
+        }
+      ],
+      "status": "approved",
+      "title": "实施 Billing 与 Labeling Web 工作台"
+    },
+    "ATC-WEB-004@1.0.0": {
+      "affects": [
+        "web",
+        "textile",
+        "sample-requirement",
+        "cutting-plan",
+        "operator-workbench",
+        "accessibility",
+        "automated-test"
+      ],
+      "depends_on": [
+        "ATC-PLT-003@1.0.0",
+        "ATC-TEX-004@1.0.0",
+        "ATC-WEB-003@1.0.0",
+        "OD-002@1.0.0",
+        "OD-036@1.0.0",
+        "BUS-TEX-001@1.0.0",
+        "BUS-TEX-002@1.0.0",
+        "BUS-TEX-003@1.0.0",
+        "BUS-TEX-006@1.0.0",
+        "BUS-TEX-007@1.0.0",
+        "BUS-TEX-008@1.0.0",
+        "AC-TEXTILE-004@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "NFR-ARCH-001@2.0.0"
+      ],
+      "fingerprint": "fe9bdf7aec5ea3648984b7b1f1f0f8ee66839378e7be666b0f3d2fd062af9bd3",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TEXTILE-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TEXTILE-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TEXTILE-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-TEXTILE-001"
+        }
+      ],
+      "status": "approved",
+      "title": "实施 Textile Web 工作台"
+    },
+    "ATC-WEB-005@1.0.0": {
+      "affects": [
+        "web",
+        "toy",
+        "age-grade",
+        "accessibility",
+        "test-unit",
+        "sample-requirement",
+        "label-review",
+        "conclusion",
+        "operator-workbench",
+        "accessibility-ui",
+        "automated-test"
+      ],
+      "depends_on": [
+        "ATC-PLT-003@1.0.0",
+        "ATC-TOY-001@1.0.0",
+        "ATC-TOY-002@1.0.0",
+        "ATC-TOY-003@1.0.0",
+        "ATC-TOY-004@1.0.0",
+        "ATC-TOY-005@1.0.0",
+        "ATC-WEB-004@1.0.0",
+        "OD-002@1.0.0",
+        "OD-034@1.0.0",
+        "BUS-TOY-001@1.0.0",
+        "BUS-TOY-002@1.0.0",
+        "BUS-TOY-003@1.0.0",
+        "BUS-TOY-004@1.0.0",
+        "BUS-TOY-005@1.0.0",
+        "BUS-TOY-006@1.0.0",
+        "AC-TOY-001@1.0.0",
+        "AC-TOY-002@1.0.0",
+        "AC-TOY-003@1.0.0",
+        "AC-TOY-004@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "NFR-ARCH-001@2.0.0"
+      ],
+      "fingerprint": "85f847e4431215f274104cde879728edc9e2558be67967f0dc1bfd56b249aeb6",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TOY-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TOY-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TOY-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TOY-004"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TOY-005"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TOY-006"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TOY-007"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-TOY-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-TOY-002"
+        }
+      ],
+      "status": "approved",
+      "title": "实施 Toy 全流程 Web 工作台"
+    },
+    "ATC-WEB-006@1.0.0": {
+      "affects": [
+        "web",
+        "receiving",
+        "identity-assessment",
+        "exception",
+        "release",
+        "operator-workbench",
+        "accessibility-ui",
+        "automated-test"
+      ],
+      "depends_on": [
+        "ATC-PLT-003@1.0.0",
+        "ATC-REC-003@2.0.0",
+        "ATC-REC-005@2.0.0",
+        "ATC-REC-006@2.0.0",
+        "ATC-WEB-005@1.0.0",
+        "OD-002@1.0.0",
+        "OD-005@1.0.0",
+        "OD-035@1.0.0",
+        "OPS-RECEIPT-003@1.0.0",
+        "OPS-IDENTITY-001@1.0.0",
+        "OPS-IDENTITY-002@1.0.0",
+        "OPS-IDENTITY-003@1.0.0",
+        "OPS-EXC-001@1.0.0",
+        "OPS-EXC-002@1.0.0",
+        "AC-REC-001@1.0.0",
+        "AC-ID-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "NFR-ARCH-001@2.0.0"
+      ],
+      "fingerprint": "080235ea3564b980b0f4ca720fee9dda155a3aa7c3f897aa164f49c0d00c7088",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-RECEIPT-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-IDENTITY-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-IDENTITY-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-IDENTITY-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-EXC-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-EXC-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-REC-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-ID-001"
+        }
+      ],
+      "status": "approved",
+      "title": "实施 Receiving 既有对象续办 Web 入口"
+    },
     "BUS-AI-001@1.0.0": {
       "affects": [
         "ai",

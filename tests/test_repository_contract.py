@@ -37,7 +37,7 @@ class RepositoryContractTests(unittest.TestCase):
             check=False,
         )
         self.assertEqual(0, result.returncode, result.stderr.decode("utf-8", errors="replace"))
-        self.assertIn("198 个规格版本", result.stdout.decode("utf-8"))
+        self.assertIn("202 个规格版本", result.stdout.decode("utf-8"))
 
     def test_git_checkout_keeps_deterministic_lf_bytes(self) -> None:
         attributes = (ROOT / ".gitattributes").read_text(encoding="utf-8")
@@ -69,6 +69,10 @@ class RepositoryContractTests(unittest.TestCase):
             "ATC-BATCH-001__v1.0.0.md",
             "ATC-WEB-001__v1.0.0.md",
             "ATC-WEB-002__v1.0.0.md",
+            "ATC-WEB-003__v1.0.0.md",
+            "ATC-WEB-004__v1.0.0.md",
+            "ATC-WEB-005__v1.0.0.md",
+            "ATC-WEB-006__v1.0.0.md",
             "ATC-RESULT-001__v1.0.0.md",
             "ATC-BILL-001__v1.0.0.md",
             "ATC-AI-001__v1.0.0.md",
@@ -89,7 +93,7 @@ class RepositoryContractTests(unittest.TestCase):
             "ATC-TOY-005__v1.0.0.md",
         }
         self.assertEqual(expected_tasks, {path.name for path in tasks})
-        self.assertEqual(77, len(features))
+        self.assertEqual(81, len(features))
         self.assertTrue(
             {
                 "ATC-PLT-000__v0.1.0.feature",
@@ -115,6 +119,10 @@ class RepositoryContractTests(unittest.TestCase):
                 "ATC-BATCH-001__v1.0.0.feature",
                 "ATC-WEB-001__v1.0.0.feature",
                 "ATC-WEB-002__v1.0.0.feature",
+                "ATC-WEB-003__v1.0.0.feature",
+                "ATC-WEB-004__v1.0.0.feature",
+                "ATC-WEB-005__v1.0.0.feature",
+                "ATC-WEB-006__v1.0.0.feature",
                 "AC-RETEST-001__v1.0.0.feature",
                 "ATC-RESULT-001__v1.0.0.feature",
                 "AC-BILL-001__v1.0.0.feature",
@@ -452,6 +460,10 @@ class RepositoryContractTests(unittest.TestCase):
             "ATC-BATCH-001@1.0.0",
             "ATC-WEB-001@1.0.0",
             "ATC-WEB-002@1.0.0",
+            "ATC-WEB-003@1.0.0",
+            "ATC-WEB-004@1.0.0",
+            "ATC-WEB-005@1.0.0",
+            "ATC-WEB-006@1.0.0",
             "BUS-RES-001@1.0.0",
             "BUS-RES-002@1.0.0",
             "BUS-RES-003@1.0.0",

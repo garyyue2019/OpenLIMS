@@ -28,6 +28,7 @@ public sealed class ResultModule(string postgresConnectionString) :
         services.TryAddScoped<IResultAuthorizationPort, HttpClaimsResultAuthorizationPort>();
         services.TryAddScoped<IResultGroupService, ResultGroupService>();
         services.TryAddScoped<IResultAdoptionPort, ResultAdoptionPort>();
+        services.TryAddScoped<IResultAccreditationEligibilityPort, ResultAccreditationEligibilityPort>();
         services.TryAddScoped<IResultConclusionEvidencePort, ResultConclusionEvidencePort>();
         services.TryAddScoped<ResultStore>();
         services.TryAddScoped<ResultAttemptAuditWriter>();
@@ -41,8 +42,11 @@ public sealed class ResultModule(string postgresConnectionString) :
         AddPersistence(services);
     }
 
-    public Task ApplyMigrationAsync(CancellationToken cancellationToken) =>
-        ResultMigrator.ApplyAsync(_options.ConnectionString, cancellationToken);
+    public async Task ApplyMigrationAsync(CancellationToken cancellationToken)
+    {
+        await ResultMigrator.ApplyAsync(_options.ConnectionString, cancellationToken);
+        await ResultCompletionMigrator.ApplyAsync(_options.ConnectionString, cancellationToken);
+    }
 
     private void AddPersistence(IServiceCollection services)
     {

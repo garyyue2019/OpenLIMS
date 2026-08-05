@@ -30,9 +30,12 @@ public sealed partial class AiGovernanceRules : IAiOutputValidator
 
         var errors = new List<AiValidationError>();
         var determinateFields = new HashSet<string>(StringComparer.Ordinal);
+        var candidateIds = new HashSet<string>(StringComparer.Ordinal);
         foreach (var candidate in output.Candidates)
         {
             ValidateCandidateShape(candidate);
+            if (!candidateIds.Add(candidate.CandidateId))
+                errors.Add(new AiValidationError(candidate.TargetField, AiValidationErrorCodes.DuplicateCandidateId, "candidate id is repeated"));
             if (!allowedFields.Contains(candidate.TargetField))
                 errors.Add(new AiValidationError(candidate.TargetField, AiValidationErrorCodes.UnknownField, "target field is not in the output schema"));
             if (candidate.Unit is not null && !allowedUnits.Contains(candidate.Unit))

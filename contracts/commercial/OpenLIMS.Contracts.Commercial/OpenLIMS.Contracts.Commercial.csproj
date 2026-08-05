@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>OpenLIMS.Contracts.Commercial</AssemblyName>
+    <RootNamespace>OpenLIMS.Contracts.Commercial</RootNamespace>
+  </PropertyGroup>
+</Project>

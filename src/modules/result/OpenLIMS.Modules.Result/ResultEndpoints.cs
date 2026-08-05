@@ -17,14 +17,20 @@ internal static class ResultEndpoints
             .WithName("addResultObservation").RequireAuthorization();
         endpoints.MapPost(ResultContract.AddDerivationPath, AddDerivationAsync)
             .WithName("addResultDerivation").RequireAuthorization();
+        endpoints.MapPost(ResultContract.ExecuteCalculationPath, ExecuteCalculationAsync)
+            .WithName("executeResultCalculation").RequireAuthorization();
         endpoints.MapPost(ResultContract.RecordAdoptionRulePath, RecordAdoptionRuleAsync)
             .WithName("recordAdoptionRule").RequireAuthorization();
         endpoints.MapPost(ResultContract.AdoptPath, AdoptAsync)
             .WithName("adoptResult").RequireAuthorization();
+        endpoints.MapPost(ResultContract.RecordAccreditationAssessmentPath, RecordAccreditationAssessmentAsync)
+            .WithName("recordResultAccreditationAssessment").RequireAuthorization();
         endpoints.MapGet(ResultContract.GetGroupPath, GetAsync)
             .WithName("getResultGroup").RequireAuthorization();
         endpoints.MapGet(ResultContract.AdoptionStatusPath, GetAdoptionStatusAsync)
             .WithName("getResultAdoptionStatus").RequireAuthorization();
+        endpoints.MapGet(ResultContract.AccreditationEligibilityPath, GetAccreditationEligibilityAsync)
+            .WithName("getResultAccreditationEligibility").RequireAuthorization();
     }
 
     private static Task<IResult> CreateGroupAsync(
@@ -42,6 +48,11 @@ internal static class ResultEndpoints
         HandleAsync<AddResultDerivationRequest, ResultDerivationResult>(context, cancellationToken,
             (request, correlationId, token) => service.AddDerivationAsync(id, request, correlationId, token));
 
+    private static Task<IResult> ExecuteCalculationAsync(
+        string id, HttpContext context, IResultGroupService service, CancellationToken cancellationToken) =>
+        HandleAsync<ExecuteResultCalculationRequest, ResultCalculationResult>(context, cancellationToken,
+            (request, correlationId, token) => service.ExecuteCalculationAsync(id, request, correlationId, token));
+
     private static Task<IResult> RecordAdoptionRuleAsync(
         string id, HttpContext context, IResultGroupService service, CancellationToken cancellationToken) =>
         HandleAsync<RecordAdoptionRuleRequest, AdoptionRuleResult>(context, cancellationToken,
@@ -51,6 +62,13 @@ internal static class ResultEndpoints
         string id, HttpContext context, IResultGroupService service, CancellationToken cancellationToken) =>
         HandleAsync<AdoptResultRequest, ResultAdoptionResult>(context, cancellationToken,
             (request, correlationId, token) => service.AdoptAsync(id, request, correlationId, token));
+
+    private static Task<IResult> RecordAccreditationAssessmentAsync(
+        string id, HttpContext context, IResultGroupService service, CancellationToken cancellationToken) =>
+        HandleAsync<RecordResultAccreditationAssessmentRequest, ResultAccreditationAssessmentResult>(
+            context, cancellationToken,
+            (request, correlationId, token) =>
+                service.RecordAccreditationAssessmentAsync(id, request, correlationId, token));
 
     private static async Task<IResult> GetAsync(
         string id, HttpContext context, IResultGroupService service, CancellationToken cancellationToken)
@@ -83,6 +101,35 @@ internal static class ResultEndpoints
         try
         {
             var result = await port.EvaluateAsync(new ResultAdoptionStatusRequest(
+                organizationContext.Current.OrganizationGroupId, id, expectedVersion, ruleSetVersion)
+            {
+                CorrelationId = correlationId
+            }, cancellationToken);
+            return Results.Json(result, ResultJson.Options);
+        }
+        catch (ResultDomainException exception)
+        {
+            return Problem(exception.ErrorCode, correlationId, exception.GateSource);
+        }
+    }
+
+    private static async Task<IResult> GetAccreditationEligibilityAsync(
+        string id,
+        HttpContext context,
+        ICurrentOrganizationContext organizationContext,
+        IResultAccreditationEligibilityPort port,
+        CancellationToken cancellationToken)
+    {
+        var correlationId = Correlation(context);
+        if (!TryGetPositiveLong(context.Request.Query["expectedVersion"], out var expectedVersion) ||
+            !TryGetSingle(context.Request.Query["ruleSetVersion"], out var ruleSetVersion))
+        {
+            return Problem(ResultErrorCodes.ValidationFailed, correlationId);
+        }
+
+        try
+        {
+            var result = await port.EvaluateAsync(new ResultAccreditationEligibilityRequest(
                 organizationContext.Current.OrganizationGroupId, id, expectedVersion, ruleSetVersion)
             {
                 CorrelationId = correlationId
@@ -150,7 +197,8 @@ internal static class ResultEndpoints
             ResultErrorCodes.ExpectedVersionConflict => StatusCodes.Status409Conflict,
             ResultErrorCodes.EligibilityBlocked or ResultErrorCodes.ApplicabilityUnknown or
                 ResultErrorCodes.AdoptionRuleRequired or
-                ResultErrorCodes.AdoptionStrategyViolation => StatusCodes.Status422UnprocessableEntity,
+                ResultErrorCodes.AdoptionStrategyViolation or
+                ResultErrorCodes.CalculationFailed => StatusCodes.Status422UnprocessableEntity,
             ResultErrorCodes.PersistenceUnavailable => StatusCodes.Status503ServiceUnavailable,
             _ => StatusCodes.Status400BadRequest
         };

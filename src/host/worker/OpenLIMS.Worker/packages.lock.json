@@ -335,6 +335,9 @@
           "OpenLIMS.Contracts.Platform": "[1.0.0, )"
         }
       },
+      "openlims.contracts.ai": {
+        "type": "Project"
+      },
       "openlims.contracts.allocation": {
         "type": "Project"
       },
@@ -342,6 +345,9 @@
         "type": "Project"
       },
       "openlims.contracts.billing": {
+        "type": "Project"
+      },
+      "openlims.contracts.commercial": {
         "type": "Project"
       },
       "openlims.contracts.instrument": {
@@ -352,6 +358,9 @@
         "dependencies": {
           "OpenLIMS.Contracts.Receiving": "[1.0.0, )"
         }
+      },
+      "openlims.contracts.operations": {
+        "type": "Project"
       },
       "openlims.contracts.platform": {
         "type": "Project"
@@ -379,6 +388,15 @@
       },
       "openlims.contracts.toy": {
         "type": "Project"
+      },
+      "openlims.modules.ai": {
+        "type": "Project",
+        "dependencies": {
+          "Npgsql": "[10.0.3, )",
+          "OpenLIMS.BuildingBlocks.Platform": "[1.0.0, )",
+          "OpenLIMS.Contracts.Ai": "[1.0.0, )",
+          "OpenLIMS.Contracts.Platform": "[1.0.0, )"
+        }
       },
       "openlims.modules.allocation": {
         "type": "Project",
@@ -412,6 +430,15 @@
           "OpenLIMS.Contracts.Result": "[1.0.0, )"
         }
       },
+      "openlims.modules.commercial": {
+        "type": "Project",
+        "dependencies": {
+          "Npgsql": "[10.0.3, )",
+          "OpenLIMS.BuildingBlocks.Platform": "[1.0.0, )",
+          "OpenLIMS.Contracts.Commercial": "[1.0.0, )",
+          "OpenLIMS.Contracts.Platform": "[1.0.0, )"
+        }
+      },
       "openlims.modules.instrument": {
         "type": "Project",
         "dependencies": {
@@ -429,6 +456,15 @@
           "OpenLIMS.Contracts.Labeling": "[1.0.0, )",
           "OpenLIMS.Contracts.Platform": "[1.0.0, )",
           "OpenLIMS.Contracts.Receiving": "[1.0.0, )"
+        }
+      },
+      "openlims.modules.operations": {
+        "type": "Project",
+        "dependencies": {
+          "Npgsql": "[10.0.3, )",
+          "OpenLIMS.BuildingBlocks.Platform": "[1.0.0, )",
+          "OpenLIMS.Contracts.Operations": "[1.0.0, )",
+          "OpenLIMS.Contracts.Platform": "[1.0.0, )"
         }
       },
       "openlims.modules.qc": {

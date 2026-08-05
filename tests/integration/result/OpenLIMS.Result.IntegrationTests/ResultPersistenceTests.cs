@@ -153,16 +153,158 @@ public sealed class ResultPersistenceTests
         using var scope = provider.CreateScope();
         var service = scope.ServiceProvider.GetRequiredService<IResultGroupService>();
         var group = await service.CreateGroupAsync(GroupRequest(), "corr-immutable", TestContext.Current.CancellationToken);
-        await service.AddObservationAsync(
+        var observation = await service.AddObservationAsync(
             group.ResultGroupId, Observation(1, ResultObservationKinds.Initial), "corr-obs", TestContext.Current.CancellationToken);
+        await service.ExecuteCalculationAsync(
+            group.ResultGroupId, Calculation(2, observation.ObservationId), "corr-calc", TestContext.Current.CancellationToken);
 
         var update = await Assert.ThrowsAsync<PostgresException>(() => ExecuteAsync(
-            connectionString, "update result.result_observation set value = '999'"));
+            connectionString, "update result.result_calculation set exact_value = 999"));
         var delete = await Assert.ThrowsAsync<PostgresException>(() => ExecuteAsync(
             connectionString, "delete from result.result_group"));
 
         Assert.Equal("55000", update.SqlState);
         Assert.Equal("55000", delete.SqlState);
+    }
+
+    [Fact]
+    public async Task Calculation_adoption_and_accreditation_round_trip_as_one_versioned_chain()
+    {
+        var connectionString = ConnectionString();
+        await PrepareAsync(connectionString);
+        await using var provider = BuildProvider(connectionString, BatchStatusDecisions.Allowed);
+        using var scope = provider.CreateScope();
+        var service = scope.ServiceProvider.GetRequiredService<IResultGroupService>();
+        var group = await service.CreateGroupAsync(
+            GroupRequest(), "corr-completion-group", TestContext.Current.CancellationToken);
+        var observation = await service.AddObservationAsync(
+            group.ResultGroupId, Observation(1, ResultObservationKinds.Initial),
+            "corr-completion-observation", TestContext.Current.CancellationToken);
+        var calculation = await service.ExecuteCalculationAsync(
+            group.ResultGroupId, Calculation(2, observation.ObservationId),
+            "corr-completion-calculation", TestContext.Current.CancellationToken);
+        await service.RecordAdoptionRuleAsync(
+            group.ResultGroupId,
+            new RecordAdoptionRuleRequest(
+                3,
+                ResultContract.RuleSetVersion,
+                ResultAdoptionStrategies.TechnicalReviewSelects,
+                new ResultVersionedReference("RULE-CALC", 1)),
+            "corr-completion-rule",
+            TestContext.Current.CancellationToken);
+        await service.AdoptAsync(
+            group.ResultGroupId,
+            new AdoptResultRequest(
+                4,
+                ResultContract.RuleSetVersion,
+                calculation.CalculationId,
+                new ResultVersionedReference("REVIEW-CALC", 1)),
+            "corr-completion-adoption",
+            TestContext.Current.CancellationToken);
+        var executionAssessment = await service.RecordAccreditationAssessmentAsync(
+            group.ResultGroupId,
+            Accreditation(5, ResultAccreditationStages.Execution, null),
+            "corr-completion-execution-accreditation",
+            TestContext.Current.CancellationToken);
+        var resultAssessment = await service.RecordAccreditationAssessmentAsync(
+            group.ResultGroupId,
+            Accreditation(6, ResultAccreditationStages.Result, calculation.CalculationId),
+            "corr-completion-result-accreditation",
+            TestContext.Current.CancellationToken);
+        var eligibility = await scope.ServiceProvider.GetRequiredService<IResultAccreditationEligibilityPort>()
+            .EvaluateAsync(new ResultAccreditationEligibilityRequest(
+                "group-a", group.ResultGroupId, 7, ResultContract.AccreditationRuleSetVersion)
+            {
+                CorrelationId = "corr-completion-eligibility"
+            }, TestContext.Current.CancellationToken);
+        var loaded = await service.GetAsync(
+            group.ResultGroupId, "corr-completion-read", TestContext.Current.CancellationToken);
+        var conclusion = await scope.ServiceProvider.GetRequiredService<IResultConclusionEvidencePort>()
+            .EvaluateAsync(new ResultConclusionEvidenceRequest(
+                "group-a", group.ResultGroupId, 1, ResultContract.RuleSetVersion)
+            {
+                CorrelationId = "corr-completion-conclusion"
+            }, TestContext.Current.CancellationToken);
+
+        Assert.Equal(25m, calculation.ExactValue);
+        Assert.Equal("25", calculation.ReportedValue);
+        Assert.Equal(ResultLimitDecisions.Pass, calculation.LimitDecision);
+        Assert.Equal(ResultAccreditationDecisions.Eligible, executionAssessment.Decision);
+        Assert.Equal(ResultAccreditationDecisions.Eligible, resultAssessment.Decision);
+        Assert.Equal(ResultAccreditationDecisions.Eligible, eligibility.Decision);
+        Assert.Equal(calculation.CalculationId, eligibility.EffectiveTargetId);
+        Assert.Single(loaded.Calculations);
+        Assert.Equal(2, loaded.AccreditationAssessments.Count);
+        Assert.Equal(7, loaded.Version);
+        Assert.Equal("CALCULATION", conclusion.TargetKind);
+        Assert.Equal("operator-a", conclusion.RecordedBy);
+    }
+
+    [Fact]
+    public async Task Blocked_accreditation_is_preserved_with_reasons()
+    {
+        var connectionString = ConnectionString();
+        await PrepareAsync(connectionString);
+        await using var provider = BuildProvider(connectionString, BatchStatusDecisions.Allowed);
+        using var scope = provider.CreateScope();
+        var service = scope.ServiceProvider.GetRequiredService<IResultGroupService>();
+        var group = await service.CreateGroupAsync(
+            GroupRequest(), "corr-blocked-acc-group", TestContext.Current.CancellationToken);
+        var blocked = await service.RecordAccreditationAssessmentAsync(
+            group.ResultGroupId,
+            Accreditation(1, ResultAccreditationStages.Execution, null) with
+            {
+                SiteId = "LAB-B",
+                ValidTo = new DateOnly(2026, 7, 25)
+            },
+            "corr-blocked-acc",
+            TestContext.Current.CancellationToken);
+        var loaded = await service.GetAsync(
+            group.ResultGroupId, "corr-blocked-acc-read", TestContext.Current.CancellationToken);
+
+        Assert.Equal(ResultAccreditationDecisions.Blocked, blocked.Decision);
+        Assert.Contains(ResultAccreditationReasons.SiteMismatch, blocked.ReasonCodes);
+        Assert.Contains(ResultAccreditationReasons.Expired, blocked.ReasonCodes);
+        var persisted = Assert.Single(loaded.AccreditationAssessments);
+        Assert.Equal(blocked.AssessmentId, persisted.AssessmentId);
+        Assert.Equal(blocked.ReasonCodes, persisted.ReasonCodes);
+    }
+
+    [Fact]
+    public async Task Concurrent_calculations_with_one_expected_version_append_only_once()
+    {
+        var connectionString = ConnectionString();
+        await PrepareAsync(connectionString);
+        string groupId;
+        string observationId;
+        await using (var setup = BuildProvider(connectionString, BatchStatusDecisions.Allowed))
+        {
+            using var setupScope = setup.CreateScope();
+            var setupService = setupScope.ServiceProvider.GetRequiredService<IResultGroupService>();
+            var group = await setupService.CreateGroupAsync(
+                GroupRequest(), "corr-calc-setup", TestContext.Current.CancellationToken);
+            groupId = group.ResultGroupId;
+            observationId = (await setupService.AddObservationAsync(
+                groupId, Observation(1, ResultObservationKinds.Initial),
+                "corr-calc-observation", TestContext.Current.CancellationToken)).ObservationId;
+        }
+
+        await using var firstProvider = BuildProvider(connectionString, BatchStatusDecisions.Allowed, "calculator-a");
+        await using var secondProvider = BuildProvider(connectionString, BatchStatusDecisions.Allowed, "calculator-b");
+        using var firstScope = firstProvider.CreateScope();
+        using var secondScope = secondProvider.CreateScope();
+        var first = firstScope.ServiceProvider.GetRequiredService<IResultGroupService>().ExecuteCalculationAsync(
+            groupId, Calculation(2, observationId), "corr-calc-a", TestContext.Current.CancellationToken);
+        var second = secondScope.ServiceProvider.GetRequiredService<IResultGroupService>().ExecuteCalculationAsync(
+            groupId, Calculation(2, observationId), "corr-calc-b", TestContext.Current.CancellationToken);
+
+        var outcomes = await Task.WhenAll(CaptureAsync(first), CaptureAsync(second));
+
+        Assert.Single(outcomes, outcome => outcome.Error is null);
+        Assert.Equal(
+            ResultErrorCodes.ExpectedVersionConflict,
+            Assert.Single(outcomes, outcome => outcome.Error is not null).Error!.ErrorCode);
+        Assert.Equal(1, await CountAsync(connectionString, "result.result_calculation"));
     }
 
     [Fact]
@@ -340,6 +482,34 @@ public sealed class ResultPersistenceTests
             ApprovalRef = new ResultVersionedReference("APPROVAL-1", 1)
         };
 
+    private static ExecuteResultCalculationRequest Calculation(
+        long expectedVersion,
+        string? targetId = null) => new(
+        expectedVersion,
+        ResultContract.CalculationRuleSetVersion,
+        [new ResultCalculationInput(targetId ?? "00000000000000000000000000000000", 1m)],
+        new ResultCalculationRule(
+            new ResultVersionedReference("CALC-1", 1),
+            new ResultVersionedReference("UNIT-1", 1),
+            "MG-KG", "MG-KG", 1m, 0m, 2m, 1m, 2,
+            ResultRoundingModes.ToEven, 1m, 2m,
+            ResultLimitOperators.LessThanOrEqual, ResultLimitEvaluationBases.Exact,
+            null, 25m));
+
+    private static RecordResultAccreditationAssessmentRequest Accreditation(
+        long expectedVersion,
+        string stage,
+        string? targetId) => new(
+        expectedVersion,
+        ResultContract.AccreditationRuleSetVersion,
+        stage,
+        targetId,
+        new ResultVersionedReference("ACC-1", 1),
+        new ResultVersionedReference("METHOD-1", 1),
+        "LAB-A", "TOYS", "ITEM-PB", "MG-KG", 0m, 30m,
+        new DateOnly(2026, 1, 1), new DateOnly(2026, 12, 31),
+        ["operator-a"]);
+
     private static string AdminConnectionString() =>
         Environment.GetEnvironmentVariable("OPENLIMS_TEST_POSTGRES_CONNECTION")
         ?? throw new InvalidOperationException(
@@ -378,9 +548,12 @@ public sealed class ResultPersistenceTests
         await EnsureDedicatedDatabaseAsync();
         await PlatformMigrationRunner.ApplyAsync(connectionString, TestContext.Current.CancellationToken);
         await ResultMigrator.ApplyAsync(connectionString, TestContext.Current.CancellationToken);
+        await ResultCompletionMigrator.ApplyAsync(connectionString, TestContext.Current.CancellationToken);
         await ExecuteAsync(connectionString, """
             truncate table
               result.audit_attempt,
+              result.accreditation_assessment,
+              result.result_calculation,
               result.result_adoption,
               result.adoption_rule,
               result.derivation_input,

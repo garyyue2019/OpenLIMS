@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>OpenLIMS.Modules.Ai</AssemblyName>
+    <RootNamespace>OpenLIMS.Modules.Ai</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Npgsql" />
+    <ProjectReference Include="../../../../contracts/ai/OpenLIMS.Contracts.Ai/OpenLIMS.Contracts.Ai.csproj" />
+    <ProjectReference Include="../../../building-blocks/OpenLIMS.BuildingBlocks.Platform/OpenLIMS.BuildingBlocks.Platform.csproj" />
+    <ProjectReference Include="../../../../contracts/platform/OpenLIMS.Contracts.Platform/OpenLIMS.Contracts.Platform.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="OpenLIMS.Ai.UnitTests" />
+    <InternalsVisibleTo Include="OpenLIMS.Ai.ContractTests" />
+    <InternalsVisibleTo Include="OpenLIMS.Ai.IntegrationTests" />
+  </ItemGroup>
+</Project>

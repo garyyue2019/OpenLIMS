@@ -5,11 +5,14 @@ using OpenLIMS.Api;
 using OpenLIMS.BuildingBlocks.Platform;
 using OpenLIMS.Contracts.Labeling;
 using OpenLIMS.Contracts.Platform;
+using OpenLIMS.Modules.Ai;
 using OpenLIMS.Modules.Allocation;
 using OpenLIMS.Modules.Batch;
 using OpenLIMS.Modules.Billing;
+using OpenLIMS.Modules.Commercial;
 using OpenLIMS.Modules.Instrument;
 using OpenLIMS.Modules.Labeling;
+using OpenLIMS.Modules.Operations;
 using OpenLIMS.Modules.Qc;
 using OpenLIMS.Modules.Quantity;
 using OpenLIMS.Modules.Receiving;
@@ -43,6 +46,9 @@ IOpenLimsServerModule[] modules =
     new BatchModule(deploymentOptions.PostgresConnectionString!),
     new ResultModule(deploymentOptions.PostgresConnectionString!),
     new BillingModule(deploymentOptions.PostgresConnectionString!),
+    new CommercialModule(deploymentOptions.PostgresConnectionString!),
+    new OperationsModule(deploymentOptions.PostgresConnectionString!),
+    new AiModule(deploymentOptions.PostgresConnectionString!),
     new InstrumentModule(deploymentOptions.PostgresConnectionString!),
     new QcModule(deploymentOptions.PostgresConnectionString!),
     new TextileModule(deploymentOptions.PostgresConnectionString!),
@@ -117,7 +123,10 @@ builder.Services.AddOpenTelemetry()
     .WithTracing(tracing => tracing.AddAspNetCoreInstrumentation().AddHttpClientInstrumentation())
     .WithMetrics(metrics => metrics
         .AddMeter("OpenLIMS.Receiving.IdentityAssessment")
-        .AddMeter("OpenLIMS.Receiving.Exception"));
+        .AddMeter("OpenLIMS.Receiving.Exception")
+        .AddMeter("OpenLIMS.Commercial")
+        .AddMeter("OpenLIMS.Operations")
+        .AddMeter("OpenLIMS.Ai"));
 
 var app = builder.Build();
 app.UseExceptionHandler(exceptionApp => exceptionApp.Run(async context =>
@@ -194,6 +203,28 @@ app.MapGet("/openapi/v1.json", () => Results.Json(new
         ["/health/live"] = new { get = new { operationId = "getLiveness", responses = new { ok = new { description = "Process is alive" } } } },
         ["/health/ready"] = new { get = new { operationId = "getReadiness", responses = new { ok = new { description = "Platform host is ready" } } } },
         ["/system/status"] = new { get = new { operationId = "getAuthenticatedSystemStatus", responses = new { ok = new { description = "Authenticated platform status" } } } },
+        ["/api/v1/ai-runs"] = new { post = new { operationId = "createAiRun", responses = new { created = new { description = "Version-bound optional AI extraction run requested" } } } },
+        ["/api/v1/ai-runs/{id}"] = new { get = new { operationId = "getAiRun", responses = new { ok = new { description = "Original AI output, validation, and immutable review history returned" } } } },
+        ["/api/v1/ai-runs/{id}/dispositions"] = new { post = new { operationId = "recordAiDisposition", responses = new { created = new { description = "Expected-version human disposition appended without promoting facts" } } } },
+        ["/api/v1/ai-review-queue"] = new { get = new { operationId = "getAiReviewQueue", responses = new { ok = new { description = "Authorized accepted or quarantined AI runs returned for review" } } } },
+        ["/api/v1/catalog-records"] = new { post = new { operationId = "createCatalogRecord", responses = new { created = new { description = "Versioned controlled catalog record created" } } } },
+        ["/api/v1/catalog-records/{id}/versions"] = new { post = new { operationId = "reviseCatalogRecord", responses = new { created = new { description = "Append-only catalog revision created" } } } },
+        ["/api/v1/catalog-records/{id}/versions/{version}"] = new { get = new { operationId = "getCatalogRecordVersion", responses = new { ok = new { description = "Immutable catalog version returned" } } } },
+        ["/api/v1/inquiries"] = new { post = new { operationId = "createInquiry", responses = new { created = new { description = "Inquiry created with explicit minimum-data gaps" } } } },
+        ["/api/v1/inquiries/{id}"] = new { get = new { operationId = "getInquiry", responses = new { ok = new { description = "Current inquiry, gaps, reviews, quotes, and impacts returned" } } } },
+        ["/api/v1/inquiries/{id}/gaps/{gapId}/resolution"] = new { post = new { operationId = "resolveInquiryGap", responses = new { created = new { description = "Inquiry gap resolved in a new immutable version" } } } },
+        ["/api/v1/inquiries/{id}/capability-reviews"] = new { post = new { operationId = "recordCapabilityReview", responses = new { created = new { description = "Capability and contract review recorded" } } } },
+        ["/api/v1/inquiries/{id}/quote-versions"] = new { post = new { operationId = "createQuoteVersion", responses = new { created = new { description = "Immutable formal quote version created" } } } },
+        ["/api/v1/inquiries/{id}/change-impacts"] = new { post = new { operationId = "recordCommercialChangeImpact", responses = new { created = new { description = "Price, TAT, sample, work, and report impacts recorded" } } } },
+        ["/api/v1/sample-lineage/edges"] = new { post = new { operationId = "createSampleLineageEdge", responses = new { created = new { description = "Append-only physical lineage edge created" } } } },
+        ["/api/v1/sample-lineage/{objectId}"] = new { get = new { operationId = "getSampleLineage", responses = new { ok = new { description = "Connected physical lineage graph returned" } } } },
+        ["/api/v1/custody-events"] = new { post = new { operationId = "recordCustodyEvent", responses = new { created = new { description = "Append-only custody event recorded" } } } },
+        ["/api/v1/samples/{objectId}/custody"] = new { get = new { operationId = "getCustodyChain", responses = new { ok = new { description = "Ordered custody chain returned" } } } },
+        ["/api/v1/work-plans"] = new { post = new { operationId = "createWorkPlan", responses = new { created = new { description = "Dependency-checked work plan created" } } } },
+        ["/api/v1/work-plans/{id}"] = new { get = new { operationId = "getWorkPlan", responses = new { ok = new { description = "Current immutable work-plan version returned" } } } },
+        ["/api/v1/work-plans/{id}/tasks/{taskId}/state"] = new { post = new { operationId = "changeWorkTaskState", responses = new { created = new { description = "Validated task-state transition recorded" } } } },
+        ["/api/v1/work-plans/{id}/resource-reservations"] = new { post = new { operationId = "reserveWorkResource", responses = new { created = new { description = "Conflict-checked hard resource reservation recorded" } } } },
+        ["/api/v1/work-queues"] = new { get = new { operationId = "getWorkQueue", responses = new { ok = new { description = "Deterministically ordered authorized work queue returned" } } } },
         ["/api/v1/receipts"] = new { post = new { operationId = "registerReceipt", responses = new { created = new { description = "Receipt, containers, and quarantined received items created" } } } },
         ["/api/v1/received-items/{id}/identity-assessment"] = new { get = new { operationId = "getIdentityAssessment", responses = new { ok = new { description = "Current declaration snapshot, observations, decisions, quarantine state, and versions" } } } },
         ["/api/v1/received-items/{id}/identity-observations"] = new { post = new { operationId = "createIdentityObservation", responses = new { created = new { description = "Append-only laboratory identity observation recorded" } } } },
@@ -223,14 +254,23 @@ app.MapGet("/openapi/v1.json", () => Results.Json(new
         ["/api/v1/result-groups"] = new { post = new { operationId = "createResultGroup", responses = new { created = new { description = "Batch-gated immutable result group created atomically" } } } },
         ["/api/v1/result-groups/{id}/observations"] = new { post = new { operationId = "addResultObservation", responses = new { created = new { description = "Immutable typed observation with raw evidence reference appended" } } } },
         ["/api/v1/result-groups/{id}/derivations"] = new { post = new { operationId = "addResultDerivation", responses = new { created = new { description = "Append-only provenance derivation recorded" } } } },
+        ["/api/v1/result-groups/{id}/calculations"] = new { post = new { operationId = "executeResultCalculation", responses = new { created = new { description = "Version-pinned deterministic calculation executed and preserved" } } } },
         ["/api/v1/result-groups/{id}/adoption-rule"] = new { post = new { operationId = "recordAdoptionRule", responses = new { created = new { description = "Pre-retest adoption rule recorded append-only" } } } },
         ["/api/v1/result-groups/{id}/adoptions"] = new { post = new { operationId = "adoptResult", responses = new { created = new { description = "Strategy-checked adoption appended; latest version effective" } } } },
+        ["/api/v1/result-groups/{id}/accreditation-assessments"] = new { post = new { operationId = "recordResultAccreditationAssessment", responses = new { created = new { description = "Execution or result accreditation evidence assessed append-only" } } } },
         ["/api/v1/result-groups/{id}"] = new { get = new { operationId = "getResultGroup", responses = new { ok = new { description = "Immutable result group with observations, provenance, rules, and adoptions" } } } },
         ["/api/v1/result-groups/{id}/adoption-status"] = new { get = new { operationId = "getResultAdoptionStatus", responses = new { ok = new { description = "Version-pinned adoption status decision" } } } },
+        ["/api/v1/result-groups/{id}/accreditation-eligibility"] = new { get = new { operationId = "getResultAccreditationEligibility", responses = new { ok = new { description = "Version-pinned execution and result accreditation eligibility" } } } },
         ["/api/v1/billing-evidence"] = new { post = new { operationId = "createBillingEvidence", responses = new { created = new { description = "Unique adoption-gated billing evidence created atomically" } } } },
         ["/api/v1/billing-evidence/{id}/adjustments"] = new { post = new { operationId = "addBillingAdjustment", responses = new { created = new { description = "Append-only signed adjustment recorded" } } } },
         ["/api/v1/billing-evidence/{id}"] = new { get = new { operationId = "getBillingEvidence", responses = new { ok = new { description = "Immutable billing evidence with adjustment chain" } } } },
         ["/api/v1/billing-evidence/{id}/status"] = new { get = new { operationId = "getBillingEvidenceStatus", responses = new { ok = new { description = "Rule-set-pinned billing evidence status decision" } } } },
+        ["/api/v1/billing-export-batches"] = new { post = new { operationId = "createBillingExportBatch", responses = new { created = new { description = "Immutable auditable billing export batch created" } } } },
+        ["/api/v1/billing-export-batches/{batchId}"] = new { get = new { operationId = "getBillingExportBatch", responses = new { ok = new { description = "Immutable billing export content and hash returned" } } } },
+        ["/api/v1/billing-export-batches/{batchId}/handoffs"] = new { post = new { operationId = "createBillingHandoff", responses = new { created = new { description = "Durable ERP or invoice handoff created without claiming external success" } } } },
+        ["/api/v1/billing-handoffs/{handoffId}"] = new { get = new { operationId = "getBillingHandoff", responses = new { ok = new { description = "Handoff and immutable external attempts returned" } } } },
+        ["/api/v1/billing-handoffs/{handoffId}/attempts"] = new { post = new { operationId = "recordBillingHandoffAttempt", responses = new { created = new { description = "Idempotent external acknowledgement, failure, unknown, or difference recorded" } } } },
+        ["/api/v1/billing-handoffs/differences"] = new { get = new { operationId = "getBillingDifferenceQueue", responses = new { ok = new { description = "Authorized pending, failed, unknown, and different handoffs returned" } } } },
         ["/api/v1/instrument-files"] = new { post = new { operationId = "registerInstrumentFile", responses = new { created = new { description = "Read-only instrument file registration with content hash and parser version" } } } },
         ["/api/v1/instrument-files/{id}/rows"] = new { post = new { operationId = "submitInstrumentRows", responses = new { created = new { description = "Parsed rows recorded with pre/post parse values; exceptions queued" } } } },
         ["/api/v1/instrument-files/{id}/exceptions/{exceptionId}/resolution"] = new { post = new { operationId = "resolveInstrumentImportException", responses = new { created = new { description = "Human confirmation recorded without altering raw values" } } } },
@@ -279,6 +319,12 @@ app.MapGet("/openapi/v1.json", () => Results.Json(new
         ["/api/v1/reports/{id}/controlled-actions"] = new { post = new { operationId = "performReportControlledAction", responses = new { created = new { description = "Correction, supplement, withdrawal, void or supersession recorded" } } } },
         ["/api/v1/reports/{id}/verification"] = new { get = new { operationId = "getReportVerification", responses = new { ok = new { description = "Current version, every historical state and supersession relationships" } } } },
         ["/api/v1/reports/{id}/versions/{versionNumber}"] = new { get = new { operationId = "getReportVersion", responses = new { ok = new { description = "That version own immutable snapshot and signature" } } } },
+        ["/api/v1/reports/{id}/versions/{versionNumber}/deliveries"] = new { post = new { operationId = "createReportDelivery", responses = new { created = new { description = "Recipient delivery bound to one immutable report version" } } } },
+        ["/api/v1/report-deliveries/{deliveryId}"] = new { get = new { operationId = "getReportDelivery", responses = new { ok = new { description = "Version-bound delivery and notification status returned" } } } },
+        ["/api/v1/report-deliveries/{deliveryId}/download-grants"] = new { post = new { operationId = "createReportDownloadGrant", responses = new { created = new { description = "Recipient and expiry bound download grant created" } } } },
+        ["/api/v1/report-downloads/{accessToken}"] = new { get = new { operationId = "downloadReportVersion", responses = new { ok = new { description = "Exact granted report version returned without current-version redirection" } } } },
+        ["/api/v1/report-deliveries/{deliveryId}/notifications"] = new { post = new { operationId = "queueReportNotification", responses = new { created = new { description = "Durable report notification queued" } } } },
+        ["/api/v1/report-notifications/{notificationId}/attempts"] = new { post = new { operationId = "recordReportNotificationAttempt", responses = new { created = new { description = "Idempotent notification outcome and external reference recorded" } } } },
         ["/api/v1/label-jobs"] = new { post = new { operationId = "createLabelPrintJobs", responses = new { accepted = new { description = "Label print jobs accepted" } } } },
         ["/api/v1/label-jobs/{printJobId}"] = new { get = new { operationId = "getLabelPrintJob", responses = new { ok = new { description = "Label print job state" } } } },
         ["/api/v1/label-jobs/{printJobId}/reprint"] = new { post = new { operationId = "reprintLabel", responses = new { accepted = new { description = "Controlled reprint accepted" } } } },

@@ -1,4 +1,5 @@
 using Npgsql;
+using System.Text.Json;
 using OpenLIMS.BuildingBlocks.Platform;
 using OpenLIMS.Contracts.Platform;
 using OpenLIMS.Contracts.Result;
@@ -17,6 +18,8 @@ internal sealed class ResultStore(
     IAuditIntentWriter auditWriter,
     IOutboxWriter outboxWriter)
 {
+    private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web);
+
     public async Task AcquireGroupLockAsync(Guid resultGroupId, CancellationToken cancellationToken)
     {
         var (connection, transaction) = RequireTransaction();
@@ -244,17 +247,94 @@ internal sealed class ResultStore(
             }
         }
 
+        var calculations = new List<ResultCalculationResult>();
+        await using (var command = new NpgsqlCommand("""
+            select calculation_id, group_version, inputs_snapshot::text, rule_snapshot::text,
+                   exact_value, rounded_value, reported_value, output_unit,
+                   qualification, limit_decision, executed_by, executed_at
+            from result.result_calculation where result_group_id = @id order by group_version
+            """, connection, transaction))
+        {
+            command.Parameters.AddWithValue("id", resultGroupId);
+            await using var reader = await command.ExecuteReaderAsync(cancellationToken);
+            while (await reader.ReadAsync(cancellationToken))
+            {
+                calculations.Add(new ResultCalculationResult(
+                    reader.GetGuid(0).ToString("N"),
+                    resultGroupId.ToString("N"),
+                    reader.GetInt64(1),
+                    JsonSerializer.Deserialize<IReadOnlyList<ResultCalculationResolvedInput>>(reader.GetString(2), JsonOptions)
+                        ?? throw new InvalidOperationException("RES.CALCULATION_INPUTS_MISSING"),
+                    JsonSerializer.Deserialize<ResultCalculationRule>(reader.GetString(3), JsonOptions)
+                        ?? throw new InvalidOperationException("RES.CALCULATION_RULE_MISSING"),
+                    reader.GetDecimal(4),
+                    reader.GetDecimal(5),
+                    reader.GetString(6),
+                    reader.GetString(7),
+                    reader.GetString(8),
+                    reader.GetString(9),
+                    reader.GetString(10),
+                    reader.GetFieldValue<DateTimeOffset>(11)));
+            }
+        }
+
+        var assessments = new List<ResultAccreditationAssessmentResult>();
+        await using (var command = new NpgsqlCommand("""
+            select assessment_id, group_version, stage, target_id,
+                   accreditation_ref, accreditation_version, method_ref, method_version,
+                   site_id, product_or_matrix, parameter_id, range_unit, range_lower, range_upper,
+                   valid_from, valid_to, authorized_actor_ids::text, decision, reason_codes::text,
+                   assessed_by, assessed_at
+            from result.accreditation_assessment where result_group_id = @id order by group_version
+            """, connection, transaction))
+        {
+            command.Parameters.AddWithValue("id", resultGroupId);
+            await using var reader = await command.ExecuteReaderAsync(cancellationToken);
+            while (await reader.ReadAsync(cancellationToken))
+            {
+                assessments.Add(new ResultAccreditationAssessmentResult(
+                    reader.GetGuid(0).ToString("N"),
+                    resultGroupId.ToString("N"),
+                    reader.GetInt64(1),
+                    reader.GetString(2),
+                    reader.IsDBNull(3) ? null : reader.GetGuid(3).ToString("N"),
+                    new ResultVersionedReference(reader.GetString(4), reader.GetInt64(5)),
+                    new ResultVersionedReference(reader.GetString(6), reader.GetInt64(7)),
+                    reader.GetString(8),
+                    reader.GetString(9),
+                    reader.GetString(10),
+                    reader.GetString(11),
+                    reader.GetDecimal(12),
+                    reader.GetDecimal(13),
+                    reader.GetFieldValue<DateOnly>(14),
+                    reader.GetFieldValue<DateOnly>(15),
+                    JsonSerializer.Deserialize<IReadOnlyList<string>>(reader.GetString(16), JsonOptions)
+                        ?? throw new InvalidOperationException("RES.ACCREDITATION_ACTORS_MISSING"),
+                    reader.GetString(17),
+                    JsonSerializer.Deserialize<IReadOnlyList<string>>(reader.GetString(18), JsonOptions)
+                        ?? throw new InvalidOperationException("RES.ACCREDITATION_REASONS_MISSING"),
+                    reader.GetString(19),
+                    reader.GetFieldValue<DateTimeOffset>(20)));
+            }
+        }
+
         var version = Math.Max(1, new[]
         {
             observations.Count > 0 ? observations.Max(o => o.GroupVersion) : 1,
             derivations.Count > 0 ? derivations.Max(d => d.GroupVersion) : 1,
             rules.Count > 0 ? rules.Max(r => r.GroupVersion) : 1,
-            adoptions.Count > 0 ? adoptions.Max(a => a.GroupVersion) : 1
+            adoptions.Count > 0 ? adoptions.Max(a => a.GroupVersion) : 1,
+            calculations.Count > 0 ? calculations.Max(c => c.GroupVersion) : 1,
+            assessments.Count > 0 ? assessments.Max(a => a.GroupVersion) : 1
         }.Max());
         return new ResultGroupResult(
             resultGroupId.ToString("N"), version, ResultContract.RuleSetVersion, objectScope,
             batchId, batchVersion, gateDecision, gateRuleSet, memberId, testItem, scopeLineId,
-            observations, derivations, rules, adoptions, createdBy, createdAt);
+            observations, derivations, rules, adoptions, createdBy, createdAt)
+        {
+            Calculations = calculations,
+            AccreditationAssessments = assessments
+        };
     }
 
     public async Task<ResultObservationResult> InsertObservationAsync(
@@ -372,6 +452,70 @@ internal sealed class ResultStore(
             request.AggregationRule, request.Value, request.Unit, request.Inputs, actorId, now);
     }
 
+    public async Task<ResultCalculationResult> InsertCalculationAsync(
+        Guid resultGroupId,
+        long groupVersion,
+        string organizationGroupId,
+        ResultCalculationExecution execution,
+        string actorId,
+        DateTimeOffset now,
+        string correlationId,
+        CancellationToken cancellationToken)
+    {
+        var (connection, transaction) = RequireTransaction();
+        var calculationId = Guid.NewGuid();
+        var eventId = Guid.NewGuid().ToString("N");
+        await using (var command = new NpgsqlCommand("""
+            insert into result.result_calculation (
+                calculation_id, result_group_id, group_version, inputs_snapshot, rule_snapshot,
+                exact_value, rounded_value, reported_value, output_unit,
+                qualification, limit_decision, executed_by, executed_at, event_id, correlation_id
+            ) values (
+                @calculation_id, @result_group_id, @group_version,
+                cast(@inputs_snapshot as jsonb), cast(@rule_snapshot as jsonb),
+                @exact_value, @rounded_value, @reported_value, @output_unit,
+                @qualification, @limit_decision, @executed_by, @executed_at, @event_id, @correlation_id
+            )
+            """, connection, transaction))
+        {
+            command.Parameters.AddWithValue("calculation_id", calculationId);
+            command.Parameters.AddWithValue("result_group_id", resultGroupId);
+            command.Parameters.AddWithValue("group_version", groupVersion);
+            command.Parameters.AddWithValue("inputs_snapshot", JsonSerializer.Serialize(execution.Inputs, JsonOptions));
+            command.Parameters.AddWithValue("rule_snapshot", JsonSerializer.Serialize(execution.Rule, JsonOptions));
+            command.Parameters.AddWithValue("exact_value", execution.ExactValue);
+            command.Parameters.AddWithValue("rounded_value", execution.RoundedValue);
+            command.Parameters.AddWithValue("reported_value", execution.ReportedValue);
+            command.Parameters.AddWithValue("output_unit", execution.Rule.OutputUnit);
+            command.Parameters.AddWithValue("qualification", execution.Qualification);
+            command.Parameters.AddWithValue("limit_decision", execution.LimitDecision);
+            command.Parameters.AddWithValue("executed_by", actorId);
+            command.Parameters.AddWithValue("executed_at", now);
+            command.Parameters.AddWithValue("event_id", eventId);
+            command.Parameters.AddWithValue("correlation_id", correlationId);
+            await command.ExecuteNonQueryAsync(cancellationToken);
+        }
+
+        await WritePlatformEvidenceAsync(
+            "EXECUTE_RESULT_CALCULATION", resultGroupId.ToString("N"), organizationGroupId, actorId,
+            (groupVersion - 1).ToString(), groupVersion.ToString(),
+            eventId, "ResultCalculationExecuted.v1", correlationId, now, cancellationToken);
+        return new ResultCalculationResult(
+            calculationId.ToString("N"),
+            resultGroupId.ToString("N"),
+            groupVersion,
+            execution.Inputs,
+            execution.Rule,
+            execution.ExactValue,
+            execution.RoundedValue,
+            execution.ReportedValue,
+            execution.Rule.OutputUnit,
+            execution.Qualification,
+            execution.LimitDecision,
+            actorId,
+            now);
+    }
+
     public async Task<AdoptionRuleResult> InsertAdoptionRuleAsync(
         Guid resultGroupId,
         long groupVersion,
@@ -462,6 +606,92 @@ internal sealed class ResultStore(
         return new ResultAdoptionResult(
             resultGroupId.ToString("N"), groupVersion, adoptionVersion,
             request.TargetId, ruleVersion, request.ReviewApprovalRef, actorId, now);
+    }
+
+    public async Task<ResultAccreditationAssessmentResult> InsertAccreditationAssessmentAsync(
+        Guid resultGroupId,
+        long groupVersion,
+        string organizationGroupId,
+        ResultAccreditationEvaluation evaluation,
+        string actorId,
+        DateTimeOffset now,
+        string correlationId,
+        CancellationToken cancellationToken)
+    {
+        var (connection, transaction) = RequireTransaction();
+        var request = evaluation.Request;
+        var assessmentId = Guid.NewGuid();
+        var eventId = Guid.NewGuid().ToString("N");
+        await using (var command = new NpgsqlCommand("""
+            insert into result.accreditation_assessment (
+                assessment_id, result_group_id, group_version, stage, target_id,
+                accreditation_ref, accreditation_version, method_ref, method_version,
+                site_id, product_or_matrix, parameter_id, range_unit, range_lower, range_upper,
+                valid_from, valid_to, authorized_actor_ids, decision, reason_codes,
+                assessed_by, assessed_at, event_id, correlation_id
+            ) values (
+                @assessment_id, @result_group_id, @group_version, @stage, @target_id,
+                @accreditation_ref, @accreditation_version, @method_ref, @method_version,
+                @site_id, @product_or_matrix, @parameter_id, @range_unit, @range_lower, @range_upper,
+                @valid_from, @valid_to, cast(@authorized_actor_ids as jsonb), @decision, cast(@reason_codes as jsonb),
+                @assessed_by, @assessed_at, @event_id, @correlation_id
+            )
+            """, connection, transaction))
+        {
+            command.Parameters.AddWithValue("assessment_id", assessmentId);
+            command.Parameters.AddWithValue("result_group_id", resultGroupId);
+            command.Parameters.AddWithValue("group_version", groupVersion);
+            command.Parameters.AddWithValue("stage", request.Stage);
+            command.Parameters.AddWithValue(
+                "target_id",
+                request.TargetId is null ? DBNull.Value : Guid.ParseExact(request.TargetId, "N"));
+            command.Parameters.AddWithValue("accreditation_ref", request.Accreditation.Id);
+            command.Parameters.AddWithValue("accreditation_version", request.Accreditation.Version);
+            command.Parameters.AddWithValue("method_ref", request.Method.Id);
+            command.Parameters.AddWithValue("method_version", request.Method.Version);
+            command.Parameters.AddWithValue("site_id", request.SiteId);
+            command.Parameters.AddWithValue("product_or_matrix", request.ProductOrMatrix);
+            command.Parameters.AddWithValue("parameter_id", request.Parameter);
+            command.Parameters.AddWithValue("range_unit", request.RangeUnit);
+            command.Parameters.AddWithValue("range_lower", request.RangeLower);
+            command.Parameters.AddWithValue("range_upper", request.RangeUpper);
+            command.Parameters.AddWithValue("valid_from", request.ValidFrom);
+            command.Parameters.AddWithValue("valid_to", request.ValidTo);
+            command.Parameters.AddWithValue("authorized_actor_ids", JsonSerializer.Serialize(request.AuthorizedActorIds, JsonOptions));
+            command.Parameters.AddWithValue("decision", evaluation.Decision);
+            command.Parameters.AddWithValue("reason_codes", JsonSerializer.Serialize(evaluation.ReasonCodes, JsonOptions));
+            command.Parameters.AddWithValue("assessed_by", actorId);
+            command.Parameters.AddWithValue("assessed_at", now);
+            command.Parameters.AddWithValue("event_id", eventId);
+            command.Parameters.AddWithValue("correlation_id", correlationId);
+            await command.ExecuteNonQueryAsync(cancellationToken);
+        }
+
+        await WritePlatformEvidenceAsync(
+            "RECORD_RESULT_ACCREDITATION", resultGroupId.ToString("N"), organizationGroupId, actorId,
+            (groupVersion - 1).ToString(), groupVersion.ToString(),
+            eventId, "ResultAccreditationAssessed.v1", correlationId, now, cancellationToken);
+        return new ResultAccreditationAssessmentResult(
+            assessmentId.ToString("N"),
+            resultGroupId.ToString("N"),
+            groupVersion,
+            request.Stage,
+            request.TargetId,
+            request.Accreditation,
+            request.Method,
+            request.SiteId,
+            request.ProductOrMatrix,
+            request.Parameter,
+            request.RangeUnit,
+            request.RangeLower,
+            request.RangeUpper,
+            request.ValidFrom,
+            request.ValidTo,
+            request.AuthorizedActorIds,
+            evaluation.Decision,
+            evaluation.ReasonCodes,
+            actorId,
+            now);
     }
 
     public Task WriteReadAuditAsync(

@@ -79,6 +79,6 @@ switch ($Profile) {
             }
         }
         Require-Command python
-        Invoke-Gate 'specgen check' { python -m tools.specgen check }
+        Invoke-Gate 'repository engineering checks' { python -m unittest tests.test_repository_contract -v }
     }
 }

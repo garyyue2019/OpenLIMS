@@ -33,6 +33,18 @@ internal static class ReportEndpoints
             .WithName("getReportVerification").RequireAuthorization();
         endpoints.MapGet(ReportContract.VersionDetailPath, GetVersionAsync)
             .WithName("getReportVersion").RequireAuthorization();
+        endpoints.MapPost(ReportContract.CreateDeliveryPath, CreateDeliveryAsync)
+            .WithName("createReportDelivery").RequireAuthorization();
+        endpoints.MapGet(ReportContract.GetDeliveryPath, GetDeliveryAsync)
+            .WithName("getReportDelivery").RequireAuthorization();
+        endpoints.MapPost(ReportContract.CreateDownloadGrantPath, CreateDownloadGrantAsync)
+            .WithName("createReportDownloadGrant").RequireAuthorization();
+        endpoints.MapGet(ReportContract.DownloadPath, DownloadAsync)
+            .WithName("downloadReportVersion").RequireAuthorization();
+        endpoints.MapPost(ReportContract.QueueNotificationPath, QueueNotificationAsync)
+            .WithName("queueReportNotification").RequireAuthorization();
+        endpoints.MapPost(ReportContract.RecordNotificationAttemptPath, RecordNotificationAttemptAsync)
+            .WithName("recordReportNotificationAttempt").RequireAuthorization();
     }
 
     private static Task<IResult> CreateAsync(
@@ -179,6 +191,115 @@ internal static class ReportEndpoints
         }
     }
 
+    private static async Task<IResult> CreateDeliveryAsync(
+        string id, int versionNumber, HttpContext context, IReportDeliveryService service,
+        CancellationToken cancellationToken)
+    {
+        var correlationId = Correlation(context);
+        var request = await ReadBodyAsync<CreateReportDeliveryRequest>(context, cancellationToken);
+        if (request is null) return Problem(ReportErrorCodes.ValidationFailed, correlationId);
+        try
+        {
+            return Results.Json(
+                await service.CreateDeliveryAsync(id, versionNumber, request, correlationId, cancellationToken),
+                ReportJson.Options, statusCode: StatusCodes.Status201Created);
+        }
+        catch (ReportDomainException exception)
+        {
+            return Problem(exception.ErrorCode, correlationId, exception.GateSource);
+        }
+    }
+
+    private static async Task<IResult> GetDeliveryAsync(
+        string deliveryId, HttpContext context, IReportDeliveryService service,
+        CancellationToken cancellationToken)
+    {
+        var correlationId = Correlation(context);
+        try
+        {
+            return Results.Json(
+                await service.GetDeliveryAsync(deliveryId, correlationId, cancellationToken), ReportJson.Options);
+        }
+        catch (ReportDomainException exception)
+        {
+            return Problem(exception.ErrorCode, correlationId, exception.GateSource);
+        }
+    }
+
+    private static async Task<IResult> CreateDownloadGrantAsync(
+        string deliveryId, HttpContext context, IReportDeliveryService service,
+        CancellationToken cancellationToken)
+    {
+        var correlationId = Correlation(context);
+        var request = await ReadBodyAsync<CreateReportDownloadGrantRequest>(context, cancellationToken);
+        if (request is null) return Problem(ReportErrorCodes.ValidationFailed, correlationId);
+        try
+        {
+            return Results.Json(
+                await service.CreateDownloadGrantAsync(deliveryId, request, correlationId, cancellationToken),
+                ReportJson.Options, statusCode: StatusCodes.Status201Created);
+        }
+        catch (ReportDomainException exception)
+        {
+            return Problem(exception.ErrorCode, correlationId, exception.GateSource);
+        }
+    }
+
+    private static async Task<IResult> DownloadAsync(
+        string accessToken, HttpContext context, IReportDeliveryService service,
+        CancellationToken cancellationToken)
+    {
+        var correlationId = Correlation(context);
+        try
+        {
+            return Results.Json(
+                await service.DownloadAsync(accessToken, correlationId, cancellationToken), ReportJson.Options);
+        }
+        catch (ReportDomainException exception)
+        {
+            return Problem(exception.ErrorCode, correlationId, exception.GateSource);
+        }
+    }
+
+    private static async Task<IResult> QueueNotificationAsync(
+        string deliveryId, HttpContext context, IReportDeliveryService service,
+        CancellationToken cancellationToken)
+    {
+        var correlationId = Correlation(context);
+        var request = await ReadBodyAsync<QueueReportNotificationRequest>(context, cancellationToken);
+        if (request is null) return Problem(ReportErrorCodes.ValidationFailed, correlationId);
+        try
+        {
+            return Results.Json(
+                await service.QueueNotificationAsync(deliveryId, request, correlationId, cancellationToken),
+                ReportJson.Options, statusCode: StatusCodes.Status201Created);
+        }
+        catch (ReportDomainException exception)
+        {
+            return Problem(exception.ErrorCode, correlationId, exception.GateSource);
+        }
+    }
+
+    private static async Task<IResult> RecordNotificationAttemptAsync(
+        string notificationId, HttpContext context, IReportDeliveryService service,
+        CancellationToken cancellationToken)
+    {
+        var correlationId = Correlation(context);
+        var request = await ReadBodyAsync<RecordReportNotificationAttemptRequest>(context, cancellationToken);
+        if (request is null) return Problem(ReportErrorCodes.ValidationFailed, correlationId);
+        try
+        {
+            return Results.Json(
+                await service.RecordNotificationAttemptAsync(
+                    notificationId, request, correlationId, cancellationToken),
+                ReportJson.Options, statusCode: StatusCodes.Status201Created);
+        }
+        catch (ReportDomainException exception)
+        {
+            return Problem(exception.ErrorCode, correlationId, exception.GateSource);
+        }
+    }
+
     private static async Task<IResult> PostAsync<TRequest>(
         HttpContext context,
         CancellationToken cancellationToken,
@@ -234,7 +355,9 @@ internal static class ReportEndpoints
             ReportErrorCodes.ExpectedVersionConflict or
                 ReportErrorCodes.DuplicateAttribution or
                 ReportErrorCodes.VersionAlreadyIssued or
-                ReportErrorCodes.VersionChainClosed => StatusCodes.Status409Conflict,
+                ReportErrorCodes.VersionChainClosed or
+                ReportErrorCodes.IdempotencyConflict => StatusCodes.Status409Conflict,
+            ReportErrorCodes.DownloadGrantExpired => StatusCodes.Status410Gone,
             ReportErrorCodes.EligibilityBlocked or
                 ReportErrorCodes.ApplicabilityUnknown or
                 ReportErrorCodes.AccreditationBlocked or
@@ -244,7 +367,9 @@ internal static class ReportEndpoints
                 ReportErrorCodes.SignatureRequirementsUnmet or
                 ReportErrorCodes.ContentHashMismatch or
                 ReportErrorCodes.ImpactAssessmentRequired or
-                ReportErrorCodes.VersionNotIssued => StatusCodes.Status422UnprocessableEntity,
+                ReportErrorCodes.VersionNotIssued or
+                ReportErrorCodes.DeliveryVersionUnavailable or
+                ReportErrorCodes.NotificationConfirmationInvalid => StatusCodes.Status422UnprocessableEntity,
             ReportErrorCodes.PersistenceUnavailable => StatusCodes.Status503ServiceUnavailable,
             _ => StatusCodes.Status400BadRequest
         };

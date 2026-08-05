@@ -52,6 +52,10 @@ public sealed class BillingApiContractTests
     [InlineData(BillingErrorCodes.DuplicateBilling, HttpStatusCode.Conflict)]
     [InlineData(BillingErrorCodes.EligibilityBlocked, HttpStatusCode.UnprocessableEntity)]
     [InlineData(BillingErrorCodes.ApplicabilityUnknown, HttpStatusCode.UnprocessableEntity)]
+    [InlineData(BillingErrorCodes.ExportScopeMismatch, HttpStatusCode.UnprocessableEntity)]
+    [InlineData(BillingErrorCodes.IdempotencyConflict, HttpStatusCode.Conflict)]
+    [InlineData(BillingErrorCodes.HandoffConfirmationInvalid, HttpStatusCode.UnprocessableEntity)]
+    [InlineData(BillingErrorCodes.HandoffAlreadyCompleted, HttpStatusCode.Conflict)]
     [InlineData(BillingErrorCodes.PersistenceUnavailable, HttpStatusCode.ServiceUnavailable)]
     public async Task Billing_errors_map_to_stable_problem_contracts(string errorCode, HttpStatusCode status)
     {
@@ -88,11 +92,56 @@ public sealed class BillingApiContractTests
         Assert.Contains(BillingContract.CreateEvidencePath, content, StringComparison.Ordinal);
         foreach (var operation in new[]
         {
-            "createBillingEvidence", "addBillingAdjustment", "getBillingEvidence", "getBillingEvidenceStatus"
+            "createBillingEvidence", "addBillingAdjustment", "getBillingEvidence", "getBillingEvidenceStatus",
+            "createBillingExportBatch", "getBillingExportBatch", "createBillingHandoff",
+            "getBillingHandoff", "recordBillingHandoffAttempt", "getBillingDifferenceQueue"
         })
         {
             Assert.Contains(operation, content, StringComparison.Ordinal);
         }
+    }
+
+    [Fact]
+    public async Task Six_integration_operations_expose_immutable_export_and_external_status_contracts()
+    {
+        using var factory = new BillingApiFactory();
+        using var client = factory.CreateClient();
+        using var export = await client.PostAsJsonAsync(
+            BillingContract.CreateExportBatchPath,
+            new CreateBillingExportBatchRequest(
+                BillingContract.ExportRuleSetVersion, [EvidenceId], "BILLING-EXPORT-V1", "export-1"),
+            TestContext.Current.CancellationToken);
+        using var batch = await client.GetAsync(
+            $"/api/v1/billing-export-batches/{StubBillingIntegrationService.BatchId}",
+            TestContext.Current.CancellationToken);
+        using var handoff = await client.PostAsJsonAsync(
+            $"/api/v1/billing-export-batches/{StubBillingIntegrationService.BatchId}/handoffs",
+            new CreateBillingHandoffRequest(
+                BillingContract.HandoffRuleSetVersion, BillingExternalSystems.Erp,
+                BillingHandoffModes.Manual, new BillingVersionedReference("ERP-ENDPOINT-A", 1), "handoff-1"),
+            TestContext.Current.CancellationToken);
+        using var readHandoff = await client.GetAsync(
+            $"/api/v1/billing-handoffs/{StubBillingIntegrationService.HandoffId}",
+            TestContext.Current.CancellationToken);
+        using var attempt = await client.PostAsJsonAsync(
+            $"/api/v1/billing-handoffs/{StubBillingIntegrationService.HandoffId}/attempts",
+            new RecordBillingHandoffAttemptRequest(
+                BillingContract.HandoffRuleSetVersion, "attempt-1", BillingHandoffOutcomes.Different,
+                DetailCode: "TOTAL_MISMATCH"),
+            TestContext.Current.CancellationToken);
+        using var differences = await client.GetAsync(
+            "/api/v1/billing-handoffs/differences?externalSystem=ERP",
+            TestContext.Current.CancellationToken);
+
+        Assert.Equal(HttpStatusCode.Created, export.StatusCode);
+        Assert.Equal(HttpStatusCode.OK, batch.StatusCode);
+        Assert.Equal(HttpStatusCode.Created, handoff.StatusCode);
+        Assert.Equal(HttpStatusCode.OK, readHandoff.StatusCode);
+        Assert.Equal(HttpStatusCode.Created, attempt.StatusCode);
+        Assert.Equal(HttpStatusCode.OK, differences.StatusCode);
+        var queue = await differences.Content.ReadFromJsonAsync<BillingDifferenceQueueResult>(TestContext.Current.CancellationToken);
+        Assert.NotNull(queue);
+        Assert.Equal(BillingHandoffOutcomes.Different, Assert.Single(queue.Handoffs).Status);
     }
 
     private static CreateBillingEvidenceRequest EvidenceRequest() => new(
@@ -133,9 +182,79 @@ internal sealed class BillingApiFactory(string? errorCode = null) : WebApplicati
                     BillingTestAuthenticationHandler.SchemeName, _ => { });
             services.RemoveAll<IBillingEvidenceService>();
             services.RemoveAll<IBillingEvidencePort>();
+            services.RemoveAll<IBillingIntegrationService>();
             services.AddSingleton<IBillingEvidenceService>(new StubBillingEvidenceService(errorCode));
             services.AddSingleton<IBillingEvidencePort>(new StubBillingEvidencePort(errorCode));
+            services.AddSingleton<IBillingIntegrationService>(new StubBillingIntegrationService(errorCode));
         });
+    }
+}
+
+internal sealed class StubBillingIntegrationService(string? errorCode) : IBillingIntegrationService
+{
+    public const string BatchId = "00000000000000000000000000000090";
+    public const string HandoffId = "00000000000000000000000000000091";
+    private static readonly DateTimeOffset Now = new(2026, 8, 5, 9, 0, 0, TimeSpan.Zero);
+    private static readonly BillingObjectContext Scope = new(
+        "LEGAL-A", "LAB-A", "CUSTOMER-A", "ORDER-A", "TOYS");
+
+    public Task<BillingExportBatchResult> CreateExportBatchAsync(CreateBillingExportBatchRequest request, string correlationId, CancellationToken cancellationToken = default)
+    {
+        Throw(cancellationToken);
+        return Task.FromResult(Batch(request.ExportSchemaVersion));
+    }
+
+    public Task<BillingExportBatchResult> GetExportBatchAsync(string batchId, string correlationId, CancellationToken cancellationToken = default)
+    {
+        Throw(cancellationToken);
+        return Task.FromResult(Batch("BILLING-EXPORT-V1"));
+    }
+
+    public Task<BillingHandoffResult> CreateHandoffAsync(string batchId, CreateBillingHandoffRequest request, string correlationId, CancellationToken cancellationToken = default)
+    {
+        Throw(cancellationToken);
+        return Task.FromResult(new BillingHandoffResult(
+            HandoffId, BatchId, request.ExternalSystem, request.Mode, request.Endpoint,
+            BillingHandoffOutcomes.Pending, [], "contract-actor", Now));
+    }
+
+    public Task<BillingHandoffResult> GetHandoffAsync(string handoffId, string correlationId, CancellationToken cancellationToken = default)
+    {
+        Throw(cancellationToken);
+        return Task.FromResult(Handoff(BillingHandoffOutcomes.Pending));
+    }
+
+    public Task<BillingHandoffAttemptResult> RecordHandoffAttemptAsync(string handoffId, RecordBillingHandoffAttemptRequest request, string correlationId, CancellationToken cancellationToken = default)
+    {
+        Throw(cancellationToken);
+        return Task.FromResult(new BillingHandoffAttemptResult(
+            "00000000000000000000000000000092", HandoffId, 1, request.Outcome,
+            request.ExternalReference, request.DetailCode, request.ErpPosting, "contract-actor", Now));
+    }
+
+    public Task<BillingDifferenceQueueResult> GetDifferenceQueueAsync(string? externalSystem, string correlationId, CancellationToken cancellationToken = default)
+    {
+        Throw(cancellationToken);
+        return Task.FromResult(new BillingDifferenceQueueResult(
+            [Handoff(BillingHandoffOutcomes.Different)], BillingContract.HandoffRuleSetVersion));
+    }
+
+    private static BillingExportBatchResult Batch(string schemaVersion) => new(
+        BatchId, Scope, schemaVersion,
+        [new BillingExportItemResult(
+            "00000000000000000000000000000080", "group-1", 5,
+            120.5m, -20m, 100.5m, new BillingVersionedReference("CNY", 1))],
+        100.5m, new BillingVersionedReference("CNY", 1), new string('a', 64),
+        "canonical", "contract-actor", Now);
+
+    private static BillingHandoffResult Handoff(string status) => new(
+        HandoffId, BatchId, BillingExternalSystems.Erp, BillingHandoffModes.Manual,
+        new BillingVersionedReference("ERP-ENDPOINT-A", 1), status, [], "contract-actor", Now);
+
+    private void Throw(CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        if (errorCode is not null) throw new BillingDomainException(errorCode);
     }
 }
 

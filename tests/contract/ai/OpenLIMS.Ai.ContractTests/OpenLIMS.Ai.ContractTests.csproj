@@ -4,9 +4,12 @@
     <RootNamespace>OpenLIMS.Ai.ContractTests</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="xunit.v3" />
     <PackageReference Include="xunit.runner.visualstudio" />
     <ProjectReference Include="../../../../contracts/ai/OpenLIMS.Contracts.Ai/OpenLIMS.Contracts.Ai.csproj" />
+    <ProjectReference Include="../../../../src/modules/ai/OpenLIMS.Modules.Ai/OpenLIMS.Modules.Ai.csproj" />
+    <ProjectReference Include="../../../../src/host/api/OpenLIMS.Api/OpenLIMS.Api.csproj" />
   </ItemGroup>
 </Project>

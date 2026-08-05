@@ -21,7 +21,7 @@ public sealed class ResultApiContractTests
     private const string GroupId = "00000000000000000000000000000070";
 
     [Fact]
-    public async Task Seven_result_operations_expose_versioned_contracts()
+    public async Task Ten_result_operations_expose_versioned_contracts()
     {
         using var factory = new ResultApiFactory();
         using var client = factory.CreateClient();
@@ -31,26 +31,46 @@ public sealed class ResultApiContractTests
             $"/api/v1/result-groups/{GroupId}/observations", ObservationRequest(), TestContext.Current.CancellationToken);
         using var derivation = await client.PostAsJsonAsync(
             $"/api/v1/result-groups/{GroupId}/derivations", DerivationRequest(), TestContext.Current.CancellationToken);
+        using var calculation = await client.PostAsJsonAsync(
+            $"/api/v1/result-groups/{GroupId}/calculations", CalculationRequest(), TestContext.Current.CancellationToken);
         using var rule = await client.PostAsJsonAsync(
             $"/api/v1/result-groups/{GroupId}/adoption-rule", RuleRequest(), TestContext.Current.CancellationToken);
         using var adoption = await client.PostAsJsonAsync(
             $"/api/v1/result-groups/{GroupId}/adoptions", AdoptRequest(), TestContext.Current.CancellationToken);
+        using var executionAccreditation = await client.PostAsJsonAsync(
+            $"/api/v1/result-groups/{GroupId}/accreditation-assessments",
+            AccreditationRequest(ResultAccreditationStages.Execution, null, 6),
+            TestContext.Current.CancellationToken);
+        using var resultAccreditation = await client.PostAsJsonAsync(
+            $"/api/v1/result-groups/{GroupId}/accreditation-assessments",
+            AccreditationRequest(ResultAccreditationStages.Result, "00000000000000000000000000000071", 7),
+            TestContext.Current.CancellationToken);
         using var read = await client.GetAsync(
             $"/api/v1/result-groups/{GroupId}", TestContext.Current.CancellationToken);
         using var status = await client.GetAsync(
-            $"/api/v1/result-groups/{GroupId}/adoption-status?expectedVersion=5&ruleSetVersion={Uri.EscapeDataString(ResultContract.RuleSetVersion)}",
+            $"/api/v1/result-groups/{GroupId}/adoption-status?expectedVersion=6&ruleSetVersion={Uri.EscapeDataString(ResultContract.RuleSetVersion)}",
+            TestContext.Current.CancellationToken);
+        using var accreditation = await client.GetAsync(
+            $"/api/v1/result-groups/{GroupId}/accreditation-eligibility?expectedVersion=8&ruleSetVersion={Uri.EscapeDataString(ResultContract.AccreditationRuleSetVersion)}",
             TestContext.Current.CancellationToken);
 
         Assert.Equal(HttpStatusCode.Created, created.StatusCode);
         Assert.Equal(HttpStatusCode.Created, observation.StatusCode);
         Assert.Equal(HttpStatusCode.Created, derivation.StatusCode);
+        Assert.Equal(HttpStatusCode.Created, calculation.StatusCode);
         Assert.Equal(HttpStatusCode.Created, rule.StatusCode);
         Assert.Equal(HttpStatusCode.Created, adoption.StatusCode);
+        Assert.Equal(HttpStatusCode.Created, executionAccreditation.StatusCode);
+        Assert.Equal(HttpStatusCode.Created, resultAccreditation.StatusCode);
         Assert.Equal(HttpStatusCode.OK, read.StatusCode);
         Assert.Equal(HttpStatusCode.OK, status.StatusCode);
+        Assert.Equal(HttpStatusCode.OK, accreditation.StatusCode);
         var gate = await status.Content.ReadFromJsonAsync<ResultAdoptionStatusResult>(TestContext.Current.CancellationToken);
         Assert.NotNull(gate);
         Assert.Equal(ResultAdoptionDecisions.Allowed, gate.Decision);
+        var accreditationGate = await accreditation.Content.ReadFromJsonAsync<ResultAccreditationEligibilityResult>(TestContext.Current.CancellationToken);
+        Assert.NotNull(accreditationGate);
+        Assert.Equal(ResultAccreditationDecisions.Eligible, accreditationGate.Decision);
     }
 
     [Theory]
@@ -61,6 +81,7 @@ public sealed class ResultApiContractTests
     [InlineData(ResultErrorCodes.ApplicabilityUnknown, HttpStatusCode.UnprocessableEntity)]
     [InlineData(ResultErrorCodes.AdoptionRuleRequired, HttpStatusCode.UnprocessableEntity)]
     [InlineData(ResultErrorCodes.AdoptionStrategyViolation, HttpStatusCode.UnprocessableEntity)]
+    [InlineData(ResultErrorCodes.CalculationFailed, HttpStatusCode.UnprocessableEntity)]
     [InlineData(ResultErrorCodes.PersistenceUnavailable, HttpStatusCode.ServiceUnavailable)]
     public async Task Result_errors_map_to_stable_problem_contracts(string errorCode, HttpStatusCode status)
     {
@@ -88,6 +109,18 @@ public sealed class ResultApiContractTests
     }
 
     [Fact]
+    public async Task Malformed_accreditation_query_is_rejected()
+    {
+        using var factory = new ResultApiFactory();
+        using var client = factory.CreateClient();
+        using var response = await client.GetAsync(
+            $"/api/v1/result-groups/{GroupId}/accreditation-eligibility?expectedVersion=latest",
+            TestContext.Current.CancellationToken);
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
+    [Fact]
     public async Task Openapi_declares_all_result_operations()
     {
         using var factory = new ResultApiFactory();
@@ -99,7 +132,9 @@ public sealed class ResultApiContractTests
         foreach (var operation in new[]
         {
             "createResultGroup", "addResultObservation", "addResultDerivation",
-            "recordAdoptionRule", "adoptResult", "getResultGroup", "getResultAdoptionStatus"
+            "executeResultCalculation", "recordAdoptionRule", "adoptResult",
+            "recordResultAccreditationAssessment", "getResultGroup", "getResultAdoptionStatus",
+            "getResultAccreditationEligibility"
         })
         {
             Assert.Contains(operation, content, StringComparison.Ordinal);
@@ -121,13 +156,41 @@ public sealed class ResultApiContractTests
         2, ResultContract.RuleSetVersion, new ResultVersionedReference("AGG-MEAN", 1), "12.5", "MG-KG",
         [new ResultDerivationInput("00000000000000000000000000000071", true)]);
 
+    private static ExecuteResultCalculationRequest CalculationRequest() => new(
+        3,
+        ResultContract.CalculationRuleSetVersion,
+        [new ResultCalculationInput("00000000000000000000000000000071", 1m)],
+        CalculationRule());
+
+    private static ResultCalculationRule CalculationRule() => new(
+        new ResultVersionedReference("CALC-1", 1),
+        new ResultVersionedReference("UNIT-1", 1),
+        "MG-KG", "MG-KG", 1m, 0m, 1m, 1m, 2,
+        ResultRoundingModes.ToEven, 1m, 2m,
+        ResultLimitOperators.LessThanOrEqual, ResultLimitEvaluationBases.Exact,
+        null, 20m);
+
     private static RecordAdoptionRuleRequest RuleRequest() => new(
-        3, ResultContract.RuleSetVersion, ResultAdoptionStrategies.TechnicalReviewSelects,
+        4, ResultContract.RuleSetVersion, ResultAdoptionStrategies.TechnicalReviewSelects,
         new ResultVersionedReference("RULE-1", 1));
 
     private static AdoptResultRequest AdoptRequest() => new(
-        4, ResultContract.RuleSetVersion, "00000000000000000000000000000071",
+        5, ResultContract.RuleSetVersion, "00000000000000000000000000000071",
         new ResultVersionedReference("REVIEW-1", 1));
+
+    private static RecordResultAccreditationAssessmentRequest AccreditationRequest(
+        string stage,
+        string? targetId,
+        long expectedVersion) => new(
+        expectedVersion,
+        ResultContract.AccreditationRuleSetVersion,
+        stage,
+        targetId,
+        new ResultVersionedReference("ACC-1", 1),
+        new ResultVersionedReference("METHOD-1", 1),
+        "LAB-A", "TOYS", "ITEM-PB", "MG-KG", 0m, 20m,
+        new DateOnly(2026, 1, 1), new DateOnly(2026, 12, 31),
+        ["contract-actor"]);
 }
 
 internal sealed class ResultApiFactory(string? errorCode = null) : WebApplicationFactory<Program>
@@ -159,8 +222,10 @@ internal sealed class ResultApiFactory(string? errorCode = null) : WebApplicatio
                     ResultTestAuthenticationHandler.SchemeName, _ => { });
             services.RemoveAll<IResultGroupService>();
             services.RemoveAll<IResultAdoptionPort>();
+            services.RemoveAll<IResultAccreditationEligibilityPort>();
             services.AddSingleton<IResultGroupService>(new StubResultGroupService(errorCode));
             services.AddSingleton<IResultAdoptionPort>(new StubResultAdoptionPort(errorCode));
+            services.AddSingleton<IResultAccreditationEligibilityPort>(new StubResultAccreditationPort(errorCode));
         });
     }
 }
@@ -195,6 +260,16 @@ internal sealed class StubResultGroupService(string? errorCode) : IResultGroupSe
             request.AggregationRule, request.Value, request.Unit, request.Inputs, "contract-actor", Now));
     }
 
+    public Task<ResultCalculationResult> ExecuteCalculationAsync(string resultGroupId, ExecuteResultCalculationRequest request, string correlationId, CancellationToken cancellationToken = default)
+    {
+        Throw(cancellationToken);
+        return Task.FromResult(new ResultCalculationResult(
+            "00000000000000000000000000000073", resultGroupId, request.ExpectedCurrentVersion + 1,
+            [new ResultCalculationResolvedInput(request.Inputs[0].TargetId, 12.5m, request.Rule.InputUnit, request.Inputs[0].Coefficient)],
+            request.Rule, 12.5m, 12.5m, "12.5", request.Rule.OutputUnit,
+            ResultDetectionQualifications.Quantified, ResultLimitDecisions.Pass, "contract-actor", Now));
+    }
+
     public Task<AdoptionRuleResult> RecordAdoptionRuleAsync(string resultGroupId, RecordAdoptionRuleRequest request, string correlationId, CancellationToken cancellationToken = default)
     {
         Throw(cancellationToken);
@@ -208,6 +283,17 @@ internal sealed class StubResultGroupService(string? errorCode) : IResultGroupSe
         return Task.FromResult(new ResultAdoptionResult(
             resultGroupId, request.ExpectedCurrentVersion + 1, 1, request.TargetId, 1,
             request.ReviewApprovalRef, "contract-actor", Now));
+    }
+
+    public Task<ResultAccreditationAssessmentResult> RecordAccreditationAssessmentAsync(string resultGroupId, RecordResultAccreditationAssessmentRequest request, string correlationId, CancellationToken cancellationToken = default)
+    {
+        Throw(cancellationToken);
+        return Task.FromResult(new ResultAccreditationAssessmentResult(
+            Guid.NewGuid().ToString("N"), resultGroupId, request.ExpectedCurrentVersion + 1,
+            request.Stage, request.TargetId, request.Accreditation, request.Method,
+            request.SiteId, request.ProductOrMatrix, request.Parameter, request.RangeUnit,
+            request.RangeLower, request.RangeUpper, request.ValidFrom, request.ValidTo,
+            request.AuthorizedActorIds, ResultAccreditationDecisions.Eligible, [], "contract-actor", Now));
     }
 
     public Task<ResultGroupResult> GetAsync(string resultGroupId, string correlationId, CancellationToken cancellationToken = default)
@@ -237,6 +323,26 @@ internal sealed class StubResultAdoptionPort(string? errorCode) : IResultAdoptio
         return ValueTask.FromResult(new ResultAdoptionStatusResult(
             ResultAdoptionDecisions.Allowed, [], request.ResultGroupId, request.ExpectedGroupVersion,
             "00000000000000000000000000000071", 1, ResultContract.RuleSetVersion));
+    }
+}
+
+internal sealed class StubResultAccreditationPort(string? errorCode) : IResultAccreditationEligibilityPort
+{
+    public ValueTask<ResultAccreditationEligibilityResult> EvaluateAsync(
+        ResultAccreditationEligibilityRequest request,
+        CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        if (errorCode is not null) throw new ResultDomainException(errorCode);
+        return ValueTask.FromResult(new ResultAccreditationEligibilityResult(
+            ResultAccreditationDecisions.Eligible,
+            [],
+            request.ResultGroupId,
+            request.ExpectedGroupVersion,
+            "00000000000000000000000000000081",
+            "00000000000000000000000000000082",
+            "00000000000000000000000000000071",
+            ResultContract.AccreditationRuleSetVersion));
     }
 }
 

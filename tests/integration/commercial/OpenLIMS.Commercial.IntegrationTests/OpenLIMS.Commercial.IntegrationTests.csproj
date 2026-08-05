@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>OpenLIMS.Commercial.IntegrationTests</AssemblyName>
+    <RootNamespace>OpenLIMS.Commercial.IntegrationTests</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+    <PackageReference Include="Npgsql" />
+    <ProjectReference Include="../../../../src/modules/commercial/OpenLIMS.Modules.Commercial/OpenLIMS.Modules.Commercial.csproj" />
+    <ProjectReference Include="../../../../contracts/commercial/OpenLIMS.Contracts.Commercial/OpenLIMS.Contracts.Commercial.csproj" />
+    <ProjectReference Include="../../../../src/building-blocks/OpenLIMS.BuildingBlocks.Platform/OpenLIMS.BuildingBlocks.Platform.csproj" />
+    <ProjectReference Include="../../../../contracts/platform/OpenLIMS.Contracts.Platform/OpenLIMS.Contracts.Platform.csproj" />
+  </ItemGroup>
+</Project>

@@ -32,6 +32,8 @@ public sealed class ReportModule(string postgresConnectionString) :
         services.TryAddScoped<IReportIssuanceGatePort, ReportIssuanceGatePort>();
         services.TryAddScoped<IReportVersionService, ReportVersionService>();
         services.TryAddScoped<IReportVersionChainPort, ReportVersionChainPort>();
+        services.TryAddScoped<IReportDeliveryService, ReportDeliveryService>();
+        services.TryAddScoped<ReportDeliveryStore>();
         services.TryAddScoped<ReportVersionStore>();
         services.TryAddScoped<ReportStore>();
         services.TryAddScoped<ReportAttemptAuditWriter>();
@@ -49,6 +51,7 @@ public sealed class ReportModule(string postgresConnectionString) :
     {
         await ReportMigrator.ApplyAsync(_options.ConnectionString, cancellationToken);
         await ReportVersionMigrator.ApplyAsync(_options.ConnectionString, cancellationToken);
+        await ReportDeliveryMigrator.ApplyAsync(_options.ConnectionString, cancellationToken);
     }
 
     private void AddPersistence(IServiceCollection services)

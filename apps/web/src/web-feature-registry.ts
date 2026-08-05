@@ -7,6 +7,7 @@ import { labWorkbenchSecondFeature } from './features/lab-workbench/lab-workbenc
 import { businessWorkbenchFeature } from './features/business-workbench/business-workbench-feature'
 import { textileWorkbenchFeature } from './features/industry-workbench/textile-workbench-feature'
 import { toyWorkbenchFeature } from './features/toy-workbench/toy-workbench-feature'
+import { releaseWorkbenchFeature } from './features/release-workbench/release-workbench-feature'
 import {
   composeWebFeatures,
   type WebFeatureDescriptor
@@ -34,7 +35,8 @@ export const webFeatureRegistry: readonly WebFeatureDescriptor[] = [
   labWorkbenchSecondFeature,
   businessWorkbenchFeature,
   textileWorkbenchFeature,
-  toyWorkbenchFeature
+  toyWorkbenchFeature,
+  releaseWorkbenchFeature
 ]
 
 export const webFeatureComposition = composeWebFeatures(webFeatureRegistry)

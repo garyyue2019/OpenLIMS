@@ -12,6 +12,8 @@ public sealed class ResultRulesTests
     private static readonly string ObservationA = Guid.Parse("00000000-0000-0000-0000-000000000061").ToString("N");
     private static readonly string ObservationRetest = Guid.Parse("00000000-0000-0000-0000-000000000062").ToString("N");
     private static readonly string DerivationA = Guid.Parse("00000000-0000-0000-0000-000000000063").ToString("N");
+    private static readonly string CalculationA = Guid.Parse("00000000-0000-0000-0000-000000000064").ToString("N");
+    private static readonly DateTimeOffset Now = new(2026, 8, 5, 8, 0, 0, TimeSpan.Zero);
 
     [Fact]
     public void Initial_observation_forbids_trigger_and_approval_while_others_require_them()
@@ -89,6 +91,60 @@ public sealed class ResultRulesTests
     }
 
     [Fact]
+    public void Calculation_is_deterministic_and_preserves_rule_inputs_rounding_and_limit_decision()
+    {
+        var execution = ResultRules.ExecuteCalculation(
+            CalculationRequest(ObservationA, CalculationRule() with
+            {
+                DilutionFactor = 2m,
+                DecimalPlaces = 1,
+                RoundingMode = ResultRoundingModes.AwayFromZero,
+                Lod = 1m,
+                Loq = 2m,
+                LimitOperator = ResultLimitOperators.LessThanOrEqual,
+                UpperLimit = 25m
+            }),
+            Group());
+
+        Assert.Equal(25m, execution.ExactValue);
+        Assert.Equal(25m, execution.RoundedValue);
+        Assert.Equal("25", execution.ReportedValue);
+        Assert.Equal(ResultDetectionQualifications.Quantified, execution.Qualification);
+        Assert.Equal(ResultLimitDecisions.Pass, execution.LimitDecision);
+        Assert.Equal(ObservationA, Assert.Single(execution.Inputs).TargetId);
+        Assert.Equal("CALC-1", execution.Rule.CalculationRule.Id);
+    }
+
+    [Fact]
+    public void Calculation_fails_closed_for_unit_mismatch_invalid_detection_or_unquantified_limit()
+    {
+        var belowLoq = ResultRules.ExecuteCalculation(
+            CalculationRequest(ObservationA, CalculationRule() with
+            {
+                UnitMultiplier = 0.1m,
+                Lod = 1m,
+                Loq = 2m,
+                LimitOperator = ResultLimitOperators.LessThanOrEqual,
+                UpperLimit = 3m
+            }),
+            Group());
+        var unitMismatch = Assert.Throws<ResultDomainException>(() =>
+            ResultRules.ExecuteCalculation(
+                CalculationRequest(ObservationA, CalculationRule() with { InputUnit = "UG-KG" }),
+                Group()));
+        var invalidDetection = Assert.Throws<ResultDomainException>(() =>
+            ResultRules.ExecuteCalculation(
+                CalculationRequest(ObservationA, CalculationRule() with { Lod = 5m, Loq = 4m }),
+                Group()));
+
+        Assert.Equal(ResultDetectionQualifications.BelowLoq, belowLoq.Qualification);
+        Assert.Equal("<LOQ", belowLoq.ReportedValue);
+        Assert.Equal(ResultLimitDecisions.Unknown, belowLoq.LimitDecision);
+        Assert.Equal(ResultErrorCodes.CalculationFailed, unitMismatch.ErrorCode);
+        Assert.Equal(ResultErrorCodes.ValidationFailed, invalidDetection.ErrorCode);
+    }
+
+    [Fact]
     public void Retest_replaces_original_strategy_blocks_adopting_favorable_initial()
     {
         var group = Group();
@@ -118,6 +174,147 @@ public sealed class ResultRulesTests
             rule, group);
 
         Assert.Equal(ResultErrorCodes.AdoptionStrategyViolation, violation.ErrorCode);
+    }
+
+    [Fact]
+    public void Retest_strategy_allows_a_calculation_that_includes_the_latest_retest()
+    {
+        var group = Group() with
+        {
+            Calculations =
+            [
+                new ResultCalculationResult(
+                    CalculationA, Group().ResultGroupId, 5,
+                    [new ResultCalculationResolvedInput(ObservationRetest, 11.9m, "MG-KG", 1m)],
+                    CalculationRule(), 11.9m, 11.9m, "11.9", "MG-KG",
+                    ResultDetectionQualifications.Quantified, ResultLimitDecisions.NotEvaluated,
+                    "a", Now)
+            ]
+        };
+
+        ResultRules.RequireStrategyCompliance(
+            Adoption(CalculationA), Rule(ResultAdoptionStrategies.RetestReplacesOriginal), group);
+    }
+
+    [Fact]
+    public void Accreditation_requires_compatible_execution_and_result_evidence()
+    {
+        var adopted = Group() with
+        {
+            Version = 6,
+            Adoptions =
+            [
+                new ResultAdoptionResult(
+                    Group().ResultGroupId, 6, 1, ObservationRetest, 1, null, "a", Now)
+            ]
+        };
+        var execution = ResultRules.EvaluateAccreditationAssessment(
+            AccreditationRequest(ResultAccreditationStages.Execution, null, 6), adopted, "a", Now);
+        var result = ResultRules.EvaluateAccreditationAssessment(
+            AccreditationRequest(ResultAccreditationStages.Result, ObservationRetest, 7), adopted, "a", Now);
+        var withEvidence = adopted with
+        {
+            Version = 8,
+            AccreditationAssessments =
+            [
+                Assessment("00000000000000000000000000000081", 7, execution),
+                Assessment("00000000000000000000000000000082", 8, result)
+            ]
+        };
+
+        var eligibility = ResultRules.EvaluateAccreditationEligibility(
+            new ResultAccreditationEligibilityRequest(
+                "group-a", withEvidence.ResultGroupId, 8, ResultContract.AccreditationRuleSetVersion),
+            withEvidence,
+            "a",
+            Now);
+
+        Assert.Equal(ResultAccreditationDecisions.Eligible, execution.Decision);
+        Assert.Equal(ResultAccreditationDecisions.Eligible, result.Decision);
+        Assert.Equal(ResultAccreditationDecisions.Eligible, eligibility.Decision);
+        Assert.Empty(eligibility.ReasonCodes);
+    }
+
+    [Fact]
+    public void Expired_or_mismatched_accreditation_blocks_eligibility()
+    {
+        var adopted = Group() with
+        {
+            Version = 6,
+            Adoptions =
+            [
+                new ResultAdoptionResult(
+                    Group().ResultGroupId, 6, 1, ObservationRetest, 1, null, "a", Now)
+            ]
+        };
+        var blockedExecution = ResultRules.EvaluateAccreditationAssessment(
+            AccreditationRequest(ResultAccreditationStages.Execution, null, 6) with
+            {
+                SiteId = "LAB-B",
+                ValidTo = new DateOnly(2026, 8, 4)
+            }, adopted, "a", Now);
+        var result = ResultRules.EvaluateAccreditationAssessment(
+            AccreditationRequest(ResultAccreditationStages.Result, ObservationRetest, 7), adopted, "a", Now);
+        var withEvidence = adopted with
+        {
+            Version = 8,
+            AccreditationAssessments =
+            [
+                Assessment("00000000000000000000000000000083", 7, blockedExecution),
+                Assessment("00000000000000000000000000000084", 8, result)
+            ]
+        };
+
+        var eligibility = ResultRules.EvaluateAccreditationEligibility(
+            new ResultAccreditationEligibilityRequest(
+                "group-a", withEvidence.ResultGroupId, 8, ResultContract.AccreditationRuleSetVersion),
+            withEvidence,
+            "a",
+            Now);
+
+        Assert.Equal(ResultAccreditationDecisions.Blocked, blockedExecution.Decision);
+        Assert.Contains(ResultAccreditationReasons.SiteMismatch, blockedExecution.ReasonCodes);
+        Assert.Contains(ResultAccreditationReasons.Expired, blockedExecution.ReasonCodes);
+        Assert.Equal(ResultAccreditationDecisions.Blocked, eligibility.Decision);
+        Assert.Contains(ResultAccreditationEligibilityReasons.AssessmentBlocked, eligibility.ReasonCodes);
+        Assert.Contains(ResultAccreditationEligibilityReasons.AssessmentExpired, eligibility.ReasonCodes);
+    }
+
+    [Fact]
+    public void Accreditation_eligibility_blocks_a_current_actor_outside_the_result_authorization_list()
+    {
+        var adopted = Group() with
+        {
+            Version = 6,
+            Adoptions =
+            [
+                new ResultAdoptionResult(
+                    Group().ResultGroupId, 6, 1, ObservationRetest, 1, null, "a", Now)
+            ]
+        };
+        var execution = ResultRules.EvaluateAccreditationAssessment(
+            AccreditationRequest(ResultAccreditationStages.Execution, null, 6), adopted, "a", Now);
+        var result = ResultRules.EvaluateAccreditationAssessment(
+            AccreditationRequest(ResultAccreditationStages.Result, ObservationRetest, 7), adopted, "a", Now);
+        var withEvidence = adopted with
+        {
+            Version = 8,
+            AccreditationAssessments =
+            [
+                Assessment("00000000000000000000000000000085", 7, execution),
+                Assessment("00000000000000000000000000000086", 8, result)
+            ]
+        };
+
+        var eligibility = ResultRules.EvaluateAccreditationEligibility(
+            new ResultAccreditationEligibilityRequest(
+                "group-a", withEvidence.ResultGroupId, 8, ResultContract.AccreditationRuleSetVersion),
+            withEvidence,
+            "signer-b",
+            Now);
+
+        Assert.Equal(ResultAccreditationDecisions.Blocked, eligibility.Decision);
+        Assert.Contains(ResultAccreditationEligibilityReasons.CurrentActorUnauthorized, eligibility.ReasonCodes);
     }
 
     [Fact]
@@ -248,6 +445,81 @@ public sealed class ResultRulesTests
     private static AddResultDerivationRequest Derivation(params ResultDerivationInput[] inputs) => new(
         3, ResultContract.RuleSetVersion,
         new ResultVersionedReference("AGG-MEAN", 1), "12.7", "MG-KG", inputs);
+
+    private static ExecuteResultCalculationRequest CalculationRequest(
+        string targetId,
+        ResultCalculationRule rule) => new(
+        4,
+        ResultContract.CalculationRuleSetVersion,
+        [new ResultCalculationInput(targetId, 1m)],
+        rule);
+
+    private static ResultCalculationRule CalculationRule() => new(
+        new ResultVersionedReference("CALC-1", 1),
+        new ResultVersionedReference("UNIT-1", 1),
+        "MG-KG",
+        "MG-KG",
+        1m,
+        0m,
+        1m,
+        1m,
+        2,
+        ResultRoundingModes.ToEven,
+        null,
+        null,
+        ResultLimitOperators.None,
+        ResultLimitEvaluationBases.Exact,
+        null,
+        null);
+
+    private static RecordResultAccreditationAssessmentRequest AccreditationRequest(
+        string stage,
+        string? targetId,
+        long expectedVersion) => new(
+        expectedVersion,
+        ResultContract.AccreditationRuleSetVersion,
+        stage,
+        targetId,
+        new ResultVersionedReference("ACC-1", 2),
+        new ResultVersionedReference("METHOD-1", 3),
+        "LAB-A",
+        "TOYS",
+        "ITEM-PB",
+        "MG-KG",
+        0m,
+        20m,
+        new DateOnly(2026, 1, 1),
+        new DateOnly(2026, 12, 31),
+        ["a"]);
+
+    private static ResultAccreditationAssessmentResult Assessment(
+        string id,
+        long groupVersion,
+        ResultAccreditationEvaluation evaluation)
+    {
+        var request = evaluation.Request;
+        return new ResultAccreditationAssessmentResult(
+            id,
+            Group().ResultGroupId,
+            groupVersion,
+            request.Stage,
+            request.TargetId,
+            request.Accreditation,
+            request.Method,
+            request.SiteId,
+            request.ProductOrMatrix,
+            request.Parameter,
+            request.RangeUnit,
+            request.RangeLower,
+            request.RangeUpper,
+            request.ValidFrom,
+            request.ValidTo,
+            request.AuthorizedActorIds,
+            evaluation.Decision,
+            evaluation.ReasonCodes,
+            "a",
+            Now);
+    }
 
     private static AdoptResultRequest Adoption(string targetId) => new(
         4, ResultContract.RuleSetVersion, targetId);

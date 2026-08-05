@@ -159,3 +159,10 @@
 - Exact read-query contracts are confirmed: Operations queue uses `workCenterId` plus optional `state`; Result accreditation eligibility uses `expectedVersion` and accreditation rule-set version; Billing differences use optional `externalSystem`; AI review queue uses optional `status`. Other new detail reads are path-only.
 - The apparent mojibake in existing Shell/Home/navigation/shared components was a Windows PowerShell `Get-Content` display-decoding artifact. `rg` reads the UTF-8 source correctly and the browser-facing strings are intact. Do not rewrite unaffected UI copy; only the deliberately replaced Result/Report/Billing views and new pages need new text.
 - All existing workbench pages use one authenticated `useLabOperationState` per view, local request validation, `LabProblemAlert` retry, and `LabJsonResult` server evidence. New pages and extensions should preserve this pattern and keep capability claims limited to disabling or hiding write controls.
+
+## Final delivery evidence
+
+- PR #32 publishes the complete governance-removal and remaining-development implementation branch: https://github.com/garyyue2019/OpenLIMS/pull/32.
+- Both required GitHub checks passed. The CI run supplies the Docker/Compose, dependency audit, pinned-image, migration, readiness, and trusted-identity evidence that could not be produced by the local host.
+- Local verification remains green for locked restore, Release build, the full PostgreSQL-backed .NET matrix, Architecture 19/19, Chain E2E 8/8, frontend lint/typecheck/43 files and 116 tests/build, Python engineering contracts 9/9, and whitespace checks.
+- External provider, ERP, invoice, notification, backup, and deployment success remain environment operations; the product implements durable handoff, status, retry, audit, and difference boundaries without fabricating third-party success.

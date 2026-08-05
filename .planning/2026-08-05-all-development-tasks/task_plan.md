@@ -6,7 +6,7 @@ Remove repository-level development approval governance, then autonomously deriv
 
 ## Current Phase
 
-Phase 8: final verification and delivery
+Complete
 
 ## Phases
 
@@ -91,13 +91,15 @@ Phase 8: final verification and delivery
 | First Phase 8 full .NET test command omitted `OPENLIMS_TEST_POSTGRES_CONNECTION`, so every database suite failed before executing test logic | 1 | Confirm the repository connection-string convention, set the isolated PostgreSQL 55442 connection for the command, and rerun the entire solution unchanged. Architecture tests already passed 19/19. |
 | Phase 8 connection-string search included a `README*` path argument that Windows did not expand | 1 | Keep the successful verified-root matches, then inspect exact documentation/test files without shell wildcards. No repository code changed. |
 | Final branch-wide `git diff --check origin/main...HEAD` found one extra EOF blank line in the earlier development-workflow documentation commit | 1 | Remove only the trailing blank line, then rerun both branch-wide and working-tree whitespace checks. |
+| Resumed legacy `python -m tools.specgen ...` start commands could not run because the executable specgen entry point was intentionally removed in Phase 5 | 1 | Treat the pre-removal passing gates as historical evidence and use the current engineering contracts plus green PR CI for final delivery. No product files changed. |
+| GitHub CLI status inspection was unavailable because `gh` is not installed | 1 | Use the existing signed-in in-app browser session for PR inspection and merge. No repository files changed. |
 
 ## Delivery Status
 
-- Development backlog audit: complete.
-- Local audit commit: complete.
-- Remote audit push: blocked by external GitHub TLS connectivity and absence of an authorized SSH key.
-- Previously delivered product code on `origin/main`: unaffected and already synchronized at `095a0802` before this audit commit.
+- Development backlog and implementation: complete.
+- Branch push: complete at `3f6bb22` on `origin/codex/remove-development-governance`.
+- Pull request: #32 created; both required checks passed, including the CI-only Docker/Compose, dependency-audit, migration, readiness, and trusted-identity checks.
+- Delivery state: ready for squash merge into `main`.
 
 ### Phase 5: remove development governance
 
@@ -128,8 +130,8 @@ Phase 8: final verification and delivery
 ### Phase 8: final verification and delivery
 
 - [x] Run full .NET, PostgreSQL, frontend, architecture, Python, and remaining repository checks.
-- [ ] Review the complete diff, push when GitHub connectivity permits, and report any truly external deployment-only work separately.
-- **Status:** in_progress
+- [x] Review the complete diff, push the branch, and confirm the full pull-request CI matrix succeeds.
+- **Status:** complete
 
 ## New Direction
 

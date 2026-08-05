@@ -183,6 +183,115 @@ public sealed class BillingPersistenceTests
         Assert.Contains(BillingStatusReasons.RuleSetVersionUnknown, unknownRule.ReasonCodes);
     }
 
+    [Fact]
+    public async Task Export_handoff_retries_are_idempotent_and_differences_remain_visible_until_confirmed()
+    {
+        var connectionString = ConnectionString();
+        await PrepareAsync(connectionString);
+        await using var provider = BuildProvider(connectionString, ResultAdoptionDecisions.Allowed);
+        using var scope = provider.CreateScope();
+        var evidenceService = scope.ServiceProvider.GetRequiredService<IBillingEvidenceService>();
+        var integration = scope.ServiceProvider.GetRequiredService<IBillingIntegrationService>();
+        var evidence = await evidenceService.CreateAsync(
+            EvidenceRequest(), "corr-evidence", TestContext.Current.CancellationToken);
+        await evidenceService.AddAdjustmentAsync(
+            evidence.BillingEvidenceId,
+            new AddBillingAdjustmentRequest(BillingContract.RuleSetVersion, -20m, "credit"),
+            "corr-adjust", TestContext.Current.CancellationToken);
+        var exportRequest = new CreateBillingExportBatchRequest(
+            BillingContract.ExportRuleSetVersion, [evidence.BillingEvidenceId],
+            "BILLING-EXPORT-V1", "export-idem-1");
+
+        var export = await integration.CreateExportBatchAsync(
+            exportRequest, "corr-export", TestContext.Current.CancellationToken);
+        var exportRetry = await integration.CreateExportBatchAsync(
+            exportRequest, "corr-export-retry", TestContext.Current.CancellationToken);
+        var handoffRequest = new CreateBillingHandoffRequest(
+            BillingContract.HandoffRuleSetVersion, BillingExternalSystems.Erp,
+            BillingHandoffModes.Manual, new BillingVersionedReference("ERP-ENDPOINT-A", 1),
+            "handoff-idem-1");
+        var handoff = await integration.CreateHandoffAsync(
+            export.BatchId, handoffRequest, "corr-handoff", TestContext.Current.CancellationToken);
+        var handoffRetry = await integration.CreateHandoffAsync(
+            export.BatchId, handoffRequest, "corr-handoff-retry", TestContext.Current.CancellationToken);
+        var failedRequest = new RecordBillingHandoffAttemptRequest(
+            BillingContract.HandoffRuleSetVersion, "attempt-idem-1",
+            BillingHandoffOutcomes.Failed, DetailCode: "ERP_UNAVAILABLE");
+        var failed = await integration.RecordHandoffAttemptAsync(
+            handoff.HandoffId, failedRequest, "corr-failed", TestContext.Current.CancellationToken);
+        var failedRetry = await integration.RecordHandoffAttemptAsync(
+            handoff.HandoffId, failedRequest, "corr-failed-retry", TestContext.Current.CancellationToken);
+        var differences = await integration.GetDifferenceQueueAsync(
+            BillingExternalSystems.Erp, "corr-differences", TestContext.Current.CancellationToken);
+        var invalidSuccess = await CaptureAsync(integration.RecordHandoffAttemptAsync(
+            handoff.HandoffId,
+            new RecordBillingHandoffAttemptRequest(
+                BillingContract.HandoffRuleSetVersion, "attempt-idem-2",
+                BillingHandoffOutcomes.Succeeded, "ERP-REF-1"),
+            "corr-invalid-success", TestContext.Current.CancellationToken));
+        var succeeded = await integration.RecordHandoffAttemptAsync(
+            handoff.HandoffId,
+            new RecordBillingHandoffAttemptRequest(
+                BillingContract.HandoffRuleSetVersion, "attempt-idem-3",
+                BillingHandoffOutcomes.Succeeded, "ERP-REF-1", ErpPosting: new ErpPostingConfirmation(
+                    "VOUCHER-7", "COMPANY-A", 2026, 8, new DateOnly(2026, 8, 5))),
+            "corr-success", TestContext.Current.CancellationToken);
+        var afterSuccess = await integration.GetDifferenceQueueAsync(
+            BillingExternalSystems.Erp, "corr-after-success", TestContext.Current.CancellationToken);
+        var regression = await CaptureAsync(integration.RecordHandoffAttemptAsync(
+            handoff.HandoffId,
+            new RecordBillingHandoffAttemptRequest(
+                BillingContract.HandoffRuleSetVersion, "attempt-idem-4",
+                BillingHandoffOutcomes.Failed, DetailCode: "LATE_FAILURE"),
+            "corr-regression", TestContext.Current.CancellationToken));
+
+        Assert.Equal(export.BatchId, exportRetry.BatchId);
+        Assert.Equal(100.50m, export.TotalAmount);
+        Assert.Equal(export.ContentHash, BillingIntegrationRules.ComputeHash(export.CanonicalContent));
+        Assert.Equal(handoff.HandoffId, handoffRetry.HandoffId);
+        Assert.Equal(failed.AttemptId, failedRetry.AttemptId);
+        Assert.Equal(BillingHandoffOutcomes.Failed, Assert.Single(differences.Handoffs).Status);
+        Assert.Equal(BillingErrorCodes.HandoffConfirmationInvalid, invalidSuccess.Error!.ErrorCode);
+        Assert.Equal("VOUCHER-7", succeeded.ErpPosting!.VoucherNumber);
+        Assert.Empty(afterSuccess.Handoffs);
+        Assert.Equal(BillingErrorCodes.HandoffAlreadyCompleted, regression.Error!.ErrorCode);
+        Assert.Equal(1, await CountAsync(connectionString, "billing.export_batch"));
+        Assert.Equal(1, await CountAsync(connectionString, "billing.handoff"));
+        Assert.Equal(2, await CountAsync(connectionString, "billing.handoff_attempt"));
+    }
+
+    [Fact]
+    public async Task Concurrent_export_retries_create_one_immutable_batch()
+    {
+        var connectionString = ConnectionString();
+        await PrepareAsync(connectionString);
+        string evidenceId;
+        await using (var setup = BuildProvider(connectionString, ResultAdoptionDecisions.Allowed))
+        {
+            using var scope = setup.CreateScope();
+            evidenceId = (await scope.ServiceProvider.GetRequiredService<IBillingEvidenceService>().CreateAsync(
+                EvidenceRequest(), "corr-evidence", TestContext.Current.CancellationToken)).BillingEvidenceId;
+        }
+        var request = new CreateBillingExportBatchRequest(
+            BillingContract.ExportRuleSetVersion, [evidenceId], "BILLING-EXPORT-V1", "export-concurrent");
+        await using var firstProvider = BuildProvider(connectionString, ResultAdoptionDecisions.Allowed, "op-a");
+        await using var secondProvider = BuildProvider(connectionString, ResultAdoptionDecisions.Allowed, "op-b");
+        using var firstScope = firstProvider.CreateScope();
+        using var secondScope = secondProvider.CreateScope();
+
+        var outcomes = await Task.WhenAll(
+            firstScope.ServiceProvider.GetRequiredService<IBillingIntegrationService>().CreateExportBatchAsync(
+                request, "corr-c1", TestContext.Current.CancellationToken),
+            secondScope.ServiceProvider.GetRequiredService<IBillingIntegrationService>().CreateExportBatchAsync(
+                request, "corr-c2", TestContext.Current.CancellationToken));
+
+        Assert.Equal(outcomes[0].BatchId, outcomes[1].BatchId);
+        Assert.Equal(1, await CountAsync(connectionString, "billing.export_batch"));
+        var mutation = await Assert.ThrowsAsync<PostgresException>(() => ExecuteAsync(
+            connectionString, "update billing.export_batch set total_amount = 999"));
+        Assert.Equal("55000", mutation.SqlState);
+    }
+
     private static async Task<(object? Result, BillingDomainException? Error)> CaptureAsync<T>(Task<T> task)
     {
         try
@@ -272,9 +381,13 @@ public sealed class BillingPersistenceTests
     {
         await EnsureDedicatedDatabaseAsync();
         await PlatformMigrationRunner.ApplyAsync(connectionString, TestContext.Current.CancellationToken);
-        await BillingMigrator.ApplyAsync(connectionString, TestContext.Current.CancellationToken);
+        await new BillingModule(connectionString).ApplyMigrationAsync(TestContext.Current.CancellationToken);
         await ExecuteAsync(connectionString, """
             truncate table
+              billing.handoff_attempt,
+              billing.handoff,
+              billing.export_item,
+              billing.export_batch,
               billing.audit_attempt,
               billing.billing_adjustment,
               billing.billing_evidence,

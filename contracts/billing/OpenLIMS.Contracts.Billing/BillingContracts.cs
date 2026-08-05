@@ -4,15 +4,24 @@ public static class BillingContract
 {
     public const string Version = "1.0.0";
     public const string RuleSetVersion = "BILLING-EVIDENCE@1.0.0";
+    public const string ExportRuleSetVersion = "BILLING-EXPORT@1.0.0";
+    public const string HandoffRuleSetVersion = "BILLING-HANDOFF@1.0.0";
     public const string CreateEvidencePath = "/api/v1/billing-evidence";
     public const string AddAdjustmentPath = "/api/v1/billing-evidence/{id}/adjustments";
     public const string GetEvidencePath = "/api/v1/billing-evidence/{id}";
     public const string StatusPath = "/api/v1/billing-evidence/{id}/status";
+    public const string CreateExportBatchPath = "/api/v1/billing-export-batches";
+    public const string GetExportBatchPath = "/api/v1/billing-export-batches/{batchId}";
+    public const string CreateHandoffPath = "/api/v1/billing-export-batches/{batchId}/handoffs";
+    public const string GetHandoffPath = "/api/v1/billing-handoffs/{handoffId}";
+    public const string RecordHandoffAttemptPath = "/api/v1/billing-handoffs/{handoffId}/attempts";
+    public const string DifferenceQueuePath = "/api/v1/billing-handoffs/differences";
 }
 
 public static class BillingCapabilities
 {
     public const string Record = "billing.record";
+    public const string Integrate = "billing.integrate";
 }
 
 public static class BillingClaimTypes
@@ -54,6 +63,10 @@ public static class BillingErrorCodes
     public const string NotAuthorized = "BIL.NOT_AUTHORIZED";
     public const string ObjectNotAccessible = "BIL.OBJECT_NOT_ACCESSIBLE";
     public const string PersistenceUnavailable = "BIL.PERSISTENCE_UNAVAILABLE";
+    public const string ExportScopeMismatch = "BIL.EXPORT_SCOPE_MISMATCH";
+    public const string IdempotencyConflict = "BIL.IDEMPOTENCY_CONFLICT";
+    public const string HandoffConfirmationInvalid = "BIL.HANDOFF_CONFIRMATION_INVALID";
+    public const string HandoffAlreadyCompleted = "BIL.HANDOFF_ALREADY_COMPLETED";
 }
 
 public sealed record BillingObjectContext(
@@ -150,3 +163,105 @@ public interface IBillingAuthorizationPort
         BillingAuthorizationRequest request,
         CancellationToken cancellationToken = default);
 }
+
+public static class BillingExternalSystems
+{
+    public const string Erp = "ERP";
+    public const string Invoice = "INVOICE";
+
+    public static readonly IReadOnlyList<string> All = [Erp, Invoice];
+}
+
+public static class BillingHandoffModes
+{
+    public const string Automated = "AUTOMATED";
+    public const string Manual = "MANUAL";
+
+    public static readonly IReadOnlyList<string> All = [Automated, Manual];
+}
+
+public static class BillingHandoffOutcomes
+{
+    public const string Pending = "PENDING";
+    public const string Succeeded = "SUCCEEDED";
+    public const string Failed = "FAILED";
+    public const string Unknown = "UNKNOWN";
+    public const string Different = "DIFFERENT";
+
+    public static readonly IReadOnlyList<string> Attempts = [Succeeded, Failed, Unknown, Different];
+}
+
+public sealed record CreateBillingExportBatchRequest(
+    string RuleSetVersion,
+    IReadOnlyList<string> BillingEvidenceIds,
+    string ExportSchemaVersion,
+    string IdempotencyKey);
+
+public sealed record BillingExportItemResult(
+    string BillingEvidenceId,
+    string ResultGroupId,
+    long GroupVersion,
+    decimal BaseAmount,
+    decimal AdjustmentAmount,
+    decimal NetAmount,
+    BillingVersionedReference Currency);
+
+public sealed record BillingExportBatchResult(
+    string BatchId,
+    BillingObjectContext ObjectScope,
+    string ExportSchemaVersion,
+    IReadOnlyList<BillingExportItemResult> Items,
+    decimal TotalAmount,
+    BillingVersionedReference Currency,
+    string ContentHash,
+    string CanonicalContent,
+    string CreatedBy,
+    DateTimeOffset CreatedAt);
+
+public sealed record CreateBillingHandoffRequest(
+    string RuleSetVersion,
+    string ExternalSystem,
+    string Mode,
+    BillingVersionedReference Endpoint,
+    string IdempotencyKey);
+
+public sealed record ErpPostingConfirmation(
+    string VoucherNumber,
+    string CompanyCode,
+    int FiscalYear,
+    int Period,
+    DateOnly PostingDate);
+
+public sealed record RecordBillingHandoffAttemptRequest(
+    string RuleSetVersion,
+    string IdempotencyKey,
+    string Outcome,
+    string? ExternalReference = null,
+    string? DetailCode = null,
+    ErpPostingConfirmation? ErpPosting = null);
+
+public sealed record BillingHandoffAttemptResult(
+    string AttemptId,
+    string HandoffId,
+    int AttemptNumber,
+    string Outcome,
+    string? ExternalReference,
+    string? DetailCode,
+    ErpPostingConfirmation? ErpPosting,
+    string AttemptedBy,
+    DateTimeOffset AttemptedAt);
+
+public sealed record BillingHandoffResult(
+    string HandoffId,
+    string BatchId,
+    string ExternalSystem,
+    string Mode,
+    BillingVersionedReference Endpoint,
+    string Status,
+    IReadOnlyList<BillingHandoffAttemptResult> Attempts,
+    string CreatedBy,
+    DateTimeOffset CreatedAt);
+
+public sealed record BillingDifferenceQueueResult(
+    IReadOnlyList<BillingHandoffResult> Handoffs,
+    string RuleSetVersion);

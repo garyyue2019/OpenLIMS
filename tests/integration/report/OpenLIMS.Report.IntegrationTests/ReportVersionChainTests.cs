@@ -451,6 +451,149 @@ public sealed class ReportVersionChainTests
         }
     }
 
+    [Fact]
+    public async Task Download_grants_are_recipient_bound_and_never_redirect_to_a_new_report_version()
+    {
+        var connectionString = ConnectionString();
+        await PrepareAsync(connectionString);
+        await using var provider = BuildProvider(connectionString);
+        using var scope = provider.CreateScope();
+        var versions = scope.ServiceProvider.GetRequiredService<IReportVersionService>();
+        var deliveries = scope.ServiceProvider.GetRequiredService<IReportDeliveryService>();
+        var report = await ReadyReportAsync(scope.ServiceProvider);
+        var v1Hash = (await versions.GetPendingContentHashAsync(
+            report.ReportId, "corr-v1-hash", TestContext.Current.CancellationToken)).ContentHash;
+        var v1 = await versions.IssueAsync(
+            report.ReportId, Issue(report.Version, v1Hash),
+            "corr-v1-issue", TestContext.Current.CancellationToken);
+        var request = new CreateReportDeliveryRequest(
+            ReportContract.DeliveryRuleSetVersion, "operator-a", ReportDeliveryChannels.Portal,
+            new string('a', 64), "delivery-v1");
+        var delivery = await deliveries.CreateDeliveryAsync(
+            report.ReportId, 1, request, "corr-delivery", TestContext.Current.CancellationToken);
+        var deliveryRetry = await deliveries.CreateDeliveryAsync(
+            report.ReportId, 1, request, "corr-delivery-retry", TestContext.Current.CancellationToken);
+        var grant = await deliveries.CreateDownloadGrantAsync(
+            delivery.DeliveryId,
+            new CreateReportDownloadGrantRequest(
+                ReportContract.DeliveryRuleSetVersion, "operator-a", Now.AddDays(1)),
+            "corr-grant", TestContext.Current.CancellationToken);
+        var downloadedV1 = await deliveries.DownloadAsync(
+            grant.AccessToken, "corr-download-v1", TestContext.Current.CancellationToken);
+
+        await using (var attackerProvider = BuildProvider(connectionString, "operator-b"))
+        {
+            using var attackerScope = attackerProvider.CreateScope();
+            var denied = await CaptureAsync(attackerScope.ServiceProvider
+                .GetRequiredService<IReportDeliveryService>()
+                .DownloadAsync(grant.AccessToken, "corr-attacker", TestContext.Current.CancellationToken));
+            Assert.Equal(ReportErrorCodes.NotAuthorized, denied.Error!.ErrorCode);
+        }
+
+        await versions.PerformControlledActionAsync(
+            report.ReportId, Correction(report.Version),
+            "corr-correction", TestContext.Current.CancellationToken);
+        var v2Hash = (await versions.GetPendingContentHashAsync(
+            report.ReportId, "corr-v2-hash", TestContext.Current.CancellationToken)).ContentHash;
+        var v2 = await versions.IssueAsync(
+            report.ReportId, Issue(report.Version, v2Hash),
+            "corr-v2-issue", TestContext.Current.CancellationToken);
+        var oldLink = await CaptureAsync(deliveries.DownloadAsync(
+            grant.AccessToken, "corr-old-link", TestContext.Current.CancellationToken));
+        var deliveryV2 = await deliveries.CreateDeliveryAsync(
+            report.ReportId, 2,
+            request with { IdempotencyKey = "delivery-v2" },
+            "corr-delivery-v2", TestContext.Current.CancellationToken);
+        var grantV2 = await deliveries.CreateDownloadGrantAsync(
+            deliveryV2.DeliveryId,
+            new CreateReportDownloadGrantRequest(
+                ReportContract.DeliveryRuleSetVersion, "operator-a", Now.AddDays(1)),
+            "corr-grant-v2", TestContext.Current.CancellationToken);
+        var downloadedV2 = await deliveries.DownloadAsync(
+            grantV2.AccessToken, "corr-download-v2", TestContext.Current.CancellationToken);
+
+        Assert.Equal(delivery.DeliveryId, deliveryRetry.DeliveryId);
+        Assert.Equal(v1.Snapshot.CanonicalContent, downloadedV1.CanonicalContent);
+        Assert.Equal(1, downloadedV1.VersionNumber);
+        Assert.Equal(ReportErrorCodes.DeliveryVersionUnavailable, oldLink.Error!.ErrorCode);
+        Assert.Equal(v2.Snapshot.CanonicalContent, downloadedV2.CanonicalContent);
+        Assert.Equal(2, downloadedV2.VersionNumber);
+        Assert.NotEqual(downloadedV1.ContentHash, downloadedV2.ContentHash);
+    }
+
+    [Fact]
+    public async Task Notification_attempts_are_idempotent_auditable_and_append_only()
+    {
+        var connectionString = ConnectionString();
+        await PrepareAsync(connectionString);
+        await using var provider = BuildProvider(connectionString);
+        using var scope = provider.CreateScope();
+        var versions = scope.ServiceProvider.GetRequiredService<IReportVersionService>();
+        var deliveries = scope.ServiceProvider.GetRequiredService<IReportDeliveryService>();
+        var report = await ReadyReportAsync(scope.ServiceProvider);
+        var hash = (await versions.GetPendingContentHashAsync(
+            report.ReportId, "corr-hash", TestContext.Current.CancellationToken)).ContentHash;
+        await versions.IssueAsync(
+            report.ReportId, Issue(report.Version, hash),
+            "corr-issue", TestContext.Current.CancellationToken);
+        var delivery = await deliveries.CreateDeliveryAsync(
+            report.ReportId, 1,
+            new CreateReportDeliveryRequest(
+                ReportContract.DeliveryRuleSetVersion, "operator-a", ReportDeliveryChannels.Email,
+                new string('b', 64), "delivery-notification"),
+            "corr-delivery", TestContext.Current.CancellationToken);
+        var notificationRequest = new QueueReportNotificationRequest(
+            ReportContract.DeliveryRuleSetVersion, ReportDeliveryChannels.Email,
+            new string('b', 64), new ReportVersionedReference("EMAIL-TEMPLATE-1", 1),
+            "notification-idem-1");
+        var notification = await deliveries.QueueNotificationAsync(
+            delivery.DeliveryId, notificationRequest,
+            "corr-notification", TestContext.Current.CancellationToken);
+        var notificationRetry = await deliveries.QueueNotificationAsync(
+            delivery.DeliveryId, notificationRequest,
+            "corr-notification-retry", TestContext.Current.CancellationToken);
+        var failedRequest = new RecordReportNotificationAttemptRequest(
+            ReportContract.DeliveryRuleSetVersion, "attempt-idem-1",
+            ReportNotificationOutcomes.Failed, DetailCode: "PROVIDER_UNAVAILABLE");
+        var failed = await deliveries.RecordNotificationAttemptAsync(
+            notification.NotificationId, failedRequest,
+            "corr-failed", TestContext.Current.CancellationToken);
+        var failedRetry = await deliveries.RecordNotificationAttemptAsync(
+            notification.NotificationId, failedRequest,
+            "corr-failed-retry", TestContext.Current.CancellationToken);
+        var failedDetail = await deliveries.GetDeliveryAsync(
+            delivery.DeliveryId, "corr-detail-failed", TestContext.Current.CancellationToken);
+        await deliveries.RecordNotificationAttemptAsync(
+            notification.NotificationId,
+            new RecordReportNotificationAttemptRequest(
+                ReportContract.DeliveryRuleSetVersion, "attempt-idem-2",
+                ReportNotificationOutcomes.Delivered, "provider-message-7"),
+            "corr-delivered", TestContext.Current.CancellationToken);
+        var deliveredDetail = await deliveries.GetDeliveryAsync(
+            delivery.DeliveryId, "corr-detail-delivered", TestContext.Current.CancellationToken);
+        var late = await CaptureAsync(deliveries.RecordNotificationAttemptAsync(
+            notification.NotificationId,
+            new RecordReportNotificationAttemptRequest(
+                ReportContract.DeliveryRuleSetVersion, "attempt-idem-3",
+                ReportNotificationOutcomes.Unknown, DetailCode: "LATE_UNKNOWN"),
+            "corr-late", TestContext.Current.CancellationToken));
+        var mutation = await Assert.ThrowsAsync<PostgresException>(() => ExecuteAsync(
+            connectionString, "update report.notification set channel = 'API'"));
+
+        Assert.Equal(notification.NotificationId, notificationRetry.NotificationId);
+        Assert.Equal(failed.AttemptId, failedRetry.AttemptId);
+        Assert.Equal(
+            ReportNotificationOutcomes.Failed,
+            Assert.Single(failedDetail.Notifications).Status);
+        Assert.Equal(
+            ReportNotificationOutcomes.Delivered,
+            Assert.Single(deliveredDetail.Notifications).Status);
+        Assert.Equal(ReportErrorCodes.NotificationConfirmationInvalid, late.Error!.ErrorCode);
+        Assert.Equal("55000", mutation.SqlState);
+        Assert.Equal(1, await CountAsync(connectionString, "select count(*) from report.notification"));
+        Assert.Equal(2, await CountAsync(connectionString, "select count(*) from report.notification_attempt"));
+    }
+
     private static async Task<ReportResult> ReadyReportAsync(IServiceProvider services)
     {
         var reports = services.GetRequiredService<IReportService>();
@@ -580,6 +723,10 @@ public sealed class ReportVersionChainTests
         await ExecuteAsync(connectionString, """
             truncate table
               report.audit_attempt,
+              report.notification_attempt,
+              report.notification,
+              report.download_grant,
+              report.delivery,
               report.controlled_action,
               report.version_signature,
               report.version_snapshot,

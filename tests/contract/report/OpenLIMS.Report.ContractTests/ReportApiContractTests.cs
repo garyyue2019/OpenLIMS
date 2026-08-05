@@ -62,6 +62,10 @@ public sealed class ReportApiContractTests
     [InlineData(ReportErrorCodes.AccreditationBlocked, HttpStatusCode.UnprocessableEntity)]
     [InlineData(ReportErrorCodes.ConformityDecisionUnavailable, HttpStatusCode.UnprocessableEntity)]
     [InlineData(ReportErrorCodes.TraceIncomplete, HttpStatusCode.UnprocessableEntity)]
+    [InlineData(ReportErrorCodes.IdempotencyConflict, HttpStatusCode.Conflict)]
+    [InlineData(ReportErrorCodes.DownloadGrantExpired, HttpStatusCode.Gone)]
+    [InlineData(ReportErrorCodes.DeliveryVersionUnavailable, HttpStatusCode.UnprocessableEntity)]
+    [InlineData(ReportErrorCodes.NotificationConfirmationInvalid, HttpStatusCode.UnprocessableEntity)]
     [InlineData(ReportErrorCodes.ValidationFailed, HttpStatusCode.BadRequest)]
     [InlineData(ReportErrorCodes.PersistenceUnavailable, HttpStatusCode.ServiceUnavailable)]
     public async Task Report_errors_map_to_stable_problem_contracts(string errorCode, HttpStatusCode status)
@@ -108,11 +112,61 @@ public sealed class ReportApiContractTests
         foreach (var operation in new[]
         {
             "createReport", "addReportLine", "evaluateReportGate",
-            "submitReportForApproval", "getReport", "getReportIssuanceGate"
+            "submitReportForApproval", "getReport", "getReportIssuanceGate",
+            "createReportDelivery", "getReportDelivery", "createReportDownloadGrant",
+            "downloadReportVersion", "queueReportNotification", "recordReportNotificationAttempt"
         })
         {
             Assert.Contains(operation, content, StringComparison.Ordinal);
         }
+    }
+
+    [Fact]
+    public async Task Six_delivery_operations_keep_versions_recipients_and_external_status_explicit()
+    {
+        using var factory = new ReportApiFactory();
+        using var client = factory.CreateClient();
+        var destinationHash = new string('a', 64);
+        using var delivery = await client.PostAsJsonAsync(
+            $"/api/v1/reports/{ReportId}/versions/1/deliveries",
+            new CreateReportDeliveryRequest(
+                ReportContract.DeliveryRuleSetVersion, "contract-actor",
+                ReportDeliveryChannels.Portal, destinationHash, "delivery-1"),
+            TestContext.Current.CancellationToken);
+        using var detail = await client.GetAsync(
+            $"/api/v1/report-deliveries/{StubReportDeliveryService.DeliveryId}",
+            TestContext.Current.CancellationToken);
+        using var grant = await client.PostAsJsonAsync(
+            $"/api/v1/report-deliveries/{StubReportDeliveryService.DeliveryId}/download-grants",
+            new CreateReportDownloadGrantRequest(
+                ReportContract.DeliveryRuleSetVersion, "contract-actor", Now.AddDays(1)),
+            TestContext.Current.CancellationToken);
+        using var download = await client.GetAsync(
+            $"/api/v1/report-downloads/{StubReportDeliveryService.AccessToken}",
+            TestContext.Current.CancellationToken);
+        using var notification = await client.PostAsJsonAsync(
+            $"/api/v1/report-deliveries/{StubReportDeliveryService.DeliveryId}/notifications",
+            new QueueReportNotificationRequest(
+                ReportContract.DeliveryRuleSetVersion, ReportDeliveryChannels.Email,
+                destinationHash, new ReportVersionedReference("TEMPLATE-1", 1), "notification-1"),
+            TestContext.Current.CancellationToken);
+        using var attempt = await client.PostAsJsonAsync(
+            $"/api/v1/report-notifications/{StubReportDeliveryService.NotificationId}/attempts",
+            new RecordReportNotificationAttemptRequest(
+                ReportContract.DeliveryRuleSetVersion, "attempt-1",
+                ReportNotificationOutcomes.Delivered, "provider-message-1"),
+            TestContext.Current.CancellationToken);
+
+        Assert.Equal(HttpStatusCode.Created, delivery.StatusCode);
+        Assert.Equal(HttpStatusCode.OK, detail.StatusCode);
+        Assert.Equal(HttpStatusCode.Created, grant.StatusCode);
+        Assert.Equal(HttpStatusCode.OK, download.StatusCode);
+        Assert.Equal(HttpStatusCode.Created, notification.StatusCode);
+        Assert.Equal(HttpStatusCode.Created, attempt.StatusCode);
+        var downloaded = await download.Content.ReadFromJsonAsync<ReportDownloadResult>(TestContext.Current.CancellationToken);
+        Assert.NotNull(downloaded);
+        Assert.Equal(1, downloaded.VersionNumber);
+        Assert.Equal("version-one", downloaded.CanonicalContent);
     }
 
     /// <summary>
@@ -208,9 +262,75 @@ internal sealed class ReportApiFactory(string? errorCode = null, bool blocked = 
                     ReportTestAuthenticationHandler.SchemeName, _ => { });
             services.RemoveAll<IReportService>();
             services.RemoveAll<IReportIssuanceGatePort>();
+            services.RemoveAll<IReportDeliveryService>();
             services.AddSingleton<IReportService>(new StubReportService(errorCode));
             services.AddSingleton<IReportIssuanceGatePort>(new StubReportIssuanceGatePort(errorCode, blocked));
+            services.AddSingleton<IReportDeliveryService>(new StubReportDeliveryService(errorCode));
         });
+    }
+}
+
+internal sealed class StubReportDeliveryService(string? errorCode) : IReportDeliveryService
+{
+    public const string DeliveryId = "00000000000000000000000000000120";
+    public const string NotificationId = "00000000000000000000000000000121";
+    public const string AccessToken = "0000000000000000000000000000012200000000000000000000000000000123";
+    private const string ReportId = "00000000000000000000000000000110";
+    private static readonly DateTimeOffset Now = new(2026, 7, 27, 9, 0, 0, TimeSpan.Zero);
+    private static readonly string Hash = new('a', 64);
+
+    public Task<ReportDeliveryResult> CreateDeliveryAsync(string reportId, int versionNumber, CreateReportDeliveryRequest request, string correlationId, CancellationToken cancellationToken = default)
+    {
+        Throw(cancellationToken);
+        return Task.FromResult(Delivery());
+    }
+
+    public Task<ReportDeliveryDetailResult> GetDeliveryAsync(string deliveryId, string correlationId, CancellationToken cancellationToken = default)
+    {
+        Throw(cancellationToken);
+        return Task.FromResult(new ReportDeliveryDetailResult(Delivery(), [], ReportContract.DeliveryRuleSetVersion));
+    }
+
+    public Task<ReportDownloadGrantResult> CreateDownloadGrantAsync(string deliveryId, CreateReportDownloadGrantRequest request, string correlationId, CancellationToken cancellationToken = default)
+    {
+        Throw(cancellationToken);
+        return Task.FromResult(new ReportDownloadGrantResult(
+            "00000000000000000000000000000124", DeliveryId, request.RecipientId,
+            request.ExpiresAt, AccessToken, "contract-actor", Now));
+    }
+
+    public Task<ReportDownloadResult> DownloadAsync(string accessToken, string correlationId, CancellationToken cancellationToken = default)
+    {
+        Throw(cancellationToken);
+        return Task.FromResult(new ReportDownloadResult(
+            DeliveryId, ReportId, 1, Hash, "version-one", "contract-actor",
+            Now.AddDays(1), ReportContract.DeliveryRuleSetVersion));
+    }
+
+    public Task<ReportNotificationResult> QueueNotificationAsync(string deliveryId, QueueReportNotificationRequest request, string correlationId, CancellationToken cancellationToken = default)
+    {
+        Throw(cancellationToken);
+        return Task.FromResult(new ReportNotificationResult(
+            NotificationId, DeliveryId, request.Channel, request.DestinationHash, request.Payload,
+            ReportNotificationOutcomes.Pending, [], "contract-actor", Now));
+    }
+
+    public Task<ReportNotificationAttemptResult> RecordNotificationAttemptAsync(string notificationId, RecordReportNotificationAttemptRequest request, string correlationId, CancellationToken cancellationToken = default)
+    {
+        Throw(cancellationToken);
+        return Task.FromResult(new ReportNotificationAttemptResult(
+            "00000000000000000000000000000125", NotificationId, 1, request.Outcome,
+            request.ExternalReference, request.DetailCode, "contract-actor", Now));
+    }
+
+    private static ReportDeliveryResult Delivery() => new(
+        DeliveryId, ReportId, 1, Hash, "contract-actor", ReportDeliveryChannels.Portal,
+        Hash, "contract-actor", Now);
+
+    private void Throw(CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        if (errorCode is not null) throw new ReportDomainException(errorCode);
     }
 }
 

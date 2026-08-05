@@ -6,7 +6,7 @@ Remove repository-level development approval governance, then autonomously deriv
 
 ## Current Phase
 
-Phase 7D: delivery and integration
+Phase 7E: AI runtime
 
 ## Phases
 
@@ -77,6 +77,10 @@ Phase 7D: delivery and integration
 | After refreshing the stale dependency lock, Result contract tests reached host startup but module composition rejected the attempted Result descriptor version `1.1.0` | 1 | Keep the platform-supported module contract descriptor at `1.0.0`; version the new calculation and accreditation semantics with their dedicated exact rule-set constants. |
 | `git update-index --refresh` returned nonzero while listing every intentionally modified file and did not clear line-ending-only lockfile status noise | 1 | Use `git diff --name-only`/`--stat` as the content-diff source of truth and let targeted staging normalize no-content lockfile touches later. No files changed. |
 | Full solution locked restore exposed stale Phase 7B lock files in the Worker and Host-referencing contract/integration projects after Operations was added | 1 | Run solution-level restore with `--force-evaluate`, retain only mechanical Operations dependency additions, then prove the entire solution restores with `--locked-mode`. |
+| Initial Phase 7D parallel keyword inventory lost all output when one expected no-match `rg` command returned exit code 1 | 1 | Use independent PowerShell `Select-String` inventories so absence of delivery/integration terms is captured as evidence rather than treated as command failure. No files changed. |
+| Phase 7D method inventory used a Windows-incompatible `*.cs` path argument and discarded the parallel batch output | 1 | Search the verified module directory with `rg -g '*.cs'` and keep uncertain probes out of shared batches. No repository code changed. |
+| Parallel Report and Billing builds contended on shared contract `obj` assemblies and failed with `CS2012` file locks | 1 | Run .NET builds that share the solution dependency graph serially. The failure occurred before compiling the new module sources and changed no repository files. |
+| First Phase 7D Report HTTP contract run passed endpoint behavior but OpenAPI omitted `createReportDelivery` | 1 | Inspect and extend the Host's explicit OpenAPI operation registration for both Report delivery and Billing integration, then rerun the contract suites. |
 
 ## Delivery Status
 
@@ -104,7 +108,7 @@ Phase 7D: delivery and integration
 - [x] **7A Knowledge + Commercial:** add versioned organization/party/protocol/requirement/method/accreditation/capability records; inquiry minimum-data validation and gap queue; capability review; immutable quote versions; change-impact records. Acceptance: version conflicts fail, missing intake data creates explicit gaps, unpassed review blocks quote issue, historical versions remain readable, unauthorized access is audited.
 - [x] **7B Sample Operations:** add physical lineage edges, custody events, plan/tasks, sequence dependencies, resource reservations, and work queues. Acceptance: cycles/self-links and unauthorized reparenting fail, custody is append-only, unmet dependencies block readiness, overlapping hard resources conflict atomically, queue ordering is deterministic.
 - [x] **7C Result Completion:** extend Result with deterministic versioned calculations, typed retest/repeat/reprepare/resample events, predeclared adoption rules, and execution/result accreditation eligibility. Acceptance: calculations are deterministic and preserve inputs/rule versions, invalid units/rounding/LOD/LOQ fail closed, retest history is immutable, one effective adoption remains enforced, expired/mismatched accreditation blocks eligibility.
-- [ ] **7D Delivery + Integration:** extend Report with version-bound deliveries/download grants/notifications and Billing with immutable export batches plus ERP/invoice handoff and difference queues. Acceptance: old links never resolve to new versions, unauthorized recipients are denied, retries are idempotent, external success requires external references, failed/different handoffs remain visible and auditable.
+- [x] **7D Delivery + Integration:** extend Report with version-bound deliveries/download grants/notifications and Billing with immutable export batches plus ERP/invoice handoff and difference queues. Acceptance: old links never resolve to new versions, unauthorized recipients are denied, retries are idempotent, external success requires external references, failed/different handoffs remain visible and auditable.
 - [ ] **7E AI Runtime:** add optional AI extraction runs using the existing contract, schema/unit validation quarantine, source evidence, gap suggestions, immutable human dispositions, and disabled-provider/manual fallback behavior. Acceptance: unknown fields/units/sources quarantine output, AI cannot self-promote facts, provider-disabled runs fail closed without blocking manual inquiry completion, all reviews retain original and human values.
 - [ ] **7F Web Workbenches:** add usable routes, clients, navigation, forms, queues, loading/error/empty states, and focused tests for all new backend slices.
 - [ ] Keep cross-module access through public contracts and preserve exact version binding and failure-closed runtime behavior.

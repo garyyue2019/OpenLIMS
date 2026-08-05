@@ -4,6 +4,7 @@ public static class ReportContract
 {
     public const string Version = "1.0.0";
     public const string RuleSetVersion = "RPT-ISSUANCE@1.0.0";
+    public const string DeliveryRuleSetVersion = "RPT-DELIVERY@1.0.0";
     public const string CreateReportPath = "/api/v1/reports";
     public const string PendingContentHashPath = "/api/v1/reports/{id}/pending-content-hash";
     public const string IssuancePath = "/api/v1/reports/{id}/issuance";
@@ -15,11 +16,18 @@ public static class ReportContract
     public const string SubmitForApprovalPath = "/api/v1/reports/{id}/submit-for-approval";
     public const string GetReportPath = "/api/v1/reports/{id}";
     public const string IssuanceGatePath = "/api/v1/reports/{id}/issuance-gate";
+    public const string CreateDeliveryPath = "/api/v1/reports/{id}/versions/{versionNumber}/deliveries";
+    public const string GetDeliveryPath = "/api/v1/report-deliveries/{deliveryId}";
+    public const string CreateDownloadGrantPath = "/api/v1/report-deliveries/{deliveryId}/download-grants";
+    public const string DownloadPath = "/api/v1/report-downloads/{accessToken}";
+    public const string QueueNotificationPath = "/api/v1/report-deliveries/{deliveryId}/notifications";
+    public const string RecordNotificationAttemptPath = "/api/v1/report-notifications/{notificationId}/attempts";
 }
 
 public static class ReportCapabilities
 {
     public const string Manage = "report.manage";
+    public const string Receive = "report.receive";
 }
 
 public static class ReportClaimTypes
@@ -164,6 +172,10 @@ public static class ReportErrorCodes
     public const string VersionNotIssued = "RPT.VERSION_NOT_ISSUED";
     public const string ImpactAssessmentRequired = "RPT.IMPACT_ASSESSMENT_REQUIRED";
     public const string VersionChainClosed = "RPT.VERSION_CHAIN_CLOSED";
+    public const string DeliveryVersionUnavailable = "RPT.DELIVERY_VERSION_UNAVAILABLE";
+    public const string DownloadGrantExpired = "RPT.DOWNLOAD_GRANT_EXPIRED";
+    public const string IdempotencyConflict = "RPT.IDEMPOTENCY_CONFLICT";
+    public const string NotificationConfirmationInvalid = "RPT.NOTIFICATION_CONFIRMATION_INVALID";
 }
 
 public sealed record ReportVersionedReference(string Id, long Version);
@@ -581,3 +593,105 @@ public interface IReportVersionChainPort
         ReportVersionChainRequest request,
         CancellationToken cancellationToken = default);
 }
+
+public static class ReportDeliveryChannels
+{
+    public const string Portal = "PORTAL";
+    public const string Email = "EMAIL";
+    public const string Api = "API";
+    public const string Manual = "MANUAL";
+
+    public static readonly IReadOnlyList<string> All = [Portal, Email, Api, Manual];
+}
+
+public static class ReportNotificationOutcomes
+{
+    public const string Pending = "PENDING";
+    public const string Delivered = "DELIVERED";
+    public const string Failed = "FAILED";
+    public const string Unknown = "UNKNOWN";
+
+    public static readonly IReadOnlyList<string> Attempts = [Delivered, Failed, Unknown];
+}
+
+public sealed record CreateReportDeliveryRequest(
+    string RuleSetVersion,
+    string RecipientId,
+    string Channel,
+    string DestinationHash,
+    string IdempotencyKey);
+
+public sealed record ReportDeliveryResult(
+    string DeliveryId,
+    string ReportId,
+    int VersionNumber,
+    string ContentHash,
+    string RecipientId,
+    string Channel,
+    string DestinationHash,
+    string CreatedBy,
+    DateTimeOffset CreatedAt);
+
+public sealed record CreateReportDownloadGrantRequest(
+    string RuleSetVersion,
+    string RecipientId,
+    DateTimeOffset ExpiresAt);
+
+public sealed record ReportDownloadGrantResult(
+    string GrantId,
+    string DeliveryId,
+    string RecipientId,
+    DateTimeOffset ExpiresAt,
+    string AccessToken,
+    string CreatedBy,
+    DateTimeOffset CreatedAt);
+
+public sealed record ReportDownloadResult(
+    string DeliveryId,
+    string ReportId,
+    int VersionNumber,
+    string ContentHash,
+    string CanonicalContent,
+    string RecipientId,
+    DateTimeOffset GrantedUntil,
+    string RuleSetVersion);
+
+public sealed record QueueReportNotificationRequest(
+    string RuleSetVersion,
+    string Channel,
+    string DestinationHash,
+    ReportVersionedReference Payload,
+    string IdempotencyKey);
+
+public sealed record RecordReportNotificationAttemptRequest(
+    string RuleSetVersion,
+    string IdempotencyKey,
+    string Outcome,
+    string? ExternalReference = null,
+    string? DetailCode = null);
+
+public sealed record ReportNotificationAttemptResult(
+    string AttemptId,
+    string NotificationId,
+    int AttemptNumber,
+    string Outcome,
+    string? ExternalReference,
+    string? DetailCode,
+    string AttemptedBy,
+    DateTimeOffset AttemptedAt);
+
+public sealed record ReportNotificationResult(
+    string NotificationId,
+    string DeliveryId,
+    string Channel,
+    string DestinationHash,
+    ReportVersionedReference Payload,
+    string Status,
+    IReadOnlyList<ReportNotificationAttemptResult> Attempts,
+    string QueuedBy,
+    DateTimeOffset QueuedAt);
+
+public sealed record ReportDeliveryDetailResult(
+    ReportDeliveryResult Delivery,
+    IReadOnlyList<ReportNotificationResult> Notifications,
+    string RuleSetVersion);

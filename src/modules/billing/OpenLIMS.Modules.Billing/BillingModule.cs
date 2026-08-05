@@ -28,7 +28,9 @@ public sealed class BillingModule(string postgresConnectionString) :
         services.TryAddScoped<IBillingAuthorizationPort, HttpClaimsBillingAuthorizationPort>();
         services.TryAddScoped<IBillingEvidenceService, BillingEvidenceService>();
         services.TryAddScoped<IBillingEvidencePort, BillingEvidencePort>();
+        services.TryAddScoped<IBillingIntegrationService, BillingIntegrationService>();
         services.TryAddScoped<BillingStore>();
+        services.TryAddScoped<BillingIntegrationStore>();
         services.TryAddScoped<BillingAttemptAuditWriter>();
     }
 
@@ -40,8 +42,11 @@ public sealed class BillingModule(string postgresConnectionString) :
         AddPersistence(services);
     }
 
-    public Task ApplyMigrationAsync(CancellationToken cancellationToken) =>
-        BillingMigrator.ApplyAsync(_options.ConnectionString, cancellationToken);
+    public async Task ApplyMigrationAsync(CancellationToken cancellationToken)
+    {
+        await BillingMigrator.ApplyAsync(_options.ConnectionString, cancellationToken);
+        await BillingIntegrationMigrator.ApplyAsync(_options.ConnectionString, cancellationToken);
+    }
 
     private void AddPersistence(IServiceCollection services)
     {

@@ -60,3 +60,42 @@
 - All currently approved development Stories are delivered on `main`, independently READY, and covered by green repository-wide verification.
 - There is no remaining authorized implementation task. Further product development requires a human-approved successor Story with exact dependencies and `allowed_paths`.
 - The audit evidence is committed locally. GitHub HTTPS is unreachable through Git, curl, and the in-app browser; SSH reaches GitHub but has no repository-authorized identity. This is an external delivery blocker, not unfinished development work.
+
+## Governance removal decision
+
+- The owner has explicitly replaced the prior approval-gated development policy with direct autonomous engineering.
+- The removal target is the repository workflow: approval statuses, READY/source/impact/history gates, task-card `allowed_paths`, generated spec enforcement, and related CI/tests/documentation.
+- Runtime controls are out of removal scope because they protect real business data and behavior rather than controlling whether developers may edit code.
+
+## Governance enforcement inventory
+
+- `AGENTS.md` is the primary edit-time blocker: mandatory validate/source/impact/ready commands, approval restrictions, exact `allowed_paths`, immutable spec versions, and completion spec gates.
+- `.github/workflows/spec-governance.yml` is a dedicated approval/source/history/generated-artifact CI gate and can be removed entirely.
+- `.github/workflows/application-ci.yml` has one final `Check specifications` step; the rest is application, dependency, security, migration, and smoke verification and must remain.
+- `scripts/verify.ps1` and `scripts/verify.sh` contain one `specgen check` action in the `all` profile; all build/test/frontend/Docker checks remain engineering quality controls.
+- `tests/test_repository_contract.py` mixes governance assertions with useful repository, architecture, toolchain, dependency, and security contracts. Governance-specific tests should be removed or replaced rather than deleting the entire file.
+- Existing `spec/`, `generated/spec/`, `tools/specgen/`, and `docs/ai-development/` can be retained as non-authoritative historical/reference material initially. Removing enforcement achieves the owner's goal without destructive loss of requirements history.
+- `tests/test_repository_contract.py` is predominantly a 1,100-line specification/approval/history contract. A small number of useful engineering invariants are embedded within it, so the cleanest change is to replace it with a focused engineering repository contract rather than surgically retaining approval-era assertions.
+- The replacement Python checks should cover locked toolchains, required project structure, strict JSON readability, active workflow/verification commands, runtime module registration, and a regression assertion that active development surfaces contain no specgen or approval gate.
+
+## Governance removal implementation
+
+- Active development policy no longer contains approval, source-drift, impact, READY, Seal, or path-allowlist prerequisites.
+- The dedicated specification workflow and executable specgen implementation/tests/wrappers are removed.
+- Application CI and local `all` verification now run focused repository engineering contracts instead of specgen.
+- Historical PRD/spec/generated artifacts and archived explanatory documents remain available as reference but have no active enforcement path.
+- Engineering contract tests pass 9/9, active governance reference scan is empty, and `git diff --check` passes.
+
+## Backlog coverage audit
+
+- Structural API inspection confirms the current backend already exposes operational routes for receiving, identity assessment, receiving exceptions and release, scope matrices, quantity ledgers, test-object allocation, batches, result provenance/adoption, billing evidence, instrument imports, QC, textile runtime, toy runtime, labeling, and report versioning.
+- The source and test trees contain matching domain, persistence, service, endpoint, migration, authorization, telemetry, unit, contract, integration, and end-to-end coverage for those delivered areas; they must be treated as existing capabilities rather than rebuilt from the historical Release 1 list.
+- The remaining comparison should focus on upstream commercial/master-data workflows, planning and custody, manual/calculated result workflows not covered by provenance import, downstream delivery/ERP integration, AI execution/review, and operational tooling.
+- The PRD's Release 1 Must list supplies the practical completion boundary: inquiry/material intake and gap handling; controlled requirement/method/accreditation/package data; capability and contract review; formal quote/change impact; lineage/custody and task queues; manual scheduling with hard resource conflicts; structured manual results, deterministic calculations, retest/resampling; report delivery; auditable billing export; and at least one optional P0 AI scenario.
+- Release 1 explicitly excludes full five-industry production support, productized image-BOM AI, universal ELN/instrument coverage, fully optimal scheduling, complete accounts receivable/bank allocation, complex credit-note operations, and full customer reconciliation. Release 2 industry slices and the `Won't Now` list are therefore not current actionable development backlog.
+- Pending policy choices should be represented as explicit versioned configuration or caller-supplied data where needed; removing development approval gates does not justify hard-coding invented legal, tax, accreditation, retention, or laboratory policy defaults.
+- The host currently publishes 87 named API operations. None cover organization/party/master data, inquiry/quote/contract changes, lineage/custody, scheduling/resources/work queues, manual result entry/calculation/retest, report delivery, billing export/ERP handoff, or AI execution/review, confirming those are real endpoint-level gaps rather than documentation-only differences.
+- The frontend lives under the repository-level `apps/` directory, not under `src/`; future route inspection should target `apps/web`.
+- Both backend modules and Web workbenches currently cover the same 13 product modules: allocation, batch, billing evidence, instrument import, labeling, QC, quantity, receiving, report, result, scope, textile, and toy. There is no hidden UI-only implementation of the missing Release 1 domains.
+- The current Home view links directly to execution workbenches. A complete Release 1 workflow will need new navigation/workbenches for commercial intake/master data, operations planning/custody, result entry/calculation/retest, delivery/export, and AI review.
+- Existing backend slices follow a strict module pattern: versioned contracts, normalized deterministic domain rules, claims-based authorization, transaction-coordinated PostgreSQL persistence, fail-closed attempt auditing, endpoint problem mapping, telemetry, migrations, and separate unit/contract/integration tests. New backlog slices should reuse this structure.

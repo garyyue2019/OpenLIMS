@@ -136,9 +136,10 @@ bash scripts/verify.sh --profile all
 ```
 
 `all` runs the same backend gates, then frozen frontend restore, frontend
-checks, pinned Compose configuration and image-digest checks, and `specgen
-check`. Use the individual profiles while developing a specific concern; do not
-reinterpret a failed or unavailable prerequisite as a passing gate.
+checks, pinned Compose configuration and image-digest checks, and the focused
+repository engineering contract tests. Use the individual profiles while
+developing a specific concern; do not reinterpret a failed or unavailable
+prerequisite as a passing gate.
 
 This remains an engineering Spike, not a production deployment guide. It does
 not authorize production secrets, production data, shared multi-group

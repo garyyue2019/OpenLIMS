@@ -59,6 +59,8 @@ jobs:
         run: dotnet build OpenLIMS.slnx -c Release --no-restore -warnaserror
       - name: Test backend
         run: dotnet test OpenLIMS.slnx -c Release --no-build
+      - name: Test repository engineering contracts
+        run: python -m unittest tests.test_repository_contract -v
       - name: Verify module onboarding task profile
         run: bash scripts/verify.sh --profile task --module module-onboarding
       - name: Verify receiving task profile
@@ -142,11 +144,6 @@ jobs:
       - name: Stop development dependencies
         if: always()
         run: docker compose --env-file deploy/compose/.env.example -f deploy/compose/compose.yaml down -v
-      - name: Check specifications
-        run: |
-          python -m tools.specgen validate --strict-warnings
-          python -m tools.specgen check
-
   verify-module-onboarding-windows:
     runs-on: windows-2022
     env:

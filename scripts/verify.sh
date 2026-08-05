@@ -65,6 +65,6 @@ case "$profile" in
       [[ "$image" =~ @sha256:[a-f0-9]{64}$ ]] || { echo "Compose image is not pinned to a SHA-256 digest: $image" >&2; exit 1; }
     done <<< "$images"
     require_command python
-    gate "specgen check" python -m tools.specgen check
+    gate "repository engineering checks" python -m unittest tests.test_repository_contract -v
     ;;
 esac

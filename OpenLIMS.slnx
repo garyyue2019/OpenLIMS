@@ -108,6 +108,9 @@
   <Folder Name="/src/modules/report/">
     <Project Path="src/modules/report/OpenLIMS.Modules.Report/OpenLIMS.Modules.Report.csproj" />
   </Folder>
+  <Folder Name="/src/modules/ai/">
+    <Project Path="src/modules/ai/OpenLIMS.Modules.Ai/OpenLIMS.Modules.Ai.csproj" />
+  </Folder>
   <Folder Name="/tests/" />
   <Folder Name="/tests/architecture/">
     <Project Path="tests/architecture/OpenLIMS.ArchitectureTests/OpenLIMS.ArchitectureTests.csproj" />
@@ -224,6 +227,9 @@
   <Folder Name="/tests/integration/report/">
     <Project Path="tests/integration/report/OpenLIMS.Report.IntegrationTests/OpenLIMS.Report.IntegrationTests.csproj" />
   </Folder>
+  <Folder Name="/tests/integration/ai/">
+    <Project Path="tests/integration/ai/OpenLIMS.Ai.IntegrationTests/OpenLIMS.Ai.IntegrationTests.csproj" />
+  </Folder>
   <Folder Name="/tests/unit/" />
   <Folder Name="/tests/unit/platform/">
     <Project Path="tests/unit/platform/OpenLIMS.Platform.UnitTests/OpenLIMS.Platform.UnitTests.csproj" />
@@ -272,5 +278,8 @@
   </Folder>
   <Folder Name="/tests/unit/report/">
     <Project Path="tests/unit/report/OpenLIMS.Report.UnitTests/OpenLIMS.Report.UnitTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/unit/ai/">
+    <Project Path="tests/unit/ai/OpenLIMS.Ai.UnitTests/OpenLIMS.Ai.UnitTests.csproj" />
   </Folder>
 </Solution>

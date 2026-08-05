@@ -335,6 +335,9 @@
           "OpenLIMS.Contracts.Platform": "[1.0.0, )"
         }
       },
+      "openlims.contracts.ai": {
+        "type": "Project"
+      },
       "openlims.contracts.allocation": {
         "type": "Project"
       },
@@ -385,6 +388,15 @@
       },
       "openlims.contracts.toy": {
         "type": "Project"
+      },
+      "openlims.modules.ai": {
+        "type": "Project",
+        "dependencies": {
+          "Npgsql": "[10.0.3, )",
+          "OpenLIMS.BuildingBlocks.Platform": "[1.0.0, )",
+          "OpenLIMS.Contracts.Ai": "[1.0.0, )",
+          "OpenLIMS.Contracts.Platform": "[1.0.0, )"
+        }
       },
       "openlims.modules.allocation": {
         "type": "Project",

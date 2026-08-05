@@ -20,6 +20,7 @@
     <ProjectReference Include="../../../modules/billing/OpenLIMS.Modules.Billing/OpenLIMS.Modules.Billing.csproj" />
     <ProjectReference Include="../../../modules/commercial/OpenLIMS.Modules.Commercial/OpenLIMS.Modules.Commercial.csproj" />
     <ProjectReference Include="../../../modules/operations/OpenLIMS.Modules.Operations/OpenLIMS.Modules.Operations.csproj" />
+    <ProjectReference Include="../../../modules/ai/OpenLIMS.Modules.Ai/OpenLIMS.Modules.Ai.csproj" />
     <ProjectReference Include="../../../modules/instrument/OpenLIMS.Modules.Instrument/OpenLIMS.Modules.Instrument.csproj" />
     <ProjectReference Include="../../../modules/qc/OpenLIMS.Modules.Qc/OpenLIMS.Modules.Qc.csproj" />
     <ProjectReference Include="../../../modules/textile/OpenLIMS.Modules.Textile/OpenLIMS.Modules.Textile.csproj" />

@@ -5,6 +5,7 @@ using OpenLIMS.Api;
 using OpenLIMS.BuildingBlocks.Platform;
 using OpenLIMS.Contracts.Labeling;
 using OpenLIMS.Contracts.Platform;
+using OpenLIMS.Modules.Ai;
 using OpenLIMS.Modules.Allocation;
 using OpenLIMS.Modules.Batch;
 using OpenLIMS.Modules.Billing;
@@ -47,6 +48,7 @@ IOpenLimsServerModule[] modules =
     new BillingModule(deploymentOptions.PostgresConnectionString!),
     new CommercialModule(deploymentOptions.PostgresConnectionString!),
     new OperationsModule(deploymentOptions.PostgresConnectionString!),
+    new AiModule(deploymentOptions.PostgresConnectionString!),
     new InstrumentModule(deploymentOptions.PostgresConnectionString!),
     new QcModule(deploymentOptions.PostgresConnectionString!),
     new TextileModule(deploymentOptions.PostgresConnectionString!),
@@ -123,7 +125,8 @@ builder.Services.AddOpenTelemetry()
         .AddMeter("OpenLIMS.Receiving.IdentityAssessment")
         .AddMeter("OpenLIMS.Receiving.Exception")
         .AddMeter("OpenLIMS.Commercial")
-        .AddMeter("OpenLIMS.Operations"));
+        .AddMeter("OpenLIMS.Operations")
+        .AddMeter("OpenLIMS.Ai"));
 
 var app = builder.Build();
 app.UseExceptionHandler(exceptionApp => exceptionApp.Run(async context =>
@@ -200,6 +203,10 @@ app.MapGet("/openapi/v1.json", () => Results.Json(new
         ["/health/live"] = new { get = new { operationId = "getLiveness", responses = new { ok = new { description = "Process is alive" } } } },
         ["/health/ready"] = new { get = new { operationId = "getReadiness", responses = new { ok = new { description = "Platform host is ready" } } } },
         ["/system/status"] = new { get = new { operationId = "getAuthenticatedSystemStatus", responses = new { ok = new { description = "Authenticated platform status" } } } },
+        ["/api/v1/ai-runs"] = new { post = new { operationId = "createAiRun", responses = new { created = new { description = "Version-bound optional AI extraction run requested" } } } },
+        ["/api/v1/ai-runs/{id}"] = new { get = new { operationId = "getAiRun", responses = new { ok = new { description = "Original AI output, validation, and immutable review history returned" } } } },
+        ["/api/v1/ai-runs/{id}/dispositions"] = new { post = new { operationId = "recordAiDisposition", responses = new { created = new { description = "Expected-version human disposition appended without promoting facts" } } } },
+        ["/api/v1/ai-review-queue"] = new { get = new { operationId = "getAiReviewQueue", responses = new { ok = new { description = "Authorized accepted or quarantined AI runs returned for review" } } } },
         ["/api/v1/catalog-records"] = new { post = new { operationId = "createCatalogRecord", responses = new { created = new { description = "Versioned controlled catalog record created" } } } },
         ["/api/v1/catalog-records/{id}/versions"] = new { post = new { operationId = "reviseCatalogRecord", responses = new { created = new { description = "Append-only catalog revision created" } } } },
         ["/api/v1/catalog-records/{id}/versions/{version}"] = new { get = new { operationId = "getCatalogRecordVersion", responses = new { ok = new { description = "Immutable catalog version returned" } } } },

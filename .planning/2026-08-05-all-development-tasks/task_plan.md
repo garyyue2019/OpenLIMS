@@ -6,7 +6,7 @@ Remove repository-level development approval governance, then autonomously deriv
 
 ## Current Phase
 
-Phase 7E: AI runtime
+Phase 7F: Web workbenches
 
 ## Phases
 
@@ -81,6 +81,8 @@ Phase 7E: AI runtime
 | Phase 7D method inventory used a Windows-incompatible `*.cs` path argument and discarded the parallel batch output | 1 | Search the verified module directory with `rg -g '*.cs'` and keep uncertain probes out of shared batches. No repository code changed. |
 | Parallel Report and Billing builds contended on shared contract `obj` assemblies and failed with `CS2012` file locks | 1 | Run .NET builds that share the solution dependency graph serially. The failure occurred before compiling the new module sources and changed no repository files. |
 | First Phase 7D Report HTTP contract run passed endpoint behavior but OpenAPI omitted `createReportDelivery` | 1 | Inspect and extend the Host's explicit OpenAPI operation registration for both Report delivery and Billing integration, then rerun the contract suites. |
+| Initial Phase 7E parallel persistence/pattern inspection returned no output because one optional `rg` pattern had no matches and failed the batch | 1 | Split the persistence read from service discovery and use verified file inventories/PowerShell filtering for optional patterns. No repository code changed. |
+| First AI PostgreSQL integration run passed 6/7 but the unfiltered review queue mapped a database error to `AIX.PERSISTENCE_UNAVAILABLE` | 1 | The nullable `status` SQL parameter used untyped `DBNull`; declare it explicitly as `NpgsqlDbType.Text` and rerun the focused suite. |
 
 ## Delivery Status
 
@@ -109,7 +111,7 @@ Phase 7E: AI runtime
 - [x] **7B Sample Operations:** add physical lineage edges, custody events, plan/tasks, sequence dependencies, resource reservations, and work queues. Acceptance: cycles/self-links and unauthorized reparenting fail, custody is append-only, unmet dependencies block readiness, overlapping hard resources conflict atomically, queue ordering is deterministic.
 - [x] **7C Result Completion:** extend Result with deterministic versioned calculations, typed retest/repeat/reprepare/resample events, predeclared adoption rules, and execution/result accreditation eligibility. Acceptance: calculations are deterministic and preserve inputs/rule versions, invalid units/rounding/LOD/LOQ fail closed, retest history is immutable, one effective adoption remains enforced, expired/mismatched accreditation blocks eligibility.
 - [x] **7D Delivery + Integration:** extend Report with version-bound deliveries/download grants/notifications and Billing with immutable export batches plus ERP/invoice handoff and difference queues. Acceptance: old links never resolve to new versions, unauthorized recipients are denied, retries are idempotent, external success requires external references, failed/different handoffs remain visible and auditable.
-- [ ] **7E AI Runtime:** add optional AI extraction runs using the existing contract, schema/unit validation quarantine, source evidence, gap suggestions, immutable human dispositions, and disabled-provider/manual fallback behavior. Acceptance: unknown fields/units/sources quarantine output, AI cannot self-promote facts, provider-disabled runs fail closed without blocking manual inquiry completion, all reviews retain original and human values.
+- [x] **7E AI Runtime:** add optional AI extraction runs using the existing contract, schema/unit validation quarantine, source evidence, gap suggestions, immutable human dispositions, and disabled-provider/manual fallback behavior. Acceptance: unknown fields/units/sources quarantine output, AI cannot self-promote facts, provider-disabled runs fail closed without blocking manual inquiry completion, all reviews retain original and human values.
 - [ ] **7F Web Workbenches:** add usable routes, clients, navigation, forms, queues, loading/error/empty states, and focused tests for all new backend slices.
 - [ ] Keep cross-module access through public contracts and preserve exact version binding and failure-closed runtime behavior.
 - [ ] Commit each coherent batch without waiting for per-task approval.

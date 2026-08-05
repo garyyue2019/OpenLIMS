@@ -2,6 +2,7 @@ using Microsoft.Extensions.Hosting;
 using OpenLIMS.BuildingBlocks.Platform;
 using OpenLIMS.Contracts.Labeling;
 using OpenLIMS.Contracts.Platform;
+using OpenLIMS.Modules.Ai;
 using OpenLIMS.Modules.Allocation;
 using OpenLIMS.Modules.Batch;
 using OpenLIMS.Modules.Billing;
@@ -43,6 +44,7 @@ IOpenLimsServerModule[] modules =
     new BillingModule(postgresConnectionString),
     new CommercialModule(postgresConnectionString),
     new OperationsModule(postgresConnectionString),
+    new AiModule(postgresConnectionString),
     new InstrumentModule(postgresConnectionString),
     new QcModule(postgresConnectionString),
     new TextileModule(postgresConnectionString),

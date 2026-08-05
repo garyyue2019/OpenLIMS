@@ -6,7 +6,7 @@ Remove repository-level development approval governance, then autonomously deriv
 
 ## Current Phase
 
-Phase 7B: sample operations and scheduling
+Phase 7C: result calculation, retest, and accreditation
 
 ## Phases
 
@@ -67,6 +67,9 @@ Phase 7B: sample operations and scheduling
 | Combined DEV-016 history read exited with code 1 because the follow-up runtime search intentionally found no matches | 1 | Treat the successful file output plus no-match search as confirmation that DEV-016 delivered contracts only; normalize future expected no-match searches. |
 | Phase 7A restore used the system `dotnet` 9.0.305 while the repository requires 10.0.302 | 1 | Load the Codex workspace dependency paths and invoke the bundled/pinned .NET SDK; do not change `global.json` or relax the toolchain. |
 | First Commercial build reported missing minimal-API endpoint extensions and four uninferred generic request types | 1 | Add `Microsoft.AspNetCore.Builder` and specify the four request type arguments explicitly; no domain or persistence redesign required. |
+| First Operations build reported one nullable dereference for the captured custody request | 1 | Add an explicit `ThrowIfNull` guard before the async transaction closure so nullable flow analysis and runtime behavior agree. |
+| Operations queue unit test changed a task start time without moving its end time, creating an invalid window | 1 | Correct the test fixture so both timestamps move together; keep the production time-window validation unchanged. |
+| Operations integration helper named `Task` shadowed `Task.WhenAll` | 1 | Rename the fixture helper to `WorkTask`; no runtime code changes. |
 
 ## Delivery Status
 
@@ -92,7 +95,7 @@ Phase 7B: sample operations and scheduling
 ### Phase 7: implement all actionable backlog items
 
 - [x] **7A Knowledge + Commercial:** add versioned organization/party/protocol/requirement/method/accreditation/capability records; inquiry minimum-data validation and gap queue; capability review; immutable quote versions; change-impact records. Acceptance: version conflicts fail, missing intake data creates explicit gaps, unpassed review blocks quote issue, historical versions remain readable, unauthorized access is audited.
-- [ ] **7B Sample Operations:** add physical lineage edges, custody events, plan/tasks, sequence dependencies, resource reservations, and work queues. Acceptance: cycles/self-links and unauthorized reparenting fail, custody is append-only, unmet dependencies block readiness, overlapping hard resources conflict atomically, queue ordering is deterministic.
+- [x] **7B Sample Operations:** add physical lineage edges, custody events, plan/tasks, sequence dependencies, resource reservations, and work queues. Acceptance: cycles/self-links and unauthorized reparenting fail, custody is append-only, unmet dependencies block readiness, overlapping hard resources conflict atomically, queue ordering is deterministic.
 - [ ] **7C Result Completion:** extend Result with deterministic versioned calculations, typed retest/repeat/reprepare/resample events, predeclared adoption rules, and execution/result accreditation eligibility. Acceptance: calculations are deterministic and preserve inputs/rule versions, invalid units/rounding/LOD/LOQ fail closed, retest history is immutable, one effective adoption remains enforced, expired/mismatched accreditation blocks eligibility.
 - [ ] **7D Delivery + Integration:** extend Report with version-bound deliveries/download grants/notifications and Billing with immutable export batches plus ERP/invoice handoff and difference queues. Acceptance: old links never resolve to new versions, unauthorized recipients are denied, retries are idempotent, external success requires external references, failed/different handoffs remain visible and auditable.
 - [ ] **7E AI Runtime:** add optional AI extraction runs using the existing contract, schema/unit validation quarantine, source evidence, gap suggestions, immutable human dispositions, and disabled-provider/manual fallback behavior. Acceptance: unknown fields/units/sources quarantine output, AI cannot self-promote facts, provider-disabled runs fail closed without blocking manual inquiry completion, all reviews retain original and human values.

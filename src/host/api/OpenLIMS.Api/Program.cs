@@ -11,6 +11,7 @@ using OpenLIMS.Modules.Billing;
 using OpenLIMS.Modules.Commercial;
 using OpenLIMS.Modules.Instrument;
 using OpenLIMS.Modules.Labeling;
+using OpenLIMS.Modules.Operations;
 using OpenLIMS.Modules.Qc;
 using OpenLIMS.Modules.Quantity;
 using OpenLIMS.Modules.Receiving;
@@ -45,6 +46,7 @@ IOpenLimsServerModule[] modules =
     new ResultModule(deploymentOptions.PostgresConnectionString!),
     new BillingModule(deploymentOptions.PostgresConnectionString!),
     new CommercialModule(deploymentOptions.PostgresConnectionString!),
+    new OperationsModule(deploymentOptions.PostgresConnectionString!),
     new InstrumentModule(deploymentOptions.PostgresConnectionString!),
     new QcModule(deploymentOptions.PostgresConnectionString!),
     new TextileModule(deploymentOptions.PostgresConnectionString!),
@@ -120,7 +122,8 @@ builder.Services.AddOpenTelemetry()
     .WithMetrics(metrics => metrics
         .AddMeter("OpenLIMS.Receiving.IdentityAssessment")
         .AddMeter("OpenLIMS.Receiving.Exception")
-        .AddMeter("OpenLIMS.Commercial"));
+        .AddMeter("OpenLIMS.Commercial")
+        .AddMeter("OpenLIMS.Operations"));
 
 var app = builder.Build();
 app.UseExceptionHandler(exceptionApp => exceptionApp.Run(async context =>
@@ -206,6 +209,15 @@ app.MapGet("/openapi/v1.json", () => Results.Json(new
         ["/api/v1/inquiries/{id}/capability-reviews"] = new { post = new { operationId = "recordCapabilityReview", responses = new { created = new { description = "Capability and contract review recorded" } } } },
         ["/api/v1/inquiries/{id}/quote-versions"] = new { post = new { operationId = "createQuoteVersion", responses = new { created = new { description = "Immutable formal quote version created" } } } },
         ["/api/v1/inquiries/{id}/change-impacts"] = new { post = new { operationId = "recordCommercialChangeImpact", responses = new { created = new { description = "Price, TAT, sample, work, and report impacts recorded" } } } },
+        ["/api/v1/sample-lineage/edges"] = new { post = new { operationId = "createSampleLineageEdge", responses = new { created = new { description = "Append-only physical lineage edge created" } } } },
+        ["/api/v1/sample-lineage/{objectId}"] = new { get = new { operationId = "getSampleLineage", responses = new { ok = new { description = "Connected physical lineage graph returned" } } } },
+        ["/api/v1/custody-events"] = new { post = new { operationId = "recordCustodyEvent", responses = new { created = new { description = "Append-only custody event recorded" } } } },
+        ["/api/v1/samples/{objectId}/custody"] = new { get = new { operationId = "getCustodyChain", responses = new { ok = new { description = "Ordered custody chain returned" } } } },
+        ["/api/v1/work-plans"] = new { post = new { operationId = "createWorkPlan", responses = new { created = new { description = "Dependency-checked work plan created" } } } },
+        ["/api/v1/work-plans/{id}"] = new { get = new { operationId = "getWorkPlan", responses = new { ok = new { description = "Current immutable work-plan version returned" } } } },
+        ["/api/v1/work-plans/{id}/tasks/{taskId}/state"] = new { post = new { operationId = "changeWorkTaskState", responses = new { created = new { description = "Validated task-state transition recorded" } } } },
+        ["/api/v1/work-plans/{id}/resource-reservations"] = new { post = new { operationId = "reserveWorkResource", responses = new { created = new { description = "Conflict-checked hard resource reservation recorded" } } } },
+        ["/api/v1/work-queues"] = new { get = new { operationId = "getWorkQueue", responses = new { ok = new { description = "Deterministically ordered authorized work queue returned" } } } },
         ["/api/v1/receipts"] = new { post = new { operationId = "registerReceipt", responses = new { created = new { description = "Receipt, containers, and quarantined received items created" } } } },
         ["/api/v1/received-items/{id}/identity-assessment"] = new { get = new { operationId = "getIdentityAssessment", responses = new { ok = new { description = "Current declaration snapshot, observations, decisions, quarantine state, and versions" } } } },
         ["/api/v1/received-items/{id}/identity-observations"] = new { post = new { operationId = "createIdentityObservation", responses = new { created = new { description = "Append-only laboratory identity observation recorded" } } } },

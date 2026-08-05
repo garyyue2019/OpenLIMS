@@ -70,3 +70,8 @@
 - First Commercial Release build reached the new endpoint file and found only missing endpoint-extension imports plus explicit generic request types. Applied the narrow compile fix.
 - Commercial module build passed with 0 warnings/errors. New unit tests pass 10/10, HTTP contract tests pass 10/10, and PostgreSQL integration tests pass 4/4 including concurrency, append-only, audit/outbox, and authorization behavior.
 - Phase 7A is complete: full solution Release build passes with 0 warnings/errors, repository engineering contracts pass 9/9, and the diff is whitespace-clean. Moving to Phase 7B Sample Operations.
+- Added the Operations contract/module, lineage/custody/work-plan/resource persistence, domain rules, endpoints, host registration, and OpenAPI entries. The first build found one nullable-flow issue in the custody request closure; added the explicit guard.
+- Operations unit run passed 9/10; the only failure was an invalid test time window introduced while overriding priority/order data. Corrected the fixture without weakening production validation.
+- Operations unit tests now pass 10/10 and HTTP contract tests pass 11/11. The first integration build found a test-helper name collision with `Task.WhenAll`; renamed the helper before database execution.
+- Operations PostgreSQL integration tests pass 5/5, covering lineage/custody evidence, cycle rejection, dependency/version chains, concurrent resource conflicts, append-only triggers, and authorization attempts.
+- Phase 7B is complete: Operations adds 26 passing focused tests, the full solution Release build passes with 0 warnings/errors, repository engineering contracts pass 9/9, and the diff is whitespace-clean. Moving to Phase 7C Result Completion.

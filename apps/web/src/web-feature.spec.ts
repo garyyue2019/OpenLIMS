@@ -10,6 +10,7 @@ import { platformShellFeature, webFeatureComposition, webFeatureRegistry } from 
 import { receivingFeature } from './features/receiving/receiving-feature'
 import { labWorkbenchFeature } from './features/lab-workbench/lab-workbench-feature'
 import { labWorkbenchSecondFeature } from './features/lab-workbench/lab-workbench-second-feature'
+import { businessWorkbenchFeature } from './features/business-workbench/business-workbench-feature'
 
 const component = {} as Component
 
@@ -129,7 +130,8 @@ describe('composeWebFeatures', () => {
 describe('production web feature registry', () => {
   it('contains the platform shell and all explicitly approved production features', () => {
     expect(webFeatureRegistry).toEqual([
-      platformShellFeature, receivingFeature, labWorkbenchFeature, labWorkbenchSecondFeature
+      platformShellFeature, receivingFeature, labWorkbenchFeature, labWorkbenchSecondFeature,
+      businessWorkbenchFeature
     ])
     expect(webFeatureComposition.routes.map((route) => [route.name, route.path])).toEqual([
       ['platform.home', '/'],
@@ -143,7 +145,9 @@ describe('production web feature registry', () => {
       ['workbench.instrument', '/workbench/instrument'],
       ['workbench.result', '/workbench/result'],
       ['workbench.qc', '/workbench/qc'],
-      ['workbench.report', '/workbench/report']
+      ['workbench.report', '/workbench/report'],
+      ['workbench.billing', '/workbench/billing'],
+      ['workbench.labeling', '/workbench/labeling']
     ])
     expect(webFeatureComposition.navigationEntries).toEqual([
       { id: 'platform.system-status', label: 'System status', routeName: 'platform.system-status' },
@@ -155,7 +159,9 @@ describe('production web feature registry', () => {
       { id: 'workbench.instrument', label: '仪器导入', routeName: 'workbench.instrument' },
       { id: 'workbench.result', label: '结果采用', routeName: 'workbench.result' },
       { id: 'workbench.qc', label: 'QC 放行', routeName: 'workbench.qc' },
-      { id: 'workbench.report', label: '报告签发', routeName: 'workbench.report' }
+      { id: 'workbench.report', label: '报告签发', routeName: 'workbench.report' },
+      { id: 'workbench.billing', label: '计费证据', routeName: 'workbench.billing' },
+      { id: 'workbench.labeling', label: '标签中心', routeName: 'workbench.labeling' }
     ])
   })
 })

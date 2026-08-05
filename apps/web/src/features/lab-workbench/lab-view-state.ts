@@ -23,6 +23,19 @@ export function useLabAccess(requiredCapability: string) {
 
 export function normalizeLabError(error: unknown): LabApiError {
   if (error instanceof LabApiError) return error
+  if (error && typeof error === 'object') {
+    const source = error as Record<string, unknown>
+    if (typeof source.errorCode === 'string' && typeof source.status === 'number') {
+      return new LabApiError(
+        source.errorCode,
+        source.status,
+        typeof source.correlationId === 'string' ? source.correlationId : 'not-available',
+        typeof source.detail === 'string' ? source.detail : undefined,
+        typeof source.nextAction === 'string' ? source.nextAction : undefined,
+        typeof source.title === 'string' ? source.title : undefined
+      )
+    }
+  }
   return new LabApiError(
     'WEB.UNEXPECTED_ERROR',
     0,

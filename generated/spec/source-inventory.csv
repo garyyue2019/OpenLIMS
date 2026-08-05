@@ -8,7 +8,7 @@ PRD-MAIN,AC-AR-001,acceptance-block,19.4 发票、应收和对账,1241,唯一余
 PRD-MAIN,AC-AUTO-001,acceptance-block,19.2 收样、拆解和谱系,1202,DVP&R 多对多闭环,b6146605fc8a267d1a4a472d1d509239861ae4a80c98d6a5b1be13b8d2fa8b42,
 PRD-MAIN,AC-AUTO-002,acceptance-block,19.2 收样、拆解和谱系,1205,运行中干预和配置重建,d934bb6d7c5cab3506d6fc1eabb2e6e22fb456bcf58749a804f4706b940c8fd0,
 PRD-MAIN,AC-BATCH-001,acceptance-block,19.2 收样、拆解和谱系,1160,批次 QC 影响传播,01cc2441ea0aa368de478813c958a4c96fa5ce726341f04f899e3ea10d111c6e,AC-BATCH-001@1.0.0;ATC-BATCH-001@1.0.0;ATC-WEB-001@1.0.0
-PRD-MAIN,AC-BILL-001,acceptance-block,19.4 发票、应收和对账,1232,防重复计费,edba3d5f98b453afe5efd126f74962ebe1c577a35a597ffd81a19fb37b3a0890,AC-BILL-001@1.0.0;ATC-BILL-001@1.0.0
+PRD-MAIN,AC-BILL-001,acceptance-block,19.4 发票、应收和对账,1232,防重复计费,edba3d5f98b453afe5efd126f74962ebe1c577a35a597ffd81a19fb37b3a0890,AC-BILL-001@1.0.0;ATC-BILL-001@1.0.0;ATC-WEB-003@1.0.0
 PRD-MAIN,AC-COMP-001,acceptance-block,19.3 检测、QC 和报告,1219,复合样结果归属,52f161f5a52a7cc3c697750dae06887ca178c5e2159aadc1c20ebfb2571e37ad,
 PRD-MAIN,AC-COMPOSE-001,acceptance-block,19.2 收样、拆解和谱系,1184,多行业包组合,530241a9ed933edc59b3eaa0976f4357e11afaacd438df87ed6b96c02aab86ba,
 PRD-MAIN,AC-CONF-001,acceptance-block,19.0 要求、范围、覆盖和认可,1117,结论层级分离,128d2b59e95b81fe87f8b2d6a5d4639e2f6d9a2bd2a2f4ee0ba9f6c1a20d446a,
@@ -133,11 +133,11 @@ PRD-MAIN,FIN-ALLOC-003,table-row,12.8 核心计费证据、条件开票/ERP 与�
 PRD-MAIN,FIN-AR-001,table-row,12.8 核心计费证据、条件开票/ERP 与可选运营应收,869,系统必须使用不可变交易推导运营应收余额,02d275379b6bdbcc962fa8313bc15899d45d4370540c52cbceda0a92f7a0efa6,
 PRD-MAIN,FIN-AR-002,table-row,12.8 核心计费证据、条件开票/ERP 与可选运营应收,870,系统必须分别展示合同债权余额、运营可催收余额、争议额和坏账后追偿额,38c907b861c4f816f5e6e7badf42c1df247f0aa1237888fdb07a78693a8c7fbf,
 PRD-MAIN,FIN-AR-003,table-row,12.8 核心计费证据、条件开票/ERP 与可选运营应收,871,系统必须禁止直接修改运营应收余额,cf3735d4516e979918f4e490e49b6220e44f27378c1ef791b4494a35c394dae8,
-PRD-MAIN,FIN-BILL-001,table-row,12.8 核心计费证据、条件开票/ERP 与可选运营应收,858,系统必须从合同约定的服务完成事实生成唯一计费候选,ae0c42b21c0faa4ad04c2095d714e36f57f64e64ecff9289273e5b9ae8893af2,ATC-BILL-001@1.0.0;BUS-BILL-001@1.0.0
-PRD-MAIN,FIN-BILL-002,table-row,12.8 核心计费证据、条件开票/ERP 与可选运营应收,859,系统必须区分服务完成、可计费权利、开票条件、应收确认和会计收入确认,5396db3bb59794033b23133607c5949ef6779e74b8483da5569c772c046afdd9,ATC-BILL-001@1.0.0;BUS-BILL-001@1.0.0
-PRD-MAIN,FIN-BILL-003,table-row,12.8 核心计费证据、条件开票/ERP 与可选运营应收,860,系统必须为免费项生成零金额证据并记录原因,0a7757c186bbc3b4232b03479deac83705c68e148c3b021ba35476a7bc1c8bc5,ATC-BILL-001@1.0.0;BUS-BILL-002@1.0.0
-PRD-MAIN,FIN-BILL-004,table-row,12.8 核心计费证据、条件开票/ERP 与可选运营应收,861,系统必须通过正负调整证据更正已确认计费证据,ad34000944f75e0f4df260c46ecec28ae01703503494d05e18d1e95a4bfc5127,ATC-BILL-001@1.0.0;BUS-BILL-003@1.0.0
-PRD-MAIN,FIN-BILL-005,table-row,12.8 核心计费证据、条件开票/ERP 与可选运营应收,862,系统必须防止报告重发、接口重试或重复事件产生重复计费,72e0a57e9c835787f4bb3ef200c08656f0901df17aa127426868b5c8a5127270,ATC-BILL-001@1.0.0;BUS-BILL-001@1.0.0
+PRD-MAIN,FIN-BILL-001,table-row,12.8 核心计费证据、条件开票/ERP 与可选运营应收,858,系统必须从合同约定的服务完成事实生成唯一计费候选,ae0c42b21c0faa4ad04c2095d714e36f57f64e64ecff9289273e5b9ae8893af2,ATC-BILL-001@1.0.0;ATC-WEB-003@1.0.0;BUS-BILL-001@1.0.0
+PRD-MAIN,FIN-BILL-002,table-row,12.8 核心计费证据、条件开票/ERP 与可选运营应收,859,系统必须区分服务完成、可计费权利、开票条件、应收确认和会计收入确认,5396db3bb59794033b23133607c5949ef6779e74b8483da5569c772c046afdd9,ATC-BILL-001@1.0.0;ATC-WEB-003@1.0.0;BUS-BILL-001@1.0.0
+PRD-MAIN,FIN-BILL-003,table-row,12.8 核心计费证据、条件开票/ERP 与可选运营应收,860,系统必须为免费项生成零金额证据并记录原因,0a7757c186bbc3b4232b03479deac83705c68e148c3b021ba35476a7bc1c8bc5,ATC-BILL-001@1.0.0;ATC-WEB-003@1.0.0;BUS-BILL-002@1.0.0
+PRD-MAIN,FIN-BILL-004,table-row,12.8 核心计费证据、条件开票/ERP 与可选运营应收,861,系统必须通过正负调整证据更正已确认计费证据,ad34000944f75e0f4df260c46ecec28ae01703503494d05e18d1e95a4bfc5127,ATC-BILL-001@1.0.0;ATC-WEB-003@1.0.0;BUS-BILL-003@1.0.0
+PRD-MAIN,FIN-BILL-005,table-row,12.8 核心计费证据、条件开票/ERP 与可选运营应收,862,系统必须防止报告重发、接口重试或重复事件产生重复计费,72e0a57e9c835787f4bb3ef200c08656f0901df17aa127426868b5c8a5127270,ATC-BILL-001@1.0.0;ATC-WEB-003@1.0.0;BUS-BILL-001@1.0.0
 PRD-MAIN,FIN-CREDIT-001,table-row,12.8 核心计费证据、条件开票/ERP 与可选运营应收,877,系统必须确保同一贷项或红票经济事件只影响一次运营应收余额,bd5f3b87282abfb4cbb84e6e2ed76b83b97680f3ed6be1111f4bcc7ca335ada3,
 PRD-MAIN,FIN-DSP-001,table-row,12.8 核心计费证据、条件开票/ERP 与可选运营应收,878,系统必须限制争议金额不超过当前可争议余额,e485e9deac1d2672c68ea8e1a6c478d6d403a162db90844ca128bb9a7a7df03e,
 PRD-MAIN,FIN-DSP-002,table-row,12.8 核心计费证据、条件开票/ERP 与可选运营应收,879,系统必须使争议只影响争议及催收状态，不改写法定到期日和原应收,0edf4b1c791c3a64be1e3a9a909fa022fbcc3a79d9aa15902f98f34d024ad3d2,
@@ -247,7 +247,7 @@ PRD-MAIN,OD-027,table-row,23. 明确待决策事项,1473,TestScopeMatrix 最小�
 PRD-MAIN,OD-028,table-row,23. 明确待决策事项,1474,各行业代表性/最不利覆盖允许的危险域、项目、证据、批准岗位，以及何时自动停止后续复用、何时进入待评估的规则,555ef67a2f0c76f32dd55edafafa328854358d6b3b962882f0d33d9810beca21,
 PRD-MAIN,OD-029,table-row,23. 明确待决策事项,1475,认可范围的数据粒度、权威来源、混合认可报告展示和行级签发门禁,fcd51de1b1bd263119ceb86f45a59d766730784adc2167d883fd3d1f80e53ace,OD-029@0.1.0;OD-029@1.0.0
 PRD-MAIN,OD-030,table-row,23. 明确待决策事项,1476,各方法族最小执行记录、制备/分析批、QC、原始数据与 ELN/CDS 的权威边界,9e114c6bc26b6bbdcefde2f3427acaaf9cc7ba9855d8196f5be7b116cb96c321,ATC-BATCH-001@1.0.0;OD-030@0.1.0;OD-030@1.0.0
-PRD-MAIN,OD-031,table-row,23. 明确待决策事项,1477,首期条码/移动流程和首批仪器/文件接口清单，按结果数据量、人工工时和风险排序,b9bc81a6032f13243296caeab9647a00118b59f86b75ac90379ed2296ea69fcc,ATC-REC-002@0.1.0;ATC-REC-002@1.0.0;ATC-REC-002@2.0.0;OD-031@0.1.0;OD-031@1.0.0
+PRD-MAIN,OD-031,table-row,23. 明确待决策事项,1477,首期条码/移动流程和首批仪器/文件接口清单，按结果数据量、人工工时和风险排序,b9bc81a6032f13243296caeab9647a00118b59f86b75ac90379ed2296ea69fcc,ATC-REC-002@0.1.0;ATC-REC-002@1.0.0;ATC-REC-002@2.0.0;ATC-WEB-003@1.0.0;OD-031@0.1.0;OD-031@1.0.0
 PRD-MAIN,OD-032,table-row,23. 明确待决策事项,1478,多方参与角色、品牌/客户协议、报告访问、付款和数据权限模型,e276ce596f45807ac804b22f0159514255b24f383a0e15822dcdcebcec9deb88,OD-032@0.1.0
 PRD-MAIN,OD-033,table-row,23. 明确待决策事项,1479,核心 LIMS 与可选商业运营包边界；是否建设运营应收取决于现有 ERP/财务能力和客户产品战略,906e134c8a105aca68a7f4a0bc81cff920b03d38144d051becb98e49e7e87a7f,
 PRD-MAIN,OD-034,table-row,23. 明确待决策事项,1480,“单项符合、已测范围符合”的行业化语义与批准权限，以及外部/另行授权的全面法规评估、认证状态或证书如何引用、由谁负责和哪些未覆盖项必须披露,812972e2a3d8b8546103613a65ac214bbdb3d4d2f4f973fb258adedad0744309,ATC-TOY-004@0.1.0;ATC-TOY-004@1.0.0;BUS-TOY-006@0.1.0;BUS-TOY-006@1.0.0;OD-034@0.1.0;OD-034@1.0.0
@@ -298,7 +298,7 @@ PRD-MAIN,OPS-QTY-002,table-row,12.5 谱系、数量和任务分配,796,系统必
 PRD-MAIN,OPS-QTY-003,table-row,12.5 谱系、数量和任务分配,797,系统必须阻止负余额、超分配和无依据跨物理量换算,359f7746c28e69d08ea427d2b617a63b0230afcbf92139a03481f011b1b69f4a,ATC-QTY-001@1.0.0;ATC-WEB-001@1.0.0;BUS-QTY-003@1.0.0
 PRD-MAIN,OPS-QTY-004,table-row,12.5 谱系、数量和任务分配,798,系统必须通过冲销和重记更正已过账数量流水,62e8771a4a6111ac841db861299083bbb1180b1adc148eda8e4ed84f0a87098d,ATC-QTY-001@1.0.0;ATC-WEB-001@1.0.0;BUS-QTY-001@1.0.0
 PRD-MAIN,OPS-RECEIPT-001,table-row,12.4 收样、身份和拆解,743,系统必须分别登记到货批、包装单元和收到的实物,7c5ac0cbc8b80f7778fdc3240ffd9bd7633839bacefe88c4896b3ebc05cad965,ATC-REC-001@0.1.0;ATC-REC-001@1.0.0;ATC-REC-001@2.0.0;OPS-RECEIPT-001@0.1.0;OPS-RECEIPT-001@1.0.0
-PRD-MAIN,OPS-RECEIPT-002,table-row,12.4 收样、身份和拆解,744,系统必须为每个包装单元和收到的实物分配唯一标识,5d23e65500b33f3b281878f7ddcb2400a6b44748d2509ed551723a9a6422a96f,ATC-REC-002@0.1.0;ATC-REC-002@1.0.0;ATC-REC-002@2.0.0;OPS-RECEIPT-002@0.1.0;OPS-RECEIPT-002@1.0.0
+PRD-MAIN,OPS-RECEIPT-002,table-row,12.4 收样、身份和拆解,744,系统必须为每个包装单元和收到的实物分配唯一标识,5d23e65500b33f3b281878f7ddcb2400a6b44748d2509ed551723a9a6422a96f,ATC-REC-002@0.1.0;ATC-REC-002@1.0.0;ATC-REC-002@2.0.0;ATC-WEB-003@1.0.0;OPS-RECEIPT-002@0.1.0;OPS-RECEIPT-002@1.0.0
 PRD-MAIN,OPS-RECEIPT-003,table-row,12.4 收样、身份和拆解,745,系统必须在身份评估完成前保持实物隔离,389923bc1881370792e1984f9e1bf9f994f3341583475592c9b903bedb3b12e8,ATC-REC-003@0.1.0;ATC-REC-003@1.0.0;ATC-REC-003@2.0.0;ATC-REC-006@0.1.0;ATC-REC-006@1.0.0;ATC-REC-006@2.0.0;OD-035@1.0.0;OPS-RECEIPT-003@0.1.0;OPS-RECEIPT-003@1.0.0
 PRD-MAIN,OPS-RESRC-001,table-row,12.5 谱系、数量和任务分配,810,系统必须按人员授权、设备/场地/夹具能力、校准状态、时间窗口、依赖和样品状态检查硬资源冲突,b3de20a4e4371a5dbb96464bb9a8d659541094cd5f3a67c5f14c1c1ac4161726,
 PRD-MAIN,OPS-STATE-001,table-row,12.4 收样、身份和拆解,755,对顺序性试验，系统必须在不改变实物身份的前提下记录预处理、每个事件前后状态、照片/视频、新增可接触特征、碎片和下一步资格,bbc4a593f26906bc424267d7f6cf2b41208761972c325ff3c56781451e48a68c,

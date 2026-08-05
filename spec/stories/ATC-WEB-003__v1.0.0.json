@@ -1,0 +1,173 @@
+{
+  "$schema": "../schema/spec-object.schema.json",
+  "schema_version": 1,
+  "kind": "story",
+  "id": "ATC-WEB-003",
+  "version": "1.0.0",
+  "status": "approved",
+  "target_release": "REL-R1-RECEIVING-PILOT@1.0.0",
+  "epic_id": "EP-BILLING-INTEGRATION",
+  "feature_id": "FEAT-BILLING-LABELING-WORKBENCH",
+  "title": "实施 Billing 与 Labeling Web 工作台",
+  "summary": "在已批准并交付的 Billing 与 Labeling 运行时之上增加显式注册的 Web 工作台，使计费操作员能够创建、调整、查询计费证据和状态，使收样与样品操作员能够从独立入口创建、查询、受控重印和扫码解析标签任务；所有身份、权限、版本、状态和错误仍由服务端判定。",
+  "owners": [
+    "财务负责人",
+    "实验室运营负责人",
+    "收样产品负责人",
+    "质量负责人",
+    "Web应用负责人",
+    "QA负责人"
+  ],
+  "source_refs": [
+    {"document": "PRD-MAIN", "item": "FIN-BILL-001"},
+    {"document": "PRD-MAIN", "item": "FIN-BILL-002"},
+    {"document": "PRD-MAIN", "item": "FIN-BILL-003"},
+    {"document": "PRD-MAIN", "item": "FIN-BILL-004"},
+    {"document": "PRD-MAIN", "item": "FIN-BILL-005"},
+    {"document": "PRD-MAIN", "item": "AC-BILL-001"},
+    {"document": "PRD-MAIN", "item": "OPS-RECEIPT-002"},
+    {"document": "PRD-MAIN", "item": "OD-031"}
+  ],
+  "depends_on": [
+    "ATC-PLT-003@1.0.0",
+    "ATC-BILL-001@1.0.0",
+    "ATC-REC-002@2.0.0",
+    "ATC-WEB-001@1.0.0",
+    "ATC-WEB-002@1.0.0",
+    "OD-002@1.0.0",
+    "BUS-BILL-001@1.0.0",
+    "BUS-BILL-002@1.0.0",
+    "BUS-BILL-003@1.0.0",
+    "AC-BILL-001@1.0.0",
+    "OPS-RECEIPT-002@1.0.0",
+    "OD-031@1.0.0",
+    "SEC-AUTH-001@1.0.0",
+    "NFR-ARCH-001@2.0.0"
+  ],
+  "affects": [
+    "web",
+    "billing",
+    "labeling",
+    "operator-workbench",
+    "accessibility",
+    "automated-test"
+  ],
+  "change_class": "major",
+  "body": {
+    "readiness": "ready",
+    "implementation_task_id": "DEV-034",
+    "approval_evidence": "用户于 2026-08-05 明确提交开发请求，将 Billing + Labeling Web 工作台列为下一项并逐项确认 Billing 的计费证据创建、调整、查询、状态查询以及 Labeling 的打印任务、任务查询、受控重印、扫码解析。本卡只把已批准并交付的 8 个 HTTP 操作提供为 Web 交互，不新增业务默认值、后端状态、权限语义、迁移、Seal 或部署；批准主体为用户而非 AI。",
+    "business_outcome": "计费操作员可在报告和结果采用后的商业闭环中创建并核对唯一计费证据、追加不可变调整并查看服务端状态；收样和样品操作员可从独立导航入口处理现有对象的打印、任务查询、受控重印和扫码校验，不再依赖刚完成的收样登记页面或直接调用 API。",
+    "actor": "具有对象范围和 billing.record、receiving.label.print、receiving.label.scan 或 receiving.label.reprint 相应能力的计费操作员、收样员、样品管理员和主管",
+    "preconditions": [
+      "ATC-BILL-001@1.0.0 与 ATC-REC-002@2.0.0 已批准、READY 且运行时已交付",
+      "用户已通过平台 OIDC 登录，API 基址来自受保护的运行配置",
+      "UI 只提交业务字段、稳定 ID、精确版本、打印机 ID、扫码载荷和幂等键，不提交可信组织、行为人、权限或审计身份"
+    ],
+    "trigger": "已登录操作员从导航进入 Billing 或 Labeling 工作台，执行任一批准的创建、调整、查询、重印或扫码操作",
+    "happy_path": [
+      "按精确结果组版本、合同基线版本、收费维度、计费规则和币种版本创建计费证据，展示服务端固定的采用目标、阶段和记录人",
+      "为现有计费证据追加非零正负调整并展示完整调整链和净额相关状态",
+      "按稳定计费证据 ID 查询详情和服务端 ALLOWED、BLOCKED 或 UNKNOWN 状态",
+      "按 CT 或 RI 对象稳定 ID 与精确版本创建标签任务，并按任务 ID 查询发送或校验状态",
+      "对现有任务填写打印机和非空原因进行受控重印，或提交扫码载荷解析对象与打印校验状态",
+      "所有成功只在收到服务端成功响应后呈现"
+    ],
+    "failure_paths": [
+      "未登录或会话过期 → 引导登录且不发送业务请求",
+      "服务器返回 401/403/404 → 安全呈现无权或不可访问，不泄露跨范围对象存在性",
+      "服务器返回 Problem Details → 显示稳定 errorCode、correlationId、detail 和安全 nextAction",
+      "计费资格 BLOCKED/UNKNOWN、重复计费、版本或金额边界失败 → 保留输入和服务端原因，不伪造证据或允许状态",
+      "标签 UNKNOWN、打印机范围错误、重印原因缺失或超过阈值 → 保留任务事实并禁止普通自动重试",
+      "网络或 5xx 失败 → 保留非敏感输入，只允许用户显式重试写操作"
+    ],
+    "invariants": [
+      "Web 端不得推导最新版本、计费资格、净额允许状态、打印送达或扫码授权，不把 UNKNOWN 映射为允许",
+      "可信组织、行为人、权限、记录人和审计身份只由服务端上下文提供",
+      "Billing 金额与调整不得由浏览器改写历史；调整始终追加并引用现有证据",
+      "Labeling 重印沿用服务器对象身份且每次只请求一份；UNKNOWN 不提供普通重试动作",
+      "写操作只有收到成功响应后才更新工作台结果，失败不清空可安全重试的非敏感输入",
+      "UI 只消费既有公共 HTTP 契约，不修改 Billing、Labeling 或 Receiving 后端语义和私有表",
+      "现有 Receiving 与两批实验室工作台路由、导航和嵌入式标签操作保持兼容"
+    ],
+    "data_contract": {
+      "billing": ["billingEvidenceId", "stage", "ruleSetVersion", "objectScope", "resultGroupId/groupVersion", "adoptionTargetId", "contractBaseline@version", "chargeDimension", "billingRuleVersion", "amount", "currency@version", "zeroAmountReason", "adjustments", "recordedBy/At"],
+      "billingStatus": ["decision", "reasonCodes", "billingEvidenceId", "stage", "amount", "adjustmentCount", "ruleSetVersion"],
+      "labeling": ["printJobId", "objectType", "objectId/objectVersion", "businessNumber", "templateVersion", "printerId", "status", "isReprint", "successfulReprintCount", "createdAt", "updatedAt"],
+      "scan": ["objectType", "objectId", "businessNumber", "state", "printVerificationStatus", "allowedActions"],
+      "problem": ["title", "detail", "status", "errorCode", "correlationId", "nextAction"]
+    },
+    "api_contract": {
+      "billing": ["POST /api/v1/billing-evidence", "POST /api/v1/billing-evidence/{id}/adjustments", "GET /api/v1/billing-evidence/{id}", "GET /api/v1/billing-evidence/{id}/status"],
+      "labeling": ["POST /api/v1/label-jobs", "GET /api/v1/label-jobs/{printJobId}", "POST /api/v1/label-jobs/{printJobId}/reprint", "POST /api/v1/scans/resolve"]
+    },
+    "state_transitions": [
+      "UI 只展示并驱动 Billing 与 Labeling 的既有状态机，不新增或重解释业务状态",
+      "本地 idle/loading/submitting/success/error 是交互状态，不是业务事实",
+      "详情和状态查询以服务端响应重建；刷新不会从本地缓存恢复权威业务结果"
+    ],
+    "permissions": [
+      "所有路由要求已认证会话；匿名用户被引导登录",
+      "按钮级 capability 提示只改善体验，服务器 401/403 始终为最终权威",
+      "无权读取和对象不存在采用相同安全呈现，不泄露对象存在性",
+      "普通系统管理员不因角色名称自动获得计费、打印、扫码或重印能力"
+    ],
+    "audit": [
+      "UI 不直接写审计；写请求由后端模块在业务事务中记录审计和 Outbox",
+      "错误视图显示服务器 correlationId 便于支持和审计定位",
+      "浏览器日志和错误呈现不得包含访问令牌、完整二维码载荷、打印机地址、客户正文或可信身份"
+    ],
+    "ui_states": [
+      "Billing 和 Labeling 页面分别提供 empty、ready、submitting、success、blocked/unknown、forbidden、not-found 和 retryable-error 状态",
+      "表单字段具有可见标签、关联错误、键盘提交和清晰的精确版本提示",
+      "导航明确显示 Billing 和 Labeling 并支持稳定 URL 深链接",
+      "对象详情显示稳定 ID、精确版本、状态、原因码和允许动作，不只依赖颜色表达",
+      "窄屏下表单与详情纵向排列，关键动作不依赖悬停"
+    ],
+    "observability": [
+      "客户端错误仅记录 operationId、HTTP 状态、errorCode 和 correlationId，不记录令牌或请求正文",
+      "页面可见 correlationId 与 API Problem Details 一致",
+      "前端构建和测试覆盖两个工作台描述符、路由、8 个客户端操作和核心交互"
+    ],
+    "test_cases": [
+      {"id": "TC-WEB-003-01", "type": "positive", "title": "Billing 与 Labeling 主流程", "given": ["已认证且服务器返回 8 个操作的成功响应"], "when": ["操作员创建、调整、查询计费证据并创建、查询、重印和扫描标签"], "then": ["两个导航和页面可用", "成功只由响应驱动", "精确版本与状态可见"]},
+      {"id": "TC-WEB-003-02", "type": "negative", "title": "BLOCKED 与 UNKNOWN 失败关闭", "given": ["计费状态 BLOCKED/UNKNOWN 或打印任务 UNKNOWN"], "when": ["操作员查看结果或尝试后续动作"], "then": ["显示服务器原因", "不伪造允许或送达", "UNKNOWN 不提供普通重试"]},
+      {"id": "TC-WEB-003-03", "type": "boundary", "title": "版本、金额、对象类型和原因边界", "given": ["版本非正整数、调整为零、对象类型不支持或重印原因为空"], "when": ["操作员提交"], "then": ["客户端阻止明显无效输入", "不发送请求"]},
+      {"id": "TC-WEB-003-04", "type": "permission", "title": "未认证、无能力与服务端拒绝", "given": ["会话匿名、缺 UX capability 或 API 返回 403"], "when": ["进入路由或执行操作"], "then": ["引导登录或显示只读无权", "不泄露对象存在性", "不显示成功"]},
+      {"id": "TC-WEB-003-05", "type": "recovery", "title": "网络失败后显式重试", "given": ["首次写请求网络失败"], "when": ["用户确认后重试"], "then": ["不自动重复写操作", "非敏感输入保留", "成功响应后才更新详情"]},
+      {"id": "TC-WEB-003-06", "type": "audit", "title": "错误关联与敏感信息保护", "given": ["API 返回 errorCode 和 correlationId"], "when": ["页面呈现问题"], "then": ["显示支持关联信息", "不显示令牌、可信身份、完整扫码载荷或打印机地址"]},
+      {"id": "TC-WEB-003-07", "type": "regression", "title": "现有 Web 功能兼容", "given": ["Receiving 与两批实验室工作台已注册"], "when": ["注册 Billing 与 Labeling"], "then": ["所有既有路由和测试保持通过", "无重复 route 或 navigation ID"]}
+    ],
+    "non_goals": [
+      "不修改 Billing、Labeling、Receiving 后端契约、状态机、数据库、权限、Worker 或打印协议",
+      "不实现发票、应收、收款、核销、收入确认、价格引擎、税务或币种换算",
+      "不新增浏览器打印、摄像头扫码、原生移动应用、离线写队列或运行时插件",
+      "不自动轮询或自动重试 UNKNOWN、失败或可能产生副作用的写请求",
+      "不创建 OD、ADR、Seal、Release、tag、部署或生产迁移"
+    ],
+    "allowed_paths": [
+      "spec/stories/ATC-WEB-003__v1.0.0.json",
+      "generated/spec/**",
+      ".planning/2026-08-05-business-web-workbenches/**",
+      ".planning/.active_plan",
+      "apps/web/src/**",
+      "tests/test_repository_contract.py"
+    ],
+    "verification_commands": [
+      "python -m tools.specgen ready --story ATC-WEB-003@1.0.0",
+      "pnpm -C apps/web test:unit",
+      "pnpm -C apps/web typecheck",
+      "pnpm -C apps/web lint",
+      "pnpm -C apps/web build",
+      "python -m tools.specgen check"
+    ],
+    "definition_of_done": [
+      "ATC-WEB-003@1.0.0 与全部精确依赖均为 approved 且 READY 后才修改产品代码",
+      "Billing 与 Labeling 在 Web registry 显式注册，路由和导航稳定且不与现有功能冲突",
+      "8 个批准 HTTP 操作及错误、边界、权限、恢复、审计安全和回归状态具有自动测试",
+      "UI 只消费现有 API，不提交可信身份、不伪造业务状态且不新增后端业务语义",
+      "前端 test、typecheck、lint、build 与全仓门禁通过，二次 generate written=0",
+      "所有改动位于本 Story allowed_paths"
+    ]
+  }
+}

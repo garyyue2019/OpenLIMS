@@ -8,6 +8,7 @@ using OpenLIMS.Contracts.Platform;
 using OpenLIMS.Modules.Allocation;
 using OpenLIMS.Modules.Batch;
 using OpenLIMS.Modules.Billing;
+using OpenLIMS.Modules.Commercial;
 using OpenLIMS.Modules.Instrument;
 using OpenLIMS.Modules.Labeling;
 using OpenLIMS.Modules.Qc;
@@ -43,6 +44,7 @@ IOpenLimsServerModule[] modules =
     new BatchModule(deploymentOptions.PostgresConnectionString!),
     new ResultModule(deploymentOptions.PostgresConnectionString!),
     new BillingModule(deploymentOptions.PostgresConnectionString!),
+    new CommercialModule(deploymentOptions.PostgresConnectionString!),
     new InstrumentModule(deploymentOptions.PostgresConnectionString!),
     new QcModule(deploymentOptions.PostgresConnectionString!),
     new TextileModule(deploymentOptions.PostgresConnectionString!),
@@ -117,7 +119,8 @@ builder.Services.AddOpenTelemetry()
     .WithTracing(tracing => tracing.AddAspNetCoreInstrumentation().AddHttpClientInstrumentation())
     .WithMetrics(metrics => metrics
         .AddMeter("OpenLIMS.Receiving.IdentityAssessment")
-        .AddMeter("OpenLIMS.Receiving.Exception"));
+        .AddMeter("OpenLIMS.Receiving.Exception")
+        .AddMeter("OpenLIMS.Commercial"));
 
 var app = builder.Build();
 app.UseExceptionHandler(exceptionApp => exceptionApp.Run(async context =>
@@ -194,6 +197,15 @@ app.MapGet("/openapi/v1.json", () => Results.Json(new
         ["/health/live"] = new { get = new { operationId = "getLiveness", responses = new { ok = new { description = "Process is alive" } } } },
         ["/health/ready"] = new { get = new { operationId = "getReadiness", responses = new { ok = new { description = "Platform host is ready" } } } },
         ["/system/status"] = new { get = new { operationId = "getAuthenticatedSystemStatus", responses = new { ok = new { description = "Authenticated platform status" } } } },
+        ["/api/v1/catalog-records"] = new { post = new { operationId = "createCatalogRecord", responses = new { created = new { description = "Versioned controlled catalog record created" } } } },
+        ["/api/v1/catalog-records/{id}/versions"] = new { post = new { operationId = "reviseCatalogRecord", responses = new { created = new { description = "Append-only catalog revision created" } } } },
+        ["/api/v1/catalog-records/{id}/versions/{version}"] = new { get = new { operationId = "getCatalogRecordVersion", responses = new { ok = new { description = "Immutable catalog version returned" } } } },
+        ["/api/v1/inquiries"] = new { post = new { operationId = "createInquiry", responses = new { created = new { description = "Inquiry created with explicit minimum-data gaps" } } } },
+        ["/api/v1/inquiries/{id}"] = new { get = new { operationId = "getInquiry", responses = new { ok = new { description = "Current inquiry, gaps, reviews, quotes, and impacts returned" } } } },
+        ["/api/v1/inquiries/{id}/gaps/{gapId}/resolution"] = new { post = new { operationId = "resolveInquiryGap", responses = new { created = new { description = "Inquiry gap resolved in a new immutable version" } } } },
+        ["/api/v1/inquiries/{id}/capability-reviews"] = new { post = new { operationId = "recordCapabilityReview", responses = new { created = new { description = "Capability and contract review recorded" } } } },
+        ["/api/v1/inquiries/{id}/quote-versions"] = new { post = new { operationId = "createQuoteVersion", responses = new { created = new { description = "Immutable formal quote version created" } } } },
+        ["/api/v1/inquiries/{id}/change-impacts"] = new { post = new { operationId = "recordCommercialChangeImpact", responses = new { created = new { description = "Price, TAT, sample, work, and report impacts recorded" } } } },
         ["/api/v1/receipts"] = new { post = new { operationId = "registerReceipt", responses = new { created = new { description = "Receipt, containers, and quarantined received items created" } } } },
         ["/api/v1/received-items/{id}/identity-assessment"] = new { get = new { operationId = "getIdentityAssessment", responses = new { ok = new { description = "Current declaration snapshot, observations, decisions, quarantine state, and versions" } } } },
         ["/api/v1/received-items/{id}/identity-observations"] = new { post = new { operationId = "createIdentityObservation", responses = new { created = new { description = "Append-only laboratory identity observation recorded" } } } },

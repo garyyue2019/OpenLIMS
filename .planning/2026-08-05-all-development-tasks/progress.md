@@ -57,3 +57,16 @@
 - Extracted all 87 current API operation IDs and confirmed the missing domains have no public API surface. Located the Web application under `apps/` for the next coverage pass.
 - Compared Web routes with backend modules; the same Release 1 gaps exist end to end, so new slices will require backend, contracts/tests, and usable workbench routes rather than API-only stubs.
 - Read the host composition and representative Scope module. The implementation architecture is now understood; one guessed platform filename was absent and has been logged for path-aware follow-up.
+- Located the real platform composition source and the archived Release 1 backlog plus prior DEV-016 AI work; the next audit will distinguish contract-only groundwork from production runtime.
+- Confirmed DEV-016 is contract-only and the archived Release 1 backlog aligns with the current API/UI gap analysis. AI runtime remains in scope, while the prior validation contracts can be reused.
+- Read the remaining quality/report/finance requirements and the AI contract implementation. The backlog can now be expressed as concrete modules and extensions with existing type boundaries.
+- Verified the module composition and migration patterns. New bounded modules and targeted extensions fit the current architecture without platform refactoring.
+- Completed Phase 6 and recorded six ordered implementation slices with explicit acceptance tests and module ownership. Phase 7A Knowledge + Commercial is now in progress.
+- Inspected solution and project conventions for adding modules/tests under locked restore; project registration and lock files are mandatory parts of each slice.
+- Inspected platform contexts and Billing persistence/authorization. Phase 7A will use the same exact-claim authorization and transactional audit/outbox pattern.
+- Added the Commercial contract/module, migration, JSONB version stores, domain rules, authorization, services, endpoints, telemetry, host registration, and OpenAPI entries. The first restore hit the host's .NET 9 fallback; switching to the pinned workspace SDK.
+- Loaded workspace dependencies and confirmed they do not include .NET. Searching known user and drive-level SDK locations for the previously used 10.0.302 installation.
+- Located the exact .NET 10.0.302 user-local installation and will use it explicitly for restore/build/test commands.
+- First Commercial Release build reached the new endpoint file and found only missing endpoint-extension imports plus explicit generic request types. Applied the narrow compile fix.
+- Commercial module build passed with 0 warnings/errors. New unit tests pass 10/10, HTTP contract tests pass 10/10, and PostgreSQL integration tests pass 4/4 including concurrency, append-only, audit/outbox, and authorization behavior.
+- Phase 7A is complete: full solution Release build passes with 0 warnings/errors, repository engineering contracts pass 9/9, and the diff is whitespace-clean. Moving to Phase 7B Sample Operations.

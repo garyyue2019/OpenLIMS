@@ -30,6 +30,9 @@
   <Folder Name="/contracts/billing/">
     <Project Path="contracts/billing/OpenLIMS.Contracts.Billing/OpenLIMS.Contracts.Billing.csproj" />
   </Folder>
+  <Folder Name="/contracts/commercial/">
+    <Project Path="contracts/commercial/OpenLIMS.Contracts.Commercial/OpenLIMS.Contracts.Commercial.csproj" />
+  </Folder>
   <Folder Name="/contracts/instrument/">
     <Project Path="contracts/instrument/OpenLIMS.Contracts.Instrument/OpenLIMS.Contracts.Instrument.csproj" />
   </Folder>
@@ -81,6 +84,9 @@
   <Folder Name="/src/modules/billing/">
     <Project Path="src/modules/billing/OpenLIMS.Modules.Billing/OpenLIMS.Modules.Billing.csproj" />
   </Folder>
+  <Folder Name="/src/modules/commercial/">
+    <Project Path="src/modules/commercial/OpenLIMS.Modules.Commercial/OpenLIMS.Modules.Commercial.csproj" />
+  </Folder>
   <Folder Name="/src/modules/instrument/">
     <Project Path="src/modules/instrument/OpenLIMS.Modules.Instrument/OpenLIMS.Modules.Instrument.csproj" />
   </Folder>
@@ -130,6 +136,9 @@
   </Folder>
   <Folder Name="/tests/contract/billing/">
     <Project Path="tests/contract/billing/OpenLIMS.Billing.ContractTests/OpenLIMS.Billing.ContractTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/contract/commercial/">
+    <Project Path="tests/contract/commercial/OpenLIMS.Commercial.ContractTests/OpenLIMS.Commercial.ContractTests.csproj" />
   </Folder>
   <Folder Name="/tests/contract/instrument/">
     <Project Path="tests/contract/instrument/OpenLIMS.Instrument.ContractTests/OpenLIMS.Instrument.ContractTests.csproj" />
@@ -185,6 +194,9 @@
   <Folder Name="/tests/integration/billing/">
     <Project Path="tests/integration/billing/OpenLIMS.Billing.IntegrationTests/OpenLIMS.Billing.IntegrationTests.csproj" />
   </Folder>
+  <Folder Name="/tests/integration/commercial/">
+    <Project Path="tests/integration/commercial/OpenLIMS.Commercial.IntegrationTests/OpenLIMS.Commercial.IntegrationTests.csproj" />
+  </Folder>
   <Folder Name="/tests/integration/instrument/">
     <Project Path="tests/integration/instrument/OpenLIMS.Instrument.IntegrationTests/OpenLIMS.Instrument.IntegrationTests.csproj" />
   </Folder>
@@ -227,6 +239,9 @@
   </Folder>
   <Folder Name="/tests/unit/billing/">
     <Project Path="tests/unit/billing/OpenLIMS.Billing.UnitTests/OpenLIMS.Billing.UnitTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/unit/commercial/">
+    <Project Path="tests/unit/commercial/OpenLIMS.Commercial.UnitTests/OpenLIMS.Commercial.UnitTests.csproj" />
   </Folder>
   <Folder Name="/tests/unit/instrument/">
     <Project Path="tests/unit/instrument/OpenLIMS.Instrument.UnitTests/OpenLIMS.Instrument.UnitTests.csproj" />

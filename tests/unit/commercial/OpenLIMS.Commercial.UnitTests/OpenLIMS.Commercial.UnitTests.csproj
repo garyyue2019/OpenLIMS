@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>OpenLIMS.Commercial.UnitTests</AssemblyName>
+    <RootNamespace>OpenLIMS.Commercial.UnitTests</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+    <ProjectReference Include="../../../../src/modules/commercial/OpenLIMS.Modules.Commercial/OpenLIMS.Modules.Commercial.csproj" />
+    <ProjectReference Include="../../../../contracts/commercial/OpenLIMS.Contracts.Commercial/OpenLIMS.Contracts.Commercial.csproj" />
+  </ItemGroup>
+</Project>

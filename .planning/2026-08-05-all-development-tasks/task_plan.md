@@ -6,7 +6,7 @@ Remove repository-level development approval governance, then autonomously deriv
 
 ## Current Phase
 
-Phase 6: derive the remaining development backlog
+Phase 7B: sample operations and scheduling
 
 ## Phases
 
@@ -35,13 +35,13 @@ Phase 6: derive the remaining development backlog
 - [x] Record the exact reason no further authorized implementation can proceed, if applicable.
 - **Status:** complete
 
-## Constraints
+## Engineering Boundaries
 
-- AI cannot mark `proposed` or `in_review` specifications as `approved`.
-- A `BLOCKED` Story cannot be implemented and business defaults cannot be invented.
-- Implementation may touch only the selected task card's exact `allowed_paths`.
-- Published migrations, Seals, acceptance evidence, and completed-task evidence are append-only.
-- Do not redo work already present on `main` or treat superseded draft versions as backlog.
+- Runtime authorization, audit, immutable facts, optimistic/concurrent conflict protection, version binding, and failure-closed behavior remain mandatory product controls.
+- Legal, tax, accreditation, retention, laboratory-policy, model-provider, and external-system behavior must be explicit configuration or caller-supplied versioned data; no invented production defaults.
+- Published database migrations and issued business records remain append-only.
+- Do not rebuild capabilities already present in the 13 delivered runtime modules.
+- Real external ERP, invoice, model-provider, notification, backup, and deployment success cannot be fabricated; implement and test their durable handoff/status/difference boundaries locally.
 
 ## Errors Encountered
 
@@ -64,6 +64,9 @@ Phase 6: derive the remaining development backlog
 | API operation inventory used a malformed `rg` regular expression | 1 | Use PowerShell `Select-String` against `Program.cs` and inspect route groups structurally instead of retrying the same expression. |
 | Parallel PRD/Web inspection lost both outputs when the Web path search returned a nonzero exit code | 1 | Split the reads, discover the actual frontend root first, and normalize expected no-match paths before searching routes. |
 | Representative architecture read guessed a nonexistent `ModuleCatalog.cs` path | 1 | Keep the successfully read host/module data and locate the actual platform source filename with `rg --files` before reading it. |
+| Combined DEV-016 history read exited with code 1 because the follow-up runtime search intentionally found no matches | 1 | Treat the successful file output plus no-match search as confirmation that DEV-016 delivered contracts only; normalize future expected no-match searches. |
+| Phase 7A restore used the system `dotnet` 9.0.305 while the repository requires 10.0.302 | 1 | Load the Codex workspace dependency paths and invoke the bundled/pinned .NET SDK; do not change `global.json` or relax the toolchain. |
+| First Commercial build reported missing minimal-API endpoint extensions and four uninferred generic request types | 1 | Add `Microsoft.AspNetCore.Builder` and specify the four request type arguments explicitly; no domain or persistence redesign required. |
 
 ## Delivery Status
 
@@ -81,17 +84,22 @@ Phase 6: derive the remaining development backlog
 
 ### Phase 6: derive the remaining development backlog
 
-- [ ] Compare the PRD, public APIs, runtime modules, Web routes, and tests to identify product capabilities that are described but not implemented.
-- [ ] Exclude already delivered behavior, stale duplicate Story lines, deployment operations requiring external infrastructure, and undefined business choices that cannot be encoded coherently.
-- [ ] Record an ordered implementation backlog with concrete acceptance tests and module boundaries.
-- **Status:** in_progress
+- [x] Compare the PRD, public APIs, runtime modules, Web routes, and tests to identify product capabilities that are described but not implemented.
+- [x] Exclude already delivered behavior, stale duplicate Story lines, deployment operations requiring external infrastructure, and undefined business choices that cannot be encoded coherently.
+- [x] Record an ordered implementation backlog with concrete acceptance tests and module boundaries.
+- **Status:** complete
 
 ### Phase 7: implement all actionable backlog items
 
-- [ ] Implement each backlog slice with positive, negative, boundary, permission, concurrency, recovery, and audit tests as applicable.
+- [x] **7A Knowledge + Commercial:** add versioned organization/party/protocol/requirement/method/accreditation/capability records; inquiry minimum-data validation and gap queue; capability review; immutable quote versions; change-impact records. Acceptance: version conflicts fail, missing intake data creates explicit gaps, unpassed review blocks quote issue, historical versions remain readable, unauthorized access is audited.
+- [ ] **7B Sample Operations:** add physical lineage edges, custody events, plan/tasks, sequence dependencies, resource reservations, and work queues. Acceptance: cycles/self-links and unauthorized reparenting fail, custody is append-only, unmet dependencies block readiness, overlapping hard resources conflict atomically, queue ordering is deterministic.
+- [ ] **7C Result Completion:** extend Result with deterministic versioned calculations, typed retest/repeat/reprepare/resample events, predeclared adoption rules, and execution/result accreditation eligibility. Acceptance: calculations are deterministic and preserve inputs/rule versions, invalid units/rounding/LOD/LOQ fail closed, retest history is immutable, one effective adoption remains enforced, expired/mismatched accreditation blocks eligibility.
+- [ ] **7D Delivery + Integration:** extend Report with version-bound deliveries/download grants/notifications and Billing with immutable export batches plus ERP/invoice handoff and difference queues. Acceptance: old links never resolve to new versions, unauthorized recipients are denied, retries are idempotent, external success requires external references, failed/different handoffs remain visible and auditable.
+- [ ] **7E AI Runtime:** add optional AI extraction runs using the existing contract, schema/unit validation quarantine, source evidence, gap suggestions, immutable human dispositions, and disabled-provider/manual fallback behavior. Acceptance: unknown fields/units/sources quarantine output, AI cannot self-promote facts, provider-disabled runs fail closed without blocking manual inquiry completion, all reviews retain original and human values.
+- [ ] **7F Web Workbenches:** add usable routes, clients, navigation, forms, queues, loading/error/empty states, and focused tests for all new backend slices.
 - [ ] Keep cross-module access through public contracts and preserve exact version binding and failure-closed runtime behavior.
-- [ ] Commit coherent batches without waiting for per-task approval.
-- **Status:** pending
+- [ ] Commit each coherent batch without waiting for per-task approval.
+- **Status:** in_progress
 
 ### Phase 8: final verification and delivery
 

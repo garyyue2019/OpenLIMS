@@ -42,3 +42,18 @@
 - The fixed calculation ruleset is `TEXTILE-SAMPLE-REQUIREMENT@1.0.0`.
 - Runtime inputs require stable requirement/plan IDs, exact positive versions, a requirement input hash, and fully versioned style/colorway/component/material/test item references.
 - Decisions `INSUFFICIENT` and `UNKNOWN` must remain visibly blocked; the UI must not approve them or invent sample sufficiency.
+
+## Toy runtime boundary
+
+- All 19 requested operations are already approved across `ATC-TOY-001@1.0.0`, `ATC-TOY-002@1.0.0`, `ATC-TOY-003@1.0.0`, and the remediated conclusion runtime `ATC-TOY-005@1.0.0`.
+- Operation groups: product age/accessibility (6), TestUnit/sample demand/allocation (4), label artifact/review/status (5), and conclusions (4).
+- Fixed rulesets are `TOY-AGE-GRADE@1.0.0`, `TOY-TEST-UNIT-SAMPLE-DEMAND@1.0.0`, `TOY-LABEL-REVIEW@1.0.0`, and `TOY-CONCLUSION-COVERAGE@1.0.0`.
+- Capabilities are explicitly separated: `toy.manage`, `toy.sample-demand.approve`, `toy.label.manage`, `toy.label.review`, `toy.conclusion.approve-item`, and `toy.conclusion.approve-scope`.
+- Label-review status query pins product and age-grade versions plus market/language/artifact type/ruleset. Conclusion list query pins product ref and product version.
+- Item and tested-scope conclusion inputs have materially different evidence/signature requirements. Tested-scope conclusion requires reauthentication reference, signing intent, and signed content hash; whole-product compliance and custom statements remain prohibited.
+- `RecordAgeGradeDecisionRequest.approvedBy` is an approved business field in the public contract; it is not used as a browser-selected session actor or authorization claim.
+- The four Toy routes are registered as one feature but intentionally use separate views so each operation group can enforce its own capability and version boundary.
+- The existing product and TestUnit views already use the shared authenticated request/state/problem components and preserve explicit retry; the remaining label-review and conclusion views can follow the same response-driven pattern.
+- The label-review client maps 5 endpoints and always injects the fixed status-query ruleset; the conclusion client maps 4 endpoints and types `customStatement` as forbidden plus whole-item conclusion as false-only.
+- Runtime authorization uses `toy.label.manage` for artifact creation/versioning, review draft creation, and status lookup; `toy.label.review` is the distinct decision capability. The Web controls mirror this delivered service boundary while leaving the server authoritative.
+- Toy adds one approved story/task and one generated feature, moving repository expectations from 200 to 201 specs and from 79 to 80 generated feature files.

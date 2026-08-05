@@ -27,3 +27,12 @@
 - Focused Textile verification passed: 4 files / 18 tests, typecheck, and lint.
 - Final DEV-035 verification passed: Web 35 files / 91 tests, typecheck, lint, build; Python 42 tests; strict spec validation, source status, history, READY, check; deterministic second generation `written=0`; clean diff and trusted-context audit.
 - Completed Phase 4 and started Phase 5 Toy full-flow workbench.
+- Re-ran clean pre-task gates and mapped the 19 Toy endpoints, four runtime groups, fixed rulesets, and six capability boundaries.
+- Added user-approved Web-only story `ATC-WEB-005@1.0.0` for DEV-036.
+- Confirmed `ATC-WEB-005@1.0.0` is READY and generated artifacts are synchronized.
+- Implemented the four typed Toy API clients, the four-route feature descriptor, and the product-age/accessibility and TestUnit/sample-demand views; label-review and conclusion views plus the Toy test suite remain in progress.
+- Added the LabelReview workbench with artifact/version/review/decision/status operations, capability separation, SHA-256/object-reference validation, exact status pins, and blocked UNKNOWN/REJECTED/INVALIDATED presentation.
+- Added the conclusion workbench with two capability-separated fixed conclusion levels, item/scope evidence validation, mandatory uncovered scopes and signing inputs, explicit prohibition of custom statements and fictitious whole-item conclusions, plus ID/product-version queries.
+- Added Toy client, feature, view, and production-registry tests covering all 19 exact endpoint mappings, four stable routes, four core workflows, six capability boundaries, local version/hash/policy rejection, UNKNOWN presentation, and explicit retry.
+- Final DEV-036 verification passed: Web 38 files / 100 tests, typecheck, lint, build; Python 42 tests; strict spec validation, source status, history, READY, check; deterministic generation twice with `written=0`; clean diff and trusted-context audit.
+- Completed Phase 5 and started Phase 6 Receiving existing-object continuation.

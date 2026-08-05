@@ -6,7 +6,7 @@ Deliver the remaining approved runtime capabilities through authenticated, expli
 
 ## Current Phase
 
-Phase 5 — Toy full-flow Web workbench
+Phase 6 - Receiving existing-object continuation
 
 ## Phases
 
@@ -40,17 +40,17 @@ Phase 5 — Toy full-flow Web workbench
 
 ### Phase 5: Toy full-flow Web workbench
 
-- [ ] Create/ready the Web-only task card.
-- [ ] Implement and test all 19 Toy operations and explicit feature registration.
-- [ ] Verify and commit the batch.
-- **Status:** in_progress
+- [x] Create/ready the Web-only task card.
+- [x] Implement and test all 19 Toy operations and explicit feature registration.
+- [x] Verify and commit the batch.
+- **Status:** complete
 
 ### Phase 6: Receiving existing-object continuation
 
 - [ ] Confirm the safe reopen contract boundary for existing received items and exceptions.
 - [ ] Create/ready the task card and add usable continuation routes without duplicating registration panels.
 - [ ] Verify and commit the batch.
-- **Status:** pending
+- **Status:** in_progress
 
 ## Decisions
 
@@ -67,3 +67,5 @@ Phase 5 — Toy full-flow Web workbench
 | Root planning files contain mojibake from an unrelated 2026-07-22 task | 1 | Created this isolated plan and left the user-owned root files unchanged. |
 | Direct `pnpm` validation used Node 24.14.0 / pnpm 11.9.0, but the repository requires Node 24.14.1 / pnpm 10.34.5 | 1 | Resolve and invoke the bundled exact workspace runtime instead of repeating the direct command. |
 | Full Python repository tests reported 4 WEB-003 integration assertions (spec count, task allowlist, approved delivery set, missing OD-002 dependency) | 1 | Update the explicit repository contract and story dependency, regenerate, then rerun the full gate. |
+| Guessed obsolete Textile/Billing test directories while restoring test patterns | 1 | Use the actual `industry-workbench` and `business-workbench` file list for subsequent reads. |
+| Phase-status patch initially omitted the plan's bulleted status marker and matched a mojibake rendering | 2 | Re-read exact UTF-8 lines with numbers and patched the stored format. |

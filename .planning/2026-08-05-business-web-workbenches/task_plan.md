@@ -6,7 +6,7 @@ Deliver the remaining approved runtime capabilities through authenticated, expli
 
 ## Current Phase
 
-Phase 6 - Receiving existing-object continuation
+All planned development phases complete
 
 ## Phases
 
@@ -47,10 +47,10 @@ Phase 6 - Receiving existing-object continuation
 
 ### Phase 6: Receiving existing-object continuation
 
-- [ ] Confirm the safe reopen contract boundary for existing received items and exceptions.
-- [ ] Create/ready the task card and add usable continuation routes without duplicating registration panels.
-- [ ] Verify and commit the batch.
-- **Status:** in_progress
+- [x] Confirm the safe reopen contract boundary for existing received items and exceptions.
+- [x] Create/ready the task card and add usable continuation routes without duplicating registration panels.
+- [x] Verify and commit the batch.
+- **Status:** complete
 
 ## Decisions
 
@@ -69,3 +69,9 @@ Phase 6 - Receiving existing-object continuation
 | Full Python repository tests reported 4 WEB-003 integration assertions (spec count, task allowlist, approved delivery set, missing OD-002 dependency) | 1 | Update the explicit repository contract and story dependency, regenerate, then rerun the full gate. |
 | Guessed obsolete Textile/Billing test directories while restoring test patterns | 1 | Use the actual `industry-workbench` and `business-workbench` file list for subsequent reads. |
 | Phase-status patch initially omitted the plan's bulleted status marker and matched a mojibake rendering | 2 | Re-read exact UTF-8 lines with numbers and patched the stored format. |
+| Existing-exception loader interrupted the original Vue `v-if`/`v-else` adjacency, preventing template type narrowing | 1 | Made the loaded-exception branch an explicit `v-if="current"`. |
+| Browser local-app check requested unsupported `networkidle` load state | 1 | Switched to the documented `domcontentloaded` state and continued inspection. |
+| Guessed `style.css` while the repository stylesheet is `styles.css` | 1 | Located the actual stylesheet with `rg --files` before editing. |
+| Browser screenshots exposed wrapped navigation overflowing the fixed Ant header height | 1 | Changed the shell header to auto-height grid layout with narrow-screen horizontal navigation. |
+| GitHub CLI is not installed in the workspace | 1 | Use authenticated Git push and the GitHub REST API for PR creation/merge. |
+| Repository Git proxy pointed at an unavailable local listener on `127.0.0.1:7897` | 1 | Override proxy only for the delivery commands; preserve the user's global Git configuration. |

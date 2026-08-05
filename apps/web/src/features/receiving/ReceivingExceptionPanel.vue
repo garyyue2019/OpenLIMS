@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
+import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { authSnapshot } from '../../auth-store'
-import { canCreateException, canEhsApproveException, canQualityApproveException } from './exception-access'
+import {
+  canCreateException, canEhsApproveException, canQualityApproveException, canReadException
+} from './exception-access'
 import {
   createReceivingException,
   exceptionMatrixVersion,
+  getReceivingException,
   ReceivingExceptionApiError,
   submitReceivingExceptionDecision,
   type ReceivingExceptionDecisionType,
@@ -12,13 +15,14 @@ import {
   type ReceivingExceptionType
 } from './exception-client'
 
-const props = defineProps<{ receivedItemId: string, itemVersion: number }>()
+const props = defineProps<{ receivedItemId: string, itemVersion: number, exceptionId?: string }>()
 const emit = defineEmits<{ itemVersionChanged: [version: number] }>()
 const current = ref<ReceivingExceptionResult>()
 const busy = ref(false)
 const errorCode = ref<string>()
 const profile = computed(() => authSnapshot.value.user?.profile as Record<string, unknown> | undefined)
 const canCreate = computed(() => authSnapshot.value.status === 'authenticated' && canCreateException(profile.value))
+const canRead = computed(() => authSnapshot.value.status === 'authenticated' && canReadException(profile.value))
 const canApprove = computed(() => current.value?.severity === 'SAFETY_CRITICAL'
   ? canEhsApproveException(profile.value)
   : canQualityApproveException(profile.value))
@@ -35,6 +39,36 @@ const decisionOptions = computed<ReceivingExceptionDecisionType[]>(() =>
   current.value?.severity === 'SAFETY_CRITICAL'
     ? ['REJECT', 'SAFETY_HOLD']
     : ['AWAIT_CUSTOMER', 'CONDITIONAL_ACCEPT', 'REJECT'])
+
+onMounted(loadExisting)
+watch(() => props.exceptionId, loadExisting)
+
+async function loadExisting(): Promise<void> {
+  const token = authSnapshot.value.user?.access_token
+  const exceptionId = props.exceptionId?.trim()
+  if (!exceptionId) {
+    current.value = undefined
+    return
+  }
+  if (!canRead.value || !token || busy.value) return
+  busy.value = true
+  errorCode.value = undefined
+  current.value = undefined
+  try {
+    const loaded = await getReceivingException(exceptionId, token)
+    if (loaded.receivedItemId !== props.receivedItemId) {
+      errorCode.value = 'EXCEPTION_OBJECT_MISMATCH'
+      return
+    }
+    current.value = loaded
+    emit('itemVersionChanged', loaded.itemVersion)
+    decisionForm.type = loaded.severity === 'SAFETY_CRITICAL' ? 'SAFETY_HOLD' : 'AWAIT_CUSTOMER'
+  } catch (error) {
+    errorCode.value = error instanceof ReceivingExceptionApiError ? error.errorCode : 'EXCEPTION_NETWORK_ERROR'
+  } finally {
+    busy.value = false
+  }
+}
 
 async function create(): Promise<void> {
   const token = authSnapshot.value.user?.access_token
@@ -83,7 +117,18 @@ async function decide(): Promise<void> {
   <section class="exception-panel" :aria-labelledby="`exception-${receivedItemId}`">
     <h4 :id="`exception-${receivedItemId}`">收样异常工作台 · DEV-006</h4>
     <a-alert type="warning" show-icon message="任何异常决定仍保持 QUARANTINED" description="条件接收只记录显式限制；解除隔离必须等待 DEV-007。" />
-    <form v-if="!current" @submit.prevent="create">
+    <a-alert
+      v-if="exceptionId && !canRead"
+      type="warning"
+      show-icon
+      message="当前身份不能读取指定异常"
+      description="需要 exception.read；页面不会退回到创建另一条异常来掩盖读取失败。"
+    />
+    <div v-if="exceptionId && !current && canRead" class="existing-exception-loader">
+      <p>既有异常：<strong>{{ exceptionId }}</strong></p>
+      <a-button :loading="busy" :disabled="busy" @click="loadExisting">重新载入既有异常</a-button>
+    </div>
+    <form v-if="!current && !exceptionId" @submit.prevent="create">
       <label>异常分类<select v-model="createForm.type" :disabled="!canCreate || busy">
         <option value="QUANTITY_SHORTAGE">数量不足</option><option value="TEMPERATURE_EXCURSION">超温</option>
         <option value="DAMAGED">破损</option><option value="CONTAMINATION">污染</option>
@@ -95,7 +140,7 @@ async function decide(): Promise<void> {
       <label>证据 SHA-256<input v-model="createForm.evidenceHash" minlength="64" maxlength="64" required :disabled="!canCreate || busy"></label>
       <a-button type="primary" html-type="submit" :loading="busy" :disabled="!canCreate">追加异常事实</a-button>
     </form>
-    <template v-else>
+    <template v-if="current">
       <p>异常：<strong>{{ current.type }}</strong> · {{ current.severity }} · 状态 {{ current.status }} · v{{ current.version }}</p>
       <form @submit.prevent="decide">
         <label>决定<select v-model="decisionForm.type" :disabled="!canApprove || busy">
@@ -123,4 +168,5 @@ async function decide(): Promise<void> {
 .exception-panel { margin: 1rem 0; padding: 1rem; border: 1px solid #faad14; border-radius: .5rem; }
 .exception-panel form { display: grid; gap: .65rem; margin-top: 1rem; }
 .exception-panel label { display: grid; gap: .25rem; }
+.existing-exception-loader { margin-top: 1rem; }
 </style>

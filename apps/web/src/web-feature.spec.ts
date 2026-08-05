@@ -140,6 +140,8 @@ describe('production web feature registry', () => {
       ['platform.system-status', '/system/status'],
       ['platform.auth-callback', '/auth/callback'],
       ['receiving.registration', '/receiving/receipts/new'],
+      ['receiving.continuation', '/receiving/items/continue'],
+      ['receiving.item-continuation', '/receiving/items/:receivedItemId'],
       ['workbench.scope', '/workbench/scope'],
       ['workbench.quantity', '/workbench/quantity'],
       ['workbench.allocation', '/workbench/allocation'],
@@ -159,6 +161,7 @@ describe('production web feature registry', () => {
     expect(webFeatureComposition.navigationEntries).toEqual([
       { id: 'platform.system-status', label: 'System status', routeName: 'platform.system-status' },
       { id: 'receiving.registration', label: '到货登记', routeName: 'receiving.registration' },
+      { id: 'receiving.continuation', label: '既有实物续办', routeName: 'receiving.continuation' },
       { id: 'workbench.scope', label: '范围矩阵', routeName: 'workbench.scope' },
       { id: 'workbench.quantity', label: '数量账', routeName: 'workbench.quantity' },
       { id: 'workbench.allocation', label: '样品分配', routeName: 'workbench.allocation' },

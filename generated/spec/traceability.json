@@ -3519,6 +3519,76 @@
       "status": "approved",
       "title": "实施 Toy 全流程 Web 工作台"
     },
+    "ATC-WEB-006@1.0.0": {
+      "affects": [
+        "web",
+        "receiving",
+        "identity-assessment",
+        "exception",
+        "release",
+        "operator-workbench",
+        "accessibility-ui",
+        "automated-test"
+      ],
+      "depends_on": [
+        "ATC-PLT-003@1.0.0",
+        "ATC-REC-003@2.0.0",
+        "ATC-REC-005@2.0.0",
+        "ATC-REC-006@2.0.0",
+        "ATC-WEB-005@1.0.0",
+        "OD-002@1.0.0",
+        "OD-005@1.0.0",
+        "OD-035@1.0.0",
+        "OPS-RECEIPT-003@1.0.0",
+        "OPS-IDENTITY-001@1.0.0",
+        "OPS-IDENTITY-002@1.0.0",
+        "OPS-IDENTITY-003@1.0.0",
+        "OPS-EXC-001@1.0.0",
+        "OPS-EXC-002@1.0.0",
+        "AC-REC-001@1.0.0",
+        "AC-ID-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "NFR-ARCH-001@2.0.0"
+      ],
+      "fingerprint": "080235ea3564b980b0f4ca720fee9dda155a3aa7c3f897aa164f49c0d00c7088",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-RECEIPT-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-IDENTITY-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-IDENTITY-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-IDENTITY-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-EXC-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-EXC-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-REC-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-ID-001"
+        }
+      ],
+      "status": "approved",
+      "title": "实施 Receiving 既有对象续办 Web 入口"
+    },
     "BUS-AI-001@1.0.0": {
       "affects": [
         "ai",

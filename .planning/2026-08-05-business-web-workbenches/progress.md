@@ -36,3 +36,16 @@
 - Added Toy client, feature, view, and production-registry tests covering all 19 exact endpoint mappings, four stable routes, four core workflows, six capability boundaries, local version/hash/policy rejection, UNKNOWN presentation, and explicit retry.
 - Final DEV-036 verification passed: Web 38 files / 100 tests, typecheck, lint, build; Python 42 tests; strict spec validation, source status, history, READY, check; deterministic generation twice with `written=0`; clean diff and trusted-context audit.
 - Completed Phase 5 and started Phase 6 Receiving existing-object continuation.
+- Re-ran clean pre-task gates for DEV-037 and confirmed no source drift or pending impact.
+- Mapped the safe continuation boundary: explicit stable received-item ID/version/state, optional exception ID, existing public APIs only, and no inferred latest object state.
+- Added user-approved Web-only story `ATC-WEB-006@1.0.0` for DEV-037.
+- `ATC-WEB-006@1.0.0` passed validate/source/impact/READY/generate/check.
+- Added the Receiving continuation index/deep-link routes and workbench, explicit stable item ID/version/state inputs, reused Identity/Exception/Release panels, and existing-exception loading with object-binding failure closure.
+- Added continuation, feature-registry, existing-exception, version/state propagation, invalid deep-link, and registration-regression tests.
+- Browser verification exposed navigation wrapping over the page heading after the new entries; updated the application shell to an auto-height desktop grid and horizontally scrollable narrow-screen navigation.
+- Computed-style inspection showed Ant Design's header shorthand still overriding height/padding; increased the shell selector specificity so the navigation row participates in header layout.
+- Final DEV-037 verification passed: Web 40 files / 105 tests, typecheck, lint, build; Python 42 tests; strict spec validation, source status, history, READY, check; deterministic generation twice with `written=0`; clean diff check.
+- Browser verification passed on desktop and mobile: continuation index and deep link render without overlap, stable IDs/versions restore, narrow navigation scrolls within the header, and the console reported no application errors.
+- Completed Phase 6; all requested business Web workbench phases are complete.
+- Delivery environment does not provide `gh`; switching the authorized publish/merge step to Git push plus GitHub REST API.
+- Confirmed remote `main` is unchanged and the branch is exactly four commits ahead; used a command-scoped proxy override after the configured local proxy was unavailable.

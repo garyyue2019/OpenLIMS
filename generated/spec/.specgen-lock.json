@@ -84,6 +84,7 @@
         "ATC-WEB-003@1.0.0",
         "ATC-WEB-004@1.0.0",
         "ATC-WEB-005@1.0.0",
+        "ATC-WEB-006@1.0.0",
         "BUS-AI-001@1.0.0",
         "BUS-AI-002@1.0.0",
         "BUS-AI-003@1.0.0",
@@ -290,6 +291,7 @@
         "ATC-WEB-003@1.0.0",
         "ATC-WEB-004@1.0.0",
         "ATC-WEB-005@1.0.0",
+        "ATC-WEB-006@1.0.0",
         "BUS-AI-001@1.0.0",
         "BUS-AI-002@1.0.0",
         "BUS-AI-003@1.0.0",
@@ -496,6 +498,7 @@
         "ATC-WEB-003@1.0.0",
         "ATC-WEB-004@1.0.0",
         "ATC-WEB-005@1.0.0",
+        "ATC-WEB-006@1.0.0",
         "BUS-AI-001@1.0.0",
         "BUS-AI-002@1.0.0",
         "BUS-AI-003@1.0.0",
@@ -618,7 +621,7 @@
         "SEC-DEPLOY-001@1.0.0",
         "SEC-DEPLOY-001@2.0.0"
       ],
-      "sha256": "6d5146fabf79225f7b2da8b1a3dc5e517bd9ba0164eb7ab2e7e28f3d25785e4e"
+      "sha256": "26234de5f135a704c5975a516fcfe61844883fde6e4cac0e9de7429ed02dc2ba"
     },
     "generated/spec/dependency-graph.mmd": {
       "owners": [
@@ -702,6 +705,7 @@
         "ATC-WEB-003@1.0.0",
         "ATC-WEB-004@1.0.0",
         "ATC-WEB-005@1.0.0",
+        "ATC-WEB-006@1.0.0",
         "BUS-AI-001@1.0.0",
         "BUS-AI-002@1.0.0",
         "BUS-AI-003@1.0.0",
@@ -824,7 +828,7 @@
         "SEC-DEPLOY-001@1.0.0",
         "SEC-DEPLOY-001@2.0.0"
       ],
-      "sha256": "efb26049f92b9e6d79eb76a9a78a8098978234cb8c2f374f85a844569116df9d"
+      "sha256": "2cb07c800c802fb12011e787901309e5f7511de92d58a002646744dcf824032b"
     },
     "generated/spec/features/AC-ACC-001__v1.0.0.feature": {
       "owners": [
@@ -2030,6 +2034,30 @@
       ],
       "sha256": "742053138503b4b5cd3fbbb3123d6a0e2fd103312ae2f1b91d6db1ea464dc92a"
     },
+    "generated/spec/features/ATC-WEB-006__v1.0.0.feature": {
+      "owners": [
+        "AC-ID-001@1.0.0",
+        "AC-REC-001@1.0.0",
+        "ATC-PLT-003@1.0.0",
+        "ATC-REC-003@2.0.0",
+        "ATC-REC-005@2.0.0",
+        "ATC-REC-006@2.0.0",
+        "ATC-WEB-005@1.0.0",
+        "ATC-WEB-006@1.0.0",
+        "NFR-ARCH-001@2.0.0",
+        "OD-002@1.0.0",
+        "OD-005@1.0.0",
+        "OD-035@1.0.0",
+        "OPS-EXC-001@1.0.0",
+        "OPS-EXC-002@1.0.0",
+        "OPS-IDENTITY-001@1.0.0",
+        "OPS-IDENTITY-002@1.0.0",
+        "OPS-IDENTITY-003@1.0.0",
+        "OPS-RECEIPT-003@1.0.0",
+        "SEC-AUTH-001@1.0.0"
+      ],
+      "sha256": "e67ccaf1b1cc0758536ca91841907bddf7aebd228392547a269b1e186bb363ed"
+    },
     "generated/spec/lifecycle-index.md": {
       "owners": [
         "AC-ACC-001@1.0.0",
@@ -2112,6 +2140,7 @@
         "ATC-WEB-003@1.0.0",
         "ATC-WEB-004@1.0.0",
         "ATC-WEB-005@1.0.0",
+        "ATC-WEB-006@1.0.0",
         "BUS-AI-001@1.0.0",
         "BUS-AI-002@1.0.0",
         "BUS-AI-003@1.0.0",
@@ -2234,7 +2263,7 @@
         "SEC-DEPLOY-001@1.0.0",
         "SEC-DEPLOY-001@2.0.0"
       ],
-      "sha256": "1686e7095d66269dbba2f5be7c4d162e87558ca9d70b07d48f37d2102095aefa"
+      "sha256": "6d83395b2b1a625912f9fe5993c048fddfd2de01cb9e5ad51d61c8372c817785"
     },
     "generated/spec/readiness-report.md": {
       "owners": [
@@ -2318,6 +2347,7 @@
         "ATC-WEB-003@1.0.0",
         "ATC-WEB-004@1.0.0",
         "ATC-WEB-005@1.0.0",
+        "ATC-WEB-006@1.0.0",
         "BUS-AI-001@1.0.0",
         "BUS-AI-002@1.0.0",
         "BUS-AI-003@1.0.0",
@@ -2440,7 +2470,7 @@
         "SEC-DEPLOY-001@1.0.0",
         "SEC-DEPLOY-001@2.0.0"
       ],
-      "sha256": "04ba1627eaeb6a439b4e158cfbaa643d497203967a21b0c5808a0951c4c3dcb8"
+      "sha256": "69be66e4deabe7ac81b9e16cc15e65c73e97f1c08a1e54e8303e9a8203e797ef"
     },
     "generated/spec/releases/REL-R1-RECEIVING-PILOT__v0.1.0.requirements-lock.json": {
       "owners": [
@@ -2623,6 +2653,7 @@
         "ATC-WEB-003@1.0.0",
         "ATC-WEB-004@1.0.0",
         "ATC-WEB-005@1.0.0",
+        "ATC-WEB-006@1.0.0",
         "BUS-AI-001@1.0.0",
         "BUS-AI-002@1.0.0",
         "BUS-AI-003@1.0.0",
@@ -2829,6 +2860,7 @@
         "ATC-WEB-003@1.0.0",
         "ATC-WEB-004@1.0.0",
         "ATC-WEB-005@1.0.0",
+        "ATC-WEB-006@1.0.0",
         "BUS-AI-001@1.0.0",
         "BUS-AI-002@1.0.0",
         "BUS-AI-003@1.0.0",
@@ -2951,7 +2983,7 @@
         "SEC-DEPLOY-001@1.0.0",
         "SEC-DEPLOY-001@2.0.0"
       ],
-      "sha256": "b2e5299cb14ace4bf2c531d8553112cee6e4632e755147f3bcdd90666ccd5a26"
+      "sha256": "720f2b4f693293e7ff7727b01cd23181309c7a9ed7684bcecaae9379e5f4235b"
     },
     "generated/spec/tasks/ATC-AI-001__v1.0.0.md": {
       "owners": [
@@ -3830,6 +3862,30 @@
       ],
       "sha256": "663dc63c1804d54b8a1429dd93e932f21fa254cf07e6fe96b50dc35d4eb5469a"
     },
+    "generated/spec/tasks/ATC-WEB-006__v1.0.0.md": {
+      "owners": [
+        "AC-ID-001@1.0.0",
+        "AC-REC-001@1.0.0",
+        "ATC-PLT-003@1.0.0",
+        "ATC-REC-003@2.0.0",
+        "ATC-REC-005@2.0.0",
+        "ATC-REC-006@2.0.0",
+        "ATC-WEB-005@1.0.0",
+        "ATC-WEB-006@1.0.0",
+        "NFR-ARCH-001@2.0.0",
+        "OD-002@1.0.0",
+        "OD-005@1.0.0",
+        "OD-035@1.0.0",
+        "OPS-EXC-001@1.0.0",
+        "OPS-EXC-002@1.0.0",
+        "OPS-IDENTITY-001@1.0.0",
+        "OPS-IDENTITY-002@1.0.0",
+        "OPS-IDENTITY-003@1.0.0",
+        "OPS-RECEIPT-003@1.0.0",
+        "SEC-AUTH-001@1.0.0"
+      ],
+      "sha256": "7827d87396d686b6a5b61b9a3d767b2eb0a082ec3875d9fb14a31be91d3b2a2b"
+    },
     "generated/spec/traceability.csv": {
       "owners": [
         "AC-ACC-001@1.0.0",
@@ -3912,6 +3968,7 @@
         "ATC-WEB-003@1.0.0",
         "ATC-WEB-004@1.0.0",
         "ATC-WEB-005@1.0.0",
+        "ATC-WEB-006@1.0.0",
         "BUS-AI-001@1.0.0",
         "BUS-AI-002@1.0.0",
         "BUS-AI-003@1.0.0",
@@ -4034,7 +4091,7 @@
         "SEC-DEPLOY-001@1.0.0",
         "SEC-DEPLOY-001@2.0.0"
       ],
-      "sha256": "8c82568c363d9ea38a09c82417e80e1199cfaad8db2066c946324e4ec8649369"
+      "sha256": "57622fb93a5261c4820acd3208a2c4fd6f17dc5f2be4ab353c01af921a0d5b14"
     },
     "generated/spec/traceability.json": {
       "owners": [
@@ -4118,6 +4175,7 @@
         "ATC-WEB-003@1.0.0",
         "ATC-WEB-004@1.0.0",
         "ATC-WEB-005@1.0.0",
+        "ATC-WEB-006@1.0.0",
         "BUS-AI-001@1.0.0",
         "BUS-AI-002@1.0.0",
         "BUS-AI-003@1.0.0",
@@ -4240,7 +4298,7 @@
         "SEC-DEPLOY-001@1.0.0",
         "SEC-DEPLOY-001@2.0.0"
       ],
-      "sha256": "8be517a19ca797fa145b3fdc56f67d2125db7f95c77fc6a4d8b094907d3399b4"
+      "sha256": "d78b801b9615251e921bb16ddf46ea83af84f1e40db2805a09ce42067cb631df"
     }
   },
   "schema_version": 1,
@@ -7657,6 +7715,69 @@
         {
           "document": "PRD-MAIN",
           "item": "AC-TOY-002"
+        }
+      ],
+      "status": "approved",
+      "version": "1.0.0"
+    },
+    "ATC-WEB-006@1.0.0": {
+      "behavior_fingerprint": "75598b2087fec7ee9badab0f566c9b62164f3b712b24d58142446a66b52884fa",
+      "change_class": "minor",
+      "depends_on": [
+        "ATC-PLT-003@1.0.0",
+        "ATC-REC-003@2.0.0",
+        "ATC-REC-005@2.0.0",
+        "ATC-REC-006@2.0.0",
+        "ATC-WEB-005@1.0.0",
+        "OD-002@1.0.0",
+        "OD-005@1.0.0",
+        "OD-035@1.0.0",
+        "OPS-RECEIPT-003@1.0.0",
+        "OPS-IDENTITY-001@1.0.0",
+        "OPS-IDENTITY-002@1.0.0",
+        "OPS-IDENTITY-003@1.0.0",
+        "OPS-EXC-001@1.0.0",
+        "OPS-EXC-002@1.0.0",
+        "AC-REC-001@1.0.0",
+        "AC-ID-001@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "NFR-ARCH-001@2.0.0"
+      ],
+      "fingerprint": "080235ea3564b980b0f4ca720fee9dda155a3aa7c3f897aa164f49c0d00c7088",
+      "id": "ATC-WEB-006",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-RECEIPT-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-IDENTITY-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-IDENTITY-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-IDENTITY-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-EXC-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-EXC-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-REC-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-ID-001"
         }
       ],
       "status": "approved",

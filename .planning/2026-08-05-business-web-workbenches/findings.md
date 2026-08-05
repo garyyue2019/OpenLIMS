@@ -57,3 +57,11 @@
 - The label-review client maps 5 endpoints and always injects the fixed status-query ruleset; the conclusion client maps 4 endpoints and types `customStatement` as forbidden plus whole-item conclusion as false-only.
 - Runtime authorization uses `toy.label.manage` for artifact creation/versioning, review draft creation, and status lookup; `toy.label.review` is the distinct decision capability. The Web controls mirror this delivered service boundary while leaving the server authoritative.
 - Toy adds one approved story/task and one generated feature, moving repository expectations from 200 to 201 specs and from 79 to 80 generated feature files.
+
+## Receiving continuation boundary
+
+- There is no public general-purpose received-item GET endpoint. The existing Identity GET can refresh item version for identities the user may evaluate, while Release only accepts an explicitly pinned item version and state.
+- A safe continuation page therefore needs stable `receivedItemId`, explicit current item version/state inputs, and an optional stable `exceptionId`; it must never infer the latest object version.
+- `IdentityAssessmentPanel` already reloads by received-item ID. `ReceivingExceptionPanel` needs an optional existing exception ID plus `exception.read` loading. `ReceivingReleasePanel` can be reused unchanged once the parent supplies the pinned version/state.
+- The navigation-safe design is an index route for reopening by IDs plus a stable item route. The same page can use route state while keeping a direct navigation entry that does not require an unresolved dynamic parameter.
+- Receiving continuation adds one approved story/task and one generated feature, moving repository expectations from 201 to 202 specs and from 80 to 81 generated feature files.

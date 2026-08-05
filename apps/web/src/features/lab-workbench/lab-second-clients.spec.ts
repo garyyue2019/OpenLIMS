@@ -12,10 +12,17 @@ import {
   addResultObservation,
   adoptResult,
   createResultGroup,
+  executeResultCalculation,
+  getResultAccreditationEligibility,
   getResultAdoptionStatus,
   getResultGroup,
+  recordResultAccreditationAssessment,
   recordAdoptionRule,
-  RESULT_RULE_SET_VERSION
+  RESULT_ACCREDITATION_RULE_SET_VERSION,
+  RESULT_CALCULATION_RULE_SET_VERSION,
+  RESULT_RULE_SET_VERSION,
+  type ExecuteResultCalculationRequest,
+  type RecordResultAccreditationAssessmentRequest
 } from './result-client'
 import {
   getQcReportability,
@@ -32,17 +39,28 @@ import {
 import {
   addReportLine,
   createReport,
+  createReportDelivery,
+  createReportDownloadGrant,
+  downloadReportVersion,
   evaluateReportGate,
   getReport,
+  getReportDelivery,
   getReportIssuanceGate,
   getReportPendingContentHash,
   getReportVerification,
   getReportVersion,
   issueReport,
   performReportControlledAction,
+  queueReportNotification,
+  recordReportNotificationAttempt,
+  REPORT_DELIVERY_RULE_SET_VERSION,
   REPORT_RULE_SET_VERSION,
   submitReportForApproval,
-  type AddReportLineRequest
+  type AddReportLineRequest,
+  type CreateReportDeliveryRequest,
+  type CreateReportDownloadGrantRequest,
+  type QueueReportNotificationRequest,
+  type RecordReportNotificationAttemptRequest
 } from './report-client'
 
 const context = { accessToken: 'token', correlationId: 'corr' }
@@ -105,15 +123,40 @@ describe('second-flow typed clients', () => {
     await adoptResult('result-1', {
       expectedCurrentVersion: 4, ruleSetVersion: RESULT_RULE_SET_VERSION, targetId: 'observation-1'
     }, { ...context, fetcher })
+    const calculation: ExecuteResultCalculationRequest = {
+      expectedCurrentVersion: 5, ruleSetVersion: RESULT_CALCULATION_RULE_SET_VERSION,
+      inputs: [{ targetId: 'observation-1', coefficient: 1 }],
+      rule: {
+        calculationRule: versionedRef, unitConversionRule: versionedRef,
+        inputUnit: 'mg/kg', outputUnit: 'mg/kg', unitMultiplier: 1, unitOffset: 0,
+        dilutionFactor: 1, quantityFactor: 1, decimalPlaces: 2, roundingMode: 'HALF_UP',
+        limitOperator: 'BETWEEN', limitEvaluationBasis: 'ROUNDED', lowerLimit: 0, upperLimit: 10
+      }
+    }
+    await executeResultCalculation('result-1', calculation, { ...context, fetcher })
+    const assessment: RecordResultAccreditationAssessmentRequest = {
+      expectedCurrentVersion: 6, ruleSetVersion: RESULT_ACCREDITATION_RULE_SET_VERSION,
+      stage: 'RESULT', targetId: 'observation-1', accreditation: versionedRef,
+      method: versionedRef, siteId: 'site-1', productOrMatrix: 'toy', parameter: 'lead',
+      rangeUnit: 'mg/kg', rangeLower: 0, rangeUpper: 10,
+      validFrom: '2026-01-01T00:00:00Z', validTo: '2027-01-01T00:00:00Z',
+      authorizedActorIds: ['analyst-1']
+    }
+    await recordResultAccreditationAssessment('result-1', assessment, { ...context, fetcher })
     await getResultGroup('result-1', { ...context, fetcher })
     await getResultAdoptionStatus('result-1', 5, { ...context, fetcher })
+    await getResultAccreditationEligibility('result-1', 7, { ...context, fetcher })
 
     expect(paths(fetcher)).toEqual([
       '/api/v1/result-groups', '/api/v1/result-groups/result-1/observations',
       '/api/v1/result-groups/result-1/derivations', '/api/v1/result-groups/result-1/adoption-rule',
-      '/api/v1/result-groups/result-1/adoptions', '/api/v1/result-groups/result-1',
-      `/api/v1/result-groups/result-1/adoption-status?expectedVersion=5&ruleSetVersion=${encodeURIComponent(RESULT_RULE_SET_VERSION)}`
+      '/api/v1/result-groups/result-1/adoptions', '/api/v1/result-groups/result-1/calculations',
+      '/api/v1/result-groups/result-1/accreditation-assessments', '/api/v1/result-groups/result-1',
+      `/api/v1/result-groups/result-1/adoption-status?expectedVersion=5&ruleSetVersion=${encodeURIComponent(RESULT_RULE_SET_VERSION)}`,
+      `/api/v1/result-groups/result-1/accreditation-eligibility?expectedVersion=7&ruleSetVersion=${encodeURIComponent(RESULT_ACCREDITATION_RULE_SET_VERSION)}`
     ])
+    expect(JSON.parse(requestBodies(fetcher)[5]!)).toEqual(calculation)
+    expect(JSON.parse(requestBodies(fetcher)[6]!)).toEqual(assessment)
     expect(requestBodies(fetcher).join('')).not.toContain('organizationGroupId')
     expect(requestBodies(fetcher).join('')).not.toContain('actorId')
   })
@@ -152,7 +195,7 @@ describe('second-flow typed clients', () => {
     ])
   })
 
-  it('covers all eleven Report operations and exact version pins', async () => {
+  it('covers all Report issuance and delivery operations with exact version pins', async () => {
     const fetcher = successFetcher()
     await createReport({
       ruleSetVersion: REPORT_RULE_SET_VERSION,
@@ -178,6 +221,28 @@ describe('second-flow typed clients', () => {
     }, { ...context, fetcher })
     await getReportVerification('report/1', { ...context, fetcher })
     await getReportVersion('report/1', 1, { ...context, fetcher })
+    const delivery: CreateReportDeliveryRequest = {
+      ruleSetVersion: REPORT_DELIVERY_RULE_SET_VERSION, recipientId: 'recipient-1',
+      channel: 'PORTAL', destinationHash: 'e'.repeat(64), idempotencyKey: 'delivery-1'
+    }
+    await createReportDelivery('report/1', 1, delivery, { ...context, fetcher })
+    await getReportDelivery('delivery/1', { ...context, fetcher })
+    const grant: CreateReportDownloadGrantRequest = {
+      ruleSetVersion: REPORT_DELIVERY_RULE_SET_VERSION, recipientId: 'recipient-1',
+      expiresAt: '2026-08-06T00:00:00Z'
+    }
+    await createReportDownloadGrant('delivery/1', grant, { ...context, fetcher })
+    await downloadReportVersion('token/1', { ...context, fetcher })
+    const notification: QueueReportNotificationRequest = {
+      ruleSetVersion: REPORT_DELIVERY_RULE_SET_VERSION, channel: 'EMAIL',
+      destinationHash: 'f'.repeat(64), payload: versionedRef, idempotencyKey: 'notification-1'
+    }
+    await queueReportNotification('delivery/1', notification, { ...context, fetcher })
+    const attempt: RecordReportNotificationAttemptRequest = {
+      ruleSetVersion: REPORT_DELIVERY_RULE_SET_VERSION, idempotencyKey: 'attempt-1',
+      outcome: 'FAILED', detailCode: 'SMTP_TIMEOUT'
+    }
+    await recordReportNotificationAttempt('notification/1', attempt, { ...context, fetcher })
 
     expect(paths(fetcher)).toEqual([
       '/api/v1/reports', '/api/v1/reports/report%2F1/lines',
@@ -186,8 +251,18 @@ describe('second-flow typed clients', () => {
       `/api/v1/reports/report%2F1/issuance-gate?expectedReportVersion=4&ruleSetVersion=${encodeURIComponent(REPORT_RULE_SET_VERSION)}`,
       '/api/v1/reports/report%2F1/pending-content-hash', '/api/v1/reports/report%2F1/issuance',
       '/api/v1/reports/report%2F1/controlled-actions', '/api/v1/reports/report%2F1/verification',
-      '/api/v1/reports/report%2F1/versions/1'
+      '/api/v1/reports/report%2F1/versions/1',
+      '/api/v1/reports/report%2F1/versions/1/deliveries',
+      '/api/v1/report-deliveries/delivery%2F1',
+      '/api/v1/report-deliveries/delivery%2F1/download-grants',
+      '/api/v1/report-downloads/token%2F1',
+      '/api/v1/report-deliveries/delivery%2F1/notifications',
+      '/api/v1/report-notifications/notification%2F1/attempts'
     ])
+    expect(JSON.parse(requestBodies(fetcher)[11]!)).toEqual(delivery)
+    expect(JSON.parse(requestBodies(fetcher)[13]!)).toEqual(grant)
+    expect(JSON.parse(requestBodies(fetcher)[15]!)).toEqual(notification)
+    expect(JSON.parse(requestBodies(fetcher)[16]!)).toEqual(attempt)
   })
 })
 

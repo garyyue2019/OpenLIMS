@@ -83,6 +83,11 @@ Phase 7F: Web workbenches
 | First Phase 7D Report HTTP contract run passed endpoint behavior but OpenAPI omitted `createReportDelivery` | 1 | Inspect and extend the Host's explicit OpenAPI operation registration for both Report delivery and Billing integration, then rerun the contract suites. |
 | Initial Phase 7E parallel persistence/pattern inspection returned no output because one optional `rg` pattern had no matches and failed the batch | 1 | Split the persistence read from service discovery and use verified file inventories/PowerShell filtering for optional patterns. No repository code changed. |
 | First AI PostgreSQL integration run passed 6/7 but the unfiltered review queue mapped a database error to `AIX.PERSISTENCE_UNAVAILABLE` | 1 | The nullable `status` SQL parameter used untyped `DBNull`; declare it explicitly as `NpgsqlDbType.Text` and rerun the focused suite. |
+| Initial Phase 7F frontend inventory guessed React-style `App.tsx`/`main.tsx` paths in a Vue application and failed the parallel read | 1 | Use the verified Vue package metadata, list actual source files first, then read `.vue`/`.ts` entry points by discovered path. No product files changed. |
+| Phase 7F file inventory included a nonexistent `apps/web/tests` root after the co-located test layout was already visible | 1 | Restrict all frontend searches to the verified `apps/web/src` tree, where component and client tests live beside their sources. No product files changed. |
+| First Phase 7F client-test typecheck widened exact rule-set string literals and froze nested arrays through broad `as const` assertions | 1 | Type request fixtures with their exported client request interfaces so literal rule versions stay exact while request arrays remain mutable. Production clients were unaffected. |
+| First new-workbench typecheck could not infer one generic result type for the Operations lineage/custody conditional query | 1 | Split lineage and custody into explicit `execute` branches so each keeps its own response contract. No API or domain behavior changed. |
+| Phase 7F navigation scan passed a wildcard directory path directly to `rg` on Windows | 1 | Search the verified features root with `rg -g '*-feature.ts'` instead of relying on shell path expansion. No product files changed. |
 
 ## Delivery Status
 

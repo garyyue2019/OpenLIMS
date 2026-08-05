@@ -18,7 +18,11 @@ const mocks = vi.hoisted(() => ({
     } as Record<string, unknown>
   },
   signIn: vi.fn(),
-  billing: { create: vi.fn(), adjustment: vi.fn(), get: vi.fn(), status: vi.fn() },
+  billing: {
+    create: vi.fn(), adjustment: vi.fn(), get: vi.fn(), status: vi.fn(),
+    export: vi.fn(), exportGet: vi.fn(), handoff: vi.fn(), handoffGet: vi.fn(),
+    attempt: vi.fn(), differences: vi.fn()
+  },
   labeling: { create: vi.fn(), get: vi.fn(), reprint: vi.fn(), scan: vi.fn() },
   idempotency: vi.fn(() => 'idem-web')
 }))
@@ -33,7 +37,13 @@ vi.mock('./billing-client', async importOriginal => ({
   createBillingEvidence: mocks.billing.create,
   addBillingAdjustment: mocks.billing.adjustment,
   getBillingEvidence: mocks.billing.get,
-  getBillingEvidenceStatus: mocks.billing.status
+  getBillingEvidenceStatus: mocks.billing.status,
+  createBillingExportBatch: mocks.billing.export,
+  getBillingExportBatch: mocks.billing.exportGet,
+  createBillingHandoff: mocks.billing.handoff,
+  getBillingHandoff: mocks.billing.handoffGet,
+  recordBillingHandoffAttempt: mocks.billing.attempt,
+  getBillingDifferenceQueue: mocks.billing.differences
 }))
 vi.mock('../receiving/labeling-client', async importOriginal => ({
   ...await importOriginal<typeof import('../receiving/labeling-client')>(),
@@ -69,6 +79,9 @@ beforeEach(() => {
     decision: 'UNKNOWN', reasonCodes: ['BILLING_UNAVAILABLE'],
     billingEvidenceId: 'billing-1', ruleSetVersion: 'BILLING-EVIDENCE@1.0.0'
   })
+  mocks.billing.export.mockResolvedValue({ exportBatchId: 'export-1', state: 'CREATED' })
+  mocks.billing.handoff.mockResolvedValue({ handoffId: 'handoff-1', state: 'PENDING' })
+  mocks.billing.differences.mockResolvedValue({ externalSystem: 'ERP', items: [] })
   mocks.labeling.create.mockResolvedValue({ jobs: [labelJob()] })
   mocks.labeling.reprint.mockResolvedValue({ jobs: [{ ...labelJob(), printJobId: 'job-2', isReprint: true }] })
   mocks.labeling.scan.mockResolvedValue({
@@ -101,20 +114,54 @@ describe('Billing and Labeling workbench views', () => {
     await wrapper.findAll('form')[0]!.trigger('submit')
 
     expect(mocks.billing.create).toHaveBeenCalledTimes(1)
-    expect(wrapper.text()).toContain('零金额必须且仅能填写原因')
+    expect(wrapper.text()).toContain('零金额必须且只能填写原因')
   })
 
   it('shows server-owned UNKNOWN Billing status as blocked without inventing eligibility', async () => {
     const wrapper = mount(BillingWorkbenchView)
     const lookup = wrapper.findAll('form')[1]!
+    await lookup.get('select').setValue('status')
+    await flushPromises()
     await lookup.get('input').setValue('billing-1')
-    const statusButton = lookup.findAll('button').find(button => button.text() === '查询服务端状态')
-    await statusButton!.trigger('click')
+    await lookup.trigger('submit')
     await flushPromises()
 
     expect(mocks.billing.status).toHaveBeenCalledWith('billing-1', { accessToken: 'token' })
     expect(wrapper.text()).toContain('UNKNOWN')
     expect(wrapper.text()).toContain('BILLING_UNAVAILABLE')
+  })
+
+  it('creates an export and handoff, then reads the ERP difference queue', async () => {
+    const wrapper = mount(BillingWorkbenchView)
+    const operationForm = wrapper.findAll('form')[0]!
+    await operationForm.get('select').setValue('export')
+    await flushPromises()
+    await operationForm.trigger('submit')
+    await flushPromises()
+    expect(mocks.billing.export).toHaveBeenCalledWith(
+      expect.objectContaining({
+        ruleSetVersion: 'BILLING-EXPORT@1.0.0', billingEvidenceIds: ['billing-evidence-id']
+      }),
+      { accessToken: 'token' }
+    )
+
+    await operationForm.get('select').setValue('handoff')
+    await flushPromises()
+    await operationForm.trigger('submit')
+    await flushPromises()
+    expect(mocks.billing.handoff).toHaveBeenCalledWith(
+      'export-1',
+      expect.objectContaining({ ruleSetVersion: 'BILLING-HANDOFF@1.0.0', externalSystem: 'ERP' }),
+      { accessToken: 'token' }
+    )
+
+    const lookup = wrapper.findAll('form')[1]!
+    await lookup.get('select').setValue('differences')
+    await flushPromises()
+    await lookup.findAll('select')[1]!.setValue('ERP')
+    await lookup.trigger('submit')
+    await flushPromises()
+    expect(mocks.billing.differences).toHaveBeenCalledWith('ERP', { accessToken: 'token' })
   })
 
   it('executes create, controlled reprint, scan, and job lookup with stable idempotency', async () => {

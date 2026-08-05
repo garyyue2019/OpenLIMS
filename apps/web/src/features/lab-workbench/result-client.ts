@@ -1,6 +1,8 @@
 import { labRequest, type LabClientContext } from './lab-api'
 
 export const RESULT_RULE_SET_VERSION = 'RESULT-ADOPTION@1.0.0'
+export const RESULT_CALCULATION_RULE_SET_VERSION = 'RESULT-CALCULATION@1.0.0'
+export const RESULT_ACCREDITATION_RULE_SET_VERSION = 'RESULT-ACCREDITATION@1.0.0'
 
 export interface ResultVersionedReference { id: string; version: number }
 export interface ResultObjectContext {
@@ -56,6 +58,48 @@ export interface AdoptResultRequest {
   targetId: string
   reviewApprovalRef?: ResultVersionedReference
 }
+export interface ResultCalculationInput { targetId: string; coefficient: number }
+export interface ResultCalculationRule {
+  calculationRule: ResultVersionedReference
+  unitConversionRule: ResultVersionedReference
+  inputUnit: string
+  outputUnit: string
+  unitMultiplier: number
+  unitOffset: number
+  dilutionFactor: number
+  quantityFactor: number
+  decimalPlaces: number
+  roundingMode: string
+  lod?: number
+  loq?: number
+  limitOperator: string
+  limitEvaluationBasis: string
+  lowerLimit?: number
+  upperLimit?: number
+}
+export interface ExecuteResultCalculationRequest {
+  expectedCurrentVersion: number
+  ruleSetVersion: typeof RESULT_CALCULATION_RULE_SET_VERSION
+  inputs: ResultCalculationInput[]
+  rule: ResultCalculationRule
+}
+export interface RecordResultAccreditationAssessmentRequest {
+  expectedCurrentVersion: number
+  ruleSetVersion: typeof RESULT_ACCREDITATION_RULE_SET_VERSION
+  stage: 'EXECUTION' | 'RESULT'
+  targetId?: string
+  accreditation: ResultVersionedReference
+  method: ResultVersionedReference
+  siteId: string
+  productOrMatrix: string
+  parameter: string
+  rangeUnit: string
+  rangeLower: number
+  rangeUpper: number
+  validFrom: string
+  validTo: string
+  authorizedActorIds: string[]
+}
 export interface ResultObservationResult extends AddResultObservationRequest {
   observationId: string
   resultGroupId: string
@@ -99,8 +143,20 @@ export interface ResultGroupResult extends CreateResultGroupRequest {
   derivations: ResultDerivationResult[]
   adoptionRules: AdoptionRuleResult[]
   adoptions: ResultAdoptionResult[]
+  calculations?: unknown[]
+  accreditationAssessments?: unknown[]
   createdBy: string
   createdAt: string
+}
+export interface ResultAccreditationEligibilityResult {
+  decision: 'ALLOWED' | 'BLOCKED' | 'UNKNOWN'
+  reasonCodes: string[]
+  resultGroupId?: string
+  currentGroupVersion?: number
+  executionAssessmentId?: string
+  resultAssessmentId?: string
+  effectiveTargetId?: string
+  ruleSetVersion: string
 }
 export interface ResultAdoptionStatusResult {
   decision: 'ALLOWED' | 'BLOCKED' | 'UNKNOWN'
@@ -151,6 +207,22 @@ export function adoptResult(
   return postResult(resultGroupId, 'adoptions', request, context)
 }
 
+export function executeResultCalculation(
+  resultGroupId: string,
+  request: ExecuteResultCalculationRequest,
+  context: LabClientContext
+): Promise<unknown> {
+  return postResult(resultGroupId, 'calculations', request, context)
+}
+
+export function recordResultAccreditationAssessment(
+  resultGroupId: string,
+  request: RecordResultAccreditationAssessmentRequest,
+  context: LabClientContext
+): Promise<unknown> {
+  return postResult(resultGroupId, 'accreditation-assessments', request, context)
+}
+
 export function getResultGroup(
   resultGroupId: string,
   context: LabClientContext
@@ -173,9 +245,25 @@ export function getResultAdoptionStatus(
   )
 }
 
+export function getResultAccreditationEligibility(
+  resultGroupId: string,
+  expectedVersion: number,
+  context: LabClientContext
+): Promise<ResultAccreditationEligibilityResult> {
+  const query = new URLSearchParams({
+    expectedVersion: String(expectedVersion),
+    ruleSetVersion: RESULT_ACCREDITATION_RULE_SET_VERSION
+  })
+  return labRequest(
+    `/api/v1/result-groups/${encodeURIComponent(resultGroupId)}/accreditation-eligibility?${query}`,
+    context
+  )
+}
+
 function postResult<T>(
   resultGroupId: string,
-  action: 'observations' | 'derivations' | 'adoption-rule' | 'adoptions',
+  action: 'observations' | 'derivations' | 'calculations' | 'adoption-rule' | 'adoptions' |
+    'accreditation-assessments',
   body: unknown,
   context: LabClientContext
 ): Promise<T> {

@@ -1,6 +1,7 @@
 import { labRequest, type LabClientContext } from './lab-api'
 
 export const REPORT_RULE_SET_VERSION = 'RPT-ISSUANCE@1.0.0'
+export const REPORT_DELIVERY_RULE_SET_VERSION = 'RPT-DELIVERY@1.0.0'
 
 export interface ReportVersionedReference { id: string; version: number }
 export interface ReportObjectContext {
@@ -214,6 +215,32 @@ export interface ReportVersionDetailResult {
   actions: ReportControlledActionResult[]
   ruleSetVersion: string
 }
+export interface CreateReportDeliveryRequest {
+  ruleSetVersion: typeof REPORT_DELIVERY_RULE_SET_VERSION
+  recipientId: string
+  channel: 'PORTAL' | 'EMAIL' | 'API' | 'MANUAL'
+  destinationHash: string
+  idempotencyKey: string
+}
+export interface CreateReportDownloadGrantRequest {
+  ruleSetVersion: typeof REPORT_DELIVERY_RULE_SET_VERSION
+  recipientId: string
+  expiresAt: string
+}
+export interface QueueReportNotificationRequest {
+  ruleSetVersion: typeof REPORT_DELIVERY_RULE_SET_VERSION
+  channel: 'PORTAL' | 'EMAIL' | 'API' | 'MANUAL'
+  destinationHash: string
+  payload: ReportVersionedReference
+  idempotencyKey: string
+}
+export interface RecordReportNotificationAttemptRequest {
+  ruleSetVersion: typeof REPORT_DELIVERY_RULE_SET_VERSION
+  idempotencyKey: string
+  outcome: 'DELIVERED' | 'FAILED' | 'UNKNOWN'
+  externalReference?: string
+  detailCode?: string
+}
 
 export function createReport(request: CreateReportRequest, context: LabClientContext): Promise<ReportResult> {
   return labRequest('/api/v1/reports', { ...context, method: 'POST', body: request })
@@ -262,6 +289,56 @@ export function getReportVersion(
     `/api/v1/reports/${encodeURIComponent(reportId)}/versions/${versionNumber}`,
     context
   )
+}
+
+export function createReportDelivery(
+  reportId: string,
+  versionNumber: number,
+  request: CreateReportDeliveryRequest,
+  context: LabClientContext
+): Promise<unknown> {
+  return labRequest(
+    `/api/v1/reports/${encodeURIComponent(reportId)}/versions/${versionNumber}/deliveries`,
+    { ...context, method: 'POST', body: request }
+  )
+}
+
+export function getReportDelivery(deliveryId: string, context: LabClientContext): Promise<unknown> {
+  return labRequest(`/api/v1/report-deliveries/${encodeURIComponent(deliveryId)}`, context)
+}
+
+export function createReportDownloadGrant(
+  deliveryId: string,
+  request: CreateReportDownloadGrantRequest,
+  context: LabClientContext
+): Promise<unknown> {
+  return labRequest(`/api/v1/report-deliveries/${encodeURIComponent(deliveryId)}/download-grants`, {
+    ...context, method: 'POST', body: request
+  })
+}
+
+export function downloadReportVersion(accessToken: string, context: LabClientContext): Promise<unknown> {
+  return labRequest(`/api/v1/report-downloads/${encodeURIComponent(accessToken)}`, context)
+}
+
+export function queueReportNotification(
+  deliveryId: string,
+  request: QueueReportNotificationRequest,
+  context: LabClientContext
+): Promise<unknown> {
+  return labRequest(`/api/v1/report-deliveries/${encodeURIComponent(deliveryId)}/notifications`, {
+    ...context, method: 'POST', body: request
+  })
+}
+
+export function recordReportNotificationAttempt(
+  notificationId: string,
+  request: RecordReportNotificationAttemptRequest,
+  context: LabClientContext
+): Promise<unknown> {
+  return labRequest(`/api/v1/report-notifications/${encodeURIComponent(notificationId)}/attempts`, {
+    ...context, method: 'POST', body: request
+  })
 }
 
 function postReport<T>(

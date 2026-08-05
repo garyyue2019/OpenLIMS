@@ -8,7 +8,7 @@ body { margin: 0; min-width: 320px; }
 .app-header nav a { color: #d9e2ec; padding: .35rem .45rem; line-height: 1.35; white-space: nowrap; }
 .session-actions { min-width: 5rem; text-align: right; }
 .app-header a:focus-visible, button:focus-visible { outline: 3px solid #f6c453; outline-offset: 3px; }
-.app-content { display: grid; place-items: center; padding: clamp(1rem, 5vw, 4rem); }
+.app-content { display: grid; place-items: start center; padding: clamp(1rem, 5vw, 4rem); }
 .hero, .status-page { width: min(100%, 720px); }
 .hero-card { box-shadow: 0 12px 40px rgb(16 42 67 / 12%); }
 .operator-launchpad { margin-top: 1.25rem; }
@@ -37,7 +37,7 @@ h1 { color: #102a43; font-size: clamp(2rem, 6vw, 3.5rem); margin-block: .4rem 1r
 .form-actions { display: flex; justify-content: space-between; gap: 1rem; }
 .registration-result { background: #f0fff4; border: 1px solid #9ae6b4; border-radius: .75rem; padding: 1rem; }
 .lab-workbench-page { width: min(100%, 1180px); display: grid; gap: 1rem; }
-.lab-workbench-heading { background: linear-gradient(135deg, #fff 0%, #eef6ff 100%); border: 1px solid #d9e2ec; border-radius: 1rem; padding: clamp(1rem, 4vw, 2rem); }
+.lab-workbench-heading { background: #f8fbff; border: 1px solid #d9e2ec; border-radius: .5rem; padding: clamp(1rem, 4vw, 2rem); }
 .lab-workbench-heading h1 { font-size: clamp(1.8rem, 4vw, 3rem); }
 .lab-panel { background: #fff; border: 1px solid #d9e2ec; border-radius: .75rem; padding: 1rem; box-shadow: 0 8px 24px rgb(16 42 67 / 8%); }
 .lab-panel h2, .lab-panel h3 { margin-top: 0; }
@@ -59,6 +59,7 @@ h1 { color: #102a43; font-size: clamp(2rem, 6vw, 3.5rem); margin-block: .4rem 1r
 .lab-details dd { margin: .2rem 0 0; overflow-wrap: anywhere; }
 .lab-result { border-left: 4px solid #2f855a; background: #f0fff4; }
 .lab-blocked { border-left-color: #d64545; background: #fff5f5; }
+.lab-empty { border-style: dashed; color: #627d98; }
 .lab-line { border: 1px solid #d9e2ec; border-radius: .5rem; margin-top: .75rem; padding: .75rem; }
 .lab-validation { color: #b42318; font-weight: 600; }
 .lab-json-field { display: grid; gap: .4rem; color: #334e68; font-size: .875rem; font-weight: 600; }

@@ -6,7 +6,7 @@ Remove repository-level development approval governance, then autonomously deriv
 
 ## Current Phase
 
-Phase 7C: result calculation, retest, and accreditation
+Phase 7D: delivery and integration
 
 ## Phases
 
@@ -70,6 +70,13 @@ Phase 7C: result calculation, retest, and accreditation
 | First Operations build reported one nullable dereference for the captured custody request | 1 | Add an explicit `ThrowIfNull` guard before the async transaction closure so nullable flow analysis and runtime behavior agree. |
 | Operations queue unit test changed a task start time without moving its end time, creating an invalid window | 1 | Correct the test fixture so both timestamps move together; keep the production time-window validation unchanged. |
 | Operations integration helper named `Task` shadowed `Task.WhenAll` | 1 | Rename the fixture helper to `WorkTask`; no runtime code changes. |
+| Phase 7C contract inventory assumed a nonexistent `src/contracts` root and caused a parallel inspection batch to return nonzero | 1 | Locate `OpenLIMS.Contracts.Result` from the repository file list, then read Result sources in bounded path-aware batches. No repository code changed. |
+| Phase 7C migration-pattern search passed wildcard filenames directly to `rg` on Windows | 1 | Use repository roots with `rg -g '*Migration*.cs'` and separate file reads instead of shell path wildcards. No repository code changed. |
+| A follow-up module-descriptor search included a nonexistent top-level `platform` directory and made the parallel batch fail | 1 | Restrict searches to verified roots such as `src/building-blocks`, `src/modules`, `contracts`, and tests; keep uncertain path probes separate. No code changed. |
+| Phase 7C Result HTTP contract tests compiled but every case failed before host startup because `OpenLIMS.Modules.Operations.dll` was absent from the test output | 1 | Inspect the contract project's locked dependency graph/output and run a locked restore/rebuild so the already-registered Operations module is copied transitively; do not bypass application composition. |
+| After refreshing the stale dependency lock, Result contract tests reached host startup but module composition rejected the attempted Result descriptor version `1.1.0` | 1 | Keep the platform-supported module contract descriptor at `1.0.0`; version the new calculation and accreditation semantics with their dedicated exact rule-set constants. |
+| `git update-index --refresh` returned nonzero while listing every intentionally modified file and did not clear line-ending-only lockfile status noise | 1 | Use `git diff --name-only`/`--stat` as the content-diff source of truth and let targeted staging normalize no-content lockfile touches later. No files changed. |
+| Full solution locked restore exposed stale Phase 7B lock files in the Worker and Host-referencing contract/integration projects after Operations was added | 1 | Run solution-level restore with `--force-evaluate`, retain only mechanical Operations dependency additions, then prove the entire solution restores with `--locked-mode`. |
 
 ## Delivery Status
 
@@ -96,7 +103,7 @@ Phase 7C: result calculation, retest, and accreditation
 
 - [x] **7A Knowledge + Commercial:** add versioned organization/party/protocol/requirement/method/accreditation/capability records; inquiry minimum-data validation and gap queue; capability review; immutable quote versions; change-impact records. Acceptance: version conflicts fail, missing intake data creates explicit gaps, unpassed review blocks quote issue, historical versions remain readable, unauthorized access is audited.
 - [x] **7B Sample Operations:** add physical lineage edges, custody events, plan/tasks, sequence dependencies, resource reservations, and work queues. Acceptance: cycles/self-links and unauthorized reparenting fail, custody is append-only, unmet dependencies block readiness, overlapping hard resources conflict atomically, queue ordering is deterministic.
-- [ ] **7C Result Completion:** extend Result with deterministic versioned calculations, typed retest/repeat/reprepare/resample events, predeclared adoption rules, and execution/result accreditation eligibility. Acceptance: calculations are deterministic and preserve inputs/rule versions, invalid units/rounding/LOD/LOQ fail closed, retest history is immutable, one effective adoption remains enforced, expired/mismatched accreditation blocks eligibility.
+- [x] **7C Result Completion:** extend Result with deterministic versioned calculations, typed retest/repeat/reprepare/resample events, predeclared adoption rules, and execution/result accreditation eligibility. Acceptance: calculations are deterministic and preserve inputs/rule versions, invalid units/rounding/LOD/LOQ fail closed, retest history is immutable, one effective adoption remains enforced, expired/mismatched accreditation blocks eligibility.
 - [ ] **7D Delivery + Integration:** extend Report with version-bound deliveries/download grants/notifications and Billing with immutable export batches plus ERP/invoice handoff and difference queues. Acceptance: old links never resolve to new versions, unauthorized recipients are denied, retries are idempotent, external success requires external references, failed/different handoffs remain visible and auditable.
 - [ ] **7E AI Runtime:** add optional AI extraction runs using the existing contract, schema/unit validation quarantine, source evidence, gap suggestions, immutable human dispositions, and disabled-provider/manual fallback behavior. Acceptance: unknown fields/units/sources quarantine output, AI cannot self-promote facts, provider-disabled runs fail closed without blocking manual inquiry completion, all reviews retain original and human values.
 - [ ] **7F Web Workbenches:** add usable routes, clients, navigation, forms, queues, loading/error/empty states, and focused tests for all new backend slices.

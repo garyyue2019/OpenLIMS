@@ -8,6 +8,8 @@ internal static class ResultTelemetry
     private static readonly Counter<long> Groups = Meter.CreateCounter<long>("result_group_created_total");
     private static readonly Counter<long> Observations = Meter.CreateCounter<long>("result_observation_total");
     private static readonly Counter<long> Adoptions = Meter.CreateCounter<long>("result_adoption_total");
+    private static readonly Counter<long> Calculations = Meter.CreateCounter<long>("result_calculation_total");
+    private static readonly Counter<long> Accreditations = Meter.CreateCounter<long>("result_accreditation_total");
     private static readonly Counter<long> Gate = Meter.CreateCounter<long>("result_gate_total");
     private static readonly Counter<long> Rejected = Meter.CreateCounter<long>("result_rejected_total");
 
@@ -18,6 +20,16 @@ internal static class ResultTelemetry
 
     public static void RecordAdoption(long adoptionVersion) =>
         Adoptions.Add(1, new KeyValuePair<string, object?>("initial", adoptionVersion == 1));
+
+    public static void RecordCalculation(string qualification, string limitDecision) =>
+        Calculations.Add(1,
+            new KeyValuePair<string, object?>("qualification", qualification),
+            new KeyValuePair<string, object?>("limit_decision", limitDecision));
+
+    public static void RecordAccreditation(string stage, string decision) =>
+        Accreditations.Add(1,
+            new KeyValuePair<string, object?>("stage", stage),
+            new KeyValuePair<string, object?>("decision", decision));
 
     public static void RecordGate(string decision) =>
         Gate.Add(1, new KeyValuePair<string, object?>("decision", decision));

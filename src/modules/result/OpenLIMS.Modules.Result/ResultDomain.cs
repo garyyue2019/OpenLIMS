@@ -1,6 +1,7 @@
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Globalization;
 using OpenLIMS.Contracts.Result;
 
 namespace OpenLIMS.Modules.Result;
@@ -10,6 +11,20 @@ internal sealed class ResultDomainException(string errorCode, string? gateSource
     public string ErrorCode { get; } = errorCode;
     public string? GateSource { get; } = gateSource;
 }
+
+internal sealed record ResultCalculationExecution(
+    IReadOnlyList<ResultCalculationResolvedInput> Inputs,
+    ResultCalculationRule Rule,
+    decimal ExactValue,
+    decimal RoundedValue,
+    string ReportedValue,
+    string Qualification,
+    string LimitDecision);
+
+internal sealed record ResultAccreditationEvaluation(
+    RecordResultAccreditationAssessmentRequest Request,
+    string Decision,
+    IReadOnlyList<string> ReasonCodes);
 
 internal static class ResultRules
 {
@@ -36,6 +51,228 @@ internal static class ResultRules
     {
         if (!string.Equals(value, ResultContract.RuleSetVersion, StringComparison.Ordinal))
             throw new ResultDomainException(ResultErrorCodes.ApplicabilityUnknown);
+    }
+
+    public static ResultCalculationExecution ExecuteCalculation(
+        ExecuteResultCalculationRequest? request,
+        ResultGroupResult group)
+    {
+        if (request is null || request.ExpectedCurrentVersion < 1)
+            throw new ResultDomainException(ResultErrorCodes.ExpectedVersionConflict);
+        if (!string.Equals(request.RuleSetVersion, ResultContract.CalculationRuleSetVersion, StringComparison.Ordinal))
+            throw new ResultDomainException(ResultErrorCodes.ApplicabilityUnknown);
+        if (request.Inputs is null || request.Inputs.Count is < 1 or > 100)
+            throw new ResultDomainException(ResultErrorCodes.ValidationFailed);
+
+        var rule = NormalizeCalculationRule(request.Rule);
+        var seen = new HashSet<string>(StringComparer.Ordinal);
+        var inputs = new List<ResultCalculationResolvedInput>(request.Inputs.Count);
+        foreach (var input in request.Inputs)
+        {
+            if (input is null || input.Coefficient == 0)
+                throw new ResultDomainException(ResultErrorCodes.ValidationFailed);
+            var targetId = Identifier(input.TargetId);
+            if (!seen.Add(targetId))
+                throw new ResultDomainException(ResultErrorCodes.ValidationFailed);
+            var target = ResolveNumericTarget(group, targetId);
+            if (target is null)
+                throw new ResultDomainException(ResultErrorCodes.CalculationFailed);
+            if (!string.Equals(target.Value.Unit, rule.InputUnit, StringComparison.Ordinal))
+                throw new ResultDomainException(ResultErrorCodes.CalculationFailed);
+            inputs.Add(new ResultCalculationResolvedInput(
+                targetId, target.Value.Value, target.Value.Unit, input.Coefficient));
+        }
+
+        try
+        {
+            var weighted = inputs.Aggregate(0m, (current, input) => checked(current + input.Value * input.Coefficient));
+            var converted = checked(weighted * rule.UnitMultiplier + rule.UnitOffset);
+            var exact = checked(converted * rule.DilutionFactor * rule.QuantityFactor);
+            var rounded = Round(exact, rule.DecimalPlaces, rule.RoundingMode);
+            var qualification = rule.Lod is not null && exact < rule.Lod.Value
+                ? ResultDetectionQualifications.BelowLod
+                : rule.Loq is not null && exact < rule.Loq.Value
+                    ? ResultDetectionQualifications.BelowLoq
+                    : ResultDetectionQualifications.Quantified;
+            var reported = qualification switch
+            {
+                ResultDetectionQualifications.BelowLod => "<LOD",
+                ResultDetectionQualifications.BelowLoq => "<LOQ",
+                _ => CanonicalDecimal(rounded)
+            };
+            var limitDecision = EvaluateLimit(rule, exact, rounded, qualification);
+            return new ResultCalculationExecution(
+                inputs, rule, exact, rounded, reported, qualification, limitDecision);
+        }
+        catch (OverflowException)
+        {
+            throw new ResultDomainException(ResultErrorCodes.CalculationFailed);
+        }
+    }
+
+    public static ResultAccreditationEvaluation EvaluateAccreditationAssessment(
+        RecordResultAccreditationAssessmentRequest? request,
+        ResultGroupResult group,
+        string actorId,
+        DateTimeOffset now)
+    {
+        if (request is null || request.ExpectedCurrentVersion < 1)
+            throw new ResultDomainException(ResultErrorCodes.ExpectedVersionConflict);
+        if (!string.Equals(request.RuleSetVersion, ResultContract.AccreditationRuleSetVersion, StringComparison.Ordinal))
+            throw new ResultDomainException(ResultErrorCodes.ApplicabilityUnknown);
+        var stage = request.Stage?.Trim();
+        if (stage is not (ResultAccreditationStages.Execution or ResultAccreditationStages.Result) ||
+            request.ValidFrom > request.ValidTo || request.RangeLower > request.RangeUpper ||
+            request.AuthorizedActorIds is null || request.AuthorizedActorIds.Count is < 1 or > 100)
+        {
+            throw new ResultDomainException(ResultErrorCodes.ValidationFailed);
+        }
+
+        string? targetId = null;
+        if (string.Equals(stage, ResultAccreditationStages.Execution, StringComparison.Ordinal))
+        {
+            if (!string.IsNullOrWhiteSpace(request.TargetId))
+                throw new ResultDomainException(ResultErrorCodes.ValidationFailed);
+        }
+        else
+        {
+            targetId = Identifier(request.TargetId);
+        }
+
+        var actors = request.AuthorizedActorIds.Select(Identifier).ToArray();
+        if (actors.Distinct(StringComparer.Ordinal).Count() != actors.Length)
+            throw new ResultDomainException(ResultErrorCodes.ValidationFailed);
+
+        var normalized = request with
+        {
+            Stage = stage,
+            TargetId = targetId,
+            Accreditation = Reference(request.Accreditation),
+            Method = Reference(request.Method),
+            SiteId = Identifier(request.SiteId),
+            ProductOrMatrix = Identifier(request.ProductOrMatrix),
+            Parameter = Identifier(request.Parameter),
+            RangeUnit = Identifier(request.RangeUnit),
+            AuthorizedActorIds = actors
+        };
+        var reasons = new List<string>();
+        if (!string.Equals(normalized.SiteId, group.ObjectScope.LaboratoryId, StringComparison.Ordinal))
+            reasons.Add(ResultAccreditationReasons.SiteMismatch);
+        if (!string.Equals(normalized.ProductOrMatrix, group.ObjectScope.ProductCategory, StringComparison.Ordinal))
+            reasons.Add(ResultAccreditationReasons.ProductMatrixMismatch);
+        if (!string.Equals(normalized.Parameter, group.TestItem.Id, StringComparison.Ordinal))
+            reasons.Add(ResultAccreditationReasons.ParameterMismatch);
+
+        var today = DateOnly.FromDateTime(now.UtcDateTime);
+        if (today < normalized.ValidFrom)
+            reasons.Add(ResultAccreditationReasons.NotYetValid);
+        if (today > normalized.ValidTo)
+            reasons.Add(ResultAccreditationReasons.Expired);
+        if (!normalized.AuthorizedActorIds.Contains(actorId, StringComparer.Ordinal))
+            reasons.Add(ResultAccreditationReasons.ActorUnauthorized);
+
+        if (string.Equals(stage, ResultAccreditationStages.Result, StringComparison.Ordinal))
+        {
+            var effectiveTarget = group.Adoptions
+                .OrderByDescending(adoption => adoption.AdoptionVersion)
+                .FirstOrDefault()?.TargetId;
+            if (effectiveTarget is null)
+            {
+                reasons.Add(ResultAccreditationReasons.TargetRequired);
+            }
+            else if (!string.Equals(normalized.TargetId, effectiveTarget, StringComparison.Ordinal))
+            {
+                reasons.Add(ResultAccreditationReasons.TargetNotEffective);
+            }
+            else
+            {
+                var target = ResolveNumericTarget(group, effectiveTarget);
+                if (target is null)
+                {
+                    reasons.Add(ResultAccreditationReasons.TargetNotNumeric);
+                }
+                else if (!string.Equals(target.Value.Unit, normalized.RangeUnit, StringComparison.Ordinal))
+                {
+                    reasons.Add(ResultAccreditationReasons.RangeUnitMismatch);
+                }
+                else if (target.Value.Value < normalized.RangeLower || target.Value.Value > normalized.RangeUpper)
+                {
+                    reasons.Add(ResultAccreditationReasons.OutsideRange);
+                }
+            }
+        }
+
+        return new ResultAccreditationEvaluation(
+            normalized,
+            reasons.Count == 0 ? ResultAccreditationDecisions.Eligible : ResultAccreditationDecisions.Blocked,
+            reasons);
+    }
+
+    public static ResultAccreditationEligibilityResult EvaluateAccreditationEligibility(
+        ResultAccreditationEligibilityRequest request,
+        ResultGroupResult? group,
+        string actorId,
+        DateTimeOffset now)
+    {
+        ArgumentNullException.ThrowIfNull(request);
+        if (!string.Equals(request.RuleSetVersion, ResultContract.AccreditationRuleSetVersion, StringComparison.Ordinal))
+            return UnknownAccreditation(group, ResultAccreditationEligibilityReasons.RuleSetVersionUnknown);
+        if (group is null)
+            return BlockedAccreditation(null, null, null, ResultAccreditationEligibilityReasons.GroupRequired);
+        if (request.ExpectedGroupVersion != group.Version)
+            return UnknownAccreditation(group, ResultAccreditationEligibilityReasons.GroupVersionMismatch);
+
+        var execution = group.AccreditationAssessments
+            .Where(candidate => string.Equals(candidate.Stage, ResultAccreditationStages.Execution, StringComparison.Ordinal))
+            .OrderByDescending(candidate => candidate.GroupVersion)
+            .FirstOrDefault();
+        var result = group.AccreditationAssessments
+            .Where(candidate => string.Equals(candidate.Stage, ResultAccreditationStages.Result, StringComparison.Ordinal))
+            .OrderByDescending(candidate => candidate.GroupVersion)
+            .FirstOrDefault();
+        if (execution is null)
+            return BlockedAccreditation(group, null, result, ResultAccreditationEligibilityReasons.ExecutionAssessmentRequired);
+        if (result is null)
+            return BlockedAccreditation(group, execution, null, ResultAccreditationEligibilityReasons.ResultAssessmentRequired);
+
+        var reasons = new List<string>();
+        if (!string.Equals(execution.Decision, ResultAccreditationDecisions.Eligible, StringComparison.Ordinal) ||
+            !string.Equals(result.Decision, ResultAccreditationDecisions.Eligible, StringComparison.Ordinal))
+        {
+            reasons.Add(ResultAccreditationEligibilityReasons.AssessmentBlocked);
+        }
+        var today = DateOnly.FromDateTime(now.UtcDateTime);
+        if (today < execution.ValidFrom || today > execution.ValidTo ||
+            today < result.ValidFrom || today > result.ValidTo)
+        {
+            reasons.Add(ResultAccreditationEligibilityReasons.AssessmentExpired);
+        }
+        if (execution.Accreditation != result.Accreditation || execution.Method != result.Method ||
+            !string.Equals(execution.SiteId, result.SiteId, StringComparison.Ordinal) ||
+            !string.Equals(execution.ProductOrMatrix, result.ProductOrMatrix, StringComparison.Ordinal) ||
+            !string.Equals(execution.Parameter, result.Parameter, StringComparison.Ordinal) ||
+            !string.Equals(execution.RangeUnit, result.RangeUnit, StringComparison.Ordinal) ||
+            execution.RangeLower != result.RangeLower || execution.RangeUpper != result.RangeUpper)
+        {
+            reasons.Add(ResultAccreditationEligibilityReasons.EvidenceMismatch);
+        }
+        var effectiveTarget = group.Adoptions
+            .OrderByDescending(adoption => adoption.AdoptionVersion)
+            .FirstOrDefault()?.TargetId;
+        if (effectiveTarget is null || !string.Equals(result.TargetId, effectiveTarget, StringComparison.Ordinal))
+            reasons.Add(ResultAccreditationEligibilityReasons.EffectiveTargetMismatch);
+        if (!result.AuthorizedActorIds.Contains(actorId, StringComparer.Ordinal))
+            reasons.Add(ResultAccreditationEligibilityReasons.CurrentActorUnauthorized);
+
+        return new ResultAccreditationEligibilityResult(
+            reasons.Count == 0 ? ResultAccreditationDecisions.Eligible : ResultAccreditationDecisions.Blocked,
+            reasons,
+            group.ResultGroupId,
+            group.Version,
+            execution.AssessmentId,
+            result.AssessmentId,
+            effectiveTarget,
+            ResultContract.AccreditationRuleSetVersion);
     }
 
     public static CreateResultGroupRequest ValidateGroup(CreateResultGroupRequest? request)
@@ -161,7 +398,9 @@ internal static class ResultRules
             string.Equals(observation.ObservationId, adoption.TargetId, StringComparison.Ordinal));
         var derivation = group.Derivations.FirstOrDefault(candidate =>
             string.Equals(candidate.DerivationId, adoption.TargetId, StringComparison.Ordinal));
-        if (!isObservation && derivation is null)
+        var calculation = group.Calculations.FirstOrDefault(candidate =>
+            string.Equals(candidate.CalculationId, adoption.TargetId, StringComparison.Ordinal));
+        if (!isObservation && derivation is null && calculation is null)
             throw new ResultDomainException(ResultErrorCodes.ValidationFailed);
 
         switch (rule.Strategy)
@@ -179,7 +418,9 @@ internal static class ResultRules
                     var adoptsDerivationIncludingIt = derivation is not null && derivation.Inputs.Any(input =>
                         input.Included && string.Equals(
                             input.TargetId, latestRetest.ObservationId, StringComparison.Ordinal));
-                    if (!adoptsLatestRetest && !adoptsDerivationIncludingIt)
+                    var adoptsCalculationIncludingIt = calculation is not null &&
+                        CalculationIncludesTarget(group, calculation, latestRetest.ObservationId, []);
+                    if (!adoptsLatestRetest && !adoptsDerivationIncludingIt && !adoptsCalculationIncludingIt)
                         throw new ResultDomainException(ResultErrorCodes.AdoptionStrategyViolation);
                 }
                 break;
@@ -294,6 +535,23 @@ internal static class ResultRules
                 ResultContract.RuleSetVersion);
         }
 
+        var calculation = group.Calculations.SingleOrDefault(candidate =>
+            string.Equals(candidate.CalculationId, adoption.TargetId, StringComparison.Ordinal));
+        if (calculation is not null)
+        {
+            return new ResultConclusionEvidenceResult(
+                ResultConclusionEvidenceDecisions.Allowed,
+                [],
+                group.ResultGroupId,
+                group.Version,
+                adoption.AdoptionVersion,
+                adoption.TargetId,
+                "CALCULATION",
+                calculation.ExecutedBy,
+                group.ObjectScope,
+                ResultContract.RuleSetVersion);
+        }
+
         return UnknownConclusionEvidence(
             group,
             adoption.AdoptionVersion,
@@ -302,6 +560,167 @@ internal static class ResultRules
 
     public static string HashTarget(string value) =>
         Convert.ToHexStringLower(SHA256.HashData(Encoding.UTF8.GetBytes(value)));
+
+    private static ResultCalculationRule NormalizeCalculationRule(ResultCalculationRule? rule)
+    {
+        if (rule is null || rule.UnitMultiplier <= 0 || rule.DilutionFactor <= 0 ||
+            rule.QuantityFactor <= 0 || rule.DecimalPlaces is < 0 or > 12 ||
+            rule.RoundingMode?.Trim() is not (ResultRoundingModes.ToEven or
+                ResultRoundingModes.AwayFromZero or ResultRoundingModes.TowardZero or
+                ResultRoundingModes.Floor or ResultRoundingModes.Ceiling) ||
+            rule.Lod is < 0 || rule.Loq is < 0 ||
+            (rule.Lod is not null && rule.Loq is not null && rule.Lod > rule.Loq))
+        {
+            throw new ResultDomainException(ResultErrorCodes.ValidationFailed);
+        }
+
+        var limitOperator = rule.LimitOperator?.Trim();
+        var evaluationBasis = rule.LimitEvaluationBasis?.Trim();
+        if (limitOperator is not (ResultLimitOperators.None or ResultLimitOperators.LessThanOrEqual or
+                ResultLimitOperators.GreaterThanOrEqual or ResultLimitOperators.BetweenInclusive) ||
+            evaluationBasis is not (ResultLimitEvaluationBases.Exact or ResultLimitEvaluationBases.Rounded))
+        {
+            throw new ResultDomainException(ResultErrorCodes.ValidationFailed);
+        }
+        var validLimits = limitOperator switch
+        {
+            ResultLimitOperators.None => rule.LowerLimit is null && rule.UpperLimit is null,
+            ResultLimitOperators.LessThanOrEqual => rule.LowerLimit is null && rule.UpperLimit is not null,
+            ResultLimitOperators.GreaterThanOrEqual => rule.LowerLimit is not null && rule.UpperLimit is null,
+            ResultLimitOperators.BetweenInclusive => rule.LowerLimit is not null && rule.UpperLimit is not null &&
+                                                     rule.LowerLimit <= rule.UpperLimit,
+            _ => false
+        };
+        if (!validLimits)
+            throw new ResultDomainException(ResultErrorCodes.ValidationFailed);
+
+        return rule with
+        {
+            CalculationRule = Reference(rule.CalculationRule),
+            UnitConversionRule = Reference(rule.UnitConversionRule),
+            InputUnit = Identifier(rule.InputUnit),
+            OutputUnit = Identifier(rule.OutputUnit),
+            RoundingMode = rule.RoundingMode.Trim(),
+            LimitOperator = limitOperator,
+            LimitEvaluationBasis = evaluationBasis
+        };
+    }
+
+    private static (decimal Value, string Unit)? ResolveNumericTarget(ResultGroupResult group, string targetId)
+    {
+        var observation = group.Observations.FirstOrDefault(candidate =>
+            string.Equals(candidate.ObservationId, targetId, StringComparison.Ordinal));
+        if (observation is not null)
+            return ParseNumeric(observation.Value, observation.Unit);
+        var derivation = group.Derivations.FirstOrDefault(candidate =>
+            string.Equals(candidate.DerivationId, targetId, StringComparison.Ordinal));
+        if (derivation is not null)
+            return ParseNumeric(derivation.Value, derivation.Unit);
+        var calculation = group.Calculations.FirstOrDefault(candidate =>
+            string.Equals(candidate.CalculationId, targetId, StringComparison.Ordinal));
+        return calculation is null ? null : (calculation.ExactValue, calculation.Unit);
+    }
+
+    private static (decimal Value, string Unit)? ParseNumeric(string value, string unit) =>
+        decimal.TryParse(value, NumberStyles.Number, CultureInfo.InvariantCulture, out var parsed)
+            ? (parsed, unit)
+            : null;
+
+    private static decimal Round(decimal value, int places, string mode)
+    {
+        if (mode == ResultRoundingModes.ToEven)
+            return decimal.Round(value, places, MidpointRounding.ToEven);
+        if (mode == ResultRoundingModes.AwayFromZero)
+            return decimal.Round(value, places, MidpointRounding.AwayFromZero);
+        var scale = DecimalScale(places);
+        var scaled = checked(value * scale);
+        var integral = mode switch
+        {
+            ResultRoundingModes.TowardZero => decimal.Truncate(scaled),
+            ResultRoundingModes.Floor => decimal.Floor(scaled),
+            ResultRoundingModes.Ceiling => decimal.Ceiling(scaled),
+            _ => throw new ResultDomainException(ResultErrorCodes.ValidationFailed)
+        };
+        return integral / scale;
+    }
+
+    private static decimal DecimalScale(int places)
+    {
+        var scale = 1m;
+        for (var index = 0; index < places; index++)
+            scale *= 10m;
+        return scale;
+    }
+
+    private static string EvaluateLimit(
+        ResultCalculationRule rule,
+        decimal exact,
+        decimal rounded,
+        string qualification)
+    {
+        if (rule.LimitOperator == ResultLimitOperators.None)
+            return ResultLimitDecisions.NotEvaluated;
+        if (qualification != ResultDetectionQualifications.Quantified)
+            return ResultLimitDecisions.Unknown;
+        var value = rule.LimitEvaluationBasis == ResultLimitEvaluationBases.Exact ? exact : rounded;
+        var passed = rule.LimitOperator switch
+        {
+            ResultLimitOperators.LessThanOrEqual => value <= rule.UpperLimit!.Value,
+            ResultLimitOperators.GreaterThanOrEqual => value >= rule.LowerLimit!.Value,
+            ResultLimitOperators.BetweenInclusive => value >= rule.LowerLimit!.Value && value <= rule.UpperLimit!.Value,
+            _ => throw new ResultDomainException(ResultErrorCodes.ValidationFailed)
+        };
+        return passed ? ResultLimitDecisions.Pass : ResultLimitDecisions.Fail;
+    }
+
+    private static string CanonicalDecimal(decimal value) =>
+        value.ToString("0.############################", CultureInfo.InvariantCulture);
+
+    private static bool CalculationIncludesTarget(
+        ResultGroupResult group,
+        ResultCalculationResult calculation,
+        string targetId,
+        HashSet<string> visited)
+    {
+        if (!visited.Add(calculation.CalculationId))
+            return false;
+        foreach (var input in calculation.Inputs)
+        {
+            if (string.Equals(input.TargetId, targetId, StringComparison.Ordinal))
+                return true;
+            var nested = group.Calculations.FirstOrDefault(candidate =>
+                string.Equals(candidate.CalculationId, input.TargetId, StringComparison.Ordinal));
+            if (nested is not null && CalculationIncludesTarget(group, nested, targetId, visited))
+                return true;
+        }
+        return false;
+    }
+
+    private static ResultAccreditationEligibilityResult BlockedAccreditation(
+        ResultGroupResult? group,
+        ResultAccreditationAssessmentResult? execution,
+        ResultAccreditationAssessmentResult? result,
+        string reason) => new(
+        ResultAccreditationDecisions.Blocked,
+        [reason],
+        group?.ResultGroupId,
+        group?.Version,
+        execution?.AssessmentId,
+        result?.AssessmentId,
+        group?.Adoptions.OrderByDescending(candidate => candidate.AdoptionVersion).FirstOrDefault()?.TargetId,
+        ResultContract.AccreditationRuleSetVersion);
+
+    private static ResultAccreditationEligibilityResult UnknownAccreditation(
+        ResultGroupResult? group,
+        string reason) => new(
+        ResultAccreditationDecisions.Unknown,
+        [reason],
+        group?.ResultGroupId,
+        group?.Version,
+        null,
+        null,
+        null,
+        ResultContract.AccreditationRuleSetVersion);
 
     private static ResultEvidence Evidence(ResultEvidence? value)
     {

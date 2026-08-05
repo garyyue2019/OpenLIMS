@@ -11,8 +11,10 @@ public interface IResultGroupService
     Task<ResultGroupResult> CreateGroupAsync(CreateResultGroupRequest request, string correlationId, CancellationToken cancellationToken = default);
     Task<ResultObservationResult> AddObservationAsync(string resultGroupId, AddResultObservationRequest request, string correlationId, CancellationToken cancellationToken = default);
     Task<ResultDerivationResult> AddDerivationAsync(string resultGroupId, AddResultDerivationRequest request, string correlationId, CancellationToken cancellationToken = default);
+    Task<ResultCalculationResult> ExecuteCalculationAsync(string resultGroupId, ExecuteResultCalculationRequest request, string correlationId, CancellationToken cancellationToken = default);
     Task<AdoptionRuleResult> RecordAdoptionRuleAsync(string resultGroupId, RecordAdoptionRuleRequest request, string correlationId, CancellationToken cancellationToken = default);
     Task<ResultAdoptionResult> AdoptAsync(string resultGroupId, AdoptResultRequest request, string correlationId, CancellationToken cancellationToken = default);
+    Task<ResultAccreditationAssessmentResult> RecordAccreditationAssessmentAsync(string resultGroupId, RecordResultAccreditationAssessmentRequest request, string correlationId, CancellationToken cancellationToken = default);
     Task<ResultGroupResult> GetAsync(string resultGroupId, string correlationId, CancellationToken cancellationToken = default);
 }
 
@@ -76,6 +78,7 @@ internal sealed class ResultGroupService(
             {
                 var existing = group.Observations.Select(observation => observation.ObservationId)
                     .Concat(group.Derivations.Select(derivation => derivation.DerivationId))
+                    .Concat(group.Calculations.Select(calculation => calculation.CalculationId))
                     .ToHashSet(StringComparer.Ordinal);
                 var validated = ResultRules.ValidateDerivation(request, existing);
                 ResultRules.RequireVersion(validated.ExpectedCurrentVersion, group.Version);
@@ -84,6 +87,19 @@ internal sealed class ResultGroupService(
                     validated, actorId, clock.UtcNow, correlationId, token);
             },
             _ => { });
+
+    public Task<ResultCalculationResult> ExecuteCalculationAsync(
+        string resultGroupId, ExecuteResultCalculationRequest request, string correlationId, CancellationToken cancellationToken = default) =>
+        MutateAsync(resultGroupId, correlationId, "ExecuteResultCalculation", cancellationToken,
+            (group, organizationGroupId, actorId, token) =>
+            {
+                var execution = ResultRules.ExecuteCalculation(request, group);
+                ResultRules.RequireVersion(request.ExpectedCurrentVersion, group.Version);
+                return store.InsertCalculationAsync(
+                    Guid.ParseExact(group.ResultGroupId, "N"), group.Version + 1, organizationGroupId,
+                    execution, actorId, clock.UtcNow, correlationId, token);
+            },
+            result => ResultTelemetry.RecordCalculation(result.Qualification, result.LimitDecision));
 
     public Task<AdoptionRuleResult> RecordAdoptionRuleAsync(
         string resultGroupId, RecordAdoptionRuleRequest request, string correlationId, CancellationToken cancellationToken = default) =>
@@ -115,6 +131,23 @@ internal sealed class ResultGroupService(
                     validated, actorId, clock.UtcNow, correlationId, token);
             },
             result => ResultTelemetry.RecordAdoption(result.AdoptionVersion));
+
+    public Task<ResultAccreditationAssessmentResult> RecordAccreditationAssessmentAsync(
+        string resultGroupId,
+        RecordResultAccreditationAssessmentRequest request,
+        string correlationId,
+        CancellationToken cancellationToken = default) =>
+        MutateAsync(resultGroupId, correlationId, "RecordResultAccreditationAssessment", cancellationToken,
+            (group, organizationGroupId, actorId, token) =>
+            {
+                var now = clock.UtcNow;
+                var evaluation = ResultRules.EvaluateAccreditationAssessment(request, group, actorId, now);
+                ResultRules.RequireVersion(evaluation.Request.ExpectedCurrentVersion, group.Version);
+                return store.InsertAccreditationAssessmentAsync(
+                    Guid.ParseExact(group.ResultGroupId, "N"), group.Version + 1, organizationGroupId,
+                    evaluation, actorId, now, correlationId, token);
+            },
+            result => ResultTelemetry.RecordAccreditation(result.Stage, result.Decision));
 
     public async Task<ResultGroupResult> GetAsync(
         string resultGroupId, string correlationId, CancellationToken cancellationToken = default)
@@ -365,6 +398,120 @@ internal sealed class ResultAdoptionPort(
             await attemptAuditWriter.WriteAsync("EvaluateResultAdoption", actorId, organizationGroupId,
                 ResultRules.HashTarget(target), correlationId, ResultErrorCodes.NotAuthorized,
                 clock.UtcNow, cancellationToken);
+        }
+        catch (NpgsqlException)
+        {
+            throw new ResultDomainException(ResultErrorCodes.PersistenceUnavailable);
+        }
+    }
+}
+
+internal sealed class ResultAccreditationEligibilityPort(
+    ICurrentOrganizationContext organizationContext,
+    ICurrentActorContext actorContext,
+    IClock clock,
+    IResultAuthorizationPort authorizationPort,
+    ITransactionCoordinator transactionCoordinator,
+    ResultStore store,
+    ResultAttemptAuditWriter attemptAuditWriter,
+    ILogger<ResultAccreditationEligibilityPort> logger) : IResultAccreditationEligibilityPort
+{
+    public async ValueTask<ResultAccreditationEligibilityResult> EvaluateAsync(
+        ResultAccreditationEligibilityRequest request,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(request);
+        var organizationGroupId = organizationContext.Current.OrganizationGroupId;
+        var actor = actorContext.Current;
+        var correlationId = string.IsNullOrWhiteSpace(request.CorrelationId)
+            ? Guid.NewGuid().ToString("N")
+            : request.CorrelationId;
+        if (actor is null ||
+            !string.Equals(actor.OrganizationGroupId, organizationGroupId, StringComparison.Ordinal) ||
+            !string.Equals(request.OrganizationGroupId, organizationGroupId, StringComparison.Ordinal))
+        {
+            await WriteDeniedAsync(actor?.ActorId, organizationGroupId, request.ResultGroupId, correlationId, cancellationToken);
+            throw new ResultDomainException(ResultErrorCodes.NotAuthorized);
+        }
+
+        if (!Guid.TryParseExact(request.ResultGroupId, "N", out var groupId) &&
+            !Guid.TryParse(request.ResultGroupId, out groupId))
+        {
+            return Record(ResultRules.EvaluateAccreditationEligibility(request, null, actor.ActorId, clock.UtcNow));
+        }
+
+        try
+        {
+            ResultAccreditationEligibilityResult? result = null;
+            await transactionCoordinator.ExecuteAsync(async transactionToken =>
+            {
+                var group = await store.LoadGroupAsync(organizationGroupId, groupId, transactionToken);
+                if (group is not null)
+                {
+                    var authorization = await authorizationPort.AuthorizeAsync(new ResultAuthorizationRequest(
+                        organizationGroupId, actor.ActorId, group.ObjectScope, ResultCapabilities.Record), transactionToken);
+                    if (!authorization.Allowed)
+                        throw new ResultDomainException(ResultErrorCodes.NotAuthorized);
+                    await store.WriteReadAuditAsync(
+                        group.ResultGroupId, group.Version, organizationGroupId, actor.ActorId,
+                        "EVALUATE_RESULT_ACCREDITATION", correlationId, clock.UtcNow, transactionToken);
+                }
+                result = ResultRules.EvaluateAccreditationEligibility(request, group, actor.ActorId, clock.UtcNow);
+            }, cancellationToken);
+            return Record(result ?? ResultRules.EvaluateAccreditationEligibility(
+                request, null, actor.ActorId, clock.UtcNow));
+        }
+        catch (ResultDomainException exception)
+            when (string.Equals(exception.ErrorCode, ResultErrorCodes.NotAuthorized, StringComparison.Ordinal))
+        {
+            await WriteDeniedAsync(actor.ActorId, organizationGroupId, request.ResultGroupId, correlationId, cancellationToken);
+            throw;
+        }
+        catch (NpgsqlException)
+        {
+            logger.LogWarning("Result accreditation eligibility failed closed because persistence is unavailable");
+            return Record(new ResultAccreditationEligibilityResult(
+                ResultAccreditationDecisions.Unknown,
+                [ResultAccreditationEligibilityReasons.EvidenceUnavailable],
+                request.ResultGroupId,
+                null,
+                null,
+                null,
+                null,
+                ResultContract.AccreditationRuleSetVersion));
+        }
+    }
+
+    private ResultAccreditationEligibilityResult Record(ResultAccreditationEligibilityResult result)
+    {
+        ResultTelemetry.RecordGate(result.Decision);
+        if (string.Equals(result.Decision, ResultAccreditationDecisions.Unknown, StringComparison.Ordinal))
+        {
+            logger.LogWarning(
+                "Result accreditation eligibility failed closed with reasons {ReasonCodes}",
+                string.Join(',', result.ReasonCodes));
+        }
+        return result;
+    }
+
+    private async Task WriteDeniedAsync(
+        string? actorId,
+        string organizationGroupId,
+        string target,
+        string correlationId,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            await attemptAuditWriter.WriteAsync(
+                "EvaluateResultAccreditation",
+                actorId,
+                organizationGroupId,
+                ResultRules.HashTarget(target),
+                correlationId,
+                ResultErrorCodes.NotAuthorized,
+                clock.UtcNow,
+                cancellationToken);
         }
         catch (NpgsqlException)
         {

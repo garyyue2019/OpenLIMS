@@ -34,4 +34,3 @@ Removing development governance does not remove product controls. Database
 migrations remain append-only, trusted actor context remains server-owned,
 business evidence remains auditable, and unknown decisions remain blocked when
 the runtime contract requires it.
-

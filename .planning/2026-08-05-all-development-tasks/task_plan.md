@@ -6,7 +6,7 @@ Remove repository-level development approval governance, then autonomously deriv
 
 ## Current Phase
 
-Phase 7F: Web workbenches
+Phase 8: final verification and delivery
 
 ## Phases
 
@@ -88,6 +88,9 @@ Phase 7F: Web workbenches
 | First Phase 7F client-test typecheck widened exact rule-set string literals and froze nested arrays through broad `as const` assertions | 1 | Type request fixtures with their exported client request interfaces so literal rule versions stay exact while request arrays remain mutable. Production clients were unaffected. |
 | First new-workbench typecheck could not infer one generic result type for the Operations lineage/custody conditional query | 1 | Split lineage and custody into explicit `execute` branches so each keeps its own response contract. No API or domain behavior changed. |
 | Phase 7F navigation scan passed a wildcard directory path directly to `rg` on Windows | 1 | Search the verified features root with `rg -g '*-feature.ts'` instead of relying on shell path expansion. No product files changed. |
+| First Phase 8 full .NET test command omitted `OPENLIMS_TEST_POSTGRES_CONNECTION`, so every database suite failed before executing test logic | 1 | Confirm the repository connection-string convention, set the isolated PostgreSQL 55442 connection for the command, and rerun the entire solution unchanged. Architecture tests already passed 19/19. |
+| Phase 8 connection-string search included a `README*` path argument that Windows did not expand | 1 | Keep the successful verified-root matches, then inspect exact documentation/test files without shell wildcards. No repository code changed. |
+| Final branch-wide `git diff --check origin/main...HEAD` found one extra EOF blank line in the earlier development-workflow documentation commit | 1 | Remove only the trailing blank line, then rerun both branch-wide and working-tree whitespace checks. |
 
 ## Delivery Status
 
@@ -117,16 +120,16 @@ Phase 7F: Web workbenches
 - [x] **7C Result Completion:** extend Result with deterministic versioned calculations, typed retest/repeat/reprepare/resample events, predeclared adoption rules, and execution/result accreditation eligibility. Acceptance: calculations are deterministic and preserve inputs/rule versions, invalid units/rounding/LOD/LOQ fail closed, retest history is immutable, one effective adoption remains enforced, expired/mismatched accreditation blocks eligibility.
 - [x] **7D Delivery + Integration:** extend Report with version-bound deliveries/download grants/notifications and Billing with immutable export batches plus ERP/invoice handoff and difference queues. Acceptance: old links never resolve to new versions, unauthorized recipients are denied, retries are idempotent, external success requires external references, failed/different handoffs remain visible and auditable.
 - [x] **7E AI Runtime:** add optional AI extraction runs using the existing contract, schema/unit validation quarantine, source evidence, gap suggestions, immutable human dispositions, and disabled-provider/manual fallback behavior. Acceptance: unknown fields/units/sources quarantine output, AI cannot self-promote facts, provider-disabled runs fail closed without blocking manual inquiry completion, all reviews retain original and human values.
-- [ ] **7F Web Workbenches:** add usable routes, clients, navigation, forms, queues, loading/error/empty states, and focused tests for all new backend slices.
-- [ ] Keep cross-module access through public contracts and preserve exact version binding and failure-closed runtime behavior.
-- [ ] Commit each coherent batch without waiting for per-task approval.
-- **Status:** in_progress
+- [x] **7F Web Workbenches:** add usable routes, clients, navigation, forms, queues, loading/error/empty states, and focused tests for all new backend slices.
+- [x] Keep cross-module access through public contracts and preserve exact version binding and failure-closed runtime behavior.
+- [x] Commit each coherent batch without waiting for per-task approval.
+- **Status:** complete
 
 ### Phase 8: final verification and delivery
 
-- [ ] Run full .NET, PostgreSQL, frontend, architecture, Python, and remaining repository checks.
+- [x] Run full .NET, PostgreSQL, frontend, architecture, Python, and remaining repository checks.
 - [ ] Review the complete diff, push when GitHub connectivity permits, and report any truly external deployment-only work separately.
-- **Status:** pending
+- **Status:** in_progress
 
 ## New Direction
 

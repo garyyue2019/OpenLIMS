@@ -86,6 +86,7 @@ Edit files under spec/ and run `python -m tools.specgen generate`.
 | `ATC-WEB-001@1.0.0` | `story` | `approved` | 实施 Scope、Quantity、Allocation 与 Batch 实验室工作台 | `major` | web, scope, quantity, allocation, batch, operator-workbench, accessibility, automated-test | `8e37afc7bc27` |
 | `ATC-WEB-002@1.0.0` | `story` | `approved` | 实施 Instrument、Result、QC 与 Report 实验室工作台 | `major` | web, instrument, result, qc, report, operator-workbench, accessibility, automated-test | `0959d0fd4440` |
 | `ATC-WEB-003@1.0.0` | `story` | `approved` | 实施 Billing 与 Labeling Web 工作台 | `major` | web, billing, labeling, operator-workbench, accessibility, automated-test | `6581fa2f4d83` |
+| `ATC-WEB-004@1.0.0` | `story` | `approved` | 实施 Textile Web 工作台 | `major` | web, textile, sample-requirement, cutting-plan, operator-workbench, accessibility, automated-test | `fe9bdf7aec5e` |
 | `BUS-AI-001@1.0.0` | `requirement` | `approved` | AI 运行控制封套契约 | `major` | ai, run-control, contracts, serialization | `95e7831fe908` |
 | `BUS-AI-002@1.0.0` | `requirement` | `approved` | 事实类别与不得提升规则 | `major` | ai, fact-class, rules | `89380e537235` |
 | `BUS-AI-003@1.0.0` | `requirement` | `approved` | 抽取候选、缺口建议与人工处置契约及失败关闭 | `major` | ai, extraction, gap-suggestion, human-review, rules | `442696dd4fdf` |

@@ -3390,6 +3390,55 @@
       "status": "approved",
       "title": "实施 Billing 与 Labeling Web 工作台"
     },
+    "ATC-WEB-004@1.0.0": {
+      "affects": [
+        "web",
+        "textile",
+        "sample-requirement",
+        "cutting-plan",
+        "operator-workbench",
+        "accessibility",
+        "automated-test"
+      ],
+      "depends_on": [
+        "ATC-PLT-003@1.0.0",
+        "ATC-TEX-004@1.0.0",
+        "ATC-WEB-003@1.0.0",
+        "OD-002@1.0.0",
+        "OD-036@1.0.0",
+        "BUS-TEX-001@1.0.0",
+        "BUS-TEX-002@1.0.0",
+        "BUS-TEX-003@1.0.0",
+        "BUS-TEX-006@1.0.0",
+        "BUS-TEX-007@1.0.0",
+        "BUS-TEX-008@1.0.0",
+        "AC-TEXTILE-004@1.0.0",
+        "SEC-AUTH-001@1.0.0",
+        "NFR-ARCH-001@2.0.0"
+      ],
+      "fingerprint": "fe9bdf7aec5ea3648984b7b1f1f0f8ee66839378e7be666b0f3d2fd062af9bd3",
+      "kind": "story",
+      "source_refs": [
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TEXTILE-001"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TEXTILE-002"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "OPS-TEXTILE-003"
+        },
+        {
+          "document": "PRD-MAIN",
+          "item": "AC-TEXTILE-001"
+        }
+      ],
+      "status": "approved",
+      "title": "实施 Textile Web 工作台"
+    },
     "BUS-AI-001@1.0.0": {
       "affects": [
         "ai",

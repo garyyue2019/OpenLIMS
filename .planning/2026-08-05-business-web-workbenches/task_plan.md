@@ -6,7 +6,7 @@ Deliver the remaining approved runtime capabilities through authenticated, expli
 
 ## Current Phase
 
-Phase 4 — Textile Web workbench
+Phase 5 — Toy full-flow Web workbench
 
 ## Phases
 
@@ -33,17 +33,17 @@ Phase 4 — Textile Web workbench
 
 ### Phase 4: Textile Web workbench
 
-- [ ] Create/ready the Web-only task card.
-- [ ] Implement and test all 4 Textile operations and explicit feature registration.
-- [ ] Verify and commit the batch.
-- **Status:** in_progress
+- [x] Create/ready the Web-only task card.
+- [x] Implement and test all 4 Textile operations and explicit feature registration.
+- [x] Verify and commit the batch.
+- **Status:** complete
 
 ### Phase 5: Toy full-flow Web workbench
 
 - [ ] Create/ready the Web-only task card.
 - [ ] Implement and test all 19 Toy operations and explicit feature registration.
 - [ ] Verify and commit the batch.
-- **Status:** pending
+- **Status:** in_progress
 
 ### Phase 6: Receiving existing-object continuation
 

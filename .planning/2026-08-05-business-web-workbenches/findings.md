@@ -34,3 +34,11 @@
 - The production registry test asserts exact feature, route, and navigation order, so the new descriptor must be appended explicitly.
 - Existing view tests mock the auth snapshot and typed clients, then verify successful response-driven state, local boundary rejection, capability disabling, safe anonymous login, and explicit network retry. DEV-034 tests will follow the same pattern.
 - Existing responsive `.lab-*` styles already satisfy the new workbenches; no new global visual system is needed.
+
+## Textile runtime boundary
+
+- `ATC-TEX-004@1.0.0` is the approved runtime story for all 4 requested operations; it depends on the frozen DEV-011 contracts and runtime requirements BUS-TEX-006/007/008.
+- Capabilities are `textile.sample-requirement.manage` for calculation/create/query and `textile.cutting-plan.approve` for approval.
+- The fixed calculation ruleset is `TEXTILE-SAMPLE-REQUIREMENT@1.0.0`.
+- Runtime inputs require stable requirement/plan IDs, exact positive versions, a requirement input hash, and fully versioned style/colorway/component/material/test item references.
+- Decisions `INSUFFICIENT` and `UNKNOWN` must remain visibly blocked; the UI must not approve them or invent sample sufficiency.

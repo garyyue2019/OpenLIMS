@@ -20,3 +20,10 @@
 - Synchronized the repository contract for the new spec count/artifacts/delivery set and added the required `OD-002@1.0.0` dependency.
 - Final DEV-034 verification passed: Web 32 files / 85 tests, typecheck, lint, build; Python 42 tests; strict spec validation, source status, history, READY, check; deterministic second generation `written=0`; clean diff check.
 - Completed Phase 3 and started Phase 4 Textile workbench.
+- Re-ran clean pre-task gates and mapped all 4 Textile endpoints to approved `ATC-TEX-004@1.0.0` contracts and exact capability/version rules.
+- Added user-approved Web-only story `ATC-WEB-004@1.0.0` for DEV-035.
+- `ATC-WEB-004@1.0.0` passed validate/source/impact/READY/generate/check.
+- Implemented the typed Textile client, workbench view, explicit descriptor/registry entry, exact initial/concurrent version validation, capability separation, and failure-closed response presentation.
+- Focused Textile verification passed: 4 files / 18 tests, typecheck, and lint.
+- Final DEV-035 verification passed: Web 35 files / 91 tests, typecheck, lint, build; Python 42 tests; strict spec validation, source status, history, READY, check; deterministic second generation `written=0`; clean diff and trusted-context audit.
+- Completed Phase 4 and started Phase 5 Toy full-flow workbench.
